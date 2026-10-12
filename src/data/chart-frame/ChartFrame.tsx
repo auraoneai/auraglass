@@ -27,22 +27,37 @@ import {
 import type { ChartContext, ChartSeries } from './types';
 
 export interface ChartFrameProps<TRow> {
+  /** Chart title; also the accessible name. */
   title: string;
+  /** Description of the chart, linked to it for assistive technology. */
   description?: React.ReactNode;
+  /** Rows of data; one point per row and series. */
   data: readonly TRow[];
+  /** Series plotted from the rows (key, label, colour). */
   series: readonly ChartSeries[];
+  /** Row key, label and format of the x axis. */
   x: { key: string; label: string; format?: Intl.DateTimeFormatOptions | Intl.NumberFormatOptions | undefined };
+  /** Label of the y axis. */
   yLabel?: string | undefined;
+  /** Controlled keys of hidden series. Pair with `onHiddenSeriesChange`. */
   hiddenSeries?: readonly string[] | undefined;
+  /** Initially hidden series keys when uncontrolled. */
   defaultHiddenSeries?: readonly string[] | undefined;
+  /** Called with the hidden series keys when the legend toggles one. */
   onHiddenSeriesChange?: ((keys: string[]) => void) | undefined;
+  /** Legend position, or none. */
   legend?: 'top' | 'bottom' | 'none' | undefined;
+  /** Data table: behind a toggle, visually hidden (screen readers only) or always shown. */
   table?: 'toggle' | 'visually-hidden' | 'always' | undefined;
+  /** Plot height in CSS pixels. */
   height?: number | undefined;
   /** An adapter element (RSC-safe) or, from client components, `(ctx) => ReactNode`. */
   children: React.ReactNode | ((ctx: ChartContext<TRow>) => React.ReactNode);
+  /** BCP 47 locale used for formatting and parsing. */
   locale?: string | undefined;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: ChartFrameLabels | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
 }
 

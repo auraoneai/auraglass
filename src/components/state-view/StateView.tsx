@@ -12,16 +12,22 @@ import { Skeleton } from '../skeleton/Skeleton';
 import { Progress } from '../progress/Progress.client';
 
 export interface EmptyStateProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  /** Heading of the state. */
   title: string;
+  /** Supporting text under the heading. */
   description?: string;
+  /** Illustration or icon above the heading (decorative). */
   icon?: React.ReactNode;
   /** Action node (e.g. <Button onClick/>) — a ReactNode keeps this server-renderable. */
   actions?: React.ReactNode;
 }
 
 export interface ErrorStateProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  /** Heading of the state. */
   title: string;
+  /** Supporting text under the heading. */
   description?: string;
+  /** Illustration or icon above the heading (decorative). */
   icon?: React.ReactNode;
   /** Action node (e.g. <Button onClick/>) — a ReactNode keeps this server-renderable. */
   actions?: React.ReactNode;
@@ -30,9 +36,11 @@ export interface ErrorStateProps extends Omit<React.HTMLAttributes<HTMLDivElemen
 }
 
 export interface LoadingStateProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  /** Placeholder style: skeleton rows or a progress indicator. */
   variant?: 'skeleton' | 'progress';
   /** Visible description next to the indicator. */
   description?: string;
+  /** Illustration or icon above the heading (decorative). */
   icon?: React.ReactNode;
   /** Live-region text; defaults to 'Loading'. */
   label?: string;
@@ -78,11 +86,15 @@ function Base({ title, description, icon, actions, role, className, ...rest }: B
   );
 }
 
-export function EmptyState({ className, ref, ...props }: EmptyStateProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+export function EmptyState({ className, ref, ...props }: EmptyStateProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
   return <Base {...props} ref={ref} className={className} />;
 }
 
-export function ErrorState({ urgent, ref, ...props }: ErrorStateProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+export function ErrorState({ urgent, ref, ...props }: ErrorStateProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
   return <Base {...props} ref={ref} role={urgent ? 'alert' : undefined} />;
 }
 
@@ -94,7 +106,9 @@ export function LoadingState({
   className,
   ref,
   ...rest
-}: LoadingStateProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+}: LoadingStateProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
   return (
     <div {...rest} ref={ref} data-ag-part="root" aria-busy="true" className={cn('ag-state-view', className)}>
       {variant === 'skeleton' ? (

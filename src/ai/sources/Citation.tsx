@@ -11,11 +11,15 @@ export type AgCitationSource = Extract<AgPart, { type: 'source-url' | 'source-do
 };
 
 export interface CitationProps {
+  /** Id of the message that cites the source. */
   messageId: string;
+  /** The cited source. */
   source: AgCitationSource;
+  /** Citation number shown in the marker and announced as "Source {index}". */
   index: number;
   /** Initial open state of the preview card (uncontrolled). Default false. */
   defaultOpen?: boolean | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
 }
 

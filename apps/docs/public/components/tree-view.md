@@ -12,27 +12,27 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-label` | `string` | — | — |
-| `aria-labelledby?` | `string` | — | — |
-| `children?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
-| `defaultExpandedKeys?` | `Iterable<Key>` | — | — |
-| `defaultSelectedKeys?` | `Iterable<Key>` | — | — |
-| `disabledKeys?` | `Iterable<Key>` | — | — |
-| `expandedKeys?` | `Iterable<Key>` | — | — |
-| `getChildren?` | `(item: T) => readonly T[] \| undefined` | — | — |
-| `getKey?` | `(item: T) => Key` | — | — |
-| `getTextValue?` | `(item: T) => string` | — | — |
-| `items?` | `readonly T[]` | — | — |
+| `aria-label` | `string` | — | Accessible name, required when there is no visible label. |
+| `aria-labelledby?` | `string` | — | Id of the element that provides the accessible name. |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultExpandedKeys?` | `Iterable<Key>` | — | Initially expanded keys when uncontrolled. |
+| `defaultSelectedKeys?` | `Iterable<Key>` | — | Initially selected keys when uncontrolled. |
+| `disabledKeys?` | `Iterable<Key>` | — | Keys of items that cannot be selected or activated. |
+| `expandedKeys?` | `Iterable<Key>` | — | Controlled expanded keys. Pair with `onExpandedChange`. |
+| `getChildren?` | `(item: T) => readonly T[] \| undefined` | — | Children of an item; undefined for a leaf. |
+| `getKey?` | `(item: T) => Key` | — | Key of an item. |
+| `getTextValue?` | `(item: T) => string` | — | Text of an item used for typeahead and the accessible name. |
+| `items?` | `readonly T[]` | — | Root items of the tree. |
 | `labels?` | `TreeViewLabels` | — | Localised strings (chevron names). |
-| `loadChildren?` | `(item: T) => Promise<T[]>` | — | — |
-| `onAction?` | `(key: Key) => void` | — | — |
-| `onExpandedChange?` | `(keys: Set<Key>) => void` | — | — |
-| `onSelectionChange?` | `(keys: Set<Key>) => void` | — | — |
-| `preset?` | `'default' \| 'files'` | — | — |
-| `renderItem?` | `(item: T, state: { level: number; isExpanded: boolean; isSelected: boolean; hasChildren: boolean; }) => ReactNode` | — | — |
-| `selectedKeys?` | `Iterable<Key>` | — | — |
-| `selectionMode?` | `'none' \| 'single' \| 'multiple'` | — | — |
+| `loadChildren?` | `(item: T) => Promise<T[]>` | — | Loads the children of an item on first expand. |
+| `onAction?` | `(key: Key) => void` | — | Called with the key of an item when it is activated. |
+| `onExpandedChange?` | `(keys: Set<Key>) => void` | — | Called with the next set of expanded keys. |
+| `onSelectionChange?` | `(keys: Set<Key>) => void` | — | Called with the next set of selected keys. |
+| `preset?` | `'default' \| 'files'` | — | 'files' shows file and folder icons. |
+| `renderItem?` | `(item: T, state: { level: number; isExpanded: boolean; isSelected: boolean; hasChildren: boolean; }) => ReactNode` | — | Custom item content; receives the item and its level, expanded, selected and has-children state. |
+| `selectedKeys?` | `Iterable<Key>` | — | Controlled selected keys. Pair with `onSelectionChange`. |
+| `selectionMode?` | `'none' \| 'single' \| 'multiple'` | — | Item selection: none, single or multiple. |
 | `virtualize?` | `boolean \| { estimateRowHeight?: number \| undefined; overscan?: number \| undefined; }` | — | REQ-SURF-83: render only the visible rows. `estimateRowHeight` is the fixed row height in px the rows are laid out at (default 32); `overscan` adds that many rows above and below the viewport (default 0). The tree becomes its own scroll container and fills its parent's block size, so give the parent a height. |
 
 ## Parts
@@ -54,4 +54,26 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/tree-view/*.tsx` yet._
+```tsx
+import { TreeView } from 'aura-glass/data';
+
+type Node = { id: string; label: string; children?: Node[] };
+
+const FILES: Node[] = [
+  { id: 'src', label: 'src', children: [{ id: 'index', label: 'index.ts' }] },
+  { id: 'readme', label: 'README.md' },
+];
+
+export default function TreeViewMinimal() {
+  return (
+    <TreeView<Node>
+      aria-label="Project files"
+      items={FILES}
+      getKey={(n) => n.id}
+      getTextValue={(n) => n.label}
+      getChildren={(n) => n.children}
+      defaultExpandedKeys={['src']}
+    />
+  );
+}
+```

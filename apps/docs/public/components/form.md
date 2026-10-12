@@ -13,11 +13,11 @@ Tier T1 · RSC client · APG none
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `actionsRef?` | `RefObject<FormActions \| null>` | — | Imperative `validate(fieldName?)` actions. |
-| `children?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
 | `errors?` | `Record<string, string \| string[]>` | — | Server/external errors keyed by Field.Root `name`; marks fields invalid and shows their Field.Error. |
 | `onSubmit?` | `(values: FormValues, eventDetails: FormSubmitEventDetails) => void` | — | Called with the collected `{ fieldName: value }` map when the form submits valid. |
-| `ref?` | `Ref<HTMLFormElement>` | — | — |
+| `ref?` | `Ref<HTMLFormElement>` | — | Ref to the rendered root element. |
 | `validationMode?` | `'onBlur' \| 'onChange' \| 'onSubmit'` | — | When fields validate. Field.Root's own validationMode wins. |
 
 ## Parts
@@ -39,4 +39,19 @@ Tier T1 · RSC client · APG none
 
 ## Example
 
-_Example pending: no `apps/docs/examples/form/*.tsx` yet._
+```tsx
+import { Button, Field, Form } from 'aura-glass';
+
+export default function FormMinimal() {
+  return (
+    <Form onSubmit={(event) => event.preventDefault()}>
+      <Field.Root name="email" validate={(value) => (value ? null : 'Enter an email address')}>
+        <Field.Label>Email</Field.Label>
+        <Field.Control type="email" />
+        <Field.Error />
+      </Field.Root>
+      <Button type="submit" prominent>Subscribe</Button>
+    </Form>
+  );
+}
+```

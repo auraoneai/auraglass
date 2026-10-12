@@ -11,15 +11,23 @@ import { materialProps } from '../../material/index';
 const SUNKEN = materialProps({ layer: 'content', content: 'content-sunken' });
 
 export interface MeterProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'prefix'> {
+  /** Controlled value. Pair with `onValueChange`. */
   value: number;
+  /** Lower bound of the range. */
   min?: number;
+  /** Upper bound of the range. */
   max?: number;
+  /** Upper bound of the low region (native meter semantics). */
   low?: number;
+  /** Lower bound of the high region (native meter semantics). */
   high?: number;
+  /** Optimal value; decides which region reads as good (native meter semantics). */
   optimum?: number;
   /** Required accessible name. */
   label: string;
+  /** Shows the formatted value next to the bar. */
   showValue?: boolean;
+  /** Intl.NumberFormat options used to format the displayed value. */
   format?: Intl.NumberFormatOptions;
 }
 
@@ -47,7 +55,9 @@ export function Meter({
   className,
   ref,
   ...rest
-}: MeterProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+}: MeterProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
   if (process.env.NODE_ENV !== 'production' && label === undefined) {
     console.error('[aura-glass] Meter: `label` is required.');
   }

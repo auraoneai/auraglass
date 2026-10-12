@@ -12,22 +12,22 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-label?` | `string` | — | — |
-| `buffered?` | `[number, number][]` | — | — |
-| `chapters?` | `{ start: number; title: string; }[]` | — | — |
-| `className?` | `string` | — | — |
-| `disabled?` | `boolean` | — | — |
-| `formatHoverTime?` | `(seconds: number) => string` | — | — |
+| `aria-label?` | `string` | — | Accessible name, required when there is no visible label. |
+| `buffered?` | `[number, number][]` | — | Buffered ranges as [start, end] seconds. |
+| `chapters?` | `{ start: number; title: string; }[]` | — | Chapter markers (start in seconds, title). |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `disabled?` | `boolean` | — | Disables interaction. |
+| `formatHoverTime?` | `(seconds: number) => string` | — | Formats the time shown in the hover preview. |
 | `frameRate?` | `number` | — | With `paused`, , and . step one frame (1/frameRate s). |
 | `largeStep?` | `number` | — | Seconds per PageUp/Down. Default 10. |
-| `max` | `number` | — | — |
+| `max` | `number` | — | Duration, in seconds. |
 | `onValueChange?` | `(value: number, details: ChangeDetails) => void` | — | Seeks while dragging/keying; called at most once per animation frame. |
 | `onValueCommit?` | `(value: number) => void` | — | Fires once when the drag or key interaction commits. |
 | `paused?` | `boolean` | — | Frame stepping applies only while paused. Default false. |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
 | `step?` | `number` | — | Seconds per small arrow step. Default 1. |
 | `toolbarItem?` | `boolean` | — | Set by MediaControls: the thumb joins the toolbar's roving focus. |
-| `value` | `number` | — | — |
+| `value` | `number` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -54,4 +54,10 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/media-scrubber/*.tsx` yet._
+```tsx
+import { MediaScrubber } from 'aura-glass/media';
+
+export default function MediaScrubberMinimal() {
+  return <MediaScrubber value={80} max={300} buffered={[[0, 140]]} />;
+}
+```

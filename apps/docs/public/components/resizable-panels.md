@@ -12,15 +12,15 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/windowspli
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `autoSaveId?` | `string` | — | — |
-| `defaultLayout?` | `readonly number[]` | — | — |
-| `keyboardStep?` | `number` | — | — |
-| `keyboardStepLarge?` | `number` | — | — |
+| `autoSaveId?` | `string` | — | Storage key under which the layout is persisted and restored. |
+| `defaultLayout?` | `readonly number[]` | — | Initial panel sizes, in percent, one per panel. |
+| `keyboardStep?` | `number` | — | Percent a handle moves per arrow key. |
+| `keyboardStepLarge?` | `number` | — | Percent a handle moves per Shift+arrow or Page key. |
 | `labels?` | `{ resize?: string \| undefined; }` | — | i18n label templates; '{panel}' is replaced by the panel label/id. |
-| `onLayout?` | `(layout: number[]) => void` | — | — |
-| `orientation?` | `Orientation` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
-| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | — |
+| `onLayout?` | `(layout: number[]) => void` | — | Called with the panel sizes, in percent, after a resize. |
+| `orientation?` | `Orientation` | — | Axis along which panels are laid out and resized. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
+| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
 | `stackBelow?` | `number` | — | Container width below which horizontal panels stack vertically. |
 
 ## Parts
@@ -39,4 +39,16 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/windowspli
 
 ## Example
 
-_Example pending: no `apps/docs/examples/resizable-panels/*.tsx` yet._
+```tsx
+import { ResizablePanels } from 'aura-glass/app-shell';
+
+export default function ResizablePanelsMinimal() {
+  return (
+    <ResizablePanels.Root defaultLayout={[30, 70]}>
+      <ResizablePanels.Panel id="list"><div>List</div></ResizablePanels.Panel>
+      <ResizablePanels.Handle />
+      <ResizablePanels.Panel id="detail"><div>Detail</div></ResizablePanels.Panel>
+    </ResizablePanels.Root>
+  );
+}
+```

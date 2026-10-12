@@ -12,12 +12,12 @@ Tier T1 · RSC client · APG menu-button
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
-| `defaultOpen?` | `boolean` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `defaultOpen?` | `boolean` | — | Initial open state when uncontrolled. |
 | `loop?` | `boolean` | — | wrap arrow-key navigation — default true |
-| `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | — |
-| `open?` | `boolean` | — | — |
-| `orientation?` | `'vertical' \| 'horizontal'` | — | — |
+| `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | Called with the next open state when it changes. |
+| `open?` | `boolean` | — | Controlled open state. Pair with `onOpenChange`. |
+| `orientation?` | `'vertical' \| 'horizontal'` | — | Arrow-key axis of the menu. |
 
 ## Parts
 
@@ -54,4 +54,20 @@ Tier T1 · RSC client · APG menu-button
 
 ## Example
 
-_Example pending: no `apps/docs/examples/menu/*.tsx` yet._
+```tsx
+import { Menu } from 'aura-glass';
+
+export default function MenuMinimal() {
+  return (
+    <Menu.Root>
+      <Menu.Trigger>Actions</Menu.Trigger>
+      <Menu.Content>
+        <Menu.Item>Edit</Menu.Item>
+        <Menu.Item>Duplicate</Menu.Item>
+        <Menu.Separator />
+        <Menu.Item>Delete</Menu.Item>
+      </Menu.Content>
+    </Menu.Root>
+  );
+}
+```

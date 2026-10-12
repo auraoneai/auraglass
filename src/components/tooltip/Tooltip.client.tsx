@@ -44,7 +44,9 @@ function TooltipProvider({ delay = 600, closeDelay = 0, skipDelayWindow = 400, c
   );
 }
 
-function TooltipRoot({ open, defaultOpen, onOpenChange, delay, closeDelay, children, ref }: TooltipRootProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+function TooltipRoot({ open, defaultOpen, onOpenChange, delay, closeDelay, children, ref }: TooltipRootProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLElement> | undefined }) {
   useControllableWarning('Tooltip', 'open', open);
   const [internal, setInternal] = React.useState(Boolean(defaultOpen));
   const controlled = open !== undefined;

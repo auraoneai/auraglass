@@ -60,53 +60,97 @@ export interface TableMessages {
 }
 
 export interface TableProps<TData> {
+  /** Rows. */
   data: readonly TData[];
+  /** Column definitions. */
   columns: readonly TableColumnDef<TData>[];
   /** Required when selectionMode !== 'none' (dev warning otherwise). */
   getRowId?: ((row: TData, index: number) => string) | undefined;
+  /** Table caption; also the accessible name. */
   caption?: React.ReactNode;
+  /** Accessible name, required when there is no visible label. */
   'aria-label'?: string | undefined;
+  /** Id of the element that provides the accessible name. */
   'aria-labelledby'?: string | undefined;
+  /** Controlled sorting. Pair with `onSortingChange`. */
   sorting?: SortingState | undefined;
+  /** Initial sorting when uncontrolled. */
   defaultSorting?: SortingState | undefined;
+  /** Called with the next sorting. */
   onSortingChange?: ((s: SortingState) => void) | undefined;
+  /** Shift+click sorts by more than one column. */
   enableMultiSort?: boolean | undefined;
+  /** Row selection: none, single or multiple. */
   selectionMode?: SelectionMode | undefined;
+  /** Controlled row selection. Pair with `onRowSelectionChange`. */
   rowSelection?: RowSelectionState | undefined;
+  /** Initial row selection when uncontrolled. */
   defaultRowSelection?: RowSelectionState | undefined;
+  /** Called with the next row selection. */
   onRowSelectionChange?: ((s: RowSelectionState) => void) | undefined;
+  /** Controlled column visibility. Pair with `onColumnVisibilityChange`. */
   columnVisibility?: VisibilityState | undefined;
+  /** Initial column visibility when uncontrolled. */
   defaultColumnVisibility?: VisibilityState | undefined;
+  /** Called with the next column visibility. */
   onColumnVisibilityChange?: ((s: VisibilityState) => void) | undefined;
+  /** Controlled column widths. Pair with `onColumnSizingChange`. */
   columnSizing?: ColumnSizingState | undefined;
+  /** Initial column widths when uncontrolled. */
   defaultColumnSizing?: ColumnSizingState | undefined;
+  /** Called with the next column widths. */
   onColumnSizingChange?: ((s: ColumnSizingState) => void) | undefined;
+  /** Shows column resize handles. */
   enableColumnResizing?: boolean | undefined;
+  /** Controlled pinned columns. Pair with `onColumnPinningChange`. */
   columnPinning?: ColumnPinningState | undefined;
+  /** Initial pinned columns when uncontrolled. */
   defaultColumnPinning?: ColumnPinningState | undefined;
+  /** Called with the next pinned columns. */
   onColumnPinningChange?: ((s: ColumnPinningState) => void) | undefined;
+  /** Controlled column order. Pair with `onColumnOrderChange`. */
   columnOrder?: ColumnOrderState | undefined;
+  /** Initial column order when uncontrolled. */
   defaultColumnOrder?: ColumnOrderState | undefined;
+  /** Called with the next column order. */
   onColumnOrderChange?: ((s: ColumnOrderState) => void) | undefined;
+  /** Adds a column menu to each header with move left/right actions. */
   enableColumnReordering?: boolean | undefined;
+  /** Controlled pagination (page index and size). Pair with `onPaginationChange`. */
   pagination?: PaginationState | undefined;
+  /** Initial pagination when uncontrolled. */
   defaultPagination?: PaginationState | undefined;
+  /** Called with the next pagination. */
   onPaginationChange?: ((s: PaginationState) => void) | undefined;
   /** Server-side pagination: skip client row model, take pageCount/rowCount. */
   manualPagination?: boolean | undefined;
+  /** Total pages for server-side pagination. */
   pageCount?: number | undefined;
+  /** Server-side sorting: rows are shown in the given order. */
   manualSorting?: boolean | undefined;
+  /** Total rows for server-side pagination. */
   rowCount?: number | undefined;
+  /** Virtualizes rows; optionally set the estimated row height and overscan. */
   virtualize?: boolean | { estimateRowHeight?: number; overscan?: number } | undefined;
+  /** Keeps the header visible while the body scrolls. */
   stickyHeader?: boolean | undefined;
+  /** Row density. */
   size?: TableDensity | undefined;
+  /** 'grid' turns on the interactive data-grid keyboard model (one focusable cell). */
   mode?: TableMode | undefined;
+  /** Shows the loading state. */
   loading?: boolean | undefined;
+  /** Content shown when there are no rows. */
   emptyState?: React.ReactNode;
+  /** Called with the row when it is activated (click or Enter). */
   onRowAction?: ((row: TData) => void) | undefined;
+  /** Maximum height of the scroll area (number in CSS pixels, or a CSS length). */
   maxHeight?: number | string | undefined;
+  /** Overrides for the built-in, localizable strings and announcements. */
   messages?: TableMessages | undefined;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<TableHandle<TData>> | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
 }
 

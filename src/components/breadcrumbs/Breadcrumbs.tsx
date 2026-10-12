@@ -21,7 +21,9 @@ export type BreadcrumbsRootProps = Omit<PartProps<'nav'>, 'aria-label'> & {
   maxItems?: number | undefined;
   /** Items kept after the collapsed middle (default 2). */
   itemsAfterCollapse?: number | undefined;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: BreadcrumbsLabels | undefined;
+  /** Accessible name, required when there is no visible label. */
   'aria-label'?: string | undefined;
 };
 

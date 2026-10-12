@@ -19,10 +19,13 @@ export interface ImageListItem {
 }
 
 export interface ImageListProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  /** Number of columns. */
   cols?: number;
   /** Minimum item width used to reduce cols; default 160px. */
   minItemWidth?: number;
+  /** Gap between items (number in CSS pixels, or a CSS length). */
   gap?: number | string;
+  /** Layout: uniform grid, quilted (items span cells) or masonry. */
   variant?: 'standard' | 'quilted' | 'masonry';
   /** Flat API — renders Item/ItemBar parts per row. */
   items?: readonly ImageListItem[];
@@ -41,7 +44,9 @@ function Root({
   ref,
   children,
   ...rest
-}: ImageListProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+}: ImageListProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
   const body = items
     ? items.map((item, i) => (
         <Item key={`${item.src}-${i}`}>

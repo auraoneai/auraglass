@@ -12,12 +12,12 @@ Tier T1 · RSC mixed · APG https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-label?` | `string` | — | — |
+| `aria-label?` | `string` | — | Accessible name, required when there is no visible label. |
 | `itemsAfterCollapse?` | `number` | — | Items kept after the collapsed middle (default 2). |
-| `labels?` | `BreadcrumbsLabels` | — | — |
+| `labels?` | `BreadcrumbsLabels` | — | Overrides for the built-in, localizable UI strings. |
 | `maxItems?` | `number` | — | Collapse middle items into the overflow menu when the count exceeds this. |
-| `ref?` | `Ref<HTMLElement>` | — | — |
-| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | — |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
+| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
 
 ## Parts
 
@@ -43,4 +43,16 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/breadcrumbs/*.tsx` yet._
+```tsx
+import { Breadcrumbs } from 'aura-glass';
+
+export default function BreadcrumbsMinimal() {
+  return (
+    <Breadcrumbs.Root>
+      <Breadcrumbs.Item><Breadcrumbs.Link href="/">Home</Breadcrumbs.Link></Breadcrumbs.Item>
+      <Breadcrumbs.Item><Breadcrumbs.Link href="/projects">Projects</Breadcrumbs.Link></Breadcrumbs.Item>
+      <Breadcrumbs.Item><Breadcrumbs.Current>Atlas</Breadcrumbs.Current></Breadcrumbs.Item>
+    </Breadcrumbs.Root>
+  );
+}
+```

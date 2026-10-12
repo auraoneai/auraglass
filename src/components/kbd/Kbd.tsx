@@ -18,7 +18,9 @@ export function Kbd({
   className,
   ref,
   ...rest
-}: KbdProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+}: KbdProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLElement> | undefined }) {
   return (
     <kbd {...rest} {...SUNKEN} ref={ref} data-ag-part="root" className={cn('ag-kbd', className)}>
       {keys && keys.length > 0

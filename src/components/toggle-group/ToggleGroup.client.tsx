@@ -9,17 +9,25 @@ import type { ChangeDetails } from '../../contracts/components';
 import { useControllableWarning } from '../../foundation/controllable';
 
 export interface ToggleGroupRootProps {
+  /** Controlled value. Pair with `onValueChange`. */
   value?: string[] | undefined;
+  /** Initial value when uncontrolled. */
   defaultValue?: string[] | undefined;
+  /** Called with the new value whenever it changes. */
   onValueChange?: ((value: string[], details: ChangeDetails) => void) | undefined;
   /** Allow multiple pressed items (default false — single-select clears the others). */
   multiple?: boolean | undefined;
   /** Roving-focus wrap-around (default true — REQ-CMP-38). */
   loop?: boolean | undefined;
+  /** Layout direction; also the arrow-key axis. */
   orientation?: 'horizontal' | 'vertical' | undefined;
+  /** Disables interaction. */
   disabled?: boolean | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<HTMLDivElement> | undefined;
 }
 

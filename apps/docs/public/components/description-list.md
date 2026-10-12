@@ -13,9 +13,9 @@ Tier T0 · RSC server · APG none
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `items?` | `readonly DescriptionListItem[]` | — | Flat API — renders Item/Term/Details parts for each row; compound children may still be used instead. |
-| `layout?` | `'inline' \| 'stacked'` | — | — |
+| `layout?` | `'inline' \| 'stacked'` | — | 'stacked' puts each description under its term; 'inline' puts them side by side. |
 | `orientation?` | `'vertical' \| 'horizontal'` | — | Orientation shorthand: 'horizontal' = inline, 'vertical' = stacked. Wins over `layout` when set. |
-| `ref?` | `Ref<HTMLDListElement>` | — | — |
+| `ref?` | `Ref<HTMLDListElement>` | — | Ref to the rendered root element. |
 
 ## Parts
 
@@ -32,4 +32,21 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/description-list/*.tsx` yet._
+```tsx
+import { DescriptionList } from 'aura-glass';
+
+export default function DescriptionListMinimal() {
+  return (
+    <DescriptionList>
+      <DescriptionList.Item>
+        <DescriptionList.Term>Plan</DescriptionList.Term>
+        <DescriptionList.Details>Team (annual)</DescriptionList.Details>
+      </DescriptionList.Item>
+      <DescriptionList.Item>
+        <DescriptionList.Term>Seats</DescriptionList.Term>
+        <DescriptionList.Details>24 of 30</DescriptionList.Details>
+      </DescriptionList.Item>
+    </DescriptionList>
+  );
+}
+```

@@ -13,6 +13,7 @@ import { InspectorSheet } from './Inspector.Sheet';
 import { InspectorCloseButton } from './Inspector.CloseButton';
 
 export type InspectorRootProps = Omit<PartProps<'aside'>, 'aria-label'> & {
+  /** Accessible name, required when there is no visible label. */
   'aria-label': string;
   /** auto = CSS decides by container; docked/floating/sheet pin a mode. */
   mode?: 'auto' | 'docked' | 'floating' | 'sheet' | undefined;

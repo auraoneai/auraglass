@@ -12,10 +12,10 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/disclosure
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className?` | `string` | — | — |
-| `defaultOpen?` | `boolean` | — | — |
-| `messageId` | `string` | — | — |
-| `sources` | `readonly AgSourcePart[]` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultOpen?` | `boolean` | — | Initial open state when uncontrolled. |
+| `messageId` | `string` | — | Id of the message the sources belong to. |
+| `sources` | `readonly AgSourcePart[]` | — | Sources to list, in citation order. |
 
 ## Parts
 
@@ -37,4 +37,18 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/source-list/*.tsx` yet._
+```tsx
+import { SourceList } from 'aura-glass/ai';
+
+export default function SourceListMinimal() {
+  return (
+    <SourceList
+      messageId="m1"
+      sources={[
+        { type: 'source-url', sourceId: 's1', url: 'https://example.com/report', title: 'Q3 latency report' },
+        { type: 'source-url', sourceId: 's2', url: 'https://example.com/runbook', title: 'Cache runbook' },
+      ]}
+    />
+  );
+}
+```

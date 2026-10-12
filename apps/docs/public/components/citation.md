@@ -12,11 +12,11 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/link/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className?` | `string` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
 | `defaultOpen?` | `boolean` | — | Initial open state of the preview card (uncontrolled). Default false. |
-| `index` | `number` | — | — |
-| `messageId` | `string` | — | — |
-| `source` | `AgCitationSource` | — | — |
+| `index` | `number` | — | Citation number shown in the marker and announced as "Source {index}". |
+| `messageId` | `string` | — | Id of the message that cites the source. |
+| `source` | `AgCitationSource` | — | The cited source. |
 
 ## Parts
 
@@ -36,4 +36,15 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/citation/*.tsx` yet._
+```tsx
+import { Citation } from 'aura-glass/ai';
+
+export default function CitationMinimal() {
+  return (
+    <p>
+      Latency dropped after the cache change{' '}
+      <Citation messageId="m1" index={1} source={{ type: 'source-url', sourceId: 's1', url: 'https://example.com/report', title: 'Q3 latency report' }} />.
+    </p>
+  );
+}
+```

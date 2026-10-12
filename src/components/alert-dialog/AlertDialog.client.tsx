@@ -35,7 +35,9 @@ const AlertContext = React.createContext<AlertCtx>({
   popupElRef: { current: null }, setPopupElement: () => {},
 });
 
-function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', labels, children, ref }: AlertDialogRootProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', labels, children, ref }: AlertDialogRootProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLElement> | undefined }) {
   useControllableWarning('AlertDialog', 'open', open);
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen === true);
   const effectiveOpen = open ?? internalOpen;

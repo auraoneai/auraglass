@@ -13,10 +13,10 @@ Tier T2 · RSC server · APG none
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `actions?` | `ReactNode` | — | Action node (e.g. <Button onClick/>) — a ReactNode keeps this server-renderable. |
-| `description?` | `string` | — | — |
-| `icon?` | `ReactNode` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `title` | `string` | — | — |
+| `description?` | `string` | — | Supporting text under the heading. |
+| `icon?` | `ReactNode` | — | Illustration or icon above the heading (decorative). |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `title` | `string` | — | Heading of the state. |
 | `urgent?` | `boolean` | — | When true, escalates to role='alert'. Default renders a neutral region. |
 
 ## Parts
@@ -35,4 +35,10 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/error-state/*.tsx` yet._
+```tsx
+import { ErrorState } from 'aura-glass';
+
+export default function ErrorStateMinimal() {
+  return <ErrorState title="Could not load invoices" description="Check your connection and try again." />;
+}
+```

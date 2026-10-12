@@ -12,21 +12,21 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/link/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
-| `delta?` | `number` | — | — |
-| `deltaFormat?` | `NumberFormatOptions` | — | — |
-| `deltaLabel?` | `string` | — | — |
-| `description?` | `ReactNode` | — | — |
-| `format?` | `NumberFormatOptions` | — | — |
-| `href?` | `string` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `delta?` | `number` | — | Change versus the comparison period. |
+| `deltaFormat?` | `NumberFormatOptions` | — | Intl.NumberFormat options for the delta. |
+| `deltaLabel?` | `string` | — | Comparison period, e.g. "vs last week". |
+| `description?` | `ReactNode` | — | Supporting text under the value. |
+| `format?` | `NumberFormatOptions` | — | Intl.NumberFormat options for the value. |
+| `href?` | `string` | — | Makes the whole card a link. |
 | `id?` | `string` | — | Id base for the card's labelledby target; defaults to a React.useId id so two cards with the same label never share an id. |
-| `label` | `string` | — | — |
-| `labels?` | `{ up?: string \| undefined; down?: string \| undefined; unchanged?: string \| undefined; }` | — | — |
-| `loading?` | `boolean` | — | — |
-| `locale?` | `string` | — | — |
-| `sparkline?` | `readonly number[]` | — | — |
-| `trendDirection?` | `'neutral' \| 'up-is-good' \| 'down-is-good'` | — | — |
-| `value` | `ReactNode` | — | — |
+| `label` | `string` | — | Metric name. |
+| `labels?` | `{ up?: string \| undefined; down?: string \| undefined; unchanged?: string \| undefined; }` | — | Overrides for the built-in, localizable UI strings. |
+| `loading?` | `boolean` | — | Shows a skeleton instead of the value. |
+| `locale?` | `string` | — | BCP 47 locale used for formatting and parsing. |
+| `sparkline?` | `readonly number[]` | — | Recent values drawn as a sparkline. |
+| `trendDirection?` | `'neutral' \| 'up-is-good' \| 'down-is-good'` | — | Whether a rising value is good, bad or neutral; sets the delta colour. |
+| `value` | `ReactNode` | — | Metric value. |
 
 ## Parts
 
@@ -48,4 +48,10 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/link/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/stat-card/*.tsx` yet._
+```tsx
+import { StatCard } from 'aura-glass/data';
+
+export default function StatCardMinimal() {
+  return <StatCard label="Revenue" value={128430} delta={0.125} trendDirection="up-is-good" sparkline={[3, 5, 4, 8, 9]} />;
+}
+```

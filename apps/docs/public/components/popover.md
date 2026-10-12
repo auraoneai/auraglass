@@ -12,19 +12,19 @@ Tier T1 · RSC client · APG dialog-modal
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
 | `closeDelay?` | `number` | — | Hover close delay ms — default 150. |
-| `defaultOpen?` | `boolean` | — | — |
+| `defaultOpen?` | `boolean` | — | Initial open state when uncontrolled. |
 | `delay?` | `number` | — | Hover open delay ms — default 300. |
 | `modal?` | `false \| 'trap-focus'` | — | Modal behaviour; non-modal is the default for anchored overlays and 'trap-focus' is the only modal value. |
-| `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | — |
-| `open?` | `boolean` | — | — |
+| `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | Called with the next open state when it changes. |
+| `open?` | `boolean` | — | Controlled open state. Pair with `onOpenChange`. |
 | `openOnHover?` | `boolean` | — | Hover-to-open mode (the HoverCard successor). Default false. |
-| `prominent?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
-| `refraction?` | `boolean` | — | — |
-| `thickness?` | `Thickness` | — | — |
-| `variant?` | `MaterialVariant` | — | — |
+| `prominent?` | `boolean` | — | Prominent (filled, higher-emphasis) appearance. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
+| `refraction?` | `boolean` | — | Opt-in refraction on refraction-eligible materials; ignored where unsupported. |
+| `thickness?` | `Thickness` | — | Material thickness (blur and opacity step). |
+| `variant?` | `MaterialVariant` | — | Material variant. |
 
 ## Parts
 
@@ -50,4 +50,20 @@ Tier T1 · RSC client · APG dialog-modal
 
 ## Example
 
-_Example pending: no `apps/docs/examples/popover/*.tsx` yet._
+```tsx
+import { Popover } from 'aura-glass';
+
+export default function PopoverMinimal() {
+  return (
+    <Popover.Root>
+      <Popover.Trigger>Share</Popover.Trigger>
+      <Popover.Content>
+        <Popover.Arrow />
+        <Popover.Title>Share link</Popover.Title>
+        <Popover.Description>Anyone with the link can view.</Popover.Description>
+        <Popover.Close>Done</Popover.Close>
+      </Popover.Content>
+    </Popover.Root>
+  );
+}
+```

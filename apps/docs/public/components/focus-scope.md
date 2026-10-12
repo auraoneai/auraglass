@@ -12,13 +12,13 @@ Tier T0 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `autoFocus?` | `boolean` | — | — |
-| `loop?` | `boolean` | — | — |
-| `onMountAutoFocus?` | `(event: Event) => void` | — | — |
-| `onUnmountAutoFocus?` | `(event: Event) => void` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `restoreFocus?` | `boolean` | — | — |
-| `trapped?` | `boolean` | — | — |
+| `autoFocus?` | `boolean` | — | Focuses the first focusable element on mount. |
+| `loop?` | `boolean` | — | Tab from the last stop moves to the first (and back). |
+| `onMountAutoFocus?` | `(event: Event) => void` | — | Called before auto-focus on mount; call `preventDefault()` to skip it. |
+| `onUnmountAutoFocus?` | `(event: Event) => void` | — | Called before focus is restored on unmount; call `preventDefault()` to skip it. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `restoreFocus?` | `boolean` | — | Returns focus to the previously focused element on unmount. |
+| `trapped?` | `boolean` | — | Keeps Tab focus inside the scope. |
 
 ## Parts
 
@@ -32,4 +32,15 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/focus-scope/*.tsx` yet._
+```tsx
+import { FocusScope } from 'aura-glass/primitives';
+
+export default function FocusScopeMinimal() {
+  return (
+    <FocusScope trapped loop>
+      <button type="button">First</button>
+      <button type="button">Second</button>
+    </FocusScope>
+  );
+}
+```

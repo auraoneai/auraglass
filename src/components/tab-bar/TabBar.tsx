@@ -17,9 +17,11 @@ const TabBarCtx = React.createContext<{ semantics: 'navigation' | 'tabs' }>({
 });
 
 export type TabBarRootProps = PartProps<'nav'> & {
+  /** 'navigation' renders links in a nav landmark; 'tabs' renders a tab list. */
   semantics?: 'navigation' | 'tabs' | undefined;
   /** bar = flush bottom bar; floating = detached capsule. */
   appearance?: 'bar' | 'floating' | undefined;
+  /** Where the bar sits: docked at the bottom, floating, inline or over the content. */
   placement?: 'bottom' | 'floating' | 'inline' | 'overlay' | undefined;
   /** Collapse labels while scrolling (CSS scroll-timeline; motion calm|none disables). */
   minimizeOnScroll?: boolean | undefined;

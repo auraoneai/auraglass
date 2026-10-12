@@ -13,12 +13,12 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/alert/
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appearance?` | `'compact' \| 'panel'` | — | Non-material look (S-30): emitted as data-ag-appearance. Default 'panel'. |
-| `className?` | `string` | — | — |
-| `detail?` | `string` | — | — |
-| `kind` | `AgErrorKind` | — | — |
-| `onRetry?` | `() => void` | — | — |
-| `retryAfterMs?` | `number` | — | — |
-| `title?` | `string` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `detail?` | `string` | — | Overrides the default explanation for `kind`. |
+| `kind` | `AgErrorKind` | — | Provider error class; selects the default title, detail and retry affordance. |
+| `onRetry?` | `() => void` | — | Called when the user presses Retry; Retry is hidden when omitted. |
+| `retryAfterMs?` | `number` | — | Milliseconds until a retry is allowed; Retry stays disabled and a countdown is shown until then. |
+| `title?` | `string` | — | Overrides the default title for `kind`. |
 
 ## Parts
 
@@ -44,4 +44,10 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/alert/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/provider-error-state/*.tsx` yet._
+```tsx
+import { ProviderErrorState } from 'aura-glass/ai';
+
+export default function ProviderErrorStateMinimal() {
+  return <ProviderErrorState kind="rate-limit" retryAfterMs={5000} onRetry={() => {}} />;
+}
+```

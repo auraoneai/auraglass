@@ -12,16 +12,16 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
-| `defaultOpen?` | `boolean` | — | — |
-| `defaultValue?` | `string` | — | — |
-| `items` | `ImageViewerItem[]` | — | — |
-| `loop?` | `boolean` | — | — |
-| `onOpenChange?` | `(open: boolean, details: ChangeDetails) => void` | — | — |
-| `onValueChange?` | `(id: string, details: ChangeDetails) => void` | — | — |
-| `open?` | `boolean` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `defaultOpen?` | `boolean` | — | Initial open state when uncontrolled. |
+| `defaultValue?` | `string` | — | Initial value when uncontrolled. |
+| `items` | `ImageViewerItem[]` | — | Images to view, in order. |
+| `loop?` | `boolean` | — | Wraps keyboard focus from the last item back to the first. |
+| `onOpenChange?` | `(open: boolean, details: ChangeDetails) => void` | — | Called with the next open state when it changes. |
+| `onValueChange?` | `(id: string, details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `open?` | `boolean` | — | Controlled open state. Pair with `onOpenChange`. |
 | `sampleTone?` | `boolean` | — | Sample the current image's tone (after decode) into the Stage's data-ag-media-tone. Cross-origin images need `crossOrigin` on the item plus CORS headers; otherwise no tone is written. Default true. |
-| `value?` | `string` | — | — |
+| `value?` | `string` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -53,4 +53,24 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 
 ## Example
 
-_Example pending: no `apps/docs/examples/image-viewer/*.tsx` yet._
+```tsx
+import { ImageViewer } from 'aura-glass/media';
+
+const ITEMS = [
+  { id: 'a', src: 'https://picsum.photos/seed/glacier/1200/800', alt: 'Glacier' },
+  { id: 'b', src: 'https://picsum.photos/seed/harbour/1200/800', alt: 'Harbour' },
+];
+
+export default function ImageViewerMinimal() {
+  return (
+    <ImageViewer.Root items={ITEMS}>
+      {ITEMS.map((it) => (
+        <ImageViewer.Trigger key={it.id} id={it.id}>
+          <img src={it.src} alt={it.alt} width={140} />
+        </ImageViewer.Trigger>
+      ))}
+      <ImageViewer.Popup />
+    </ImageViewer.Root>
+  );
+}
+```

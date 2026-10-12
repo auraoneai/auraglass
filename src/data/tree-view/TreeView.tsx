@@ -53,22 +53,39 @@ export interface TreeViewLabels {
 }
 
 export interface TreeViewBaseProps<T extends TreeItemData> {
+  /** Root items of the tree. */
   items?: readonly T[] | undefined;
+  /** Key of an item. */
   getKey?: ((item: T) => React.Key) | undefined;
+  /** Children of an item; undefined for a leaf. */
   getChildren?: ((item: T) => readonly T[] | undefined) | undefined;
+  /** Text of an item used for typeahead and the accessible name. */
   getTextValue?: ((item: T) => string) | undefined;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
+  /** Item selection: none, single or multiple. */
   selectionMode?: 'none' | 'single' | 'multiple' | undefined;
+  /** Controlled selected keys. Pair with `onSelectionChange`. */
   selectedKeys?: Iterable<React.Key> | undefined;
+  /** Initially selected keys when uncontrolled. */
   defaultSelectedKeys?: Iterable<React.Key> | undefined;
+  /** Called with the next set of selected keys. */
   onSelectionChange?: ((keys: Set<React.Key>) => void) | undefined;
+  /** Controlled expanded keys. Pair with `onExpandedChange`. */
   expandedKeys?: Iterable<React.Key> | undefined;
+  /** Initially expanded keys when uncontrolled. */
   defaultExpandedKeys?: Iterable<React.Key> | undefined;
+  /** Called with the next set of expanded keys. */
   onExpandedChange?: ((keys: Set<React.Key>) => void) | undefined;
+  /** Keys of items that cannot be selected or activated. */
   disabledKeys?: Iterable<React.Key> | undefined;
+  /** Called with the key of an item when it is activated. */
   onAction?: ((key: React.Key) => void) | undefined;
+  /** Custom item content; receives the item and its level, expanded, selected and has-children state. */
   renderItem?: ((item: T, state: { level: number; isExpanded: boolean; isSelected: boolean; hasChildren: boolean }) => React.ReactNode) | undefined;
+  /** Loads the children of an item on first expand. */
   loadChildren?: ((item: T) => Promise<T[]>) | undefined;
+  /** 'files' shows file and folder icons. */
   preset?: 'default' | 'files' | undefined;
   /** REQ-SURF-83: render only the visible rows. `estimateRowHeight` is the
       fixed row height in px the rows are laid out at (default 32);
@@ -78,13 +95,18 @@ export interface TreeViewBaseProps<T extends TreeItemData> {
   virtualize?: boolean | { estimateRowHeight?: number; overscan?: number } | undefined;
   /** Localised strings (chevron names). */
   labels?: TreeViewLabels | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
 }
 
 /** REQ-SURF-81: the tree must be named — `aria-label` or `aria-labelledby`
     is a required union (omitting both is a type error). */
 export type TreeViewLabelling =
-  | { 'aria-label': string; 'aria-labelledby'?: string | undefined }
+  | {
+    /** Accessible name, required when there is no visible label. */
+    'aria-label': string;
+    /** Id of the element that provides the accessible name. */
+    'aria-labelledby'?: string | undefined }
   | { 'aria-labelledby': string; 'aria-label'?: string | undefined };
 
 export type TreeViewProps<T extends TreeItemData> = TreeViewBaseProps<T> & TreeViewLabelling;

@@ -12,13 +12,13 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `addLabel?` | `string` | — | — |
-| `className?` | `string` | — | — |
-| `defaultValue?` | `readonly KeyValuePair[]` | — | — |
-| `disabled?` | `boolean` | — | — |
-| `labels?` | `{ key?: string \| undefined; value?: string \| undefined; remove?: string \| undefined; add?: string \| undefined; duplicate?: string \| undefined; }` | — | — |
-| `onValueChange?` | `(pairs: KeyValuePair[], details: ChangeDetails) => void` | — | — |
-| `value?` | `readonly KeyValuePair[]` | — | — |
+| `addLabel?` | `string` | — | Label of the add-row button. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultValue?` | `readonly KeyValuePair[]` | — | Initial value when uncontrolled. |
+| `disabled?` | `boolean` | — | Disables interaction. |
+| `labels?` | `{ key?: string \| undefined; value?: string \| undefined; remove?: string \| undefined; add?: string \| undefined; duplicate?: string \| undefined; }` | — | Overrides for the built-in, localizable UI strings. |
+| `onValueChange?` | `(pairs: KeyValuePair[], details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `value?` | `readonly KeyValuePair[]` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -44,4 +44,10 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/key-value-editor/*.tsx` yet._
+```tsx
+import { KeyValueEditor } from 'aura-glass/data';
+
+export default function KeyValueEditorMinimal() {
+  return <KeyValueEditor defaultValue={[{ key: 'NODE_ENV', value: 'production' }]} />;
+}
+```

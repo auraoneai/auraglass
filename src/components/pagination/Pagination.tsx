@@ -18,15 +18,23 @@ export type PaginationLabels = {
 };
 
 export type PaginationRootProps = Omit<PartProps<'nav'>, 'onChange' | 'aria-label'> & {
+  /** Controlled current page (1-based). Pair with `onPageChange`. */
   page?: number | undefined;
+  /** Initial page (1-based) when uncontrolled. */
   defaultPage?: number | undefined;
+  /** Total number of pages. */
   pageCount: number;
+  /** Called with the next page (1-based). */
   onPageChange?: ((page: number) => void) | undefined;
+  /** Pages shown on each side of the current page. */
   siblingCount?: number | undefined;
+  /** Pages always shown at the start and the end. */
   boundaryCount?: number | undefined;
   /** Link mode: href builder for each page (server-safe, no client state). */
   getHref?: ((page: number) => string) | undefined;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: PaginationLabels | undefined;
+  /** Accessible name, required when there is no visible label. */
   'aria-label'?: string | undefined;
 };
 

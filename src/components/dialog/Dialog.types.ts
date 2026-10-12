@@ -12,8 +12,11 @@ export type DialogPlacement = 'center' | 'top';
 export type DialogVariant = 'regular' | 'identity';
 
 export interface DialogRootProps {
+  /** Controlled open state. Pair with `onOpenChange`. */
   open?: boolean;
+  /** Initial open state when uncontrolled. */
   defaultOpen?: boolean;
+  /** Called with the next open state when it changes. */
   onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
   /** 'trap-focus' keeps the focus trap without scroll-lock or outside-press inert. */
   modal?: boolean | 'trap-focus';
@@ -21,6 +24,7 @@ export interface DialogRootProps {
   dismissible?: boolean;
   /** Localisable strings. */
   labels?: { close?: string };
+  /** Content rendered inside the component. */
   children?: ReactNode;
 }
 

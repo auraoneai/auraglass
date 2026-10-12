@@ -23,6 +23,7 @@ const Ctx = React.createContext<{
 const sanitize = (id: string) => id.replace(/[^a-zA-Z0-9_-]/g, '-');
 
 export type SourceTransitionRootProps = PartProps<'div'> & {
+  /** Called with the id of the source whose transition starts. */
   onTransition?: ((id: string) => void) | undefined;
 };
 

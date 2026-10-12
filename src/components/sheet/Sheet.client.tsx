@@ -76,7 +76,9 @@ function SheetRoot({
   labels,
   children,
   ref,
-}: SheetRootProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+}: SheetRootProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLElement> | undefined }) {
   useControllableWarning('Sheet', 'open', open);
   const dir = useDirection();
   const rtl = dir === 'rtl';

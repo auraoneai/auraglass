@@ -32,7 +32,9 @@ import { raChangeDetails } from './shared';
 import type { DateFieldLikeProps, DateValue } from './shared';
 
 export interface DatePickerProps extends DateFieldLikeProps<DateValue> {
+  /** Class name merged onto the root element. */
   className?: string | undefined;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: { choose?: string | undefined; dialog?: string | undefined } | undefined;
   /** Initial popover state (uncontrolled). */
   defaultOpen?: boolean | undefined;

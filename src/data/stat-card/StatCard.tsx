@@ -9,19 +9,33 @@ export interface StatCardProps {
   /** Id base for the card's labelledby target; defaults to a React.useId id
       so two cards with the same label never share an id. */
   id?: string | undefined;
+  /** Metric name. */
   label: string;
+  /** Metric value. */
   value: number | React.ReactNode;
+  /** Intl.NumberFormat options for the value. */
   format?: Intl.NumberFormatOptions | undefined;
+  /** BCP 47 locale used for formatting and parsing. */
   locale?: string | undefined;
+  /** Change versus the comparison period. */
   delta?: number | undefined;
+  /** Intl.NumberFormat options for the delta. */
   deltaFormat?: Intl.NumberFormatOptions | undefined;
+  /** Comparison period, e.g. "vs last week". */
   deltaLabel?: string | undefined;
+  /** Whether a rising value is good, bad or neutral; sets the delta colour. */
   trendDirection?: 'up-is-good' | 'down-is-good' | 'neutral' | undefined;
+  /** Recent values drawn as a sparkline. */
   sparkline?: readonly number[] | undefined;
+  /** Supporting text under the value. */
   description?: React.ReactNode;
+  /** Shows a skeleton instead of the value. */
   loading?: boolean | undefined;
+  /** Makes the whole card a link. */
   href?: string | undefined;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: { up?: string | undefined; down?: string | undefined; unchanged?: string | undefined } | undefined;
 }
 

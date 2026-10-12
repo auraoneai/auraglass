@@ -20,6 +20,7 @@ import type { SpaceTokenLike } from '../stack/Stack';
 export type GridColumns = number | { base?: number; sm?: number; md?: number; lg?: number };
 
 export interface GridProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  /** Column count, or a responsive map of column counts. */
   columns?: GridColumns;
   /** When set, columns auto-fill at this minimum item width. */
   minItemWidth?: number | string;
@@ -45,7 +46,9 @@ export function Grid({
   style,
   ref,
   ...rest
-}: GridProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+}: GridProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
   const styleObj: VarStyle = { ...style };
   if (gap !== undefined) styleObj.gap = spaceGap(gap);
   if (minItemWidth !== undefined) styleObj['--_ag-grid-min-item'] = len(minItemWidth);

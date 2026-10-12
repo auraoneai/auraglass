@@ -13,16 +13,16 @@ Tier T2 · RSC server
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `appearance?` | `'area' \| 'line' \| 'bar'` | — | Non-material look (S-30): emitted as data-ag-appearance. Default 'line'. |
-| `aria-hidden?` | `boolean` | — | — |
-| `data` | `readonly (number \| null)[]` | — | — |
-| `height?` | `number` | — | — |
-| `intent?` | `'info' \| 'success' \| 'danger' \| 'neutral'` | — | — |
-| `label` | `string` | — | — |
-| `locale?` | `string` | — | — |
-| `max?` | `number` | — | — |
-| `min?` | `number` | — | — |
-| `showLastPoint?` | `boolean` | — | — |
-| `width?` | `string \| number` | — | — |
+| `aria-hidden?` | `boolean` | — | Hides the sparkline from assistive technology when the value is described elsewhere. |
+| `data` | `readonly (number \| null)[]` | — | Values in order; null leaves a gap. |
+| `height?` | `number` | — | Height in CSS pixels. |
+| `intent?` | `'info' \| 'success' \| 'danger' \| 'neutral'` | — | Status tint of the line. |
+| `label` | `string` | — | Accessible name describing the trend. |
+| `locale?` | `string` | — | BCP 47 locale used for formatting and parsing. |
+| `max?` | `number` | — | Upper bound of the y scale; the data maximum when omitted. |
+| `min?` | `number` | — | Lower bound of the y scale; the data minimum when omitted. |
+| `showLastPoint?` | `boolean` | — | Marks the last point. |
+| `width?` | `string \| number` | — | Width (number in CSS pixels, or a CSS length). |
 
 ## Parts
 
@@ -36,4 +36,10 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/sparkline/*.tsx` yet._
+```tsx
+import { Sparkline } from 'aura-glass/data';
+
+export default function SparklineMinimal() {
+  return <Sparkline data={[2, 5, 3, 8, 6, 9, 4, 12]} label="Weekly signups" showLastPoint />;
+}
+```

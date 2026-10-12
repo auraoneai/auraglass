@@ -12,13 +12,13 @@ Tier T1 · RSC client · APG alertdialog
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
-| `defaultOpen?` | `boolean` | — | — |
-| `intent?` | `'danger' \| 'neutral'` | — | **Deprecated.** moved to <AlertDialog.Action intent='danger'> — kept as a fallback for one release. 'danger' styles only the Action button. |
-| `labels?` | `{ cancel?: string \| undefined; action?: string \| undefined; }` | — | — |
-| `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | — |
-| `open?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `defaultOpen?` | `boolean` | — | Initial open state when uncontrolled. |
+| `intent?` | `'danger' \| 'neutral'` | — | 'danger' marks a destructive confirmation. |
+| `labels?` | `{ cancel?: string \| undefined; action?: string \| undefined; }` | — | Overrides for the built-in, localizable UI strings. |
+| `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | Called with the next open state when it changes. |
+| `open?` | `boolean` | — | Controlled open state. Pair with `onOpenChange`. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
 
 ## Parts
 
@@ -50,4 +50,22 @@ Tier T1 · RSC client · APG alertdialog
 
 ## Example
 
-_Example pending: no `apps/docs/examples/alert-dialog/*.tsx` yet._
+```tsx
+import { AlertDialog } from 'aura-glass';
+
+export default function AlertDialogMinimal() {
+  return (
+    <AlertDialog.Root>
+      <AlertDialog.Trigger>Discard draft</AlertDialog.Trigger>
+      <AlertDialog.Content>
+        <AlertDialog.Title>Discard draft?</AlertDialog.Title>
+        <AlertDialog.Description>Your unsaved changes will be lost.</AlertDialog.Description>
+        <AlertDialog.Footer>
+          <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+          <AlertDialog.Action>Discard</AlertDialog.Action>
+        </AlertDialog.Footer>
+      </AlertDialog.Content>
+    </AlertDialog.Root>
+  );
+}
+```

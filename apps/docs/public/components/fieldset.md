@@ -12,10 +12,10 @@ Tier T1 · RSC client · APG none
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
 | `legend?` | `ReactNode` | — | Legend text or node; renders the `legend` part. |
-| `ref?` | `Ref<HTMLFieldSetElement>` | — | — |
+| `ref?` | `Ref<HTMLFieldSetElement>` | — | Ref to the rendered root element. |
 
 ## Parts
 
@@ -32,4 +32,15 @@ Tier T1 · RSC client · APG none
 
 ## Example
 
-_Example pending: no `apps/docs/examples/fieldset/*.tsx` yet._
+```tsx
+import { Fieldset, TextField } from 'aura-glass';
+
+export default function FieldsetMinimal() {
+  return (
+    <Fieldset legend="Shipping address">
+      <TextField label="Street" />
+      <TextField label="City" />
+    </Fieldset>
+  );
+}
+```

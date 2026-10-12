@@ -87,7 +87,10 @@ export type UseAnnouncer = () => { announce(message: string, opts?: AnnounceOpti
 
 /** S-24 */
 export interface GlassPreferencesPanelProps {
+  /** Preferences the panel offers; all user-settable keys when omitted. */
   keys?: readonly UserSettableKey[];     // default: all seven
+  /** Called with the key and value when the user changes a preference. */
   onChange?: (key: UserSettableKey, value: unknown) => void;
+  /** Class name merged onto the root element. */
   className?: string;
 }

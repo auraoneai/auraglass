@@ -13,7 +13,9 @@ const SUNKEN = materialProps({ layer: 'content', content: 'content-sunken' });
 export interface ProgressProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'prefix' | 'onChange'> {
   /** 0..max, or null for indeterminate. */
   value?: number | null;
+  /** Lower bound of the range. */
   min?: number;
+  /** Upper bound of the range. */
   max?: number;
   /** 'linear' (default) or 'ring' — the circular form (CircularProgress absorbed). */
   appearance?: 'linear' | 'bar' | 'ring';
@@ -21,9 +23,11 @@ export interface ProgressProps extends Omit<React.HTMLAttributes<HTMLDivElement>
   size?: number;
   /** Ring only: stroke width in px. */
   thickness?: number;
+  /** Visible label; also the accessible name. */
   label?: string;
   /** Show the formatted value at the end of the track. */
   showValue?: boolean;
+  /** Intl.NumberFormat options used to format the displayed value. */
   format?: Intl.NumberFormatOptions;
 
 }
@@ -42,7 +46,9 @@ export function Progress({
   className,
   ref,
   ...rest
-}: ProgressProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+}: ProgressProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
   const labelEl = label ? (
     <BaseProgress.Label data-ag-part="label" className="ag-progress-label">
       {label}

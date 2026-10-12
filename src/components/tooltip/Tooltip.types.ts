@@ -19,9 +19,13 @@ export interface TooltipRootProps {
   delay?: number | undefined;
   /** Hover close delay override; otherwise inherits Provider (standalone default 0ms). */
   closeDelay?: number | undefined;
+  /** Controlled open state. Pair with `onOpenChange`. */
   open?: boolean;
+  /** Initial open state when uncontrolled. */
   defaultOpen?: boolean;
+  /** Called with the next open state when it changes. */
   onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
 }
 

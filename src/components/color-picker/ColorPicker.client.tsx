@@ -42,10 +42,15 @@ export interface ColorPickerRootProps extends Omit<React.HTMLAttributes<HTMLSpan
   /** Controlled color: { space:'srgb'|'oklch', value:'#rrggbb[aa]'|'oklch(l c h[ / a])' }.
      A bare string is treated as space:'srgb'. */
   value?: PickerValueLike;
+  /** Initial value when uncontrolled. */
   defaultValue?: PickerValueLike;
+  /** Called with the new value whenever it changes. */
   onValueChange?: (value: ColorPickerValue, details: { committed: boolean }) => void;
+  /** Controlled open state. Pair with `onOpenChange`. */
   open?: boolean;
+  /** Initial open state when uncontrolled. */
   defaultOpen?: boolean;
+  /** Called with the next open state when it changes. */
   onOpenChange?: (open: boolean, details: unknown) => void;
 }
 
@@ -60,7 +65,9 @@ function Root({
   className,
   ref,
   ...rest
-}: ColorPickerRootProps & { ref?: React.Ref<HTMLSpanElement> | undefined }) {
+}: ColorPickerRootProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLSpanElement> | undefined }) {
   const initial = toHsvAlpha(defaultValue, { h: 217, s: 0.76, v: 0.96 });
   const [uncontrolled, setUncontrolled] = React.useState(initial);
   const resolved = value !== undefined ? toHsvAlpha(value, uncontrolled.hsv) : uncontrolled;

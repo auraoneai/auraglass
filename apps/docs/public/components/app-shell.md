@@ -12,13 +12,13 @@ Tier T1 · RSC mixed · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-r
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `defaultInspector?` | `InspectorState` | — | — |
-| `defaultSidebar?` | `SidebarState` | — | — |
+| `defaultInspector?` | `InspectorState` | — | Initial inspector state when uncontrolled. |
+| `defaultSidebar?` | `SidebarState` | — | Initial sidebar state when uncontrolled. |
 | `layout?` | `'auto' \| 'desktop' \| 'mobile'` | — | Contract values (AG_ATTRIBUTES data-ag-layout): 'auto' lets the `ag-app-shell` container queries resolve compact/medium/expanded/wide from the shell's own width (REQ-SURF-17); 'desktop'/'mobile' pin the wide/compact geometry (SURF-20). |
 | `persistKey?` | `string` | — | When set, sidebar/inspector persist to an `ag-shell-<key>` cookie. |
-| `ref?` | `Ref<HTMLElement>` | — | — |
-| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | — |
-| `sidebarSide?` | `'start' \| 'end'` | — | — |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
+| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
+| `sidebarSide?` | `'start' \| 'end'` | — | Inline side the sidebar docks to. |
 
 ## Parts
 
@@ -70,4 +70,22 @@ Tier T1 · RSC mixed · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-r
 
 ## Example
 
-_Example pending: no `apps/docs/examples/app-shell/*.tsx` yet._
+```tsx
+import { AppShell, Sidebar, TopBar } from 'aura-glass/app-shell';
+
+export default function AppShellMinimal() {
+  return (
+    <AppShell.Root>
+      <AppShell.SkipLink />
+      <TopBar.Root><TopBar.Title>Northwind</TopBar.Title></TopBar.Root>
+      <Sidebar.Root>
+        <Sidebar.Nav aria-label="Main">
+          <Sidebar.Item href="/home">Home</Sidebar.Item>
+          <Sidebar.Item href="/reports">Reports</Sidebar.Item>
+        </Sidebar.Nav>
+      </Sidebar.Root>
+      <AppShell.Main><h1>Home</h1></AppShell.Main>
+    </AppShell.Root>
+  );
+}
+```

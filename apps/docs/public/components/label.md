@@ -12,8 +12,8 @@ Tier T0 · RSC server · APG none
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `disabled?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLLabelElement>` | — | — |
+| `disabled?` | `boolean` | — | Disables interaction. |
+| `ref?` | `Ref<HTMLLabelElement>` | — | Ref to the rendered root element. |
 | `required?` | `boolean` | — | Marks the control required: visual asterisk + screen-reader ' (required)'. |
 
 ## Parts
@@ -29,4 +29,15 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/label/*.tsx` yet._
+```tsx
+import { Label } from 'aura-glass/primitives';
+
+export default function LabelMinimal() {
+  return (
+    <>
+      <Label htmlFor="display-name">Display name</Label>
+      <input id="display-name" />
+    </>
+  );
+}
+```

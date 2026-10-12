@@ -8,21 +8,35 @@ export type RenderProp = import('react').ReactElement | ((props: any) => import(
 export interface SelectRootProps<Value = string> {
   /** Ref to the popup DOM element. */
   ref?: Ref<HTMLElement> | undefined;
+  /** Controlled value. Pair with `onValueChange`. */
   value?: Value | Value[] | null;
+  /** Initial value when uncontrolled. */
   defaultValue?: Value | Value[] | null;
+  /** Called with the new value whenever it changes. */
   onValueChange?: (value: Value | Value[] | null, details: ChangeDetails) => void;
+  /** Allows more than one selected value. */
   multiple?: boolean;
+  /** Controlled open state. Pair with `onOpenChange`. */
   open?: boolean;
+  /** Initial open state when uncontrolled. */
   defaultOpen?: boolean;
+  /** Called with the next open state when it changes. */
   onOpenChange?: (open: boolean, details: ChangeDetails) => void;
+  /** Form field name submitted with the value. */
   name?: string;
+  /** Id of the form the hidden input belongs to, when it is outside that form. */
   form?: string;
+  /** Marks the field as required for form validation. */
   required?: boolean;
+  /** Disables interaction. */
   disabled?: boolean;
+  /** Makes the value read-only while keeping it focusable. */
   readOnly?: boolean;
+  /** Control size. */
   size?: ControlSize;
   /** Value -> label map; Select.Value renders the label of the selected item. */
   items?: Record<string, ReactNode>;
+  /** Content rendered inside the component. */
   children?: ReactNode;
 }
 

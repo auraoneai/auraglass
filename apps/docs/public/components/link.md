@@ -12,10 +12,10 @@ Tier T0 · RSC server · APG link
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `intent?` | `'danger' \| 'neutral'` | — | — |
-| `ref?` | `Ref<HTMLAnchorElement>` | — | — |
-| `render?` | `RenderProp<AnchorHTMLAttributes<HTMLAnchorElement>>` | — | — |
-| `underline?` | `'none' \| 'always' \| 'hover'` | — | — |
+| `intent?` | `'danger' \| 'neutral'` | — | 'danger' marks a destructive link. |
+| `ref?` | `Ref<HTMLAnchorElement>` | — | Ref to the rendered root element. |
+| `render?` | `RenderProp<AnchorHTMLAttributes<HTMLAnchorElement>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
+| `underline?` | `'none' \| 'always' \| 'hover'` | — | When the underline is shown. |
 
 ## Parts
 
@@ -30,4 +30,10 @@ _No states declared._
 
 ## Example
 
-_Example pending: no `apps/docs/examples/link/*.tsx` yet._
+```tsx
+import { Link } from 'aura-glass';
+
+export default function LinkMinimal() {
+  return <Link href="/docs">Read the docs</Link>;
+}
+```

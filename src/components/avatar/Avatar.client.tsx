@@ -8,11 +8,13 @@ import { Avatar as BaseAvatar } from '@base-ui/react/avatar';
 import { cn } from '../../internal/index';
 
 export interface AvatarRootProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'prefix'> {
+  /** Image URL; initials are shown until it loads or when it fails. */
   src?: string;
   /** Required whenever `src` is set (dev-warned otherwise). */
   alt?: string;
   /** Full name used to derive initials for the fallback. */
   name?: string;
+  /** Avatar size. */
   size?: 'sm' | 'md' | 'lg';
   /** ms before the fallback appears while the image loads (BU). */
   delay?: number;
@@ -35,7 +37,9 @@ function Root({
   className,
   ref,
   ...rest
-}: AvatarRootProps & { ref?: React.Ref<HTMLSpanElement> | undefined }) {
+}: AvatarRootProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLSpanElement> | undefined }) {
   if (process.env.NODE_ENV !== 'production' && src && alt === undefined) {
     console.error('[aura-glass] Avatar: `alt` is required whenever `src` is provided.');
   }

@@ -5,15 +5,23 @@ import * as React from 'react';
 import { linearScale } from './scale';
 
 interface SparklineBaseProps {
+  /** Values in order; null leaves a gap. */
   data: readonly (number | null)[];
   /** Non-material look (S-30): emitted as data-ag-appearance. Default 'line'. */
   appearance?: 'line' | 'area' | 'bar' | undefined;
+  /** Width (number in CSS pixels, or a CSS length). */
   width?: number | string | undefined;
+  /** Height in CSS pixels. */
   height?: number | undefined;
+  /** Status tint of the line. */
   intent?: 'neutral' | 'info' | 'success' | 'danger' | undefined;
+  /** Lower bound of the y scale; the data minimum when omitted. */
   min?: number | undefined;
+  /** Upper bound of the y scale; the data maximum when omitted. */
   max?: number | undefined;
+  /** Marks the last point. */
   showLastPoint?: boolean | undefined;
+  /** BCP 47 locale used for formatting and parsing. */
   locale?: string | undefined;
 }
 
@@ -22,7 +30,11 @@ interface SparklineBaseProps {
     accessible name carries the data summary. */
 export type SparklineProps = SparklineBaseProps &
   (
-    | { label: string; 'aria-hidden'?: boolean | undefined }
+    | {
+      /** Accessible name describing the trend. */
+      label: string;
+      /** Hides the sparkline from assistive technology when the value is described elsewhere. */
+      'aria-hidden'?: boolean | undefined }
     | { label?: string | undefined; 'aria-hidden': true }
   );
 

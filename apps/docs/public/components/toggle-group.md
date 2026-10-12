@@ -12,16 +12,16 @@ Tier T1 · RSC client · APG button
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
-| `defaultValue?` | `string[]` | — | — |
-| `disabled?` | `boolean` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultValue?` | `string[]` | — | Initial value when uncontrolled. |
+| `disabled?` | `boolean` | — | Disables interaction. |
 | `loop?` | `boolean` | — | Roving-focus wrap-around (default true — REQ-CMP-38). |
 | `multiple?` | `boolean` | — | Allow multiple pressed items (default false — single-select clears the others). |
-| `onValueChange?` | `(value: string[], details: ChangeDetails) => void` | — | — |
-| `orientation?` | `'vertical' \| 'horizontal'` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `value?` | `string[]` | — | — |
+| `onValueChange?` | `(value: string[], details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `orientation?` | `'vertical' \| 'horizontal'` | — | Layout direction; also the arrow-key axis. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `value?` | `string[]` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -42,4 +42,16 @@ Tier T1 · RSC client · APG button
 
 ## Example
 
-_Example pending: no `apps/docs/examples/toggle-group/*.tsx` yet._
+```tsx
+import { ToggleGroup } from 'aura-glass';
+
+export default function ToggleGroupMinimal() {
+  return (
+    <ToggleGroup.Root defaultValue={['bold']} aria-label="Text style">
+      <ToggleGroup.Item value="bold">Bold</ToggleGroup.Item>
+      <ToggleGroup.Item value="italic">Italic</ToggleGroup.Item>
+      <ToggleGroup.Item value="underline">Underline</ToggleGroup.Item>
+    </ToggleGroup.Root>
+  );
+}
+```

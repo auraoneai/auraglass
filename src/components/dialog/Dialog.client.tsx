@@ -45,7 +45,9 @@ function DialogRoot({
   labels,
   children,
   ref,
-}: DialogRootProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+}: DialogRootProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLElement> | undefined }) {
   useControllableWarning('Dialog', 'open', open);
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen === true);
   const effectiveOpen = open ?? internalOpen;

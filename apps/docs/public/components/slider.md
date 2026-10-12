@@ -12,30 +12,30 @@ Tier T1 · RSC client · APG slider
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-label?` | `string` | — | — |
-| `aria-labelledby?` | `string` | — | — |
-| `children?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
-| `defaultValue?` | `V` | — | — |
-| `disabled?` | `boolean` | — | — |
-| `format?` | `NumberFormatOptions` | — | — |
-| `getAriaValueText?` | `(value: number, index: number) => string` | — | — |
+| `aria-label?` | `string` | — | Accessible name, required when there is no visible label. |
+| `aria-labelledby?` | `string` | — | Id of the element that provides the accessible name. |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultValue?` | `V` | — | Initial value when uncontrolled. |
+| `disabled?` | `boolean` | — | Disables interaction. |
+| `format?` | `NumberFormatOptions` | — | Intl.NumberFormat options used to format the displayed value. |
+| `getAriaValueText?` | `(value: number, index: number) => string` | — | Text announced for a thumb value (`aria-valuetext`). |
 | `largeStep?` | `number` | — | PageUp/PageDown / Shift+Arrow increment (default 10). |
-| `locale?` | `LocalesArgument` | — | — |
+| `locale?` | `LocalesArgument` | — | BCP 47 locale used for formatting and parsing. |
 | `marks?` | `SliderMark[]` | — | Tick marks rendered under the track. |
-| `max?` | `number` | — | — |
-| `min?` | `number` | — | — |
-| `minStepsBetweenValues?` | `number` | — | — |
-| `name?` | `string` | — | — |
-| `onValueChange?` | `(value: V, details: ChangeDetails) => void` | — | — |
-| `onValueCommitted?` | `(value: V, details: ChangeDetails) => void` | — | — |
-| `orientation?` | `'vertical' \| 'horizontal'` | — | — |
-| `readOnly?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `required?` | `boolean` | — | — |
-| `size?` | `ControlSize` | — | — |
-| `step?` | `number` | — | — |
-| `value?` | `V` | — | — |
+| `max?` | `number` | — | Maximum value. |
+| `min?` | `number` | — | Minimum value. |
+| `minStepsBetweenValues?` | `number` | — | Minimum number of steps between range thumbs. |
+| `name?` | `string` | — | Form field name submitted with the value. |
+| `onValueChange?` | `(value: V, details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `onValueCommitted?` | `(value: V, details: ChangeDetails) => void` | — | Called once the user finishes a change (pointer up or key release). |
+| `orientation?` | `'vertical' \| 'horizontal'` | — | Track direction; also the arrow-key axis. |
+| `readOnly?` | `boolean` | — | Makes the value read-only while keeping it focusable. |
+| `ref?` | `Ref<HTMLDivElement>` | — | Ref to the rendered root element. |
+| `required?` | `boolean` | — | Marks the field as required for form validation. |
+| `size?` | `ControlSize` | — | Control size. |
+| `step?` | `number` | — | Increment between values. |
+| `value?` | `V` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -62,4 +62,10 @@ Tier T1 · RSC client · APG slider
 
 ## Example
 
-_Example pending: no `apps/docs/examples/slider/*.tsx` yet._
+```tsx
+import { Slider } from 'aura-glass';
+
+export default function SliderMinimal() {
+  return <Slider.Root aria-label="Brightness" defaultValue={70} min={0} max={100} />;
+}
+```

@@ -13,14 +13,14 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `accessoryPlacement?` | `'minimize' \| 'persist'` | — | Keep Accessory visible while minimized. |
-| `appearance?` | `'bar' \| 'floating'` | — | bar = flush bottom bar; floating = detached capsule. |
+| `appearance?` | `'floating' \| 'bar'` | — | bar = flush bottom bar; floating = detached capsule. |
 | `aria-label?` | `string` | — | Defines a string value that labels the current element. |
 | `minimizeOnScroll?` | `boolean` | — | Collapse labels while scrolling (CSS scroll-timeline; motion calm\|none disables). |
-| `placement?` | `'inline' \| 'bottom' \| 'floating' \| 'overlay'` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
+| `placement?` | `'inline' \| 'bottom' \| 'floating' \| 'overlay'` | — | Where the bar sits: docked at the bottom, floating, inline or over the content. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
 | `refraction?` | `boolean` | — | Request the enhanced material tier (inert until MAT enables it). |
-| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | — |
-| `semantics?` | `'tabs' \| 'navigation'` | — | — |
+| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
+| `semantics?` | `'tabs' \| 'navigation'` | — | 'navigation' renders links in a nav landmark; 'tabs' renders a tab list. |
 
 ## Parts
 
@@ -51,4 +51,16 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/tab-bar/*.tsx` yet._
+```tsx
+import { TabBar } from 'aura-glass';
+
+export default function TabBarMinimal() {
+  return (
+    <TabBar.Root aria-label="Sections">
+      <TabBar.Item href="#home" current>Home</TabBar.Item>
+      <TabBar.Item href="#search">Search</TabBar.Item>
+      <TabBar.Item href="#profile">Profile</TabBar.Item>
+    </TabBar.Root>
+  );
+}
+```

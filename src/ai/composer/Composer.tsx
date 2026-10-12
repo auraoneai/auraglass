@@ -116,26 +116,45 @@ function findThread(form: HTMLElement): HTMLElement | null {
 }
 
 export interface ComposerRootProps {
+  /** Controlled draft text. Pair with `onValueChange`. */
   value?: string | undefined;
+  /** Initial draft text when uncontrolled. */
   defaultValue?: string | undefined;
+  /** Called with the new value whenever it changes. */
   onValueChange?: ((value: string, details: ChangeDetails) => void) | undefined;
+  /** Chat status: 'submitted' and 'streaming' switch Send to Stop; 'error' is announced assertively. */
   status?: AgChatStatus | undefined;
+  /** Called with the draft text and attached files when the user sends. */
   onSubmit?: ((detail: { text: string; files: File[] }) => void) | undefined;
+  /** Called when the user stops an in-flight response. */
   onStop?: (() => void) | undefined;
+  /** Disables the input, attachments and Send. */
   disabled?: boolean | undefined;
+  /** Maximum draft length in characters. */
   maxLength?: number | undefined;
+  /** Rows the textarea grows to before it scrolls. */
   maxRows?: number | undefined;
+  /** Enter sends and Shift+Enter inserts a newline. */
   submitOnEnter?: boolean | undefined;
+  /** Escape stops an in-flight response. */
   stopOnEscape?: boolean | undefined;
+  /** Accepted attachment types, in the native `accept` attribute format. */
   accept?: string | undefined;
+  /** Maximum number of attachments. */
   maxFiles?: number | undefined;
+  /** Maximum size of one attachment, in bytes. */
   maxFileSize?: number | undefined;
+  /** Called when an attachment is rejected (type, size or count), with the reason. */
   onAttachmentReject?: ((rej: AttachmentReject) => void) | undefined;
   /** Attachments present on mount (uncontrolled), e.g. a restored draft. */
   defaultFiles?: readonly File[] | undefined;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: ComposerLabels | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
+  /** Content rendered inside the component. */
   children?: React.ReactNode;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<HTMLFormElement>;
 }
 

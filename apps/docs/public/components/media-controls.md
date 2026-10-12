@@ -12,28 +12,28 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `buffered?` | `[number, number][]` | — | — |
-| `children?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
-| `currentTime?` | `number` | — | — |
-| `duration?` | `number` | — | — |
-| `label?` | `string` | — | — |
-| `media?` | `MediaHandle` | — | — |
-| `muted?` | `boolean` | — | — |
+| `buffered?` | `[number, number][]` | — | Buffered ranges as [start, end] seconds. |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `currentTime?` | `number` | — | Controlled playback position, in seconds. |
+| `duration?` | `number` | — | Media duration, in seconds. |
+| `label?` | `string` | — | Accessible name of the control group. |
+| `media?` | `MediaHandle` | — | Media element handle the controls drive; omit to control every value yourself. |
+| `muted?` | `boolean` | — | Controlled muted state. |
 | `onCaptionsChange?` | `(trackId: string \| null) => void` | — | Controlled captions: the track id to show, or null for off. |
-| `onMutedChange?` | `(muted: boolean) => void` | — | — |
-| `onPlayingChange?` | `(playing: boolean) => void` | — | — |
-| `onRateChange?` | `(rate: number) => void` | — | — |
-| `onSeek?` | `(seconds: number) => void` | — | — |
-| `onVolumeChange?` | `(volume: number) => void` | — | — |
-| `playbackRate?` | `number` | — | — |
-| `playing?` | `boolean` | — | — |
+| `onMutedChange?` | `(muted: boolean) => void` | — | Called with the next muted state. |
+| `onPlayingChange?` | `(playing: boolean) => void` | — | Called with the next playing state. |
+| `onRateChange?` | `(rate: number) => void` | — | Called with the next playback rate. |
+| `onSeek?` | `(seconds: number) => void` | — | Called with the position, in seconds, the user seeks to. |
+| `onVolumeChange?` | `(volume: number) => void` | — | Called with the next volume (0 to 1). |
+| `playbackRate?` | `number` | — | Controlled playback rate. |
+| `playing?` | `boolean` | — | Controlled playing state. |
 | `refraction?` | `boolean` | — | Material refraction on the toolbar chrome (data-ag-refraction). |
 | `shortcuts?` | `boolean` | — | keyboard shortcuts bound on Root (and shortcutTarget) only; default true |
-| `shortcutTarget?` | `HTMLElement \| null` | — | — |
+| `shortcutTarget?` | `HTMLElement \| null` | — | Extra element on which the keyboard shortcuts are bound (they are always bound on the root). |
 | `textTracks?` | `MediaTextTrack[]` | — | Controlled text tracks (captions\|subtitles drive the Captions part). |
-| `variant?` | `'regular' \| 'clear'` | — | — |
-| `volume?` | `number` | — | — |
+| `variant?` | `'regular' \| 'clear'` | — | Material variant of the control bar. |
+| `volume?` | `number` | — | Controlled volume from 0 to 1. |
 
 ## Parts
 
@@ -69,4 +69,10 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/media-controls/*.tsx` yet._
+```tsx
+import { MediaControls } from 'aura-glass/media';
+
+export default function MediaControlsMinimal() {
+  return <MediaControls.Root playing={false} duration={125} currentTime={12} />;
+}
+```

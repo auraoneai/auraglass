@@ -2,9 +2,13 @@ import * as React from 'react';
 import type { AgUsage } from '../types';
 
 export interface UsageMeterProps {
+  /** Token usage to display. */
   usage: AgUsage;
+  /** 'compact' hides zero token counts; 'full' lists every count. */
   format?: 'compact' | 'full' | undefined;
+  /** BCP 47 locale used for formatting and parsing. */
   locale?: string | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
 }
 

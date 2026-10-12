@@ -9,21 +9,31 @@ export type SheetSide = 'start' | 'end' | 'top' | 'bottom' | 'left' | 'right';
 export type SheetPreset = 'panel' | 'action';
 
 export interface SheetRootProps {
+  /** Controlled open state. Pair with `onOpenChange`. */
   open?: boolean;
+  /** Initial open state when uncontrolled. */
   defaultOpen?: boolean;
+  /** Called with the next open state when it changes. */
   onOpenChange?: ((open: boolean, details: OverlayOpenChangeDetails) => void) | undefined;
   /** Anchored edge; 'start'/'end' resolve against the text direction. */
   side?: SheetSide;
   /** 'action' forces side=bottom and composes Sheet.Action items + a separated cancel. */
   preset?: SheetPreset;
+  /** Traps focus and blocks the page behind while open. */
   modal?: boolean;
+  /** Allows closing the sheet with an outside press. */
   dismissible?: boolean;
   /** Detents as fractions of 100dvh plus 'content' and 'full'. */
   detents?: SheetDetent[];
+  /** Controlled index into `detents`. Pair with `onDetentChange`. */
   detent?: number;
+  /** Initial index into `detents` when uncontrolled. */
   defaultDetent?: number;
+  /** Called with the index of the detent the sheet settles at. */
   onDetentChange?: (index: number) => void;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: { close?: string; handle?: string; detents?: string[] };
+  /** Content rendered inside the component. */
   children?: ReactNode;
 }
 

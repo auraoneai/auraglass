@@ -12,12 +12,12 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/disclosure
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className?` | `string` | — | — |
-| `defaultOpen?` | `boolean` | — | — |
-| `durationMs?` | `number` | — | — |
-| `labels?` | `ReasoningLabels` | — | — |
-| `state` | `'streaming' \| 'done'` | — | — |
-| `text` | `string` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultOpen?` | `boolean` | — | Initial expanded state of the reasoning panel. |
+| `durationMs?` | `number` | — | How long the model reasoned, shown in the summary once done. |
+| `labels?` | `ReasoningLabels` | — | Overrides for the built-in, localizable UI strings. |
+| `state` | `'streaming' \| 'done'` | — | 'streaming' while reasoning is in progress, 'done' when finished. |
+| `text` | `string` | — | Reasoning text. |
 
 ## Parts
 
@@ -36,4 +36,10 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/disclosure
 
 ## Example
 
-_Example pending: no `apps/docs/examples/reasoning/*.tsx` yet._
+```tsx
+import { Reasoning } from 'aura-glass/ai';
+
+export default function ReasoningMinimal() {
+  return <Reasoning text="Checked three releases; the regression started after 4.2.1." state="done" durationMs={4200} />;
+}
+```

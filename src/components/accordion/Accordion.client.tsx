@@ -11,15 +11,20 @@ import { toChangeDetails } from '../../foundation';
 import type { ChangeDetails } from '../../contracts/components';
 
 export interface AccordionRootProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Controlled value. Pair with `onValueChange`. */
   value?: string[];
+  /** Initial value when uncontrolled. */
   defaultValue?: string[];
   /* REQ-CMP-01: AuraGlass ChangeDetails, never a Base UI type in the d.ts. */
+  /** Called with the new value whenever it changes. */
   onValueChange?: (value: string[], details: ChangeDetails) => void;
   /** Allow several open items (value stays an array either way). */
   multiple?: boolean;
 }
 
-function Root({ className, ref, onValueChange, ...rest }: AccordionRootProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+function Root({ className, ref, onValueChange, ...rest }: AccordionRootProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLDivElement> | undefined }) {
   useControllableWarning('Accordion', 'value', rest.value);
   return (
     <BaseAccordion.Root

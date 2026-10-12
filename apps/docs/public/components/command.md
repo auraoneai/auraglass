@@ -12,15 +12,15 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `defaultValue?` | `string \| (readonly string[] & string)` | — | — |
-| `filter?` | `CommandFilter` | — | — |
-| `loop?` | `boolean` | — | — |
-| `onQueryChange?` | `(query: string) => void` | — | — |
-| `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
-| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | — |
-| `shouldFilter?` | `boolean` | — | — |
-| `value?` | `string` | — | — |
+| `defaultValue?` | `string \| (readonly string[] & string)` | — | Initial value when uncontrolled. |
+| `filter?` | `CommandFilter` | — | Custom scoring function for items against the query (0 hides an item). |
+| `loop?` | `boolean` | — | Wraps keyboard focus from the last item back to the first. |
+| `onQueryChange?` | `(query: string) => void` | — | Called with the query whenever it changes. |
+| `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
+| `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
+| `shouldFilter?` | `boolean` | — | Filters and sorts items by the query; set false to filter yourself. |
+| `value?` | `string` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -45,4 +45,19 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/command/*.tsx` yet._
+```tsx
+import { Command } from 'aura-glass';
+
+export default function CommandMinimal() {
+  return (
+    <Command.Root>
+      <Command.Input placeholder="Search…" />
+      <Command.List>
+        <Command.Item value="open">Open</Command.Item>
+        <Command.Item value="rename">Rename</Command.Item>
+        <Command.Item value="archive">Archive</Command.Item>
+      </Command.List>
+    </Command.Root>
+  );
+}
+```

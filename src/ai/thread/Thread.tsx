@@ -21,17 +21,27 @@ export interface ThreadLabels {
 }
 
 export interface ThreadRootProps {
+  /** Messages in chronological order. */
   messages: readonly AgMessage[];
+  /** Accessible name of the conversation log. */
   label?: string | undefined;
+  /** Distance from the bottom, in CSS pixels, within which the thread stays pinned to new messages. */
   pinThreshold?: number | undefined;
+  /** Message count above which the log is virtualized. */
   virtualizeAfter?: number | undefined;
+  /** Called when the top of the log scrolls into view (load older messages). */
   onReachTop?: (() => void) | undefined;
+  /** BCP 47 locale used for message timestamps. */
   locale?: string | undefined;
+  /** IANA time zone used for message timestamps. */
   timeZone?: string | undefined;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: ThreadLabels | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
   /** Defaults to `<Thread.Viewport><Thread.Items/></Thread.Viewport>`. */
   children?: React.ReactNode;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<ThreadHandle>;
 }
 

@@ -53,7 +53,9 @@ function synthPointer(type: string): Event {
   return e;
 }
 
-function PopoverRoot({ open, defaultOpen, onOpenChange, modal, openOnHover = false, delay = HOVER_DELAY_MS, closeDelay = HOVER_CLOSE_DELAY_MS, variant, thickness, prominent, children, ref }: PopoverRootProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+function PopoverRoot({ open, defaultOpen, onOpenChange, modal, openOnHover = false, delay = HOVER_DELAY_MS, closeDelay = HOVER_CLOSE_DELAY_MS, variant, thickness, prominent, children, ref }: PopoverRootProps & {
+  /** Ref to the rendered root element. */
+  ref?: React.Ref<HTMLElement> | undefined }) {
   useControllableWarning('Popover', 'open', open);
   const [internal, setInternal] = React.useState(Boolean(defaultOpen));
   const controlled = open !== undefined;

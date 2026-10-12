@@ -45,15 +45,25 @@ const DISPLAY_TEXT: Record<AgToolDisplayState, string> = {
 type AnyToolPart = AgToolPart | (Omit<AgToolPart, 'type'> & { type: 'dynamic-tool'; toolName: string });
 
 export interface ToolCallProps {
+  /** The tool-call part to render (name, state, input and output). */
   part: AnyToolPart;
+  /** Overrides the displayed tool name. */
   title?: string | undefined;
+  /** Overrides for the built-in, localizable UI strings. */
   labels?: ToolCallLabels | undefined;
+  /** Custom renderer for the tool input; defaults to a JSON block. */
   renderInput?: ((input: unknown) => React.ReactNode) | undefined;
+  /** Custom renderer for the tool output; defaults to a JSON block. */
   renderOutput?: ((output: unknown) => React.ReactNode) | undefined;
+  /** Called when the user approves or denies a tool call that awaits approval. */
   onApprovalResponse?: ((detail: ApprovalResponseDetail) => void) | undefined;
+  /** Initial open state when uncontrolled. */
   defaultOpen?: boolean | undefined;
+  /** Characters of JSON input/output shown before "Show all". */
   maxPreviewChars?: number | undefined;
+  /** Class name merged onto the root element. */
   className?: string | undefined;
+  /** Ref to the rendered root element. */
   ref?: React.Ref<HTMLDivElement>;
 }
 

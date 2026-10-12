@@ -14,16 +14,16 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/carousel/
 | --- | --- | --- | --- |
 | `autoplay?` | `false \| { interval: number; }` | — | {interval ms ≥5000} \| false — rotates only under the continuous gate. |
 | `children?` | `ReactNode` | — | Compose the parts yourself; omitted → Autoplay toggle, Viewport, Prev, Next, Indicators. |
-| `className?` | `string` | — | — |
-| `defaultIndex?` | `number` | — | — |
-| `index?` | `number` | — | — |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultIndex?` | `number` | — | Initial slide index when uncontrolled. |
+| `index?` | `number` | — | Controlled index of the first visible slide. Pair with `onIndexChange`. |
 | `indicatorsAs?` | `CarouselRailIndicatorsAs` | — | Alias of `<CarouselRail.Indicators semantics>` for the default layout. |
-| `label` | `string` | — | — |
-| `loop?` | `boolean` | — | — |
-| `onIndexChange?` | `(index: number) => void` | — | — |
-| `overMedia?` | `boolean` | — | — |
-| `slides` | `CarouselRailSlide[]` | — | — |
-| `slidesPerView?` | `number \| 'auto'` | — | — |
+| `label` | `string` | — | Accessible name of the carousel. |
+| `loop?` | `boolean` | — | Wraps keyboard focus from the last item back to the first. |
+| `onIndexChange?` | `(index: number) => void` | — | Called with the next slide index. |
+| `overMedia?` | `boolean` | — | Marks the rail as sitting over media (data-ag-backdrop="media") so controls stay legible. |
+| `slides` | `CarouselRailSlide[]` | — | Slides in order. |
+| `slidesPerView?` | `number \| 'auto'` | — | Slides visible at once, or 'auto' to use each slide's own width. |
 
 ## Parts
 
@@ -50,4 +50,19 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/carousel/
 
 ## Example
 
-_Example pending: no `apps/docs/examples/carousel-rail/*.tsx` yet._
+```tsx
+import { CarouselRail } from 'aura-glass/media';
+
+export default function CarouselRailMinimal() {
+  return (
+    <CarouselRail.Root
+      label="Featured places"
+      slides={[
+        { id: 'a', label: 'Glacier', children: <img src="https://picsum.photos/seed/glacier/400/240" alt="Glacier" /> },
+        { id: 'b', label: 'Harbour', children: <img src="https://picsum.photos/seed/harbour/400/240" alt="Harbour" /> },
+        { id: 'c', label: 'Desert', children: <img src="https://picsum.photos/seed/desert/400/240" alt="Desert" /> },
+      ]}
+    />
+  );
+}
+```

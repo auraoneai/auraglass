@@ -3,7 +3,9 @@ import type { AgStep } from '../types';
 import { StateIcon } from '../tool/StateIcon';
 
 export interface AgentStepsProps {
+  /** Agent steps in execution order; each renders its status and label. */
   steps: readonly AgStep[];
+  /** Class name merged onto the root element. */
   className?: string | undefined;
 }
 

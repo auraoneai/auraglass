@@ -50,12 +50,19 @@ const Ctx = React.createContext<{
 } | null>(null);
 
 export type CommandRootProps = Omit<PartProps<'div'>, 'onChange'> & {
+  /** Custom scoring function for items against the query (0 hides an item). */
   filter?: CommandFilter | undefined;
+  /** Filters and sorts items by the query; set false to filter yourself. */
   shouldFilter?: boolean | undefined;
+  /** Controlled value. Pair with `onValueChange`. */
   value?: string | undefined;
+  /** Initial value when uncontrolled. */
   defaultValue?: string | undefined;
+  /** Called with the new value whenever it changes. */
   onValueChange?: ((value: string, details: ChangeDetails) => void) | undefined;
+  /** Called with the query whenever it changes. */
   onQueryChange?: ((query: string) => void) | undefined;
+  /** Wraps keyboard focus from the last item back to the first. */
   loop?: boolean | undefined;
 };
 

@@ -12,22 +12,22 @@ Tier T1 · RSC client · APG switch
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-describedby?` | `string` | — | — |
-| `aria-label?` | `string` | — | — |
-| `aria-labelledby?` | `string` | — | — |
-| `checked?` | `boolean` | — | — |
-| `children?` | `ReactNode` | — | — |
-| `className?` | `string` | — | — |
-| `defaultChecked?` | `boolean` | — | — |
-| `disabled?` | `boolean` | — | — |
-| `id?` | `string` | — | — |
-| `name?` | `string` | — | — |
-| `onCheckedChange?` | `(checked: boolean, details: ChangeDetails) => void` | — | — |
-| `readOnly?` | `boolean` | — | — |
-| `ref?` | `Ref<HTMLElement>` | — | — |
-| `required?` | `boolean` | — | — |
-| `size?` | `ControlSize` | — | — |
-| `uncheckedValue?` | `string` | — | — |
+| `aria-describedby?` | `string` | — | Id of the element that provides the accessible description. |
+| `aria-label?` | `string` | — | Accessible name, required when there is no visible label. |
+| `aria-labelledby?` | `string` | — | Id of the element that provides the accessible name. |
+| `checked?` | `boolean` | — | Controlled checked state. |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `className?` | `string` | — | Class name merged onto the root element. |
+| `defaultChecked?` | `boolean` | — | Initial checked state when uncontrolled. |
+| `disabled?` | `boolean` | — | Disables interaction. |
+| `id?` | `string` | — | Id of the input element; generated when omitted. |
+| `name?` | `string` | — | Form field name submitted with the value. |
+| `onCheckedChange?` | `(checked: boolean, details: ChangeDetails) => void` | — | Called with the next checked state when it changes. |
+| `readOnly?` | `boolean` | — | Makes the value read-only while keeping it focusable. |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
+| `required?` | `boolean` | — | Marks the field as required for form validation. |
+| `size?` | `ControlSize` | — | Control size. |
+| `uncheckedValue?` | `string` | — | Value submitted with the form when off. |
 | `value?` | `string` | — | Value submitted when on. |
 
 ## Parts
@@ -50,4 +50,10 @@ Tier T1 · RSC client · APG switch
 
 ## Example
 
-_Example pending: no `apps/docs/examples/switch/*.tsx` yet._
+```tsx
+import { Switch } from 'aura-glass';
+
+export default function SwitchMinimal() {
+  return <Switch aria-label="Weekly digest" defaultChecked />;
+}
+```

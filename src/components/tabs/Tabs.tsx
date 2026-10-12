@@ -19,14 +19,19 @@ import type { ChangeDetails, PartProps } from '../../contracts/components';
 export type TabsValue = string;
 
 export type TabsRootProps = Omit<PartProps<'div'>, 'onChange' | 'defaultValue'> & {
+  /** Controlled value. Pair with `onValueChange`. */
   value?: TabsValue | undefined;
+  /** Initial value when uncontrolled. */
   defaultValue?: TabsValue | undefined;
   /** (value, details) — details.reason comes from Base UI's event details (SURF-047). */
   onValueChange?: ((value: TabsValue, details: ChangeDetails) => void) | undefined;
+  /** Tab list direction; also the arrow-key axis. */
   orientation?: 'horizontal' | 'vertical' | undefined;
   /** Roving focus activates the focused tab (default false — manual activation). */
   activateOnFocus?: boolean | undefined;
+  /** Indicator style. */
   appearance?: 'pill' | 'underline' | undefined;
+  /** Tab size. */
   size?: 'sm' | 'md' | undefined;
 };
 

@@ -16,8 +16,11 @@ import { parseAppShellCookie } from './parseAppShellCookie';
 import type { SidebarState, InspectorState } from './appShellStore';
 
 export type AppShellRootProps = PartProps<'div'> & {
+  /** Initial sidebar state when uncontrolled. */
   defaultSidebar?: SidebarState | undefined;
+  /** Initial inspector state when uncontrolled. */
   defaultInspector?: InspectorState | undefined;
+  /** Inline side the sidebar docks to. */
   sidebarSide?: 'start' | 'end' | undefined;
   /** Contract values (AG_ATTRIBUTES data-ag-layout): 'auto' lets the
       `ag-app-shell` container queries resolve compact/medium/expanded/wide

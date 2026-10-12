@@ -12,19 +12,19 @@ Tier T1 · RSC client · APG dialog-modal
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
-| `defaultDetent?` | `number` | — | — |
-| `defaultOpen?` | `boolean` | — | — |
-| `detent?` | `number` | — | — |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
+| `defaultDetent?` | `number` | — | Initial index into `detents` when uncontrolled. |
+| `defaultOpen?` | `boolean` | — | Initial open state when uncontrolled. |
+| `detent?` | `number` | — | Controlled index into `detents`. Pair with `onDetentChange`. |
 | `detents?` | `SheetDetent[]` | — | Detents as fractions of 100dvh plus 'content' and 'full'. |
-| `dismissible?` | `boolean` | — | — |
-| `labels?` | `{ close?: string \| undefined; handle?: string \| undefined; detents?: string[] \| undefined; }` | — | — |
-| `modal?` | `boolean` | — | — |
-| `onDetentChange?` | `(index: number) => void` | — | — |
-| `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | — |
-| `open?` | `boolean` | — | — |
+| `dismissible?` | `boolean` | — | Allows closing the sheet with an outside press. |
+| `labels?` | `{ close?: string \| undefined; handle?: string \| undefined; detents?: string[] \| undefined; }` | — | Overrides for the built-in, localizable UI strings. |
+| `modal?` | `boolean` | — | Traps focus and blocks the page behind while open. |
+| `onDetentChange?` | `(index: number) => void` | — | Called with the index of the detent the sheet settles at. |
+| `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | Called with the next open state when it changes. |
+| `open?` | `boolean` | — | Controlled open state. Pair with `onOpenChange`. |
 | `preset?` | `SheetPreset` | — | 'action' forces side=bottom and composes Sheet.Action items + a separated cancel. |
-| `ref?` | `Ref<HTMLElement>` | — | — |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
 | `side?` | `SheetSide` | — | Anchored edge; 'start'/'end' resolve against the text direction. |
 
 ## Parts
@@ -61,4 +61,20 @@ Tier T1 · RSC client · APG dialog-modal
 
 ## Example
 
-_Example pending: no `apps/docs/examples/sheet/*.tsx` yet._
+```tsx
+import { Sheet } from 'aura-glass';
+
+export default function SheetMinimal() {
+  return (
+    <Sheet.Root>
+      <Sheet.Trigger>Filters</Sheet.Trigger>
+      <Sheet.Content>
+        <Sheet.Handle />
+        <Sheet.Header><Sheet.Title>Filters</Sheet.Title></Sheet.Header>
+        <Sheet.Body><Sheet.Description>Narrow the results.</Sheet.Description></Sheet.Body>
+        <Sheet.Footer><Sheet.Close>Done</Sheet.Close></Sheet.Footer>
+      </Sheet.Content>
+    </Sheet.Root>
+  );
+}
+```
