@@ -23,6 +23,7 @@ export interface MobileGlassBottomSheetProps {
   className?: string;
 }
 
+/** @deprecated since 4.2.0, removed in 6.0.0. Use {@link Sheet}. */
 export function MobileGlassBottomSheet({ open, onClose, onOpenChange, snap, detents, children, className }: MobileGlassBottomSheetProps) {
   warnDeprecated(DEP);
   const d = detents ?? (snap !== undefined ? (Array.isArray(snap) ? [...snap] : [snap]) : undefined);

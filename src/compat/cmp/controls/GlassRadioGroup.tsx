@@ -29,6 +29,7 @@ export interface GlassRadioGroupProps {
   className?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link RadioGroup}. */
 export function GlassRadioGroup({ onChange, options, direction, glassVariant, children, ...rest }: GlassRadioGroupProps) {
   warnDeprecated(DEP);
   if (glassVariant !== undefined) drop('glassVariant');

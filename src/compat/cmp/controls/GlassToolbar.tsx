@@ -54,6 +54,7 @@ export function renderToolbarItems(items: readonly GlassToolbarItem[], dep: stri
   });
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Toolbar}. */
 export function GlassToolbar({ items, children, ...rest }: GlassToolbarProps) {
   warnDeprecated(DEP);
   return (

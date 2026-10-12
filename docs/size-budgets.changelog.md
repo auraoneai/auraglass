@@ -9,6 +9,7 @@ rows only decrease.
 
 | Date | Row | From → To | Remote-measured delta | Commit |
 | ---- | --- | --------- | --------------------- | ------ |
+| 2026-10-12 | Perf-Budget-Raise: SidebarDrawer | 6144 → 16384 | measured 20 B → 14928 B. The row imported `{ SidebarDrawer }` from aura-glass/app-shell, which exports it only as Sidebar.Drawer, so it measured an empty re-export. The row now measures `Sidebar.Drawer` (Sidebar + CMP Sheet composition) with the verifier's method (esbuild bundle+minify, peers external, gzip 9 over dist). Meta `budgetKb` 6 → 16 follows (REQ-SURF-09). Inherent; confirm against the remote measurement | impl2/22 |
 | 2026-10-12 | Perf-Budget-Raise: Chip | 3000 → 3072 | measured 854 B (no size change). S-44 re-keyed the SURF row to the Chip meta (`budgetKb: 3` → 3 × 1024); the duplicate CMP row (3000) is removed, SURF owns the id | fix/r2-4 |
 | 2026-10-12 | Perf-Budget-Raise: KeyValueEditor | 15000 → 15360 | measured 3043 B (no size change). S-44 SURF row = meta `budgetKb: 15` × 1024; duplicate CMP row (15000) removed | fix/r2-4 |
 | 2026-10-12 | Perf-Budget-Raise: mat:theme-fns-js | 3072 → 4224 | CI pass-1 7476 B → 4016 B after themeManifestInputs (full tokens manifest no longer bundled). Remainder is the OKLCH colour engine + contrast solver (color.ts, createGlassTheme, createBrandTheme): inherent | fix/r2-4 |

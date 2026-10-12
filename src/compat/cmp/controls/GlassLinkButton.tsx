@@ -16,12 +16,15 @@ export interface GlassLinkButtonProps extends Omit<GlassButtonProps, 'asChild'> 
   rel?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Button}. */
 export function GlassLinkButton({ href, target, rel, ...rest }: GlassLinkButtonProps) {
   warnDeprecated(DEP);
   const resolvedRel = target === '_blank' ? (rel ?? 'noopener noreferrer') : rel;
   return (
     <Button
       {...(rest as object)}
+      // the rendered element is an <a>, not a <button> (Base UI nativeButton)
+      {...({ nativeButton: false } as object)}
       render={
         <a
           {...(href !== undefined ? { href } : {})}

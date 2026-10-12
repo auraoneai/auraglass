@@ -8,6 +8,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0233';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Card}. */
 export function WidgetGlass(props: React.ComponentProps<typeof Card>) {
   warnDeprecated(DEP);
   return wrap('WidgetGlass', <Card {...props} />);

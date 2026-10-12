@@ -8,6 +8,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0258';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link ColorPicker}. */
 export function GlassGradientPicker(props: React.ComponentProps<typeof ColorPicker.Root>) {
   warnDeprecated(DEP);
   return wrap('GlassGradientPicker', <ColorPicker.Root {...props} />);

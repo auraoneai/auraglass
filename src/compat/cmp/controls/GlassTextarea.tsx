@@ -28,6 +28,7 @@ export interface GlassTextareaProps {
   className?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link TextField}. */
 export function GlassTextarea({ onChange, helperText, errorText, errorMessage, glassVariant, ...rest }: GlassTextareaProps) {
   warnDeprecated(DEP);
   if (glassVariant !== undefined) drop('glassVariant');

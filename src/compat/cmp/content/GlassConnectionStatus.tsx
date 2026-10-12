@@ -62,6 +62,7 @@ function readConnection(): GlassConnectionState {
   return type === 'slow-2g' || type === '2g' ? 'slow' : 'online';
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Badge}. */
 export function GlassConnectionStatus({
   status: statusProp = 'auto',
   showText = true,

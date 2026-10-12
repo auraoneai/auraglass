@@ -34,11 +34,15 @@ function renderPositioner(dep: string, { placement, side, align, sideOffset, chi
   );
 }
 
+/** @deprecated since 4.2.0, removed in 6.0.0. Use {@link Popover.Positioner}. */
 export function Positioner(props: PositionerProps) {
   return renderPositioner(DEP, props);
 }
 
-/** 4.x `GlassPositioner`: same mapping, its own id (one warning per symbol). */
+/**
+ * 4.x `GlassPositioner`: same mapping, its own id (one warning per symbol).
+ * @deprecated since 4.2.0, removed in 6.0.0. Use {@link Popover.Positioner}.
+ */
 export function GlassPositioner(props: PositionerProps) {
   return renderPositioner(DEP_GLASS, props);
 }

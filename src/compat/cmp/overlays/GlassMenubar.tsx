@@ -21,6 +21,7 @@ export interface GlassMenubarProps {
   className?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Menubar}. */
 export function GlassMenubar({ menus, createFileMenu, createEditMenu, children, className }: GlassMenubarProps) {
   warnDeprecated(DEP);
   if (createFileMenu !== undefined) drop('createFileMenu:run-canonical-names-codemod');

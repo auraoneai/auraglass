@@ -185,7 +185,12 @@ export async function run() {
   const compatExportsPath = join(ROOT, 'etc/api/compat.exports.json');
   if (existsSync(compatExportsPath)) {
     const compatNames = JSON.parse(readFileSync(compatExportsPath, 'utf8')).exports ?? [];
-    rows.push(...compatRows(rows, compatNames));
+    /* REQ-PLAT-30 fragment rows (fragments/size-budgets/plat.ts) already
+       budget deprecation-mapped compat exports under the same
+       `plat:compat:<name>` ids; the verifier-generated rows fill in compat
+       exports the fragments do not cover — never duplicate an id. */
+    const seen = new Set(rows.map((r) => r.id));
+    rows.push(...compatRows(rows, compatNames).filter((r) => !seen.has(r.id)));
   }
   const problems = [];
   const results = [];
@@ -273,11 +278,18 @@ export async function run() {
         writeFileSync(join(META_DIR, `${safe}.json`), JSON.stringify(metafile, null, 2) + '\n');
       }
     }
+    /* REQ-PLAT-30 compat rows (plat:compat:<X>) are budgeted at the 5.0
+       target's row + 2 KB by construction in fragments/size-budgets/plat.ts;
+       the provisional ceiling applies to the target row itself, not to the
+       compat row that happens to share its name (plat:compat:Button). */
     const provName = row.id.split(':').pop();
-    const provFloor = PROVISIONAL_ROWS[provName];
-    /* generated compat rows are target+2048 by the REQ-PLAT-76 rule itself —
-       the provisional floor binds their target row, not the compat row. */
-    if (!row.compatOf && provFloor !== undefined && row.limitBytes > provFloor) problems.push(`${row.id}: limit ${row.limitBytes} looser than PROVISIONAL_ROWS ${provFloor}`);
+    /* generated compat rows are target+2048 by the REQ-PLAT-76/30 rules
+       themselves — the provisional floor binds their target row, not the
+       compat row. Compat rows arrive in both representations: verifier-
+       generated (`compatOf`, REQ-PLAT-76) and fragment-generated
+       (`plat:compat:<name>` ids, REQ-PLAT-30). */
+    const provFloor = (row.compatOf || row.id.startsWith('plat:compat:')) ? undefined : PROVISIONAL_ROWS[provName];
+    if (provFloor !== undefined && row.limitBytes > provFloor) problems.push(`${row.id}: limit ${row.limitBytes} looser than PROVISIONAL_ROWS ${provFloor}`);
     results.push({ ...row, status: measured <= row.limitBytes ? 'pass' : 'fail', measuredBytes: measured });
     if (measured > row.limitBytes) problems.push(`${row.id}: ${measured} B > ${row.limitBytes} B`);
   }
@@ -287,8 +299,10 @@ export async function run() {
   /* aggregate + fixed ceilings */
   const aggregate = {
     generatedAt: new Date().toISOString(), rows: results,
-    /* REQ-PLAT-76: compat rows reported separately from their targets. */
-    compatRows: results.filter((r) => r.compatOf),
+    /* REQ-PLAT-76/30: compat rows reported separately from their targets
+       (verifier-generated carry `compatOf`; fragment-generated carry the
+       `plat:compat:` id prefix). */
+    compatRows: results.filter((r) => r.compatOf || r.id.startsWith('plat:compat:')),
     ceilings: DEFAULT_CEILINGS,
     measured: {
       tarballPackedBytes: null, stylesCssGzBytes: existsSync(join(DIST, 'styles.css')) ? gzipSync(readFileSync(join(DIST, 'styles.css')), { level: 9 }).length : null,

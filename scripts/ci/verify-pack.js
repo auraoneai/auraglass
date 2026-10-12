@@ -80,7 +80,10 @@ export function run() {
          file inside the tarball (e.g. dist/backdrops.css → the packed
          grain-112.avif/png tiles). */
       if (rel.endsWith('.css')) {
-        for (const m of text.toString('utf8').matchAll(/url\(\s*(['"]?)([^'")\s]+)\1\s*\)/g)) {
+        /* strip quoted data: URIs first — an SVG data URI can itself contain
+           a filter url(%23…) reference that is not a file reference */
+        const cssText = text.toString('utf8').replace(/url\(\s*(['"])data:[\s\S]*?\1\s*\)/g, 'url(data:)');
+        for (const m of cssText.matchAll(/url\(\s*(['"]?)([^'")\s]+)\1\s*\)/g)) {
           const ref = m[2];
           if (/^(?:[a-z][a-z0-9+.-]*:|\/|#)/i.test(ref) || ref.includes('var(')) continue;
           const target = path.resolve(path.dirname(f), ref.replace(/[?#].*$/, ''));

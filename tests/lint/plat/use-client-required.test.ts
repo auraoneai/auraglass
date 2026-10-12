@@ -55,3 +55,20 @@ describe('auraglass/use-client-required (PLAT-259/REQ-PLAT-69)', () => {
       ],
   });
 });
+
+// allowHooks: the react-server mode scripts/build/server-safe.mjs runs (hooks
+// React's react-server build exports are not signals there). Default: none.
+describe('auraglass/use-client-required allowHooks option (REQ-PLAT-69 server graph)', () => {
+  const allow = [{ allowHooks: ['useId', 'useMemo', 'useCallback', 'useDebugValue'] }];
+  tester.run('use-client-required', rule, {
+    valid: [
+      { code: `import { useId } from 'react';\nexport const A = () => useId();`, filename: F, options: allow },
+      { code: `import * as React from 'react';\nexport const A = () => React.useId();`, filename: F, options: allow },
+    ],
+    invalid: [
+      { code: `import * as React from 'react';\nexport const A = () => { React.useId(); return React.useState(0); };`, filename: F, options: allow, errors: [req('call to useState()')] },
+      { code: `import { useId, useEffect } from 'react';\nexport const A = () => { useId(); useEffect(() => {}, []); return null; };`, filename: F, options: allow, errors: [req('call to useEffect()')] },
+      { code: `import { useId } from 'react';\nexport const A = () => useId();`, filename: F, errors: [req('call to useId()')] },
+    ],
+  });
+});

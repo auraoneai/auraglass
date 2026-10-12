@@ -36,6 +36,7 @@ export function splitPlacement(p?: string): { side?: Side; align?: Align } {
   return { ...(side !== undefined ? { side } : {}), ...(align !== undefined ? { align } : {}) };
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Popover}. */
 export function GlassPopover({ open, onClose, onOpenChange, placement, side, align, trigger, content, title, children, className }: GlassPopoverProps) {
   warnDeprecated(DEP);
   const pos = splitPlacement(placement);

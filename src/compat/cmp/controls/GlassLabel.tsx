@@ -14,6 +14,7 @@ export interface GlassLabelProps extends React.LabelHTMLAttributes<HTMLLabelElem
   disabled?: boolean;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Label}. */
 export function GlassLabel(props: GlassLabelProps) {
   warnDeprecated(DEP);
   return <Label {...props} />;

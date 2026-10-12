@@ -2,6 +2,8 @@
    Math.random, Date.now(), new Date(), and crypto.randomUUID evaluated in the
    render path — i.e. reachable from a component body without crossing a
    callback boundary (event handlers and effect callbacks are allowed). */
+// REQ-PLAT-69 rollout: warn outside PLAT globs until RC-1 (PLAT globs: _strict.cjs).
+const { rolloutSeverity } = require('./_rollout.cjs');
 const BANNED = /^(Math\.random|Date\.now|crypto\.randomUUID)$/;
 const ALLOWED_CALLBACK = /^(on[A-Z]|handle[A-Z]|use(Effect|LayoutEffect|InsertionEffect|Memo|Callback|ImperativeHandle|SyncExternalStore))/;
 
@@ -51,5 +53,5 @@ module.exports = {
       },
     };
   },
-  agConfig: [{ files: ['src/**/*.{ts,tsx}'], ignores: ['**/__tests__/**', '**/*.test.*', '**/*.stories.*'], severity: 'error' }],
+  agConfig: [{ files: ['src/**/*.{ts,tsx}'], ignores: ['**/__tests__/**', '**/*.test.*', '**/*.stories.*'], severity: rolloutSeverity() }],
 };

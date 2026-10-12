@@ -5,7 +5,7 @@ import type { SizeBudgetRow } from '../../src/contracts/fragments';
 const w1 = [
   { id: 'SB-SURF-W1-APPSHELL-CSS', import: 'aura-glass/app-shell.css', limitBytes: 8192, kind: 'css' },
   { id: 'SB-SURF-W1-APPSHELL-ISLAND', import: "{ AppShellSidebarToggle } from 'aura-glass/app-shell'", limitBytes: 4096, kind: 'js' },
-  { id: 'SidebarDrawer', import: "{ SidebarDrawer } from 'aura-glass/app-shell'", limitBytes: 6144, kind: 'js' },
+  { id: 'SidebarDrawer', import: "import { Sidebar } from 'aura-glass/app-shell'; export const SidebarDrawer = Sidebar.Drawer;", limitBytes: 16384, kind: 'js' },
   { id: 'Breadcrumbs', import: "{ Breadcrumbs } from 'aura-glass'", limitBytes: 9216, kind: 'js' },
   { id: 'Pagination', import: "{ Pagination } from 'aura-glass'", limitBytes: 4096, kind: 'js' },
   { id: 'Tabs', import: "{ Tabs } from 'aura-glass'", limitBytes: 6144, kind: 'js' },

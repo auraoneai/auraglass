@@ -8,6 +8,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0249';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link ErrorState}. */
 export function GlassErrorState(props: React.ComponentProps<typeof ErrorState>) {
   warnDeprecated(DEP);
   return wrap('GlassErrorState', <ErrorState {...props} />);

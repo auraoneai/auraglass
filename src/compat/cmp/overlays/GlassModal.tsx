@@ -28,16 +28,27 @@ export interface GlassModalProps {
   closeOnBackdropClick?: boolean;
   closeOnOverlayClick?: boolean;
   closeOnEscape?: boolean;
+  /** @deprecated since 4.2.0, removed in 5.0.0. Use {@link Surface}. */
   isContained?: boolean;
+  /** @deprecated since 4.2.0, removed in 5.0.0. */
   backdropBlur?: unknown;
+  /** @deprecated since 4.2.0, removed in 5.0.0. */
   material?: unknown;
+  /** @deprecated since 4.2.0, removed in 5.0.0. */
   materialProps?: unknown;
+  /** @deprecated since 4.2.0, removed in 5.0.0. */
   consciousness?: unknown;
+  /** @deprecated since 4.2.0, removed in 5.0.0. */
   predictive?: unknown;
+  /** @deprecated since 4.2.0, removed in 5.0.0. */
   adaptive?: unknown;
+  /** @deprecated since 4.2.0, removed in 5.0.0. */
   eyeTracking?: unknown;
+  /** @deprecated since 4.2.0, removed in 5.0.0. */
   trackAchievements?: unknown;
+  /** @deprecated since 4.2.0, removed in 5.0.0. */
   animation?: unknown;
+  /** @deprecated since 4.2.0, removed in 5.0.0. */
   compact?: unknown;
   children?: React.ReactNode;
   trigger?: React.ReactNode;
@@ -71,6 +82,7 @@ export function useGlassModalMapping(props: GlassModalProps, dep = DEP) {
   return { open, handleOpenChange, dismissible, mappedSize, mappedAppearance, variant, role, title, description, footer, children, trigger, className, rest };
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Dialog}. */
 export function GlassModal(props: GlassModalProps) {
   warnDeprecated(DEP);
   const m = useGlassModalMapping(props);

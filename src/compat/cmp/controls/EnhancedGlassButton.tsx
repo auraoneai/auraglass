@@ -4,7 +4,7 @@
 'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { GlassButton } from './GlassButton';
+import { GlassButtonMapped } from './_glassButtonMapping';
 import type { GlassButtonProps } from './GlassButton';
 
 const DEP = 'DEP-C0003';
@@ -16,10 +16,11 @@ export interface EnhancedGlassButtonProps extends GlassButtonProps {
   animation?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Button}. */
 export function EnhancedGlassButton({ enhanced, glowIntensity, animation, ...rest }: EnhancedGlassButtonProps) {
   warnDeprecated(DEP);
   if (enhanced !== undefined) drop('enhanced');
   if (glowIntensity !== undefined) drop('glowIntensity');
   if (animation !== undefined) drop('animation');
-  return <GlassButton {...rest} />;
+  return <GlassButtonMapped dep={DEP} {...rest} />;
 }

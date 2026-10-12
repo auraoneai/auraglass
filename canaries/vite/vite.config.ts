@@ -7,11 +7,11 @@ import { dirname, join } from 'node:path';
 /* PLAT-291: Vite 7 + React 19.3, no Tailwind — the cascade proof runs against
    the assembled stylesheet with the bridge layer order statement. */
 
-/* Per-entry CSS ships through the `css` export condition of each JS entry
-   (contract: `./data` -> { types, default, css: './dist/data.css' }); there is
-   no `./data.css` subpath. Vite's resolver does not read the `css` condition,
-   so `import 'aura-glass/data.css'` is mapped to the `css` target of the
-   `./data` entry of the INSTALLED (packed) aura-glass. Unknown entries fall
+/* Per-entry CSS ships as a string subpath (`./data.css` -> './dist/data.css';
+   contract §4.7 C-5 rejects the `css` export condition), so the default
+   resolver handles `import 'aura-glass/data.css'`. This plugin is only a
+   fallback for an installed package that still carries the pre-C-5 `css`
+   condition: it maps the import to that target. Unknown entries fall
    through and fail resolution as before. */
 function auraGlassEntryCss(): Plugin {
   const require = createRequire(import.meta.url);

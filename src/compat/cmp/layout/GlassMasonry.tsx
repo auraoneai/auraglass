@@ -18,6 +18,7 @@ export interface GlassMasonryProps extends React.HTMLAttributes<HTMLDivElement> 
   respectMotionPreference?: boolean;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Grid}. */
 export function GlassMasonry({
   columns = 3,
   gap = 12,

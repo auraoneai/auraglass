@@ -17,6 +17,7 @@ export interface GlassFieldGroupProps {
   className?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Fieldset}. */
 export function GlassFieldGroup({ legend, title, description, children, ...rest }: GlassFieldGroupProps) {
   warnDeprecated(DEP);
   return (
