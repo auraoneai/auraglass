@@ -124,8 +124,14 @@ const w2 = [];
 // anywhere in shipped SURF/components/labs code. Model calls are always the
 // consumer's (e.g. Kiro Prism routed by the app), never the library's.
 const SDK_RE = /^(?:openai|ai|@ai-sdk\/.+|@anthropic-ai\/.+|@google\/.+|@google-ai\/.+|@google-cloud\/.+|cohere-ai|replicate|@aws-sdk\/.+|@azure\/.+)$/;
+// REQ-SURF-172: the ai-workspace block is consumer code by contract — its
+// app/api/chat/route.ts calls Kiro Prism (streamText, process.env.PRISM_*,
+// the /v1/models fetch) and its client wires the AI SDK transport. The
+// library itself still never egresses (REQ-SURF-05 scopes SURF src/**).
+const AI_WORKSPACE_CONSUMER = 'registry/blocks/ai-workspace';
 const w3 = [
-  rule('no-fetch', NET_ENV_PATHS, callOf(new Set(['fetch'])), 'network call in shipped code; model calls live in consumer code'),
+  rule('no-fetch', NET_ENV_PATHS, callOf(new Set(['fetch'])), 'network call in shipped code; model calls live in consumer code',
+    { excludeFile: AI_WORKSPACE_CONSUMER }),
   rule('no-xmlhttprequest', NET_ENV_PATHS, isIdent(new Set(['XMLHttpRequest'])), 'network call in shipped code'),
   rule('no-websocket', NET_ENV_PATHS, isIdent(new Set(['WebSocket'])), 'sockets in shipped code are simulated transport'),
   rule('no-eventsource', NET_ENV_PATHS, isIdent(new Set(['EventSource'])), 'streaming is consumer-driven; no EventSource in the library'),
@@ -139,7 +145,8 @@ const w3 = [
       if (parts[0] !== 'process' || parts[1] !== 'env' || parts.length < 3) return false;
       return parts[2] !== 'NODE_ENV';
     },
-    'shipped code reads no env other than NODE_ENV'
+    'shipped code reads no env other than NODE_ENV',
+    { excludeFile: AI_WORKSPACE_CONSUMER }
   ),
   rule(
     'no-import-meta-env',
@@ -148,7 +155,7 @@ const w3 = [
     'no bundler env in shipped code'
   ),
   rule('no-provider-sdk', NET_ENV_PATHS, importFrom(SDK_RE), 'provider SDK import; the library never talks to a model provider',
-    { excludeFile: 'registry/items/ai-sdk-adapter' } /* the adapter item's purpose IS the @ai-sdk bridge — peer-installed by the consumer */),
+    { excludeFile: ['registry/items/ai-sdk-adapter', AI_WORKSPACE_CONSUMER] } /* the adapter item's purpose IS the @ai-sdk bridge — peer-installed by the consumer */),
   rule('no-dangerously-set', NET_ENV_PATHS, (n) => n?.type === 'JSXAttribute' && n.name.name === 'dangerouslySetInnerHTML', 'no raw HTML injection in shipped surfaces'),
   rule('no-scroll-into-view', NET_ENV_PATHS, callOf(new Set(['scrollIntoView'])), 'scroll anchoring goes through the Thread viewport API'),
 ];
@@ -199,6 +206,8 @@ const TIMER_ALLOW = [
   'src/app-shell/StatusBar.Live.tsx:StatusBarLive', // live polling
   'src/components/command-palette/Command.tsx:CommandRoot', // announce debounce
   'src/charts/ChartPlot.tsx:ChartPlot', // REQ-SURF-163 announcement debounce
+  'src/media/mediaStore.ts:publish', // REQ-SURF-131 trailing snapshotHz publish (cleared in destroyStore)
+  'registry/blocks/ai-workspace/replay-transport.ts:createReplayTransport', // REQ-SURF-172 recorded-session replay pacing (consumer block)
 ];
 const w5 = [
   {
@@ -295,7 +304,7 @@ function scanFile(absPath) {
   const inScope = RULES.filter((r) => r.paths.some((p) => eff === p || eff.startsWith(p + '/') || eff.startsWith(p)));
   for (const { node, ancestors } of visit(ast.program, [])) {
     for (const r of inScope) {
-      if (r.excludeFile && eff.startsWith(r.excludeFile)) continue;
+      if (r.excludeFile && [].concat(r.excludeFile).some((x) => eff.startsWith(x))) continue;
       if (r.timerAllow && r.timerAllow.some((pair) => {
         const [f, fn] = pair.split(':');
         if (eff !== f) return false;

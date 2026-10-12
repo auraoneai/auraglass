@@ -206,12 +206,16 @@ function TableRowImpl<TData>({
       {row.getVisibleCells().map((cell) => {
         const meta = cell.column.columnDef.meta;
         const isSelectCol = cell.column.id === '__select';
+        // A `meta.rowHeader` column names its row: <th scope="row"> (rowheader).
+        const isRowHeader = !isSelectCol && meta?.rowHeader === true;
+        const Cell = isRowHeader ? 'th' : 'td';
         return (
-          <td
+          <Cell
             key={cell.id}
+            {...(isRowHeader ? { scope: 'row' } : {})}
             {...(grid
               ? {
-                  role: 'gridcell',
+                  role: isRowHeader ? 'rowheader' : 'gridcell',
                   // SURF-073: the roving active cell is the only tab stop.
                   tabIndex: activeColumnId === cell.column.id ? 0 : -1,
                   onFocus: () => c().focusCell(row.id, cell.column.id),
@@ -247,7 +251,7 @@ function TableRowImpl<TData>({
             }}
           >
             {flexRender(cell.column.columnDef.cell, cell.getContext())}
-          </td>
+          </Cell>
         );
       })}
     </tr>

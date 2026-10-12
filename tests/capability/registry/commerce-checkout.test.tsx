@@ -115,8 +115,14 @@ describe('commerce-checkout block', () => {
     setViewport(false);
     jest.useFakeTimers();
     try {
+      // The provider wrapper owns one dev-only timer (MAT surface counter,
+      // NODE_ENV !== 'production'); the block itself must add none.
+      wrap(<></>);
+      const providerTimers = jest.getTimerCount();
+      cleanup();
+      jest.clearAllTimers();
       wrap(<CommerceCheckout {...checkoutProps} />);
-      expect(jest.getTimerCount()).toBe(0);
+      expect(jest.getTimerCount()).toBe(providerTimers);
     } finally {
       jest.useRealTimers();
     }

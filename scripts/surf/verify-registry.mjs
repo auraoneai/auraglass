@@ -23,7 +23,8 @@
      public-import        aura-glass import that is not a public 5.0 entry, or a value name
                           the entry does not export (ENTRIES / ROOT_EXPORTS)
      registry-deps        registryDependencies != {auraglass if aura-glass is imported}
-                          ∪ {every @/registry/<kind>/<id> imported}, or names an id that does not exist
+                          ∪ {every @/registry/<kind>/<id> imported} ∪ SLOT_DEPENDENCIES[id],
+                          or names an id that does not exist
      npm-deps             a bare package import not in dependencies, or a declared dependency never
                           imported (aura-glass may be listed; registry id auraglass also provides it)
      fixtures             fixtures.ts missing, or Math.random / Date.now / new Date( / fetch( /
@@ -55,6 +56,11 @@ export const SURF_ITEMS = [
    declares `aura-glass@^5` as its npm dependency, so every aura-glass import is
    satisfied through that one registry id. */
 export const BASE_ID = 'auraglass';
+/* Registry items an item delegates to through a render slot: the PRD requires
+   them as registryDependencies entries that are never imported, so they count
+   as used without an import (REQ-SURF-173: ai-artifact-panel's renderCode slot
+   with PLAT's code-surface "as a registryDependencies entry, never an import"). */
+export const SLOT_DEPENDENCIES = { 'ai-artifact-panel': ['code-surface'] };
 export const STORY_STATES = ['Default', 'Empty', 'RTL', 'ReducedTransparency', 'ForcedColors'];
 
 export const LITERAL = /#[0-9a-f]{3,8}\b|!important|blur\(|rgba?\(|oklch\(/i;
@@ -363,6 +369,7 @@ export function lintRegistry({ root = REPO, repo = REPO } = {}) {
     /* registryDependencies */
     const want = new Set(wantRegistry);
     if (auraShipped) want.add(BASE_ID);
+    for (const d of SLOT_DEPENDENCIES[id] ?? []) want.add(d);
     const have = new Set(item.registryDependencies ?? []);
     for (const d of have) if (!idExists(d)) v(id, 'registry-deps', `registryDependencies '${d}' is not a registry id in registry/{base,blocks,items}`, relMeta);
     for (const d of want) if (!have.has(d)) v(id, 'registry-deps', `imports ${d === BASE_ID ? 'aura-glass' : `@/registry/*/${d}`} but registryDependencies lacks '${d}'`, relMeta);

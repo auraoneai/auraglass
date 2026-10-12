@@ -31,6 +31,10 @@ function dryRun(root: string, area: string) {
   return JSON.parse(execFileSync('node', [RUNNER, area, '--root', root, '--dry-run'], { encoding: 'utf8' }));
 }
 
+// Every cell keeps the root ignore list and skips registry-only.test.ts, which
+// needs the packed tarball and runs in surf:test:registry-lint instead.
+const IGNORE = ['--testPathIgnorePatterns', '/node_modules/', '/legacy/', '/dist/', '/packages/', '/apps/', 'tests/capability/registry-only\\.test\\.ts$'];
+
 describe('surf:test:doubles runner', () => {
   it('runs the area preset while tests/<area>/jest.doubles.cjs exists', () => {
     const root = mkdtempSync(join(tmpdir(), 'surf-doubles-'));
@@ -40,7 +44,7 @@ describe('surf:test:doubles runner', () => {
       writeFileSync(join(root, 'tests', area, 'jest.doubles.cjs'), 'module.exports = {};\n');
       const plan = dryRun(root, area);
       expect(plan.mode).toBe('preset');
-      expect(plan.command).toEqual(['npx', 'jest', '-c', `tests/${area}/jest.doubles.cjs`, '--ci']);
+      expect(plan.command).toEqual(['npx', 'jest', '-c', `tests/${area}/jest.doubles.cjs`, '--ci', ...IGNORE]);
     }
   });
 
@@ -49,7 +53,7 @@ describe('surf:test:doubles runner', () => {
     tmpRoots.push(root);
     const plan = dryRun(root, 'capability');
     expect(plan.mode).toBe('root');
-    expect(plan.command).toEqual(['npm', 'test', '--', '--ci', 'tests/capability']);
+    expect(plan.command).toEqual(['npm', 'test', '--', '--ci', 'tests/capability', ...IGNORE]);
     for (const area of AREAS) {
       const p = dryRun(root, area);
       expect(p.mode).toBe('root');

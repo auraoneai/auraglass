@@ -5,6 +5,7 @@
 
 import * as React from 'react';
 import { ChevronRightIcon } from '../../icons/navigation/chevron-right';
+import { LandmarkBeacon } from '../../app-shell/_internal/LandmarkBeacon';
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
 import { BreadcrumbsOverflow } from './Breadcrumbs.Overflow';
@@ -69,6 +70,7 @@ function BreadcrumbsRoot({
     ...rest,
     children: (
       <ol data-ag-part="list" className="ag-breadcrumbs__list">
+        <LandmarkBeacon role="navigation" name={label} />
         {withSeparators([
           ...head,
           ...(collapse

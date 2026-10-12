@@ -54,7 +54,9 @@ describe('AgentSteps', () => {
       const media = rule.parent?.type === 'atrule' && (rule.parent as AtRule).name === 'media' ? (rule.parent as AtRule).params : null;
       const hasAnim = rule.nodes.some((d) => d.type === 'decl' && d.prop === 'animation' && d.value !== 'none');
       const stops = rule.nodes.some((d) => d.type === 'decl' && d.prop === 'animation' && d.value === 'none');
-      if (sels.includes(atom) && hasAnim && media === null) animated.push(rule);
+      // REQ-SURF-190: the pulse is a loop, so it animates only under the
+      // continuous gate (tests/capability/surf-loop-gate.test.ts).
+      if (sels.includes(`[data-ag-continuous="on"] ${atom}`) && hasAnim && media === null) animated.push(rule);
       if (stops && sels.some((x) => x.includes('[data-ag-part="step-icon"]::after'))) {
         stilled.push({ rule, media });
       }
