@@ -131,6 +131,14 @@ console.log('✅ install smoke clean: root imports, registry recipes, CLI bin, a
   console.log('✅ install smoke clean: root imports, registry recipes, CLI bin, and styles export resolve.');
 };
 
+/* The tarball is verified as built from this commit: when no dist/ is
+   present (plat:package:pack does not consume a build artifact), build it
+   first so `npm pack` packs real output rather than an empty package. */
+if (!fs.existsSync(path.join(projectRoot, 'dist'))) {
+  console.log('verify-pack: dist/ absent — running npm run build');
+  execSync('npm run build', { cwd: projectRoot, stdio: 'inherit' });
+}
+
 const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'auraglass-pack-'));
 
 try {

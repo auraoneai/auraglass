@@ -1,16 +1,38 @@
+# Changelog
+
 ## [4.1.1] - Unreleased
+
+Trust patch: documentation retractions, hosted-runtime hardening, and the Aeonik font removal.
 
 ### Security and privacy
 
-- GHSA draft: hosted example runtime ships a default JWT secret, missing authorization on AI routes, and open WebSocket rooms (see docs/security/GHSA-4.1.1-draft.md; owner publishes the advisory before the v4.1.1 tag).
+- Security advisory: the hosted example runtime ships a default JWT secret, has no authorization on its AI routes, and leaves WebSocket rooms open (draft: `docs/security/advisories/2026-10-hosted-runtime.md`; the owner publishes the advisory before the v4.1.1 tag).
 - `assertJwtSecret` fails closed at startup; Dockerfile no longer copies `.env.example` over `.env`.
 - `enableAdaptiveAI` is opt-in; GlassCanvas executes `onComponentAction` instead of string code (DEP-P0012, DEP-P0013).
 - `validateTextContrast`/ContrastGuard report `unverified` honestly instead of unconditional pass (DEP-P0014).
 - Font decision D-31: Aeonik (licence unconfirmed) removed; `--glass-font-sans` falls back to the system stack (DEP-P0015).
-- Crash fixes: conditional-hook violations hoisted; reduced-motion `animate={{}}` sites rewritten (`prefersReducedMotion ? FINAL : X`).
-- Hydration: `useOptional*` readers + hydration-stable helpers avoid SSR/client mismatch fallbacks.
 
-# Changelog
+### Fixed
+
+- Crash fixes: conditional-hook violations hoisted; reduced-motion `animate={{}}` sites rewritten (`prefersReducedMotion ? FINAL : X`).
+- Hydration: `useOptional*` readers and hydration-stable helpers avoid SSR/client mismatch fallbacks; `AuraGlassClientBoundary` initialises hydration-safe and `Slot` picks its ref strategy from `React.version` (REQ-PLAT-46).
+- RSC client entries: `"use client"` on the primitives and theme barrels, a generated `client-entries.json` checked by `verify-pack`, a hydration-stable `useHydrated`, and the GlassInput hook order hoisted.
+- `GlassPredictiveEngine` passes an `enabled` flag to `useOptionalInteractionRecorder` instead of calling the hook conditionally (REQ-PLAT-44).
+- Command palette fuzzy search escapes regex metacharacters per query character — a query like `(` can no longer throw or widen the match (REQ-PLAT-49).
+- `npm pack --json` output from npm >= 11 is parsed through `scripts/ci/lib/npm-pack`; CI evidence is written under `.artifacts/` (REQ-PLAT-37).
+
+### Added
+
+- 4.x → 5.0 bridge material (MAT-327, MAT-362): `tokens/legacy/4x-rendered.tokens.json` and `tokens/compat-alias-map.json` (every `--glass-*` name with its successor, frozen or flagged status), and `scripts/tokens/build.mjs --platform bridge-4x` emitting `src/material/compat/tokens.css`, `src/styles/{v5,preview-v5}.css` and `dist/tokens/4x/`.
+
+### Docs
+
+- README, `llms.txt` and this changelog retract the "certified" visual-target, "SSR-safe" and "optional backend" claims of 4.1.0; ledger corrections are recorded in `docs/release/ledger-corrections.json`, and `scripts/ci/verify-docs-claims.js` keeps the retracted claims out (REQ-PLAT-52).
+
+### Internal (no change to the published package)
+
+- `auraglass/motion-no-empty-animate` lint rule at error severity on `src/**` (MAT-186). The rule lives in the repository lint plugin, which is not in the published `files`.
+- GitLab CI/CD: the §4.2 job set, Pages, the npm OIDC trusted-publishing toolchain, decision records and CI tests; the jsdom import side-effect gate (REQ-PLAT-41); `reports/` is untracked and certification and audit evidence lives in CI artifacts (`.artifacts/`).
 
 ## Ledger corrections
 
