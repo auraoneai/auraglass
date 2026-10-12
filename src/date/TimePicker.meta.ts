@@ -24,7 +24,7 @@ export const TIME_PICKER_META = {
   tier: 'T2',
   flagship: 14,
   rsc: 'client',
-  parts: ['time-picker', 'time-input', 'time-picker-trigger', 'time-picker-popover', 'time-picker-hours', 'time-picker-minutes'],
+  parts: ['time-picker', 'time-input', 'time-picker-trigger', 'time-picker-popover', 'positioner', 'time-picker-hours', 'time-picker-minutes'],
   states: ['open', 'invalid', 'disabled'],
   variants: {},
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/',
