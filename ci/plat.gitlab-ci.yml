@@ -123,16 +123,14 @@ plat:test:pack-matrix:
     - npm --version
     # REQ-PLAT-05 item 2: never `npm run prepublishOnly` — on 4x it starts with
     # scripts/ci/require-ci-publish.js, which (correctly) exits 1 outside
-    # plat:publish:npm. Run its build + verify steps explicitly, then the
-    # prepack generators, then a dry-run publish with lifecycle scripts off.
-    # The integration halves of prepublishOnly are the plat:integration:* gates.
-    - npm run build
+    # plat:publish:npm. REQ-PLAT-38: run its verify half, `prepublish:verify`
+    # (build, verify:pack, verify:css-vars, integration next/vite --skip-build),
+    # on each leg exactly as release/4.x does, then the prepack generators, then a
+    # dry-run publish with lifecycle scripts off.
     - |
-      for s in verify:pack verify:css-vars; do
-        node -e "process.exit(Object.keys(require('./package.json').scripts||{}).includes(process.argv[1])?0:1)" "$s" \
-          || { echo "PENDING: npm script $s (lane 1b)"; exit 1; }
-        npm run "$s"
-      done
+      node -e "process.exit(Object.keys(require('./package.json').scripts||{}).includes('prepublish:verify')?0:1)" \
+        || { echo "PENDING: npm script prepublish:verify (REQ-PLAT-38)"; exit 1; }
+    - npm run prepublish:verify
     - |
       if node -e "process.exit(Object.keys(require('./package.json').scripts||{}).includes('prepack')?0:1)"; then
         npm run prepack
