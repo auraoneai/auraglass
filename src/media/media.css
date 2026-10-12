@@ -225,6 +225,15 @@
     .ag-waveform [data-ag-part='waveform-remaining'] { fill: GrayText; }
     .ag-waveform [data-ag-part='waveform-played'],
     .ag-waveform [data-ag-part='waveform-level'] { fill: CanvasText; }
+    /* REQ-SURF-189: scrubber/volume sliders read CanvasText (track) and
+       Highlight (played range, thumb); buffered/chapter marks stay visible. */
+    .ag-media-scrubber .ag-slider [data-ag-part='track'] { background: Canvas; border: 1px solid CanvasText; }
+    .ag-media-scrubber .ag-slider [data-ag-part='range'] { background: Highlight; }
+    .ag-media-scrubber .ag-slider [data-ag-part='thumb'] { background: Highlight; border: 1px solid CanvasText; }
+    [data-ag-part='media-scrubber-buffered'],
+    [data-ag-part='media-scrubber-chapter'] { background: CanvasText; }
+    .ag-media-btn:focus-visible,
+    [data-ag-part='now-playing-expand']:focus-visible { outline: 2px solid Highlight; }
   }
 /* --- end lane W4 controls --- */
 

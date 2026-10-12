@@ -6,12 +6,6 @@
     "expires": "RC-1"
   },
   {
-    "file": "src/app-shell/Sidebar.Collapsible.tsx",
-    "owner": "SURF",
-    "reqFin": "REQ-FIN-80",
-    "expires": "RC-1"
-  },
-  {
     "file": "src/charts/ChartPlot.tsx",
     "owner": "SURF",
     "reqFin": "REQ-FIN-80",
@@ -67,12 +61,6 @@
   },
   {
     "file": "src/components/color-picker/ColorPicker.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/combobox/ComboboxVirtualList.client.tsx",
     "owner": "CMP",
     "reqFin": "REQ-FIN-70",
     "expires": "RC-1"
