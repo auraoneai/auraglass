@@ -1,5 +1,12 @@
 {
   "effects": [
-    { "symbol": "src/utils/soundDesign.ts#_GlassSoundDesign.setupGestureListeners", "kind": "listener" }
+    {
+      "symbol": "node_modules/chart.js/src/helpers/helpers.dom.ts#<module>",
+      "kind": "listener"
+    },
+    {
+      "symbol": "src/utils/soundDesign.ts#_GlassSoundDesign.setupGestureListeners",
+      "kind": "listener"
+    }
   ]
 }
