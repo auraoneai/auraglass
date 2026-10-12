@@ -32,7 +32,10 @@ const twName = (t) => {
   if (leaf === 'surface-shadow') return 'shadow-glass';
   if (leaf === 'on-surface' || leaf.startsWith('on-surface-')) return `color-${leaf}`;
   if (t.type === 'color') return `color-${leaf}`;
-  return leaf;
+  if (t.type === 'shadow') return `shadow-${leaf}`;
+  /* REQ-PLAT-75: only --color-*, --radius-* and --shadow-* may enter @theme;
+     spacing/motion/etc. tokens are not Tailwind theme namespaces here. */
+  return null;
 };
 
 export function buildBridge(manifest) {
