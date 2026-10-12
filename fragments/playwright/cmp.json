@@ -78,7 +78,8 @@
   },
   {
     "name": "cmp:cert-touch",
-    "testMatch": "tests/e2e/cmp/**/*.spec.ts",
+    "testDir": "tests/e2e/cmp",
+    "testMatch": "**/*.spec.ts",
     "use": {
       "browserName": "chromium",
       "hasTouch": true

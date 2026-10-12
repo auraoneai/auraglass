@@ -79,9 +79,10 @@ describe('ci/qual.gitlab-ci.yml', () => {
     expect(eff('qual:certify:release-matrix', 'script')).toEqual(expect.arrayContaining([expect.stringContaining('scripts/qual/shard-plan.mjs')]));
     expect(eff('qual:certify:release-matrix', 'allow_failure')).toBeUndefined();
     expect(eff('qual:test:selftest', 'script')).toEqual(expect.arrayContaining(['node node_modules/jest/bin/jest.js -c jest.qual.config.js --ci']));
-    for (const j of ['qual:certify:baseline-refresh', 'qual:certify:review-record']) {
-      expect(doc[j]!.rules!.every((r) => r.when === 'manual')).toBe(true);
-    }
+    expect(doc['qual:certify:review-record']!.rules!.every((r) => r.when === 'manual')).toBe(true);
+    // REQ-QUAL-25 (G-14): baseline-refresh is "manual or scheduled": manual on pr/main, automatic only on the nightly schedule.
+    expect(doc['qual:certify:baseline-refresh']!.rules!.every((r) => r.when === 'manual'
+      || /^\$AG_LINE == "5x" && \$AG_SCOPE == "nightly"$/.test(String(r.if)))).toBe(true);
     expect(JSON.stringify(eff('qual:certify:known-failures', 'rules'))).toContain('$AG_SCOPE == \\"nightly\\"');
   });
 

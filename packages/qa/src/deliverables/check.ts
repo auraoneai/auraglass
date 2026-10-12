@@ -109,6 +109,19 @@ function literal(node: any, scope?: Map<string, any>): Lit {
       const v = literal(node.argument, scope);
       return node.operator === '-' && typeof v === 'number' ? -v : NON_LITERAL;
     }
+    case 'BinaryExpression': {
+      // S-44: metas spell budgetKb as limitBytes / 1024 (e.g. `10000 / 1024`); fold numeric arithmetic over
+      // literal operands only, as scripts/cmp/gen-fragments.mjs does.
+      const l = literal(node.left, scope), r = literal(node.right, scope);
+      if (typeof l !== 'number' || typeof r !== 'number') return NON_LITERAL;
+      switch (node.operator) {
+        case '/': return l / r;
+        case '*': return l * r;
+        case '+': return l + r;
+        case '-': return l - r;
+        default: return NON_LITERAL;
+      }
+    }
     case 'Identifier':
       if (node.name === 'undefined') return undefined;
       return scope?.has(node.name) ? literal(scope.get(node.name), scope) : NON_LITERAL;
