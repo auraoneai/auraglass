@@ -208,7 +208,7 @@ function SheetBackdrop({ className }: { className?: string }) {
       data-ag-part="backdrop"
       {...scrimLayerAttributes()}
       data-ag-overlay-depth={ctx.depth}
-      {...(isTop ? { 'data-ag-overlay-top': '' } : {})}
+      {...(isTop ? { 'data-overlay-top': '' } : {})}
       className={cn('ag-scrim', className)}
       ref={animatingRef}
     />

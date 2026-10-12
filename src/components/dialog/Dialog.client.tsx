@@ -133,7 +133,7 @@ function DialogBackdrop({ className, ref }: DialogBackdropProps) {
       data-ag-part="backdrop"
       {...scrimLayerAttributes()}
       data-ag-overlay-depth={depth}
-      {...(isTop ? { 'data-ag-overlay-top': '' } : {})}
+      {...(isTop ? { 'data-overlay-top': '' } : {})}
       className={cn('ag-scrim', className)}
       ref={animatingRef}
     />

@@ -1,7 +1,7 @@
 /* REQ-CMP-79 (CMP-194): which modal scrim is on top. Every open modal
    Backdrop (Dialog, AlertDialog, Sheet) reports its LayerStack depth here; the
    scrim with the greatest depth is the top one and carries
-   data-ag-overlay-top (only that scrim keeps its blur). Non-modal layers
+   data-overlay-top (only that scrim keeps its blur). Non-modal layers
    (Popover, Menu, Tooltip, Toast) never render a scrim, so a menu or toast
    opened above a dialog does not take the marker away from the dialog's
    scrim. Depth comes from the LayerStack (useOverlayLayer); this module only
