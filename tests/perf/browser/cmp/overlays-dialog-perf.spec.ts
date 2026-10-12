@@ -6,7 +6,8 @@
 import { test, expect } from '@playwright/test';
 import { gotoStory, perf, listSubjects } from '../../../helpers/index';
 
-test.skip(!process.env.AG_REMOTE_RUNNER, 'remote perf lane only (AG_REMOTE_RUNNER=1)');
+// Remote-only (machine policy): a local run fails loudly instead of skipping (PRD §18).
+if (process.env.AG_REMOTE_RUNNER !== '1') throw new Error('remote perf lane only: run on the remote runner (AG_REMOTE_RUNNER=1)');
 
 const PERF_STORY = 'overlays-dialog--perf-dashboard';
 
@@ -88,17 +89,11 @@ test.describe('dialog perf (REQ-CMP-90)', () => {
     expect(idle.infiniteAnimations).toBe(0);
   });
 
-  test('CommandPalette row reports pending until SURF stories land', async ({ page }) => {
+  test('CommandPalette over the overlay stack stays within 3 blurred surfaces', async ({ page }) => {
     const subjects = await listSubjects();
     const cp = subjects.filter((s) => /command-?palette/i.test(s.id));
-    if (cp.length === 0) {
-      test.info().annotations.push({
-        type: 'status',
-        description: "pending — SURF CommandPalette stories not in SubjectIndex (REQ-OVL-04/-06)",
-      });
-      test.skip(true, 'pending: SURF CommandPalette stories not in SubjectIndex');
-      return;
-    }
+    // SURF's CommandPalette stories have landed (src/components/command-palette/CommandPalette.stories.tsx)
+    expect(cp.length, 'SURF CommandPalette stories not in SubjectIndex (REQ-OVL-04/-06)').toBeGreaterThan(0);
     await gotoStory(page, cp[0]!.id);
     expect(await perf.blurredSurfaces(page)).toBeLessThanOrEqual(3);
   });

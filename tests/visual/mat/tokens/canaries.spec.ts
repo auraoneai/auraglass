@@ -41,7 +41,7 @@ const styleOf = (loc: Locator) =>
 
 test.describe('consumer canaries (MAT-080)', () => {
   test('utility classes render identically to attribute siblings', async ({ page }) => {
-    test.skip(!CANARY, 'CANARY_URL unset — remote lane only');
+    expect(CANARY, 'CANARY_URL must point at the vite-tailwind4 canary (remote L11 lane); never skipped (PRD §18)').toBeTruthy();
     await page.goto(CANARY!);
     for (const util of UTILITIES) {
       const viaUtility = page.locator(`[data-canary-utility="${util}"]`);
@@ -56,7 +56,7 @@ test.describe('consumer canaries (MAT-080)', () => {
   });
 
   test('vite canary renders with no tailwindcss installed', async ({ page }) => {
-    test.skip(!CANARY_PLAIN, 'CANARY_PLAIN_URL unset — remote lane only');
+    expect(CANARY_PLAIN, 'CANARY_PLAIN_URL must point at the no-tailwind vite canary (remote L11 lane); never skipped (PRD §18)').toBeTruthy();
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(String(e)));
     await page.goto(CANARY_PLAIN!);
@@ -68,7 +68,7 @@ test.describe('consumer canaries (MAT-080)', () => {
   });
 
   test('shadcn interop: default authority + source mode, no var cycles', async ({ page }) => {
-    test.skip(!CANARY_SHADCN, 'CANARY_SHADCN_URL unset — remote lane only');
+    expect(CANARY_SHADCN, 'CANARY_SHADCN_URL must point at the shadcn canary page (remote L11 lane); never skipped (PRD §18)').toBeTruthy();
     const warnings: string[] = [];
     page.on('console', (m) => { if (m.type() === 'warning' || m.type() === 'error') warnings.push(m.text()); });
     await page.goto(CANARY_SHADCN!);

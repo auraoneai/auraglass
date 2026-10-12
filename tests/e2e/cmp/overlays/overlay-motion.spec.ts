@@ -33,7 +33,7 @@ test.describe('overlay motion kinds (CMP-389)', () => {
     test(`${name}: popup transition-duration matches the ${kind} kind table`, async ({ page }) => {
       await gotoStory(page, story, { motion: 'full' });
       const popup = page.locator('[data-ag-part="popup"], [data-ag-part="root"], [role="tooltip"]').first();
-      test.skip((await popup.count()) === 0, `${name} popup not mounted in ${story}`);
+      await expect(popup, `${name} popup not mounted in ${story}`).toHaveCount(1);
       const durs = await popup.evaluate((el) => getComputedStyle(el).transitionDuration);
       const ms = durationsMs(durs);
       // at least one declared duration is on the kind table (+-40ms)

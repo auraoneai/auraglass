@@ -6,7 +6,7 @@
 
 import * as React from 'react';
 import { flushSync } from 'react-dom';
-import { Tabs as BaseTabs } from '@base-ui/react/tabs';
+import { Tabs as BaseTabs } from '../../foundation/base-ui/tabs';
 import { startMorph } from '../../motion';
 import { viewTransitionParticipantAttributes } from '../../material/stateAttributes';
 import { useTabBarPanel } from '../tab-bar/TabBar';

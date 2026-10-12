@@ -9,7 +9,7 @@ test.describe('toggle-group APG (REQ-CMP-38)', () => {
     await gotoStory(page, 'flagships-controls-togglegroup--default')
       .catch(() => gotoStory(page, 'flagships-controls-togglegroup--overview'));
     const items = page.locator('[data-ag-part="item"]');
-    test.skip((await items.count()) < 2, 'toggle-group story missing');
+    expect(await items.count(), 'toggle-group story missing').toBeGreaterThanOrEqual(2);
     const n = await items.count();
     await items.first().focus();
     await page.keyboard.press('ArrowLeft');
@@ -27,7 +27,7 @@ test.describe('toggle-group APG (REQ-CMP-38)', () => {
     await gotoStory(page, 'flagships-controls-togglegroup--default')
       .catch(() => gotoStory(page, 'flagships-controls-togglegroup--overview'));
     const first = page.locator('[data-ag-part="item"]').first();
-    test.skip((await first.count()) === 0, 'toggle-group story missing');
+    await expect(first, 'toggle-group story missing').toHaveCount(1);
     await first.focus();
     const before = await first.getAttribute('aria-pressed');
     await page.keyboard.press('Enter');

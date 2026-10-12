@@ -28,8 +28,9 @@ test.describe('SURF RTL', () => {
 // REQ-SURF-10 — mirroring assertions: bounding-box x-order and arrow
 // direction for the navigable SURF surfaces, plus axe clean.
 test.describe('RTL mirroring (REQ-SURF-10)', () => {
-  test.skip(!process.env.AG_REMOTE_RUNNER, 'remote lane only');
   test('rtl surfaces mirror x-order and arrows', async ({ page }) => {
+    // remote lane only (the canary server it reads is remote): a local run fails, never skips (PRD §18)
+    expect(process.env.AG_REMOTE_RUNNER, 'remote lane only: run on the remote runner (AG_REMOTE_RUNNER=1)').toBe('1');
     const { AxeBuilder } = await import('@axe-core/playwright');
     await page.goto(`${process.env.AG_CANARY_BASE_URL ?? 'http://localhost:3116'}/surf/rtl`, { waitUntil: 'networkidle' });
     const checks = await page.evaluate(() => {

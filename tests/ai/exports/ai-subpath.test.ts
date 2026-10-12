@@ -25,8 +25,18 @@ describe('ai subpath (AC-SURF-15)', () => {
     const names = valueLines.map((l) => /^export \{ (\w+)/.exec(l)![1]!);
     expect(names.sort()).toEqual(EXPORTS);
   });
-  it('ai-subpath packed resolution is remote-only (recorded)', () => {
-    console.warn('packed tarball + attw/publint run in the remote pipeline on next');
-    expect(true).toBe(true);
+  /* The packed tarball (attw + publint, remote pipeline) resolves ./ai through
+     package.json#exports; those conditions must be exactly the build manifest
+     row whose source is the barrel checked above. */
+  it('package.json#exports["./ai"] equals the build manifest row for src/ai/index.ts', () => {
+    const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8')) as { exports: Record<string, Record<string, string>> };
+    const manifest = JSON.parse(fs.readFileSync('build/exports.manifest.json', 'utf8')) as
+      { entries: Array<{ subpath: string; source: string; types: string; default: string; css?: string }> };
+    const row = manifest.entries.find((e) => e.subpath === './ai');
+    expect(row).toBeDefined();
+    expect(row!.source).toBe('src/ai/index.ts');
+    const { subpath: _s, source: _src, ...conditions } = row!;
+    const dotted = Object.fromEntries(Object.entries(conditions).map(([k, v]) => [k, `./${v}`]));
+    expect(pkg.exports['./ai']).toEqual(dotted);
   });
 });

@@ -74,7 +74,7 @@ test('REQ-CMP-42: indicator measures item 3 within 1px; calm jumps', async ({ pa
   const root = page.locator('[data-ag-part="root"]').first();
   const items = page.locator('[role="radio"]');
   const n = await items.count();
-  if (n < 3) test.skip();
+  expect(n, 'segmented-control story renders fewer than 3 radios').toBeGreaterThanOrEqual(3);
   const ind = root.locator('[data-ag-part="indicator"]');
   const third = items.nth(2);
   await third.focus();

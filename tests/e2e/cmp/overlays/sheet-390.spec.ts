@@ -4,7 +4,8 @@
 import { test, expect } from '@playwright/test';
 import { gotoStory } from '../../../helpers/index';
 
-test.skip(!process.env.AG_REMOTE_RUNNER, 'remote e2e lane only (AG_REMOTE_RUNNER=1)');
+// Remote-only (machine policy): a local run fails loudly instead of skipping (PRD §18).
+if (process.env.AG_REMOTE_RUNNER !== '1') throw new Error('remote e2e lane only: run on the remote runner (AG_REMOTE_RUNNER=1)');
 
 test.describe('sheet @390px (REQ-CMP-96)', () => {
   test.use({ viewport: { width: 390, height: 844 } });

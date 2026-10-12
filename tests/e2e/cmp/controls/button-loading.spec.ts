@@ -8,7 +8,8 @@ test.describe('button loading stability (REQ-CMP-33)', () => {
     await gotoStory(page, 'flagships-controls-button--width-stability');
     const idle = page.getByTestId('idle');
     const busy = page.getByTestId('busy');
-    test.skip((await idle.count()) === 0 || (await busy.count()) === 0, 'width-stability story missing');
+    await expect(idle, 'width-stability story missing the idle button').not.toHaveCount(0);
+    await expect(busy, 'width-stability story missing the busy button').not.toHaveCount(0);
     const [wIdle, wBusy] = await Promise.all([
       idle.evaluate((el) => (el as HTMLElement).offsetWidth),
       busy.evaluate((el) => (el as HTMLElement).offsetWidth),
@@ -20,7 +21,7 @@ test.describe('button loading stability (REQ-CMP-33)', () => {
   test('spinner animation-name is none under data-ag-motion=calm', async ({ page }) => {
     await gotoStory(page, 'flagships-controls-button--width-stability', { motion: 'calm' });
     const spinner = page.locator('[data-ag-part="spinner"]').first();
-    test.skip((await spinner.count()) === 0, 'spinner part absent');
+    await expect(spinner, 'spinner part absent').toHaveCount(1);
     const name = await spinner.evaluate((el) => getComputedStyle(el).animationName);
     expect(name).toBe('none');
   });

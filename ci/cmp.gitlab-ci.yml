@@ -10,10 +10,17 @@ cmp:test:foundation-pattern:
   extends: .cmp-base
   stage: test
   allow_failure: true
+  # tests/foundation/exports/{t2-surface,primitives-surface,no-foundation-types,
+  # compat-map} read the built package: dist/ comes from plat:build:dist. The
+  # need is optional only because it crosses streams (rule 4); a missing dist/
+  # fails the job below, it is never skipped.
+  needs:
+    - { job: "plat:build:dist", artifacts: true, optional: true }
   rules:
     - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main")
   script:
     - mkdir -p .artifacts/cmp/test-foundation-pattern
+    - test -f dist/index.js || { echo "dist/index.js missing (needs plat:build:dist artifacts)"; exit 1; }
     - |
       # FND rules auraglass/require-data-ag-part + auraglass/no-forward-ref are in
       # lint/rules/cmp/ agConfig; consumed rules (no-random-in-render PKG-086,

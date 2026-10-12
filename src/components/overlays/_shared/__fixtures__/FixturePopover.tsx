@@ -4,7 +4,7 @@
    the real Popover in CMP-226 when 3f lands. */
 'use client';
 import * as React from 'react';
-import { Popover as Base } from '@base-ui/react/popover';
+import { Popover as Base } from '../../../../foundation/base-ui/popover';
 import { useCmpPortalContainer as usePortalContainer } from '../portalContainer';
 import { overlayMaterial } from '../overlaySurface';
 import { defaultPositionerProps } from '../positioning';

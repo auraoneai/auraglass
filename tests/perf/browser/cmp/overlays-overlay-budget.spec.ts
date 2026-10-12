@@ -8,7 +8,8 @@
 import { test, expect } from '@playwright/test';
 import { gotoStory, perf } from '../../../helpers/index';
 
-test.skip(!process.env.AG_REMOTE_RUNNER, 'remote perf lane only (AG_REMOTE_RUNNER=1)');
+// Remote-only (machine policy): a local run fails loudly instead of skipping (PRD §18).
+if (process.env.AG_REMOTE_RUNNER !== '1') throw new Error('remote perf lane only: run on the remote runner (AG_REMOTE_RUNNER=1)');
 
 
 const LAYER_BUDGETS: Record<string, { story: string; blurred: number }> = {
@@ -37,7 +38,7 @@ test.describe('overlay layer+bundle budget (CMP-395/400/407)', () => {
     const { readFileSync, existsSync } = await import('node:fs');
     const { join } = await import('node:path');
     const budgetPath = join(process.cwd(), 'fragments', 'size-budgets', 'cmp.ts');
-    test.skip(!existsSync(budgetPath), 'size-budgets fragment absent');
+    expect(existsSync(budgetPath), 'size-budgets fragment fragments/size-budgets/cmp.ts absent').toBe(true);
     const src = readFileSync(budgetPath, 'utf8');
     for (const [name, kb] of Object.entries(IMPORT_BUDGET_KB)) {
       const row = new RegExp(String.raw`${name}[^\n]*budgetKb[^\n]*\b${kb}\b`);

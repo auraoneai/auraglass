@@ -33,14 +33,12 @@ test.describe('clear fallback', () => {
         }
         return null;
       });
-      if (reg) {
-        const stripped = clear.bf.replace(/blur\([^)]*\)/, 'blur(*)'); // dimmed variant may share blur
-        const regStripped = reg.bf.replace(/blur\([^)]*\)/, 'blur(*)');
-        expect(stripped).toBe(regStripped);
-        expect(clear.fill).toBe(reg.fill);
-        return;
-      }
-      test.skip(true, 'no regular surface on page to compare');
+      // the comparison subject is required: a story without a regular surface fails, never skips (PRD §18)
+      expect(reg, 'no regular surface on page to compare against').not.toBeNull();
+      const stripped = clear.bf.replace(/blur\([^)]*\)/, 'blur(*)'); // dimmed variant may share blur
+      const regStripped = reg!.bf.replace(/blur\([^)]*\)/, 'blur(*)');
+      expect(stripped).toBe(regStripped);
+      expect(clear.fill).toBe(reg!.fill);
       return;
     }
     expect(clear.bf).toBe(regular.bf);

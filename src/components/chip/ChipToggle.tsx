@@ -5,7 +5,7 @@
    the module uses no client-only signal and Base UI's Toggle module carries
    its own directive (auraglass/use-client-needless). */
 import * as React from 'react';
-import { Toggle } from '@base-ui/react/toggle';
+import { Toggle } from '../../foundation/base-ui/toggle';
 
 export interface ChipToggleProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'className' | 'defaultValue' | 'value'> {

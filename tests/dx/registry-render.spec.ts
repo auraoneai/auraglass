@@ -86,11 +86,12 @@ async function applyMaterial(page: Page, material: string) {
 }
 
 test.describe('registry-render (L11 remote)', () => {
-  test.skip(!process.env.CI, 'remote-only subject; local runs produce no captures');
   test.setTimeout(600_000);
 
   for (const item of items) {
     test(`renders ${item.name}`, async ({ page }) => {
+      // remote-only subject (plat:test:registry): a local run fails, never skips (PRD §18)
+      expect(process.env.CI, 'remote-only subject: runs in GitLab plat:test:registry (CI)').toBeTruthy();
       expect(existsSync(MANIFEST), `render setup manifest missing (${MANIFEST}): run scripts/registry/render-setup.mjs first`).toBe(true);
       const manifest = JSON.parse(readFileSync(MANIFEST, 'utf8')) as Manifest;
       const entry = manifest.items[item.name];

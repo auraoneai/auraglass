@@ -19,7 +19,7 @@
      (useGlobalHotkey, #326) is not on `next` yet. */
 
 import * as React from 'react';
-import { Dialog as BaseDialog } from '@base-ui/react/dialog';
+import { Dialog as BaseDialog } from '../../foundation/base-ui/dialog';
 import { useLayer, usePortalContainer } from '../../theme';
 import { materialProps } from '../../material/materialProps';
 import { Command } from './Command';

@@ -6,8 +6,9 @@ import { computedPseudoVar, computedVar } from '../../../material/helpers/comput
 import { gotoMaterialStory } from '../../../material/helpers/story';
 
 test.describe('kill switches', () => {
-  test('subtree data-ag-tier=standard removes the lens under enhanced', async ({ page, browserName }) => {
-    test.skip(browserName !== 'chromium', 'enhanced is Chromium-only');
+  // Holds in every engine: the subtree tier override kills the lens on
+  // Chromium, and the lens never applies on WebKit/Gecko (no skip, PRD §18).
+  test('subtree data-ag-tier=standard removes the lens under enhanced', async ({ page }) => {
     await gotoMaterialStory(page, 'material-lab-examples--tiers', { tier: 'enhanced', engine: 'chromium' });
     // flip a subtree to standard
     await page.evaluate(() => {

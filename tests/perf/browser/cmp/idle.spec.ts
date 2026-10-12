@@ -4,7 +4,8 @@
 import { test, expect } from '@playwright/test';
 import { gotoStory, perf, listSubjects } from '../../../helpers/index';
 
-test.skip(!process.env.AG_REMOTE_RUNNER, 'remote perf lane only (AG_REMOTE_RUNNER=1)');
+// Remote-only (machine policy): a local run fails loudly instead of skipping (PRD §18).
+if (process.env.AG_REMOTE_RUNNER !== '1') throw new Error('remote perf lane only: run on the remote runner (AG_REMOTE_RUNNER=1)');
 
 test.describe('cmp idle contract (REQ-CMP-16)', () => {
   const FAMILIES = ['dialog', 'sheet', 'popover', 'tooltip', 'menu', 'toast', 'select', 'combobox', 'skeleton', 'progress'];
@@ -12,7 +13,7 @@ test.describe('cmp idle contract (REQ-CMP-16)', () => {
   test('one story per family: 0 pending rAF + 0 infinite animations 500 ms after settle', async ({ page }) => {
     const subjects = await listSubjects();
     const picked = FAMILIES.map((f) => subjects.find((s) => s.id.includes(f))).filter(Boolean);
-    test.skip(picked.length === 0, 'no CMP subjects registered yet');
+    expect(picked.length, 'no CMP subjects registered in the subject index').toBeGreaterThan(0);
     for (const subject of picked) {
       await gotoStory(page, subject!.id);
       const idle = await perf.settledIdle(page, { afterMs: 500 });
