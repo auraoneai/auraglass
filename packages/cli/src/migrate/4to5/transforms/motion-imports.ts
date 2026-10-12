@@ -49,8 +49,10 @@ function applyCode(source: string): TransformResult {
     if (needPreference && !kept.some((s: any) => (((s as { imported?: { name?: string } }).imported?.name) === 'usePreference'))) {
       kept.push(j.importSpecifier(j.identifier('usePreference')) as never);
     }
+    // Side-effect imports have no specifiers to begin with and must survive.
+    const hadSpecifiers = (p.node.specifiers ?? []).length > 0;
     p.node.specifiers = kept as never;
-    if (kept.length === 0) j(p).remove();
+    if (hadSpecifiers && kept.length === 0) j(p).remove();
   });
 
   for (const name of hookLocals) {

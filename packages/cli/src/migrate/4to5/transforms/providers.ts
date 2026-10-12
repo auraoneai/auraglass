@@ -18,7 +18,12 @@ function providerNames(m: CompiledMappings): Set<string> {
   // spec-listed and not component names in the mappings.
   const s = new Set<string>();
   for (const [from, c] of Object.entries(m.components)) {
-    if (from !== 'AuraGlassProvider' && (c.to === 'AuraGlassProvider' || (from.startsWith('Glass') && from.endsWith('Provider')))) {
+    if (from === 'AuraGlassProvider') continue;
+    // A Glass*Provider with a real 5.0 mapping (e.g. GlassToastProvider ->
+    // Toast.Provider) is a component provider the renames transform rewrites —
+    // it must not be unwrapped. Only providers mapping to AuraGlassProvider or
+    // unmapped legacy Glass*Provider names collapse.
+    if (c.to === 'AuraGlassProvider' || (from.startsWith('Glass') && from.endsWith('Provider') && !c.to)) {
       s.add(from);
     }
   }
@@ -120,8 +125,10 @@ function applyCode(source: string, isNextLayout: boolean, mappings: CompiledMapp
         addedScript = true;
       }
     }
+    // Side-effect imports have no specifiers to begin with and must survive.
+    const hadSpecifiers = (p.node.specifiers ?? []).length > 0;
     p.node.specifiers = kept as never;
-    if (kept.length === 0) j(p).remove();
+    if (hadSpecifiers && kept.length === 0) j(p).remove();
     else if ((p.node.specifiers?.length ?? 0) !== 0) changes.push({ transform: 'providers', description: 'provider imports -> AuraGlassProvider' });
   });
 

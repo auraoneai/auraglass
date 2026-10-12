@@ -39,8 +39,10 @@ function applyCode(source: string, ctx: TransformCtx): TransformResult {
       }
       kept.push(s);
     }
+    // Side-effect imports have no specifiers to begin with and must survive.
+    const hadSpecifiers = (p.node.specifiers ?? []).length > 0;
     p.node.specifiers = kept as never;
-    if (isAura && kept.length === 0) j(p).remove();
+    if (isAura && hadSpecifiers && kept.length === 0) j(p).remove();
   });
 
   // For kept-but-removed locals, annotate each usage line region once.

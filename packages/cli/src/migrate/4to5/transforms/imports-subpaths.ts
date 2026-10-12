@@ -69,6 +69,8 @@ function applyCode(source: string, ctx: TransformCtx): TransformResult {
         .paths().map((p: any) => p.node.source as unknown as { value?: unknown }),
     );
   const done = new Set<object>();
+  /** 4.x deep-import name -> barrel export name, for unaliased specifiers whose refs follow. */
+  const unaliased = new Map<string, string>();
   const visit = (p: { node: { source?: { value?: unknown } } }) => {
     const src = p.node.source as { value?: unknown; cooked?: unknown } | undefined;
     if (!src || typeof src.value !== 'string' || done.has(src)) return;
@@ -80,17 +82,31 @@ function applyCode(source: string, ctx: TransformCtx): TransformResult {
       src.cooked = undefined;
       changes.push({ transform: 'imports-subpaths', description: `${oldSpec} -> ${r.spec}` });
       if (r.deepComponent && p.node && 'specifiers' in (p.node as object)) {
-        const comp = ctx.mappings.components[r.deepComponent];
-        const newName = comp?.to ?? r.deepComponent;
-        for (const sp of (p.node as { specifiers?: unknown[] }).specifiers ?? []) {
+        const deep = r.deepComponent;
+        const comp = ctx.mappings.components[deep];
+        // Dotted targets (Toast.Provider) are not import names; the head is.
+        const fullTo = comp?.to ?? deep;
+        const newName = fullTo.split('.')[0]!;
+        const node = p.node as { specifiers?: unknown[] };
+        node.specifiers = (node.specifiers ?? []).map((sp) => {
           const s = sp as { type?: string; imported?: { name?: string }; local?: { name?: string } };
-          const impName = s.type === 'ImportSpecifier' ? s.imported?.name : s.type === 'ImportDefaultSpecifier' ? 'default' : undefined;
-          if (impName === 'default' || impName === r.deepComponent || s.local?.name === r.deepComponent) {
-            if (s.type === 'ImportSpecifier') (s.imported as { name: string }).name = newName;
-            else if (s.type === 'ImportDefaultSpecifier' && s.local) s.local.name = newName;
-            changes.push({ transform: 'imports-subpaths', description: `${r.deepComponent} -> ${newName}` });
+          if (s.type === 'ImportSpecifier' && s.imported?.name === deep) {
+            const local = s.local?.name ?? deep;
+            changes.push({ transform: 'imports-subpaths', description: `${deep} -> ${newName}` });
+            if (local !== deep) return j.importSpecifier(j.identifier(newName), j.identifier(local));
+            unaliased.set(deep, fullTo);
+            return j.importSpecifier(j.identifier(newName));
           }
-        }
+          if (s.type === 'ImportDefaultSpecifier' && s.local?.name) {
+            // `import X from '<deep path>'` is the named export of the barrel.
+            const local = s.local.name;
+            changes.push({ transform: 'imports-subpaths', description: `default ${local} -> { ${newName} }` });
+            if (local !== deep) return j.importSpecifier(j.identifier(newName), j.identifier(local));
+            unaliased.set(deep, fullTo);
+            return j.importSpecifier(j.identifier(newName));
+          }
+          return sp;
+        });
       }
     } else if (r.unmappedRemoved) {
       todos.push({ transform: 'imports-subpaths', reason: `removed subpath '${oldSpec}' has no 5.0 equivalent`, doc: DOC });
@@ -109,9 +125,27 @@ function applyCode(source: string, ctx: TransformCtx): TransformResult {
       if (r.changed) { arg.value = r.spec; changes.push({ transform: 'imports-subpaths', description: `require ${arg.value}` }); }
     }
   });
+  // The renamed binding's JSX element names follow it (else `<Typography>`
+  // would be left unbound), and prop-grammar learns the element's 4.x name.
+  for (const [from, to] of unaliased) {
+    if (from === to) continue;
+    const [head, ...tail] = to.split('.');
+    root.find(j.JSXIdentifier, { name: from }).forEach((p: any) => {
+      const parent = p.parent?.node as { type?: string; name?: unknown; object?: unknown } | undefined;
+      const isElementName = (parent?.type === 'JSXOpeningElement' || parent?.type === 'JSXClosingElement') && parent.name === p.node;
+      const isMemberObject = parent?.type === 'JSXMemberExpression' && parent.object === p.node;
+      if (isMemberObject) p.node.name = head;
+      else if (isElementName) {
+        p.replace(tail.reduce<any>((obj, part) => j.jsxMemberExpression(obj, j.jsxIdentifier(part)), j.jsxIdentifier(head!)));
+      }
+    });
+    if (ctx.renamedFrom) (ctx.renamedFrom.get(to) ?? ctx.renamedFrom.set(to, new Set()).get(to)!).add(from);
+  }
   let out = changes.length ? root.toSource({ quote: 'single', reuseWhitespace: true }) : source;
   for (const t of todos) {
-    out = `${todoLine(t.reason, t.doc)}\n${out}`;
+    // Idempotent: a re-run over already-annotated output adds no second marker.
+    const marker = todoLine(t.reason, t.doc);
+    if (!out.includes(marker)) out = `${marker}\n${out}`;
   }
   return { source: out, changes, todos };
 }

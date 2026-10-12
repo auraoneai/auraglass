@@ -39,6 +39,14 @@ export interface TransformCtx {
   file: FileUnit;
   mappings: CompiledMappings;
   docBase: string;
+  /**
+   * Per-file provenance shared by the transforms of one run: 5.0 local JSX
+   * name -> the 4.x export names canonical-names renamed onto it. prop-grammar
+   * applies rows keyed on a 4.x name only to elements that were that 4.x name
+   * in this run, so a second run over migrated code (where `Button` is the 5.0
+   * export, not a GlassButton alias) changes nothing.
+   */
+  renamedFrom?: Map<string, Set<string>>;
 }
 
 export interface Transform {
