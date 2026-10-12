@@ -23,7 +23,7 @@ export function Skeleton({
 }: SkeletonProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
   if (shape === 'text' && lines > 1) {
     return (
-      <div {...rest} {...SUNKEN} ref={ref} data-ag-part="root" data-ag-shape="text" aria-hidden="true" className={cn('ag-skeleton', 'ag-skeleton-lines', className)} style={style}>
+      <div {...rest} {...SUNKEN} ref={ref} data-ag-part="root" data-shape="text" aria-hidden="true" className={cn('ag-skeleton', 'ag-skeleton-lines', className)} style={style}>
         {Array.from({ length: lines }, (_, i) => (
           <span key={i} data-ag-part="line" className="ag-skeleton-line" />
         ))}
@@ -36,7 +36,7 @@ export function Skeleton({
       {...SUNKEN}
       ref={ref}
       data-ag-part="root"
-      data-ag-shape={shape}
+      data-shape={shape}
       aria-hidden="true"
       className={cn('ag-skeleton', className)}
       style={style}

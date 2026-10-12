@@ -4,7 +4,7 @@ import { stateRender, toDataState } from '../../foundation/state';
 import { RadioGroup as BUGroup } from '@base-ui/react/radio-group';
 import { Radio } from '@base-ui/react/radio';
 import { materialProps } from '../../material';
-import { surfaceGroupAttributes } from '../../material/stateAttributes';
+import { setAnimating, surfaceGroupAttributes } from '../../material/stateAttributes';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { useControllableWarning } from '../../foundation/controllable';
@@ -128,8 +128,8 @@ function SegmentedControlRoot({
           if (el) {
             /* REQ-CMP-42: data-ag-animating until transitionend; S-13
                startMorph when the engine supports it, else CSS transition. */
-            el.setAttribute('data-ag-animating', '');
-            const finish = () => el.removeAttribute('data-ag-animating');
+            setAnimating(el, true);
+            const finish = () => setAnimating(el, false);
             nextFrame(() => {
               startMorph(() => { measureIntoRoot(el); }, { surfaces: [el] })
                 .then(finish, finish);

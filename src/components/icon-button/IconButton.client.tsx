@@ -14,7 +14,7 @@ export function IconButton({ label, icon, shape = 'capsule', className, ...rest 
     <Button
       {...rest}
       aria-label={label}
-      data-ag-shape={shape === 'fixed' ? 'fixed' : undefined}
+      {...(shape === 'fixed' ? { shape: 'fixed' as const } : {})}
       className={cn('ag-button', 'ag-icon-button', className)}
       startIcon={icon}
     />

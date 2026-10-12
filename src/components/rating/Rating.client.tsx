@@ -119,7 +119,6 @@ export function Rating({
             onClick={(e) => onItemClick(v, e)}
             data-ag-part="item"
             data-value={v}
-            data-ag-value={v}
             data-state={filled ? 'on' : 'off'}
             data-half={half ? '' : undefined}
             className={cn('ag-rating-item', filled ? 'ag-rating-item-on' : undefined)}

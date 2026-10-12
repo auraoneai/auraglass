@@ -5,12 +5,12 @@ import * as React from 'react';
 import { Skeleton } from './index';
 
 describe('Skeleton', () => {
-  it('is aria-hidden with data-ag-shape', () => {
+  it('is aria-hidden with data-shape', () => {
     for (const shape of ['text', 'rect', 'circle'] as const) {
       const { container, unmount } = render(<Skeleton shape={shape} />);
       const el = container.querySelector('[data-ag-part="root"]')!;
       expect(el.getAttribute('aria-hidden')).toBe('true');
-      expect(el.getAttribute('data-ag-shape')).toBe(shape);
+      expect(el.getAttribute('data-shape')).toBe(shape);
       unmount();
     }
   });

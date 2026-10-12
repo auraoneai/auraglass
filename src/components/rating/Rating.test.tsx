@@ -64,7 +64,7 @@ describe('Rating REQ-CMP-123', () => {
   it('arrow commit focuses the newly-checked item', () => {
     const { container } = render(<Rating defaultValue={2} />);
     fireEvent.keyDown(container.querySelector('[data-ag-part="root"]')!, { key: 'ArrowRight' });
-    const focused = container.querySelector('[data-ag-value="3"]') as HTMLElement;
+    const focused = container.querySelector('[data-value="3"]') as HTMLElement;
     expect(document.activeElement).toBe(focused);
   });
   it('hit area bleed lives in ::before', () => {

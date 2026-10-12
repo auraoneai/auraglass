@@ -93,8 +93,8 @@ function ToolbarButton({ className, children, priority, render, ...rest }: Toolb
   /* REQ-CMP-37: icon actions are `Toolbar.Button render={<IconButton …/>}` — a caller
      element replaces the default Button and receives the AuraGlass props and the part. */
   const el = React.isValidElement<Record<string, unknown>>(render)
-    ? React.cloneElement(render, { ...aura, 'data-ag-part': 'button', ...(priority === 'low' ? { 'data-ag-priority': 'low' } : {}), ...(className !== undefined ? { className } : {}) })
-    : <Button {...aura} data-ag-part="button" {...(priority === 'low' ? { 'data-ag-priority': 'low' } : {})} className={className}>{children}</Button>;
+    ? React.cloneElement(render, { ...aura, 'data-ag-part': 'button', ...(priority === 'low' ? { 'data-priority': 'low' } : {}), ...(className !== undefined ? { className } : {}) })
+    : <Button {...aura} data-ag-part="button" {...(priority === 'low' ? { 'data-priority': 'low' } : {})} className={className}>{children}</Button>;
   return <Base.Button {...dom} render={el} />;
 }
 
@@ -103,7 +103,7 @@ function ToolbarIconButton({ label, icon, className, priority, ...rest }: Toolba
   return (
     <Base.Button
       {...dom}
-      render={<IconButton {...aura} label={label} icon={icon} data-ag-part="button" {...(priority === 'low' ? { 'data-ag-priority': 'low' } : {})} className={className} />}
+      render={<IconButton {...aura} label={label} icon={icon} data-ag-part="button" {...(priority === 'low' ? { 'data-priority': 'low' } : {})} className={className} />}
     />
   );
 }

@@ -92,8 +92,9 @@ export function Button(props: ButtonProps) {
     ref,
     suppressInnerParts,
     'data-ag-part': partOverride,
+    shape,
     ...rest
-  } = props as ButtonProps & { 'data-ag-part'?: string };
+  } = props as ButtonProps & { 'data-ag-part'?: string; shape?: 'fixed' | undefined };
 
   useControllableWarning('Button', 'pressed', pressed);
   const [token] = React.useState(() => ({} as object));
@@ -116,6 +117,8 @@ export function Button(props: ButtonProps) {
   if (thickness !== undefined) role.thickness = thickness;
   if (prominent === true) role.prominent = true;
   if (refraction === true) role.refraction = true;
+  /* IconButton's explicit fixed shape goes through the MAT setter (S-01). */
+  if (shape !== undefined) role.shape = shape;
   const attrs = materialProps(role);
   const shared = {
     ...attrs,

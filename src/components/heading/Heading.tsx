@@ -30,7 +30,6 @@ export function Heading({
     ...rest,
     'data-ag-part': 'root',
     'data-level': level,
-    'data-ag-level': level,
     'data-ag-size': resolvedSize,
     className: cn('ag-heading', `ag-heading-size-${resolvedSize}`, className),
   } as React.HTMLAttributes<HTMLHeadingElement>;

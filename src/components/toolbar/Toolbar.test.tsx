@@ -75,7 +75,7 @@ describe('Toolbar', () => {
   });
 });
 
-it('priority="low" emits data-ag-priority and a trailing overflow menu (REQ-CMP-40)', () => {
+it('priority="low" emits data-priority and a trailing overflow menu (REQ-CMP-40)', () => {
   const { container } = render(
     <Toolbar.Root aria-label="t">
       <Toolbar.Button>Keep</Toolbar.Button>
@@ -83,7 +83,7 @@ it('priority="low" emits data-ag-priority and a trailing overflow menu (REQ-CMP-
       <ToolbarIconButton label="settings" icon={<svg />} priority="low" />
     </Toolbar.Root>,
   );
-  const lows = container.querySelectorAll('[data-ag-priority="low"]');
+  const lows = container.querySelectorAll('[data-priority="low"]');
   expect(lows.length).toBe(2);
   expect(container.querySelector('[data-ag-part="overflow"]')).not.toBeNull();
   /* overflow menu trigger is the last tabbable child (roving order kept) */
