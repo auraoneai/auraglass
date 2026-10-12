@@ -16,7 +16,7 @@ Tier T1 · RSC client · APG dialog-modal
 | `defaultOpen?` | `boolean` | — | — |
 | `dismissible?` | `boolean` | — | Outside press closes; `false` maps to BU disablePointerDismissal. |
 | `labels?` | `{ close?: string \| undefined; }` | — | Localisable strings. |
-| `modal?` | `boolean \| 'trap-focus'` | — | 'trap-focus' keeps the focus trap without scroll-lock or outside-press inert. |
+| `modal?` | `boolean` | — | Modal (default true) traps focus, inerts the page and registers the LayerStack scroll lock; false is a non-modal dialog. |
 | `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | — |
 | `open?` | `boolean` | — | — |
 | `ref?` | `Ref<HTMLElement>` | — | — |
