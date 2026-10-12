@@ -270,7 +270,7 @@ export function CommandList({ children, render, ...rest }: PartProps<'div'>) {
     // SURF-063: the aria-activedescendant target is always rendered.
     const activeIndex = ctx.items.findIndex((i) => i.value === ctx.active);
     return (
-      <BaseCombobox.List data-ag-part="list" className="ag-command__list ag-command__list--virtual" {...(rest as Record<string, unknown>)}>
+      <BaseCombobox.List data-ag-part="list" data-empty={undefined} className="ag-command__list ag-command__list--virtual" {...(rest as Record<string, unknown>)}>
         <VirtualList
           ref={vlRef}
           role="none"
@@ -287,6 +287,10 @@ export function CommandList({ children, render, ...rest }: PartProps<'div'>) {
   return (
     <BaseCombobox.List
       data-ag-part="list"
+      // Items register after mount, so Base UI's data-empty would differ
+      // between the server markup and the hydrated list; Command.Empty owns
+      // the empty state.
+      data-empty={undefined}
       className="ag-command__list"
       {...(rest as Record<string, unknown>)}
       {...(render ? { render: render as React.ReactElement } : {})}
