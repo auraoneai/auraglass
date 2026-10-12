@@ -3,8 +3,6 @@ import React, {
   forwardRef,
   useState,
   useEffect,
-  useRef,
-  useCallback,
 } from "react";
 import { cn } from "../../lib/utilsComprehensive";
 import { OptimizedGlass } from "../../primitives";
@@ -49,52 +47,50 @@ export interface OptimizedGlassContainerProps
   role?: string;
 }
 
-// Performance monitoring hook
+/**
+ * Performance sampling (REQ-PLAT-59, C-I): one bounded rAF window of
+ * `checkInterval` ms when sampling is enabled (mount, or a change of
+ * targetFps/checkInterval), then it stops. There is no periodic re-sample: the
+ * 4.x container used to loop setTimeout -> rAF forever, keeping a frame
+ * callback alive for the page's lifetime.
+ */
 const usePerformanceMonitoring = (
   targetFps: number,
   checkInterval: number,
-  threshold: number
+  enabled: boolean
 ) => {
   const [currentFps, setCurrentFps] = useState(60);
   const [performanceScore, setPerformanceScore] = useState(1);
-  const frameCountRef = useRef(0);
-  const lastTimeRef = useRef(performance.now());
-  const cleanupRef = useRef<(() => void) | undefined>(undefined);
 
   useEffect(() => {
-    let animationFrame: number;
+    if (!enabled || typeof requestAnimationFrame !== "function") return;
+    let frame = 0;
+    let frames = 0;
+    let start = -1;
+    let cancelled = false;
 
-    const measureFps = () => {
-      const now = performance.now();
-      frameCountRef.current++;
-
-      if (now - lastTimeRef.current >= checkInterval) {
-        const fps =
-          (frameCountRef.current * 1000) / (now - lastTimeRef.current);
+    const tick = (now: number) => {
+      frame = 0;
+      if (cancelled) return;
+      if (start < 0) start = now;
+      frames++;
+      const elapsed = now - start;
+      if (elapsed >= checkInterval) {
+        // frames counted after the first timestamp, over the elapsed window
+        const fps = ((frames - 1) * 1000) / elapsed;
         setCurrentFps(fps);
         setPerformanceScore(fps / targetFps);
-
-        frameCountRef.current = 0;
-        lastTimeRef.current = now;
+        return; // window closed: no further frames are requested
       }
-
-      // PLAT-154: measure once per interval instead of a perpetual rAF loop
-      animationFrame = 0;
-      const timer = setTimeout(() => {
-        animationFrame = requestAnimationFrame(measureFps);
-      }, checkInterval) as unknown as number;
-      cleanupRef.current = () => clearTimeout(timer);
+      frame = requestAnimationFrame(tick);
     };
 
-    animationFrame = requestAnimationFrame(measureFps);
-
+    frame = requestAnimationFrame(tick);
     return () => {
-      if (animationFrame) {
-        cancelAnimationFrame(animationFrame);
-      }
-      cleanupRef.current?.();
+      cancelled = true;
+      if (frame) cancelAnimationFrame(frame);
     };
-  }, [targetFps, checkInterval]);
+  }, [enabled, targetFps, checkInterval]);
 
   return { currentFps, performanceScore };
 };
@@ -138,11 +134,11 @@ export const OptimizedGlassContainer = forwardRef<
     const shouldReduceMotion = preferReducedMotion ?? prefersReducedMotion;
     const containerId = useA11yId();
 
-    // Performance monitoring
+    // Performance sampling: one bounded window, only when something consumes it
     const { currentFps, performanceScore } = usePerformanceMonitoring(
       targetFps,
       checkInterval,
-      performanceThreshold
+      autoOptimize || showIndicator
     );
 
     // Auto optimization logic

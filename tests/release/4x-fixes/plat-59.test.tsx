@@ -93,6 +93,59 @@ describe("PLAT-59 visual fixes", () => {
       expect(raf).toHaveBeenCalledTimes(callsAfterWindow);
       unmount();
     });
+
+    it("OptimizedGlassContainer samples one bounded window on mount, then schedules nothing", () => {
+      const { OptimizedGlassContainer } = require("../../../src/components/layout/OptimizedGlassContainer");
+      const timeouts = jest.spyOn(window, "setTimeout");
+      const { unmount } = render(<OptimizedGlassContainer checkInterval={1000}>x</OptimizedGlassContainer>);
+      act(() => {
+        jest.advanceTimersByTime(1500);
+      });
+      const callsAfterWindow = raf.mock.calls.length;
+      expect(callsAfterWindow).toBeGreaterThan(0); // the one sample ran
+      const timeoutsAfterWindow = timeouts.mock.calls.length;
+      act(() => {
+        jest.advanceTimersByTime(30_000);
+      });
+      // no periodic re-sample: neither a new frame nor a re-arming timer
+      expect(raf).toHaveBeenCalledTimes(callsAfterWindow);
+      expect(timeouts.mock.calls.length).toBe(timeoutsAfterWindow);
+      unmount();
+      timeouts.mockRestore();
+    });
+
+    it("OptimizedGlassContainer with autoOptimize and indicator off schedules 0 animation frames", () => {
+      const { OptimizedGlassContainer } = require("../../../src/components/layout/OptimizedGlassContainer");
+      const { unmount } = render(<OptimizedGlassContainer autoOptimize={false}>x</OptimizedGlassContainer>);
+      act(() => {
+        jest.advanceTimersByTime(10_000);
+      });
+      expect(raf).toHaveBeenCalledTimes(0);
+      unmount();
+    });
+
+    it("OptimizedGlassContainer cancels an in-flight sample on unmount", () => {
+      const cancel = jest.spyOn(window, "cancelAnimationFrame");
+      const { OptimizedGlassContainer } = require("../../../src/components/layout/OptimizedGlassContainer");
+      const { unmount } = render(<OptimizedGlassContainer checkInterval={5000}>x</OptimizedGlassContainer>);
+      act(() => {
+        jest.advanceTimersByTime(100);
+      });
+      unmount();
+      expect(cancel).toHaveBeenCalled();
+      const after = raf.mock.calls.length;
+      act(() => {
+        jest.advanceTimersByTime(10_000);
+      });
+      expect(raf).toHaveBeenCalledTimes(after);
+      cancel.mockRestore();
+    });
+  });
+
+  it("3b. productionCore queries and styles prefers-contrast: more, never the non-standard high", () => {
+    const src = readFileSync(join(ROOT, "src/core/productionCore.ts"), "utf8");
+    expect(src).not.toMatch(/prefers-contrast:\s*high/);
+    expect(src.match(/prefers-contrast:\s*more/g)?.length).toBe(2);
   });
 
   it("3. prefers-contrast: more is honoured", () => {

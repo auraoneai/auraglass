@@ -226,8 +226,8 @@ export class AuraGlassProduction {
         }
       }
 
-      /* High contrast support */
-      @media (prefers-contrast: high) {
+      /* High contrast support (ACCESSIBILITY-04: the standard keyword is "more") */
+      @media (prefers-contrast: more) {
         .aura-glass-surface {
           border: 2px solid var(--glass-text-secondary) !important;
           background: rgba(0, 0, 0, 0.95) !important;
@@ -389,8 +389,8 @@ export class AuraGlassProduction {
       this.config.animations.enabled = false;
     }
 
-    // Check for high contrast preference
-    if (safeMatchMedia("(prefers-contrast: high)")?.matches) {
+    // Check for high contrast preference (ACCESSIBILITY-04: "more", not the non-standard "high")
+    if (safeMatchMedia("(prefers-contrast: more)")?.matches) {
       doc.documentElement.classList.add("aura-glass-high-contrast");
     }
 
