@@ -5,14 +5,16 @@
    Composed only from the S-06 Surface / SurfaceGroup (the './material' entry, src/material/index.ts) and plain DOM.
    The ids are pinned with parameters.__id (the Storybook CSF indexer reads it statically) because one CSF file has one
    title. Tagged no-cert: these are measurement fixtures for tests/perf/harness/run-perf.mjs, not certification subjects
-   for L6/L7. Every fixture renders over the `photo` scene. */
+   for L6/L7. Every fixture renders over the `photo` scene. They are not Material Lab stories (REQ-QUAL-53: the Lab is
+   .storybook/lab/** only), so the title is a QUAL fixture title and no story declares kind `lab`; the `lab` tag stays
+   (REQ-QUAL-35). Only the mount-cycle fixture carries parameters.ag, for the drive steps run-perf.mjs reads. */
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as React from 'react';
 import { Surface, SurfaceGroup } from '../../../src/material/index';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const meta = {
-  title: 'Material Lab/Perf Fixtures',
+  title: 'QUAL/Fixtures/Perf/Harness',
   tags: ['lab', 'no-cert'],
   globals: { scene: 'photo' },
   parameters: { layout: 'fullscreen' },
@@ -26,14 +28,14 @@ const panel: React.CSSProperties = { padding: 24, minInlineSize: 200, minBlockSi
 /** Empty Lab page over `photo`: the per-profile blank baseline every result is reported against (delta vs blank). */
 export const Default: Story = {
   name: 'Harness blank',
-  parameters: { __id: 'perf-harness-blank--default', ag: { subject: 'perf-harness-blank', kind: 'lab', scenes: ['photo'] } satisfies StoryAgParameters },
+  parameters: { __id: 'perf-harness-blank--default' },
   render: () => <div data-perf-fixture="perf-harness-blank" style={page} />,
 };
 
 /** Four nested surfaces (effective nesting 3 for the innermost; budget is ≤1). */
 export const Nest4: Story = {
   name: 'Nesting 4',
-  parameters: { __id: 'perf-nesting--nest-4', ag: { subject: 'perf-nesting', kind: 'lab', scenes: ['photo'] } satisfies StoryAgParameters },
+  parameters: { __id: 'perf-nesting--nest-4' },
   render: () => (
     <div data-perf-fixture="perf-nesting" style={page}>
       <Surface layer="chrome" thickness="regular" style={{ padding: 32 }}>
@@ -50,7 +52,7 @@ export const Nest4: Story = {
 /** Seven visible blurred surfaces (fine-pointer budget is ≤6). */
 export const Budget7: Story = {
   name: 'Budget 7',
-  parameters: { __id: 'perf-budget--budget-7', ag: { subject: 'perf-budget', kind: 'lab', scenes: ['photo'] } satisfies StoryAgParameters },
+  parameters: { __id: 'perf-budget--budget-7' },
   render: () => (
     <div data-perf-fixture="perf-budget" style={{ ...page, display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 24 }}>
       {Array.from({ length: 7 }, (_, i) => (
@@ -64,7 +66,7 @@ export const Budget7: Story = {
 export const Lens3: Story = {
   name: 'Lens 3',
   globals: { tier: 'enhanced' },
-  parameters: { __id: 'perf-lens--lens-3', ag: { subject: 'perf-lens', kind: 'lab', scenes: ['photo'], tier: 'enhanced', refraction: true } satisfies StoryAgParameters },
+  parameters: { __id: 'perf-lens--lens-3' },
   render: () => (
     <div data-perf-fixture="perf-lens" style={{ ...page, display: 'flex', gap: 24, alignItems: 'flex-start' }}>
       {Array.from({ length: 3 }, (_, i) => (
@@ -95,7 +97,7 @@ function GlCanvas({ index }: { index: number }) {
     so the contexts are plain canvases inside the public Surface. */
 export const Webgl3: Story = {
   name: 'WebGL 3',
-  parameters: { __id: 'perf-webgl--webgl-3', ag: { subject: 'perf-webgl', kind: 'lab', scenes: ['photo'] } satisfies StoryAgParameters },
+  parameters: { __id: 'perf-webgl--webgl-3' },
   render: () => (
     <div data-perf-fixture="perf-webgl" style={{ ...page, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
       {Array.from({ length: 3 }, (_, i) => (
@@ -130,7 +132,7 @@ export const MountCycleDefault: Story = {
   name: 'Mount cycle',
   parameters: {
     __id: 'perf-mount-cycle--default',
-    ag: { subject: 'perf-mount-cycle', kind: 'lab', scenes: ['photo'], states: [{ name: 'toggled', drive: [{ action: 'press', target: 'toggle' }] }] } satisfies StoryAgParameters,
+    ag: { states: [{ name: 'toggled', drive: [{ action: 'press', target: 'toggle' }] }] } satisfies Pick<StoryAgParameters, 'states'>,
   },
   render: () => <MountCycle />,
 };

@@ -8,7 +8,7 @@ test.use({ hasTouch: true });
 
 test.describe('toast touch (CMP-408)', () => {
   test('swipe dismisses a toast', async ({ page }) => {
-    await gotoStory(page, 'overlays-toast--intents');
+    await gotoStory(page, 'flagships-overlays-toast--intents');
     const toast = page.locator('[data-ag-part="root"], [data-ag-part="toast"], [role="status"], [role="alert"]').first();
     test.skip((await toast.count()) === 0, 'no toast rendered in scene');
     const before = await page.locator('[data-ag-part="root"], [data-ag-part="toast"], [role="status"], [role="alert"]').count();

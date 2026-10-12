@@ -1,6 +1,6 @@
 # Accordion — manual screen-reader script (flagship 18, L13)
 
-Component under test: **Accordion** (story `core-accordion--default`) — APG
+Component under test: **Accordion** (story `flagships-overlays-accordion--playground`) — APG
 accordion pattern: each header is a heading containing a `button` with
 `aria-expanded` and `aria-controls`; each open panel is a `region` labelled by
 its header button.

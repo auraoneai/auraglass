@@ -12,15 +12,15 @@ test.skip(!process.env.AG_REMOTE_RUNNER, 'remote perf lane only (AG_REMOTE_RUNNE
 
 
 const LAYER_BUDGETS: Record<string, { story: string; blurred: number }> = {
-  Dialog: { story: 'overlays-dialog--default', blurred: 2 },
-  AlertDialog: { story: 'overlays-alert-dialog--confirm', blurred: 2 },
-  Popover: { story: 'overlays-popover--playground', blurred: 1 },        // CMP-400
-  Tooltip: { story: 'overlays-tooltip--playground', blurred: 1 },        // CMP-400
-  Menu: { story: 'overlays-menu--playground', blurred: 1 },
-  MenuSubmenu: { story: 'overlays-menu--submenu', blurred: 2 },
-  Toast: { story: 'overlays-toast--playground', blurred: 1 },
-  SheetModal: { story: 'overlays-sheet--bottom-detents', blurred: 2 },   // CMP-407
-  SheetNonModal: { story: 'overlays-sheet--non-modal-inspector', blurred: 1 }, // CMP-407
+  Dialog: { story: 'flagships-overlays-dialog--playground', blurred: 2 },
+  AlertDialog: { story: 'flagships-overlays-alertdialog--confirm', blurred: 2 },
+  Popover: { story: 'flagships-overlays-popover--playground', blurred: 1 },        // CMP-400
+  Tooltip: { story: 'flagships-overlays-tooltip--playground', blurred: 1 },        // CMP-400
+  Menu: { story: 'flagships-overlays-menu--playground', blurred: 1 },
+  MenuSubmenu: { story: 'flagships-overlays-menu--submenu', blurred: 2 },
+  Toast: { story: 'flagships-overlays-toast--playground', blurred: 1 },
+  SheetModal: { story: 'flagships-overlays-sheet--bottom-detents', blurred: 2 },   // CMP-407
+  SheetNonModal: { story: 'flagships-overlays-sheet--non-modal-inspector', blurred: 1 }, // CMP-407
 };
 const IMPORT_BUDGET_KB: Record<string, number> = { Dialog: 20, AlertDialog: 20 };
 

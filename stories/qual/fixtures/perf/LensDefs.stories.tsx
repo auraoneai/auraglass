@@ -14,12 +14,13 @@ import { Surface } from '../../../../src/material/index';
 import { LensDefs } from '../../../../src/material/lens/LensDefs';
 import { AuraGlassProvider } from '../../../../src/theme/index';
 import { getProviderMounts } from '../../../../src/theme/providerMounts';
-import type { StoryAgParameters } from '../../../../src/contracts/testing';
 
 const meta = {
   title: 'QUAL/Fixtures/Perf/Lens Defs',
   tags: ['no-cert'],
-  parameters: { layout: 'fullscreen', ag: { subject: 'fixture:perf-lens-defs', kind: 'lab', scenes: ['photo'], tier: 'enhanced', refraction: true } satisfies StoryAgParameters },
+  // No parameters.ag: a no-cert fixture has no ComponentMeta or showcase subject (S-41), and kind `lab` is reserved
+  // for .storybook/lab/** (REQ-QUAL-53). The enhanced tier is forced through the `tier` global below.
+  parameters: { layout: 'fullscreen' },
   globals: { tier: 'enhanced' },
 } satisfies Meta;
 export default meta;

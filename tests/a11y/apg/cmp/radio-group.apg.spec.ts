@@ -7,8 +7,7 @@ import { apg } from '../harness';
 
 test.describe('radio-group APG (CMP-362)', () => {
   test('one tab stop; arrows move selection with wrap', async ({ page }) => {
-    await gotoStory(page, 'flagships-controls-radio-group--default')
-      .catch(() => gotoStory(page, 'flagships-controls-radiogroup--default'));
+    await gotoStory(page, 'flagships-controls-radiogroup--keyboard');
     const radios = page.getByRole('radio');
     expect(await radios.count()).toBeGreaterThanOrEqual(2);
 

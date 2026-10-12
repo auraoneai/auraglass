@@ -7,11 +7,11 @@ import { Dialog } from '../../../src/components/dialog/index';
 import { AlertDialog } from '../../../src/components/alert-dialog/index';
 import { Sheet } from '../../../src/components/sheet/index';
 import { AuraGlassProvider } from '../../../src/theme';
-import type { StoryAgParameters } from '../../../src/contracts/testing';
 
+/* Spans three overlay metas, so no single ComponentMeta subject: a CMP fixture (no parameters.ag, tagged no-cert). */
 const sbMeta = {
-  title: 'Flagships/Overlays/OverlayMatrix',
-  parameters: { ag: { tier: 'standard', subject: 'OverlayMatrix', kind: 'component' } satisfies StoryAgParameters },
+  title: 'CMP/Fixtures/Overlay Matrix',
+  tags: ['no-cert'],
 } satisfies Meta;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
@@ -38,7 +38,6 @@ const TRANSPARENCIES = ['glass', 'tinted', 'solid'] as const;
 const SCHEMES = ['light', 'dark'] as const;
 
 export const Matrix: Story = {
-  parameters: { ag: { tier: 'standard', subject: 'OverlayMatrix', id: 'overlays-matrix' } },
   render: () => (
     <AuraGlassProvider>
       <table style={{ borderCollapse: 'collapse' }}>

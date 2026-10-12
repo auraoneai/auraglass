@@ -12,12 +12,11 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Surface } from '../../../src/index';
-import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const meta = {
   title: 'QUAL/Fixtures/Pixel Gates',
   tags: ['no-cert'],
-  parameters: { ag: { subject: 'fixture:pixel-gates', kind: 'component' } satisfies StoryAgParameters },
+  // No parameters.ag: a no-cert fixture has no ComponentMeta or showcase subject (S-41), so it declares none.
 } satisfies Meta;
 export default meta;
 type Story = StoryObj<typeof meta>;

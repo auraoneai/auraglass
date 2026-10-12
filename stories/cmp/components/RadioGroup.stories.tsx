@@ -9,13 +9,13 @@ const sbMeta = {
   title: 'Flagships/Controls/RadioGroup',
   component: RadioGroup.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'RadioGroup', kind: 'component' } },
+  parameters: { ag: { tier: 'standard', subject: 'RadioGroup', kind: 'component' } satisfies StoryAgParameters },
 } satisfies Meta<typeof RadioGroup.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
-export const Default: Story = {
-  render: () => (
+function BillingCycle() {
+  return (
     <Stage>
       <Section title="Radio group" note="One choice from a short list; the ring is drawn for every option.">
         <Scene>
@@ -28,8 +28,57 @@ export const Default: Story = {
         </Scene>
       </Section>
     </Stage>
+  );
+}
+
+/* Usage: one choice from three. */
+export const Playground: Story = {
+  render: () => (
+    <Stage>
+      <Section title="Radio group" note="Arrow keys move the selection; the group is one tab stop.">
+        <Scene>
+          <Panel title="Delivery speed" width={400}>
+            <RadioGroup.Root defaultValue="standard" aria-label="Delivery speed">
+              <RadioGroup.Item value="standard">Standard (3–5 days)</RadioGroup.Item>
+              <RadioGroup.Item value="express">Express (next day)</RadioGroup.Item>
+              <RadioGroup.Item value="pickup">Store pickup</RadioGroup.Item>
+            </RadioGroup.Root>
+          </Panel>
+        </Scene>
+      </Section>
+    </Stage>
   ),
 };
+
+/* Selected, unselected, a disabled option, and a disabled group. */
+export const States: Story = {
+  render: () => (
+    <Stage>
+      <Section title="States" note="A disabled option is skipped by the arrow keys; a disabled group leaves the tab order.">
+        <Scene>
+          <Panel title="Data residency" width={400}>
+            <div style={{ display: 'grid', gap: 'var(--ag-space-5)' }}>
+              <RadioGroup.Root defaultValue="eu" aria-label="Primary region">
+                <RadioGroup.Item value="eu">Europe</RadioGroup.Item>
+                <RadioGroup.Item value="us">United States</RadioGroup.Item>
+                <RadioGroup.Item value="ap" disabled>Asia Pacific (waitlist)</RadioGroup.Item>
+              </RadioGroup.Root>
+              <RadioGroup.Root defaultValue="eu" aria-label="Backup region" disabled>
+                <RadioGroup.Item value="eu">Europe</RadioGroup.Item>
+                <RadioGroup.Item value="us">United States</RadioGroup.Item>
+              </RadioGroup.Root>
+            </div>
+          </Panel>
+        </Scene>
+      </Section>
+    </Stage>
+  ),
+};
+
+export const Default: Story = { render: () => <BillingCycle /> };
+
+/* The story tests/a11y/apg/cmp/radio-group.apg.spec.ts drives (one tab stop; arrows move and select with wrap). */
+export const Keyboard: Story = { tags: ['apg'], render: () => <BillingCycle /> };
 
 function Choice({ name, price, detail }: { name: string; price: string; detail: string }) {
   return (

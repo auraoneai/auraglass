@@ -9,8 +9,7 @@ const TOLERANCE = 0.5;
 
 test.describe('controls sizing (CMP-377)', () => {
   test('default-density control heights land in the 32/40/48 table', async ({ page }) => {
-    await gotoStory(page, 'flagships-controls-button--sizes')
-      .catch(() => gotoStory(page, 'flagships-controls-button--default'));
+    await gotoStory(page, 'flagships-controls-button--default');
     const heights = await page.evaluate(() =>
       [...document.querySelectorAll<HTMLElement>('button, [data-ag-part="root"]')]
         .map((el) => el.getBoundingClientRect().height)

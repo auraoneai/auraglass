@@ -7,7 +7,7 @@ import { apg } from '../harness';
 
 test.describe('scroll-area APG (CMP-353)', () => {
   test('overflowing viewport is focusable with an accessible name', async ({ page }) => {
-    await gotoStory(page, 'core-scroll-area--default');
+    await gotoStory(page, 'core-scrollarea--default');
     const viewport = page.locator('[data-ag-part="viewport"]');
     await expect(viewport).toBeVisible();
     const scrollable = await viewport.evaluate(

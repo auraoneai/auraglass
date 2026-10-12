@@ -10,9 +10,9 @@ test.describe('glass-modal forced colors (CMP-388)', () => {
     test.skip(browserName !== 'chromium', 'forced-colors case is Chromium-gated');
     await page.emulateMedia({ forcedColors: 'active' });
     // the 4.x "glass-modal" story id lives on the 4.x storybook; on `next` the
-    // equivalent surface is overlays-dialog. Try both.
+    // equivalent surface is the Dialog flagship's Playground. Try both.
     await gotoStory(page, 'glass-modal--default').catch(
-      () => gotoStory(page, 'overlays-dialog--default'),
+      () => gotoStory(page, 'flagships-overlays-dialog--playground'),
     );
     const count = await page.evaluate(() =>
       [...document.querySelectorAll<HTMLElement>('*')].filter((el) => {

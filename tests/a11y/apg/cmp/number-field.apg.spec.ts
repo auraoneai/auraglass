@@ -7,8 +7,7 @@ import { apg } from '../harness';
 
 test.describe('number-field APG (CMP-371)', () => {
   test('each step key applies its exact increment', async ({ page }) => {
-    await gotoStory(page, 'flagships-controls-number-field--default')
-      .catch(() => gotoStory(page, 'flagships-controls-numberfield--default'));
+    await gotoStory(page, 'flagships-controls-numberfield--keyboard');
     const input = page.locator('input[type="number"], [data-ag-part="input"], input').first();
     await input.focus();
     const v0 = Number(await input.inputValue() || '0');

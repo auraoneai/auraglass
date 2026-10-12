@@ -7,8 +7,7 @@ import { apg } from '../harness';
 
 test.describe('search-field APG (CMP-367)', () => {
   test('Escape clears value when non-empty, propagates when empty', async ({ page }) => {
-    await gotoStory(page, 'flagships-controls-search-field--with-value')
-      .catch(() => gotoStory(page, 'flagships-controls-searchfield--with-value'));
+    await gotoStory(page, 'flagships-controls-searchfield--keyboard');
     const input = page.locator('input[type="search"], input').first();
     await input.focus();
     await page.keyboard.press('Escape');

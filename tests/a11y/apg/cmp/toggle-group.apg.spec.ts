@@ -6,8 +6,7 @@ import { apg } from '../harness';
 
 test.describe('toggle-group APG (REQ-CMP-38)', () => {
   test('arrow keys rove focus with loop wrap-around', async ({ page }) => {
-    await gotoStory(page, 'flagships-controls-togglegroup--default')
-      .catch(() => gotoStory(page, 'flagships-controls-togglegroup--overview'));
+    await gotoStory(page, 'flagships-controls-togglegroup--keyboard');
     const items = page.locator('[data-ag-part="item"]');
     test.skip((await items.count()) < 2, 'toggle-group story missing');
     const n = await items.count();
@@ -24,8 +23,7 @@ test.describe('toggle-group APG (REQ-CMP-38)', () => {
   });
 
   test('Enter/Space flips aria-pressed on the focused item', async ({ page }) => {
-    await gotoStory(page, 'flagships-controls-togglegroup--default')
-      .catch(() => gotoStory(page, 'flagships-controls-togglegroup--overview'));
+    await gotoStory(page, 'flagships-controls-togglegroup--keyboard');
     const first = page.locator('[data-ag-part="item"]').first();
     test.skip((await first.count()) === 0, 'toggle-group story missing');
     await first.focus();

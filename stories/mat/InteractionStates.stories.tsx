@@ -10,7 +10,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Surface } from '../../src/material/index';
-import type { StoryAgParameters } from '../../src/contracts/testing';
 import { PendingCallout } from './_shared';
 
 const STATE_HOOKS = [
@@ -50,7 +49,6 @@ const meta: Meta = {
   title: 'MAT/Interaction States',
   parameters: {
     layout: 'padded',
-    ag: { subject: 'Surface', kind: 'lab' } satisfies StoryAgParameters,
   },
 };
 export default meta;

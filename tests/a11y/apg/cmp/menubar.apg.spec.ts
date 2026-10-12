@@ -8,7 +8,7 @@ import { apg } from '../harness';
 
 test.describe('menubar APG (CMP-403)', () => {
   test('one tab stop; arrows move across triggers; Escape restores', async ({ page }) => {
-    await gotoStory(page, 'overlays-menu--menubar');
+    await gotoStory(page, 'flagships-overlays-menu--menubar-scene');
     const menubar = page.locator('[role="menubar"]').first();
     await expect(menubar).toBeVisible();
     const triggers = menubar.locator('button, [data-ag-part="trigger"]');

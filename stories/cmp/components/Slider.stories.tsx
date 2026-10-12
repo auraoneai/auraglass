@@ -8,7 +8,7 @@ const sbMeta = {
   title: 'Flagships/Controls/Slider',
   component: Slider.Root,
   tags: ['certified', 'flagship'],
-  parameters: { ag: { tier: 'standard', subject: 'Slider', kind: 'component' } },
+  parameters: { ag: { tier: 'standard', subject: 'Slider', kind: 'component' } satisfies StoryAgParameters },
 } satisfies Meta<typeof Slider.Root>;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
@@ -19,8 +19,8 @@ const label: React.CSSProperties = {
   fontWeight: 'var(--ag-type-label-weight)',
 };
 
-export const Default: Story = {
-  render: () => (
+function Volume() {
+  return (
     <Stage>
       <Section title="Slider" note="Opaque thumb on a sunken track; marks and labels sit inside the slider box.">
         <Scene>
@@ -43,8 +43,59 @@ export const Default: Story = {
         </Scene>
       </Section>
     </Stage>
+  );
+}
+
+/* Usage: one value on a 0–100 track. */
+export const Playground: Story = {
+  render: () => (
+    <Stage>
+      <Section title="Slider" note="Drag the thumb or use the arrow keys.">
+        <Scene>
+          <Panel title="Display" width={420}>
+            <div style={{ display: 'grid', gap: 'var(--ag-space-1)' }}>
+              <span style={label}>Brightness</span>
+              <Slider.Root aria-label="Brightness" defaultValue={70} min={0} max={100} />
+            </div>
+          </Panel>
+        </Scene>
+      </Section>
+    </Stage>
   ),
 };
+
+/* Enabled, stepped, and disabled tracks. */
+export const States: Story = {
+  render: () => (
+    <Stage>
+      <Section title="States" note="Continuous, stepped in fives, and disabled.">
+        <Scene>
+          <Panel title="Thermostat" width={420}>
+            <div style={{ display: 'grid', gap: 'var(--ag-space-4)' }}>
+              <div style={{ display: 'grid', gap: 'var(--ag-space-1)' }}>
+                <span style={label}>Living room</span>
+                <Slider.Root aria-label="Living room" defaultValue={21} min={10} max={30} />
+              </div>
+              <div style={{ display: 'grid', gap: 'var(--ag-space-1)' }}>
+                <span style={label}>Fan speed</span>
+                <Slider.Root aria-label="Fan speed" defaultValue={50} min={0} max={100} step={5} />
+              </div>
+              <div style={{ display: 'grid', gap: 'var(--ag-space-1)' }}>
+                <span style={label}>Hallway (schedule locked)</span>
+                <Slider.Root aria-label="Hallway" defaultValue={18} min={10} max={30} disabled />
+              </div>
+            </div>
+          </Panel>
+        </Scene>
+      </Section>
+    </Stage>
+  ),
+};
+
+export const Default: Story = { render: () => <Volume /> };
+
+/* The story tests/a11y/apg/cmp/slider.apg.spec.ts drives (Arrow ±step, Shift/Page ±largeStep, Home/End, RTL mirror). */
+export const Keyboard: Story = { tags: ['apg'], render: () => <Volume /> };
 
 export const Range: Story = {
   render: () => (

@@ -64,6 +64,16 @@ describe('lint-titles rules (one failing fixture each)', () => {
     expect(rulesOf([...flagshipTitle(3), ...lab])).not.toContain('oversize-title');
   });
 
+  it('oversize-title: the eight REQ-QUAL-08 scenes and all-no-cert fixture titles are not size-ranked, anything else is', () => {
+    const scenes = ['Photo', 'Dense Text', 'Flat White', 'Flat Black'].map((s) => story('Scenes', s, { kind: 'scene', tags: ['scene'] }));
+    expect(rulesOf([...flagshipTitle(3), ...scenes])).not.toContain('oversize-title');
+    const fixture = ['A', 'B', 'C', 'D'].map((s) => story('QUAL/Fixtures/Leak', s, { tags: ['no-cert'] }));
+    expect(rulesOf([...flagshipTitle(3), ...fixture])).not.toContain('oversize-title');
+    // one story without no-cert makes it a regular title again
+    const mixed = [...fixture.slice(0, 3), story('QUAL/Fixtures/Leak', 'E')];
+    expect(lintTitles([...flagshipTitle(3), ...mixed], metas).filter((v) => v.rule === 'oversize-title').map((v) => v.key)).toEqual(['QUAL/Fixtures/Leak']);
+  });
+
   it('default-variants-only: story set exactly {Default, Variants}', () => {
     expect(rulesOf([...flagshipTitle(), story('Core/Badge', 'Default'), story('Core/Badge', 'Variants')])).toContain('default-variants-only');
   });

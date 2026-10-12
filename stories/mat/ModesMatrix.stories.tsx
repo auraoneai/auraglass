@@ -12,7 +12,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Surface } from '../../src/material/index';
 import type { MaterialVariant, Thickness } from '../../src/contracts/material';
-import type { StoryAgParameters } from '../../src/contracts/testing';
 import { PendingCallout, globUrls } from './_shared';
 
 const SCENE_IDS = [
@@ -69,7 +68,6 @@ const meta: Meta = {
   title: 'MAT/Modes Matrix',
   parameters: {
     layout: 'padded',
-    ag: { subject: 'Surface', kind: 'lab' } satisfies StoryAgParameters,
   },
 };
 export default meta;

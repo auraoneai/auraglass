@@ -4,13 +4,13 @@ import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Dialog } from '../../../src/components/dialog';
 import { AuraGlassProvider } from '../../../src/theme';
-import type { StoryAgParameters } from '../../../src/contracts/testing';
 
+/* A perf fixture (tests/perf/browser/cmp/overlays-*), not a documentation story: no parameters.ag, tagged no-cert,
+   and not a Flagships title (the Dialog flagship title is Dialog.stories.tsx + DialogScenes.stories.tsx). */
 const sbMeta = {
-  title: 'Flagships/Overlays/DialogPerf',
-  component: Dialog.Root,
-  parameters: { ag: { tier: 'standard', subject: 'Dialog', kind: 'component' } },
-} satisfies Meta<typeof Dialog.Root>;
+  title: 'CMP/Fixtures/Dialog Perf',
+  tags: ['no-cert'],
+} satisfies Meta;
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
@@ -19,7 +19,6 @@ const Surface = ({ label }: { label: string }) => (
 );
 
 export const DialogOverDashboard: Story = {
-  parameters: { ag: { tier: 'standard', subject: 'Dialog', id: 'overlays-dialog--perf-dashboard' } },
   render: () => (
     <AuraGlassProvider>
       <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr', gap: 12 }}>

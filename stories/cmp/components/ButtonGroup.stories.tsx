@@ -6,7 +6,8 @@ import type { StoryAgParameters } from '../../../src/contracts/testing';
 import { Glyph, Scene, Section, Stage } from './controls-stage';
 
 const sbMeta = {
-  title: 'Flagships/Controls/ButtonGroup',
+  /* ButtonGroup has no ComponentMeta.flagship number, so it is a Core title (REQ-QUAL-49), not a Flagships one. */
+  title: 'Core/ButtonGroup',
   component: ButtonGroup,
   tags: ['certified'],
   parameters: { ag: { tier: 'standard', subject: 'ButtonGroup', kind: 'component' } },

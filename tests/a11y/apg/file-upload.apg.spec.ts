@@ -7,7 +7,7 @@ import { apg } from './harness';
 
 test.describe('file-upload APG (FND-092)', () => {
   test('dropzone is focusable, Enter opens picker, item remove reachable', async ({ page }) => {
-    await gotoStory(page, 'core-file-upload--default');
+    await gotoStory(page, 'core-fileupload--default');
     await apg.keyboard(page, [
       { press: 'Tab', expectFocus: 'dropzone' },
       { press: 'Tab', expectFocus: 'remove' },

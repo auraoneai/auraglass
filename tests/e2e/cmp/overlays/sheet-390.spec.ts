@@ -10,7 +10,7 @@ test.describe('sheet @390px (REQ-CMP-96)', () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
   test('left sheet is full-width with no handle; right sheet same', async ({ page }) => {
-    for (const id of ['overlays-sheet--left-panel-rtl', 'overlays-sheet--right-panel']) {
+    for (const id of ['flagships-overlays-sheet--left-panel-rtl', 'flagships-overlays-sheet--right-panel']) {
       await gotoStory(page, id);
       const popup = page.locator('[data-ag-part="popup"]').first();
       await expect(popup).toBeVisible();
@@ -23,7 +23,7 @@ test.describe('sheet @390px (REQ-CMP-96)', () => {
   });
 
   test('bottom sheet keeps its handle at 390px (detent drag surface)', async ({ page }) => {
-    await gotoStory(page, 'overlays-sheet--bottom-detents');
+    await gotoStory(page, 'flagships-overlays-sheet--bottom-detents');
     const popup = page.locator('[data-ag-part="popup"]').first();
     await expect(popup).toBeVisible();
     await expect(popup.locator('[data-ag-part="handle"]')).toBeVisible();

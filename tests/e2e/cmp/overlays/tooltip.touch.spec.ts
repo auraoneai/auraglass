@@ -9,7 +9,7 @@ test.use({ hasTouch: true });
 
 test.describe('tooltip touch (CMP-398 / REQ-CMP-101)', () => {
   test('plain tap does not open; 550ms long-press opens; outside tap closes', async ({ page }) => {
-    await gotoStory(page, 'overlays-tooltip--coarse-long-press');
+    await gotoStory(page, 'flagships-overlays-tooltip--coarse-long-press');
     const trigger = page.locator('[data-ag-part="trigger"]').first();
     await expect(trigger).toBeVisible();
     const popup = page.locator('[data-ag-part="popup"], [role="tooltip"]').first();

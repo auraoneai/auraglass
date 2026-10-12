@@ -20,8 +20,12 @@ import { compare, formatByOwner, loadBaseline, packageVersion, pruneBaseline } f
 export const STORY_SORT_ORDER = ['Start Here', 'Material Lab', 'Scenes', 'Showcases', 'Flagships',
   ['Controls', 'Overlays', 'App Shell', 'Data', 'AI', 'Media'], 'Core', 'Foundations', 'Migration'];
 export const FLAGSHIP_GROUPS = STORY_SORT_ORDER[5];
-/** Groups whose titles may be larger than the smallest flagship title (rule oversize-title). */
-export const LARGE_GROUPS = ['Flagships', 'Showcases', 'Material Lab'];
+/** Groups whose titles may be larger than the smallest flagship title (rule oversize-title). `Scenes` is the REQ-QUAL-08
+ *  certification-scene title: exactly one story per S-42 scene id (`scenes--<id>`), a size fixed by the contract. */
+export const LARGE_GROUPS = ['Flagships', 'Showcases', 'Material Lab', 'Scenes'];
+/** Tag of QUAL test fixtures that are never certification or documentation subjects; a title whose every story carries
+ *  it is a harness page addressed by id (lanes, perf), not part of the sidebar's component IA, so it is not size-ranked. */
+export const FIXTURE_TAG = 'no-cert';
 export const MAX_COMPONENT_STORIES = 12;
 export const RULES = ['version-segment', 'lowercase-leaf', 'glass-prefix', 'multi-group', 'leaf-not-meta-name',
   'too-many-stories', 'oversize-title', 'default-variants-only'];
@@ -90,8 +94,9 @@ export function lintTitles(entries, metas) {
     if (isComponent && !subjects.includes(leaf)) push('leaf-not-meta-name', title, list, `leaf "${leaf}" is not the subject's ComponentMeta.name (${subjects.join(', ')})`);
     const nonMatrix = list.filter((e) => e.kind !== 'matrix').length;
     if (isComponent && nonMatrix > MAX_COMPONENT_STORIES) push('too-many-stories', title, list, `${nonMatrix} non-matrix stories (> ${MAX_COMPONENT_STORIES})`);
-    if (!LARGE_GROUPS.includes(group) && smallestFlagship !== null && list.length > smallestFlagship) {
-      push('oversize-title', title, list, `${list.length} stories outside Flagships/Showcases/Material Lab (> smallest flagship title, ${smallestFlagship})`);
+    const fixtureTitle = list.every((e) => Array.isArray(e.tags) && e.tags.includes(FIXTURE_TAG));
+    if (!LARGE_GROUPS.includes(group) && !fixtureTitle && smallestFlagship !== null && list.length > smallestFlagship) {
+      push('oversize-title', title, list, `${list.length} stories outside ${LARGE_GROUPS.join('/')} (> smallest flagship title, ${smallestFlagship})`);
     }
     const names = [...new Set(list.map((e) => e.name))].sort();
     if (names.length === 2 && names[0] === 'Default' && names[1] === 'Variants') push('default-variants-only', title, list, 'story set is exactly {Default, Variants}');

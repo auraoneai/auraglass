@@ -8,7 +8,7 @@ import { apg } from '../harness';
 
 test.describe('inline-edit APG (CMP-356)', () => {
   test('Enter opens editor, Enter commits, focus returns to the button', async ({ page }) => {
-    await gotoStory(page, 'core-inline-edit--default');
+    await gotoStory(page, 'core-inlineedit--default');
     const btn = page.locator('[data-ag-part="preview"], [data-ag-part="button"], button').first();
     await btn.focus();
     await page.keyboard.press('Enter');
@@ -21,7 +21,7 @@ test.describe('inline-edit APG (CMP-356)', () => {
   });
 
   test('Escape cancels and restores the old value', async ({ page }) => {
-    await gotoStory(page, 'core-inline-edit--default');
+    await gotoStory(page, 'core-inlineedit--default');
     const btn = page.locator('[data-ag-part="preview"], [data-ag-part="button"], button').first();
     const original = (await btn.textContent()) ?? '';
     await btn.focus();

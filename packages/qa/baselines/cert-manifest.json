@@ -368,27 +368,11 @@
     "subject": "Chip"
   },
   {
-    "file": "stories/cmp/components/ControlsDenseForm.stories.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "ControlsDenseForm"
-  },
-  {
     "file": "stories/cmp/components/KeyValueEditor.stories.tsx",
     "owner": "CMP",
     "reqFin": "REQ-FIN-70",
     "expires": "RC-1",
     "code": "ambiguous-subject",
     "subject": "KeyValueEditor"
-  },
-  {
-    "file": "stories/cmp/overlays/OverlayMatrix.stories.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "OverlayMatrix"
   }
 ]

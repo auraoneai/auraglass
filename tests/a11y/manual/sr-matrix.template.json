@@ -317,7 +317,7 @@
       "flagship": 18,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "core-accordion--default",
+      "storyId": "flagships-overlays-accordion--playground",
       "script": "tests/a11y/manual/scripts/cmp/accordion.md",
       "record": "tests/a11y/manual/records/cmp/accordion-voiceover-macos.json",
       "required": true
@@ -329,7 +329,7 @@
       "flagship": 18,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "core-accordion--default",
+      "storyId": "flagships-overlays-accordion--playground",
       "script": "tests/a11y/manual/scripts/cmp/accordion.md",
       "record": "tests/a11y/manual/records/cmp/accordion-voiceover-ios.json",
       "required": true
@@ -341,7 +341,7 @@
       "flagship": 18,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "core-accordion--default",
+      "storyId": "flagships-overlays-accordion--playground",
       "script": "tests/a11y/manual/scripts/cmp/accordion.md",
       "record": "tests/a11y/manual/records/cmp/accordion-nvda-chrome.json",
       "required": true
@@ -353,7 +353,7 @@
       "flagship": 18,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "core-accordion--default",
+      "storyId": "flagships-overlays-accordion--playground",
       "script": "tests/a11y/manual/scripts/cmp/accordion.md",
       "record": "tests/a11y/manual/records/cmp/accordion-talkback-chrome.json",
       "required": true
@@ -365,7 +365,7 @@
       "flagship": 18,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "core-accordion--default",
+      "storyId": "flagships-overlays-accordion--playground",
       "script": "tests/a11y/manual/scripts/cmp/accordion.md",
       "record": "tests/a11y/manual/records/cmp/accordion-touch-ios.json",
       "required": true
@@ -377,7 +377,7 @@
       "flagship": 18,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "core-accordion--default",
+      "storyId": "flagships-overlays-accordion--playground",
       "script": "tests/a11y/manual/scripts/cmp/accordion.md",
       "record": "tests/a11y/manual/records/cmp/accordion-touch-android.json",
       "required": true
@@ -389,7 +389,7 @@
       "flagship": 16,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "flagships-overlays-alertdialog--confirm",
+      "storyId": "flagships-overlays-alertdialog--playground",
       "script": "tests/a11y/manual/scripts/cmp/alert-dialog.md",
       "record": "tests/a11y/manual/records/cmp/alert-dialog-voiceover-macos.json",
       "required": true
@@ -401,7 +401,7 @@
       "flagship": 16,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "flagships-overlays-alertdialog--confirm",
+      "storyId": "flagships-overlays-alertdialog--playground",
       "script": "tests/a11y/manual/scripts/cmp/alert-dialog.md",
       "record": "tests/a11y/manual/records/cmp/alert-dialog-voiceover-ios.json",
       "required": true
@@ -413,7 +413,7 @@
       "flagship": 16,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "flagships-overlays-alertdialog--confirm",
+      "storyId": "flagships-overlays-alertdialog--playground",
       "script": "tests/a11y/manual/scripts/cmp/alert-dialog.md",
       "record": "tests/a11y/manual/records/cmp/alert-dialog-nvda-chrome.json",
       "required": true
@@ -425,7 +425,7 @@
       "flagship": 16,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "flagships-overlays-alertdialog--confirm",
+      "storyId": "flagships-overlays-alertdialog--playground",
       "script": "tests/a11y/manual/scripts/cmp/alert-dialog.md",
       "record": "tests/a11y/manual/records/cmp/alert-dialog-talkback-chrome.json",
       "required": true
@@ -437,7 +437,7 @@
       "flagship": 16,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "flagships-overlays-alertdialog--confirm",
+      "storyId": "flagships-overlays-alertdialog--playground",
       "script": "tests/a11y/manual/scripts/cmp/alert-dialog.md",
       "record": "tests/a11y/manual/records/cmp/alert-dialog-touch-ios.json",
       "required": true
@@ -449,7 +449,7 @@
       "flagship": 16,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "flagships-overlays-alertdialog--confirm",
+      "storyId": "flagships-overlays-alertdialog--playground",
       "script": "tests/a11y/manual/scripts/cmp/alert-dialog.md",
       "record": "tests/a11y/manual/records/cmp/alert-dialog-touch-android.json",
       "required": true
@@ -533,7 +533,7 @@
       "flagship": 7,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "flagships-controls-checkbox--default",
+      "storyId": "flagships-controls-checkbox--playground",
       "script": "tests/a11y/manual/scripts/cmp/checkbox.md",
       "record": "tests/a11y/manual/records/cmp/checkbox-voiceover-macos.json",
       "required": true
@@ -545,7 +545,7 @@
       "flagship": 7,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "flagships-controls-checkbox--default",
+      "storyId": "flagships-controls-checkbox--playground",
       "script": "tests/a11y/manual/scripts/cmp/checkbox.md",
       "record": "tests/a11y/manual/records/cmp/checkbox-voiceover-ios.json",
       "required": true
@@ -557,7 +557,7 @@
       "flagship": 7,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "flagships-controls-checkbox--default",
+      "storyId": "flagships-controls-checkbox--playground",
       "script": "tests/a11y/manual/scripts/cmp/checkbox.md",
       "record": "tests/a11y/manual/records/cmp/checkbox-nvda-chrome.json",
       "required": true
@@ -569,7 +569,7 @@
       "flagship": 7,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "flagships-controls-checkbox--default",
+      "storyId": "flagships-controls-checkbox--playground",
       "script": "tests/a11y/manual/scripts/cmp/checkbox.md",
       "record": "tests/a11y/manual/records/cmp/checkbox-talkback-chrome.json",
       "required": true
@@ -581,7 +581,7 @@
       "flagship": 7,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "flagships-controls-checkbox--default",
+      "storyId": "flagships-controls-checkbox--playground",
       "script": "tests/a11y/manual/scripts/cmp/checkbox.md",
       "record": "tests/a11y/manual/records/cmp/checkbox-touch-ios.json",
       "required": true
@@ -593,7 +593,7 @@
       "flagship": 7,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "flagships-controls-checkbox--default",
+      "storyId": "flagships-controls-checkbox--playground",
       "script": "tests/a11y/manual/scripts/cmp/checkbox.md",
       "record": "tests/a11y/manual/records/cmp/checkbox-touch-android.json",
       "required": true
@@ -605,7 +605,7 @@
       "flagship": 7,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "flagships-controls-checkboxgroup--default",
+      "storyId": "flagships-controls-checkboxgroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/checkbox-group.md",
       "record": "tests/a11y/manual/records/cmp/checkbox-group-voiceover-macos.json",
       "required": true
@@ -617,7 +617,7 @@
       "flagship": 7,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "flagships-controls-checkboxgroup--default",
+      "storyId": "flagships-controls-checkboxgroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/checkbox-group.md",
       "record": "tests/a11y/manual/records/cmp/checkbox-group-voiceover-ios.json",
       "required": true
@@ -629,7 +629,7 @@
       "flagship": 7,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "flagships-controls-checkboxgroup--default",
+      "storyId": "flagships-controls-checkboxgroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/checkbox-group.md",
       "record": "tests/a11y/manual/records/cmp/checkbox-group-nvda-chrome.json",
       "required": true
@@ -641,7 +641,7 @@
       "flagship": 7,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "flagships-controls-checkboxgroup--default",
+      "storyId": "flagships-controls-checkboxgroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/checkbox-group.md",
       "record": "tests/a11y/manual/records/cmp/checkbox-group-talkback-chrome.json",
       "required": true
@@ -653,7 +653,7 @@
       "flagship": 7,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "flagships-controls-checkboxgroup--default",
+      "storyId": "flagships-controls-checkboxgroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/checkbox-group.md",
       "record": "tests/a11y/manual/records/cmp/checkbox-group-touch-ios.json",
       "required": true
@@ -665,7 +665,7 @@
       "flagship": 7,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "flagships-controls-checkboxgroup--default",
+      "storyId": "flagships-controls-checkboxgroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/checkbox-group.md",
       "record": "tests/a11y/manual/records/cmp/checkbox-group-touch-android.json",
       "required": true
@@ -917,7 +917,7 @@
       "flagship": 9,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "flagships-controls-field--default",
+      "storyId": "flagships-controls-field--playground",
       "script": "tests/a11y/manual/scripts/cmp/field.md",
       "record": "tests/a11y/manual/records/cmp/field-voiceover-macos.json",
       "required": true
@@ -929,7 +929,7 @@
       "flagship": 9,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "flagships-controls-field--default",
+      "storyId": "flagships-controls-field--playground",
       "script": "tests/a11y/manual/scripts/cmp/field.md",
       "record": "tests/a11y/manual/records/cmp/field-voiceover-ios.json",
       "required": true
@@ -941,7 +941,7 @@
       "flagship": 9,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "flagships-controls-field--default",
+      "storyId": "flagships-controls-field--playground",
       "script": "tests/a11y/manual/scripts/cmp/field.md",
       "record": "tests/a11y/manual/records/cmp/field-nvda-chrome.json",
       "required": true
@@ -953,7 +953,7 @@
       "flagship": 9,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "flagships-controls-field--default",
+      "storyId": "flagships-controls-field--playground",
       "script": "tests/a11y/manual/scripts/cmp/field.md",
       "record": "tests/a11y/manual/records/cmp/field-talkback-chrome.json",
       "required": true
@@ -965,7 +965,7 @@
       "flagship": 9,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "flagships-controls-field--default",
+      "storyId": "flagships-controls-field--playground",
       "script": "tests/a11y/manual/scripts/cmp/field.md",
       "record": "tests/a11y/manual/records/cmp/field-touch-ios.json",
       "required": true
@@ -977,7 +977,7 @@
       "flagship": 9,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "flagships-controls-field--default",
+      "storyId": "flagships-controls-field--playground",
       "script": "tests/a11y/manual/scripts/cmp/field.md",
       "record": "tests/a11y/manual/records/cmp/field-touch-android.json",
       "required": true
@@ -989,7 +989,7 @@
       "flagship": 9,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "flagships-controls-fieldset--default",
+      "storyId": "flagships-controls-fieldset--playground",
       "script": "tests/a11y/manual/scripts/cmp/fieldset.md",
       "record": "tests/a11y/manual/records/cmp/fieldset-voiceover-macos.json",
       "required": true
@@ -1001,7 +1001,7 @@
       "flagship": 9,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "flagships-controls-fieldset--default",
+      "storyId": "flagships-controls-fieldset--playground",
       "script": "tests/a11y/manual/scripts/cmp/fieldset.md",
       "record": "tests/a11y/manual/records/cmp/fieldset-voiceover-ios.json",
       "required": true
@@ -1013,7 +1013,7 @@
       "flagship": 9,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "flagships-controls-fieldset--default",
+      "storyId": "flagships-controls-fieldset--playground",
       "script": "tests/a11y/manual/scripts/cmp/fieldset.md",
       "record": "tests/a11y/manual/records/cmp/fieldset-nvda-chrome.json",
       "required": true
@@ -1025,7 +1025,7 @@
       "flagship": 9,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "flagships-controls-fieldset--default",
+      "storyId": "flagships-controls-fieldset--playground",
       "script": "tests/a11y/manual/scripts/cmp/fieldset.md",
       "record": "tests/a11y/manual/records/cmp/fieldset-talkback-chrome.json",
       "required": true
@@ -1037,7 +1037,7 @@
       "flagship": 9,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "flagships-controls-fieldset--default",
+      "storyId": "flagships-controls-fieldset--playground",
       "script": "tests/a11y/manual/scripts/cmp/fieldset.md",
       "record": "tests/a11y/manual/records/cmp/fieldset-touch-ios.json",
       "required": true
@@ -1049,7 +1049,7 @@
       "flagship": 9,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "flagships-controls-fieldset--default",
+      "storyId": "flagships-controls-fieldset--playground",
       "script": "tests/a11y/manual/scripts/cmp/fieldset.md",
       "record": "tests/a11y/manual/records/cmp/fieldset-touch-android.json",
       "required": true
@@ -1325,7 +1325,7 @@
       "flagship": 13,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "flagships-controls-numberfield--default",
+      "storyId": "flagships-controls-numberfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/number-field.md",
       "record": "tests/a11y/manual/records/cmp/number-field-voiceover-macos.json",
       "required": true
@@ -1337,7 +1337,7 @@
       "flagship": 13,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "flagships-controls-numberfield--default",
+      "storyId": "flagships-controls-numberfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/number-field.md",
       "record": "tests/a11y/manual/records/cmp/number-field-voiceover-ios.json",
       "required": true
@@ -1349,7 +1349,7 @@
       "flagship": 13,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "flagships-controls-numberfield--default",
+      "storyId": "flagships-controls-numberfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/number-field.md",
       "record": "tests/a11y/manual/records/cmp/number-field-nvda-chrome.json",
       "required": true
@@ -1361,7 +1361,7 @@
       "flagship": 13,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "flagships-controls-numberfield--default",
+      "storyId": "flagships-controls-numberfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/number-field.md",
       "record": "tests/a11y/manual/records/cmp/number-field-talkback-chrome.json",
       "required": true
@@ -1373,7 +1373,7 @@
       "flagship": 13,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "flagships-controls-numberfield--default",
+      "storyId": "flagships-controls-numberfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/number-field.md",
       "record": "tests/a11y/manual/records/cmp/number-field-touch-ios.json",
       "required": true
@@ -1385,7 +1385,7 @@
       "flagship": 13,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "flagships-controls-numberfield--default",
+      "storyId": "flagships-controls-numberfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/number-field.md",
       "record": "tests/a11y/manual/records/cmp/number-field-touch-android.json",
       "required": true
@@ -1469,7 +1469,7 @@
       "flagship": 8,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "flagships-controls-radiogroup--default",
+      "storyId": "flagships-controls-radiogroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/radio-group.md",
       "record": "tests/a11y/manual/records/cmp/radio-group-voiceover-macos.json",
       "required": true
@@ -1481,7 +1481,7 @@
       "flagship": 8,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "flagships-controls-radiogroup--default",
+      "storyId": "flagships-controls-radiogroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/radio-group.md",
       "record": "tests/a11y/manual/records/cmp/radio-group-voiceover-ios.json",
       "required": true
@@ -1493,7 +1493,7 @@
       "flagship": 8,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "flagships-controls-radiogroup--default",
+      "storyId": "flagships-controls-radiogroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/radio-group.md",
       "record": "tests/a11y/manual/records/cmp/radio-group-nvda-chrome.json",
       "required": true
@@ -1505,7 +1505,7 @@
       "flagship": 8,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "flagships-controls-radiogroup--default",
+      "storyId": "flagships-controls-radiogroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/radio-group.md",
       "record": "tests/a11y/manual/records/cmp/radio-group-talkback-chrome.json",
       "required": true
@@ -1517,7 +1517,7 @@
       "flagship": 8,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "flagships-controls-radiogroup--default",
+      "storyId": "flagships-controls-radiogroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/radio-group.md",
       "record": "tests/a11y/manual/records/cmp/radio-group-touch-ios.json",
       "required": true
@@ -1529,7 +1529,7 @@
       "flagship": 8,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "flagships-controls-radiogroup--default",
+      "storyId": "flagships-controls-radiogroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/radio-group.md",
       "record": "tests/a11y/manual/records/cmp/radio-group-touch-android.json",
       "required": true
@@ -1541,7 +1541,7 @@
       "flagship": 10,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "flagships-controls-searchfield--default",
+      "storyId": "flagships-controls-searchfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/search-field.md",
       "record": "tests/a11y/manual/records/cmp/search-field-voiceover-macos.json",
       "required": true
@@ -1553,7 +1553,7 @@
       "flagship": 10,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "flagships-controls-searchfield--default",
+      "storyId": "flagships-controls-searchfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/search-field.md",
       "record": "tests/a11y/manual/records/cmp/search-field-voiceover-ios.json",
       "required": true
@@ -1565,7 +1565,7 @@
       "flagship": 10,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "flagships-controls-searchfield--default",
+      "storyId": "flagships-controls-searchfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/search-field.md",
       "record": "tests/a11y/manual/records/cmp/search-field-nvda-chrome.json",
       "required": true
@@ -1577,7 +1577,7 @@
       "flagship": 10,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "flagships-controls-searchfield--default",
+      "storyId": "flagships-controls-searchfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/search-field.md",
       "record": "tests/a11y/manual/records/cmp/search-field-talkback-chrome.json",
       "required": true
@@ -1589,7 +1589,7 @@
       "flagship": 10,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "flagships-controls-searchfield--default",
+      "storyId": "flagships-controls-searchfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/search-field.md",
       "record": "tests/a11y/manual/records/cmp/search-field-touch-ios.json",
       "required": true
@@ -1601,7 +1601,7 @@
       "flagship": 10,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "flagships-controls-searchfield--default",
+      "storyId": "flagships-controls-searchfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/search-field.md",
       "record": "tests/a11y/manual/records/cmp/search-field-touch-android.json",
       "required": true
@@ -1829,7 +1829,7 @@
       "flagship": 6,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "flagships-controls-slider--default",
+      "storyId": "flagships-controls-slider--playground",
       "script": "tests/a11y/manual/scripts/cmp/slider.md",
       "record": "tests/a11y/manual/records/cmp/slider-voiceover-macos.json",
       "required": true
@@ -1841,7 +1841,7 @@
       "flagship": 6,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "flagships-controls-slider--default",
+      "storyId": "flagships-controls-slider--playground",
       "script": "tests/a11y/manual/scripts/cmp/slider.md",
       "record": "tests/a11y/manual/records/cmp/slider-voiceover-ios.json",
       "required": true
@@ -1853,7 +1853,7 @@
       "flagship": 6,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "flagships-controls-slider--default",
+      "storyId": "flagships-controls-slider--playground",
       "script": "tests/a11y/manual/scripts/cmp/slider.md",
       "record": "tests/a11y/manual/records/cmp/slider-nvda-chrome.json",
       "required": true
@@ -1865,7 +1865,7 @@
       "flagship": 6,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "flagships-controls-slider--default",
+      "storyId": "flagships-controls-slider--playground",
       "script": "tests/a11y/manual/scripts/cmp/slider.md",
       "record": "tests/a11y/manual/records/cmp/slider-talkback-chrome.json",
       "required": true
@@ -1877,7 +1877,7 @@
       "flagship": 6,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "flagships-controls-slider--default",
+      "storyId": "flagships-controls-slider--playground",
       "script": "tests/a11y/manual/scripts/cmp/slider.md",
       "record": "tests/a11y/manual/records/cmp/slider-touch-ios.json",
       "required": true
@@ -1889,7 +1889,7 @@
       "flagship": 6,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "flagships-controls-slider--default",
+      "storyId": "flagships-controls-slider--playground",
       "script": "tests/a11y/manual/scripts/cmp/slider.md",
       "record": "tests/a11y/manual/records/cmp/slider-touch-android.json",
       "required": true
@@ -1901,7 +1901,7 @@
       "flagship": 5,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "flagships-controls-switch--default",
+      "storyId": "flagships-controls-switch--playground",
       "script": "tests/a11y/manual/scripts/cmp/switch.md",
       "record": "tests/a11y/manual/records/cmp/switch-voiceover-macos.json",
       "required": true
@@ -1913,7 +1913,7 @@
       "flagship": 5,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "flagships-controls-switch--default",
+      "storyId": "flagships-controls-switch--playground",
       "script": "tests/a11y/manual/scripts/cmp/switch.md",
       "record": "tests/a11y/manual/records/cmp/switch-voiceover-ios.json",
       "required": true
@@ -1925,7 +1925,7 @@
       "flagship": 5,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "flagships-controls-switch--default",
+      "storyId": "flagships-controls-switch--playground",
       "script": "tests/a11y/manual/scripts/cmp/switch.md",
       "record": "tests/a11y/manual/records/cmp/switch-nvda-chrome.json",
       "required": true
@@ -1937,7 +1937,7 @@
       "flagship": 5,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "flagships-controls-switch--default",
+      "storyId": "flagships-controls-switch--playground",
       "script": "tests/a11y/manual/scripts/cmp/switch.md",
       "record": "tests/a11y/manual/records/cmp/switch-talkback-chrome.json",
       "required": true
@@ -1949,7 +1949,7 @@
       "flagship": 5,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "flagships-controls-switch--default",
+      "storyId": "flagships-controls-switch--playground",
       "script": "tests/a11y/manual/scripts/cmp/switch.md",
       "record": "tests/a11y/manual/records/cmp/switch-touch-ios.json",
       "required": true
@@ -1961,7 +1961,7 @@
       "flagship": 5,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "flagships-controls-switch--default",
+      "storyId": "flagships-controls-switch--playground",
       "script": "tests/a11y/manual/scripts/cmp/switch.md",
       "record": "tests/a11y/manual/records/cmp/switch-touch-android.json",
       "required": true
@@ -1973,7 +1973,7 @@
       "flagship": 9,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "flagships-controls-textfield--default",
+      "storyId": "flagships-controls-textfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/text-field.md",
       "record": "tests/a11y/manual/records/cmp/text-field-voiceover-macos.json",
       "required": true
@@ -1985,7 +1985,7 @@
       "flagship": 9,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "flagships-controls-textfield--default",
+      "storyId": "flagships-controls-textfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/text-field.md",
       "record": "tests/a11y/manual/records/cmp/text-field-voiceover-ios.json",
       "required": true
@@ -1997,7 +1997,7 @@
       "flagship": 9,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "flagships-controls-textfield--default",
+      "storyId": "flagships-controls-textfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/text-field.md",
       "record": "tests/a11y/manual/records/cmp/text-field-nvda-chrome.json",
       "required": true
@@ -2009,7 +2009,7 @@
       "flagship": 9,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "flagships-controls-textfield--default",
+      "storyId": "flagships-controls-textfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/text-field.md",
       "record": "tests/a11y/manual/records/cmp/text-field-talkback-chrome.json",
       "required": true
@@ -2021,7 +2021,7 @@
       "flagship": 9,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "flagships-controls-textfield--default",
+      "storyId": "flagships-controls-textfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/text-field.md",
       "record": "tests/a11y/manual/records/cmp/text-field-touch-ios.json",
       "required": true
@@ -2033,7 +2033,7 @@
       "flagship": 9,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "flagships-controls-textfield--default",
+      "storyId": "flagships-controls-textfield--playground",
       "script": "tests/a11y/manual/scripts/cmp/text-field.md",
       "record": "tests/a11y/manual/records/cmp/text-field-touch-android.json",
       "required": true
@@ -2117,7 +2117,7 @@
       "flagship": 3,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "flagships-controls-togglegroup--default",
+      "storyId": "flagships-controls-togglegroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/toggle-group.md",
       "record": "tests/a11y/manual/records/cmp/toggle-group-voiceover-macos.json",
       "required": true
@@ -2129,7 +2129,7 @@
       "flagship": 3,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "flagships-controls-togglegroup--default",
+      "storyId": "flagships-controls-togglegroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/toggle-group.md",
       "record": "tests/a11y/manual/records/cmp/toggle-group-voiceover-ios.json",
       "required": true
@@ -2141,7 +2141,7 @@
       "flagship": 3,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "flagships-controls-togglegroup--default",
+      "storyId": "flagships-controls-togglegroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/toggle-group.md",
       "record": "tests/a11y/manual/records/cmp/toggle-group-nvda-chrome.json",
       "required": true
@@ -2153,7 +2153,7 @@
       "flagship": 3,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "flagships-controls-togglegroup--default",
+      "storyId": "flagships-controls-togglegroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/toggle-group.md",
       "record": "tests/a11y/manual/records/cmp/toggle-group-talkback-chrome.json",
       "required": true
@@ -2165,7 +2165,7 @@
       "flagship": 3,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "flagships-controls-togglegroup--default",
+      "storyId": "flagships-controls-togglegroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/toggle-group.md",
       "record": "tests/a11y/manual/records/cmp/toggle-group-touch-ios.json",
       "required": true
@@ -2177,7 +2177,7 @@
       "flagship": 3,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "flagships-controls-togglegroup--default",
+      "storyId": "flagships-controls-togglegroup--playground",
       "script": "tests/a11y/manual/scripts/cmp/toggle-group.md",
       "record": "tests/a11y/manual/records/cmp/toggle-group-touch-android.json",
       "required": true
@@ -2189,7 +2189,7 @@
       "flagship": 3,
       "pass": "sr",
       "at": "voiceover-macos",
-      "storyId": "flagships-controls-toolbar--default",
+      "storyId": "flagships-controls-toolbar--playground",
       "script": "tests/a11y/manual/scripts/cmp/toolbar.md",
       "record": "tests/a11y/manual/records/cmp/toolbar-voiceover-macos.json",
       "required": true
@@ -2201,7 +2201,7 @@
       "flagship": 3,
       "pass": "sr",
       "at": "voiceover-ios",
-      "storyId": "flagships-controls-toolbar--default",
+      "storyId": "flagships-controls-toolbar--playground",
       "script": "tests/a11y/manual/scripts/cmp/toolbar.md",
       "record": "tests/a11y/manual/records/cmp/toolbar-voiceover-ios.json",
       "required": true
@@ -2213,7 +2213,7 @@
       "flagship": 3,
       "pass": "sr",
       "at": "nvda-chrome",
-      "storyId": "flagships-controls-toolbar--default",
+      "storyId": "flagships-controls-toolbar--playground",
       "script": "tests/a11y/manual/scripts/cmp/toolbar.md",
       "record": "tests/a11y/manual/records/cmp/toolbar-nvda-chrome.json",
       "required": true
@@ -2225,7 +2225,7 @@
       "flagship": 3,
       "pass": "sr",
       "at": "talkback-chrome",
-      "storyId": "flagships-controls-toolbar--default",
+      "storyId": "flagships-controls-toolbar--playground",
       "script": "tests/a11y/manual/scripts/cmp/toolbar.md",
       "record": "tests/a11y/manual/records/cmp/toolbar-talkback-chrome.json",
       "required": true
@@ -2237,7 +2237,7 @@
       "flagship": 3,
       "pass": "touch",
       "at": "touch-ios",
-      "storyId": "flagships-controls-toolbar--default",
+      "storyId": "flagships-controls-toolbar--playground",
       "script": "tests/a11y/manual/scripts/cmp/toolbar.md",
       "record": "tests/a11y/manual/records/cmp/toolbar-touch-ios.json",
       "required": true
@@ -2249,7 +2249,7 @@
       "flagship": 3,
       "pass": "touch",
       "at": "touch-android",
-      "storyId": "flagships-controls-toolbar--default",
+      "storyId": "flagships-controls-toolbar--playground",
       "script": "tests/a11y/manual/scripts/cmp/toolbar.md",
       "record": "tests/a11y/manual/records/cmp/toolbar-touch-android.json",
       "required": true

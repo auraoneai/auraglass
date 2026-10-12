@@ -5,7 +5,6 @@
    Tagged no-cert: never a certification subject. */
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Dialog as BaseDialog, Menu as BaseMenu } from '@base-ui/react';
-import type { StoryAgParameters } from '../../../src/contracts/testing';
 import { Collapsible } from '../../../tests/contract-doubles/cmp/collapsible';
 import { Dialog } from '../../../tests/contract-doubles/cmp/dialog';
 import { Menu } from '../../../tests/contract-doubles/cmp/menu';
@@ -14,7 +13,7 @@ import { Toolbar } from '../../../tests/contract-doubles/cmp/toolbar';
 const meta = {
   title: 'QUAL/Fixtures/Contract Doubles',
   tags: ['no-cert'],
-  parameters: { ag: { subject: 'fixture:contract-doubles', kind: 'component' } satisfies StoryAgParameters },
+  // No parameters.ag: a no-cert fixture has no ComponentMeta or showcase subject (S-41), so it declares none.
 } satisfies Meta;
 export default meta;
 type Story = StoryObj<typeof meta>;

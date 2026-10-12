@@ -11,7 +11,7 @@ test.describe('overlay infinite animations audit (CMP-386)', () => {
   test('0 animations with iterations===Infinity at rest and while open', async ({ page }) => {
     // REQ-CMP-82: real story id (parameters.ag.id contract), assert at rest AND
     // while the overlay is open — not a fallback id that never existed.
-    await gotoStory(page, 'overlays-dialog--default');
+    await gotoStory(page, 'flagships-overlays-dialog--playground');
 
     const infiniteAtRest = await page.evaluate(() =>
       document.getAnimations().filter((a) => a.effect?.getTiming().iterations === Infinity).length,

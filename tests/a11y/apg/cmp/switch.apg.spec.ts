@@ -7,7 +7,7 @@ import { SWITCH_KEYS } from '../../../../src/components/switch/Switch.keys';
 
 test.describe('switch APG (CMP-363 + REQ-CMP-47)', () => {
   test('role=switch; Space/Enter behave per SWITCH_KEYS', async ({ page }) => {
-    await gotoStory(page, 'flagships-controls-switch--default');
+    await gotoStory(page, 'flagships-controls-switch--keyboard');
     const sw = page.getByRole('switch').first();
     await sw.focus();
     const before = await sw.getAttribute('aria-checked');

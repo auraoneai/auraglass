@@ -8,7 +8,7 @@ import { gotoStory, perf, listSubjects } from '../../../helpers/index';
 
 test.skip(!process.env.AG_REMOTE_RUNNER, 'remote perf lane only (AG_REMOTE_RUNNER=1)');
 
-const PERF_STORY = 'overlays-dialog--perf-dashboard';
+const PERF_STORY = 'cmp-fixtures-dialog-perf--dialog-over-dashboard';
 
 test.describe('dialog perf (REQ-CMP-90)', () => {
   test('perf-dashboard: open_ms <=100 under 4x throttle + longtask windows', async ({ page }) => {
