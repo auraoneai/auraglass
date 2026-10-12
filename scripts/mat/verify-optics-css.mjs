@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 /* MAT-100 — REQ-MAT-39 CSS scanner (no stylelint dependency; PostCSS via stylelint's
    own install per OI-MAT-04). Applies the optics patterns to every .css file under
-   src outside src/material/css and generated token CSS.
+   src outside src/material/css and generated token CSS. `backdrop-filter: none` resets
+   (solid / forced-colours rungs, docked panes) remove optics and are not reported.
 
    Usage:
      node scripts/mat/verify-optics-css.mjs [--root <dir>] [--ratchet <baseline.json>]
@@ -11,7 +12,7 @@
 import { createRequire } from 'node:module';
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
-import { OPTICS_PATTERNS } from './optics-patterns.mjs';
+import { OPTICS_PATTERNS, isOpticsReset } from './optics-patterns.mjs';
 import { isMain as isMainModule } from './_is-main.mjs';
 
 const require = createRequire(import.meta.url);
@@ -70,6 +71,7 @@ export function scan(root) {
       continue;
     }
     ast.walkDecls((decl) => {
+      if (isOpticsReset(decl.prop, decl.important ? `${decl.value} !important` : decl.value)) return;
       const hay = `${decl.prop}: ${decl.value}`;
       for (const p of OPTICS_PATTERNS) {
         if (p.re.test(hay)) {

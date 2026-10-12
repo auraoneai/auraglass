@@ -7,6 +7,18 @@
      - any file with more findings than its baseline -> exit 1 (a new file counts as 0)
    Files that drop below their baseline count are reported so the next --update lowers it.
 
+   Scope (FIN-D D.3-03 launch re-scope; the rule header is authoritative): the lint
+   measures optics *emission* — anything that can reach a rendered style. Exempt by path
+   (the rule's EXEMPT list): optics-detector fixtures (stories/qual/fixtures/**,
+   tests/perf/qual/**, tests/lint/qual/{css-perf,story-rules}.test.ts, the registry /
+   showcase / blocks / audit-backdrop lint fixtures, frozen 4.x recipes) and the material
+   engine's own verification suites (tests/material/**, tests/e2e/mat/**,
+   tests/visual/mat/**), which assert the optics src/material/** emits. Not counted in any
+   file: test titles, expect(value, message) messages, getPropertyValue()/CSS.supports()
+   arguments, `backdrop-filter: none` resets and boolean capability flags. Every other
+   story, test, app and src file stays linted; a deliberate emission in a test (a probe's
+   negative control) needs an eslint-disable-next-line with the reason.
+
    Usage:
      node scripts/mat/optics-lint.mjs [--root <dir>] [--baseline <json>] [--update] [--out <json>]
    --update re-records the baseline from this measurement (never hand-edit it).

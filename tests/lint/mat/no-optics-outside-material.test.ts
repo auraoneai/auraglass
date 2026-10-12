@@ -43,6 +43,25 @@ describe('auraglass/no-optics-outside-material', () => {
         // ordinary code with no optics
         { filename: inSrc, code: 'const x = { padding: 8 };' },
         { filename: inSrc, code: 'const label = `blur the lines`;' }, // no call syntax
+        // optics-detector fixtures and the material engine's verification suites
+        { filename: 'stories/qual/fixtures/perf/A11yFallback.stories.tsx', code: 'const p = { backdropFilter: "blur(12px)" };' },
+        { filename: 'tests/perf/qual/invariants.mjs', code: "const props = ['backdrop-filter', '-webkit-backdrop-filter'];" },
+        { filename: 'tests/material/ci/ladders-shape.test.ts', code: "const has = '-webkit-backdrop-filter' in decls;" },
+        { filename: 'tests/e2e/mat/material/tiers.spec.ts', code: "const bf = read(page, '::before', 'backdrop-filter');" },
+        { filename: 'tests/lint/qual/story-rules.test.ts', code: "const c = `.card { backdrop-filter: blur(12px); }`;" },
+        // non-emitting contexts: test titles, expect messages, readers / feature queries
+        { filename: 'tests/a/a.spec.ts', code: "test('no backdrop-filter under forced colors', () => {});" },
+        { filename: 'tests/a/a.spec.ts', code: 'test.describe(`${n}: 0 backdrop-filters`, () => {});' },
+        { filename: 'tests/a/a.test.ts', code: "it.each([1])('blur(2px) case %s', () => {});" },
+        { filename: 'tests/a/a.spec.ts', code: "expect(f, `${p} backdrop-filter`).toBe('none');" },
+        { filename: 'tests/a/a.spec.ts', code: "expect.soft(f, 'backdrop-filter').toBe('none');" },
+        { filename: inSrc, code: "const v = cs.getPropertyValue('-webkit-backdrop-filter');" },
+        { filename: inSrc, code: "const ok = CSS.supports('(backdrop-filter: blur(1px))');" },
+        // optics resets and capability flags
+        { filename: 'tests/a/a.test.ts', code: "const rules = ['backdrop-filter: none', 'filter: none'];" },
+        { filename: inSrc, code: 'const cap = { backdropFilter: true, saveData: false };' },
+        { filename: inSrc, code: 'const cap = { backdropFilter: rand() < 0.85 };' },
+        { filename: inSrc, code: 'const cap = { WebkitBackdropFilter: !legacy };' },
       ],
       invalid: [
         // 1. style object key: backdropFilter
@@ -103,6 +122,38 @@ describe('auraglass/no-optics-outside-material', () => {
           filename: 'tests/lint/qual/other.test.ts',
           code: "const s = 'backdrop-filter: blur(9px)';",
           errors: [{ messageId: 'pattern' }],
+        },
+        // the non-emitting contexts are narrow: other arguments and emitting values still report
+        {
+          filename: 'tests/a/a.spec.ts',
+          code: "test('t', () => { el.style.cssText = 'backdrop-filter: blur(4px)'; });",
+          errors: [{ messageId: 'pattern' }],
+        },
+        {
+          filename: 'tests/a/a.spec.ts',
+          code: "expect('backdrop-filter: blur(2px)').toBe(x);",
+          errors: [{ messageId: 'pattern' }],
+        },
+        {
+          filename: inSrc,
+          code: "el.style.setProperty('-webkit-backdrop-filter', 'none');",
+          errors: [{ messageId: 'pattern' }],
+        },
+        {
+          filename: inSrc,
+          code: "const css = '.a { backdrop-filter: none; } .b { backdrop-filter: blur(8px); }';",
+          errors: [{ messageId: 'pattern' }],
+        },
+        {
+          filename: inSrc,
+          code: "const s = { backdropFilter: on ? 'url(#lens)' : 'none' };",
+          errors: [{ messageId: 'key' }],
+        },
+        // a story/test fixture outside the named detector directories is still linted
+        {
+          filename: 'stories/qual/Other.stories.tsx',
+          code: 'export const S = { args: { style: { backdropFilter: "blur(2px)" } } };',
+          errors: [{ messageId: 'key' }, { messageId: 'pattern' }],
         },
         // 9. stories are NOT exempt
         {

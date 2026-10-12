@@ -296,6 +296,7 @@ async function backdropParity(page: Page, url: string): Promise<Check> {
   return {
     name: 'glass-regular parity',
     pass: r.material !== null && r.material !== 'none' && r.tailwind === r.material,
+    // eslint-disable-next-line auraglass/no-optics-outside-material -- failure detail text naming the compared property
     detail: `glass-regular backdrop-filter=${r.tailwind} vs [data-ag-variant=regular]=${r.material}`,
   };
 }

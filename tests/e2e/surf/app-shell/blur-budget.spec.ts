@@ -129,9 +129,11 @@ test.describe('app-shell blur budget (REQ-SURF-191)', () => {
     await page.evaluate((px) => {
       const outer = document.createElement('div');
       outer.setAttribute('data-ag-part', 'blur-budget-control-outer');
+      // eslint-disable-next-line auraglass/no-optics-outside-material -- negative control: the probes must see a real over-radius blur
       outer.style.cssText = `position:fixed;inset:0 auto auto 0;width:40px;height:40px;backdrop-filter:blur(${px}px);-webkit-backdrop-filter:blur(${px}px)`;
       const inner = document.createElement('div');
       inner.setAttribute('data-ag-part', 'blur-budget-control-inner');
+      // eslint-disable-next-line auraglass/no-optics-outside-material -- negative control: a real nested blur for the depth-one probe
       inner.style.cssText = 'width:20px;height:20px;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)';
       outer.append(inner);
       document.body.append(outer);
