@@ -1,13 +1,17 @@
 ---
 id: OD-8
 title: GitLab pull mirroring of all refs (pipelines for every ref)
-status: awaiting-owner
+status: decided
 default: "Owner-run `node scripts/release/push-gitlab-refs.mjs --apply` after removing `--prune` from the push workflow (REQ-FIN-20 fallback)"
 blocks: [REQ-FIN-20, REQ-PLAT-06, "every needs=ci ledger row"]
-decidedBy:
-decidedAt:
-evidence:
+decidedBy: Gurbaksh Chahal (owner, live session; recorded by the agent)
+decidedAt: 2026-10-12
+evidence: "owner 2026-10-12: \"we dont have any credits left for gitlab -- so for CI -- u can just run it in AWS or Azure for temp places\""
 ---
+
+## Decision (2026-10-12)
+
+GitLab.com CI/CD compute credits are exhausted, so no pipeline runs on GitLab and the mirror options (pull mirror, push-gitlab-refs) are moot. The pipeline definition stays `.gitlab-ci.yml` + `ci/*.gitlab-ci.yml` unchanged and is executed with gitlab-ci-local (pinned 4.76.1) on the owner Azure host `glr-auraglass-1` (subscription az-auraone-gurbaksh, RG-AURAGLASS-CI-RUNNERS), one run per GitHub SHA, same images and needs graph. Evidence of a run is the per-job log + artifact bundle for that SHA (summary, job logs, .artifacts) kept with the release records instead of a GitLab job URL. REQ-FIN-20 alternative; activation rows (REQ-FIN-22/24) cite that run.
 
 # OD-8 — Pipelines for every ref (GitLab pull mirror)
 
