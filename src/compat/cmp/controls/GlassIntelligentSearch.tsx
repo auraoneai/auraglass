@@ -26,6 +26,7 @@ export interface GlassIntelligentSearchProps {
   'aria-label'?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link SearchField}. */
 export function GlassIntelligentSearch({ onChange, onSearch, results, suggestions, facets, aiPowered, ...rest }: GlassIntelligentSearchProps) {
   warnDeprecated(DEP);
   for (const p of [results !== undefined && 'results', suggestions !== undefined && 'suggestions',

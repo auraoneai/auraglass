@@ -20,6 +20,7 @@ export interface GlassSelectProps {
   value?: string;
   defaultValue?: string;
   onChange?: (value: string | null) => void;
+  /** @deprecated since 4.2.0, removed in 5.0.0. Use {@link 'items'}. */
   options?: readonly GlassSelectOption[];
   placeholder?: React.ReactNode;
   searchable?: boolean;
@@ -30,6 +31,7 @@ export interface GlassSelectProps {
   className?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Select}. */
 export function GlassSelect({ onChange, options, placeholder, searchable, size, glassVariant, ...rest }: GlassSelectProps) {
   warnDeprecated(DEP);
   if (searchable) warnDeprecated(`${DEP}.searchable:use-Combobox`);

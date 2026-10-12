@@ -18,6 +18,7 @@ export interface ToggleButtonGroupProps {
   className?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link ToggleGroup}. */
 export function ToggleButtonGroup({ value, defaultValue, onChange, multiple, ...rest }: ToggleButtonGroupProps) {
   warnDeprecated(DEP);
   const v = Array.isArray(value) ? value : value !== undefined ? [value] : undefined;

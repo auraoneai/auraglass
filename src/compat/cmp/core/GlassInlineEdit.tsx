@@ -8,6 +8,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0254';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link InlineEdit}. */
 export function GlassInlineEdit(props: React.ComponentProps<typeof InlineEdit>) {
   warnDeprecated(DEP);
   return wrap('GlassInlineEdit', <InlineEdit {...props} />);

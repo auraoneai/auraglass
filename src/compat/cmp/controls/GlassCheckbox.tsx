@@ -27,6 +27,7 @@ export interface GlassCheckboxProps {
   className?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Checkbox}. */
 export function GlassCheckbox({ onChange, onCheckedChange, label, size, glassVariant, ...rest }: GlassCheckboxProps) {
   warnDeprecated(DEP);
   if (glassVariant !== undefined) drop('glassVariant');

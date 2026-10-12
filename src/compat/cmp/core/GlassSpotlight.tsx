@@ -8,6 +8,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0264';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Tour}. */
 export function GlassSpotlight(props: React.ComponentProps<typeof Tour.Root>) {
   warnDeprecated(DEP);
   return wrap('GlassSpotlight', <Tour.Root {...props} />);

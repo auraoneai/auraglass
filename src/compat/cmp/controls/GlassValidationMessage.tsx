@@ -15,6 +15,7 @@ export interface GlassValidationMessageProps {
   className?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Field.Error}. */
 export function GlassValidationMessage({ message, children, type, ...rest }: GlassValidationMessageProps) {
   warnDeprecated(DEP);
   if (type !== undefined && type !== 'error') warnDeprecated(`${DEP}.type.${type}`);

@@ -1,6 +1,8 @@
 /* REQ-PLAT-69: 4.x-era specifiers never appear in 5.0 src/** — the removed
    subpaths (aura-glass/components, /styles, /index), compat internals, and
    4.x package aliases. New code imports the §4 subpaths. */
+// REQ-PLAT-69 rollout: warn outside PLAT globs until RC-1 (PLAT globs: _strict.cjs).
+const { rolloutSeverity } = require('./_rollout.cjs');
 const LEGACY = /^aura-glass\/(components|styles|index|legacy|internal|v4)(\/|$)|^@ag\/|^ag-legacy|\/legacy\//;
 
 module.exports = {
@@ -24,5 +26,5 @@ module.exports = {
       ImportExpression: (n) => n.source.type === 'Literal' && check(n.source, n.source.value),
     };
   },
-  agConfig: [{ files: ['src/**/*.{ts,tsx}'], severity: 'error' }],
+  agConfig: [{ files: ['src/**/*.{ts,tsx}'], severity: rolloutSeverity() }],
 };

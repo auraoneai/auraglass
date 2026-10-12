@@ -17,6 +17,7 @@ export interface GlassActionBarProps {
   className?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Toolbar}. */
 export function GlassActionBar({ actions, children, ...rest }: GlassActionBarProps) {
   warnDeprecated(DEP);
   return (

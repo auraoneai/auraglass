@@ -10,6 +10,7 @@ import { Slot } from '../../../primitives';
 
 const DEP = 'DEP-C0275';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Slot}. */
 export function GlassSlot(props: React.ComponentProps<typeof Slot>) {
   warnDeprecated(DEP);
   return <Slot {...props} />;

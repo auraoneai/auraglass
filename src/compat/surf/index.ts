@@ -115,7 +115,9 @@ const w4: SurfCompatAdapter[] = [];
 const w5: SurfCompatAdapter[] = [];
 // --- lane W5 end ---
 
-export const SURF_COMPAT_ADAPTERS: SurfCompatAdapter[] = [
+// Registration table only (REQ-PLAT-30: compat exports 4.x names with a
+// deprecation entry; this table is not one, so it stays module-private).
+const SURF_COMPAT_ADAPTERS: SurfCompatAdapter[] = [
   ...w2, ...w3, ...w4, ...w5,
 ];
 

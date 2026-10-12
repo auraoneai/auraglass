@@ -10,6 +10,7 @@ import { DismissableLayer } from '../../../primitives';
 
 const DEP = 'DEP-C0278';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link DismissableLayer}. */
 export function GlassDismissableLayer(props: React.ComponentProps<typeof DismissableLayer>) {
   warnDeprecated(DEP);
   return <DismissableLayer {...props} />;

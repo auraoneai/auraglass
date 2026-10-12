@@ -1,9 +1,15 @@
 #!/usr/bin/env node
 /* generate-exports.mjs (PLAT-255, REQ-PLAT-67, REQ-FIN-06; CMP-23, CMP-29)
-   Generates package.json "exports", top-level "main" and top-level "types"
+   Generates package.json "exports" and top-level "types" (node10 tools only;
+   REQ-PLAT-67: no "main"/"module"/"browser"/"bin")
    from build/exports.manifest.json (verbatim from the contract ENTRIES list,
    PLAT-owned; this script never writes it).
-   - types first, then default (D-03).
+   - types first, then default (D-03); each JS entry is exactly
+     { types, default } — the `css` export condition is rejected (contract
+     §4.7 C-5): CSS is reached only through the CSS string subpaths. A JS
+     entry's `css` bundle (ENTRIES[].css) is exported as its own string
+     subpath right after the entry (`./data` -> `./data.css`) when the
+     manifest has no row for it.
    - Pre-release filter: an entry whose src import closure contains a file with
      a line-1 /^\/[*\/] @ag-contract-seed:/ header is excluded (an excluded
      entry was never shipped). The marker anywhere else is not a seed.
@@ -18,9 +24,9 @@
      seed. Exit 1 only on a stale exclusion:
        (a) an excluded entry with no seed file behind it (missing source), or
        (b) package.json disagrees with the gate (an eligible entry absent, an
-           excluded entry present, or a stale main/types).
+           excluded entry present, a stale types, or any main).
      Seed-backed and ga-gated exclusions alone exit 0.
-   - --write: rewrite package.json exports/main/types. --list-entries: print.
+   - --write: rewrite package.json exports/types (drops any main/module/browser/bin). --list-entries: print.
    - --list-entries --json (REQ-PLAT-67/73): manifest-shaped JSON
      { version, entries, excluded, exports }: `entries` are the manifest rows
      that ship, verbatim and in manifest order (equal to the manifest's
@@ -92,27 +98,35 @@ export function desiredExports(root = ROOT) {
   const { keep } = buildableEntries(root);
   const ok = new Set(keep.map((e) => e.subpath));
   const out = {};
+  const manifestSubpaths = new Set(manifest(root).map((e) => e.subpath));
   for (const e of manifest(root)) {
     const isJs = e.source.startsWith('src/');
     if (isJs && !ok.has(e.subpath)) continue; // seed closure / ga gate / missing source
     if (!isJs) { out[e.subpath] = './' + e.default; continue; } // css / json / package.json artifacts
-    const cond = { types: './' + e.types, default: './' + e.default };
-    if (e.css) cond.css = './' + e.css;
-    out[e.subpath] = cond;
+    // Exactly { types, default } in that order (C-5: no `css` condition).
+    out[e.subpath] = { types: './' + e.types, default: './' + e.default };
     const pat = PATTERN_EXPORTS[e.subpath];
     if (pat) out[pat.subpath] = { ...pat.cond };
+    // ENTRIES[].css names the bundle the entry's CSS subpath ships (contract
+    // §4.7): `dist/data.css` -> './data.css' (a string), unless the manifest
+    // already has that subpath as its own row.
+    const cssSub = e.css?.startsWith('dist/') ? './' + e.css.slice('dist/'.length) : null;
+    if (cssSub && !manifestSubpaths.has(cssSub)) out[cssSub] = './' + e.css;
   }
   return out;
 }
 
-/** Top-level "main"/"types" follow the '.' entry, and only when '.' ships. */
+/** REQ-PLAT-67: package.json carries none of these. */
+const FORBIDDEN_TOP_LEVEL = ['main', 'module', 'browser', 'bin'];
+
+/** Top-level "types" follows the '.' entry, and only when '.' ships. No
+ *  top-level "main" is ever emitted (REQ-PLAT-67). */
 export function desiredTopLevel(root = ROOT) {
   const dot = manifest(root).find((e) => e.subpath === '.');
-  if (!dot || !(desiredExports(root)['.'])) return { main: undefined, types: undefined };
-  return { main: './' + dot.default, types: './' + dot.types };
+  if (!dot || !(desiredExports(root)['.'])) return { types: undefined };
+  return { types: './' + dot.types };
 }
 export const desiredTypes = (root = ROOT) => desiredTopLevel(root).types;
-export const desiredMain = (root = ROOT) => desiredTopLevel(root).main;
 
 /** Every way package.json disagrees with the gate (stale-exclusion kind (b)). */
 export function packageDrift(root = ROOT) {
@@ -126,8 +140,9 @@ export function packageDrift(root = ROOT) {
       out.push(`exports["${k}"]: have ${JSON.stringify(have[k])}, want ${JSON.stringify(want[k])}`);
   if (JSON.stringify(Object.keys(have)) !== JSON.stringify(Object.keys(want)) && !out.length)
     out.push(`exports key order: have ${Object.keys(have).join(',')}, want ${Object.keys(want).join(',')}`);
-  for (const key of ['main', 'types'])
-    if (pkg[key] !== top[key]) out.push(`"${key}": have ${JSON.stringify(pkg[key])}, want ${JSON.stringify(top[key])}`);
+  if (pkg.types !== top.types) out.push(`"types": have ${JSON.stringify(pkg.types)}, want ${JSON.stringify(top.types)}`);
+  for (const key of FORBIDDEN_TOP_LEVEL)
+    if (key in pkg) out.push(`"${key}": have ${JSON.stringify(pkg[key])}, want none (REQ-PLAT-67)`);
   return out;
 }
 
@@ -171,21 +186,21 @@ function main(argv) {
     const pkgPath = join(root, 'package.json');
     const old = loadJson(pkgPath);
     const top = desiredTopLevel(root);
-    // Rebuild key order: exports, then main/types right after it when new
-    // (existing keys keep their position).
+    // Rebuild key order: exports, then types right after it when new
+    // (existing keys keep their position). main/module/browser/bin are always dropped.
     const pkg = {};
     for (const [k, v] of Object.entries(old)) {
-      if ((k === 'main' || k === 'types') && top[k] === undefined) continue;
-      pkg[k] = k === 'exports' ? desiredExports(root) : (k === 'main' || k === 'types') ? top[k] : v;
-      if (k === 'exports') for (const key of ['main', 'types']) if (!(key in old) && top[key] !== undefined) pkg[key] = top[key];
+      if (FORBIDDEN_TOP_LEVEL.includes(k) || (k === 'types' && top.types === undefined)) continue;
+      pkg[k] = k === 'exports' ? desiredExports(root) : k === 'types' ? top.types : v;
+      if (k === 'exports' && !('types' in old) && top.types !== undefined) pkg.types = top.types;
     }
     if (!('exports' in old)) {
       pkg.exports = desiredExports(root);
-      for (const key of ['main', 'types']) if (top[key] !== undefined) pkg[key] = top[key];
+      if (top.types !== undefined) pkg.types = top.types;
     }
     writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n');
     console.log(`generate-exports: wrote ${Object.keys(pkg.exports).length} exports` +
-      (top.types ? `, main ${top.main}, types ${top.types}` : ', no main/types (\'.\' excluded)'));
+      (top.types ? `, types ${top.types}, no main` : ', no main/types (\'.\' excluded)'));
     return 0;
   }
   if (mode !== '--check') { console.error(`generate-exports: unknown mode ${mode}`); return 2; }
@@ -200,7 +215,7 @@ function main(argv) {
     for (const d of drift) console.error('  ' + d);
   }
   if (stale.length || drift.length) return 1;
-  console.log('generate-exports: package.json exports/main/types match the gate');
+  console.log('generate-exports: package.json exports/types match the gate');
   return 0;
 }
 

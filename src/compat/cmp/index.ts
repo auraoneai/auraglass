@@ -22,13 +22,17 @@ export * from './controls/GlassSearchField';
 export * from './controls/GlassSearchInterface';
 export * from './controls/GlassSegmentedControl';
 export * from './controls/GlassSelect';
-export * from './controls/GlassSelectCompound';
+// GlassSelectScrollUp/ScrollDown: not 4.x exports; reachable only as GlassSelectCompound parts (REQ-PLAT-30)
+export {
+  GlassSelectRoot, GlassSelectTrigger, GlassSelectContent, GlassSelectItem, GlassSelectValue,
+  GlassSelectLabel, GlassSelectGroup, GlassSelectSeparator, GlassSelectCompound,
+} from './controls/GlassSelectCompound';
 export * from './controls/GlassSlider';
 export * from './controls/GlassSwitch';
 export * from './controls/GlassTagInput';
 export * from './controls/GlassTextarea';
 export * from './controls/GlassToggle';
-export * from './controls/GlassToolbar';
+export { GlassToolbar, type GlassToolbarItem, type GlassToolbarProps } from './controls/GlassToolbar'; // renderToolbarItems: internal helper (REQ-PLAT-30)
 export * from './controls/GlassValidationMessage';
 export * from './controls/LiquidGlassButtonStyle';
 export * from './controls/LiquidGlassControlGroup';
@@ -44,15 +48,21 @@ export * from './overlays/GlassActionSheet';
 export * from './overlays/GlassBottomSheet';
 export * from './overlays/GlassContextMenu';
 export * from './overlays/GlassDialog';
-export * from './overlays/GlassDrawer';
-export * from './overlays/GlassDropdownMenu';
+export { GlassDrawer, type GlassDrawerProps } from './overlays/GlassDrawer'; // toSide: internal helper (REQ-PLAT-30)
+// GlassDropdownMenuRoot: not a 4.x export; reachable as GlassDropdownMenu.Root (REQ-PLAT-30)
+export {
+  GlassDropdownMenuTrigger, GlassDropdownMenuPortal, GlassDropdownMenuContent, GlassDropdownMenuItem,
+  GlassDropdownMenuCheckboxItem, GlassDropdownMenuRadioGroup, GlassDropdownMenuRadioItem, GlassDropdownMenuGroup,
+  GlassDropdownMenuLabel, GlassDropdownMenuSeparator, GlassDropdownMenuSub, GlassDropdownMenuSubTrigger,
+  GlassDropdownMenuArrow, GlassDropdownMenu,
+} from './overlays/GlassDropdownMenu';
 export * from './overlays/GlassHoverCard';
 export * from './overlays/GlassMenubar';
-export * from './overlays/GlassModal';
+export { GlassModal, type GlassModalAction, type GlassModalProps } from './overlays/GlassModal'; // useGlassModalMapping: internal helper (REQ-PLAT-30)
 export * from './overlays/GlassNotificationCenter';
-export * from './overlays/GlassPopover';
-export * from './overlays/GlassToast';
-export * from './overlays/GlassToastProvider';
+export { GlassPopover, type GlassPopoverProps } from './overlays/GlassPopover'; // splitPlacement: internal helper (REQ-PLAT-30)
+export { GlassToast, type GlassToastProps } from './overlays/GlassToast'; // toastType: internal helper (REQ-PLAT-30)
+export { GlassToastProvider, type GlassToastProviderProps } from './overlays/GlassToastProvider'; // toastPosition: internal helper (REQ-PLAT-30)
 export * from './overlays/GlassToastViewport';
 export * from './overlays/GlassTooltip';
 export * from './overlays/LiquidGlassAdaptiveSheet';

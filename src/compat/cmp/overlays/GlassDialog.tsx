@@ -18,6 +18,7 @@ export interface GlassDialogProps extends GlassModalProps {
   destructive?: boolean;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Dialog}. */
 export function GlassDialog(props: GlassDialogProps) {
   warnDeprecated(DEP);
   const { confirmText, cancelText, destructive } = props;

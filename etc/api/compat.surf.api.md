@@ -73,6 +73,5 @@
 - `LiquidGlassSource`
 - `LiquidGlassTabBar`
 - `LiquidGlassTransitionProvider`
-- `SURF_COMPAT_ADAPTERS`
 - `TreeView`
 - `ZSpaceAppLayout`

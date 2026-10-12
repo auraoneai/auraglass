@@ -105,6 +105,16 @@ describe('reverse check (default on)', () => {
     expect(checkReverse(['f.ts'], [ENTRY], { readFile: () => GOOD })).toEqual([]);
     expect(checkReverse(['f.ts'], [ENTRY], { readFile: () => '/** @deprecated use X. */\nexport const Y = 1;' })).toEqual([]);
   });
+  it('a bare prop symbol (no <Component>. qualifier) matches that prop on any owner type', () => {
+    const bare = { ...ENTRY, id: 'DEP-M9999', kind: 'prop', symbol: 'motionPolicy', replacement: null };
+    const src = 'export interface CompatThemeOptions {\n  /** @deprecated since 4.3.0, removed in 5.0.0. */\n  motionPolicy?: string;\n}\n';
+    expect(checkReverse(['f.ts'], [bare], { readFile: () => src })).toEqual([]);
+    expect(checkReverse(['f.ts'], [{ ...bare, symbol: 'otherProp' }], { readFile: () => src }))
+      .toEqual(["f.ts:3: @deprecated 'CompatThemeOptions.motionPolicy' has no deprecation entry"]);
+    expect(check(bare as TsdocEntry, src)).toEqual([]);
+    expect(check(bare as TsdocEntry, src.replace('/** @deprecated since 4.3.0, removed in 5.0.0. */', '/** x */'))[0])
+      .toContain("'motionPolicy' needs '@deprecated since 4.3.0, removed in 5.0.0.'");
+  });
   it('the CLI runs the reverse check unless --no-reverse (temp git tree)', () => {
     const root = realpathSync(mkdtempSync(join(tmpdir(), 'ag-tsdoc-cli-')));
     try {

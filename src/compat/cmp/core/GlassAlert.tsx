@@ -8,6 +8,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0241';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Alert}. */
 export function GlassAlert(props: React.ComponentProps<typeof Alert>) {
   warnDeprecated(DEP);
   return wrap('GlassAlert', <Alert {...props} />);

@@ -10,6 +10,7 @@ import { FocusScope } from '../../../primitives';
 
 const DEP = 'DEP-C0277';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link FocusScope}. */
 export function GlassFocusScope(props: React.ComponentProps<typeof FocusScope>) {
   warnDeprecated(DEP);
   return <FocusScope {...props} />;

@@ -39,7 +39,6 @@
 - `GlassDropdownMenuPortal`
 - `GlassDropdownMenuRadioGroup`
 - `GlassDropdownMenuRadioItem`
-- `GlassDropdownMenuRoot`
 - `GlassDropdownMenuSeparator`
 - `GlassDropdownMenuSub`
 - `GlassDropdownMenuSubTrigger`
@@ -92,8 +91,6 @@
 - `GlassSelectItem`
 - `GlassSelectLabel`
 - `GlassSelectRoot`
-- `GlassSelectScrollDown`
-- `GlassSelectScrollUp`
 - `GlassSelectSeparator`
 - `GlassSelectTrigger`
 - `GlassSelectValue`
@@ -138,11 +135,5 @@
 - `ToggleButtonGroup`
 - `Typography`
 - `WidgetGlass`
-- `renderToolbarItems`
-- `splitPlacement`
-- `toSide`
-- `toastPosition`
-- `toastType`
-- `useGlassModalMapping`
 - `useNotifications`
 - `useToast`

@@ -8,6 +8,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0267';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Stack}. */
 export function GlassStack(props: React.ComponentProps<typeof Stack>) {
   warnDeprecated(DEP);
   return wrap('GlassStack', <Stack {...props} />);
