@@ -107,7 +107,11 @@ async function run(
   }
   await context.addInitScript(INIT_PROBE, FRAMES);
   const p = await context.newPage();
-  await p.route('http://ag-prepaint.test/**', (route) => route.fulfill({
+  // A secure (https) origin, as in production: navigator.userAgentData is
+  // [SecureContext], so on an http origin Chromium exposes no brands and the
+  // shared detector (REQ-MAT-59: brands, else WebKit/Gecko UA tokens, else
+  // unknown) reports 'unknown'. route.fulfill serves it without TLS.
+  await p.route('https://ag-prepaint.test/**', (route) => route.fulfill({
     status: 200,
     contentType: 'text/html',
     headers: { 'Content-Security-Policy': `script-src 'nonce-${NONCE}'; style-src 'nonce-${NONCE}'` },
@@ -115,7 +119,7 @@ async function run(
   }));
   const out: Array<Probe & { transparency: string | null; engine: string | null }> = [];
   for (let i = 0; i < reloads; i += 1) {
-    await p.goto('http://ag-prepaint.test/canary');
+    await p.goto('https://ag-prepaint.test/canary');
     await p.waitForFunction((n) => (window as unknown as { __probe: Probe }).__probe.frames.length >= n, FRAMES);
     out.push(await p.evaluate(() => ({
       ...(window as unknown as { __probe: Probe }).__probe,
