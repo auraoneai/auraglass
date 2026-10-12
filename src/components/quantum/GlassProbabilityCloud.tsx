@@ -521,9 +521,10 @@ export const GlassProbabilityCloud = forwardRef<
                     top: measurement.point.y,
                     transform: "translate(-50%, -50%)",
                   }}
-                  initial={{ scale: 0, opacity: 1 }}
+                  initial={prefersReducedMotion ? false : { scale: 0, opacity: 1 }}
                   animate={
-                    prefersReducedMotion ? undefined : { scale: 2, opacity: 0 }
+                    // decorative measurement pulse: settled state is hidden
+                    prefersReducedMotion ? { opacity: 0 } : { scale: 2, opacity: 0 }
                   }
                   exit={{ opacity: 0 }}
                   transition={

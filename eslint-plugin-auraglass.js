@@ -601,9 +601,10 @@ module.exports = {
         fixable: null,
         schema: [],
         messages: {
-          emptyConditional: '{{prop}} uses an empty-object conditional branch — reduced-motion must render the stable state; use `? undefined :` instead.',
+          emptyConditional: '{{prop}} uses an empty-object conditional branch — reduced motion must render the settled state: initial={r ? false : I}, animate={r ? FINAL : X}, transition={r ? { duration: 0 } : T}.',
+          undefinedConditional: 'animate has an `undefined` branch while initial={{initial}} is not the settled state, so reduced-motion users are left at initial: give the branch the FINAL state (animate={r ? FINAL : X}) or skip the entrance (initial={r ? false : I}).',
           emptyAnimate: 'animate={{}} has no target keys: an empty animate renders instantly — remove the prop or give it a real target.',
-          fadedConditional: 'initial={{opacity:0}} with a conditional animate can leave the element invisible: make the animate unconditional.'
+          fadedConditional: 'an opacity-0 initial with a conditional animate can leave the element invisible: make the animate unconditional.'
         }
       },
       create(context) {
@@ -647,6 +648,47 @@ module.exports = {
               const animExpr = jsxExpr(animate);
               if (animExpr && isConditional(animExpr)) {
                 context.report({ node: animate, messageId: 'fadedConditional' });
+              }
+            }
+            // REQ-PLAT-48: `animate={r ? undefined : X}` (either branch) with an
+            // initial that is not the settled state leaves the element at
+            // initial under reduced motion. Settled = initial absent, `false`,
+            // a conditional with a `false` branch, or an object literal whose
+            // every key is already at identity (opacity/scale 1, x/y/rotate 0).
+            const IDENTITY = { opacity: 1, scale: 1, scaleX: 1, scaleY: 1, x: 0, y: 0, rotate: 0 };
+            const strip = (e) => (e && e.type === 'TSAsExpression' ? e.expression : e);
+            const isUndef = (e) => {
+              const x = strip(e);
+              return !!x && ((x.type === 'Identifier' && x.name === 'undefined')
+                || (x.type === 'UnaryExpression' && x.operator === 'void'));
+            };
+            const isFalse = (e) => { const x = strip(e); return !!x && x.type === 'Literal' && x.value === false; };
+            const settledInitial = (e) => {
+              const x = strip(e);
+              if (!x) return true;
+              if (isFalse(x)) return true;
+              if (x.type === 'ConditionalExpression') return isFalse(x.consequent) || isFalse(x.alternate);
+              if (x.type === 'ObjectExpression') {
+                return x.properties.every((p) => {
+                  if (p.type !== 'Property') return false;
+                  const k = p.key.type === 'Identifier' ? p.key.name : String(p.key.value);
+                  const v = strip(p.value);
+                  const num = v && v.type === 'Literal' ? Number(v.value)
+                    : v && v.type === 'UnaryExpression' && v.operator === '-' && v.argument.type === 'Literal' ? -Number(v.argument.value)
+                    : NaN;
+                  return k in IDENTITY && num === IDENTITY[k];
+                });
+              }
+              return false;
+            };
+            if (animate && init) {
+              const a = strip(jsxExpr(animate));
+              const initValue = init.value && init.value.type === 'JSXExpressionContainer' ? init.value.expression
+                : init.value; // string variant literal: never settled
+              if (a && a.type === 'ConditionalExpression' && (isUndef(a.consequent) || isUndef(a.alternate))
+                && !settledInitial(initValue)) {
+                const src = context.getSourceCode ? context.getSourceCode().getText(initValue) : 'I';
+                context.report({ node: animate, messageId: 'undefinedConditional', data: { initial: src.length > 40 ? `${src.slice(0, 37)}...` : src } });
               }
             }
             // REQ-PLAT-48: empty-object conditional branches on motion props

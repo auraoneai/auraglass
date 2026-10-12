@@ -377,10 +377,10 @@ function LiquidRipples({
         <motion.div
           key={ripple.id}
           className="glass-absolute glass-pointer-events-none"
-          initial={{ scale: 0, opacity: 1 }}
+          initial={prefersReducedMotion ? false : { scale: 0, opacity: 1 }}
           animate={
             prefersReducedMotion
-              ? undefined
+              ? { opacity: 0 } // decorative ripple: settled state is hidden
               : { scale: 3 * intensity, opacity: 0 }
           }
           exit={{ opacity: 0 }}
