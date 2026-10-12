@@ -119,10 +119,8 @@ function ToastViewport({ position, className, children, ref, ...rest }: ToastVie
           ref={ref}
           data-ag-part="viewport"
           data-position={resolved}
-          data-ag-position={resolved}
-          data-ag-layer-root="toast"
           aria-label="Notifications"
-          {...(paused ? { 'data-ag-paused': '' } : {})}
+          {...(paused ? { 'data-paused': '' } : {})}
           className={cn('ag-toast-viewport', className)}
           {...rest}
         >
