@@ -13,10 +13,18 @@ Tier T1 · RSC client · APG dialog-modal
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children?` | `ReactNode` | — | — |
+| `closeDelay?` | `number` | — | Hover close delay ms — default 150. |
 | `defaultOpen?` | `boolean` | — | — |
-| `modal?` | `boolean \| 'trap-focus'` | — | Modal behaviour; non-modal is the default for anchored overlays. |
+| `delay?` | `number` | — | Hover open delay ms — default 300. |
+| `modal?` | `false \| 'trap-focus'` | — | Modal behaviour; non-modal is the default for anchored overlays and 'trap-focus' is the only modal value. |
 | `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | — |
 | `open?` | `boolean` | — | — |
+| `openOnHover?` | `boolean` | — | Hover-to-open mode (the HoverCard successor). Default false. |
+| `prominent?` | `boolean` | — | — |
+| `ref?` | `Ref<HTMLElement>` | — | — |
+| `refraction?` | `boolean` | — | — |
+| `thickness?` | `Thickness` | — | — |
+| `variant?` | `MaterialVariant` | — | — |
 
 ## Parts
 

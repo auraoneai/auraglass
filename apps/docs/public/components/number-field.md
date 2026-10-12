@@ -23,6 +23,7 @@ Tier T1 · RSC client · APG spinbutton
 | `format?` | `NumberFormatOptions` | — | — |
 | `id?` | `string` | — | — |
 | `label?` | `ReactNode` | — | — |
+| `labels?` | `{ increase?: string \| undefined; decrease?: string \| undefined; }` | — | Accessible labels for the stepper buttons. |
 | `largeStep?` | `number` | — | Shift-modified increment (default 10). |
 | `locale?` | `LocalesArgument` | — | — |
 | `max?` | `number` | — | — |
@@ -55,6 +56,7 @@ Tier T1 · RSC client · APG spinbutton
 | `label` | `[data-ag-part="label"]` |
 | `description` | `[data-ag-part="description"]` |
 | `error` | `[data-ag-part="error"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 
 ## States
 

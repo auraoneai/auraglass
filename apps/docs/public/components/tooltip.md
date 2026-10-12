@@ -13,15 +13,17 @@ Tier T1 · RSC client · APG tooltip
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children?` | `ReactNode` | — | — |
+| `closeDelay?` | `number` | — | Hover close delay override; otherwise inherits Provider (standalone default 0ms). |
 | `defaultOpen?` | `boolean` | — | — |
+| `delay?` | `number` | — | Hover delay override; otherwise inherits Provider (standalone default 600ms). |
 | `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | — |
 | `open?` | `boolean` | — | — |
+| `ref?` | `Ref<HTMLElement>` | — | — |
 
 ## Parts
 
 | Part | Selector |
 | --- | --- |
-| `provider` | `[data-ag-part="provider"]` |
 | `trigger` | `[data-ag-part="trigger"]` |
 | `positioner` | `[data-ag-part="positioner"]` |
 | `popup` | `[data-ag-part="popup"]` |

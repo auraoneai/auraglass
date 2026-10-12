@@ -6,14 +6,14 @@
 import { Icon } from 'aura-glass/icons';
 ```
 
-Tier T0 · RSC server
+Tier T0 · RSC server · APG none
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `absoluteStrokeWidth?` | `boolean` | — | — |
-| `name` | `'warning' \| 'data' \| 'menu' \| 'search' \| 'filter' \| 'clear' \| 'activity' \| 'alert' \| 'archive' \| 'calendar' \| 'check' \| 'close' \| 'command' \| 'home' \| 'loading' \| 'notification' \| 'settings' \| 'spark' \| 'user' \| 'users' \| (string & {})` | — | — |
+| `name` | `'warning' \| 'data' \| 'menu' \| 'search' \| 'filter' \| 'clear' \| (string & {}) \| 'activity' \| 'alert' \| 'archive' \| 'calendar' \| 'check' \| 'close' \| 'command' \| 'home' \| 'loading' \| 'notification' \| 'settings' \| 'spark' \| 'user' \| 'users'` | — | — |
 | `ref?` | `Ref<SVGSVGElement>` | — | Allows getting a ref to the component instance. Once the component unmounts, React will set `ref.current` to `null` (or call the ref with `null` if you passed a callback ref). |
 | `size?` | `string \| number` | — | — |
 | `title?` | `string` | — | — |

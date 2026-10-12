@@ -6,13 +6,15 @@
 import { Alert } from 'aura-glass';
 ```
 
-Tier T2 · RSC server
+Tier T2 · RSC server · APG none
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `actions?` | `readonly AlertAction[]` | — | — |
+| `actions?` | `ReactNode \| readonly AlertAction[]` | — | Serializable actions (label+href/onPress) or arbitrary nodes. |
+| `appearance?` | `'inline' \| 'banner'` | — | 'inline' (default) hugs content; 'banner' stretches inline-size:100%. |
+| `description?` | `ReactNode` | — | Explicit description slot (children still render as description). |
 | `icon?` | `ReactNode` | — | — |
 | `intent?` | `'info' \| 'success' \| 'warning' \| 'danger'` | — | — |
 | `ref?` | `Ref<HTMLDivElement>` | — | — |

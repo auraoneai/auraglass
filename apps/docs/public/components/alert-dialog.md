@@ -14,10 +14,11 @@ Tier T1 · RSC client · APG alertdialog
 | --- | --- | --- | --- |
 | `children?` | `ReactNode` | — | — |
 | `defaultOpen?` | `boolean` | — | — |
-| `intent?` | `'danger' \| 'neutral'` | — | 'danger' styles only the Action button — never the surface. |
+| `intent?` | `'danger' \| 'neutral'` | — | **Deprecated.** moved to <AlertDialog.Action intent='danger'> — kept as a fallback for one release. 'danger' styles only the Action button. |
 | `labels?` | `{ cancel?: string \| undefined; action?: string \| undefined; }` | — | — |
 | `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | — |
 | `open?` | `boolean` | — | — |
+| `ref?` | `Ref<HTMLElement>` | — | — |
 
 ## Parts
 

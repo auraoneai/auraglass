@@ -6,13 +6,13 @@
 import { EmptyState } from 'aura-glass';
 ```
 
-Tier T2 · RSC server
+Tier T2 · RSC server · APG none
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `actions?` | `readonly StateViewAction[]` | — | — |
+| `actions?` | `ReactNode` | — | Action node (e.g. <Button onClick/>) — a ReactNode keeps this server-renderable. |
 | `description?` | `string` | — | — |
 | `icon?` | `ReactNode` | — | — |
 | `ref?` | `Ref<HTMLDivElement>` | — | — |
@@ -27,7 +27,6 @@ Tier T2 · RSC server
 | `title` | `[data-ag-part="title"]` |
 | `description` | `[data-ag-part="description"]` |
 | `actions` | `[data-ag-part="actions"]` |
-| `action` | `[data-ag-part="action"]` |
 
 ## States
 

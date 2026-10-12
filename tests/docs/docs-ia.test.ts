@@ -100,9 +100,10 @@ describe('docs IA (nav.config.ts)', () => {
     expect(onlyGroup(fixtureNav, 'Surfaces')).toEqual([{ title: 'Title alpha', href: '/surfaces/alpha' }]);
   });
 
-  it('has one API entry per JavaScript subpath of package.json exports', () => {
+  it('has one API entry per JavaScript subpath of package.json exports (pattern subpaths live on their base entry)', () => {
     const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
-    const subpaths = Object.keys(pkg.exports).filter((k) => k !== './package.json' && !k.endsWith('.css') && !k.endsWith('.json'));
+    const subpaths = Object.keys(pkg.exports).filter((k) => k !== './package.json' && !k.endsWith('.css') && !k.endsWith('.json') && !k.includes('*'));
+    if (Object.keys(pkg.exports).includes('./icons/*')) expect(subpaths).toContain('./icons');
     const api = onlyGroup(nav, 'API');
     expect(api.map((e) => e.title)).toEqual(subpaths.map((s) => (s === '.' ? 'aura-glass' : `aura-glass/${s.slice(2)}`)));
     expect(api[0]).toEqual({ title: 'aura-glass', href: '/api/root' });

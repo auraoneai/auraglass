@@ -6,7 +6,7 @@
 import { Link } from 'aura-glass';
 ```
 
-Tier T0 · RSC server
+Tier T0 · RSC server · APG link
 
 ## Props
 
@@ -22,6 +22,7 @@ Tier T0 · RSC server
 | Part | Selector |
 | --- | --- |
 | `root` | `[data-ag-part="root"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 
 ## States
 

@@ -6,13 +6,15 @@
 import { DescriptionList } from 'aura-glass';
 ```
 
-Tier T0 · RSC server
+Tier T0 · RSC server · APG none
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `layout?` | `'stacked' \| 'inline'` | — | — |
+| `items?` | `readonly DescriptionListItem[]` | — | Flat API — renders Item/Term/Details parts for each row; compound children may still be used instead. |
+| `layout?` | `'inline' \| 'stacked'` | — | — |
+| `orientation?` | `'vertical' \| 'horizontal'` | — | Orientation shorthand: 'horizontal' = inline, 'vertical' = stacked. Wins over `layout` when set. |
 | `ref?` | `Ref<HTMLDListElement>` | — | — |
 
 ## Parts

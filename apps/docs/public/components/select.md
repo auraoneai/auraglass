@@ -24,6 +24,7 @@ Tier T1 · RSC client · APG select
 | `onValueChange?` | `(value: Value \| Value[] \| null, details: ChangeDetails) => void` | — | — |
 | `open?` | `boolean` | — | — |
 | `readOnly?` | `boolean` | — | — |
+| `ref?` | `Ref<HTMLElement>` | — | Ref to the popup DOM element. |
 | `required?` | `boolean` | — | — |
 | `size?` | `ControlSize` | — | — |
 | `value?` | `Value \| Value[] \| null` | — | — |
@@ -45,6 +46,7 @@ Tier T1 · RSC client · APG select
 | `separator` | `[data-ag-part="separator"]` |
 | `scroll-up` | `[data-ag-part="scroll-up"]` |
 | `scroll-down` | `[data-ag-part="scroll-down"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 
 ## States
 

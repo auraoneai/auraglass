@@ -6,7 +6,7 @@
 import { Badge } from 'aura-glass';
 ```
 
-Tier T2 · RSC server
+Tier T2 · RSC server · APG none
 
 ## Props
 
@@ -16,7 +16,7 @@ Tier T2 · RSC server
 | `dot?` | `boolean` | — | Render the standalone status dot instead of a pill. |
 | `intent?` | `'info' \| 'success' \| 'warning' \| 'danger' \| 'neutral'` | — | — |
 | `label?` | `string` | — | Accessible label when content alone is insufficient (e.g. dot/count). |
-| `max?` | `number` | — | Maximum shown before clamping to "<max>+". |
+| `max?` | `number` | — | Maximum shown before clamping to "<max>+" (default 99). |
 | `ref?` | `Ref<HTMLSpanElement>` | — | — |
 
 ## Parts

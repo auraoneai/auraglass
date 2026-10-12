@@ -6,7 +6,7 @@
 import { TimeField } from 'aura-glass/date';
 ```
 
-Tier T2 · RSC client
+Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/
 
 ## Props
 
@@ -15,6 +15,7 @@ Tier T2 · RSC client
 | `className?` | `string` | — | — |
 | `defaultValue?` | `TimeValue \| null` | — | — |
 | `description?` | `ReactNode` | — | — |
+| `dir?` | `'ltr' \| 'rtl'` | — | Text direction; defaults to the closest `[dir]` in the DOM (REQ-SURF-98). |
 | `errorMessage?` | `ReactNode` | — | — |
 | `firstDayOfWeek?` | `'sun' \| 'mon' \| 'tue' \| 'wed' \| 'thu' \| 'fri' \| 'sat'` | — | — |
 | `granularity?` | `'day' \| 'hour' \| 'minute' \| 'second'` | — | — |
@@ -29,7 +30,7 @@ Tier T2 · RSC client
 | `maxValue?` | `TimeValue` | — | — |
 | `minValue?` | `TimeValue` | — | — |
 | `name?` | `string` | — | — |
-| `onValueChange?` | `(v: TimeValue \| null) => void` | — | — |
+| `onValueChange?` | `(v: TimeValue \| null, details: ChangeDetails) => void` | — | — |
 | `size?` | `'sm' \| 'md' \| 'lg'` | — | — |
 | `value?` | `TimeValue \| null` | — | — |
 
@@ -38,9 +39,7 @@ Tier T2 · RSC client
 | Part | Selector |
 | --- | --- |
 | `time-field` | `[data-ag-part="time-field"]` |
-| `field-label` | `[data-ag-part="field-label"]` |
-| `field-input` | `[data-ag-part="field-input"]` |
-| `field-segment` | `[data-ag-part="field-segment"]` |
+| `time-input` | `[data-ag-part="time-input"]` |
 
 ## States
 

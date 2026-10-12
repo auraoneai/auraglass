@@ -24,6 +24,7 @@ Tier T1 · RSC client · APG dialog-modal
 | `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | — |
 | `open?` | `boolean` | — | — |
 | `preset?` | `SheetPreset` | — | 'action' forces side=bottom and composes Sheet.Action items + a separated cancel. |
+| `ref?` | `Ref<HTMLElement>` | — | — |
 | `side?` | `SheetSide` | — | Anchored edge; 'start'/'end' resolve against the text direction. |
 
 ## Parts
@@ -41,6 +42,9 @@ Tier T1 · RSC client · APG dialog-modal
 | `header` | `[data-ag-part="header"]` |
 | `body` | `[data-ag-part="body"]` |
 | `footer` | `[data-ag-part="footer"]` |
+| `detent-live` | `[data-ag-part="detent-live"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
+| `label` | `[data-ag-part="label"]` |
 
 ## States
 

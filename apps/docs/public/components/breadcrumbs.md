@@ -6,7 +6,7 @@
 import { Breadcrumbs } from 'aura-glass';
 ```
 
-Tier T1 · RSC mixed
+Tier T1 · RSC mixed · APG https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/
 
 ## Props
 
@@ -24,13 +24,18 @@ Tier T1 · RSC mixed
 | Part | Selector |
 | --- | --- |
 | `breadcrumbs` | `[data-ag-part="breadcrumbs"]` |
-| `list` | `[data-ag-part="list"]` |
-| `item` | `[data-ag-part="item"]` |
-| `link` | `[data-ag-part="link"]` |
 | `current` | `[data-ag-part="current"]` |
-| `separator` | `[data-ag-part="separator"]` |
 | `ellipsis` | `[data-ag-part="ellipsis"]` |
-| `overflow-menu` | `[data-ag-part="overflow-menu"]` |
+| `glyph` | `[data-ag-part="glyph"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
+| `icon` | `[data-ag-part="icon"]` |
+| `item` | `[data-ag-part="item"]` |
+| `label` | `[data-ag-part="label"]` |
+| `link` | `[data-ag-part="link"]` |
+| `list` | `[data-ag-part="list"]` |
+| `popup` | `[data-ag-part="popup"]` |
+| `positioner` | `[data-ag-part="positioner"]` |
+| `separator` | `[data-ag-part="separator"]` |
 
 ## States
 

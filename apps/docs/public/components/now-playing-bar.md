@@ -6,7 +6,7 @@
 import { NowPlayingBar } from 'aura-glass/media';
 ```
 
-Tier T2 · RSC client
+Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/
 
 ## Props
 
@@ -17,27 +17,33 @@ Tier T2 · RSC client
 | `className?` | `string` | — | — |
 | `expanded?` | `boolean` | — | — |
 | `expandedId?` | `string` | — | Id of the expandable region — required when Expand is rendered. |
+| `fixed?` | `boolean` | — | Pinned to the viewport edge: pads by env(safe-area-inset-bottom). |
 | `media?` | `MediaHandle` | — | — |
 | `onExpandedChange?` | `(expanded: boolean) => void` | — | — |
 | `onNext?` | `() => void` | — | — |
 | `onPlayingChange?` | `(playing: boolean) => void` | — | — |
 | `onPrevious?` | `() => void` | — | — |
 | `playing?` | `boolean` | — | — |
-| `progress?` | `number` | — | 0..1 controlled progress (else read from --_ag-media-progress via CSS). |
-| `sampleTone?` | `boolean` | — | — |
+| `progress?` | `number` | — | 0..1 controlled progress, written to --_ag-media-progress on the root. |
+| `sampleTone?` | `boolean` | — | Sample the Artwork <img> once per src; writes data-ag-media-tone and --_ag-media-luma on the root. |
 | `variant?` | `'regular' \| 'clear'` | — | — |
 
 ## Parts
 
 | Part | Selector |
 | --- | --- |
+| `media-glyph` | `[data-ag-part="media-glyph"]` |
 | `now-playing` | `[data-ag-part="now-playing"]` |
-| `artwork` | `[data-ag-part="artwork"]` |
-| `title` | `[data-ag-part="title"]` |
-| `subtitle` | `[data-ag-part="subtitle"]` |
-| `progress` | `[data-ag-part="progress"]` |
-| `actions` | `[data-ag-part="actions"]` |
-| `expand` | `[data-ag-part="expand"]` |
+| `now-playing-actions` | `[data-ag-part="now-playing-actions"]` |
+| `now-playing-artwork` | `[data-ag-part="now-playing-artwork"]` |
+| `now-playing-expand` | `[data-ag-part="now-playing-expand"]` |
+| `now-playing-next` | `[data-ag-part="now-playing-next"]` |
+| `now-playing-play` | `[data-ag-part="now-playing-play"]` |
+| `now-playing-prev` | `[data-ag-part="now-playing-prev"]` |
+| `now-playing-progress` | `[data-ag-part="now-playing-progress"]` |
+| `now-playing-progress-fill` | `[data-ag-part="now-playing-progress-fill"]` |
+| `now-playing-subtitle` | `[data-ag-part="now-playing-subtitle"]` |
+| `now-playing-title` | `[data-ag-part="now-playing-title"]` |
 
 ## States
 

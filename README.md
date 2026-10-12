@@ -5,6 +5,12 @@
 > `next` under the `next` dist-tag; `latest` stays on 4.x until GA. Migrating
 > from 4.x: `npx @auraglass/cli migrate 4to5`. 4.x remains in LTS (fixes +
 > security only) for 12 months after GA — see `docs/release/lts-policy.md`.
+>
+> npm dist-tags today (checked by `verify-release-comms --dist-tags`):
+>
+> - `latest`: 4.1.0
+> - `next`: none
+> - `v4-lts`: none
 <!-- /AG-RELEASE-BANNER -->
 
 <!-- README.md is generated from scripts/docs/readme.tmpl.md by scripts/docs/gen-readme.mjs. Edit the template, not README.md. -->

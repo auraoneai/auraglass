@@ -6,7 +6,7 @@
 import { Tour } from 'aura-glass';
 ```
 
-Tier T1 · RSC client
+Tier T1 · RSC client · APG none
 
 ## Props
 
@@ -14,7 +14,7 @@ Tier T1 · RSC client
 | --- | --- | --- | --- |
 | `defaultOpen?` | `boolean` | — | — |
 | `defaultStep?` | `number` | — | — |
-| `labels?` | `{ next?: string \| undefined; prev?: string \| undefined; done?: string \| undefined; dismiss?: string \| undefined; }` | — | Labels for the nav buttons. |
+| `labels?` | `{ next?: string \| undefined; prev?: string \| undefined; done?: string \| undefined; skip?: string \| undefined; dismiss?: string \| undefined; }` | — | Labels for the nav buttons. |
 | `onOpenChange?` | `(open: boolean, details: unknown) => void` | — | — |
 | `onStepChange?` | `(index: number) => void` | — | — |
 | `open?` | `boolean` | — | — |

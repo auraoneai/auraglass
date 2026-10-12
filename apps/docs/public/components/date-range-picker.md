@@ -13,8 +13,10 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className?` | `string` | — | — |
-| `defaultValue?` | `DateRangeValue` | — | — |
+| `defaultOpen?` | `boolean` | — | Initial popover state (uncontrolled). |
+| `defaultValue?` | `DateRangeValue \| null` | — | — |
 | `description?` | `ReactNode` | — | — |
+| `dir?` | `'ltr' \| 'rtl'` | — | Text direction; defaults to the closest `[dir]` in the DOM (REQ-SURF-98). |
 | `errorMessage?` | `ReactNode` | — | — |
 | `firstDayOfWeek?` | `'sun' \| 'mon' \| 'tue' \| 'wed' \| 'thu' \| 'fri' \| 'sat'` | — | — |
 | `granularity?` | `'day' \| 'hour' \| 'minute' \| 'second'` | — | — |
@@ -25,29 +27,33 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 | `isReadOnly?` | `boolean` | — | — |
 | `isRequired?` | `boolean` | — | — |
 | `label?` | `ReactNode` | — | — |
-| `labels?` | `{ choose?: string \| undefined; start?: string \| undefined; end?: string \| undefined; presets?: string \| undefined; }` | — | — |
+| `labels?` | `{ choose?: string \| undefined; start?: string \| undefined; end?: string \| undefined; presets?: string \| undefined; apply?: string \| undefined; cancel?: string \| undefined; dialog?: string \| undefined; }` | — | — |
 | `locale?` | `string` | — | — |
 | `maxValue?` | `DateValue` | — | — |
 | `minValue?` | `DateValue` | — | — |
 | `name?` | `string` | — | — |
-| `onValueChange?` | `(v: DateRangeValue \| null) => void` | — | — |
+| `onValueChange?` | `(v: DateRangeValue \| null, details: ChangeDetails) => void` | — | — |
 | `presets?` | `readonly DateRangePreset[]` | — | — |
 | `size?` | `'sm' \| 'md' \| 'lg'` | — | — |
 | `value?` | `DateRangeValue \| null` | — | — |
-| `visibleMonths?` | `2 \| 1` | — | — |
+| `visibleMonths?` | `2 \| 1` | — | Default: 2 at a >=768px container, 1 below. |
 
 ## Parts
 
 | Part | Selector |
 | --- | --- |
 | `date-range-picker` | `[data-ag-part="date-range-picker"]` |
-| `field-label` | `[data-ag-part="field-label"]` |
-| `field-input` | `[data-ag-part="field-input"]` |
-| `field-segment` | `[data-ag-part="field-segment"]` |
-| `picker-trigger` | `[data-ag-part="picker-trigger"]` |
-| `popover` | `[data-ag-part="popover"]` |
-| `calendar` | `[data-ag-part="calendar"]` |
-| `preset` | `[data-ag-part="preset"]` |
+| `date-input-start` | `[data-ag-part="date-input-start"]` |
+| `date-input-end` | `[data-ag-part="date-input-end"]` |
+| `date-range-picker-trigger` | `[data-ag-part="date-range-picker-trigger"]` |
+| `date-range-picker-popover` | `[data-ag-part="date-range-picker-popover"]` |
+| `positioner` | `[data-ag-part="positioner"]` |
+| `date-range-presets` | `[data-ag-part="date-range-presets"]` |
+| `date-range-actions` | `[data-ag-part="date-range-actions"]` |
+| `date-range-apply` | `[data-ag-part="date-range-apply"]` |
+| `date-range-cancel` | `[data-ag-part="date-range-cancel"]` |
+| `range-calendar` | `[data-ag-part="range-calendar"]` |
+| `calendar-grid` | `[data-ag-part="calendar-grid"]` |
 
 ## States
 

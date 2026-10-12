@@ -6,15 +6,19 @@
 import { Card } from 'aura-glass';
 ```
 
-Tier T0 · RSC server
+Tier T0 · RSC server · APG none
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `interactive?` | `boolean` | — | — |
-| `material?` | `MaterialRole` | — | — |
-| `ref?` | `Ref<HTMLDivElement>` | — | — |
+| `interactive?` | `boolean` | — | Marks the card interactive (data-ag-interactive); pair with `render`. |
+| `prominent?` | `boolean` | — | — |
+| `ref?` | `Ref<HTMLElement>` | — | — |
+| `refraction?` | `boolean` | — | — |
+| `render?` | `RenderProp<HTMLAttributes<HTMLElement>>` | — | — |
+| `thickness?` | `Thickness` | — | — |
+| `variant?` | `MaterialVariant` | — | — |
 
 ## Parts
 

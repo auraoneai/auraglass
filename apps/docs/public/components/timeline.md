@@ -6,7 +6,7 @@
 import { Timeline } from 'aura-glass';
 ```
 
-Tier T1 · RSC server
+Tier T1 · RSC server · APG feed
 
 ## Props
 
@@ -15,21 +15,24 @@ Tier T1 · RSC server
 | `aria-label?` | `string` | — | — |
 | `className?` | `string` | — | — |
 | `items` | `readonly TimelineItem[]` | — | — |
+| `labels?` | `TimelineLabels` | — | — |
 | `locale?` | `string` | — | — |
 | `now?` | `number \| Date` | — | Required when timeFormat='relative' on the server (else dev error). |
 | `orientation?` | `'vertical' \| 'horizontal'` | — | — |
 | `timeFormat?` | `'relative' \| 'absolute' \| DateTimeFormatOptions` | — | — |
+| `timeZone?` | `string` | — | IANA zone for absolute and option formats. Default 'UTC', so server and client render the same text whatever their host zone is. |
 
 ## Parts
 
 | Part | Selector |
 | --- | --- |
 | `timeline` | `[data-ag-part="timeline"]` |
+| `timeline-description` | `[data-ag-part="timeline-description"]` |
 | `timeline-item` | `[data-ag-part="timeline-item"]` |
 | `timeline-marker` | `[data-ag-part="timeline-marker"]` |
-| `timeline-title` | `[data-ag-part="timeline-title"]` |
-| `timeline-description` | `[data-ag-part="timeline-description"]` |
+| `timeline-meta` | `[data-ag-part="timeline-meta"]` |
 | `timeline-time` | `[data-ag-part="timeline-time"]` |
+| `timeline-title` | `[data-ag-part="timeline-title"]` |
 
 ## States
 

@@ -6,7 +6,7 @@
 import { KeyValueEditor } from 'aura-glass/data';
 ```
 
-Tier T2 · RSC client
+Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 ## Props
 
@@ -17,19 +17,23 @@ Tier T2 · RSC client
 | `defaultValue?` | `readonly KeyValuePair[]` | — | — |
 | `disabled?` | `boolean` | — | — |
 | `labels?` | `{ key?: string \| undefined; value?: string \| undefined; remove?: string \| undefined; add?: string \| undefined; duplicate?: string \| undefined; }` | — | — |
-| `onValueChange?` | `(pairs: KeyValuePair[]) => void` | — | — |
+| `onValueChange?` | `(pairs: KeyValuePair[], details: ChangeDetails) => void` | — | — |
 | `value?` | `readonly KeyValuePair[]` | — | — |
 
 ## Parts
 
 | Part | Selector |
 | --- | --- |
-| `key-value-editor` | `[data-ag-part="key-value-editor"]` |
-| `key-value-row` | `[data-ag-part="key-value-row"]` |
+| `control` | `[data-ag-part="control"]` |
+| `control-shell` | `[data-ag-part="control-shell"]` |
+| `error` | `[data-ag-part="error"]` |
 | `key-input` | `[data-ag-part="key-input"]` |
-| `value-input` | `[data-ag-part="value-input"]` |
-| `key-value-remove` | `[data-ag-part="key-value-remove"]` |
 | `key-value-add` | `[data-ag-part="key-value-add"]` |
+| `key-value-editor` | `[data-ag-part="key-value-editor"]` |
+| `key-value-remove` | `[data-ag-part="key-value-remove"]` |
+| `key-value-row` | `[data-ag-part="key-value-row"]` |
+| `root` | `[data-ag-part="root"]` |
+| `value-input` | `[data-ag-part="value-input"]` |
 
 ## States
 

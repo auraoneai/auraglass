@@ -26,7 +26,7 @@ Tier T1 · RSC client · APG button
 | `render?` | `RenderProp` | — | — |
 | `size?` | `'sm' \| 'md' \| 'lg'` | — | Emitted as data-ag-size. |
 | `startIcon?` | `ReactNode` | — | Decorative leading icon node. |
-| `suppressInnerParts?` | `boolean` | — | Internal: omit inner part attrs (icon/hit-area/spinner/label) so the button can sit inside another component's DOM without leaking undeclared data-ag-parts. |
+| `suppressInnerParts?` | `boolean` | — | Internal: omit inner part attrs (icon/hit-area/spinner/label) so the button can sit inside another component's DOM without leaking undeclared data-parts. |
 | `thickness?` | `Thickness` | — | — |
 | `variant?` | `'regular' \| 'clear' \| 'identity'` | — | Material axis: 'regular' (default) \| 'clear' \| 'identity'. Never a `material` prop. |
 

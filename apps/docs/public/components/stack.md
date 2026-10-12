@@ -12,10 +12,10 @@ Tier T0 · RSC server
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `align?` | `'center' \| 'end' \| 'start' \| 'stretch' \| 'baseline'` | — | — |
+| `align?` | `'center' \| 'start' \| 'end' \| 'stretch' \| 'baseline'` | — | — |
 | `direction?` | `'row' \| 'column'` | — | — |
-| `gap?` | `string \| number` | — | Space token index (0–8) or a raw CSS length. |
-| `justify?` | `'center' \| 'end' \| 'start' \| 'between' \| 'around' \| 'evenly'` | — | — |
+| `gap?` | `SpaceTokenLike` | — | SpaceToken index, a number (→ var(--ag-space-N)), or a raw CSS length. |
+| `justify?` | `'center' \| 'start' \| 'end' \| 'between' \| 'around' \| 'evenly'` | — | — |
 | `ref?` | `Ref<HTMLDivElement>` | — | — |
 | `separator?` | `ReactNode` | — | Node rendered between each pair of children. |
 | `separatorDecorative?` | `boolean` | — | Decorative separators are aria-hidden (default true). |

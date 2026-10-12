@@ -12,14 +12,14 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/practices/grid-and-
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children` | `ReactNode \| ((ctx: ChartContext<TRow>) => ReactNode)` | — | — |
+| `children` | `ReactNode \| ((ctx: ChartContext<TRow>) => ReactNode)` | — | An adapter element (RSC-safe) or, from client components, `(ctx) => ReactNode`. |
 | `className?` | `string` | — | — |
 | `data` | `readonly TRow[]` | — | — |
 | `defaultHiddenSeries?` | `readonly string[]` | — | — |
 | `description?` | `ReactNode` | — | — |
 | `height?` | `number` | — | — |
 | `hiddenSeries?` | `readonly string[]` | — | — |
-| `labels?` | `{ showTable?: string \| undefined; hideTable?: string \| undefined; lastSeries?: string \| undefined; }` | — | — |
+| `labels?` | `ChartFrameLabels` | — | — |
 | `legend?` | `'none' \| 'top' \| 'bottom'` | — | — |
 | `locale?` | `string` | — | — |
 | `onHiddenSeriesChange?` | `(keys: string[]) => void` | — | — |
@@ -33,12 +33,14 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/practices/grid-and-
 
 | Part | Selector |
 | --- | --- |
+| `chart-description` | `[data-ag-part="chart-description"]` |
 | `chart-frame` | `[data-ag-part="chart-frame"]` |
-| `chart-title` | `[data-ag-part="chart-title"]` |
-| `chart-plot` | `[data-ag-part="chart-plot"]` |
 | `chart-legend` | `[data-ag-part="chart-legend"]` |
 | `chart-legend-item` | `[data-ag-part="chart-legend-item"]` |
+| `chart-plot` | `[data-ag-part="chart-plot"]` |
 | `chart-table` | `[data-ag-part="chart-table"]` |
+| `chart-table-toggle` | `[data-ag-part="chart-table-toggle"]` |
+| `chart-title` | `[data-ag-part="chart-title"]` |
 
 ## States
 

@@ -6,13 +6,14 @@
 import { Citation } from 'aura-glass/ai';
 ```
 
-Tier T1 · RSC client
+Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/link/
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className?` | `string` | — | — |
+| `defaultOpen?` | `boolean` | — | Initial open state of the preview card (uncontrolled). Default false. |
 | `index` | `number` | — | — |
 | `messageId` | `string` | — | — |
 | `source` | `AgCitationSource` | — | — |
@@ -23,9 +24,11 @@ Tier T1 · RSC client
 | --- | --- |
 | `citation` | `[data-ag-part="citation"]` |
 | `citation-preview` | `[data-ag-part="citation-preview"]` |
-| `citation-preview-title` | `[data-ag-part="citation-preview-title"]` |
 | `citation-preview-host` | `[data-ag-part="citation-preview-host"]` |
 | `citation-preview-kind` | `[data-ag-part="citation-preview-kind"]` |
+| `citation-preview-positioner` | `[data-ag-part="citation-preview-positioner"]` |
+| `citation-preview-snippet` | `[data-ag-part="citation-preview-snippet"]` |
+| `citation-preview-title` | `[data-ag-part="citation-preview-title"]` |
 
 ## States
 

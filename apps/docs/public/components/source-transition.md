@@ -20,9 +20,9 @@ Tier T1 · RSC client
 
 | Part | Selector |
 | --- | --- |
-| `source-transition` | `[data-ag-part="source-transition"]` |
-| `source` | `[data-ag-part="source"]` |
 | `destination` | `[data-ag-part="destination"]` |
+| `source` | `[data-ag-part="source"]` |
+| `source-transition` | `[data-ag-part="source-transition"]` |
 
 ## States
 

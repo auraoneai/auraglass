@@ -13,8 +13,10 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className?` | `string` | — | — |
+| `defaultOpen?` | `boolean` | — | Initial popover state (uncontrolled). |
 | `defaultValue?` | `DateValue \| null` | — | — |
 | `description?` | `ReactNode` | — | — |
+| `dir?` | `'ltr' \| 'rtl'` | — | Text direction; defaults to the closest `[dir]` in the DOM (REQ-SURF-98). |
 | `errorMessage?` | `ReactNode` | — | — |
 | `firstDayOfWeek?` | `'sun' \| 'mon' \| 'tue' \| 'wed' \| 'thu' \| 'fri' \| 'sat'` | — | — |
 | `granularity?` | `'day' \| 'hour' \| 'minute' \| 'second'` | — | — |
@@ -25,12 +27,12 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 | `isReadOnly?` | `boolean` | — | — |
 | `isRequired?` | `boolean` | — | — |
 | `label?` | `ReactNode` | — | — |
-| `labels?` | `{ choose?: string \| undefined; }` | — | — |
+| `labels?` | `{ choose?: string \| undefined; dialog?: string \| undefined; }` | — | — |
 | `locale?` | `string` | — | — |
 | `maxValue?` | `DateValue` | — | — |
 | `minValue?` | `DateValue` | — | — |
 | `name?` | `string` | — | — |
-| `onValueChange?` | `(v: DateValue \| null) => void` | — | — |
+| `onValueChange?` | `(v: DateValue \| null, details: ChangeDetails) => void` | — | — |
 | `size?` | `'sm' \| 'md' \| 'lg'` | — | — |
 | `value?` | `DateValue \| null` | — | — |
 
@@ -39,12 +41,13 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 | Part | Selector |
 | --- | --- |
 | `date-picker` | `[data-ag-part="date-picker"]` |
-| `field-label` | `[data-ag-part="field-label"]` |
-| `field-input` | `[data-ag-part="field-input"]` |
-| `field-segment` | `[data-ag-part="field-segment"]` |
-| `picker-trigger` | `[data-ag-part="picker-trigger"]` |
-| `popover` | `[data-ag-part="popover"]` |
+| `date-input` | `[data-ag-part="date-input"]` |
+| `date-picker-trigger` | `[data-ag-part="date-picker-trigger"]` |
+| `date-picker-popover` | `[data-ag-part="date-picker-popover"]` |
+| `date-picker-value` | `[data-ag-part="date-picker-value"]` |
+| `positioner` | `[data-ag-part="positioner"]` |
 | `calendar` | `[data-ag-part="calendar"]` |
+| `calendar-grid` | `[data-ag-part="calendar-grid"]` |
 
 ## States
 

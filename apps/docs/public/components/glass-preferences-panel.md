@@ -23,6 +23,7 @@ Tier T2 · RSC client
 | `root` | `[data-ag-part="root"]` |
 | `legend` | `[data-ag-part="legend"]` |
 | `group` | `[data-ag-part="group"]` |
+| `options` | `[data-ag-part="options"]` |
 | `option` | `[data-ag-part="option"]` |
 | `radio` | `[data-ag-part="radio"]` |
 | `slider` | `[data-ag-part="slider"]` |

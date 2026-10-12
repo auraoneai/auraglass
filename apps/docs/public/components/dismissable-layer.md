@@ -6,7 +6,7 @@
 import { DismissableLayer } from 'aura-glass/primitives';
 ```
 
-Tier T0 · RSC client
+Tier T0 · RSC client · APG none
 
 ## Props
 

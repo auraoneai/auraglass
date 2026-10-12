@@ -6,7 +6,7 @@
 import { MediaControls } from 'aura-glass/media';
 ```
 
-Tier T2 · RSC client · APG apg/media-controls
+Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
 ## Props
 
@@ -20,15 +20,18 @@ Tier T2 · RSC client · APG apg/media-controls
 | `label?` | `string` | — | — |
 | `media?` | `MediaHandle` | — | — |
 | `muted?` | `boolean` | — | — |
+| `onCaptionsChange?` | `(trackId: string \| null) => void` | — | Controlled captions: the track id to show, or null for off. |
 | `onMutedChange?` | `(muted: boolean) => void` | — | — |
 | `onPlayingChange?` | `(playing: boolean) => void` | — | — |
+| `onRateChange?` | `(rate: number) => void` | — | — |
 | `onSeek?` | `(seconds: number) => void` | — | — |
 | `onVolumeChange?` | `(volume: number) => void` | — | — |
 | `playbackRate?` | `number` | — | — |
 | `playing?` | `boolean` | — | — |
-| `refraction?` | `number` | — | — |
-| `shortcuts?` | `boolean` | — | keyboard shortcuts bound on Root only; default true |
+| `refraction?` | `boolean` | — | Material refraction on the toolbar chrome (data-ag-refraction). |
+| `shortcuts?` | `boolean` | — | keyboard shortcuts bound on Root (and shortcutTarget) only; default true |
 | `shortcutTarget?` | `HTMLElement \| null` | — | — |
+| `textTracks?` | `MediaTextTrack[]` | — | Controlled text tracks (captions\|subtitles drive the Captions part). |
 | `variant?` | `'regular' \| 'clear'` | — | — |
 | `volume?` | `number` | — | — |
 
@@ -36,17 +39,23 @@ Tier T2 · RSC client · APG apg/media-controls
 
 | Part | Selector |
 | --- | --- |
-| `controls` | `[data-ag-part="controls"]` |
-| `play` | `[data-ag-part="play"]` |
-| `scrubber` | `[data-ag-part="scrubber"]` |
-| `time` | `[data-ag-part="time"]` |
-| `volume` | `[data-ag-part="volume"]` |
-| `mute` | `[data-ag-part="mute"]` |
-| `rate` | `[data-ag-part="rate"]` |
-| `captions` | `[data-ag-part="captions"]` |
-| `pip` | `[data-ag-part="pip"]` |
-| `fullscreen` | `[data-ag-part="fullscreen"]` |
-| `spacer` | `[data-ag-part="spacer"]` |
+| `control` | `[data-ag-part="control"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
+| `media-captions` | `[data-ag-part="media-captions"]` |
+| `media-controls` | `[data-ag-part="media-controls"]` |
+| `media-fullscreen` | `[data-ag-part="media-fullscreen"]` |
+| `media-mute` | `[data-ag-part="media-mute"]` |
+| `media-pip` | `[data-ag-part="media-pip"]` |
+| `media-play` | `[data-ag-part="media-play"]` |
+| `media-rate` | `[data-ag-part="media-rate"]` |
+| `media-scrubber` | `[data-ag-part="media-scrubber"]` |
+| `media-spacer` | `[data-ag-part="media-spacer"]` |
+| `media-time` | `[data-ag-part="media-time"]` |
+| `media-volume` | `[data-ag-part="media-volume"]` |
+| `range` | `[data-ag-part="range"]` |
+| `root` | `[data-ag-part="root"]` |
+| `thumb` | `[data-ag-part="thumb"]` |
+| `track` | `[data-ag-part="track"]` |
 
 ## States
 

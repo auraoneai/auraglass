@@ -6,7 +6,7 @@
 import { ImageViewer } from 'aura-glass/media';
 ```
 
-Tier T2 · RSC client
+Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 
 ## Props
 
@@ -17,29 +17,31 @@ Tier T2 · RSC client
 | `defaultValue?` | `string` | — | — |
 | `items` | `ImageViewerItem[]` | — | — |
 | `loop?` | `boolean` | — | — |
-| `onOpenChange?` | `(open: boolean) => void` | — | — |
-| `onValueChange?` | `(id: string) => void` | — | — |
+| `onOpenChange?` | `(open: boolean, details: ChangeDetails) => void` | — | — |
+| `onValueChange?` | `(id: string, details: ChangeDetails) => void` | — | — |
 | `open?` | `boolean` | — | — |
+| `sampleTone?` | `boolean` | — | Sample the current image's tone (after decode) into the Stage's data-ag-media-tone. Cross-origin images need `crossOrigin` on the item plus CORS headers; otherwise no tone is written. Default true. |
 | `value?` | `string` | — | — |
 
 ## Parts
 
 | Part | Selector |
 | --- | --- |
-| `viewer` | `[data-ag-part="viewer"]` |
-| `trigger` | `[data-ag-part="trigger"]` |
-| `popup` | `[data-ag-part="popup"]` |
-| `stage` | `[data-ag-part="stage"]` |
-| `toolbar` | `[data-ag-part="toolbar"]` |
-| `caption` | `[data-ag-part="caption"]` |
-| `inspector` | `[data-ag-part="inspector"]` |
-| `prev` | `[data-ag-part="prev"]` |
-| `next` | `[data-ag-part="next"]` |
-| `counter` | `[data-ag-part="counter"]` |
-| `zoom-in` | `[data-ag-part="zoom-in"]` |
-| `zoom-out` | `[data-ag-part="zoom-out"]` |
-| `zoom-reset` | `[data-ag-part="zoom-reset"]` |
-| `close` | `[data-ag-part="close"]` |
+| `image-viewer-caption` | `[data-ag-part="image-viewer-caption"]` |
+| `image-viewer-close` | `[data-ag-part="image-viewer-close"]` |
+| `image-viewer-counter` | `[data-ag-part="image-viewer-counter"]` |
+| `image-viewer-inspector` | `[data-ag-part="image-viewer-inspector"]` |
+| `image-viewer-next` | `[data-ag-part="image-viewer-next"]` |
+| `image-viewer-popup` | `[data-ag-part="image-viewer-popup"]` |
+| `image-viewer-prev` | `[data-ag-part="image-viewer-prev"]` |
+| `image-viewer-scrim` | `[data-ag-part="image-viewer-scrim"]` |
+| `image-viewer-stage` | `[data-ag-part="image-viewer-stage"]` |
+| `image-viewer-toolbar` | `[data-ag-part="image-viewer-toolbar"]` |
+| `image-viewer-trigger` | `[data-ag-part="image-viewer-trigger"]` |
+| `image-viewer-zoom-in` | `[data-ag-part="image-viewer-zoom-in"]` |
+| `image-viewer-zoom-out` | `[data-ag-part="image-viewer-zoom-out"]` |
+| `image-viewer-zoom-reset` | `[data-ag-part="image-viewer-zoom-reset"]` |
+| `media-glyph` | `[data-ag-part="media-glyph"]` |
 
 ## States
 

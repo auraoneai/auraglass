@@ -16,12 +16,14 @@ Tier T1 · RSC client · APG button
 | `children?` | `ReactNode` | — | — |
 | `defaultItems?` | `readonly FileUploadItem[]` | — | Pre-populated file list (stories, controlled seeding). |
 | `disabled?` | `boolean` | — | — |
-| `maxCount?` | `number` | — | — |
+| `maxCount?` | `number` | — | **Deprecated.** use maxFiles |
+| `maxFiles?` | `number` | — | Maximum admitted files. |
 | `maxSize?` | `number` | — | — |
 | `multiple?` | `boolean` | — | — |
 | `onFilesAccepted?` | `(items: FileUploadItem[]) => void` | — | — |
-| `onFilesRejected?` | `(rejections: { file: File; reason: 'type' \| 'size' \| 'count'; }[]) => void` | — | — |
-| `onUpload?` | `(file: File, signal: AbortSignal) => Promise<unknown>` | — | Optional async upload; aborts via the AbortSignal when a file is removed. |
+| `onFilesRejected?` | `(rejections: FileUploadRejection[]) => void` | — | — |
+| `onUpload?` | `(file: File, ctx: { signal: AbortSignal; onProgress: (progress: number) => void; }) => Promise<unknown>` | — | Optional async upload; aborts via signal, drives item.progress via onProgress. |
+| `onValueChange?` | `(items: FileUploadItem[], details: FileUploadChangeDetails) => void` | — | Called on every list mutation with the reason + rejections. |
 | `ref?` | `Ref<HTMLDivElement>` | — | — |
 
 ## Parts

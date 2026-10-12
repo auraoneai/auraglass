@@ -6,7 +6,7 @@
 import { ToolCall } from 'aura-glass/ai';
 ```
 
-Tier T1 · RSC client
+Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
 ## Props
 
@@ -27,19 +27,26 @@ Tier T1 · RSC client
 
 | Part | Selector |
 | --- | --- |
-| `tool-call` | `[data-ag-part="tool-call"]` |
-| `trigger` | `[data-ag-part="trigger"]` |
-| `tool-name` | `[data-ag-part="tool-name"]` |
-| `tool-state` | `[data-ag-part="tool-state"]` |
-| `content` | `[data-ag-part="content"]` |
-| `io` | `[data-ag-part="io"]` |
-| `io-pre` | `[data-ag-part="io-pre"]` |
-| `io-expand` | `[data-ag-part="io-expand"]` |
-| `error-text` | `[data-ag-part="error-text"]` |
 | `approval` | `[data-ag-part="approval"]` |
 | `approve` | `[data-ag-part="approve"]` |
+| `content` | `[data-ag-part="content"]` |
+| `control` | `[data-ag-part="control"]` |
+| `control-shell` | `[data-ag-part="control-shell"]` |
 | `deny` | `[data-ag-part="deny"]` |
 | `deny-reason` | `[data-ag-part="deny-reason"]` |
+| `error-text` | `[data-ag-part="error-text"]` |
+| `icon` | `[data-ag-part="icon"]` |
+| `io` | `[data-ag-part="io"]` |
+| `io-expand` | `[data-ag-part="io-expand"]` |
+| `io-pre` | `[data-ag-part="io-pre"]` |
+| `label` | `[data-ag-part="label"]` |
+| `root` | `[data-ag-part="root"]` |
+| `running-dots` | `[data-ag-part="running-dots"]` |
+| `state-icon` | `[data-ag-part="state-icon"]` |
+| `tool-call` | `[data-ag-part="tool-call"]` |
+| `tool-name` | `[data-ag-part="tool-name"]` |
+| `tool-state` | `[data-ag-part="tool-state"]` |
+| `trigger` | `[data-ag-part="trigger"]` |
 | `waiting` | `[data-ag-part="waiting"]` |
 
 ## States

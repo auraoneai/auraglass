@@ -6,7 +6,7 @@
 import { UsageMeter } from 'aura-glass/ai';
 ```
 
-Tier T2 · RSC server
+Tier T2 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/meter/
 
 ## Props
 
@@ -21,8 +21,8 @@ Tier T2 · RSC server
 
 | Part | Selector |
 | --- | --- |
-| `usage-meter` | `[data-ag-part="usage-meter"]` |
 | `usage` | `[data-ag-part="usage"]` |
+| `usage-meter` | `[data-ag-part="usage-meter"]` |
 | `usage-window` | `[data-ag-part="usage-window"]` |
 | `usage-window-text` | `[data-ag-part="usage-window-text"]` |
 

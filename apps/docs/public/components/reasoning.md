@@ -6,7 +6,7 @@
 import { Reasoning } from 'aura-glass/ai';
 ```
 
-Tier T2 · RSC client
+Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
 ## Props
 
@@ -23,9 +23,9 @@ Tier T2 · RSC client
 
 | Part | Selector |
 | --- | --- |
+| `content` | `[data-ag-part="content"]` |
 | `reasoning` | `[data-ag-part="reasoning"]` |
 | `trigger` | `[data-ag-part="trigger"]` |
-| `content` | `[data-ag-part="content"]` |
 
 ## States
 

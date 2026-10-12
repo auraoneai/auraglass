@@ -6,7 +6,7 @@
 import { ActivityFeed } from 'aura-glass';
 ```
 
-Tier T1 · RSC mixed
+Tier T1 · RSC mixed · APG feed
 
 ## Props
 
@@ -19,24 +19,33 @@ Tier T1 · RSC mixed
 | `hasMore?` | `boolean` | — | — |
 | `headingLevel?` | `2 \| 3 \| 4 \| 5 \| 6` | — | — |
 | `items` | `readonly ActivityItem[]` | — | — |
-| `labels?` | `{ loadMore?: string \| undefined; newItems?: string \| undefined; loading?: string \| undefined; }` | — | — |
+| `labels?` | `TimelineLabels & { loadMore?: string \| undefined; newItem?: string \| undefined; newItems?: string \| undefined; loading?: string \| undefined; }` | — | — |
 | `loading?` | `boolean` | — | — |
 | `locale?` | `string` | — | — |
 | `now?` | `number \| Date` | — | Required when timeFormat='relative' on the server (else dev error). |
 | `onLoadMore?` | `() => void` | — | — |
 | `orientation?` | `'vertical' \| 'horizontal'` | — | — |
 | `timeFormat?` | `'relative' \| 'absolute' \| DateTimeFormatOptions` | — | — |
+| `timeZone?` | `string` | — | IANA zone for absolute and option formats. Default 'UTC', so server and client render the same text whatever their host zone is. |
 
 ## Parts
 
 | Part | Selector |
 | --- | --- |
-| `activity-feed` | `[data-ag-part="activity-feed"]` |
-| `activity-day` | `[data-ag-part="activity-day"]` |
-| `activity-heading` | `[data-ag-part="activity-heading"]` |
-| `activity-item` | `[data-ag-part="activity-item"]` |
 | `activity-actor` | `[data-ag-part="activity-actor"]` |
-| `activity-new-items` | `[data-ag-part="activity-new-items"]` |
+| `activity-day-heading` | `[data-ag-part="activity-day-heading"]` |
+| `activity-feed` | `[data-ag-part="activity-feed"]` |
+| `activity-load-more` | `[data-ag-part="activity-load-more"]` |
+| `fallback` | `[data-ag-part="fallback"]` |
+| `image` | `[data-ag-part="image"]` |
+| `root` | `[data-ag-part="root"]` |
+| `timeline` | `[data-ag-part="timeline"]` |
+| `timeline-description` | `[data-ag-part="timeline-description"]` |
+| `timeline-item` | `[data-ag-part="timeline-item"]` |
+| `timeline-marker` | `[data-ag-part="timeline-marker"]` |
+| `timeline-meta` | `[data-ag-part="timeline-meta"]` |
+| `timeline-time` | `[data-ag-part="timeline-time"]` |
+| `timeline-title` | `[data-ag-part="timeline-title"]` |
 
 ## States
 

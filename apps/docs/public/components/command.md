@@ -6,7 +6,7 @@
 import { Command } from 'aura-glass';
 ```
 
-Tier T1 · RSC client
+Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
 ## Props
 
@@ -16,7 +16,7 @@ Tier T1 · RSC client
 | `filter?` | `CommandFilter` | — | — |
 | `loop?` | `boolean` | — | — |
 | `onQueryChange?` | `(query: string) => void` | — | — |
-| `onValueChange?` | `(value: string) => void` | — | — |
+| `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | — |
 | `ref?` | `Ref<HTMLElement>` | — | — |
 | `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | — |
 | `shouldFilter?` | `boolean` | — | — |
@@ -27,12 +27,12 @@ Tier T1 · RSC client
 | Part | Selector |
 | --- | --- |
 | `command` | `[data-ag-part="command"]` |
-| `input` | `[data-ag-part="input"]` |
-| `list` | `[data-ag-part="list"]` |
-| `item` | `[data-ag-part="item"]` |
+| `empty` | `[data-ag-part="empty"]` |
 | `group` | `[data-ag-part="group"]` |
 | `group-heading` | `[data-ag-part="group-heading"]` |
-| `empty` | `[data-ag-part="empty"]` |
+| `input` | `[data-ag-part="input"]` |
+| `item` | `[data-ag-part="item"]` |
+| `list` | `[data-ag-part="list"]` |
 | `loading` | `[data-ag-part="loading"]` |
 | `separator` | `[data-ag-part="separator"]` |
 | `shortcut` | `[data-ag-part="shortcut"]` |

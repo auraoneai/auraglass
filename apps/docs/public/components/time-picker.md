@@ -6,15 +6,17 @@
 import { TimePicker } from 'aura-glass/date';
 ```
 
-Tier T2 · RSC client
+Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className?` | `string` | — | — |
+| `defaultOpen?` | `boolean` | — | Initial popover state (uncontrolled). |
 | `defaultValue?` | `TimeValue \| null` | — | — |
 | `description?` | `ReactNode` | — | — |
+| `dir?` | `'ltr' \| 'rtl'` | — | Text direction; defaults to the closest `[dir]` in the DOM (REQ-SURF-98). |
 | `errorMessage?` | `ReactNode` | — | — |
 | `firstDayOfWeek?` | `'sun' \| 'mon' \| 'tue' \| 'wed' \| 'thu' \| 'fri' \| 'sat'` | — | — |
 | `granularity?` | `'day' \| 'hour' \| 'minute' \| 'second'` | — | — |
@@ -25,13 +27,13 @@ Tier T2 · RSC client
 | `isReadOnly?` | `boolean` | — | — |
 | `isRequired?` | `boolean` | — | — |
 | `label?` | `ReactNode` | — | — |
-| `labels?` | `{ choose?: string \| undefined; hour?: string \| undefined; minute?: string \| undefined; }` | — | — |
+| `labels?` | `{ choose?: string \| undefined; hour?: string \| undefined; minute?: string \| undefined; period?: string \| undefined; am?: string \| undefined; pm?: string \| undefined; dialog?: string \| undefined; }` | — | — |
 | `locale?` | `string` | — | — |
 | `maxValue?` | `TimeValue` | — | — |
 | `minuteStep?` | `5 \| 1 \| 10 \| 15 \| 30` | — | — |
 | `minValue?` | `TimeValue` | — | — |
 | `name?` | `string` | — | — |
-| `onValueChange?` | `(v: TimeValue \| null) => void` | — | — |
+| `onValueChange?` | `(v: TimeValue \| null, details: ChangeDetails) => void` | — | — |
 | `size?` | `'sm' \| 'md' \| 'lg'` | — | — |
 | `value?` | `TimeValue \| null` | — | — |
 
@@ -40,12 +42,12 @@ Tier T2 · RSC client
 | Part | Selector |
 | --- | --- |
 | `time-picker` | `[data-ag-part="time-picker"]` |
-| `field-label` | `[data-ag-part="field-label"]` |
-| `field-input` | `[data-ag-part="field-input"]` |
-| `field-segment` | `[data-ag-part="field-segment"]` |
-| `popover` | `[data-ag-part="popover"]` |
-| `listbox` | `[data-ag-part="listbox"]` |
-| `option` | `[data-ag-part="option"]` |
+| `time-input` | `[data-ag-part="time-input"]` |
+| `time-picker-trigger` | `[data-ag-part="time-picker-trigger"]` |
+| `time-picker-popover` | `[data-ag-part="time-picker-popover"]` |
+| `positioner` | `[data-ag-part="positioner"]` |
+| `time-picker-hours` | `[data-ag-part="time-picker-hours"]` |
+| `time-picker-minutes` | `[data-ag-part="time-picker-minutes"]` |
 
 ## States
 

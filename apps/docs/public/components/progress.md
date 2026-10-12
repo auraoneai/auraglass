@@ -6,18 +6,21 @@
 import { Progress } from 'aura-glass';
 ```
 
-Tier T1 · RSC client
+Tier T1 · RSC client · APG none
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appearance?` | `'bar' \| 'linear' \| 'ring'` | — | 'linear' (default) or 'ring' — the circular form (CircularProgress absorbed). |
 | `format?` | `NumberFormatOptions` | — | — |
 | `label?` | `string` | — | — |
 | `max?` | `number` | — | — |
 | `min?` | `number` | — | — |
 | `ref?` | `Ref<HTMLDivElement>` | — | — |
 | `showValue?` | `boolean` | — | Show the formatted value at the end of the track. |
+| `size?` | `number` | — | Ring only: diameter in px. |
+| `thickness?` | `number` | — | Ring only: stroke width in px. |
 | `value?` | `number \| null` | — | 0..max, or null for indeterminate. |
 
 ## Parts

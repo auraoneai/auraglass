@@ -63,20 +63,24 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/table/
 
 | Part | Selector |
 | --- | --- |
-| `table` | `[data-ag-part="table"]` |
-| `table-header` | `[data-ag-part="table-header"]` |
-| `table-header-row` | `[data-ag-part="table-header-row"]` |
-| `table-column-header` | `[data-ag-part="table-column-header"]` |
-| `table-sort-button` | `[data-ag-part="table-sort-button"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
+| `icon` | `[data-ag-part="icon"]` |
+| `indicator` | `[data-ag-part="indicator"]` |
+| `label` | `[data-ag-part="label"]` |
+| `root` | `[data-ag-part="root"]` |
 | `table-body` | `[data-ag-part="table-body"]` |
-| `table-row` | `[data-ag-part="table-row"]` |
 | `table-cell` | `[data-ag-part="table-cell"]` |
-| `table-resize-handle` | `[data-ag-part="table-resize-handle"]` |
-| `table-pin-button` | `[data-ag-part="table-pin-button"]` |
+| `table-column-menu` | `[data-ag-part="table-column-menu"]` |
 | `table-empty` | `[data-ag-part="table-empty"]` |
-| `table-pagination` | `[data-ag-part="table-pagination"]` |
-| `table-selection-checkbox` | `[data-ag-part="table-selection-checkbox"]` |
-| `table-filter-input` | `[data-ag-part="table-filter-input"]` |
+| `table-header` | `[data-ag-part="table-header"]` |
+| `table-header-cell` | `[data-ag-part="table-header-cell"]` |
+| `table-loading` | `[data-ag-part="table-loading"]` |
+| `table-resize-handle` | `[data-ag-part="table-resize-handle"]` |
+| `table-root` | `[data-ag-part="table-root"]` |
+| `table-row` | `[data-ag-part="table-row"]` |
+| `table-scroller` | `[data-ag-part="table-scroller"]` |
+| `table-selection-cell` | `[data-ag-part="table-selection-cell"]` |
+| `table-sort-trigger` | `[data-ag-part="table-sort-trigger"]` |
 
 ## States
 

@@ -6,7 +6,7 @@
 import { Label } from 'aura-glass/primitives';
 ```
 
-Tier T0 · RSC server
+Tier T0 · RSC server · APG none
 
 ## Props
 

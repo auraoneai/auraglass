@@ -13,12 +13,12 @@ Tier T1 · RSC client · APG slider
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `defaultOpen?` | `boolean` | — | — |
-| `defaultValue?` | `string` | — | — |
+| `defaultValue?` | `PickerValueLike` | — | — |
 | `onOpenChange?` | `(open: boolean, details: unknown) => void` | — | — |
-| `onValueChange?` | `(hex: string, details: { committed: boolean; }) => void` | — | — |
+| `onValueChange?` | `(value: ColorPickerValue, details: { committed: boolean; }) => void` | — | — |
 | `open?` | `boolean` | — | — |
 | `ref?` | `Ref<HTMLSpanElement>` | — | — |
-| `value?` | `string` | — | — |
+| `value?` | `PickerValueLike` | — | Controlled color: { space:'srgb'\|'oklch', value:'#rrggbb[aa]'\|'oklch(l c h[ / a])' }. A bare string is treated as space:'srgb'. |
 
 ## Parts
 

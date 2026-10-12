@@ -17,8 +17,9 @@ Tier T1 · RSC client · APG radio
 | `className?` | `string` | — | — |
 | `defaultValue?` | `string` | — | — |
 | `disabled?` | `boolean` | — | — |
-| `name?` | `string` | — | — |
+| `name` | `string` | — | Required form name (REQ-CMP-41). |
 | `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | — |
+| `orientation?` | `'vertical' \| 'horizontal'` | — | Layout orientation (default 'horizontal'); roving focus follows it. |
 | `prominent?` | `boolean` | — | — |
 | `ref?` | `Ref<HTMLDivElement>` | — | — |
 | `refraction?` | `boolean` | — | — |
@@ -35,6 +36,7 @@ Tier T1 · RSC client · APG radio
 | `item` | `[data-ag-part="item"]` |
 | `item-label` | `[data-ag-part="item-label"]` |
 | `indicator` | `[data-ag-part="indicator"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 
 ## States
 

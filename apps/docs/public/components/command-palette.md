@@ -6,23 +6,36 @@
 import { CommandPalette } from 'aura-glass';
 ```
 
-Tier T1 · RSC client
+Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `aria-label?` | `string` | — | Accessible name of the dialog (default 'Command palette'). |
 | `children?` | `ReactNode` | — | — |
 | `defaultOpen?` | `boolean` | — | — |
 | `hotkey?` | `string \| false` | — | Global hotkey — 'mod+k' by default; pass false to disable. |
-| `onOpenChange?` | `(open: boolean) => void` | — | — |
+| `onOpenChange?` | `(open: boolean, details: ChangeDetails) => void` | — | — |
 | `open?` | `boolean` | — | — |
 
 ## Parts
 
 | Part | Selector |
 | --- | --- |
+| `command` | `[data-ag-part="command"]` |
 | `command-palette` | `[data-ag-part="command-palette"]` |
+| `empty` | `[data-ag-part="empty"]` |
+| `group` | `[data-ag-part="group"]` |
+| `group-heading` | `[data-ag-part="group-heading"]` |
+| `input` | `[data-ag-part="input"]` |
+| `item` | `[data-ag-part="item"]` |
+| `list` | `[data-ag-part="list"]` |
+| `loading` | `[data-ag-part="loading"]` |
+| `portal` | `[data-ag-part="portal"]` |
+| `scrim` | `[data-ag-part="scrim"]` |
+| `separator` | `[data-ag-part="separator"]` |
+| `shortcut` | `[data-ag-part="shortcut"]` |
 
 ## States
 
