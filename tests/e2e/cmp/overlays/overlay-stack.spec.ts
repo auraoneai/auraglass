@@ -47,26 +47,34 @@ test.describe('overlay stack (CMP-394/399/404/409)', () => {
     await expect(dialogPopup).toBeVisible();
   });
 
-  test('T-OVL-STACK-01: Dialog→Popover→Menu — exactly one layer per Escape', async ({ page }) => {
+  test('T-OVL-STACK-01: Dialog→Popover→Menu — exactly one layer per Escape, focus back to its trigger', async ({ page }) => {
     await gotoStory(page, 'flagships-overlays-dialog--with-popover-menu');
     const dialogPopup = page.locator('[data-ag-part="popup"][aria-label="stack dialog"]');
     const popoverPopup = page.locator('[data-ag-part="popup"][aria-label="stack popover"]');
     const menuPopup = page.locator('[data-ag-part="popup"][aria-label="stack menu"]');
+    const dialogTrigger = page.getByRole('button', { name: 'Manage members' });
+    const popoverTrigger = page.getByRole('button', { name: 'Jordan Lee' });
+    const menuTrigger = page.getByRole('button', { name: 'Actions' });
     await expect(dialogPopup).toBeVisible();
     await expect(popoverPopup).toBeVisible();
     await expect(menuPopup).toBeVisible();
+    // Escape is dispatched to the topmost layer: start from inside the menu.
+    await menuPopup.locator('[role="menuitem"]').first().focus();
 
     await page.keyboard.press('Escape');
     await expect(menuPopup).toHaveCount(0);
     await expect(popoverPopup).toBeVisible();
     await expect(dialogPopup).toBeVisible();
+    await expect(menuTrigger).toBeFocused();
 
     await page.keyboard.press('Escape');
     await expect(popoverPopup).toHaveCount(0);
     await expect(dialogPopup).toBeVisible();
+    await expect(popoverTrigger).toBeFocused();
 
     await page.keyboard.press('Escape');
     await expect(dialogPopup).toHaveCount(0);
+    await expect(dialogTrigger).toBeFocused();
   });
 
   test('T-OVL-STACK-03: a live toast has no inert ancestor over a modal Dialog; F6 reaches its viewport', async ({ page }) => {

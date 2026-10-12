@@ -90,7 +90,8 @@
   .ag-number-field [data-ag-part='decrement'][data-disabled] {
     cursor: default;
   }
-  /* REQ-CMP-13: a disabled stepper dims its glyph, never its own box */
+  /* REQ-CMP-13 / REQ-MAT-31: the steppers are surfaces — a disabled stepper
+     dims its glyph, never its own box (the hit-area extender never dims). */
   .ag-number-field [data-ag-part='increment'][data-disabled] > :where(:not([data-ag-part='hit-area'])),
   .ag-number-field [data-ag-part='decrement'][data-disabled] > :where(:not([data-ag-part='hit-area'])) {
     opacity: var(--ag-state-disabled-alpha);

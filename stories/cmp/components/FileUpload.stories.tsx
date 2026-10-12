@@ -26,3 +26,12 @@ export const WithFiles: Story = {
   ),
 };
 
+
+/* REQ-CMP-126: images only, 1 MB cap — a wrong-type file renders Field.Error
+   (aria-describedby on the dropzone) and is announced through S-26. */
+export const Rejection: Story = {
+  parameters: { ag: { tier: 'standard', subject: 'FileUpload', id: 'core-file-upload--rejection' } },
+  render: () => (
+    <FileUpload accept="image/*" maxSize={1024 * 1024} />
+  ),
+};

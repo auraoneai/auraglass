@@ -250,7 +250,7 @@ export function Ecommerce({ now = SHOWCASE_EPOCH }: EcommerceProps) {
                     <Surface layer="content" content="content-sunken" className={styles.frame}>
                       <img className={styles.photo} src={r.image} alt="" width={960} height={960} />
                     </Surface>
-                    <Heading level={3} size="sm">{r.name}</Heading>
+                    <Heading level={3} size="title-3">{r.name}</Heading>
                     <Text muted>{formatPrice(r.price)}</Text>
                   </li>
                 ))}
@@ -269,7 +269,7 @@ export function Ecommerce({ now = SHOWCASE_EPOCH }: EcommerceProps) {
                     {i > 0 ? <Separator /> : null}
                     <Stack direction="row" align="center" gap={3} wrap>
                       <Rating value={r.rating} readOnly aria-label={`${r.rating} out of 5`} />
-                      <Heading level={3} size="sm">{r.author}</Heading>
+                      <Heading level={3} size="title-3">{r.author}</Heading>
                       {'date' in r ? <Text type="caption" muted>{r.date}</Text> : null}
                     </Stack>
                     <Text>{r.text}</Text>

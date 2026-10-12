@@ -1,7 +1,8 @@
 // REQ-CMP-130 — Next 16 server canary: renders every REQ-CMP-17 server-list
 // component with minimal props and NO AuraGlassProvider. This page must stay a
 // Server Component (no 'use client', no hooks) — hydration warnings are asserted
-// by ./cmp-server.spec.ts (collected by `npx playwright test` in canaries/next16).
+// by canaries/next16/tests/cmp-server.spec.ts (collected by `npx playwright test`
+// in canaries/next16, testDir ./tests).
 import {
   Alert,
   AvatarGroup,
@@ -15,6 +16,8 @@ import {
   ErrorState,
   Grid,
   Heading,
+  Icon,
+  ImageList,
   Kbd,
   Link,
   LoadingState,
@@ -25,8 +28,10 @@ import {
   Text,
   Timeline,
   ActivityFeed,
+  VisuallyHidden,
 } from 'aura-glass';
 import { Button } from 'aura-glass';
+import { Label, Slot } from 'aura-glass/primitives';
 
 export default function CmpServerPage() {
   return (
@@ -52,6 +57,16 @@ export default function CmpServerPage() {
       <LoadingState description="Loading" />
       <Grid columns={2}><div>a</div><div>b</div></Grid>
       <Heading level={2}>Heading</Heading>
+      <Icon name="spark" />
+      <Icon name="user" aria-label="Account" />
+      <ImageList cols={2} variant="standard">
+        <ImageList.Item><div style={{ blockSize: 40 }} /></ImageList.Item>
+        <ImageList.Item><div style={{ blockSize: 40 }} /></ImageList.Item>
+      </ImageList>
+      <Label htmlFor="cmp-server-field" required>Email</Label>
+      <input id="cmp-server-field" type="email" />
+      <Slot data-ag-canary-slot=""><a href="/docs">Slotted link</a></Slot>
+      <VisuallyHidden>Screen-reader only text</VisuallyHidden>
       <Text>Body text <Kbd>⌘K</Kbd></Text>
       <Link href="/docs">Docs</Link>
       {/* Link mode (getHref) is the server-renderable Pagination (SURF-081). */}

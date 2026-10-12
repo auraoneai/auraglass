@@ -180,11 +180,11 @@ export function AiCommandCenter({ now = SHOWCASE_EPOCH }: AiCommandCenterProps) 
                 </ol>
               </Card.Root>
               <Card.Root className={styles.panel} render={<section aria-labelledby="acc-reasoning-heading" />}>
-                <Heading level={3} size="sm" id="acc-reasoning-heading">{COPY.reasoning}</Heading>
+                <Heading level={3} size="title-3" id="acc-reasoning-heading">{COPY.reasoning}</Heading>
                 <Reasoning text={REASONING_TEXT} state="done" durationMs={4200} />
               </Card.Root>
               <Card.Root className={styles.panel} render={<section aria-labelledby="acc-draft-heading" />}>
-                <Heading level={3} size="sm" id="acc-draft-heading">{COPY.draftReply}</Heading>
+                <Heading level={3} size="title-3" id="acc-draft-heading">{COPY.draftReply}</Heading>
                 <Message
                   message={{
                     id: 'm-draft',
@@ -198,7 +198,7 @@ export function AiCommandCenter({ now = SHOWCASE_EPOCH }: AiCommandCenterProps) 
                   <StreamingText text={STATUS_LINE} streaming announce="off" />{' '}
                   <Citation messageId="m-draft" source={SOURCES[0]!} index={1} />
                 </Text>
-                <Heading level={4} size="sm">{COPY.sources}</Heading>
+                <Heading level={4} size="title-3">{COPY.sources}</Heading>
                 <SourceList messageId="m-draft" sources={SOURCES} defaultOpen />
               </Card.Root>
             </div>
