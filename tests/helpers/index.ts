@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from '@jest/globals';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { BANNED_ATTRIBUTES } from '../../src/contracts/material';
 import { SCENES } from '../../src/contracts/testing';
@@ -139,68 +139,21 @@ export const gotoStory: GotoStory = async (page, storyId, env = {}) => {
   await page.waitForSelector('[data-ag-cert-ready]', { timeout: 30_000 });
 };
 
-/** Reads REPORTS.subjects (storybook-static/cert-manifest.json) from AG_STORYBOOK_URL,
-    falling back to index.json. Never hard-codes another stream's story ids. */
-const OWNERSHIP_JSON = join(__dirname, '..', '..', 'contracts', 'ownership.json');
-
-type StoryOwner = SubjectIndex['stories'][number]['owner'];
-type OwnershipRow = { id: string; glob: string; owner: string; lines?: string[] };
-
-/** Owner of a repo path by contracts/ownership.json, resolved exactly as
-    contract:ownership (scripts/ci/verify-ownership.mjs) does on the 5x line:
-    first matching row wins, picomatch globs with dot files, rows scoped to
-    other lines skipped. A missing ownership file or an unmatched path throws;
-    no stream is ever hard-coded. */
-const ownershipOwner = (() => {
-  let rows: Array<OwnershipRow & { test: (p: string) => boolean }> | null = null;
-  return (storyPath: string): StoryOwner => {
-    if (rows === null) {
-      // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const picomatch = require('picomatch') as (glob: string, opts: { dot: boolean }) => (p: string) => boolean;
-      const doc = JSON.parse(readFileSync(OWNERSHIP_JSON, 'utf8')) as { rows?: OwnershipRow[] };
-      rows = (doc.rows ?? [])
-        .filter((r) => !r.lines || r.lines.includes('5x'))
-        .map((r) => ({ ...r, test: picomatch(r.glob, { dot: true }) }));
-    }
-    const hit = rows.find((r) => r.test(storyPath));
-    if (!hit) throw new Error(`listSubjects: no contracts/ownership.json row owns '${storyPath}'`);
-    return hit.owner as StoryOwner;
-  };
-})();
-
+/** Reads REPORTS.subjects (storybook-static/cert-manifest.json, written by
+    scripts/storybook/write-cert-manifest.mjs at every storybook:build) from AG_STORYBOOK_URL.
+    REQ-QUAL-01: packages/qa/src/resolve is the only subject→story mapping, so there is no
+    index.json / title-leaf fallback — a missing or empty manifest throws. */
 export const listSubjects: ListSubjects = async (filter = {}) => {
   const base = process.env.AG_STORYBOOK_URL ?? 'http://localhost:6006';
   const path = REPORTS.subjects.startsWith('storybook-static/')
     ? REPORTS.subjects.slice('storybook-static/'.length)
     : REPORTS.subjects;
-  let index: SubjectIndex | null = null;
   const get: typeof fetch | undefined = typeof globalThis.fetch === 'function' ? globalThis.fetch.bind(globalThis) : undefined;
   const res = get ? await get(`${base}/${path}`).catch(() => null) : null;
-  if (res && res.ok) {
-    index = (await res.json()) as SubjectIndex;
-  } else {
-    // seed fallback: storybook index.json; owner is derived from the story's
-    // importPath via contracts/ownership.json — never a hard-coded stream.
-    const idx = get ? await get(`${base}/index.json`).catch(() => null) : null;
-    if (idx && idx.ok) {
-      const raw = await idx.json() as { entries?: Record<string, { id: string; title?: string; importPath?: string; tags?: string[] }> };
-      index = {
-        version: 1,
-        stories: Object.values(raw.entries ?? {}).map((e) => {
-          const storyPath = (e.importPath ?? '').replace(/^\.\//, '');
-          return {
-            id: e.id,
-            subject: (e.title ?? '').split('/').pop() ?? e.id,
-            kind: 'component' as const,
-            tags: e.tags ?? [],
-            owner: ownershipOwner(storyPath),
-          };
-        }),
-      };
-    }
-  }
-  if (!index || index.stories.length === 0) {
-    throw new Error(`listSubjects: no subject index reachable at ${base} (tried ${REPORTS.subjects} and index.json) — is Storybook built?`);
+  const index = res && res.ok ? ((await res.json()) as SubjectIndex) : null;
+  if (!index || !Array.isArray(index.stories) || index.stories.length === 0) {
+    throw new Error(`listSubjects: no subject index reachable at ${base}/${path} (REPORTS.subjects; written by `
+      + `scripts/storybook/write-cert-manifest.mjs during storybook:build) — is Storybook built?`);
   }
   return index.stories.filter((s) =>
     (!filter.tags || filter.tags.every((t) => s.tags.includes(t))) &&

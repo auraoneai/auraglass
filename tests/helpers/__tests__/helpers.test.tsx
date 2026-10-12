@@ -1,6 +1,6 @@
 /** REQ-FIN-08 (QUAL-69): the S-40 helper contract — all 9 exports: S-01
     attributes on the document root, awaited hydration, banned-attribute scan,
-    gotoStory URL + readiness, listSubjects manifest/index/ownership/throw,
+    gotoStory URL + readiness, listSubjects manifest-only/throw (REQ-QUAL-01),
     perf rAF cleanup + bci delegation/pending, apg and scenes re-exports. */
 import { afterEach, describe, it, expect, jest } from '@jest/globals';
 import * as React from 'react';
@@ -120,24 +120,21 @@ describe('listSubjects', () => {
     expect(calls.every((u) => u === 'http://sb.test/cert-manifest.json')).toBe(true);
   });
 
-  it('falls back to index.json and derives owner from contracts/ownership.json by story path', async () => {
-    serve({
+  it('never maps subjects from index.json title leaves: only index.json reachable throws (REQ-QUAL-01)', async () => {
+    const calls = serve({
       'index.json': {
         entries: {
           a: { id: 'cmp-button--default', title: 'Components/Button', importPath: './src/components/button/Button.stories.tsx', tags: ['cert'] },
-          b: { id: 'surf-app-shell--default', title: 'App Shell/AppShell', importPath: './src/app-shell/AppShell.stories.tsx', tags: [] },
-          c: { id: 'surf-tabs--default', title: 'Navigation/Tabs', importPath: './src/components/tabs/Tabs.stories.tsx', tags: [] },
-          d: { id: 'mat-floors--default', title: 'Material/Floors', importPath: './stories/mat/Floors.stories.tsx', tags: [] },
         },
       },
     });
-    const owners = Object.fromEntries((await listSubjects()).map((s) => [s.id, s.owner]));
-    expect(owners).toEqual({
-      'cmp-button--default': 'CMP',
-      'surf-app-shell--default': 'SURF',
-      'surf-tabs--default': 'SURF', // C04 row precedes the C05 src/components/** CMP row
-      'mat-floors--default': 'MAT',
-    });
+    await expect(listSubjects()).rejects.toThrow(/no subject index reachable at http:\/\/sb\.test\/cert-manifest\.json/);
+    expect(calls).toEqual(['http://sb.test/cert-manifest.json']);
+  });
+
+  it('throws when cert-manifest.json lists no stories', async () => {
+    serve({ 'cert-manifest.json': { version: 1, stories: [] } });
+    await expect(listSubjects()).rejects.toThrow(/no subject index reachable/);
   });
 });
 
