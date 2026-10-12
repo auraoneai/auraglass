@@ -113,7 +113,7 @@
     backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(calc(var(--_ag-brightness) * var(--_ag-env-brightness, 1)));
     -webkit-backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(calc(var(--_ag-brightness) * var(--_ag-env-brightness, 1)));
     background-image:
-      linear-gradient(oklch(0% 0 0 / var(--_ag-dim)), oklch(0% 0 0 / var(--_ag-dim))),
+      linear-gradient(oklch(0% 0 0 / var(--_ag-dim)) 0 0),
       url(../assets/ag-grain-128.avif),
       linear-gradient(var(--ag-light-angle),
         oklch(1 0 0 / calc((var(--ag-specular) + var(--_ag-specular-lift)) * 0.18)),
@@ -386,7 +386,7 @@
   :where([data-ag-contrast="more"]) [data-ag-surface]::before,
   [data-ag-surface][data-ag-contrast="more"]::before {
     background-image:
-      linear-gradient(oklch(0% 0 0 / var(--_ag-dim)), oklch(0% 0 0 / var(--_ag-dim)));
+      linear-gradient(oklch(0% 0 0 / var(--_ag-dim)) 0 0);
     background-size: 100% 100%;
   }
   [data-ag-contrast="more"] [data-ag-surface][data-ag-interactive]:where(:hover),
@@ -497,7 +497,7 @@
     -webkit-backdrop-filter: none;
     /* grain layer removed; Fresnel band and sheen kept */
     background-image:
-      linear-gradient(oklch(0% 0 0 / var(--_ag-dim)), oklch(0% 0 0 / var(--_ag-dim))),
+      linear-gradient(oklch(0% 0 0 / var(--_ag-dim)) 0 0),
       linear-gradient(var(--ag-light-angle),
         oklch(1 0 0 / calc((var(--ag-specular) + var(--_ag-specular-lift)) * 0.18)),
         transparent 8px),
