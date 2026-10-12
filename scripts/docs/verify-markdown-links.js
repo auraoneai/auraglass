@@ -104,11 +104,15 @@ export function extractLinks(src) {
   return links.sort((a, b) => a.line - b.line);
 }
 
-/** GitHub-style heading slugs (with -1, -2 suffixes) plus explicit ids. */
+/** GitHub-style heading slugs (with -1, -2 suffixes) plus explicit ids. A
+    heading ending in `{#id}` (the docs renderer's explicit heading id,
+    apps/docs/lib/markdown.tsx) is anchored at that id instead of its slug. */
 export function anchorsOf(src) {
   const anchors = new Set();
   const counts = new Map();
   for (const m of stripCode(src).matchAll(/^(#{1,6})\s+(.+?)\s*#*\s*$/gm)) {
+    const explicit = /\s*\{#([\w-]+)\}$/.exec(m[2]);
+    if (explicit) { anchors.add(explicit[1]); continue; }
     const base = m[2].trim().toLowerCase().replace(/<[^>]+>/g, '').replace(/[^\p{L}\p{N}\s_-]/gu, '').trim().replace(/\s/g, '-');
     const n = counts.get(base) ?? 0;
     counts.set(base, n + 1);

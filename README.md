@@ -64,7 +64,7 @@ Every number on this page is generated from the release pipeline's artifacts
 5. Render it — replace `app/page.tsx` with:
 
    ```tsx
-   import { AppFrame } from '@/components/aura/app-frame';
+   import { AppFrame } from '../components/aura/app-frame';
 
    export default function Page() {
      return <AppFrame />;

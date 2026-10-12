@@ -507,7 +507,7 @@ const dynamicGlass = createGlassStyle({
 - [Elevation Guidelines](./guides/elevation-guidelines.md)
 - [Design System Enforcement](./guides/design-system-enforcement.md)
 - [Design Token Reference](./design-tokens.md)
-- [Migration Guide](./guides/migration.md)
+- [Migration Guide](https://auraglass-48859d.gitlab.io/plat/migrate/5)
 
 ---
 

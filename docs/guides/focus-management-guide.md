@@ -459,4 +459,4 @@ When implementing focus management:
 
 ---
 
-**Questions?** Check the [Focus Management Report](../../reports/FOCUS_MANAGEMENT_SUMMARY.md) for implementation details.
+**Questions?** Check the [Focus Management Quick Reference](./focus-management-quick-reference.md) for implementation details.

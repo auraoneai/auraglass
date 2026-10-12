@@ -86,4 +86,4 @@ npx aura-glass migrate icons --from lucide --dry-run
 npx aura-glass migrate icons --from lucide --write
 ```
 
-The CLI only rewrites names it can map. Review the report before committing. See [Lucide migration](../migration/lucide-to-auraglass-icons.md) and [CLI](../cli/migration.md).
+The CLI only rewrites names it can map. Review the report before committing. See [Lucide migration](../migration/lucide-to-auraglass-icons.md) and [CLI](https://auraglass-48859d.gitlab.io/plat/cli).
