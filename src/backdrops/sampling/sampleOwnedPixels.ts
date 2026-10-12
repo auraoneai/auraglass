@@ -60,7 +60,10 @@ function drawAndRead(
 ): ToneStats | null {
   const canvas: HTMLCanvasElement | OffscreenCanvas =
     typeof OffscreenCanvas !== 'undefined' ? new OffscreenCanvas(SIZE, SIZE) : Object.assign(document.createElement('canvas'), { width: SIZE, height: SIZE });
-  const ctx = (canvas as HTMLCanvasElement).getContext?.('2d') ?? (canvas as OffscreenCanvas).getContext('2d');
+  // willReadFrequently keeps the 32×32 backing store in CPU memory: every sample ends in getImageData, and a
+  // GPU-backed (accelerated) 2d canvas pays a synchronous GPU readback per read (REQ-SURF-153's ≤ 4 ms ag:sample).
+  const settings: CanvasRenderingContext2DSettings = { willReadFrequently: true };
+  const ctx = (canvas as HTMLCanvasElement).getContext?.('2d', settings) ?? (canvas as OffscreenCanvas).getContext('2d', settings);
   if (!ctx) { warnOnce(src); return null; }
   const sx = region ? Math.max(0, Math.floor((region.x / 100) * dims.w)) : 0;
   const sy = region ? Math.max(0, Math.floor((region.y / 100) * dims.h)) : 0;

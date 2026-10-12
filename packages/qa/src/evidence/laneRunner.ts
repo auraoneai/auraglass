@@ -209,14 +209,15 @@ export function expand(pattern: string, root: string): string[] {
   }).sort();
 }
 
-interface Spawned { status: number | null; signal: NodeJS.Signals | null; error: string | undefined; output: string; durationMs: number }
+interface Spawned { status: number | null; signal: NodeJS.Signals | null; error: string | undefined; durationMs: number }
 
+/** Runs a row's tool with its stdout/stderr streamed straight to the job log. Rows are classified from their
+    report files and exit status only, so nothing is buffered: a row (or the whole job) killed mid-run — e.g. the
+    L12 coverage run SIGKILLed (exit 137) under memory pressure — still leaves everything it printed in the log. */
 function run(cmd: string, args: readonly string[], cwd: string, env: NodeJS.ProcessEnv): Spawned {
   const t0 = Date.now();
-  const r = spawnSync(cmd, args, { cwd, encoding: 'utf8', env, timeout: ROW_TIMEOUT_MS, maxBuffer: 256 * 1024 * 1024 });
-  const output = `${r.stdout ?? ''}${r.stderr ?? ''}`;
-  if (output) process.stdout.write(output.endsWith('\n') ? output : `${output}\n`);
-  return { status: r.status, signal: r.signal, error: r.error?.message, output, durationMs: Date.now() - t0 };
+  const r = spawnSync(cmd, args, { cwd, env, timeout: ROW_TIMEOUT_MS, stdio: ['ignore', 'inherit', 'inherit'] });
+  return { status: r.status, signal: r.signal, error: r.error?.message, durationMs: Date.now() - t0 };
 }
 
 const PENDING_MESSAGE = /(^|\n)\s*(?:AgPendingProducer: |Error: )?pending:/;
@@ -264,8 +265,10 @@ function runJest(row: Registration, ctx: RowContext): RowResult {
   const outFile = join(ctx.evidenceDir, `jest-${ctx.idx}.json`);
   const workers = String(Math.max(1, Math.min(cpus().length, 4)));
   // The verbatim root config needs ESM vm-modules (as `npm test`); jest.qual.config.js runs everything through babel.
+  // --workerIdleMemoryLimit recycles a worker whose heap has grown past 1 GB between test files (jsdom/coverage
+  // retention), so the whole-repo L12 coverage row stays bounded on a shared runner instead of being OOM-killed.
   const base = [...(row.config ? [] : ['--experimental-vm-modules']), ctx.tools.jestBin, ...(row.config ? ['-c', row.config] : []),
-    '--ci', '--json', `--outputFile=${outFile}`, `--maxWorkers=${workers}`];
+    '--ci', '--json', `--outputFile=${outFile}`, `--maxWorkers=${workers}`, '--workerIdleMemoryLimit=1GB'];
   let args: string[];
   let plan: ReturnType<typeof buildCoveragePlan> | null = null;
   let coverageDir: string | null = null;

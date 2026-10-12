@@ -1874,14 +1874,6 @@
     "dep": "DEP-S0031"
   },
   {
-    "file": "src/date/TimePicker.tsx",
-    "owner": "SURF",
-    "reqFin": "REQ-FIN-84",
-    "expires": "RC-1",
-    "entry": "./date",
-    "name": "TimePicker"
-  },
-  {
     "file": "src/forms/FormField.tsx",
     "owner": "CMP",
     "reqFin": "REQ-FIN-71",

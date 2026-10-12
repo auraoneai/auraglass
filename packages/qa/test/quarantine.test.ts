@@ -2,8 +2,8 @@
    reported `quarantined` (never `pass`) and is `fail` at release, where any active entry fails the run; nightly L7 runs
    twice and records the agreement ratio (≥ 99.9 %); the manifest lists fonts and the image digest. */
 import { afterAll, describe, expect, it } from '@jest/globals';
-import { chmodSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { delimiter, dirname, join } from 'node:path';
+import { chmodSync, mkdirSync, readFileSync, symlinkSync, writeFileSync } from 'node:fs';
+import { delimiter, join } from 'node:path';
 import {
   DETERMINISM_MIN_AGREEMENT, QUARANTINE_MAX_DAYS, agreementOf, cellOfTitle, partitionQuarantined, playwrightOutcomes, validateQuarantine,
   type Outcome,
@@ -190,8 +190,12 @@ describe('manifest: fonts and one image digest', () => {
       { family: 'DejaVu Sans', file: '/usr/share/fonts/dejavu/DejaVuSans.ttf' },
       { family: 'Noto Sans', file: '/usr/share/fonts/noto/NotoSans-Regular.ttf' },
     ]);
-    // no fontconfig on the runner → fonts: null (recorded, not invented)
-    const bare = await runFixture(root, { env: { CI_JOB_IMAGE: 'mcr.microsoft.com/playwright:v1.63.0-noble', PATH: dirname(process.execPath) } });
+    // no fontconfig on the runner → fonts: null (recorded, not invented). PATH is a directory holding only `node`:
+    // dirname(process.execPath) is /usr/bin on the CI images, which also carries the image's real fc-list.
+    const nodeOnly = join(root, '.node-bin');
+    mkdirSync(nodeOnly, { recursive: true });
+    symlinkSync(process.execPath, join(nodeOnly, 'node'));
+    const bare = await runFixture(root, { env: { CI_JOB_IMAGE: 'mcr.microsoft.com/playwright:v1.63.0-noble', PATH: nodeOnly } });
     expect(bare.manifest).toMatchObject({ fonts: null, imageDigest: null, image: 'mcr.microsoft.com/playwright:v1.63.0-noble' });
     expect(imageDigestOf('mcr.microsoft.com/playwright:v1.63.0-noble')).toBeNull();
   });
