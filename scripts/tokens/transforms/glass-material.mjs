@@ -11,6 +11,9 @@ import { colorToCss } from '../color.mjs';
 const VARIANTS = ['regular', 'clear', 'identity'];
 const BLURRED = ['regular', 'clear'];                     // identity has no backdrop filter
 const THICKNESS = ['thin', 'regular', 'thick'];
+/** Layers with an authored elevation row (tokens/sys/elevation.tokens.json; the
+ *  scrim layer paints no surface shadow). */
+const ELEVATION_LAYERS = ['content', 'chrome', 'overlay', 'transient'];
 const dim = (v) => `${v.value}${v.unit}`;
 
 function get(records, resolved, name) {
@@ -82,10 +85,6 @@ export function buildLadders(records, resolved) {
     out.push(...cellScalars(spec, variant, 'regular'));
     out.push('  }');
   }
-  // overlays read the thick elevation whatever their thickness (REQ-FIN-03 / MAT-07)
-  out.push(`  [data-ag-surface][data-ag-layer="overlay"]${OVER_CELLS} {`);
-  out.push('    --_ag-shadow: var(--ag-shadow-thick);');
-  out.push('  }');
   // clear fail-safe (MAT-33): clear with no light/dark/media backdrop on itself or an
   // ancestor (none declared, or auto) reads the regular row. Zero added specificity,
   // so it ties the cells and wins by order; coarse/lightweight/disabled rows still win.
@@ -100,6 +99,26 @@ export function buildLadders(records, resolved) {
     out.push(...cellScalars(spec, 'regular', th));
     out.push('  }');
   }
+  // elevation (MAT-020, REQ-MAT-07): the shadow derives from layer x thickness into
+  // --_ag-shadow, reading the private two-layer (ambient, key) per-scheme recipe
+  // --_ag-shadow-<layer>-<thickness> (tokens/sys/elevation.tokens.json). Same
+  // specificity as the cells and fail-safe rows and later in source, so a layered surface takes its
+  // layer's elevation; the cell's --ag-shadow-<thickness> stays the layerless
+  // default (and the tailwind glass-* utilities). Absent thickness = regular.
+  for (const layer of ELEVATION_LAYERS) {
+    for (const th of THICKNESS) {
+      out.push(`  [data-ag-surface][data-ag-layer="${layer}"][data-ag-thickness="${th}"] {`);
+      out.push(`    --_ag-shadow: var(--_ag-shadow-${layer}-${th});`);
+      out.push('  }');
+    }
+    out.push(`  [data-ag-surface][data-ag-layer="${layer}"]:not([data-ag-thickness]) {`);
+    out.push(`    --_ag-shadow: var(--_ag-shadow-${layer}-regular);`);
+    out.push('  }');
+  }
+  // overlays read the thick elevation whatever their thickness (REQ-FIN-03 / MAT-07)
+  out.push(`  [data-ag-surface][data-ag-layer="overlay"]${OVER_CELLS} {`);
+  out.push('    --_ag-shadow: var(--_ag-shadow-overlay-thick);');
+  out.push('  }');
   // Rows that must override a cell carry one extra attribute/pseudo class, so they
   // win on specificity over every cell, default and fail-safe row above regardless
   // of where the tier attribute sits. No row reads the property it declares (a

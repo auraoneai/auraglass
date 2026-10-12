@@ -6,7 +6,7 @@
       "ag.since": "5.0.0"
     },
     "type": {
-      "$description": "Type roles (MAT-014/032): size (fluid clamp over 320-1440px), unitless leading, weight, private tracking; body has the exact clamp; caption >= 12px.",
+      "$description": "Type roles (MAT-014/032): size (fluid clamp over 320-1440px), unitless leading, weight, private tracking; body has the exact clamp; caption >= 12px. No on-glass weight delta is emitted: nothing reads one (role weights are the only weight source), and an unread private is a dead var (REQ-MAT-17 dead-vars gate).",
       "display": {
         "size": {
           "$type": "dimension",
@@ -555,16 +555,6 @@
             "ag.public": false,
             "ag.cssVar": "--_ag-type-mono-tracking"
           }
-        }
-      },
-      "on-glass-weight-delta": {
-        "$type": "number",
-        "$value": 50,
-        "$extensions": {
-          "ag.tier": "sys",
-          "ag.since": "5.0.0",
-          "ag.public": false,
-          "ag.cssVar": "--_ag-type-on-glass-weight-delta"
         }
       }
     },

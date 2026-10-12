@@ -131,15 +131,49 @@ function scanText(text, file = '') {
   return hits.sort((a, b) => a.index - b.index);
 }
 
+/* Semantic non-design values (stylelint path only — scanDecl). These are not
+   design decisions a token could own, so the stylelint rule accepts them; the
+   literal ratchet (scripts/tokens/gates/literals.mjs, which scans through
+   scanText) keeps counting every one of them, so tolerated literals stay
+   gated by the ratchet, never silently by the lint rule:
+     - a whole value of `none` (backdrop-filter / box-shadow / … fallbacks),
+       `0` / `0s` / `0ms` (reduced-motion and motion=none resets),
+       `transparent` or `currentColor` (also as comma lists of these);
+     - a backdrop-filter list whose every argument is a fallback-free
+       var() reference (or a url(#id) filter reference): it reads tokens or
+       private --_ag-* scalars and carries no literal. A var() fallback
+       literal is still a literal, so `var(--x, 12px)` stays flagged;
+     - mask stops `#000` / `#000000` with an explicit `0 0` position in a
+       mask / mask-image list: mask stops are alpha-only and carry no colour
+       (prefer the `black` keyword, which never matches). */
+const SEMANTIC_WORD = /^(?:none|0|0s|0ms|transparent|currentcolor)$/i;
+const isSemanticValue = (value) =>
+  value.split(',').every((part) => SEMANTIC_WORD.test(part.trim()));
+const stripVarRefs = (value) => {
+  let out = value;
+  for (let prev = ''; prev !== out;) {
+    prev = out;
+    out = out.replace(/var\(\s*--[a-zA-Z0-9_-]+\s*\)/g, 'V');
+  }
+  return out.replace(/url\(\s*['"]?#[^)'"]*['"]?\s*\)/g, 'U');
+};
+const isVarOnlyFilter = (prop, value) =>
+  /^(?:-webkit-)?backdrop-filter$/i.test(prop) && !/\d/.test(stripVarRefs(value));
+const MASK_STOP = /#0{3}(?:0{3})?(?=\s+0\s+0\b)/g;
+const isMaskProp = (prop) => /^(?:-webkit-)?mask(?:-image)?$/i.test(prop);
+
 /**
  * Scan one CSS declaration (stylelint / postcss path). prop+value level:
- * radius/shadow/duration checks need the property name.
+ * radius/shadow/duration checks need the property name. Semantic non-design
+ * values (see SEMANTIC_WORD above) are accepted here and only here.
  */
 function scanDecl(prop, value, file = '') {
   const inMotion = /(^|\/)src\/motion\//.test(normPath(file));
   const hits = [];
+  if (isSemanticValue(value) || isVarOnlyFilter(prop, value)) return hits;
   const push = (category, literal) => hits.push({ category, literal });
-  const text = `${prop}: ${value}`;
+  const scanned = isMaskProp(prop) ? value.replace(MASK_STOP, 'black') : value;
+  const text = `${prop}: ${scanned}`;
   for (const rule of RULES) {
     if ((rule.tailwind || rule.motionOnly) && inMotion) continue;
     for (const m of text.matchAll(rule.re)) {

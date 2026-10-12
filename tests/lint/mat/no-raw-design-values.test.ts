@@ -17,6 +17,9 @@ const ROOT = join(__dirname, '..', '..', '..');
 const rule = require(join(ROOT, 'lint/rules/mat/no-raw-design-values.cjs')) as {
   meta: unknown; create: unknown; agConfig: { files: string[]; severity: string }[];
 };
+const { scanText } = require(join(ROOT, 'lint/rules/mat/_literals.cjs')) as {
+  scanText: (text: string, file: string) => { category: string }[];
+};
 
 const tester = new RuleTester({
   languageOptions: { parser: tsParser, ecmaVersion: 2023, sourceType: 'module', parserOptions: { ecmaFeatures: { jsx: true } } },
@@ -129,5 +132,40 @@ describe('stylelint mirror (stylelint.config.mjs)', () => {
     expect(got.cmp.length).toBeGreaterThanOrEqual(2);
     expect(new Set(got.cmp)).toEqual(new Set(['warning']));
     expect(got.clean).toEqual([]);
+  });
+
+  it('accepts semantic non-design values (stylelint only) and still flags literals around them', () => {
+    const allowed = [
+      '.a { backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: none; }',
+      '.a { transition-duration: 0s; animation-duration: 0ms, 0s; transition-delay: 0; }',
+      '.a { background: transparent; border-color: currentColor; }',
+      '.a { backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(calc(var(--_ag-brightness) * var(--_ag-env-brightness))); }',
+      '.a { backdrop-filter: url(#ag-lens-fixed-control) blur(var(--_ag-blur)); }',
+      '.a { mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-image: linear-gradient(black 0%, transparent); }',
+    ].join('\n');
+    const flagged = [
+      '.a { backdrop-filter: blur(min(var(--_ag-scrim-blur, 12px), 12px)); }',
+      '.a { backdrop-filter: blur(var(--_ag-blur)) saturate(1.6); }',
+      '.a { transition-duration: 120ms; }',
+      '.a { box-shadow: inset 0 1px 0 var(--x); }',
+      '.a { mask-image: linear-gradient(#000 0%, transparent); }',
+      '.a { background: #000; }',
+    ];
+    const got = esm(`
+      import stylelint from 'stylelint';
+      const lint = async (code) => (await stylelint.lint({ code, codeFilename: 'src/material/css/x.css', configFile: 'stylelint.config.mjs' }))
+        .results[0].warnings.filter((w) => w.rule === 'auraglass/no-raw-design-values').length;
+      const out = { allowed: await lint(${JSON.stringify(allowed)}), flagged: [] };
+      for (const code of ${JSON.stringify(flagged)}) out.flagged.push(await lint(code));
+      console.log(JSON.stringify(out));
+    `) as { allowed: number; flagged: number[] };
+    expect(got.allowed).toBe(0);
+    for (const n of got.flagged) expect(n).toBeGreaterThan(0);
+  });
+
+  it('the ratchet matcher (scanText) keeps counting the semantic values the stylelint rule accepts', () => {
+    const css = '.a { backdrop-filter: none; }\n.b { mask: linear-gradient(#000 0 0); }';
+    const cats = scanText(css, 'src/material/css/x.css').map((h: { category: string }) => h.category);
+    expect(cats).toEqual(['blur', 'color']);
   });
 });

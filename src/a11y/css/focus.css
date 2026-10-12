@@ -8,7 +8,9 @@
   :where([data-ag-focusable], .ag-focusable):focus-visible {
     outline: var(--_ag-focus-width, 2px) solid var(--_ag-focus-outer, var(--ag-color-focus-outer, Highlight));
     outline-offset: var(--_ag-focus-offset, var(--_ag-focus-width, 2px));
-    box-shadow: 0 0 0 var(--_ag-focus-width, 2px) var(--_ag-focus-inner, var(--ag-color-focus-inner, transparent)), var(--_ag-shadow, 0 0 #0000);
+    /* ring width from the --ag-focus-width token (declared by dist/tokens.css
+       in every mode); `0 0 transparent` is the PRD's empty-shadow `0 0 #0000` */
+    box-shadow: 0 0 0 var(--_ag-focus-width, var(--ag-focus-width)) var(--_ag-focus-inner, var(--ag-color-focus-inner, transparent)), var(--_ag-shadow, 0 0 transparent);
   }
   :where([data-ag-focus-inset]) {
     --_ag-focus-offset: -2px;

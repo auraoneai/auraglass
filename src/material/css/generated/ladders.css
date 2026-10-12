@@ -110,12 +110,6 @@
     --_ag-shadow: var(--ag-shadow-regular);
     --_ag-tint-alpha: 0.85;
   }
-  [data-ag-surface][data-ag-layer="overlay"]:is(
-      [data-ag-variant][data-ag-thickness][data-ag-tier][data-disabled],
-      *
-    ) {
-    --_ag-shadow: var(--ag-shadow-thick);
-  }
   [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="thin"]:where(
       :not(
         :is(
@@ -207,6 +201,60 @@
     --_ag-rim-width: 1px;
     --_ag-shadow: var(--ag-shadow-regular);
     --_ag-tint-alpha: 0.72;
+  }
+  [data-ag-surface][data-ag-layer="content"][data-ag-thickness="thin"] {
+    --_ag-shadow: var(--_ag-shadow-content-thin);
+  }
+  [data-ag-surface][data-ag-layer="content"][data-ag-thickness="regular"] {
+    --_ag-shadow: var(--_ag-shadow-content-regular);
+  }
+  [data-ag-surface][data-ag-layer="content"][data-ag-thickness="thick"] {
+    --_ag-shadow: var(--_ag-shadow-content-thick);
+  }
+  [data-ag-surface][data-ag-layer="content"]:not([data-ag-thickness]) {
+    --_ag-shadow: var(--_ag-shadow-content-regular);
+  }
+  [data-ag-surface][data-ag-layer="chrome"][data-ag-thickness="thin"] {
+    --_ag-shadow: var(--_ag-shadow-chrome-thin);
+  }
+  [data-ag-surface][data-ag-layer="chrome"][data-ag-thickness="regular"] {
+    --_ag-shadow: var(--_ag-shadow-chrome-regular);
+  }
+  [data-ag-surface][data-ag-layer="chrome"][data-ag-thickness="thick"] {
+    --_ag-shadow: var(--_ag-shadow-chrome-thick);
+  }
+  [data-ag-surface][data-ag-layer="chrome"]:not([data-ag-thickness]) {
+    --_ag-shadow: var(--_ag-shadow-chrome-regular);
+  }
+  [data-ag-surface][data-ag-layer="overlay"][data-ag-thickness="thin"] {
+    --_ag-shadow: var(--_ag-shadow-overlay-thin);
+  }
+  [data-ag-surface][data-ag-layer="overlay"][data-ag-thickness="regular"] {
+    --_ag-shadow: var(--_ag-shadow-overlay-regular);
+  }
+  [data-ag-surface][data-ag-layer="overlay"][data-ag-thickness="thick"] {
+    --_ag-shadow: var(--_ag-shadow-overlay-thick);
+  }
+  [data-ag-surface][data-ag-layer="overlay"]:not([data-ag-thickness]) {
+    --_ag-shadow: var(--_ag-shadow-overlay-regular);
+  }
+  [data-ag-surface][data-ag-layer="transient"][data-ag-thickness="thin"] {
+    --_ag-shadow: var(--_ag-shadow-transient-thin);
+  }
+  [data-ag-surface][data-ag-layer="transient"][data-ag-thickness="regular"] {
+    --_ag-shadow: var(--_ag-shadow-transient-regular);
+  }
+  [data-ag-surface][data-ag-layer="transient"][data-ag-thickness="thick"] {
+    --_ag-shadow: var(--_ag-shadow-transient-thick);
+  }
+  [data-ag-surface][data-ag-layer="transient"]:not([data-ag-thickness]) {
+    --_ag-shadow: var(--_ag-shadow-transient-regular);
+  }
+  [data-ag-surface][data-ag-layer="overlay"]:is(
+      [data-ag-variant][data-ag-thickness][data-ag-tier][data-disabled],
+      *
+    ) {
+    --_ag-shadow: var(--_ag-shadow-overlay-thick);
   }
   /* disabled: fill alpha scaled by --ag-state-disabled-alpha via --_ag-tint-alpha; no host opacity: (MAT-033). Before the lightweight rows: same specificity, so lightweight (0px) wins. */
   [data-ag-surface][data-ag-variant="regular"][data-ag-thickness="thin"]:is(
