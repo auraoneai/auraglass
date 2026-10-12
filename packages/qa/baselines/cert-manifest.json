@@ -48,14 +48,6 @@
     "subject": "MobileSettings"
   },
   {
-    "file": "registry/blocks/overlay-flows/OverlayFlows.stories.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1",
-    "code": "invalid-ag",
-    "subject": "overlay-flows"
-  },
-  {
     "file": "registry/blocks/permissions-matrix/PermissionsMatrix.stories.tsx",
     "owner": "SURF",
     "reqFin": "REQ-FIN-88",

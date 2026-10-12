@@ -8,8 +8,9 @@ import * as React from 'react';
 import { OverlayFlows } from './index';
 
 const meta = {
-  title: 'registry/overlay-flows',
-  parameters: { ag: { subject: 'overlay-flows', kind: 'block' } },
+  title: 'Showcases/Overlay Flows',
+  tags: ['showcase'],
+  parameters: { ag: { subject: 'overlay-flows', kind: 'showcase' } },
 } satisfies Meta;
 export default meta;
 type Story = StoryObj<typeof meta>;
