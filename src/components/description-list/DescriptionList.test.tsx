@@ -21,7 +21,7 @@ describe('DescriptionList', () => {
   });
   it('stacked|inline layout attr', () => {
     const { container } = render(<DescriptionList layout="inline"><DescriptionList.Item><DescriptionList.Term>t</DescriptionList.Term></DescriptionList.Item></DescriptionList>);
-    expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-ag-layout')).toBe('inline');
+    expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-layout')).toBe('inline');
   });
 });
 
@@ -37,7 +37,7 @@ describe('DescriptionList REQ-CMP-119', () => {
 
   it('orientation=horizontal resolves to inline layout', () => {
     const { container } = render(<DescriptionList orientation="horizontal" items={[{ term: 't', details: 'd' }]} />);
-    expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-ag-layout')).toBe('inline');
+    expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-layout')).toBe('inline');
   });
 
   it('dl wrapper is its own inline-size container (standalone stacking)', () => {

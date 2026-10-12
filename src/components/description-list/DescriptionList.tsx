@@ -10,7 +10,7 @@ export interface DescriptionListItem {
   details: React.ReactNode;
 }
 
-export interface DescriptionListProps extends React.HTMLAttributes<HTMLDListElement> {
+export interface DescriptionListProps extends Omit<React.HTMLAttributes<HTMLDListElement>, 'onChange'> {
   layout?: 'stacked' | 'inline';
   /** Orientation shorthand: 'horizontal' = inline, 'vertical' = stacked.
      Wins over `layout` when set. */
@@ -35,7 +35,7 @@ function Root({
       {...rest}
       ref={ref}
       data-ag-part="root"
-      data-ag-layout={resolved}
+      data-layout={resolved}
       className={cn('ag-dl', className)}
     >
       {items

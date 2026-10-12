@@ -38,7 +38,7 @@ function toHsvAlpha(v: PickerValueLike | undefined, fallback: Hsv): { hsv: Hsv; 
   return { hsv: parsed.hsv, alpha: parsed.alpha, space };
 }
 
-export interface ColorPickerRootProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'defaultValue'> {
+export interface ColorPickerRootProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'defaultValue' | 'onChange'> {
   /** Controlled color: { space:'srgb'|'oklch', value:'#rrggbb[aa]'|'oklch(l c h[ / a])' }.
      A bare string is treated as space:'srgb'. */
   value?: PickerValueLike;
@@ -123,7 +123,7 @@ function Content(props: React.ComponentProps<typeof Popover.Content>) {
   );
 }
 
-export interface AreaProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface AreaProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   'aria-label'?: string;
 }
 
@@ -202,7 +202,7 @@ function Hue({ className, ref, 'aria-label': ariaLabel, ...rest }: AreaProps & {
   );
 }
 
-export interface ChannelProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onValueChange' | 'defaultValue'> {
+export interface ChannelProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onValueChange' | 'defaultValue' | 'onChange'> {
   /** Channel to edit: hsv h/s/v or rgb r/g/b. */
   channel: 'h' | 's' | 'v' | 'r' | 'g' | 'b';
   'aria-label'?: string;
@@ -243,7 +243,7 @@ function Channel({ channel, className, ref, 'aria-label': ariaLabel, ...rest }: 
   };
   const labels: Record<ChannelProps['channel'], string> = { h: 'Hue', s: 'Saturation', v: 'Brightness', r: 'Red', g: 'Green', b: 'Blue' };
   return (
-    <div {...rest} ref={ref} data-ag-part="channel" data-ag-channel={channel} className={cn('ag-color-picker-channel', className)}>
+    <div {...rest} ref={ref} data-ag-part="channel" data-channel={channel} className={cn('ag-color-picker-channel', className)}>
       <Slider.Root
         value={get()}
         min={min}
@@ -261,7 +261,7 @@ function hexToRgbInternal(hex: string): [number, number, number] {
   return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
 }
 
-export interface AlphaProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onValueChange' | 'defaultValue'> {
+export interface AlphaProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onValueChange' | 'defaultValue' | 'onChange'> {
   'aria-label'?: string;
 }
 
@@ -282,7 +282,7 @@ function Alpha({ className, ref, 'aria-label': ariaLabel, ...rest }: AlphaProps 
   );
 }
 
-export interface InputProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onValueChange' | 'defaultValue'> {
+export interface InputProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onValueChange' | 'defaultValue' | 'onChange'> {
   'aria-label'?: string;
 }
 

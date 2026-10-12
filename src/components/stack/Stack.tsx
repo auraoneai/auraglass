@@ -17,7 +17,7 @@ export function spaceGap(gap: SpaceTokenLike): string {
   return typeof gap === 'number' || /^\d+$/.test(gap) ? `var(--ag-space-${gap})` : gap;
 }
 
-export interface StackProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface StackProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   direction?: 'row' | 'column';
   /** SpaceToken index, a number (→ var(--ag-space-N)), or a raw CSS length. */
   gap?: SpaceTokenLike;
@@ -68,7 +68,6 @@ export function Stack({
       ref={ref}
       data-ag-part="root"
       data-direction={direction}
-      data-ag-direction={direction}
       data-gap={gap === undefined ? undefined : String(gap)}
       className={cn('ag-stack', className)}
       style={cssStyle}

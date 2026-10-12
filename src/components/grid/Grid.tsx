@@ -19,7 +19,7 @@ import type { SpaceTokenLike } from '../stack/Stack';
 
 export type GridColumns = number | { base?: number; sm?: number; md?: number; lg?: number };
 
-export interface GridProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface GridProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   columns?: GridColumns;
   /** When set, columns auto-fill at this minimum item width. */
   minItemWidth?: number | string;
@@ -61,9 +61,7 @@ export function Grid({
         ref={ref}
         data-ag-part="root"
         data-ag-appearance="masonry"
-        data-ag-variant="masonry"
         data-min-item={minItemWidth !== undefined ? '' : undefined}
-        data-ag-min-item={minItemWidth !== undefined ? '' : undefined}
         className={cn('ag-grid', 'ag-grid-masonry', className)}
         style={styleObj}
       />
@@ -82,17 +80,11 @@ export function Grid({
           ref={ref}
           data-ag-part="root"
           data-ag-appearance="standard"
-      data-ag-variant="standard"
           data-cols-base={columns.base ?? 1}
-          data-ag-cols-base={columns.base ?? 1}
           data-cols-sm={columns.sm}
-          data-ag-cols-sm={columns.sm}
           data-cols-md={columns.md}
-          data-ag-cols-md={columns.md}
           data-cols-lg={columns.lg}
-          data-ag-cols-lg={columns.lg}
           data-min-item={minItemWidth !== undefined ? '' : undefined}
-        data-ag-min-item={minItemWidth !== undefined ? '' : undefined}
           className={cn('ag-grid', className)}
           style={styleObj}
         />
@@ -107,11 +99,8 @@ export function Grid({
       ref={ref}
       data-ag-part="root"
       data-ag-appearance="standard"
-      data-ag-variant="standard"
       data-cols={columns}
-      data-ag-cols={columns}
       data-min-item={minItemWidth !== undefined ? '' : undefined}
-        data-ag-min-item={minItemWidth !== undefined ? '' : undefined}
       className={cn('ag-grid', className)}
       style={styleObj}
     />

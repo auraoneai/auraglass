@@ -18,7 +18,7 @@ export interface ImageListItem {
   actions?: React.ReactNode;
 }
 
-export interface ImageListProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ImageListProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   cols?: number;
   /** Minimum item width used to reduce cols; default 160px. */
   minItemWidth?: number;
