@@ -674,7 +674,7 @@
   }
   :where([data-ag-contrast='more']) .ag-sidebar__item[aria-current='page'],
   :where([data-ag-contrast='more']) .ag-app-shell .ag-sidebar__item[aria-current='page'] {
-    box-shadow: inset calc(var(--ag-focus-width, 2px) * 2) 0 0 var(--ag-color-accent);
+    box-shadow: inset calc(var(--ag-focus-width) * 2) 0 0 var(--ag-color-accent);
     text-decoration-line: underline;
     text-decoration-thickness: var(--ag-focus-width, 2px);
     text-underline-offset: var(--ag-space-1, 0.25rem);
@@ -695,7 +695,7 @@
     }
     .ag-sidebar__item[aria-current='page']:not(:where([data-ag-contrast='standard'] *)),
     .ag-app-shell .ag-sidebar__item[aria-current='page']:not(:where([data-ag-contrast='standard'] *)) {
-      box-shadow: inset calc(var(--ag-focus-width, 2px) * 2) 0 0 var(--ag-color-accent);
+      box-shadow: inset calc(var(--ag-focus-width) * 2) 0 0 var(--ag-color-accent);
       text-decoration-line: underline;
       text-decoration-thickness: var(--ag-focus-width, 2px);
       text-underline-offset: var(--ag-space-1, 0.25rem);

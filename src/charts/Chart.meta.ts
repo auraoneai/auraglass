@@ -6,7 +6,7 @@ export default defineMeta({
   entry: './charts',
   tier: 'preview',
   rsc: 'mixed',
-  parts: ['chart-frame', 'chart-grid', 'chart-legend', 'chart-legend-item', 'chart-mark-area', 'chart-mark-bar', 'chart-mark-donut', 'chart-mark-line', 'chart-plot', 'chart-plot-svg', 'chart-table', 'chart-table-toggle', 'chart-title', 'hit-area'],
+  parts: ['chart-focus-cursor', 'chart-frame', 'chart-grid', 'chart-legend', 'chart-legend-item', 'chart-mark-area', 'chart-mark-bar', 'chart-mark-donut', 'chart-mark-line', 'chart-plot', 'chart-plot-svg', 'chart-table', 'chart-table-toggle', 'chart-title', 'chart-tooltip', 'hit-area'],
   states: ['empty', 'loading'],
   material: { layer: 'content', refractionEligible: false },
   variants: { type: ['line', 'area', 'bar', 'donut'] },

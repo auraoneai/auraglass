@@ -32,8 +32,9 @@ function dryRun(root: string, area: string) {
 }
 
 // Every cell keeps the root ignore list and skips registry-only.test.ts, which
-// needs the packed tarball and runs in surf:test:registry-lint instead.
-const IGNORE = ['--testPathIgnorePatterns', '/node_modules/', '/legacy/', '/dist/', '/packages/', '/apps/', 'tests/capability/registry-only\\.test\\.ts$'];
+// needs the packed tarball and runs in surf:test:registry-lint instead, plus
+// the packed-entry suites, which run in surf:package:packed-entries.
+const IGNORE = ['--testPathIgnorePatterns', '/node_modules/', '/legacy/', '/dist/', '/packages/', '/apps/', 'tests/capability/registry-only\\.test\\.ts$', 'tests/data/exports/surf-entries\\.test\\.ts$', 'tests/data/exports/data-date-entries\\.test\\.ts$', 'tests/data/exports/surf-statics\\.test\\.ts$'];
 
 describe('surf:test:doubles runner', () => {
   it('runs the area preset while tests/<area>/jest.doubles.cjs exists', () => {
