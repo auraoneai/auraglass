@@ -7,7 +7,7 @@ import { getServerSnapshot } from '../mediaStore';
 describe('NowPlayingBar (REQ-SURF-139)', () => {
   it('Progress is role=progressbar, 0–100 int valuenow, no inline width', () => {
     const handle: MediaHandle = {
-      state: { ...getServerSnapshot(), paused: false, currentTime: 50, duration: 100 },
+      state: { ...getServerSnapshot(), paused: false, currentTime: 50, duration: 100 }, // @ag-literal-allowed: test-vector (media seconds)
       toggle: () => {}, seek: () => {}, seekBy: () => {}, setVolume: () => {},
       setMuted: () => {}, setRate: () => {}, play: async () => {}, pause: () => {},
       requestPictureInPicture: () => {}, requestFullscreen: () => {}, setTextTrackMode: () => {},

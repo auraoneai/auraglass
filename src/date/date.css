@@ -40,7 +40,7 @@
     background: var(--_ag-surface-raised, Canvas);
     border: var(--_ag-border-width, 1px) solid var(--_ag-border, currentColor);
     border-radius: var(--_ag-radius-3, 0.75rem);
-    box-shadow: var(--_ag-shadow-2, 0 4px 16px rgb(0 0 0 / 0.12));
+    box-shadow: var(--ag-shadow-regular);
     padding: var(--ag-space-3, 0.75rem);
     z-index: var(--_ag-z-popover, 60);
   }

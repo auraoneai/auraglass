@@ -7,7 +7,7 @@
     gap: var(--ag-space-1, 0.25rem);
     padding-block: calc(var(--ag-space-1, 0.25rem) * var(--ag-density, 1));
     padding-inline: var(--ag-space-3, 0.75rem);
-    border-radius: var(--ag-radius-full, 999px);
+    border-radius: var(--ag-radius-full);
     font-size: var(--_ag-text-sm, 0.875rem);
     /* Fill comes from the MAT content-raised material (.ag-surface
        [data-ag-layer="content"]); the chip only sets shape and rim. */
@@ -29,7 +29,7 @@
     min-inline-size: var(--_ag-touch-target, 44px);
     min-block-size: var(--_ag-touch-target, 44px);
     margin-inline-start: calc(var(--ag-space-1, 0.25rem) * -1);
-    border-radius: var(--ag-radius-full, 999px);
+    border-radius: var(--ag-radius-full);
   }
   @media (pointer: fine) {
     .ag-chip__remove {

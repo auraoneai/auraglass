@@ -147,14 +147,14 @@
    * data-motion or any data-ag-motion ancestor) still win for a nested
    * provider or subtree that lowers motion inside a continuous root. */
   [data-ag-continuous="on"] [data-ag-part="streaming-text"] [data-ag-part="caret"] {
-    animation: ag-ai-caret-blink var(--_ag-duration-normal, 1s) steps(1) infinite;
+    animation: ag-ai-caret-blink calc(var(--ag-duration-medium) * 3) steps(1) infinite;
   }
   [data-ag-continuous="on"] [data-ag-part="tool-call"][data-state="running"] [data-ag-part="running-dots"]::after,
   [data-ag-continuous="on"] [data-ag-part="step"][data-state="running"] [data-ag-part="step-icon"]::after {
-    animation: ag-ai-caret-blink var(--_ag-duration-slow, 1s) steps(1) infinite;
+    animation: ag-ai-caret-blink calc(var(--ag-duration-medium) * 3) steps(1) infinite;
   }
   [data-ag-continuous="on"] [data-ag-part="typing-indicator"] [data-ag-part="typing-dot"] {
-    animation: ag-ai-caret-blink var(--_ag-duration-slower, 1.2s) steps(1) infinite;
+    animation: ag-ai-caret-blink calc(var(--ag-duration-medium) * 3.75) steps(1) infinite;
   }
   [data-ag-part="streaming-text"] [data-ag-part="caret"][data-motion="none"],
   [data-ag-part="streaming-text"] [data-ag-part="caret"][data-motion="calm"],
