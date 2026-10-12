@@ -3,23 +3,10 @@
    details; renderElement implements the render-prop pattern (element, function, or
    fallback) with className/style/ref merging. */
 import * as React from 'react';
-import type { ChangeDetails, ComponentMeta, RenderProp } from '../contracts/components';
-import { PART_NAME_RE } from '../contracts/components';
+import type { ChangeDetails, RenderProp } from '../contracts/components';
 import { toChangeDetails as toChangeDetailsImpl } from './types';
 
-/** S-31. Identity at runtime; dev-validates the meta's part/state grammar once. */
-const validated = new Set<string>();
-export const defineMeta = <const M extends ComponentMeta>(meta: M): M => {
-  if (process.env.NODE_ENV !== 'production' && !validated.has(meta.name)) {
-    validated.add(meta.name);
-    for (const part of meta.parts) {
-      if (!PART_NAME_RE.test(part)) {
-        console.error(`aura-glass: meta ${meta.name} has invalid part name ${JSON.stringify(part)} (S-33 kebab-case)`);
-      }
-    }
-  }
-  return meta;
-};
+export { defineMeta } from './meta';
 
 /** S-32. Normalises a Base UI event-details object (or raw Event) into ChangeDetails. */
 export const toChangeDetails = (eventDetails: unknown): ChangeDetails =>

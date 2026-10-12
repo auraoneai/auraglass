@@ -141,6 +141,16 @@ export function auraGlassResolve(opts: { root: string; mode: ResolveMode; report
       const resolved = await this.resolve(source, importer, { ...options, skipSelf: true });
       if (!resolved || resolved.external) return resolved;
       const file = resolved.id.split('?')[0]!;
+      // Metadata is build input, not public runtime code. Its private identity
+      // factory is intentionally absent from the published foundation entry.
+      if (importer.split('?')[0]!.endsWith('.meta.ts') && file === join(srcDir, 'foundation', 'index.ts')) {
+        return join(srcDir, 'foundation', 'meta.ts');
+      }
+      // The private factory's validation constant is also build-time metadata;
+      // its runtime dist twin may legitimately tree-shake that private export.
+      if (importer.split('?')[0] === join(srcDir, 'foundation', 'meta.ts') && file === join(srcDir, 'contracts', 'components.ts')) {
+        return resolved;
+      }
       if (!file.startsWith(srcDir)) return resolved;
       const twin = distTwin(root, file);
       if (twin) {

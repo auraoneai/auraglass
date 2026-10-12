@@ -115,6 +115,25 @@ describe('aura-glass resolution (REQ-QUAL-56)', () => {
     expect(() => withAuraGlassResolution({ resolve: { alias: [{ find: /^@\/registry\/(.+)$/, replacement: join(root, 'registry/$1') }] } }, { root, mode: 'dist' })).toThrow(/remove these aliases/);
   });
 
+
+  it('uses the private metadata factory only for metadata foundation imports', async () => {
+    put('src/foundation/index.ts');
+    put('src/foundation/meta.ts');
+    put('dist/foundation/index.js');
+    put('src/contracts/components.ts');
+    put('dist/contracts/components.js');
+    const resolveId = harness(auraGlassResolve({ root, mode: 'dist' }), {
+      '../../foundation': join(root, 'src/foundation/index.ts'),
+      '../contracts/components': join(root, 'src/contracts/components.ts'),
+    });
+    await expect(resolveId('../../foundation', join(root, 'src/ai/agent/AgentSteps.meta.ts'))).resolves.toBe(join(root, 'src/foundation/meta.ts'));
+    await expect(resolveId('../../foundation', join(root, 'src/ai/agent/AgentSteps.tsx'))).resolves.toBe(join(root, 'dist/foundation/index.js'));
+    await expect(resolveId('aura-glass/foundation/meta', join(root, 'src/ai/agent/AgentSteps.meta.ts'))).rejects.toThrow(/not a package export/);
+    await expect(resolveId('../contracts/components', join(root, 'src/foundation/meta.ts'))).resolves.toEqual({ id: join(root, 'src/contracts/components.ts') });
+    await expect(resolveId('../contracts/components', join(root, 'src/foundation/index.ts'))).resolves.toBe(join(root, 'dist/contracts/components.js'));
+    await expect(resolveId('../contracts/components', join(root, 'src/other/meta.ts'))).resolves.toBe(join(root, 'dist/contracts/components.js'));
+  });
+
   it('dist mode refuses src/ and @/ aliases; source mode allows them', () => {
     const withAlias: InlineConfig = { resolve: { alias: { '@': join(root, 'src'), react: join(root, 'node_modules/react') } } };
     expect(sourceAliases(withAlias, root)).toEqual([`@ → ${join(root, 'src')}`]);
