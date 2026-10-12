@@ -183,7 +183,7 @@ function PanelField({ prefKey, note, belowFloor, apply }: PanelFieldProps): Reac
       React.createElement(
         'label', { 'data-ag-part': 'option' },
         React.createElement('input', {
-          type: 'checkbox', role: 'switch',
+          type: 'checkbox', role: 'switch', 'data-ag-part': 'switch',
           checked: Boolean(value),
           'aria-describedby': noteId,
           onChange: (e: React.ChangeEvent<HTMLInputElement>) => apply(prefKey, e.target.checked),

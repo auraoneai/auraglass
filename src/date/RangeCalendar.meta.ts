@@ -6,7 +6,7 @@ export default defineMeta({
   entry: './date',
   tier: 'T1',
   rsc: 'client',
-  parts: ['range-calendar'],
+  parts: ['range-calendar', 'calendar-grid'],
   states: ['selected', 'range-start', 'range-end', 'in-range', 'today', 'outside-month', 'unavailable', 'disabled'],
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/',
   variants: {},

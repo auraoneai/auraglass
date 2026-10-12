@@ -17,7 +17,8 @@ export const GlassPreferencesPanelMeta: ComponentMeta = {
   migration: [
     {
       from: 'PreferencesPanel',
-      props: { onChange: 'onChange' },
+      // onChange keeps its name: no prop rename, so no codemod props row (S-39).
+      props: {},
       automation: 'full',
       compat: true,
     },

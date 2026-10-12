@@ -338,7 +338,7 @@ function RangeCalendarBody({
       {...(standalone === true ? { slot: null } : {})}
       data-ag-part="range-calendar"
       data-ag-size={size}
-      data-ag-visible-months={visibleMonths}
+      data-visible-months={visibleMonths}
       {...(dir !== undefined ? { dir } : {})}
       className={`ag-range-calendar${className ? ` ${className}` : ''}`}
       {...(value !== undefined ? { value: value as never } : {})}

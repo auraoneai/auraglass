@@ -135,14 +135,14 @@ export function DatePopup({
                   collisionPadding: 0,
                   positionMethod: 'fixed',
                   collisionAvoidance: { side: 'none', align: 'none' },
-                  'data-ag-presentation': 'sheet',
+                  'data-presentation': 'sheet',
                 }
               : { side: 'bottom', align: 'start', sideOffset: 4 }) as React.ComponentProps<typeof PopoverPositioner>)}
           >
             <PopoverPopup
               {...(popupProps as React.ComponentProps<typeof PopoverPopup>)}
-              data-ag-presentation={compact ? 'sheet' : 'popover'}
-              {...(compact ? { 'data-ag-side': 'bottom' } : {})}
+              data-presentation={compact ? 'sheet' : 'popover'}
+              {...(compact ? { 'data-sheet-side': 'bottom' } : {})}
             >
               {children}
             </PopoverPopup>

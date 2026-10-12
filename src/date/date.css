@@ -88,7 +88,7 @@
   /* REQ-SURF-98/101: below a 640px picker container the popover is presented
      as a bottom sheet — DatePopup anchors it to the viewport's bottom edge
      (fixed) and Base UI publishes that edge's width as --anchor-width. */
-  .ag-date-picker__popover[data-ag-presentation="sheet"] {
+  .ag-date-picker__popover[data-presentation="sheet"] {
     inline-size: var(--anchor-width, 100vw);
     max-block-size: 85dvh;
     overflow: auto;

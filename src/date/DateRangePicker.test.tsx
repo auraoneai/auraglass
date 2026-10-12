@@ -142,7 +142,7 @@ describe('DateRangePicker (REQ-SURF-102)', () => {
     fixWidth(390);
     renderAg(<DateRangePicker label="Range" presets={[week]} defaultValue={initial} />);
     dialog = await open(user);
-    expect(dialog.getAttribute('data-ag-presentation')).toBe('sheet');
+    expect(dialog.getAttribute('data-presentation')).toBe('sheet');
     expect(dialog.querySelector('.ag-date-range-picker__body')?.getAttribute('data-ag-layout')).toBe('stacked');
   });
 });
