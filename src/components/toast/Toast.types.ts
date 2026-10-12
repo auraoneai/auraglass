@@ -35,7 +35,10 @@ export interface ToastHistory {
   clear: () => void;
 }
 
-export interface ToastViewportProps extends React.HTMLAttributes<HTMLDivElement> {
+/** S-30: parts carry no value, so the DOM onChange callback (BANNED_PROPS) is not part of their API. */
+export type ToastPartAttributes<T> = Omit<T, 'onChange'>;
+
+export interface ToastViewportProps extends ToastPartAttributes<React.HTMLAttributes<HTMLDivElement>> {
   /** one of six fixed regions — default 'bottom-right' */
   position?: ToastPosition | undefined;
   children?: React.ReactNode;
@@ -66,28 +69,32 @@ export interface ToastRecord {
   read: boolean;
 }
 
-export interface ToastRootProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ToastRootProps extends ToastPartAttributes<React.HTMLAttributes<HTMLDivElement>> {
   toast: any;
+  /** S-30 root prop: when set, this toast is marked data-limited (hidden) once
+      its stack index in the viewport reaches `limit`. The Provider limit
+      (default 3) still applies first. */
+  limit?: number | undefined;
   children?: React.ReactNode;
 }
 
-export interface ToastTitleProps extends React.HTMLAttributes<HTMLElement> {
+export interface ToastTitleProps extends ToastPartAttributes<React.HTMLAttributes<HTMLElement>> {
   children?: React.ReactNode;
 }
 
-export interface ToastDescriptionProps extends React.HTMLAttributes<HTMLElement> {
+export interface ToastDescriptionProps extends ToastPartAttributes<React.HTMLAttributes<HTMLElement>> {
   children?: React.ReactNode;
 }
 
-export interface ToastActionProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ToastActionProps extends ToastPartAttributes<React.ButtonHTMLAttributes<HTMLButtonElement>> {
   children?: React.ReactNode;
 }
 
-export interface ToastCloseProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ToastCloseProps extends ToastPartAttributes<React.ButtonHTMLAttributes<HTMLButtonElement>> {
   children?: React.ReactNode;
 }
 
-export interface ToastProgressProps extends React.HTMLAttributes<HTMLElement> {
+export interface ToastProgressProps extends ToastPartAttributes<React.HTMLAttributes<HTMLElement>> {
   children?: React.ReactNode;
 }
 

@@ -39,8 +39,8 @@ describe('CommandPalette (SURF-087)', () => {
     render(<CommandPalette open />);
     await waitFor(() => expect(document.querySelector('[data-ag-part="command-palette"]')).not.toBeNull());
     const el = document.querySelector<HTMLElement>('[data-ag-part="command-palette"]')!;
-    expect(document.querySelector('[data-ag-scrim]')).not.toBeNull();
-    expect(el.contains(document.querySelector('[data-ag-scrim]'))).toBe(false);
+    expect(document.querySelector('[data-scrim]')).not.toBeNull();
+    expect(el.contains(document.querySelector('[data-scrim]'))).toBe(false);
     expect(el).toHaveAttribute('data-ag-layer', 'overlay');
     expect(el).toHaveAttribute('data-ag-thickness', 'thick');
     expect(el).toHaveAttribute('role', 'dialog');

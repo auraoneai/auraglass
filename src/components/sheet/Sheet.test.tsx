@@ -222,7 +222,7 @@ describe('Sheet (CMP-229..236)', () => {
     await act(async () => {});
     const scrim = document.querySelector('.ag-scrim')!;
     expect(scrim.getAttribute('data-ag-layer')).toBe('scrim');
-    expect(scrim.hasAttribute('data-ag-overlay-top')).toBe(true);
+    expect(scrim.hasAttribute('data-overlay-top')).toBe(true);
   });
 
   it('panel Close with children renders as a Button inside the popup', async () => {
