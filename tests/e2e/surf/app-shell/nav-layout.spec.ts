@@ -1,9 +1,11 @@
 // nav-layout.spec.ts — REQ-FIN-82 layout legs for merged #357/#358:
 // SURF-57 breadcrumbs truncate at 390 px (<=16ch, full accessible name) and
 // SURF-59 pagination compact at 390 px (exactly Previous, 'Page N of M',
-// Next). Remote lane only; a missing subject fails the test.
+// Next). Remote lane only; a missing subject fails the test. Lives under
+// tests/e2e/surf/app-shell/ so the registered L5 lane (pr + main,
+// fragments/lanes/surf.ts) and the surf:app-shell Playwright project run it.
 import { test, expect, type Page } from '@playwright/test';
-import { listSubjects, gotoStory } from '../../helpers';
+import { listSubjects, gotoStory } from '../../../helpers';
 
 async function openStory(page: Page, id: string) {
   const subjects = await listSubjects({ owner: 'SURF' });

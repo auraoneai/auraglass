@@ -2,15 +2,25 @@
 /* TabBar (SURF-068..071): bottom/floating navigation bar. The SurfaceGroup
    (chrome) owns the only backdrop-filter; items tint/rim only. semantics='navigation'
    renders nav landmarks; semantics='tabs' renders Tabs.List semantics and
-   requires a matching Tabs.Panel per item (dev error when absent). */
+   requires a matching Tabs.Panel per item (dev error when absent).
+
+   REQ-SURF-51: under semantics='tabs' the list and items ARE Base UI
+   Tabs.List / Tabs.Tab (the same seam Tabs uses), so items get
+   aria-selected, aria-controls to the Tabs.Panel ids and roving arrow-key
+   focus. Inside a Tabs.Root they join that root; outside one the bar's own
+   element becomes the Base UI Tabs root (initial value: the `current`
+   item). REQ-SURF-26: a navigation bar registers its (navigation, name)
+   landmark so duplicate names dev-warn. */
 
 import * as React from 'react';
+import { Tabs as BaseTabs } from '../../foundation/base-ui/tabs';
 import { SurfaceGroup, ScrollEdge } from '../../material';
 import { SearchField } from '../search-field';
 import { partElement } from '../../app-shell/_internal/partElement';
 import { TopBarEdgeRegistrar } from '../../app-shell/TopBar.EdgeRegistrar';
+import { LandmarkBeacon } from '../../app-shell/_internal/LandmarkBeacon';
 import type { PartProps } from '../../contracts/components';
-import { PanelRegistryContext, useOwnOrOuterPanelRegistry } from './panelRegistry';
+import { PanelRegistryContext, TabsRootPresenceContext, useOwnOrOuterPanelRegistry } from './panelRegistry';
 
 const TabBarCtx = React.createContext<{ semantics: 'navigation' | 'tabs' }>({
   semantics: 'navigation',
@@ -43,6 +53,7 @@ function TabBarRoot({
   ...rest
 }: TabBarRootProps) {
   const registry = useOwnOrOuterPanelRegistry();
+  const inTabsRoot = React.useContext(TabsRootPresenceContext);
   const ctxValue = React.useMemo(() => ({ semantics }), [semantics]);
   const items = React.Children.toArray(children).filter(Boolean);
   const accessories = items.filter(
@@ -93,16 +104,27 @@ function TabBarRoot({
   }
 
   // SURF-054: Accessory renders inside the SurfaceGroup above the list.
+  // REQ-SURF-51: tabs semantics -> the <ul> is Base UI's Tabs.List
+  // (role=tablist, roving focus over the items' Tabs.Tab).
   const inner = (
     <>
+      {semantics === 'navigation' ? <LandmarkBeacon role="navigation" name={ariaLabel} /> : null}
       {accessories}
-      <ul className="ag-tab-bar__list" role={semantics === 'tabs' ? 'tablist' : undefined}>
-        {listItems}
-      </ul>
+      {semantics === 'tabs' ? (
+        <BaseTabs.List render={<ul className="ag-tab-bar__list" />}>{listItems}</BaseTabs.List>
+      ) : (
+        <ul className="ag-tab-bar__list">{listItems}</ul>
+      )}
     </>
   );
 
-  const nav = partElement(semantics === 'navigation' ? 'nav' : 'div', {
+  // Outside a Tabs.Root the bar's own element is the Base UI Tabs root, so
+  // the tabs select and rove; its initial value is the `current` item.
+  const currentValue = listItems
+    .map((c) => (React.isValidElement(c) ? (c.props as { value?: unknown; current?: unknown }) : undefined))
+    .find((p) => p?.current === true && typeof p.value === 'string')?.value as string | undefined;
+
+  const element = partElement(semantics === 'navigation' ? 'nav' : 'div', {
     render: render as React.ReactElement | undefined,
     'data-ag-part': 'tab-bar',
     'data-ag-slot': 'tabbar',
@@ -115,6 +137,15 @@ function TabBarRoot({
     ...rest,
     children: inner,
   });
+  const nav =
+    semantics === 'tabs' && !inTabsRoot ? (
+      <BaseTabs.Root
+        defaultValue={(currentValue ?? values[0] ?? null) as never}
+        render={element as React.ReactElement<Record<string, unknown>>}
+      />
+    ) : (
+      element
+    );
 
   return (
     <PanelRegistryContext.Provider value={registry}>
@@ -142,6 +173,56 @@ export type TabBarItemProps = Omit<PartProps<'a'>, 'value'> & {
 
 function TabBarItem({ value, current, icon, badge, href, children, render, ...rest }: TabBarItemProps) {
   const { semantics } = React.useContext(TabBarCtx);
+  const content = (
+    <>
+      {icon !== undefined ? (
+        <span data-ag-part="tab-bar-item-icon" className="ag-tab-bar__item-icon" aria-hidden>
+          {icon}
+        </span>
+      ) : null}
+      <span data-ag-part="tab-bar-item-label" className="ag-tab-bar__item-label">
+        {children}
+      </span>
+      {badge !== undefined ? (
+        <span data-ag-part="tab-bar-item-badge" className="ag-tab-bar__item-badge">
+          {badge}
+        </span>
+      ) : null}
+      {/* REQ-MAT-62: MAT hit area — >= 24px fine / 44px coarse, no layout change */}
+      <span data-ag-part="hit-area" aria-hidden="true" />
+    </>
+  );
+  // REQ-SURF-51: a tab is Base UI's Tabs.Tab (a button: aria-selected,
+  // aria-controls -> its Tabs.Panel, roving tabindex); `href` and `current`
+  // do not apply — selection is the Tabs value.
+  if (semantics === 'tabs' && value !== undefined) {
+    const el = partElement('button', {
+      render: render as React.ReactElement | undefined,
+      'data-ag-part': 'tab-bar-item',
+      // REQ-MAT-61: the MAT ring is drawn inside the bar's clipped edge
+      'data-ag-focus-inset': '',
+      className: 'ag-tab-bar__item',
+      'data-value': value,
+      ...(rest as Record<string, unknown>),
+      children: content,
+    });
+    return (
+      <li data-ag-part="tab-bar-item-wrap" role="none">
+        <BaseTabs.Tab
+          value={value as never}
+          render={((props: object, state: object) =>
+            React.cloneElement(el as React.ReactElement<Record<string, unknown>>, {
+              ...(props as Record<string, unknown>),
+              'data-state': (state as { active?: boolean }).active ? 'active' : 'inactive',
+              'data-ag-part': 'tab-bar-item',
+              'data-ag-focus-inset': '',
+              className: 'ag-tab-bar__item',
+              'data-value': value,
+            })) as never}
+        />
+      </li>
+    );
+  }
   if (process.env['NODE_ENV'] === 'development') {
     if (href === undefined && render === undefined) {
       console.warn('[auraglass] TabBar.Item: href is required unless a render prop is given.');
@@ -158,27 +239,8 @@ function TabBarItem({ value, current, icon, badge, href, children, render, ...re
     'data-ag-focus-inset': '',
     className: 'ag-tab-bar__item',
     ...(current ? { 'aria-current': 'page' as const } : {}),
-    ...(semantics === 'tabs' && value !== undefined ? { role: 'tab', 'data-value': value } : {}),
     ...rest,
-    children: (
-      <>
-        {icon !== undefined ? (
-          <span data-ag-part="tab-bar-item-icon" className="ag-tab-bar__item-icon" aria-hidden>
-            {icon}
-          </span>
-        ) : null}
-        <span data-ag-part="tab-bar-item-label" className="ag-tab-bar__item-label">
-          {children}
-        </span>
-        {badge !== undefined ? (
-          <span data-ag-part="tab-bar-item-badge" className="ag-tab-bar__item-badge">
-            {badge}
-          </span>
-        ) : null}
-        {/* REQ-MAT-62: MAT hit area — >= 24px fine / 44px coarse, no layout change */}
-        <span data-ag-part="hit-area" aria-hidden="true" />
-      </>
-    ),
+    children: content,
   });
   return <li data-ag-part="tab-bar-item-wrap">{a}</li>;
 }

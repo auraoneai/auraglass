@@ -62,7 +62,7 @@ describe('TabBar (SURF-073)', () => {
 // ---------------------------------------------------------------------------
 // REQ-FIN-82 follow-ups on merged #357 (SURF-51..54).
 // ---------------------------------------------------------------------------
-import { act } from '@testing-library/react';
+import { act, fireEvent } from '@testing-library/react';
 import { Tabs } from '../tabs/Tabs';
 
 const inDev = async (fn: () => void | Promise<void>) => {
@@ -157,6 +157,78 @@ describe('TabBar SURF-51: semantics', () => {
     });
   });
 
+  // REQ-SURF-51: tabs semantics are Base UI Tabs.List/Tab — aria-selected,
+  // aria-controls to the Tabs.Panel ids, roving arrow-key focus.
+  it('tabs semantics: aria-controls -> Tabs.Panel ids, aria-selected, ArrowRight roves focus', async () => {
+    render(
+      <Tabs.Root defaultValue="x">
+        <TabBar.Root aria-label="T" semantics="tabs">
+          <TabBar.Item value="x">X</TabBar.Item>
+          <TabBar.Item value="y">Y</TabBar.Item>
+          <TabBar.Item value="z">Z</TabBar.Item>
+        </TabBar.Root>
+        <Tabs.Panel value="x" keepMounted>px</Tabs.Panel>
+        <Tabs.Panel value="y" keepMounted>py</Tabs.Panel>
+        <Tabs.Panel value="z" keepMounted>pz</Tabs.Panel>
+      </Tabs.Root>,
+    );
+    await flush();
+    const list = screen.getByRole('tablist');
+    expect(list.tagName).toBe('UL');
+    const tabs = screen.getAllByRole('tab');
+    expect(tabs.map((t) => t.getAttribute('data-value'))).toEqual(['x', 'y', 'z']);
+    const panels = [...document.querySelectorAll<HTMLElement>('[data-ag-part="panel"]')];
+    expect(panels).toHaveLength(3);
+    tabs.forEach((tab, i) => {
+      const id = tab.getAttribute('aria-controls');
+      expect(id).toBeTruthy();
+      expect(id).toBe(panels[i]!.id);
+      expect(panels[i]!.getAttribute('aria-labelledby')).toBe(tab.id);
+    });
+    expect(tabs.map((t) => t.getAttribute('aria-selected'))).toEqual(['true', 'false', 'false']);
+    // one tab stop (roving tabindex)
+    expect(tabs.map((t) => t.tabIndex)).toEqual([0, -1, -1]);
+    act(() => tabs[0]!.focus());
+    await act(async () => {
+      fireEvent.keyDown(tabs[0]!, { key: 'ArrowRight' });
+      await Promise.resolve();
+    });
+    expect(document.activeElement).toBe(tabs[1]);
+    await act(async () => {
+      fireEvent.keyDown(tabs[1]!, { key: 'ArrowRight' });
+      await Promise.resolve();
+    });
+    expect(document.activeElement).toBe(tabs[2]);
+    // activation selects the tab and shows its panel
+    act(() => {
+      fireEvent.click(tabs[2]!);
+    });
+    expect(tabs[2]).toHaveAttribute('aria-selected', 'true');
+    expect(panels[2]).not.toHaveAttribute('hidden');
+    expect(panels[0]).toHaveAttribute('hidden');
+    // no link/current semantics leak into tabs mode
+    expect(document.querySelector('[data-ag-part="tab-bar"] a, [aria-current]')).toBeNull();
+    expect(document.querySelectorAll('li[data-ag-part="tab-bar-item-wrap"][role="none"]')).toHaveLength(3);
+  });
+
+  it('tabs semantics outside a Tabs.Root: the bar is its own Tabs root (current item selected, roving works)', async () => {
+    render(
+      <TabBar.Root aria-label="T" semantics="tabs">
+        <TabBar.Item value="x">X</TabBar.Item>
+        <TabBar.Item value="y" current>Y</TabBar.Item>
+      </TabBar.Root>,
+    );
+    const tabs = screen.getAllByRole('tab');
+    expect(tabs.map((t) => t.getAttribute('aria-selected'))).toEqual(['false', 'true']);
+    act(() => tabs[1]!.focus());
+    await act(async () => {
+      fireEvent.keyDown(tabs[1]!, { key: 'ArrowLeft' });
+      await Promise.resolve();
+    });
+    expect(document.activeElement).toBe(tabs[0]);
+    // the bar is not a navigation landmark in tabs mode
+    expect(screen.queryByRole('navigation')).toBeNull();
+  });
 });
 
 describe('TabBar SURF-52: appearance + placement', () => {

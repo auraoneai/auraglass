@@ -11,11 +11,9 @@ import { viewTransitionParticipantAttributes } from '../../material/stateAttribu
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
 
-type TransitionState = { active: string | null };
-
 const Ctx = React.createContext<{
   active: string | null;
-  begin: (id: string) => void;
+  begin: (id: string, from: Element) => void;
   /** SURF-064: Root-level source registry (dev error on duplicate ids). */
   registerSource: (id: string) => () => void;
 }>({ active: null, begin: () => {}, registerSource: () => () => {} });
@@ -31,21 +29,28 @@ function SourceTransitionRoot({ onTransition, children, render, ...rest }: Sourc
      each pair's view-transition-name is `<scope>-<id>`. */
   const scope = useMorphName('src');
   const rootRef = React.useRef<HTMLElement | null>(null);
-  const [state, setState] = React.useState<TransitionState>({ active: null });
+  const [active, setActive] = React.useState<string | null>(null);
   const activeIds = React.useRef<Set<string>>(new Set());
 
   const begin = React.useCallback(
-    (id: string) => {
-      if (process.env['NODE_ENV'] === 'development' && activeIds.current.has(id)) {
-        console.warn(`[auraglass] SourceTransition: duplicate active transition "${id}".`);
+    (id: string, from: Element) => {
+      // Dev-only bookkeeping for the duplicate-active warning.
+      if (process.env['NODE_ENV'] === 'development') {
+        if (activeIds.current.has(id)) console.warn(`[auraglass] SourceTransition: duplicate active transition "${id}".`);
+        activeIds.current.add(id);
       }
-      activeIds.current.add(id);
-      flushSync(() => setState({ active: id }));
-      void startScoped(id, () => {
-        setState({ active: null });
-        activeIds.current.delete(id);
-        onTransition?.(id);
-      }, scope, rootRef.current);
+      flushSync(() => setActive(id));
+      void startScoped(
+        id,
+        () => {
+          setActive(null);
+          if (process.env['NODE_ENV'] === 'development') activeIds.current.delete(id);
+          onTransition?.(id);
+        },
+        scope,
+        /* REQ-SURF-64: lookups stay inside this Root */
+        rootRef.current ?? from.closest('[data-ag-part="source-transition"]'),
+      );
     },
     [onTransition, scope],
   );
@@ -67,8 +72,8 @@ function SourceTransitionRoot({ onTransition, children, render, ...rest }: Sourc
   }, []);
 
   const ctx = React.useMemo(
-    () => ({ active: state.active, begin, registerSource }),
-    [state.active, begin, registerSource],
+    () => ({ active, begin, registerSource }),
+    [active, begin, registerSource],
   );
   return (
     <Ctx.Provider value={ctx}>
@@ -102,7 +107,7 @@ function Source({ id, children, render, style, onClick, ...rest }: TransitionSou
     // Compose the consumer's onClick (runs first; preventDefault opts out).
     onClick: (e: React.MouseEvent<HTMLDivElement>) => {
       onClick?.(e);
-      if (!e.defaultPrevented) begin(id);
+      if (!e.defaultPrevented) begin(id, e.currentTarget);
     },
     children,
   });
@@ -132,55 +137,59 @@ Destination.displayName = 'SourceTransition.Destination';
 
 /** Imperative entry point — one call per Root transition.
     SURF-064/065: flushSync the `ag-src-<id>` name onto the source, then
-    startMorph over surfaces [source, dest]: inside the update the name
-    leaves the source, update() runs, and the name lands on the destination
-    (source->destination migration). Focus moves only when the source
-    contained document.activeElement at begin time. */
-export function SourceTransitionStart(id: string, update: () => void): Promise<void> {
-  return startScoped(id, update, undefined, null);
+    startMorph: inside the update the name leaves the source, update() is
+    flushed, and only then is the destination resolved and named — so a
+    Destination that mounts as a result of the update (list -> detail) gets
+    the name for the new snapshot and receives focus. Lookups are scoped to
+    `scope` (a Source click passes its SourceTransition.Root, so equal ids
+    under another Root never collide; the static defaults to document). Focus
+    moves only when the source contained document.activeElement at begin
+    time. Both names are cleared when the morph settles. */
+export function SourceTransitionStart(id: string, update: () => void, scope?: ParentNode | null): Promise<void> {
+  return startScoped(id, update, undefined, scope ?? null);
 }
 
 /* REQ-MAT-48: names stay within [a-z0-9-]; a Root passes its useMorphName
    scope and its element, so two Roots reusing an id never collide. */
-function startScoped(id: string, update: () => void, scope: string | undefined, root: ParentNode | null): Promise<void> {
+function startScoped(id: string, update: () => void, nameScope: string | undefined, root: ParentNode | null): Promise<void> {
   const sid = sanitize(id);
-  const name = `${scope ?? 'ag-src'}-${sid.toLowerCase().replace(/[^a-z0-9-]/g, '-')}`.replace(/-+/g, '-');
+  const name = `${nameScope ?? 'ag-src'}-${sid.toLowerCase().replace(/[^a-z0-9-]/g, '-')}`.replace(/-+/g, '-');
   const within: ParentNode = root ?? document;
-  const source = within.querySelector<HTMLElement>(`[data-src="${sid}"]`);
-  const dest = within.querySelector<HTMLElement>(`[data-src-dest="${sid}"]`);
-  const hadFocus = source ? source.contains(document.activeElement) : false;
-  if (source) {
-    flushSync(() => {
-      source.style.viewTransitionName = name;
-    });
-  }
-  const clear = () => {
-    if (source) source.style.viewTransitionName = '';
-    if (dest) dest.style.viewTransitionName = '';
+  const q = (attr: string) => within.querySelector<HTMLElement>(`[${attr}="${sid}"]`);
+  const setName = (el: HTMLElement | null, v: string) => {
+    if (el) el.style.viewTransitionName = v;
   };
+  const source = q('data-src');
+  let dest = q('data-src-dest');
+  const surfaces = [source, dest].filter(Boolean) as HTMLElement[];
+  const hadFocus = !!source?.contains(document.activeElement);
+  flushSync(() => setName(source, name));
   return startMorph(
-    () =>
+    () => {
       flushSync(() => {
-        if (source) source.style.viewTransitionName = '';
+        setName(source, '');
         update();
-        if (dest) dest.style.viewTransitionName = name;
-        if (hadFocus && dest) {
-          const focusable =
-            dest.querySelector<HTMLElement>(
-              'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])',
-            ) ?? dest;
-          if (focusable) {
-            if (focusable.tabIndex < 0) focusable.tabIndex = -1;
-            focusable.focus();
-          }
-        }
-      }),
-    { surfaces: [source, dest].filter((e): e is HTMLElement => e !== null), name },
-  ).finally(clear);
+      });
+      // The update has committed: resolve the destination now (it may have
+      // just mounted, or been replaced), then name and focus it.
+      dest = q('data-src-dest');
+      setName(dest, name);
+      if (hadFocus && dest) {
+        const focusable =
+          dest.querySelector<HTMLElement>('a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])') ?? dest;
+        if (focusable.tabIndex < 0) focusable.tabIndex = -1;
+        focusable.focus();
+      }
+    },
+    { surfaces, name },
+  ).finally(() => {
+    setName(source, '');
+    setName(dest, '');
+  });
 }
 
 export function startSourceTransition(root: HTMLElement, id: string, update: () => void): void {
-  void SourceTransitionStart(id, update);
+  void SourceTransitionStart(id, update, root);
 }
 
 export const SourceTransition = {

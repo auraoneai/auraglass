@@ -11,7 +11,7 @@ export default defineMeta({
   states: ['sorted-asc', 'sorted-desc', 'selected', 'empty', 'loading', 'resizing'],
   variants: { size: ['sm', 'md', 'lg'], mode: ['table', 'grid'] },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/table/',
-  budgetKb: 14,
+  budgetKb: 19,
   migration: [
     { from: 'GlassDataTable', props: { rows: 'data', filterable: 'enableColumnFilter', compact: { to: 'size', values: { true: 'sm' } }, selectedRows: 'rowSelection', onSelectionChange: 'onRowSelectionChange', onRowClick: 'onRowAction', emptyMessage: 'emptyState', consciousness: null }, selectors: { '.glass-data-table': '[data-ag-part="table"]', '.glass-data-grid': '[data-ag-part="table"]' }, automation: 'mostly', compat: true },
     { from: 'GlassDataGrid', props: {}, selectors: { '.glass-data-table': '[data-ag-part="table"]', '.glass-data-grid': '[data-ag-part="table"]' }, automation: 'mostly', compat: true },

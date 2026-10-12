@@ -123,4 +123,41 @@ describe('Table virtualization (SURF-158, REQ-SURF-70)', () => {
     expect(document.activeElement).toBe(last);
     expect(container.querySelectorAll('[role="grid"] [tabindex="0"]').length).toBe(1);
   });
+
+  // REQ-SURF-73: one tab stop even when the active row is scrolled out of the
+  // window by the mouse/wheel (no keyboard move): the virtualizer keeps the
+  // active row mounted, so Tab never skips the grid.
+  it('grid: scrolling the active row out of the window keeps exactly one tab stop on that cell', () => {
+    const { container } = render(
+      <Table data={DATA} columns={COLS} getRowId={(r) => r.id} caption="Big" virtualize maxHeight={600} mode="grid" />,
+    );
+    const grid = container.querySelector('[role="grid"]')!;
+    const cell = container.querySelector('[data-row-id="r3"] [data-cell="name"]') as HTMLElement;
+    act(() => cell.focus());
+    expect(cell.getAttribute('tabindex')).toBe('0');
+    const scroller = container.querySelector('[data-ag-part="table-scroller"]') as HTMLElement;
+    act(() => scroller.scrollTo({ top: 5000 * ROW }));
+    // the window moved: rows around 5000 are mounted, r4 (inside the old window) is not
+    expect(container.querySelector('[data-row-id="r5000"]')).not.toBeNull();
+    expect(container.querySelector('[data-row-id="r4"]')).toBeNull();
+    const stops = grid.querySelectorAll('[tabindex="0"]');
+    expect(stops.length).toBe(1);
+    expect(stops[0]!.closest('[data-row-id]')!.getAttribute('data-row-id')).toBe('r3');
+    expect(document.activeElement).toBe(stops[0]);
+    expect(bodyRows(container).length).toBeLessThanOrEqual(MAX + 1);
+  });
+
+  it('grid: an active row removed from the data hands the tab stop to the first row', () => {
+    const { container, rerender } = render(
+      <Table data={DATA.slice(0, 50)} columns={COLS} getRowId={(r) => r.id} caption="Big" virtualize maxHeight={600} mode="grid" />,
+    );
+    const cell = container.querySelector('[data-row-id="r3"] [data-cell="name"]') as HTMLElement;
+    act(() => cell.focus());
+    rerender(
+      <Table data={DATA.slice(0, 50).filter((r) => r.id !== 'r3')} columns={COLS} getRowId={(r) => r.id} caption="Big" virtualize maxHeight={600} mode="grid" />,
+    );
+    const stops = container.querySelectorAll('[role="grid"] [tabindex="0"]');
+    expect(stops.length).toBe(1);
+    expect(stops[0]!.closest('[data-row-id]')!.getAttribute('data-row-id')).toBe('r0');
+  });
 });

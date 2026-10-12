@@ -10,7 +10,7 @@ import { Tabs as BaseTabs } from '../../foundation/base-ui/tabs';
 import { startMorph, useMorphName } from '../../motion';
 import { withMorph } from '../control-shared/morph';
 import { viewTransitionParticipantAttributes } from '../../material/stateAttributes';
-import { PanelRegistryContext, useOwnOrOuterPanelRegistry, useTabBarPanel } from '../tab-bar/panelRegistry';
+import { PanelRegistryContext, TabsRootPresenceContext, useOwnOrOuterPanelRegistry, useTabBarPanel } from '../tab-bar/panelRegistry';
 import { toChangeDetails } from '../../foundation';
 import { partElement } from '../../app-shell/_internal/partElement';
 /* S-30 ChangeDetails from the public contract module, so the emitted d.ts never
@@ -83,6 +83,7 @@ function TabsRoot({
   const registry = useOwnOrOuterPanelRegistry();
   return (
     <PanelRegistryContext.Provider value={registry}>
+    <TabsRootPresenceContext.Provider value={true}>
     <TabsCtx.Provider value={{ idBase, active, activateOnFocus }}>
       <BaseTabs.Root
         data-ag-part="tabs"
@@ -102,6 +103,7 @@ function TabsRoot({
         })}
       />
     </TabsCtx.Provider>
+    </TabsRootPresenceContext.Provider>
     </PanelRegistryContext.Provider>
   );
 }

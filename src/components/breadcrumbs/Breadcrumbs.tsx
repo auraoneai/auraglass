@@ -1,7 +1,9 @@
 /* Server Breadcrumbs (SURF-076): nav > ol > li structure, chevron separators
    (aria-hidden), Current span aria-current=page. No surface/backdrop filter,
    no context/hooks — the overflow island receives serializable props only
-   (SURF-077). */
+   (SURF-077). REQ-SURF-57: the island is rendered (and so referenced in the
+   RSC payload) only when the trail collapses; the dev-only landmark beacon
+   is skipped in production (tests/rsc/surf/breadcrumbs-server.spec.ts). */
 
 import * as React from 'react';
 import { ChevronRightIcon } from '../../icons/navigation/chevron-right';
@@ -70,7 +72,9 @@ function BreadcrumbsRoot({
     ...rest,
     children: (
       <ol data-ag-part="list" className="ag-breadcrumbs__list">
-        <LandmarkBeacon role="navigation" name={label} />
+        {/* REQ-SURF-26 dev check; REQ-SURF-57: never rendered in production,
+            so a non-overflowing trail references 0 client modules. */}
+        {process.env['NODE_ENV'] !== 'production' ? <LandmarkBeacon role="navigation" name={label} /> : null}
         {withSeparators([
           ...head,
           ...(collapse

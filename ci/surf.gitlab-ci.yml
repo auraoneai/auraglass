@@ -78,6 +78,9 @@ surf:test:canary-hydration:
         sleep 2
       done
     - AG_CANARY_BASE_URL="http://127.0.0.1:$AG_CANARY_PORT" npx playwright test tests/ssr/surf/hydration.spec.ts --project=chromium
+    # REQ-SURF-57: server Breadcrumbs reference 0 breadcrumbs client modules
+    # unless the trail overflows (RSC payload of the same built canary).
+    - AG_CANARY_BASE_URL="http://127.0.0.1:$AG_CANARY_PORT" npx playwright test tests/rsc/surf/breadcrumbs-server.spec.ts --project=chromium
   artifacts:
     name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
     expire_in: 14 days
@@ -414,5 +417,30 @@ surf:test:side-effects:
     when: always
     paths:
       - .artifacts/surf/side-effects/
+
+# REQ-SURF-04: peer-isolation gate on the BUILT dist (esbuild metafile of the
+# root Button and data Table consumer bundles: no react-aria-components,
+# @internationalized/date, d3-*, no SURF trees in the root bundle) plus the
+# per-feature row-model tree-shake check (REQ-SURF-66). AG_REQUIRE_DIST=1
+# makes a missing dist artifact a failure (the test never skips).
+surf:test:peer-isolation:
+  extends: .surf-base
+  stage: test
+  allow_failure: true # owning lane flips to false after first green on next
+  needs:
+    - { job: "plat:build:dist", artifacts: true, optional: true }
+  rules:
+    - if: $AG_LINE == "5x" && ($AG_SCOPE == "pr" || $AG_SCOPE == "main" || $AG_SCOPE == "release")
+  variables:
+    AG_REQUIRE_DIST: "1"
+  script:
+    - mkdir -p .artifacts/surf/peer-isolation
+    - npx jest --ci tests/data/exports/peer-isolation.test.ts tests/data/exports/table-row-models.test.ts tests/data/exports/data-peer-isolation.test.ts --json --outputFile=.artifacts/surf/peer-isolation/jest.json
+  artifacts:
+    name: "evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA"
+    expire_in: 14 days
+    when: always
+    paths:
+      - .artifacts/surf/peer-isolation/
 
 # --- lane W5 end ---

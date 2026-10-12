@@ -3,15 +3,17 @@
    with sorting, selection (single/multiple + shift-range), column
    visibility/sizing/pinning/reorder, pagination, virtualization, grid-mode
    keyboard. mode='table' renders real <table> semantics; 'grid' renders
-   grid/row/gridcell + the keyboard model. All row models are imported
-   per feature so unused ones tree-shake (manual* flags skip the client
-   models). Ref is a prop (React 19; no forwardRef). */
+   grid/row/gridcell + the keyboard model. Row models are per feature
+   (REQ-SURF-66): only the core and sorted models (sorting is on by
+   default) are imported; client pagination is a page slice of the sorted
+   model computed here, so TanStack's getPaginationRowModel never enters a
+   Table bundle (tests/data/exports/table-row-models.test.ts); manual*
+   flags skip the client models. Ref is a prop (React 19; no forwardRef). */
 import * as React from 'react';
 import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
   type ColumnDef,
@@ -25,7 +27,7 @@ import {
   type VisibilityState,
   type Table as TanStackTable,
 } from '@tanstack/react-table';
-import { useVirtualizer } from '@tanstack/react-virtual';
+import { defaultRangeExtractor, useVirtualizer, type Range } from '@tanstack/react-virtual';
 import { useAnnouncer } from '../../theme';
 import { Checkbox } from '../../components/checkbox';
 import { Menu } from '../../components/menu';
@@ -34,6 +36,13 @@ import { Skeleton } from '../../components/skeleton';
 import { useControllableState } from './useTableState';
 import { useGridKeyboard } from './useGridKeyboard';
 import type { TableDensity, TableMode, SelectionMode, TableColumnDef } from './types';
+import type { TableEditCommitVia, TableEditValue } from './TableCellEditor';
+
+/* REQ-SURF-79: the inline editor (CMP TextField/NumberField/Select) is a
+   lazily loaded feature module — bundlers with code splitting fetch it only
+   for tables that can edit (preloaded once such a grid mounts). */
+const loadCellEditor = () => import('./TableCellEditor');
+const TableCellEditor = React.lazy(loadCellEditor);
 
 export interface TableHandle<TData = unknown> {
   getInstance: () => TanStackTable<TData>;
@@ -104,6 +113,11 @@ export interface TableProps<TData> {
   loading?: boolean | undefined;
   emptyState?: React.ReactNode;
   onRowAction?: ((row: TData) => void) | undefined;
+  /** REQ-SURF-79 (5.1): grid-mode inline edit. Enter or F2 on a cell whose
+   *  column declares `meta.editor` opens the editor; Enter/Tab (or choosing
+   *  an option) commits once with the new value — `data` is never mutated,
+   *  the owner applies the change. Escape cancels. */
+  onCellEditCommit?: ((rowId: string, columnId: string, value: TableEditValue) => void) | undefined;
   maxHeight?: number | string | undefined;
   messages?: TableMessages | undefined;
   ref?: React.Ref<TableHandle<TData>> | undefined;
@@ -148,6 +162,10 @@ interface RowCtx<TData> {
   select: (rowId: string, shift: boolean) => void;
   /** A cell received focus: it becomes the grid's active cell. */
   focusCell: (rowId: string, columnId: string) => void;
+  /** REQ-SURF-79: the column opens an inline editor (grid + meta.editor + onCellEditCommit). */
+  canEdit: (columnId: string) => boolean;
+  openEdit: (rowId: string, columnId: string) => void;
+  renderEditor: (rowId: string, columnId: string, value: unknown) => React.ReactNode;
 }
 
 interface TableRowProps<TData> {
@@ -160,6 +178,8 @@ interface TableRowProps<TData> {
   virtualized: boolean;
   /** Set only on the row owning the grid's roving tab stop. */
   activeColumnId: string | undefined;
+  /** Set only on the row whose cell is being edited (REQ-SURF-79). */
+  editingColumnId: string | undefined;
   /** Identity token: columns/visibility/sizing/pinning/order. */
   layout: object;
   ctx: React.RefObject<RowCtx<TData>>;
@@ -174,6 +194,7 @@ function TableRowImpl<TData>({
   grid,
   virtualized,
   activeColumnId,
+  editingColumnId,
   ctx,
 }: TableRowProps<TData>) {
   const c = () => ctx.current!;
@@ -222,8 +243,12 @@ function TableRowImpl<TData>({
                 }
               : {})}
             onKeyDown={(e) => {
-              const { selectionMode, onRowAction, select } = c();
-              if (grid && e.key === 'Enter') {
+              const { selectionMode, onRowAction, select, canEdit, openEdit } = c();
+              if (grid && (e.key === 'Enter' || e.key === 'F2') && e.target === e.currentTarget && canEdit(cell.column.id)) {
+                // REQ-SURF-79: Enter/F2 on an editable cell opens its editor.
+                e.preventDefault();
+                openEdit(row.id, cell.column.id);
+              } else if (grid && e.key === 'Enter') {
                 // SURF-073: Enter activates the row.
                 e.preventDefault();
                 onRowAction?.(row.original);
@@ -250,7 +275,9 @@ function TableRowImpl<TData>({
               ...pinStyle(cell.column),
             }}
           >
-            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+            {editingColumnId === cell.column.id
+              ? c().renderEditor(row.id, cell.column.id, cell.getValue())
+              : flexRender(cell.column.columnDef.cell, cell.getContext())}
           </Cell>
         );
       })}
@@ -375,6 +402,7 @@ export function Table<TData>(props: TableProps<TData>) {
     loading = false,
     emptyState,
     onRowAction,
+    onCellEditCommit,
     maxHeight,
     messages,
     ref,
@@ -521,11 +549,8 @@ export function Table<TData>(props: TableProps<TData>) {
     columns: allColumns,
     getCoreRowModel: getCoreRowModel(),
     ...(manualSorting ? { manualSorting: true } : { getSortedRowModel: getSortedRowModel() }),
-    ...(manualPagination
-      ? { manualPagination: true }
-      : hasPagination
-        ? { getPaginationRowModel: getPaginationRowModel() }
-        : {}),
+    // REQ-SURF-66: no getPaginationRowModel — client pages are sliced below.
+    ...(manualPagination ? { manualPagination: true } : {}),
     state: {
       sorting: sortingState,
       rowSelection: rowSel,
@@ -562,8 +587,14 @@ export function Table<TData>(props: TableProps<TData>) {
 
   // SURF-067/070: resolve + virtualize over the FULL (pre-pagination) row
   // model — paginated slices only apply when pagination props were passed.
+  // Client pagination (REQ-SURF-66) is the page window of the sorted model;
+  // manualPagination rows are already the server's page.
   const allRows = table.getPrePaginationRowModel().rows;
-  const rows = virtualize || !hasPagination ? allRows : table.getRowModel().rows;
+  const rows = React.useMemo(() => {
+    if (virtualize || !hasPagination || manualPagination) return allRows;
+    const start = page.pageIndex * page.pageSize;
+    return allRows.slice(start, start + page.pageSize);
+  }, [allRows, virtualize, hasPagination, manualPagination, page.pageIndex, page.pageSize]);
   const leafCols = table.getVisibleLeafColumns();
   // Identity token for everything a row's cells depend on besides the row
   // itself — column defs, visibility, sizing, pinning and order.
@@ -572,14 +603,42 @@ export function Table<TData>(props: TableProps<TData>) {
     [allColumns, vis, sizing, effectivePinning, order],
   );
 
+  const grid = mode === 'grid';
+  // SURF-073: APG data-grid roving tabindex — one cell owns tabIndex 0. The
+  // active cell is tracked by rowId+columnId so focus survives the row being
+  // unmounted by virtualization and is re-resolved when it mounts again. An
+  // active cell whose row or column left the model falls back to the first
+  // row/column, so the grid never loses its tab stop.
+  const [activeCell, setActiveCell] = React.useState<{ rowId: string; columnId: string } | null>(null);
+  const activeRowIndex = React.useMemo(() => {
+    if (!grid || rows.length === 0) return -1;
+    const i = activeCell === null ? -1 : rows.findIndex((r) => r.id === activeCell.rowId);
+    return i < 0 ? 0 : i;
+  }, [grid, rows, activeCell]);
+  const activeRowId = activeRowIndex < 0 ? undefined : rows[activeRowIndex]!.id;
+  const activeColId =
+    activeCell !== null && leafCols.some((c) => c.id === activeCell.columnId) ? activeCell.columnId : leafCols[0]?.id;
+
   const vOpts = typeof virtualize === 'object' ? virtualize : {};
   const estimate = vOpts.estimateRowHeight ?? ROW_HEIGHT[size];
   const overscan = vOpts.overscan ?? 8;
+  // REQ-SURF-73: the row owning the roving tab stop stays mounted while the
+  // user scrolls it out of view (wheel/scrollbar), so the grid keeps exactly
+  // one tab stop and a focused cell is never dropped to <body>.
+  const rangeExtractor = React.useCallback(
+    (range: Range) => {
+      const base = defaultRangeExtractor(range);
+      if (activeRowIndex < 0 || activeRowIndex >= range.count || base.includes(activeRowIndex)) return base;
+      return [...base, activeRowIndex].sort((a, b) => a - b);
+    },
+    [activeRowIndex],
+  );
   const virtualizer = useVirtualizer({
     count: virtualize ? rows.length : 0,
     getScrollElement: () => scrollerRef.current,
     estimateSize: () => estimate,
     overscan,
+    rangeExtractor,
   });
 
   // Shift-range selection anchor: index into `rows` (the sorted model).
@@ -690,21 +749,19 @@ export function Table<TData>(props: TableProps<TData>) {
   const visibleRows = virtualize ? virtualizer.getVirtualItems().map((vi) => rows[vi.index]!).slice(0) : rows;
   const totalSize = virtualize ? virtualizer.getTotalSize() : 0;
 
-  const grid = mode === 'grid';
   const roleTable = grid ? 'grid' : undefined;
-  // SURF-073: APG data-grid roving tabindex — one cell owns tabIndex 0. The
-  // active cell is tracked by rowId+columnId so focus survives the row being
-  // unmounted by virtualization and is re-resolved when it mounts again.
-  const [activeCell, setActiveCell] = React.useState<{ rowId: string; columnId: string } | null>(null);
-  const activeRowId = activeCell?.rowId ?? rows[0]?.id;
-  const activeColId = activeCell?.columnId ?? leafCols[0]?.id;
   const focusWanted = React.useRef(false);
   const cellEl = (rowId: string, columnId: string) =>
     scrollerRef.current?.querySelector<HTMLElement>(
       `[data-row-id="${CSS.escape(rowId)}"] [data-cell="${CSS.escape(columnId)}"]`,
     ) ?? null;
+  // REQ-SURF-79: the cell being edited ({rowId, columnId}); `editSession`
+  // increments per open so a session commits or cancels exactly once.
+  const [editing, setEditing] = React.useState<{ rowId: string; columnId: string } | null>(null);
+  const editSession = React.useRef(0);
+  const closedSession = React.useRef(0);
   React.useLayoutEffect(() => {
-    if (!grid || !focusWanted.current || activeRowId === undefined || activeColId === undefined) return;
+    if (!grid || editing !== null || !focusWanted.current || activeRowId === undefined || activeColId === undefined) return;
     const el = cellEl(activeRowId, activeColId);
     const doc = scrollerRef.current?.ownerDocument;
     // Only reclaim focus when nothing else took it (row unmount drops focus
@@ -809,6 +866,22 @@ export function Table<TData>(props: TableProps<TData>) {
   // stable ref so a selection toggle re-renders only the changed row (its
   // `selected` prop flips) plus the header checkbox.
   const rowCtx = React.useRef<RowCtx<TData>>(null as unknown as RowCtx<TData>);
+  const canEdit = (columnId: string) =>
+    grid && onCellEditCommit !== undefined && table.getColumn(columnId)?.columnDef.meta?.editor !== undefined;
+  // Close the open session once: 'enter'/'cancel' return focus to the cell
+  // (the editor unmounts, the layout effect above reclaims it); 'tab' puts
+  // focus on the cell synchronously so the browser's Tab moves on from it;
+  // 'blur'/'select' leave focus where the user put it.
+  const commitRef = React.useRef(onCellEditCommit);
+  commitRef.current = onCellEditCommit;
+  const closeEdit = (session: number, via: TableEditCommitVia | 'cancel', rowId: string, columnId: string) => {
+    if (closedSession.current >= session) return false;
+    closedSession.current = session;
+    if (via === 'tab') cellEl(rowId, columnId)?.focus();
+    focusWanted.current = via === 'enter' || via === 'cancel' || via === 'select';
+    setEditing(null);
+    return true;
+  };
   rowCtx.current = {
     onRowAction,
     selectionMode,
@@ -817,7 +890,41 @@ export function Table<TData>(props: TableProps<TData>) {
       focusWanted.current = true;
       setActiveCell((prev) => (prev?.rowId === rowId && prev.columnId === columnId ? prev : { rowId, columnId }));
     },
+    canEdit,
+    openEdit: (rowId, columnId) => {
+      editSession.current += 1;
+      setActiveCell({ rowId, columnId });
+      setEditing({ rowId, columnId });
+    },
+    renderEditor: (rowId, columnId, value) => {
+      const session = editSession.current;
+      const meta = table.getColumn(columnId)?.columnDef.meta;
+      return (
+        <React.Suspense fallback={null}>
+          <TableCellEditor
+            key={session}
+            kind={meta?.editor ?? 'text'}
+            initialValue={value}
+            options={meta?.options}
+            label={(meta?.headerLabel ?? columnId) as string}
+            size={size}
+            onCommit={(next, via) => {
+              if (closeEdit(session, via, rowId, columnId)) commitRef.current?.(rowId, columnId, next);
+            }}
+            onCancel={() => {
+              closeEdit(session, 'cancel', rowId, columnId);
+            }}
+          />
+        </React.Suspense>
+      );
+    },
   };
+  // Preload the editor module once a grid that can edit mounts, so the first
+  // Enter/F2 renders the control without a Suspense frame.
+  const editable = grid && onCellEditCommit !== undefined && allColumns.some((col) => col.meta?.editor !== undefined);
+  React.useEffect(() => {
+    if (editable) void loadCellEditor();
+  }, [editable]);
   const renderRow = (row: (typeof rows)[number], index: number, top?: number) => (
     <TableRow<TData>
       key={row.id}
@@ -829,6 +936,7 @@ export function Table<TData>(props: TableProps<TData>) {
       grid={grid}
       virtualized={!!virtualize}
       activeColumnId={grid && row.id === activeRowId ? activeColId : undefined}
+      editingColumnId={editing !== null && row.id === editing.rowId ? editing.columnId : undefined}
       layout={layoutDeps}
       ctx={rowCtx}
     />

@@ -368,20 +368,48 @@ describe('Table (SURF-155)', () => {
     expect(spy).toHaveBeenCalledWith({ block: 'center' });
   });
 
-  it('toggle every boolean prop never throws', () => {
-    const flags = {
-      enableMultiSort: true,
-      enableColumnResizing: true,
-      enableColumnReordering: true,
-      manualPagination: true,
-      manualSorting: true,
-      stickyHeader: true,
-      loading: true,
-    } as const;
-    const { rerender, container } = render(<T {...flags} />);
-    rerender(<T />);
-    rerender(<T {...flags} />);
-    expect(bodyRows(container).length).toBe(3);
+  // REQ-SURF-77: every boolean prop false -> true -> false (incl. virtualize,
+  // whose scroller is given a 600px viewport as in Table.virtual.test.tsx) —
+  // no throw, no hook-order error, rows render after each rerender.
+  it('toggle every boolean prop false -> true -> false never throws', () => {
+    const rect = jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+      const h = this.dataset?.index === undefined ? 600 : 40;
+      return { x: 0, y: 0, top: 0, left: 0, right: 800, bottom: h, width: 800, height: h, toJSON: () => ({}) } as DOMRect;
+    });
+    const prev = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'offsetHeight');
+    Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+      configurable: true,
+      get(this: HTMLElement) { return this.dataset?.index !== undefined ? 40 : 600; },
+    });
+    const errors = jest.spyOn(console, 'error').mockImplementation(() => undefined);
+    try {
+      const off = {
+        enableMultiSort: false,
+        enableColumnResizing: false,
+        enableColumnReordering: false,
+        manualPagination: false,
+        manualSorting: false,
+        virtualize: false,
+        stickyHeader: false,
+        loading: false,
+      } as const;
+      const on = Object.fromEntries(Object.keys(off).map((k) => [k, true])) as { [K in keyof typeof off]: true };
+      const { rerender, container } = render(<T {...off} maxHeight={600} />);
+      const seen: number[] = [bodyRows(container).length];
+      rerender(<T {...on} maxHeight={600} />);
+      seen.push(bodyRows(container).length);
+      expect(container.querySelector('table')!.getAttribute('aria-rowcount')).toBe('4'); // virtualized
+      rerender(<T {...off} maxHeight={600} />);
+      seen.push(bodyRows(container).length);
+      expect(container.querySelector('table')!.hasAttribute('aria-rowcount')).toBe(false);
+      expect(seen).toEqual([3, 3, 3]);
+      expect(errors).not.toHaveBeenCalled();
+    } finally {
+      errors.mockRestore();
+      rect.mockRestore();
+      if (prev) Object.defineProperty(HTMLElement.prototype, 'offsetHeight', prev);
+      else delete (HTMLElement.prototype as unknown as Record<string, unknown>)['offsetHeight'];
+    }
   });
 
   it('onRowAction fires with the row datum', () => {
