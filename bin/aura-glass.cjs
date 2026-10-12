@@ -667,7 +667,7 @@ const loadInstalledAuraGlassPackage = (cwd) => {
   }
 };
 
-const runDoctor = (cwd, options = {}) => {
+const runDoctor = (cwd) => {
   const checks = [];
   const depsAudit = auditPackageDependencies(cwd);
   const importsAudit = auditImports(cwd);
@@ -718,18 +718,6 @@ const runDoctor = (cwd, options = {}) => {
           : `${warningDeps.length} forbidden core UI package reference(s) remain in devDependencies.`
         : `${errorDeps.length} forbidden core UI package reference(s) found in production-facing metadata.`,
   });
-
-  if (options.v5) {
-    const undeclared = collectUndeclaredImports(cwd, allDeps || {});
-    checks.push({
-      id: "undeclared-imports",
-      status: undeclared.length === 0 ? "pass" : "fail",
-      message:
-        undeclared.length === 0
-          ? "Every imported bare specifier is declared in package.json."
-          : `${undeclared.length} imported package(s) missing from package.json: ${undeclared.join(", ")}`,
-    });
-  }
 
   checks.push({
     id: "forbidden-imports",
@@ -886,6 +874,51 @@ const printMigrationReport = (report) => {
   process.stdout.write(`${report.note}\n`);
   for (const finding of report.findings) {
     process.stdout.write(`  ${finding.file}:${finding.line} ${finding.source} -> ${finding.suggestion}\n`);
+  }
+};
+
+/* REQ-PLAT-61: `doctor --v5` is @auraglass/cli's implementation, unchanged —
+   packages/cli/src/doctor/{checks,v5-core}.ts bundled into
+   bin/doctor-v5.generated.cjs by scripts/ci/gen-doctor-v5.mjs — scanning the
+   package's own deprecations.json (every removeIn '5.0.0' entry). The payload
+   is { version, checks, findings, byCodemod } exactly as `npx @auraglass/cli
+   doctor --v5 --json` composes it; the one 4.x addition is the trailing
+   `undeclared-imports` check that tests/release/fixtures/undeclared-deps proves
+   (REQ-PLAT-63). tests/release/cli-4x.test.ts holds the parity test. */
+const runDoctorV5 = (cwd) => {
+  const { runChecks, runV5WithEntries, doctorV5Payload } = require("./doctor-v5.generated.cjs");
+  const deprecationsPath = path.resolve(__dirname, "..", "deprecations.json");
+  const raw = readJsonIfExists(deprecationsPath);
+  const deprecations = Array.isArray(raw) ? raw : (raw && Array.isArray(raw.entries) ? raw.entries : []);
+  const payload = doctorV5Payload(cwd, deprecations, runChecks, runV5WithEntries);
+  const packageJson = readJsonIfExists(path.join(cwd, "package.json"));
+  const declared = {
+    ...(packageJson && packageJson.dependencies),
+    ...(packageJson && packageJson.devDependencies),
+    ...(packageJson && packageJson.peerDependencies),
+  };
+  const undeclared = collectUndeclaredImports(cwd, declared);
+  payload.checks.push({
+    id: "undeclared-imports",
+    status: undeclared.length === 0 ? "pass" : "fail",
+    message:
+      undeclared.length === 0
+        ? "Every imported bare specifier is declared in package.json."
+        : `${undeclared.length} imported package(s) missing from package.json: ${undeclared.join(", ")}`,
+  });
+  return payload;
+};
+
+const printDoctorV5 = (payload) => {
+  process.stdout.write("AuraGlass doctor --v5\n");
+  for (const check of payload.checks) {
+    process.stdout.write(`  ${check.status.toUpperCase().padEnd(7)} ${check.id}: ${check.message}\n`);
+  }
+  if (payload.findings.length === 0) process.stdout.write("  PASS    no removeIn 5.0.0 usages found\n");
+  for (const [codemod, list] of Object.entries(payload.byCodemod)) {
+    for (const f of list) {
+      process.stdout.write(`  ${(f.automation === "manual" ? "warn" : "info").toUpperCase().padEnd(7)} ${f.path}:${f.line} ${f.symbol} [${codemod}/${f.automation}] ${f.message}\n`);
+    }
   }
 };
 
@@ -1046,7 +1079,13 @@ const main = () => {
   }
 
   if (command === "doctor") {
-    const report = runDoctor(resolveCwd(flags), { v5: Boolean(flags.v5) });
+    if (flags.v5) {
+      const payload = runDoctorV5(resolveCwd(flags));
+      if (flags.json) process.stdout.write(toJson(payload));
+      else printDoctorV5(payload);
+      return;
+    }
+    const report = runDoctor(resolveCwd(flags));
     if (flags.json) {
       process.stdout.write(toJson(report));
     } else {
