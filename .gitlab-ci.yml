@@ -1,7 +1,6 @@
-# contract-v1.1 verbatim (PLAT-owned). PLAT may change only the values of AG_NODE_IMAGE, AG_PLAYWRIGHT_IMAGE, AG_NPM_VERSION,
+# contract-v1.2 verbatim (PLAT-owned). PLAT may change only the values of AG_NODE_IMAGE, AG_PLAYWRIGHT_IMAGE, AG_NPM_VERSION,
 # AG_PAGES_BRANCH and AG_V4_DIST_TAG. GitHub (github.com/auraoneai/auraglass) is the source of truth; this project is its
 # one-way mirror, so there are no merge-request pipelines.
-# package precedes certify: qual:certify:* need plat:package:pack (FIN-B fix; recorded for contract v1.2-final).
 stages: [contract, build, test, package, certify, deploy, publish]
 
 variables:
@@ -106,4 +105,4 @@ contract:ci-fragments:
   script:
     - BASE=$([ "$AG_LINE" = "4x" ] && echo release/4.x || echo next)
     - git fetch --no-tags origin "+refs/heads/$BASE:refs/remotes/origin/$BASE"
-    - node scripts/ci/verify-ci-fragments.mjs
+    - node scripts/ci/verify-ci-fragments.mjs --base "origin/$BASE" # C-9 (v1.2): the task-graph hook gets the line base

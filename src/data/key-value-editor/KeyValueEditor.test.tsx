@@ -17,7 +17,7 @@ describe('KeyValueEditor (SURF-261, REQ-SURF-89)', () => {
     const on = jest.fn();
     const { container } = render(<KeyValueEditor defaultValue={[{ key: 'a', value: '1' }]} onValueChange={on} />);
     fireEvent.change(keyInputs(container)[0]!, { target: { value: 'b' } });
-    expect(on).toHaveBeenLastCalledWith([{ key: 'b', value: '1' }]);
+    expect(on).toHaveBeenLastCalledWith([{ key: 'b', value: '1' }], expect.objectContaining({ reason: 'edit', event: expect.any(Event) }));
     fireEvent.click(container.querySelector('[data-ag-part="key-value-add"]')!);
     expect(on).toHaveBeenLastCalledWith([{ key: 'b', value: '1' }, { key: '', value: '' }], expect.objectContaining({ reason: 'add', event: expect.any(Event) }));
     const rm = container.querySelectorAll('[data-ag-part="key-value-remove"]')[1]!;
@@ -60,7 +60,7 @@ describe('KeyValueEditor (SURF-261, REQ-SURF-89)', () => {
     const lastValue = valueInputs(container)[0]!;
     act(() => lastValue.focus());
     fireEvent.keyDown(lastValue, { key: 'Enter' });
-    expect(on).toHaveBeenLastCalledWith([{ key: 'a', value: '1' }, { key: '', value: '' }]);
+    expect(on).toHaveBeenLastCalledWith([{ key: 'a', value: '1' }, { key: '', value: '' }], expect.objectContaining({ reason: 'add', event: expect.any(Event) }));
     const keys = keyInputs(container);
     expect(keys).toHaveLength(2);
     expect(document.activeElement).toBe(keys[1]);

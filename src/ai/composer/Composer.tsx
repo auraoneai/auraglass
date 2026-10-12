@@ -461,7 +461,13 @@ export function ComposerMenu() {
   return (
     <div data-ag-part="composer-menu">
       <Menu.Root>
-        <Menu.Trigger aria-label={c.labels.moreActions ?? 'More actions'} data-ag-part="composer-menu-trigger">
+        {/* explicit <button> render: a lone element child would otherwise
+            become the trigger element itself (CMP childAsRender) */}
+        <Menu.Trigger
+          render={<button type="button" />}
+          aria-label={c.labels.moreActions ?? 'More actions'}
+          data-ag-part="composer-menu-trigger"
+        >
           <AiIcon name="chevron" />
         </Menu.Trigger>
         <MenuPortal>

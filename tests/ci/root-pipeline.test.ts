@@ -40,53 +40,19 @@ function normalize(text: string): string[] {
 }
 
 // Recorded contract C-items (docs/release/decisions/gitlab-ci-verification.md
-// §"Contract C-items"): the only permitted deviations from the v1.1 block,
+// §"Contract C-items"): the only permitted deviations from the contract block,
 // applied to the normalized contract lines before comparison. Each is a
 // line replacement (`from` → `to[]`) or an insertion after an anchor line
 // (`after`, scoped to a job via `within`).
 type Delta =
   | { item: string; from: string; to: string[] }
   | { item: string; within: string; after: string; insert: string[] };
-const C_ITEMS: Delta[] = [
-  {
-    item: 'stages package before certify',
-    from: 'stages: [contract, build, test, certify, package, deploy, publish]',
-    to: [
-      '# package precedes certify: qual:certify:* need plat:package:pack (FIN-B fix; recorded for contract v1.2-final).',
-      'stages: [contract, build, test, package, certify, deploy, publish]',
-    ],
-  },
-  {
-    item: 'R1 workflow prefixes',
-    from: ' - if: $CI_COMMIT_BRANCH == "release/4.x"',
-    to: [' - if: $CI_COMMIT_BRANCH == "release/4.x" || $CI_COMMIT_BRANCH == "release/4.1.x"'],
-  },
-  {
-    item: 'R1 workflow prefixes',
-    from: ' - if: $CI_COMMIT_BRANCH =~ /^4x-(plat|mat|cmp|surf|qual)\\// || $CI_COMMIT_BRANCH =~ /^sync\\/fragments-codemods-/',
-    to: [' - if: $CI_COMMIT_BRANCH =~ /^4x-(plat|mat|cmp|surf|qual|fin)\\// || $CI_COMMIT_BRANCH =~ /^4x11-(plat|mat|cmp|surf|qual|fin)\\// || $CI_COMMIT_BRANCH =~ /^sync\\/fragments-codemods-/'],
-  },
-  {
-    item: 'R1 workflow prefixes',
-    from: ' - if: $CI_COMMIT_BRANCH =~ /^next-(plat|mat|cmp|surf|qual)\\// || $CI_COMMIT_BRANCH =~ /^sync\\/fragments-deprecations-/ || $CI_COMMIT_BRANCH =~ /^contract\\//',
-    to: [' - if: $CI_COMMIT_BRANCH =~ /^next-(plat|mat|cmp|surf|qual|fin)\\// || $CI_COMMIT_BRANCH =~ /^sync\\/fragments-deprecations-/ || $CI_COMMIT_BRANCH =~ /^contract\\// || $CI_COMMIT_BRANCH =~ /^sync\\//'],
-  },
-  {
-    item: 'contract:ci-fragments fetches its base ref',
-    within: 'contract:ci-fragments:',
-    after: ' stage: contract',
-    insert: [' variables: { GIT_DEPTH: "0" }'],
-  },
-  {
-    item: 'contract:ci-fragments fetches its base ref',
-    within: 'contract:ci-fragments:',
-    after: ' script:',
-    insert: [
-      ' - BASE=$([ "$AG_LINE" = "4x" ] && echo release/4.x || echo next)',
-      ' - git fetch --no-tags origin "+refs/heads/$BASE:refs/remotes/origin/$BASE"',
-    ],
-  },
-];
+// Contract v1.2 (FIN-463 bundle, history row `contract-v1.2`) ratified every
+// v1.1 C-item into the §4.13.3 block itself (stages package before certify,
+// R1 workflow prefixes / C-17, the ci-fragments base-ref fetch, C-9 `--base`),
+// so no deviation is permitted against v1.2. Record a new C-item here (and in
+// the decision record) only when a later fix lands ahead of its contract PR.
+const C_ITEMS: Delta[] = [];
 
 function applyCItems(lines: string[]): string[] {
   let out = [...lines];

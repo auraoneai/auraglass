@@ -5,6 +5,7 @@ exports[`MessageParts (every fixture message) msg-01: data-ag-part tree 1`] = `"
 exports[`MessageParts (every fixture message) msg-02: data-ag-part tree 1`] = `
 "reasoning [data-state=done]
   trigger
+  content
 text-part [data-state=done]"
 `;
 
@@ -17,26 +18,32 @@ exports[`MessageParts (every fixture message) msg-03: data-ag-part tree 1`] = `
 exports[`MessageParts (every fixture message) msg-04: data-ag-part tree 1`] = `
 "tool-call [data-state=queued]
   trigger
-    icon
+    state-icon
     tool-name
     tool-state
-    icon"
+    icon
+  content
+    io
+      io-pre"
 `;
 
 exports[`MessageParts (every fixture message) msg-05: data-ag-part tree 1`] = `
 "tool-call [data-state=running]
   trigger
-    icon
+    state-icon
     tool-name
     tool-state
     running-dots
-    icon"
+    icon
+  content
+    io
+      io-pre"
 `;
 
 exports[`MessageParts (every fixture message) msg-06: data-ag-part tree 1`] = `
 "tool-call [data-state=needs-approval]
   trigger
-    icon
+    state-icon
     tool-name
     tool-state
     icon
@@ -49,51 +56,67 @@ exports[`MessageParts (every fixture message) msg-06: data-ag-part tree 1`] = `
 exports[`MessageParts (every fixture message) msg-07: data-ag-part tree 1`] = `
 "tool-call [data-state=running]
   trigger
-    icon
+    state-icon
     tool-name
     tool-state
     running-dots
-    icon"
+    icon
+  content
+    io
+      io-pre"
 `;
 
 exports[`MessageParts (every fixture message) msg-08: data-ag-part tree 1`] = `
 "tool-call [data-state=succeeded]
   trigger
-    icon
-    tool-name
-    tool-state
-    icon"
-`;
-
-exports[`MessageParts (every fixture message) msg-09: data-ag-part tree 1`] = `
-"tool-call [data-state=failed]
-  trigger
-    icon
+    state-icon
     tool-name
     tool-state
     icon
   content
     io
       io-pre
-    error-text [role=alert]"
+    io
+      io-pre"
+`;
+
+exports[`MessageParts (every fixture message) msg-09: data-ag-part tree 1`] = `
+"tool-call [data-state=failed]
+  trigger
+    state-icon
+    tool-name
+    tool-state
+    icon
+  content
+    io
+      io-pre
+    error-text"
 `;
 
 exports[`MessageParts (every fixture message) msg-10: data-ag-part tree 1`] = `
 "tool-call [data-state=denied]
   trigger
-    icon
+    state-icon
     tool-name
     tool-state
-    icon"
+    icon
+  content
+    io
+      io-pre"
 `;
 
 exports[`MessageParts (every fixture message) msg-11: data-ag-part tree 1`] = `
 "tool-call [data-state=succeeded]
   trigger
-    icon
+    state-icon
     tool-name
     tool-state
-    icon"
+    icon
+  content
+    io
+      io-pre
+    io
+      io-pre"
 `;
 
 exports[`MessageParts (every fixture message) msg-12: data-ag-part tree 1`] = `
@@ -148,10 +171,13 @@ exports[`MessageParts (every fixture message) msg-19: data-ag-part tree 1`] = `"
 exports[`MessageParts (every fixture message) msg-20: data-ag-part tree 1`] = `
 "tool-call [data-state=denied]
   trigger
-    icon
+    state-icon
     tool-name
     tool-state
-    icon"
+    icon
+  content
+    io
+      io-pre"
 `;
 
 exports[`MessageParts (every fixture message) msg-21: data-ag-part tree 1`] = `

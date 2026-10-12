@@ -1,8 +1,9 @@
-import { describe, expect, it } from '@jest/globals';
+import { describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, render } from '@testing-library/react';
 import * as React from 'react';
 import { AuraGlassProvider } from '../../theme';
 import { PORTAL_ROOT_MARKUP } from '../../contracts/preferences';
+import { ID_SETTLE_MS, WRITE_GAP_MS } from '../../theme/announcer/useAnnouncer';
 import { ImageViewer, type ImageViewerItem } from '../ImageViewer/ImageViewer';
 
 const items = (n: number): ImageViewerItem[] =>
@@ -55,13 +56,27 @@ describe('ImageViewer (REQ-SURF-141..145)', () => {
     expect(stage.querySelectorAll('img').length).toBeLessThanOrEqual(3);
   });
   it('Counter announces once per navigation', () => {
-    ensurePortal();
-    const { getByText } = render(<Harness count={3} id="p1" />);
-    fireEvent.click(getByText('open p1'));
-    const polite = document.body.querySelector('[data-ag-announcer] [aria-live="polite"]');
-    expect(polite?.textContent).toBe('1 of 3');
-    fireEvent.keyDown(document.body.querySelector('[data-ag-part="image-viewer-popup"]')!, { key: 'ArrowRight' });
-    expect(polite?.textContent).toBe('2 of 3');
+    /* The counter is an id'd S-26 announcement (MAT-293 queue, 1b8a4bc39): it
+       settles for ID_SETTLE_MS before it is written and writes into one region
+       are spaced by WRITE_GAP_MS, so the clock is driven explicitly. */
+    jest.useFakeTimers();
+    try {
+      ensurePortal();
+      const { getByText } = render(<Harness count={3} id="p1" />);
+      fireEvent.click(getByText('open p1'));
+      const polite = document.body.querySelector('[data-ag-announcer] [aria-live="polite"]');
+      jest.advanceTimersByTime(ID_SETTLE_MS);
+      expect(polite?.textContent).toBe('1 of 3');
+      fireEvent.keyDown(document.body.querySelector('[data-ag-part="image-viewer-popup"]')!, { key: 'ArrowRight' });
+      jest.advanceTimersByTime(ID_SETTLE_MS);
+      expect(polite?.textContent).toBe('1 of 3'); // inside the write gap: not yet re-announced
+      jest.advanceTimersByTime(WRITE_GAP_MS);
+      expect(polite?.textContent).toBe('2 of 3');
+      jest.advanceTimersByTime(WRITE_GAP_MS);
+      expect(polite?.textContent).toBe('2 of 3'); // one write per navigation
+    } finally {
+      jest.useRealTimers();
+    }
   });
   it('zoom keys + - 0 and arrows work inside the popup', () => {
     ensurePortal();

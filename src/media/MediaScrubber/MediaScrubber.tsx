@@ -3,15 +3,15 @@
  * S-30) with the media slider parts (MediaSliderParts). Buffered ranges and
  * chapter markers are layers whose only inline style is --_ag-start/--_ag-end.
  * aria-valuetext on the thumb input is spoken "X of Y". Dragging seeks at most
- * once per animation frame (onValueChange coalesced through
- * requestAnimationFrame) and commits once (onValueCommit). The thumb carries
- * transient glass only while data-dragging; at a coarse pointer the time
+ * once per animation frame (the CMP Slider coalesces pointer changes through
+ * the S-13 ticker, REQ-CMP-16) and commits once (onValueCommit). The thumb
+ * carries transient glass only while data-dragging (set when the pointer
+ * presses the control, cleared on commit); at a coarse pointer the time
  * tooltip sits above the thumb while dragging. , and . step one frame, only
  * while `paused`. */
 import * as React from 'react';
 import { Slider } from '../../components/slider';
 import { formatMediaTime } from '../formatMediaTime';
-import { subscribeFrame } from '../../motion';
 import { BufferedLayer } from './BufferedLayer';
 import { ChapterMarkers } from './ChapterMarkers';
 import { MediaSliderParts, SliderToolbarItem } from './MediaSliderParts';
@@ -51,41 +51,6 @@ export function scrubberValueText(value: number, max: number): string {
   return `${v} of ${d}`;
 }
 
-/** Coalesces a value stream to ≤1 call per animation frame; flush() delivers
- * the pending value synchronously (used on commit). */
-export function useFrameCoalesced(cb: ((v: number, details: ChangeDetails) => void) | undefined) {
-  const cbRef = React.useRef(cb);
-  cbRef.current = cb;
-  const pending = React.useRef<{ v: number; d: ChangeDetails } | null>(null);
-  // one-shot subscription to the shared motion ticker (REQ-MOT-65)
-  const raf = React.useRef<(() => void) | null>(null);
-  const cancel = React.useCallback(() => {
-    if (raf.current !== null) { raf.current(); raf.current = null; }
-  }, []);
-  const flush = React.useCallback(() => {
-    cancel();
-    const p = pending.current;
-    pending.current = null;
-    if (p) cbRef.current?.(p.v, p.d);
-  }, [cancel]);
-  const push = React.useCallback((v: number, d: ChangeDetails) => {
-    pending.current = { v, d };
-    if (raf.current === null) {
-      raf.current = subscribeFrame(() => {
-        raf.current?.();
-        raf.current = null;
-        const p = pending.current;
-        pending.current = null;
-        if (p) cbRef.current?.(p.v, p.d);
-      });
-    }
-  }, []);
-  /** Drop the pending value (a commit with the same value supersedes it). */
-  const drop = React.useCallback(() => { cancel(); pending.current = null; }, [cancel]);
-  React.useEffect(() => drop, [drop]);
-  return { push, flush, drop };
-}
-
 export function MediaScrubber(props: MediaScrubberProps) {
   const {
     value, max, onValueChange, onValueCommit, buffered = [], chapters = [],
@@ -98,15 +63,10 @@ export function MediaScrubber(props: MediaScrubberProps) {
   // value shown while dragging, before the parent's (frame-coalesced) seek lands
   const [dragValue, setDragValue] = React.useState<number | null>(null);
   const rootRef = React.useRef<HTMLDivElement | null>(null);
-  const seek = useFrameCoalesced(onValueChange);
 
   const safeMax = Number.isFinite(max) && max > 0 ? max : 0;
   const pct = (s: number) => (safeMax > 0 ? Math.min(100, Math.max(0, (s / safeMax) * 100)) : 0);
-  // Unknown duration (0/NaN before loadedmetadata): Base UI requires max > min,
-  // so the slider gets a placeholder range and is disabled — nothing to seek yet.
-  const noDuration = safeMax <= 0;
-  const shown = noDuration ? 0 : (dragValue ?? value);
-  const isDisabled = disabled || noDuration;
+  const shown = dragValue ?? value;
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     // Base UI owns the standard slider keys; , and . frame-step only while paused.
@@ -126,6 +86,14 @@ export function MediaScrubber(props: MediaScrubberProps) {
     setHoverTime(x * safeMax);
   };
 
+  // The drag gesture starts when the primary pointer presses the slider
+  // control; Base UI ends it with onValueCommitted on release.
+  const onPointerDown = (e: React.PointerEvent) => {
+    if (disabled || e.button !== 0) return;
+    if (!(e.target as Element | null)?.closest?.('[data-ag-part="control"]')) return;
+    setDragging(true);
+  };
+
   const tooltipTime = dragging ? shown : hoverTime;
 
   return (
@@ -139,6 +107,7 @@ export function MediaScrubber(props: MediaScrubberProps) {
       data-ag-part="media-scrubber"
       {...(dragging ? { 'data-dragging': '' } : {})}
       onKeyDown={onKeyDown}
+      onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerLeave={() => setHoverTime(null)}
     >
@@ -149,32 +118,27 @@ export function MediaScrubber(props: MediaScrubberProps) {
       <Slider.Root
         value={shown}
         min={0}
-        max={noDuration ? 1 : safeMax}
+        max={safeMax}
         step={step}
         largeStep={largeStep}
-        {...(disabled !== undefined || noDuration ? { disabled: isDisabled } : {})}
+        {...(disabled !== undefined ? { disabled } : {})}
         aria-label={ariaLabel}
         onValueChange={(v, details) => {
           const n = Array.isArray(v) ? v[0]! : v;
-          // contract reason 'pointer' = Base UI track-press/drag: the pointer
-          // gesture runs until onValueCommitted (keyboard steps never drag)
+          // contract reason 'pointer' = Base UI track-press/drag, already
+          // coalesced to <=1 call per frame by the CMP Slider; the gesture
+          // runs until onValueCommitted (keyboard steps never drag)
           if (details.reason === 'pointer') {
             if (!dragging) setDragging(true);
             setDragValue(n);
           }
-          seek.push(n, details);
+          onValueChange?.(n, details);
         }}
         onValueCommitted={(v) => {
           const n = Array.isArray(v) ? v[0]! : v;
           setDragging(false);
           setDragValue(null);
-          if (onValueCommit) {
-            // the commit carries the final position; a pending frame seek is superseded
-            seek.drop();
-            onValueCommit(n);
-          } else {
-            seek.flush();
-          }
+          onValueCommit?.(n);
         }}
       >
         <MediaSliderParts

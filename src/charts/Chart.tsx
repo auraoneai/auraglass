@@ -4,8 +4,9 @@
    This module is server-safe (no directive, no hooks): it forwards
    serialisable props to ChartClient, the client island that owns the
    ChartFrame render-prop, the keyboard cursor, the pointer crosshair and the
-   live region. The marks are pure functions of the frame context, so the
-   static output is server-renderable (ctx.width undefined → viewBox fallback). */
+   live region. The marks are pure functions of the frame context; the static
+   server output is the frame, its `height` placeholder and the table fallback
+   (ChartFrame invokes the adapter only once the plot is measured, REQ-SURF-93). */
 import * as React from 'react';
 import { ChartClient } from './ChartPlot';
 import type { ChartProps } from './types';

@@ -73,7 +73,7 @@ describe('ImageViewer parts/props (REQ-SURF-141)', () => {
     );
     await waitFor(() => expect(popup()).toBeTruthy());
     fireEvent.keyDown(popup()!, { key: 'ArrowRight' });
-    expect(onValueChange).toHaveBeenCalledWith('p3');
+    expect(onValueChange).toHaveBeenCalledWith('p3', expect.objectContaining({ reason: 'keyboard', event: expect.any(Event) }));
     expect(visibleAlt()).toBe('photo 2');
   });
 
@@ -99,7 +99,7 @@ describe('ImageViewer parts/props (REQ-SURF-141)', () => {
     expect(visibleAlt()).toBe('photo 4');
     fireEvent.keyDown(popup()!, { key: 'ArrowRight' });
     expect(visibleAlt()).toBe('photo 1');
-    expect(onValueChange).toHaveBeenLastCalledWith('p1');
+    expect(onValueChange).toHaveBeenLastCalledWith('p1', expect.objectContaining({ reason: 'keyboard', event: expect.any(Event) }));
     cleanup();
     render(
       <AuraGlassProvider>
@@ -178,7 +178,7 @@ describe('ImageViewer popup dialog/layer/focus (REQ-SURF-142, REQ-FIN-07 transfe
     fireEvent.keyDown(document.activeElement!, { key: 'Escape' });
     await waitFor(() => expect(popup()).toBeNull());
     expect(onOpenChange).toHaveBeenCalledTimes(1);
-    expect(onOpenChange).toHaveBeenCalledWith(false);
+    expect(onOpenChange).toHaveBeenCalledWith(false, expect.objectContaining({ reason: 'escape-key' }));
     await waitFor(() => expect(document.activeElement).toBe(trigger));
   });
 

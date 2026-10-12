@@ -79,7 +79,7 @@ describe('MediaScrubber (REQ-SURF-136)', () => {
     expect(onValueChange).not.toHaveBeenCalled(); // nothing before the frame
     runFrame();
     expect(onValueChange).toHaveBeenCalledTimes(1);
-    expect(onValueChange).toHaveBeenLastCalledWith(130);
+    expect(onValueChange).toHaveBeenLastCalledWith(130, expect.objectContaining({ reason: 'pointer' }));
     fireEvent.pointerUp(document, { buttons: 0, clientX: 130, clientY: 10 });
     runFrame();
     expect(onValueCommit).toHaveBeenCalledTimes(1);
@@ -97,6 +97,10 @@ describe('MediaScrubber (REQ-SURF-136)', () => {
     expect(root.hasAttribute('data-dragging')).toBe(true);
     expect(thumb().hasAttribute('data-dragging')).toBe(true);
     expect(thumb().getAttribute('data-ag-layer')).toBe('transient');
+    // the drag position reaches the scrubber on the next frame (the CMP
+    // Slider coalesces pointer changes through the S-13 ticker)
+    runFrame();
+    expect(root.hasAttribute('data-dragging')).toBe(true);
     const tip = container.querySelector('[data-ag-part="media-scrubber-tooltip"]') as HTMLElement;
     expect(tip.textContent).toBe('2:30');
     expect(tip.getAttribute('aria-hidden')).toBe('true');
@@ -113,9 +117,9 @@ describe('MediaScrubber (REQ-SURF-136)', () => {
     expect(onValueChange).not.toHaveBeenCalled();
     rerender(<MediaScrubber value={10} max={100} frameRate={25} paused onValueChange={onValueChange} />);
     fireEvent.keyDown(thumbInput(container), { key: '.' });
-    expect(onValueChange).toHaveBeenLastCalledWith(10.04);
+    expect(onValueChange).toHaveBeenLastCalledWith(10.04, expect.objectContaining({ reason: 'keyboard', event: expect.any(Event) }));
     fireEvent.keyDown(thumbInput(container), { key: ',' });
-    expect(onValueChange).toHaveBeenLastCalledWith(9.96);
+    expect(onValueChange).toHaveBeenLastCalledWith(9.96, expect.objectContaining({ reason: 'keyboard', event: expect.any(Event) }));
   });
   it('Volume is the CMP Slider with percent aria-valuetext', () => {
     const { container } = render(<MediaControls.Root playing={false} volume={0.5}><MediaControls.Volume /></MediaControls.Root>);

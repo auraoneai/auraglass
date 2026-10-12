@@ -54,6 +54,17 @@ const MIGRATION_DOCS = new Set([
   'docs/auraglass-5/component-inventory.json',
   'docs/auraglass-5/prd/AURAGLASS_QUALITY_SHOWCASE_PRD.md',
   'docs/auraglass-5/tasks/SURF.json',
+  // Final-completion (FIN) planning docs and audit ledgers quote the REQ-FIN-21
+  // token set and the pre-migration GHA findings they close.
+  'docs/auraglass-5/implementation-audit/ag-audit-PLAT.md',
+  'docs/auraglass-5/implementation-audit/fin-full-ledger.json',
+  'docs/auraglass-5/implementation-audit/fin-open-ledger.json',
+  'docs/auraglass-5/prd/AURAGLASS_5_FINAL_COMPLETION_PRD.md',
+  'docs/auraglass-5/prompts/PROMPT_FINAL_COMPLETION.md',
+  'docs/auraglass-5/prompts/PROMPT_FINAL_COMPLETION_V2.md',
+  'docs/auraglass-5/tasks/FIN.json',
+  // REQ-FIN-23 decision record: cites the mirror-to-gitlab run as evidence.
+  'docs/release/decisions/gitlab-ci-verification.md',
 ]);
 
 const EXCLUDE_PATH = [

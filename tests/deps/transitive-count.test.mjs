@@ -19,7 +19,10 @@ describe('transitive dep count (PLAT-270)', () => {
     try {
       execFileSync('npm', ['init', '-y'], { cwd: dir, stdio: 'pipe' });
       const pack = execFileSync('npm', ['pack', '--json', '--pack-destination', dir], { cwd: ROOT, encoding: 'utf8' });
-      const tgz = join(dir, JSON.parse(pack)[0].filename);
+      /* npm <= 11 prints an array of pack reports; npm >= 12 an object keyed
+         by package name. */
+      const report = JSON.parse(pack);
+      const tgz = join(dir, (Array.isArray(report) ? report[0] : Object.values(report)[0]).filename);
       execFileSync('npm', ['install', '--omit=dev', '--omit=optional', '--omit=peer', '--no-audit', '--no-fund', tgz],
         { cwd: dir, encoding: 'utf8', timeout: 240_000 });
       /* npm ls exits ELSPROBLEMS when optional peers are unresolved — parse its

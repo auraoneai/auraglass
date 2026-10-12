@@ -85,16 +85,26 @@ describe('Chart (SURF-241..248)', () => {
     }
   });
 
+  /* REQ-SURF-93 (ChartFrame, 99f2f7b86): on the server `width` is undefined,
+     so the plot island renders the `height` placeholder (CLS 0) and invokes
+     the adapter only after it measures on the client. The static server
+     output is the frame, the sized placeholder, the legend and the real
+     <table> fallback carrying every datum. */
   it('static output is server-renderable', () => {
     const html = renderToString(<Chart {...base} type="line" />);
-    expect(html).toContain('chart-mark-line');
-    expect(html).toContain('aria-roledescription="chart"');
+    expect(html).toContain('data-ag-part="chart-frame"');
+    expect(html).toMatch(/class="ag-chart-frame__placeholder" style="block-size:240px"/);
+    expect(html).not.toContain('chart-mark-line');
+    expect(html).toContain('data-ag-part="chart-table"');
+    for (const m of ['Jan', 'Feb', 'Mar']) expect(html).toContain(`<th scope="row">${m}</th>`);
+    for (const v of ['30', '55', '42', '50', '40', '70']) expect(html).toContain(`<td>${v}</td>`);
+    expect(html).toContain('data-ag-part="chart-legend-item"');
   });
 
   it('server HTML hydrates with 0 console errors and the label still resolves', async () => {
     const ui = <Chart {...base} type="line" yDomain={[0, 100]} curve="monotone" />;
     const html = renderToString(ui);
-    expect(html).toContain('chart-mark-line');
+    expect(html).toContain('ag-chart-frame__placeholder');
     const container = document.createElement('div');
     container.innerHTML = html;
     document.body.appendChild(container);
@@ -104,7 +114,12 @@ describe('Chart (SURF-241..248)', () => {
     await act(async () => { root = hydrateRoot(container, ui); });
     expect(errors).not.toHaveBeenCalled();
     errors.mockRestore();
+    // The island measured the plot (RO stub: 640px) and swapped the
+    // placeholder for the marks.
+    expect(container.querySelector('.ag-chart-frame__placeholder')).toBeNull();
+    expect(container.querySelector('[data-ag-part="chart-mark-line"]')).toBeTruthy();
     const svg = plotOf(container);
+    expect(svg.getAttribute('aria-roledescription')).toBe('chart');
     expect(document.getElementById(svg.getAttribute('aria-labelledby')!)?.textContent).toBe('Revenue');
     act(() => root!.unmount());
     container.remove();
