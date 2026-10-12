@@ -287,3 +287,62 @@ export const RTL: Story = {
     </Stage>
   ),
 };
+
+/* REQ-CMP-70: multi-select chip keyboard (Backspace on an empty input focuses
+   the last chip; ArrowLeft/Right move between chips; Backspace/Delete remove
+   one). Chips follow the controlled value. tests/a11y/apg/cmp/combobox.apg.spec.ts. */
+function MultiKeyboardDemo() {
+  const [value, setValue] = React.useState<string[]>(['glass', 'tokens', 'a11y']);
+  return (
+    <Combobox.Root items={LABELS} multiple value={value} onValueChange={(v) => setValue((v ?? []) as string[])}>
+      <Combobox.Chips>
+        {value.map((v) => (
+          <Combobox.Chip key={v}>{v}</Combobox.Chip>
+        ))}
+      </Combobox.Chips>
+      <Combobox.Input placeholder="Add labels" aria-label="Labels" />
+      <Combobox.Content>
+        {(item: string) => <Combobox.Item value={item}>{item}</Combobox.Item>}
+      </Combobox.Content>
+    </Combobox.Root>
+  );
+}
+
+export const MultiKeyboard: Story = {
+  tags: ['apg'],
+  render: () => (
+    <Stage>
+      <Scene>
+        <Panel width={400}>
+          <div style={field}>
+            <FieldCaption>Labels</FieldCaption>
+            <MultiKeyboardDemo />
+          </div>
+        </Panel>
+      </Scene>
+    </Stage>
+  ),
+};
+
+/* REQ-CMP-72: 10,000 items virtualise (owned windowed list, ≤60 option
+   nodes). tests/perf/browser/cmp/controls-perf.spec.ts drives this story. */
+const MANY = Array.from({ length: 10_000 }, (_, i) => `Item ${i + 1}`);
+export const Virtualized: Story = {
+  render: () => (
+    <Stage>
+      <Scene minBlockSize={OPEN_SCENE} align="flex-start">
+        <Panel width={400}>
+          <div style={field}>
+            <FieldCaption>Ticket</FieldCaption>
+            <Combobox.Root items={MANY}>
+              <Combobox.Input placeholder="Search 10,000 tickets" aria-label="Ticket" />
+              <Combobox.Content>
+                {(item: string) => <Combobox.Item value={item}>{item}</Combobox.Item>}
+              </Combobox.Content>
+            </Combobox.Root>
+          </div>
+        </Panel>
+      </Scene>
+    </Stage>
+  ),
+};

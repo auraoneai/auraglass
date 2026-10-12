@@ -80,3 +80,32 @@ test.describe('slider drag perf (REQ-CMP-51)', () => {
     expect(res.longTasks).toBe(0);
   });
 });
+
+/* REQ-CMP-72: a 10,000-item Combobox opens, scrolls and filters with a
+   bounded DOM (≤60 option nodes) and no long tasks. */
+test.describe('combobox virtual perf (REQ-CMP-72)', () => {
+  test('Combobox 10,000 items: <=60 option nodes, 0 long tasks while scrolling and typing', async ({ page }) => {
+    await gotoStory(page, 'flagships-controls-combobox--virtualized');
+    const input = page.getByRole('combobox', { name: 'Ticket' });
+    await input.focus();
+    await page.keyboard.press('ArrowDown');
+    const options = page.locator('[role="option"]');
+    await expect(options.first()).toBeVisible();
+    expect(await options.count()).toBeLessThanOrEqual(60);
+    const scroller = page.locator('.ag-combobox-vscroll').first();
+    const res = await perf.frames(page, {
+      durationMs: 1000,
+      during: async () => {
+        for (let i = 1; i <= 10; i++) {
+          await scroller.evaluate((el, top) => { el.scrollTop = top; }, i * 3000);
+          await page.waitForTimeout(16);
+        }
+        await input.pressSequentially('Item 99', { delay: 20 });
+      },
+    });
+    expect(await options.count()).toBeLessThanOrEqual(60);
+    await expect(options.first()).toHaveAttribute('aria-setsize', String(Array.from({ length: 10_000 }, (_, i) => `Item ${i + 1}`).filter((s) => s.includes('Item 99')).length));
+    expect(res.p95Ms).toBeLessThanOrEqual(50);
+    expect(res.longTasks).toBe(0);
+  });
+});

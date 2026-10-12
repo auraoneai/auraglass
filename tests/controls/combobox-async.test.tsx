@@ -149,3 +149,92 @@ describe('Combobox async (CMP-181/186)', () => {
     if (origH) Object.defineProperty(HTMLElement.prototype, 'offsetHeight', origH);
   });
 });
+
+/* REQ-CMP-72: owned virtualisation over Base UI's FILTERED items. */
+describe('Combobox virtual list (REQ-CMP-72)', () => {
+  const HUGE = Array.from({ length: 10_000 }, (_, i) => `Row ${i}`);
+  function Huge(props: Record<string, unknown>) {
+    return (
+      <Combobox.Root items={HUGE} defaultOpen {...props}>
+        <Combobox.Input placeholder="huge" />
+        <Combobox.Content>
+          {(item: string) => <Combobox.Item value={item}>{item}</Combobox.Item>}
+        </Combobox.Content>
+      </Combobox.Root>
+    );
+  }
+  const options = () => [...document.querySelectorAll<HTMLElement>('[data-ag-part="item"]')];
+  const activeNode = (input: HTMLInputElement) => {
+    const id = input.getAttribute('aria-activedescendant');
+    return id ? document.getElementById(id) : null;
+  };
+  Element.prototype.scrollIntoView ??= function () {};
+
+  it('10,000 items mount at most 60 option nodes with total setsize', async () => {
+    render(<Huge />);
+    await waitFor(() => expect(options().length).toBeGreaterThan(0));
+    expect(options().length).toBeLessThanOrEqual(60);
+    expect(options()[0]).toHaveAttribute('aria-setsize', '10000');
+    expect(options()[0]).toHaveAttribute('aria-posinset', '1');
+  });
+
+  it('typing filters the windowed rows and aria-setsize is the filtered count', async () => {
+    render(<Huge />);
+    await waitFor(() => expect(options().length).toBeGreaterThan(0));
+    const input = screen.getByRole('combobox') as HTMLInputElement;
+    input.focus();
+    await userEvent.type(input, 'Row 99');
+    await act(async () => {});
+    /* 'Row 99', 'Row 990'…'Row 999', 'Row 9900'…'Row 9999' = 1 + 10 + 100 */
+    const expected = HUGE.filter((r) => r.includes('Row 99')).length;
+    expect(expected).toBe(111);
+    await waitFor(() => expect(options()[0]).toHaveTextContent(/^Row 99$/));
+    const rows = options();
+    expect(rows.length).toBeLessThanOrEqual(60);
+    for (const r of rows) {
+      expect(r.textContent).toContain('Row 99');
+      expect(r).toHaveAttribute('aria-setsize', String(expected));
+    }
+    expect(rows.map((r) => r.getAttribute('aria-posinset')).slice(0, 3)).toEqual(['1', '2', '3']);
+  });
+
+  it('keyboard highlight past the window scrolls it in: activedescendant stays mounted', async () => {
+    render(<Huge />);
+    await waitFor(() => expect(options().length).toBeGreaterThan(0));
+    const input = screen.getByRole('combobox') as HTMLInputElement;
+    input.focus();
+    /* 40 ArrowDowns walk far past the initial window (~19 rows) */
+    for (let i = 0; i < 40; i++) await userEvent.keyboard('{ArrowDown}');
+    await act(async () => {});
+    const node = activeNode(input);
+    expect(node).not.toBeNull();
+    expect(node).toHaveAttribute('data-ag-part', 'item');
+    expect(Number(node!.getAttribute('aria-posinset'))).toBeGreaterThan(30);
+    expect(options().length).toBeLessThanOrEqual(60);
+    /* ArrowUp from the first row wraps to the last of 10,000 */
+    await userEvent.keyboard('{Home}');
+    for (let i = 0; i < 60; i++) {
+      if (activeNode(input)?.getAttribute('aria-posinset') === '1') break;
+      await userEvent.keyboard('{ArrowUp}');
+    }
+    expect(activeNode(input)).toHaveAttribute('aria-posinset', '1');
+    await userEvent.keyboard('{ArrowUp}');
+    await act(async () => {});
+    const last = activeNode(input);
+    expect(last).not.toBeNull();
+    expect(last).toHaveTextContent('Row 9999');
+    expect(last).toHaveAttribute('aria-posinset', '10000');
+    expect(options().length).toBeLessThanOrEqual(60);
+  });
+
+  it('a scroll re-windows the rows on the next frame', async () => {
+    render(<Huge />);
+    await waitFor(() => expect(options().length).toBeGreaterThan(0));
+    const scroller = document.querySelector<HTMLElement>('.ag-combobox-vscroll')!;
+    Object.defineProperty(scroller, 'scrollTop', { configurable: true, value: 32 * 5000 });
+    fireEvent.scroll(scroller);
+    await waitFor(() => expect(Number(options()[0]!.getAttribute('aria-posinset'))).toBeGreaterThan(4990));
+    expect(options().length).toBeLessThanOrEqual(60);
+    expect(options().some((o) => o.textContent === 'Row 5000')).toBe(true);
+  });
+});

@@ -129,8 +129,7 @@ describe('Combobox (CMP-180/183)', () => {
     input.focus();
     await userEvent.keyboard('{Backspace}');
     await act(async () => {});
-    const focusedChip = document.activeElement?.closest('[data-ag-part="chip"]') ?? document.activeElement;
-    expect(focusedChip === chips[1] || focusedChip?.textContent?.includes('Banana') || focusedChip === input).toBe(true);
+    expect(document.activeElement?.closest('[data-ag-part="chip"]')).toBe(chips[1]);
   });
 
   it('REQ-CMP-70: Alt+ArrowDown leaves no aria-activedescendant on the input', async () => {
@@ -379,5 +378,146 @@ describe('Combobox (CMP-180/183)', () => {
     } finally {
       jest.useRealTimers();
     }
+  });
+
+  it('REQ-CMP-70: Home/End move the caret while the list is open', async () => {
+    render(<Demo />);
+    const input = screen.getByRole('combobox') as HTMLInputElement;
+    input.focus();
+    await userEvent.type(input, 'an');
+    await act(async () => {});
+    expect(document.querySelector('[data-ag-part="list"]')).toBeTruthy();
+    await userEvent.keyboard('{Home}');
+    expect(input.selectionStart).toBe(0);
+    expect(input.selectionEnd).toBe(0);
+    await userEvent.keyboard('{End}');
+    expect(input.selectionStart).toBe(input.value.length);
+    expect(input.selectionEnd).toBe(input.value.length);
+    expect(input.value).toBe('an');
+    /* the list stays open: Home/End are caret keys, not list navigation */
+    expect(input).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  it('REQ-CMP-74: keyboard Enter on the create-item calls onCreate', async () => {
+    const onCreate = jest.fn();
+    const onValueChange = jest.fn();
+    render(
+      <Combobox.Root items={FRUITS} creatable onCreate={onCreate} onValueChange={onValueChange}>
+        <Combobox.Input />
+        <Combobox.Content>
+          {(f: string) => (
+            <Combobox.Item key={f} value={f}>
+              {f}
+            </Combobox.Item>
+          )}
+        </Combobox.Content>
+      </Combobox.Root>,
+    );
+    const input = screen.getByRole('combobox');
+    input.focus();
+    await userEvent.type(input, 'Mango');
+    await act(async () => {});
+    /* the create-item is the only option: autoHighlight lands on it */
+    const create = document.querySelector('[data-ag-part="create-item"]')!;
+    expect(input.getAttribute('aria-activedescendant')).toBe(create.id);
+    await userEvent.keyboard('{Enter}');
+    await act(async () => {});
+    expect(onCreate).toHaveBeenCalledTimes(1);
+    expect(onCreate).toHaveBeenCalledWith('Mango');
+    expect(onValueChange).not.toHaveBeenCalled();
+  });
+
+  it('REQ-CMP-74: without onCreate, Enter on the create-item sets the query as the value (single)', async () => {
+    const onValueChange = jest.fn();
+    render(
+      <Combobox.Root items={FRUITS} creatable onValueChange={onValueChange}>
+        <Combobox.Input />
+        <Combobox.Content>
+          {(f: string) => (
+            <Combobox.Item key={f} value={f}>
+              {f}
+            </Combobox.Item>
+          )}
+        </Combobox.Content>
+      </Combobox.Root>,
+    );
+    const input = screen.getByRole('combobox');
+    input.focus();
+    await userEvent.type(input, 'Mango');
+    await act(async () => {});
+    await userEvent.keyboard('{Enter}');
+    await act(async () => {});
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange.mock.calls[0]![0]).toBe('Mango');
+  });
+
+  it('REQ-CMP-74: without onCreate, Enter on the create-item appends the query (multiple)', async () => {
+    const onValueChange = jest.fn();
+    render(
+      <Combobox.Root items={FRUITS} creatable multiple value={['Apple']} onValueChange={onValueChange}>
+        <Combobox.Input />
+        <Combobox.Content>
+          {(f: string) => (
+            <Combobox.Item key={f} value={f}>
+              {f}
+            </Combobox.Item>
+          )}
+        </Combobox.Content>
+      </Combobox.Root>,
+    );
+    const input = screen.getByRole('combobox');
+    input.focus();
+    await userEvent.type(input, 'Mango');
+    await act(async () => {});
+    await userEvent.keyboard('{Enter}');
+    await act(async () => {});
+    expect(onValueChange).toHaveBeenCalledTimes(1);
+    expect(onValueChange.mock.calls[0]![0]).toEqual(['Apple', 'Mango']);
+  });
+
+  it('REQ-CMP-74: a case-only match ("apple" vs "Apple") offers no create-item', async () => {
+    render(
+      <Combobox.Root items={FRUITS} creatable>
+        <Combobox.Input />
+        <Combobox.Content>
+          {FRUITS.map((f) => (
+            <Combobox.Item key={f} value={f}>
+              {f}
+            </Combobox.Item>
+          ))}
+        </Combobox.Content>
+      </Combobox.Root>,
+    );
+    const input = screen.getByRole('combobox');
+    input.focus();
+    await userEvent.type(input, 'apple');
+    await act(async () => {});
+    expect(document.querySelector('[data-ag-part="list"]')).toBeTruthy();
+    expect(document.querySelectorAll('[data-ag-part="create-item"]').length).toBe(0);
+    await userEvent.type(input, 's');
+    await act(async () => {});
+    expect(document.querySelectorAll('[data-ag-part="create-item"]').length).toBe(1);
+  });
+
+  it('REQ-CMP-74: chips carry the root size so capsules follow 24/28/32px', () => {
+    const { container, rerender } = render(
+      <Combobox.Root items={FRUITS} multiple defaultValue={['Banana']} size="lg">
+        <Combobox.Chips>
+          <Combobox.Chip>Banana</Combobox.Chip>
+        </Combobox.Chips>
+        <Combobox.Input />
+      </Combobox.Root>,
+    );
+    expect(container.querySelector('[data-ag-part="chips"]')).toHaveAttribute('data-ag-size', 'lg');
+    expect(container.querySelector('[data-ag-part="chip-remove"]')).toHaveAttribute('aria-label', 'Remove Banana');
+    rerender(
+      <Combobox.Root items={FRUITS} multiple defaultValue={['Banana']} size="sm">
+        <Combobox.Chips>
+          <Combobox.Chip>Banana</Combobox.Chip>
+        </Combobox.Chips>
+        <Combobox.Input />
+      </Combobox.Root>,
+    );
+    expect(container.querySelector('[data-ag-part="chips"]')).toHaveAttribute('data-ag-size', 'sm');
   });
 });

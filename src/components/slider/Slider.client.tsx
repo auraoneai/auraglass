@@ -20,7 +20,7 @@ const TRACK_MATERIAL = materialProps({ layer: 'content', content: 'content-sunke
 const THUMB_MATERIAL = materialProps({ layer: 'transient', thickness: 'thin' });
 const THUMB_MATERIAL_DRAGGING = materialProps({ layer: 'transient', thickness: 'thin', allowNested: true });
 
-type ThumbRenderProps = React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> };
+type ThumbRenderProps = React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> | undefined };
 const renderThumb = (props: ThumbRenderProps, state: { dragging: boolean }) => (
   <div {...props} {...(state.dragging ? THUMB_MATERIAL_DRAGGING : THUMB_MATERIAL)} />
 );

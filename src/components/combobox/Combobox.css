@@ -111,6 +111,11 @@
     line-height: var(--ag-type-label-leading);
     white-space: nowrap;
   }
+  /* REQ-CMP-74: chip capsules are 24/28/32px for sm/md/lg; Combobox.Chips
+     carries the root's data-ag-size (it is a sibling of the input shell). */
+  .ag-combobox-chips[data-ag-size='sm'] .ag-combobox-chip { block-size: var(--ag-space-6); }
+  .ag-combobox-chips[data-ag-size='md'] .ag-combobox-chip { block-size: calc(var(--ag-space-1) * 7); }
+  .ag-combobox-chips[data-ag-size='lg'] .ag-combobox-chip { block-size: var(--ag-space-8); }
   .ag-combobox-chip [data-ag-part='chip-remove'] {
     display: inline-flex;
     align-items: center;
@@ -146,6 +151,14 @@
     outline: none;
     transform-origin: var(--transform-origin);
     z-index: var(--ag-z-overlay, auto);
+  }
+  /* REQ-CMP-72: in virtual mode the windowed list is the scroller (its
+     onScroll drives the render window), so it is capped to the popup's
+     content box instead of growing to rows x row-size and letting the popup
+     scroll a list that never re-windows. */
+  .ag-combobox-popup .ag-combobox-vscroll {
+    max-block-size: calc(var(--available-height, var(--_ag-combobox-popup-max-h, calc(var(--ag-space-16) * 5))) - 2 * var(--ag-space-1));
+    overscroll-behavior: contain;
   }
   .ag-combobox-popup[data-starting-style],
   .ag-combobox-popup[data-ending-style] {
