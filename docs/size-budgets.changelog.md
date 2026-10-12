@@ -34,6 +34,7 @@ rows only decrease.
 | 2026-10-12 | Perf-Budget-Raise: ImageViewer | 10240 → 13312 | CI pass-1 12583 B, now 12599 B: Dialog + zoom/pan + tone sampling; inherent | fix/r2-4 |
 | 2026-10-12 | Perf-Budget-Raise: Backdrop | 3072 → 7168 | CI pass-1 6267 B, now 6262 B: allowContinuous via the preference store + tone sampling; inherent | fix/r2-4 |
 | 2026-10-12 | Perf-Budget-Raise: DateRangePicker | 8192 → 12288 | CI pass-1 10935 B, now 10940 B: Popover + RangeCalendar + presets; inherent | fix/r2-4 |
+| 2026-10-12 | Perf-Budget-Raise: ChartFrame | 6144 → 11264 | measured 5408 B → 10124 B (esbuild bundle+minify, peers external, gzip 9: the verify-size-budgets.mjs options, run over src; the same method gives 5408 B for the CI-measured 5387 B). REQ-SURF-94 / REQ-FIN-83 require CMP Tooltip for the last-series guard instead of a native `title`; CMP Tooltip alone measures 5066 B (overlay layer, portal container, material). Meta `budgetKb` 6 → 11 to match (REQ-SURF-09). Inherent; confirm against the remote measurement | impl/15 |
 
 Raises above: limit = measured × 1.05 rounded up to 64 B (KiB for SURF
 rows, whose limit is the meta `budgetKb` × 1024 per S-44). "now" = the

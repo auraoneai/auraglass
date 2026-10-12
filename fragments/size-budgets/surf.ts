@@ -29,7 +29,8 @@ const w2 = [
   { id: 'KeyValueEditor', import: "{ KeyValueEditor } from 'aura-glass/data'", limitBytes: 15360, kind: 'js' },
   { id: 'StatCard', import: "{ StatCard } from 'aura-glass/data'", limitBytes: 3072, kind: 'js' },
   { id: 'Sparkline', import: "{ Sparkline } from 'aura-glass/data'", limitBytes: 2560, kind: 'js' },
-  { id: 'ChartFrame', import: "{ ChartFrame } from 'aura-glass/data'", limitBytes: 6144, kind: 'js' },
+  // REQ-SURF-94 / REQ-FIN-83: the last-series guard is CMP Tooltip (+ ~4.7 KB gz).
+  { id: 'ChartFrame', import: "{ ChartFrame } from 'aura-glass/data'", limitBytes: 11264, kind: 'js' },
   { id: 'DatePicker', import: "{ DatePicker } from 'aura-glass/date'", limitBytes: 11264, kind: 'js' },
   { id: 'DateField', import: "{ DateField } from 'aura-glass/date'", limitBytes: 4096, kind: 'js' },
   { id: 'TimePicker', import: "{ TimePicker } from 'aura-glass/date'", limitBytes: 10240, kind: 'js' },
