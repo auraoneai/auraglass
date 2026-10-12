@@ -26,9 +26,11 @@
     justify-content: center;
     flex: none;
     background: color-mix(in oklab, var(--ag-color-canvas), var(--ag-color-on-surface) var(--_ag-content-sunken-alpha, 4%));
-    /* box edge: hairline-and-a-half of the border token (the old
-       var(--_ag-surface-rim) is a colour read-out → invalid → no edge, so an
-       unchecked box was an almost invisible 8% smudge) */
+    /* box edge (REQ-CMP-54, recorded in the REQ text): hairline-and-a-half
+       of the border token, scaled by --ag-focus-width so contrast: more
+       thickens it. Not --ag-surface-rim: that read-out is the translucent
+       specular highlight set only on [data-ag-surface], invisible on this
+       opaque sunken box (WCAG 1.4.11 needs a 3:1 boundary). */
     box-shadow: inset 0 0 0 calc(var(--ag-focus-width) * 0.75) var(--ag-color-border);
     border-radius: var(--ag-radius-xs);
     transition: opacity var(--ag-duration-micro) var(--ag-ease-standard),
