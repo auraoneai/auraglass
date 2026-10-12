@@ -2,11 +2,12 @@
 /* REQ-CMP-08 / REQ-FIN-70: the CMP-owned source set the literal ratchet and
    tests/lint/cmp/cmp-lint.test.ts sweep. PRD-F §6 (FIN-E "May touch"):
    src/{components,primitives,icons,foundation,forms}/** minus the SURF dirs
-   under src/components (FIN-F, REQ-FIN-90 / SURF-190 sweep those). */
+   under src/components (FIN-F, REQ-FIN-90 / SURF-190 sweep those), plus the CMP
+   compat adapters under src/compat/cmp (REQ-CMP-139: 0 for every CMP file). */
 const { readdirSync } = require('node:fs');
 const { join, relative, sep } = require('node:path');
 
-const CMP_ROOTS = ['src/components', 'src/primitives', 'src/icons', 'src/foundation', 'src/forms'];
+const CMP_ROOTS = ['src/components', 'src/primitives', 'src/icons', 'src/foundation', 'src/forms', 'src/compat/cmp'];
 const SURF_DIRS = ['tabs', 'tab-bar', 'breadcrumbs', 'pagination', 'command-palette', 'source-transition', 'timeline']
   .map((d) => `src/components/${d}`);
 const EXT = /\.(css|ts|tsx)$/;

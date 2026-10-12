@@ -21,11 +21,29 @@ export default [
     remote: false,
     failClosed: true,
   },
+  // REQ-CMP-139: the literals baseline is current and 0 for every CMP file
+  {
+    lane: "L1",
+    kind: "node-script",
+    path: "scripts/cmp/gen-literals-baseline.mjs --check --enforce-zero",
+    scope: "pr",
+    remote: false,
+    failClosed: true,
+  },
   // L5 — a11y APG specs
   {
     lane: "L5",
     kind: "playwright",
     path: "tests/a11y/apg/cmp/**",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
+  // L5 — REQ-CMP-101: coarse-pointer Tooltip (tap never opens, long-press opens, outside tap closes)
+  {
+    lane: "L5",
+    kind: "playwright",
+    path: "tests/e2e/cmp/tooltip-touch.spec.ts",
     scope: "pr",
     remote: true,
     failClosed: true,

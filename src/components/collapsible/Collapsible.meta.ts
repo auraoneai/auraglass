@@ -4,7 +4,7 @@ export default defineMeta({
   name: 'Collapsible',
   owner: 'CMP',
   entry: '.',
-  tier: 'T1',
+  tier: 'T2',
   rsc: 'client',
   parts: ['root','trigger','content'],
   states: ['expanded','collapsed'],

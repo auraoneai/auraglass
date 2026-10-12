@@ -4,7 +4,7 @@ export default defineMeta({
   name: 'Tour',
   owner: 'CMP',
   entry: '.',
-  tier: 'T1',
+  tier: 'T2',
   rsc: 'client',
   parts: ['root','step','positioner','popup'],
   states: ['open','closed'],

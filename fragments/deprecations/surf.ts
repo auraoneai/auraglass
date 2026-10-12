@@ -554,12 +554,13 @@ const w4 = [
 // --- lane W4 end ---
 
 // --- lane SURF-34 begin ---
-// REQ-SURF-34: the 4.x navigation/top-bar names TopBar absorbs (GlassTopBar,
-// GlassHeader, GlassNavigation) are covered by DEP-S0002, DEP-S0003 and
-// DEP-S0029 in the app-shell/W1 blocks (removeIn 5.0.0, REQ-SURF-12). The
-// duplicate DEP-S0633..0635 rows (removeIn 6.0.0, and a 'GlassNavigation'
-// compat adapter that does not exist) were dropped; never re-add a second
-// row for a symbol that already has one.
+// REQ-SURF-34: the 4.x navigation/top-bar names TopBar absorbs (GlassNavigation,
+// GlassTopBar, GlassHeader) each have exactly one row — DEP-S0029, DEP-S0003 and
+// DEP-S0002 in the app-shell/W1 blocks (removeIn 5.0.0 per REQ-SURF-12; the
+// GlassTopBar/GlassHeader adapters warn with those ids). The duplicate rows
+// DEP-S0633..S0635 (removeIn 6.0.0, and a compat 'GlassNavigation' that no
+// adapter exports) are withdrawn; tests/deprecations/surf-symbols.test.ts guards
+// it. Never re-add a second row for a symbol that already has one.
 const surf34: DeprecationFragment = [];
 // --- lane SURF-34 end ---
 

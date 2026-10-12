@@ -8,7 +8,7 @@ const meta: ControlMeta = defineMeta({
   owner: 'CMP',
   entry: '.',
   tier: 'T1',
-  flagship: 22,
+  flagship: 20,
   rsc: 'client',
   parts: [
     // Menu and ContextMenu share this meta (Menubar is flat: its root is 'root'). Link, checkbox and radio

@@ -1,6 +1,6 @@
-# Accordion — manual screen-reader script (flagship 18, L13)
+# Accordion — manual screen-reader script (T2 core spot check, L13)
 
-Component under test: **Accordion** (story `flagships-overlays-accordion--playground`) — APG
+Component under test: **Accordion** (story `core-accordion--playground`) — APG
 accordion pattern: each header is a heading containing a `button` with
 `aria-expanded` and `aria-controls`; each open panel is a `region` labelled by
 its header button.

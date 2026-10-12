@@ -1835,21 +1835,6 @@
       "doc": "#dep-dep-c0261"
     },
     {
-      "id": "DEP-C0262",
-      "kind": "export",
-      "status": "active",
-      "entry": ".",
-      "symbol": "GlassGallery",
-      "since": "4.3.0",
-      "removeIn": "6.0.0",
-      "replacement": "ImageList",
-      "codemod": "canonical-names",
-      "automation": "full",
-      "breaking": "B5",
-      "message": "'GlassGallery' is renamed to 'ImageList' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names).",
-      "doc": "#dep-dep-c0262"
-    },
-    {
       "id": "DEP-C0263",
       "kind": "export",
       "status": "active",

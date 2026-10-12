@@ -65,6 +65,28 @@ export const WithMessages: Story = {
   ),
 };
 
+/* REQ-CMP-63: TextField's single-line props — a scope adornment, a trailing hint and a length counter. */
+export const WithAdornments: Story = {
+  render: () => (
+    <Stage>
+      <Section title="Adornments and counter" note="Start/end adornments sit inside the capsule; the counter sits under it.">
+        <Scene align="flex-start">
+          <div style={bar}>
+            <SearchField
+              aria-label="Search issues"
+              placeholder="Search issues"
+              startAdornment="in:"
+              endAdornment="repo"
+              maxLength={60}
+              showCount
+            />
+          </div>
+        </Scene>
+      </Section>
+    </Stage>
+  ),
+};
+
 /* Usage: an empty search capsule with its placeholder. */
 export const Playground: Story = {
   render: () => (

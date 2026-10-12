@@ -985,7 +985,7 @@ export const COMPOUND_PARTS = {
   Tooltip: ['Root', 'Trigger', 'Content', 'Arrow', 'Provider'],
   Menu: ['Root', 'Trigger', 'Content', 'Item', 'CheckboxItem', 'RadioGroup', 'RadioItem', 'Group', 'GroupLabel', 'Separator', 'Submenu', 'SubmenuTrigger'],
   ContextMenu: ['Root', 'Trigger', 'Content', 'Item', 'Group', 'GroupLabel', 'Separator'],
-  ColorPicker: ['Root', 'Trigger', 'Content', 'Area', 'Hue'],
+  ColorPicker: ['Root', 'Trigger', 'Content', 'Area', 'Hue', 'Channel', 'Alpha', 'Input'],
   Toast: ['Provider', 'Viewport', 'Root', 'Title', 'Description', 'Action', 'Close', 'Progress'],
   Select: ['Root', 'Trigger', 'Value', 'Content', 'Item', 'ItemIndicator', 'Group', 'GroupLabel', 'Separator'],
   Combobox: ['Root', 'Input', 'Trigger', 'Content', 'Item', 'Empty', 'Chips', 'Chip', 'ChipRemove', 'Clear', 'Group', 'GroupLabel'],

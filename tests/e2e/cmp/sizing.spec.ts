@@ -25,7 +25,7 @@ const FAMILIES: ReadonlyArray<{ story: string; parts: readonly string[] }> = [
   { story: 'flagships-controls-numberfield--default', parts: ['[data-ag-part="decrement"]', '[data-ag-part="increment"]'] },
   { story: 'core-link--default', parts: ['a[data-ag-part="root"]'] },
   { story: 'core-chip--default', parts: ['button.ag-chip'] },
-  { story: 'flagships-overlays-accordion--default', parts: ['.ag-accordion-trigger'] },
+  { story: 'core-accordion--default', parts: ['.ag-accordion-trigger'] },
   { story: 'flagships-overlays-menu--playground', parts: ['[role="menuitem"][data-ag-part="item"]'] },
   { story: 'flagships-overlays-dialog--playground', parts: ['[data-ag-part="close"]'] },
   { story: 'flagships-overlays-sheet--right-panel', parts: ['.ag-sheet-close'] },

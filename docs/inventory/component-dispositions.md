@@ -9,10 +9,10 @@ Destinations: **flagship** (T1 lineage seed), **core** (T0/T2 seed), **compat** 
 | Destination | Records |
 |---|---|
 | removed | 236 |
-| compat | 151 |
+| compat | 150 |
 | flagship | 47 |
 | core | 40 |
-| registry | 13 |
+| registry | 14 |
 | labs | 9 |
 | note | 4 |
 
@@ -20,8 +20,8 @@ Destinations: **flagship** (T1 lineage seed), **core** (T0/T2 seed), **compat** 
 
 | Owner | Records |
 |---|---|
-| PLAT | 249 |
-| CMP | 119 |
+| PLAT | 250 |
+| CMP | 118 |
 | SURF | 106 |
 | MAT | 22 |
 | - | 4 |
@@ -31,14 +31,14 @@ Destinations: **flagship** (T1 lineage seed), **core** (T0/T2 seed), **compat** 
 | PRD | Records |
 |---|---|
 | PRD-16 | 197 |
-| PRD-14 | 60 |
+| PRD-14 | 59 |
 | PRD-10 | 51 |
 | PRD-11 | 44 |
 | PRD-08 | 38 |
 | PRD-09 | 22 |
 | PRD-04 | 20 |
 | PRD-13 | 16 |
-| PRD-18 | 13 |
+| PRD-18 | 14 |
 | PRD-21 | 9 |
 | PRD-07 | 9 |
 | PRD-05 | 7 |
@@ -345,7 +345,7 @@ Destinations: **flagship** (T1 lineage seed), **core** (T0/T2 seed), **compat** 
 | 279 | GlassFilterPanel | `src/components/interactive/GlassFilterPanel.tsx` | REDESIGN | yes | compat | FilterBar | SURF | canonical-names | PRD-11 |  |
 | 280 | GlassFocusRing | `src/components/interactive/GlassFocusRing.tsx` | REPLACE | yes | removed | owned focus ring (§6) | PLAT | removed | PRD-05 | inventory REPLACE |
 | 281 | GlassFormBuilder | `src/components/interactive/GlassFormBuilder.tsx` | CONSOLIDATE | yes | removed | - | PLAT | removed | PRD-16 | out of scope |
-| 282 | GlassGallery | `src/components/interactive/GlassGallery.tsx` | REDESIGN | yes | compat | ImageList | CMP | canonical-names | PRD-14 |  |
+| 282 | GlassGallery | `src/components/interactive/GlassGallery.tsx` | REDESIGN | yes | registry | media-gallery | PLAT | removed | PRD-18 | removed (DEP-S0605); lightbox is ImageViewer |
 | 283 | GlassGestureZone | `src/components/interactive/GlassGestureZone.tsx` | REMOVE | no | removed | - | PLAT | removed | PRD-16 | §13.3 / inventory REMOVE |
 | 284 | GlassGradientPicker | `src/components/interactive/GlassGradientPicker.tsx` | REDESIGN | yes | compat | ColorPicker | CMP | canonical-names | PRD-14 |  |
 | 285 | GlassImageViewer | `src/components/interactive/GlassImageViewer.tsx` | POLISH | yes | flagship | ImageViewer | SURF | canonical-names | PRD-13 |  |

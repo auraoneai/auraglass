@@ -4,7 +4,7 @@ export default defineMeta({
   name: 'Avatar',
   owner: 'CMP',
   entry: '.',
-  tier: 'T1',
+  tier: 'T2',
   rsc: 'client',
   parts: ['root','image','fallback'],
   states: [],

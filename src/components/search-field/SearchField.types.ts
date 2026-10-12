@@ -17,6 +17,16 @@ export interface SearchFieldProps {
   label?: ReactNode;
   description?: ReactNode;
   error?: ReactNode;
+  /* REQ-CMP-63: TextField's single-line props. */
+  /** Leading content inside the shell, after the search glyph (adornment-start part). */
+  startAdornment?: ReactNode;
+  /** Trailing content inside the shell, before the clear button (adornment-end part). */
+  endAdornment?: ReactNode;
+  maxLength?: number;
+  /** Render the counter part (current/maxLength). */
+  showCount?: boolean;
+  validate?: import('../field/Field.types').FieldValidate;
+  validationMode?: import('../field/Field.types').FieldValidationMode;
   size?: ControlSize;
   required?: boolean;
   disabled?: boolean;

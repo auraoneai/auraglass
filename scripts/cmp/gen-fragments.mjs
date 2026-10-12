@@ -174,6 +174,17 @@ const genPropRows = (metas) => {
   return [...map.values()];
 };
 
+/** ROOT_EXPORTS (src/contracts/entries.ts, every stream): the 5.0 root value names. */
+let rootNames;
+const rootExports = () => {
+  if (rootNames) return rootNames;
+  const src = readFileSync(join(ROOT, 'src/contracts/entries.ts'), 'utf8');
+  const block = src.match(/export const ROOT_EXPORTS = \{([\s\S]*?)\n\}/);
+  if (!block) throw new Error('ROOT_EXPORTS not found in src/contracts/entries.ts');
+  rootNames = new Set([...block[1].matchAll(/'([A-Za-z0-9_]+)'/g)].map((m) => m[1]));
+  return rootNames;
+};
+
 const genRenameRows = (metas, existing) => {
   const seen = new Set(existing.map((r) => `${r.fromEntry} ${r.from}`));
   const rows = [];
@@ -182,7 +193,9 @@ const genRenameRows = (metas, existing) => {
       const key = `. ${r.from}`;
       if (seen.has(key)) continue;
       seen.add(key);
-      rows.push({ from: r.from, fromEntry: '.', to: m.name, toEntry: '.' });
+      // REQ-CMP-133: a root export stays on the root; anything else (Label, FocusScope, … on ./primitives)
+      // targets the meta's own entry, never an assumed root name.
+      rows.push({ from: r.from, fromEntry: '.', to: m.name, toEntry: rootExports().has(m.name) ? '.' : (m.entry ?? '.') });
     }
   }
   return rows.sort((a, b) => a.from.localeCompare(b.from));
