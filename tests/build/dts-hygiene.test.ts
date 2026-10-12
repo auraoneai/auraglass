@@ -59,4 +59,40 @@ describe('jsx namespace hygiene (REQ-PLAT-66)', () => {
     }
     expect(bad).toEqual([]);
   });
+
+  it('no d.ts declares or augments a JSX namespace', () => {
+    ensureBuilt();
+    const bad: string[] = [];
+    for (const f of walk(DIST, (p) => p.endsWith('.d.ts'))) {
+      const text = readFileSync(f, 'utf8');
+      if (/declare\s+global\s*\{[\s\S]*?\bnamespace\s+JSX\b/.test(text)) bad.push(`${f}: declare global { namespace JSX`);
+      for (const [i, line] of text.split('\n').entries()) if (/^\s*(?:export\s+)?(?:declare\s+)?namespace\s+JSX\b/.test(line)) bad.push(`${f}:${i + 1}`);
+    }
+    expect(bad).toEqual([]);
+  });
+});
+
+/* REQ-PLAT-66: the published declarations never leak the engine layer — no
+   @base-ui, react-aria, @internationalized specifier or BaseUI type name. The
+   private Base UI seam is resolved away at build time and every public module
+   declares its own types. */
+describe('engine-layer type hygiene (REQ-PLAT-66)', () => {
+  it('no dist d.ts mentions @base-ui, react-aria, @internationalized or a BaseUI type name', () => {
+    ensureBuilt();
+    const bad: string[] = [];
+    for (const f of walk(DIST, (p) => p.endsWith('.d.ts'))) {
+      for (const [i, line] of readFileSync(f, 'utf8').split('\n').entries()) {
+        if (line.startsWith('//# sourceMappingURL=')) continue;
+        const m = /@base-ui\b|\breact-aria(?:-components)?\b|@react-aria\/|@internationalized\/|\bBaseUI\w*/.exec(line);
+        if (m) bad.push(`${f}:${i + 1}: ${m[0]}`);
+      }
+    }
+    expect(bad).toEqual([]);
+  });
+
+  it('no dist d.ts imports a @/ alias (from "@/…")', () => {
+    ensureBuilt();
+    const bad = walk(DIST, (p) => p.endsWith('.d.ts')).filter((f) => /from\s*["']@\//.test(readFileSync(f, 'utf8')));
+    expect(bad).toEqual([]);
+  });
 });
