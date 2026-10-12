@@ -22,8 +22,13 @@ test.describe('APG command (SURF)', () => {
     const first = await input.getAttribute('aria-activedescendant');
     expect(first).toBeTruthy();
     await expect(page.locator(`[id="${first}"]`)).toHaveAttribute('aria-selected', 'true');
-    await page.keyboard.press('ArrowUp'); // wraps to the last option
+    // APG combobox loop (Base UI Combobox loopFocus): ArrowUp from the first
+    // option returns to the input, the next ArrowUp wraps to the last option.
+    await page.keyboard.press('ArrowUp');
+    await expect(input).not.toHaveAttribute('aria-activedescendant', /.+/);
+    await page.keyboard.press('ArrowUp');
     const last = await input.getAttribute('aria-activedescendant');
+    expect(last).toBeTruthy();
     expect(last).not.toBe(first);
     await expect(page.locator(`[id="${last}"]`)).toHaveText(/Save/);
     await apg.keyboard(page, [{ type: 'zzz' }]);

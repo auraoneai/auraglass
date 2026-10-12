@@ -85,20 +85,25 @@ describe('Command SURF-63: 5,000 items', () => {
     expect(options[0]).toHaveAttribute('aria-setsize', String(N));
   });
 
-  it('ArrowDown to item 4999 sets aria-activedescendant to a node that exists', () => {
+  it('ArrowUp from the input to item 4999 sets aria-activedescendant to a node that exists', () => {
     render(<Many />);
     const input = screen.getByRole('combobox');
     act(() => {
       fireEvent.keyDown(input, { key: 'ArrowDown' }); // item 0
     });
-    expect(input.getAttribute('aria-activedescendant')).toMatch(/item-cmd-0$/);
+    const first = document.getElementById(input.getAttribute('aria-activedescendant')!);
+    expect(first?.getAttribute('data-value')).toBe('cmd-0');
+    act(() => {
+      fireEvent.keyDown(input, { key: 'ArrowUp' }); // back to the input (APG loop stop)
+    });
+    expect(input.hasAttribute('aria-activedescendant')).toBe(false);
     act(() => {
       fireEvent.keyDown(input, { key: 'ArrowUp' }); // wraps to item 4999
     });
     const id = input.getAttribute('aria-activedescendant')!;
-    expect(id).toMatch(/item-cmd-4999$/);
     const active = document.getElementById(id);
     expect(active).not.toBeNull();
+    expect(active).toHaveAttribute('data-value', 'cmd-4999');
     expect(active).toHaveAttribute('aria-selected', 'true');
     expect(active).toHaveAttribute('aria-posinset', String(N));
     expect(document.querySelectorAll('[role="option"]').length).toBeLessThanOrEqual(30);
@@ -112,8 +117,8 @@ describe('Command SURF-63: 5,000 items', () => {
         fireEvent.keyDown(input, { key: 'ArrowDown' });
       });
       const id = input.getAttribute('aria-activedescendant')!;
-      expect(id).toMatch(new RegExp(`item-cmd-${i}$`));
       expect(document.getElementById(id)).not.toBeNull();
+      expect(document.getElementById(id)).toHaveAttribute('data-value', `cmd-${i}`);
     }
     act(() => {
       fireEvent.keyDown(input, { key: 'End' });

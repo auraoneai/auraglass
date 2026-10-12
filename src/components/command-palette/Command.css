@@ -60,6 +60,20 @@
     overscroll-behavior: contain;
     padding: var(--ag-space-2);
   }
+  /* REQ-SURF-60/63: above the threshold the Base UI listbox hosts the
+     VirtualList scroller (size-contained, so it needs a definite size). */
+  .ag-command__list--virtual {
+    overflow: hidden;
+    padding: 0;
+    flex: 1 1 auto;
+    min-block-size: 0;
+  }
+  .ag-command__scroller {
+    flex: 1 1 auto;
+    block-size: var(--_ag-command-virtual-h, min(20rem, 50vh));
+    padding: var(--ag-space-2);
+    box-sizing: border-box;
+  }
   .ag-command__item {
     display: flex;
     align-items: center;
