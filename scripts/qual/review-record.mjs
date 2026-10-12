@@ -3,9 +3,10 @@
    Run by the manual GitLab job qual:certify:review-record on the RC pipeline. It never writes, edits or scores a
    record: records under certification/review/records/ are the design reviewer's (FIN-H).
 
-   node --experimental-strip-types scripts/qual/review-record.mjs composites --inputs <review-inputs.json> [--out <dir>]
+   node --experimental-strip-types scripts/qual/review-record.mjs composites --inputs <review-inputs.json>[,…] [--out <dir>]
      Builds one composite PNG per review item (packages/qa/src/evidence/composite.ts) from the lane captures listed in
-     review-inputs.json and writes <out>/<item>.png + <out>/index.json ({ version, sha, items: [{ item, file, sha256,
+     the review-inputs.json parts (L6 environment-visual: scenes + mobile; L7 regression: baseline + current; merged by
+     item, packages/qa/src/evidence/laneVisualEvidence.ts) and writes <out>/<item>.png + <out>/index.json ({ version, sha, items: [{ item, file, sha256,
      width, height, tiles, diffRatio }] }). Default out: $AURAGLASS_EVIDENCE_DIR/qual/<job-slug>/composites.
 
    node --experimental-strip-types scripts/qual/review-record.mjs validate [--sha <sha>] [--records <dir>]
@@ -45,17 +46,41 @@ function parse(argv) {
 
 const jobDir = (env) => join(ROOT, env.AURAGLASS_EVIDENCE_DIR || '.artifacts', 'qual', env.CI_JOB_NAME_SLUG || 'qual-certify-review-record');
 
+/** Merges review-inputs parts (L6: scenes/mobile + an L6 `current`; L7: baseline + current of the regression cell) by
+    item, resolving every PNG path against its own part. L6 parts apply first, so an L7 pair overrides the L6 fallback. */
+export function mergeReviewInputs(files) {
+  const parts = files.map((f) => ({ f, doc: JSON.parse(readFileSync(f, 'utf8')) }))
+    .sort((a, b) => (a.doc.lane === 'L6' ? 0 : 1) - (b.doc.lane === 'L6' ? 0 : 1) || a.f.localeCompare(b.f));
+  const shas = [...new Set(parts.map((p) => p.doc.sha).filter((x) => x != null))];
+  if (shas.length > 1) throw new Error(`review-inputs parts are from different SHAs: ${shas.join(', ')}`);
+  const items = new Map();
+  for (const { f, doc } of parts) {
+    const at = (p) => (p == null ? null : resolve(dirname(f), p));
+    for (const it of doc.items ?? []) {
+      const m = items.get(it.item) ?? { item: it.item };
+      if ('scenes' in it) m.scenes = Object.fromEntries(Object.entries(it.scenes ?? {}).map(([k, v]) => [k, { light: at(v?.light), dark: at(v?.dark) }]));
+      if ('mobile' in it) m.mobile = at(it.mobile);
+      if ('baseline' in it) m.baseline = at(it.baseline);
+      if ('current' in it) m.current = at(it.current);
+      items.set(it.item, m);
+    }
+  }
+  return { sha: shas[0] ?? null, items: [...items.values()].sort((a, b) => a.item.localeCompare(b.item)),
+    incomplete: parts.flatMap((p) => p.doc.incomplete ?? []) };
+}
+
 export function composites(opts, env = process.env) {
-  if (!opts.inputs) throw new Error('composites needs --inputs <review-inputs.json>');
-  const inputsFile = resolve(ROOT, opts.inputs);
-  if (!existsSync(inputsFile)) {
-    console.error(`review-record: ${opts.inputs} not found. It is written next to the L6/L7 captures (environment-visual / regression lanes); `
+  if (!opts.inputs) throw new Error('composites needs --inputs <review-inputs.json>[,<review-inputs.json>…]');
+  const files = String(opts.inputs).split(',').filter(Boolean).map((f) => resolve(ROOT, f));
+  const absent = files.filter((f) => !existsSync(f));
+  if (!files.length || absent.length) {
+    console.error(`review-record: ${absent.length ? absent.join(', ') : opts.inputs} not found. It is written next to the L6/L7 captures (environment-visual / regression lanes); `
       + 'no composite can be built without the captured pixels.');
     return EXIT.fail;
   }
-  const index = JSON.parse(readFileSync(inputsFile, 'utf8'));
-  const base = dirname(inputsFile);
-  const img = (p) => (p == null ? null : decodePng(readFileSync(join(base, p))));
+  let index;
+  try { index = mergeReviewInputs(files); } catch (e) { console.error(`review-record: ${e.message}`); return EXIT.fail; }
+  const img = (p) => (p == null ? null : decodePng(readFileSync(p)));
   const out = resolve(ROOT, opts.out ?? join(jobDir(env), 'composites'));
   mkdirSync(out, { recursive: true });
   const items = [];

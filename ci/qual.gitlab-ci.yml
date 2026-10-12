@@ -424,7 +424,8 @@ qual:certify:review-record:
     - |
       rc=0
       out=".artifacts/qual/$CI_JOB_NAME_SLUG"
-      inputs=$(find .artifacts -name review-inputs.json -print -quit)
+      # REQ-QUAL-73: the L6 (scenes + mobile) and L7 (baseline + current) parts, merged by item
+      inputs=$(find .artifacts -name review-inputs.json | sort | paste -sd, -)
       if [ -n "$inputs" ]; then
         node --experimental-strip-types scripts/qual/review-record.mjs composites --inputs "$inputs" --out "$out/composites" || rc=1
       else

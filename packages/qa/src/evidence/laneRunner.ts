@@ -40,6 +40,9 @@ import { loadOwnerOf } from './ownership.ts';
 import { l7RowResult, writeVisualClass } from './l7Runner.mjs';
 import { runReleaseVerdict } from './verdict.ts';
 import { baselinesSha256 } from './verify.ts';
+import { distinctnessResult, inventoryClassOf, writeL6ReviewInputs, writeL7ReviewInputs } from './laneVisualEvidence.ts';
+import { sourceInventory } from '../inventory/inventoryGate.ts';
+import type { InventoryItem } from '../inventory/buildInventory.ts';
 import { checkRemote } from '../../../../scripts/qual/remote-guard.mjs';
 import {
   DETERMINISM_MIN_AGREEMENT, QUARANTINE_FILE, agreementOf, partitionQuarantined, playwrightOutcomes, validateQuarantine,
@@ -663,7 +666,11 @@ export function validateManifest(manifest: unknown, schema: Schema): string[] {
   return errors;
 }
 
-export interface MainOptions { root: string; env?: NodeJS.ProcessEnv; tools?: Partial<Tools>; now?: () => Date }
+export interface MainOptions {
+  root: string; env?: NodeJS.ProcessEnv; tools?: Partial<Tools>; now?: () => Date;
+  /** REQ-QUAL-03: the export inventory the L6 distinctness check classifies subjects with (default: the source inventory). */
+  inventory?: (root: string) => ReadonlyArray<Pick<InventoryItem, 'entry' | 'name' | 'class'>>;
+}
 
 // ---------------------------------------------------------------- REQ-QUAL-65/-66 helpers
 
@@ -817,6 +824,25 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
   for (const l of lanes) {
     // REQ-QUAL-06: 0 subjects → pending at pr/main/nightly, fail at release.
     if (!results.some((r) => r.lane === l)) push({ lane: l, stream: 'qual', kind: 'node-script', path: '(no registrations)', scope: args.scope, source: null, state: 'pending', reason: '0 subjects registered for this lane at this scope' });
+  }
+  // REQ-QUAL-03: distinctness over this run's L6 captures; REQ-QUAL-73: the L6/L7 parts of review-inputs.json.
+  // (A sharded release L6 is captured in the child pipeline; its shards carry their own captures.)
+  if (rows.some((row) => row.lane === 'L6') && !shardsFile) {
+    const dRow = { lane: 'L6', stream: 'qual' as const, kind: 'node-script', path: 'packages/qa/src/pixel/duplicates.ts', scope: args.scope, source: 'packages/qa/src/evidence/laneVisualEvidence.ts' };
+    try {
+      const d = distinctnessResult(evidenceDir, () => inventoryClassOf((opts.inventory ?? ((r: string) => sourceInventory(r).items))(root)));
+      if (d) push({ ...dRow, ...d });
+    } catch (e) { push({ ...dRow, state: 'fail', reason: `distinctness crashed: ${(e as Error).message}` }); }
+    try {
+      const r = writeL6ReviewInputs(evidenceDir, gitSha(root, env));
+      if (r) console.log(`review-inputs (L6): ${r.items} item(s), ${r.incomplete.length} incomplete`);
+    } catch (e) { push({ ...dRow, path: 'environment-visual/review-inputs.json', state: 'fail', reason: `review inputs: ${(e as Error).message}` }); }
+  }
+  if (rows.some((row) => row.lane === 'L7' && row.path === 'certification/lanes/regression.spec.ts')) {
+    try {
+      const r = writeL7ReviewInputs(evidenceDir, gitSha(root, env));
+      if (r) console.log(`review-inputs (L7): ${r.items} item(s)`);
+    } catch (e) { push({ lane: 'L7', stream: 'qual', kind: 'node-script', path: 'regression/review-inputs.json', scope: args.scope, source: 'packages/qa/src/evidence/laneVisualEvidence.ts', state: 'fail', reason: `review inputs: ${(e as Error).message}` }); }
   }
   if (rows.some((row) => row.lane === 'L7' && row.path === 'certification/lanes/regression.spec.ts')) {
     try { push(await writeVisualClass({ root, evidenceDir, scope: args.scope, sha: gitSha(root, env) ?? '' })); }

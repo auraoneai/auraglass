@@ -127,10 +127,17 @@ describe('qual:* job artifacts', () => {
   const root = yaml.parse(readFileSync(join(REPO, '.gitlab-ci.yml'), 'utf8')) as Record<string, Job>;
   const qual = yaml.parse(readFileSync(join(REPO, 'ci/qual.gitlab-ci.yml'), 'utf8')) as Record<string, Job>;
   const defs = { ...root, ...qual };
-  const jobs = Object.keys(qual).filter((k) => k.startsWith('qual:'));
+  const jobs = Object.keys(qual).filter((k) => k.startsWith('qual:') && !('trigger' in (qual[k] ?? {})));
+  // GitLab rejects artifacts on a trigger (bridge) job; its evidence is the child pipeline's (REQ-QUAL-65).
+  const bridges = Object.keys(qual).filter((k) => k.startsWith('qual:') && 'trigger' in (qual[k] ?? {}));
 
   it('defines qual jobs', () => {
     expect(jobs).toEqual(expect.arrayContaining(['qual:build:storybook', 'qual:certify:l1', 'qual:certify:nightly', 'qual:certify:release']));
+  });
+
+  it('trigger jobs carry no artifacts and extend nothing', () => {
+    expect(bridges).toEqual(['qual:certify:release-matrix']);
+    for (const b of bridges) expect([b, 'artifacts' in qual[b]!, 'extends' in qual[b]!]).toEqual([b, false, false]);
   });
 
   it.each(jobs)('%s: evidence-$CI_JOB_NAME_SLUG-$CI_COMMIT_SHORT_SHA, when: always, expire_in per scope', (job) => {

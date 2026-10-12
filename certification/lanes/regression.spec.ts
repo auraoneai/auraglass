@@ -120,6 +120,20 @@ function append(file: string, row: unknown): void {
 
 const slug = (id: string) => id.replace(/[^A-Za-z0-9._-]+/g, '_');
 
+/** REQ-QUAL-73: the review composite's "previous baseline" + "current" pair of one cell. The head capture (and, when
+    one is committed, the baseline) are copied into <evidence>/review/<slug>/ and indexed in review-<pid>.jsonl, which
+    the lane runner folds into this lane's review-inputs.json (paths relative to the regression evidence dir). */
+function keepReviewPair(entry: { id: string; subject: string; state: string; storyId: string; cell: unknown }, head: Buffer, baselineFile: string | null): void {
+  const rel = `review/${slug(entry.id)}`;
+  mkdirSync(join(EVIDENCE_DIR, rel), { recursive: true });
+  writeFileSync(join(EVIDENCE_DIR, rel, 'head.png'), head);
+  const baseline = baselineFile && existsSync(baselineFile) ? `${rel}/baseline.png` : null;
+  if (baseline) copyFileSync(baselineFile!, join(EVIDENCE_DIR, baseline));
+  appendFileSync(join(EVIDENCE_DIR, `review-${process.pid}.jsonl`), `${JSON.stringify({
+    id: entry.id, subject: entry.subject, state: entry.state, storyId: entry.storyId, cell: entry.cell, current: `${rel}/head.png`, baseline,
+  })}\n`);
+}
+
 async function openStory(page: Page, baseUrl: string, entry: RegressionEntry): Promise<SubjectTarget> {
   const force = forceFor(entry.cell);
   await installDeterminism(page);
@@ -214,6 +228,7 @@ test.describe('L7 regression', () => {
         const name = snapshotName(entry.subject, entry.state, entry.config);
         const baselineFile = join(BASELINE_DIR, BASELINE_PLATFORM, entry.config.engine, ...name);
         const refreshing = testInfo.config.updateSnapshots === 'all';
+        if (!refreshing) keepReviewPair(entry, head, baselineFile);
         const record = (outcome: CellOutcome, extra: Record<string, unknown> = {}) => append(`cells-${process.pid}.jsonl`, {
           id: entry.id, subject: entry.subject, owner: entry.owner, state: entry.state, storyId: entry.storyId, config: entry.config, outcome, ...extra,
         });
