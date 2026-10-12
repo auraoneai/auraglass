@@ -106,11 +106,13 @@ export function collectSurfaces(root, { sha } = {}) {
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-/** One API page per JavaScript subpath of the root package.json exports map. */
+/** One API page per JavaScript subpath of the root package.json exports map.
+    Pattern subpaths ('./icons/*') are documented on their base entry's page
+    (etc/api/icons.api.md), so they get no page and no nav href of their own. */
 export function collectApi(root) {
   const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
   return Object.keys(pkg.exports ?? {})
-    .filter((k) => k !== './package.json' && !/\.(css|json)$/.test(k))
+    .filter((k) => k !== './package.json' && !/\.(css|json)$/.test(k) && !k.includes('*'))
     .map((subpath) => {
       const slug = subpath === '.' ? 'root' : subpath.replace(/^\.\//, '').replace(/\//g, '.');
       return { subpath, slug, label: subpath === '.' ? 'aura-glass' : `aura-glass/${subpath.replace(/^\.\//, '')}`, report: `etc/api/${slug}.api.md` };

@@ -6,7 +6,7 @@
 import { TabBar } from 'aura-glass';
 ```
 
-Tier T1 · RSC client
+Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 
 ## Props
 
@@ -16,7 +16,7 @@ Tier T1 · RSC client
 | `appearance?` | `'bar' \| 'floating'` | — | bar = flush bottom bar; floating = detached capsule. |
 | `aria-label?` | `string` | — | Defines a string value that labels the current element. |
 | `minimizeOnScroll?` | `boolean` | — | Collapse labels while scrolling (CSS scroll-timeline; motion calm\|none disables). |
-| `placement?` | `'bottom' \| 'inline' \| 'overlay' \| 'floating'` | — | — |
+| `placement?` | `'inline' \| 'bottom' \| 'floating' \| 'overlay'` | — | — |
 | `ref?` | `Ref<HTMLElement>` | — | — |
 | `refraction?` | `boolean` | — | Request the enhanced material tier (inert until MAT enables it). |
 | `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | — |
@@ -26,12 +26,19 @@ Tier T1 · RSC client
 
 | Part | Selector |
 | --- | --- |
+| `control` | `[data-ag-part="control"]` |
+| `control-shell` | `[data-ag-part="control-shell"]` |
+| `icon` | `[data-ag-part="icon"]` |
+| `main` | `[data-ag-part="main"]` |
+| `root` | `[data-ag-part="root"]` |
+| `scroll-edge` | `[data-ag-part="scroll-edge"]` |
 | `tab-bar` | `[data-ag-part="tab-bar"]` |
+| `tab-bar-accessory` | `[data-ag-part="tab-bar-accessory"]` |
 | `tab-bar-item` | `[data-ag-part="tab-bar-item"]` |
+| `tab-bar-item-badge` | `[data-ag-part="tab-bar-item-badge"]` |
 | `tab-bar-item-icon` | `[data-ag-part="tab-bar-item-icon"]` |
 | `tab-bar-item-label` | `[data-ag-part="tab-bar-item-label"]` |
-| `tab-bar-item-badge` | `[data-ag-part="tab-bar-item-badge"]` |
-| `tab-bar-accessory` | `[data-ag-part="tab-bar-accessory"]` |
+| `tab-bar-item-wrap` | `[data-ag-part="tab-bar-item-wrap"]` |
 | `tab-bar-search` | `[data-ag-part="tab-bar-search"]` |
 
 ## States

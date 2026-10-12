@@ -6,7 +6,7 @@
 import { Text } from 'aura-glass';
 ```
 
-Tier T0 · RSC server
+Tier T0 · RSC server · APG none
 
 ## Props
 
@@ -16,9 +16,9 @@ Tier T0 · RSC server
 | `muted?` | `boolean` | — | — |
 | `ref?` | `Ref<HTMLElement>` | — | — |
 | `render?` | `RenderProp<HTMLAttributes<HTMLElement>>` | — | Element or render function used instead of the default <p>. |
-| `size?` | `'sm' \| 'md' \| 'lg' \| 'xs'` | — | — |
+| `size?` | `'sm' \| 'md' \| 'lg' \| 'xs'` | — | Optional override; unset = the type role's own size. |
 | `truncate?` | `boolean` | — | — |
-| `type?` | `'mono' \| 'body' \| 'caption' \| 'label' \| 'callout'` | — | S-03 type role; defaults to 'body'. |
+| `type?` | `'body' \| 'caption' \| 'label' \| 'mono' \| 'callout'` | — | S-03 type role; defaults to 'body'. |
 | `weight?` | `'light' \| 'regular' \| 'medium' \| 'semibold' \| 'bold'` | — | — |
 
 ## Parts

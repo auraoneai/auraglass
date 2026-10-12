@@ -24,19 +24,19 @@ Tier T1 · RSC client · APG menu-button
 | Part | Selector |
 | --- | --- |
 | `trigger` | `[data-ag-part="trigger"]` |
+| `context-trigger` | `[data-ag-part="context-trigger"]` |
 | `positioner` | `[data-ag-part="positioner"]` |
 | `popup` | `[data-ag-part="popup"]` |
 | `arrow` | `[data-ag-part="arrow"]` |
 | `item` | `[data-ag-part="item"]` |
-| `link-item` | `[data-ag-part="link-item"]` |
-| `checkbox-item` | `[data-ag-part="checkbox-item"]` |
-| `radio-item` | `[data-ag-part="radio-item"]` |
 | `indicator` | `[data-ag-part="indicator"]` |
 | `group` | `[data-ag-part="group"]` |
 | `group-label` | `[data-ag-part="group-label"]` |
 | `separator` | `[data-ag-part="separator"]` |
 | `submenu-trigger` | `[data-ag-part="submenu-trigger"]` |
+| `submenu-indicator` | `[data-ag-part="submenu-indicator"]` |
 | `shortcut` | `[data-ag-part="shortcut"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 
 ## States
 

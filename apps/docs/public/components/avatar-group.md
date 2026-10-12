@@ -6,7 +6,7 @@
 import { AvatarGroup } from 'aura-glass';
 ```
 
-Tier T2 · RSC server
+Tier T2 · RSC server · APG none
 
 ## Props
 

@@ -14,6 +14,7 @@ Tier T2 · RSC client
 | --- | --- | --- | --- |
 | `announce?` | `'complete' \| 'sentences' \| 'off'` | — | Live-annunciation policy; complete announcements go through the MAT announcer. |
 | `className?` | `string` | — | — |
+| `ref?` | `Ref<StreamingTextHandle>` | — | Imperative token sink: `setText`/`append` from a transport without re-rendering the parent. |
 | `streaming?` | `boolean` | — | — |
 | `text` | `string` | — | — |
 
@@ -21,9 +22,9 @@ Tier T2 · RSC client
 
 | Part | Selector |
 | --- | --- |
+| `caret` | `[data-ag-part="caret"]` |
 | `streaming-text` | `[data-ag-part="streaming-text"]` |
 | `text` | `[data-ag-part="text"]` |
-| `caret` | `[data-ag-part="caret"]` |
 
 ## States
 

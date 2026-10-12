@@ -36,7 +36,7 @@ You can import the same names from `aura-glass/workflows`.
 | `GlassTimelineRail` | Timeline column |
 | `GlassWorkflowShell` | Titled workflow frame |
 
-App frame (top bar, sidebar rail, status bar) stays on `aura-glass/app-shell`. See [app-shell](../app-shell/readme.md).
+App frame (top bar, sidebar rail, status bar) stays on `aura-glass/app-shell`. See [app-shell](https://auraglass-48859d.gitlab.io/components/app-shell).
 
 ## Product workflow components
 
@@ -75,4 +75,4 @@ Hosted collaborative **document editing** is not supported. The WebSocket server
 
 ## Recipes
 
-The registry has 28 starters that compose app shell, workspace, icons, and these workflow states. Scaffold them with `npx aura-glass list` / `npx aura-glass add <id>`. See [recipes](../recipes/readme.md).
+The registry has 28 starters that compose app shell, workspace, icons, and these workflow states. Scaffold them with `npx aura-glass list` / `npx aura-glass add <id>`. See [registry blocks](https://auraglass-48859d.gitlab.io/guides/shadcn#adding-blocks-and-items).

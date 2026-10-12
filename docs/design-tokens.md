@@ -661,7 +661,7 @@ npm run token:report
 - [Glass Utilities Guide](./glass-utilities.md)
 - [Elevation Guidelines](./guides/elevation-guidelines.md)
 - [Design System Enforcement](./guides/design-system-enforcement.md)
-- [Migration Guide](./guides/migration.md)
+- [Migration Guide](https://auraglass-48859d.gitlab.io/plat/migrate/5)
 
 ---
 

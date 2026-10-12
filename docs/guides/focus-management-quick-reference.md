@@ -161,7 +161,6 @@ const handleClose = () => {
 ## 🔗 Quick Links
 
 - [Full Guide](./focus-management-guide.md)
-- [Implementation Report](../../reports/FOCUS_MANAGEMENT_SUMMARY.md)
 
 ---
 
@@ -175,4 +174,4 @@ const handleClose = () => {
 
 ---
 
-**Need help?** Check the [full guide](./focus-management-guide.md) or [implementation summary](../../reports/FOCUS_MANAGEMENT_SUMMARY.md).
+**Need help?** Check the [full guide](./focus-management-guide.md).

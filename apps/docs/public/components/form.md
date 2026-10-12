@@ -6,7 +6,7 @@
 import { Form } from 'aura-glass';
 ```
 
-Tier T1 · RSC client
+Tier T1 · RSC client · APG none
 
 ## Props
 
@@ -24,6 +24,10 @@ Tier T1 · RSC client
 
 | Part | Selector |
 | --- | --- |
+| `control-shell` | `[data-ag-part="control-shell"]` |
+| `error` | `[data-ag-part="error"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
+| `label` | `[data-ag-part="label"]` |
 | `root` | `[data-ag-part="root"]` |
 
 ## States

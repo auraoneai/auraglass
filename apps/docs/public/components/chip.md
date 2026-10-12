@@ -6,7 +6,7 @@
 import { Chip } from 'aura-glass/data';
 ```
 
-Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/button/
+Tier T2 · RSC client · APG button
 
 ## Props
 
@@ -17,6 +17,7 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/button/
 | `defaultSelected?` | `boolean` | — | — |
 | `disabled?` | `boolean` | — | — |
 | `intent?` | `'info' \| 'success' \| 'warning' \| 'danger' \| 'neutral'` | — | — |
+| `label?` | `string` | — | Plain-text name of the chip. Names the remove button ("Remove {label}") when `children` is not a string. |
 | `labels?` | `{ remove?: string \| undefined; }` | — | — |
 | `onRemove?` | `() => void` | — | — |
 | `onSelectedChange?` | `(selected: boolean) => void` | — | — |
@@ -29,7 +30,6 @@ Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/button/
 | Part | Selector |
 | --- | --- |
 | `chip` | `[data-ag-part="chip"]` |
-| `chip-label` | `[data-ag-part="chip-label"]` |
 | `chip-remove` | `[data-ag-part="chip-remove"]` |
 
 ## States

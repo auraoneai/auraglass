@@ -13,15 +13,16 @@ Tier T1 · RSC client · APG alert
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children?` | `ReactNode` | — | — |
+| `limit?` | `number` | — | S-30 root prop: when set, this toast is marked data-limited (hidden) once its stack index in the viewport reaches `limit`. The Provider limit (default 3) still applies first. |
+| `ref?` | `Ref<HTMLDivElement>` | — | — |
 | `toast` | `any` | — | — |
 
 ## Parts
 
 | Part | Selector |
 | --- | --- |
-| `provider` | `[data-ag-part="provider"]` |
 | `viewport` | `[data-ag-part="viewport"]` |
-| `root` | `[data-ag-part="root"]` |
+| `toast` | `[data-ag-part="toast"]` |
 | `content` | `[data-ag-part="content"]` |
 | `title` | `[data-ag-part="title"]` |
 | `description` | `[data-ag-part="description"]` |

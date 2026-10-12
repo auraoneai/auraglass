@@ -14,12 +14,12 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 | --- | --- | --- | --- |
 | `className?` | `string` | — | — |
 | `defaultValue?` | `FilterGroup` | — | — |
-| `labels?` | `{ filters?: string \| undefined; clearAll?: string \| undefined; addFilter?: string \| undefined; results?: string \| undefined; removeFilter?: string \| undefined; }` | — | — |
+| `labels?` | `FilterBarLabels` | — | — |
 | `onClearAll?` | `() => void` | — | — |
-| `onValueChange?` | `(g: FilterGroup) => void` | — | — |
-| `quickFilters?` | `readonly { id: string; label: string; rule: FilterRule<FilterField>; }[]` | — | — |
-| `resultCount?` | `number` | — | — |
-| `schema` | `readonly FilterField[]` | — | — |
+| `onValueChange?` | `(g: FilterGroup, details: ChangeDetails) => void` | — | — |
+| `quickFilters?` | `readonly { id: string; label: string; rule: FilterRule<FilterField<FilterFieldType>>; }[]` | — | — |
+| `resultCount?` | `number` | — | Shown next to the bar; each change is announced politely ("{n} results"). |
+| `schema` | `readonly FilterField<FilterFieldType>[]` | — | — |
 | `search?` | `{ value: string; onValueChange: (v: string) => void; placeholder?: string \| undefined; }` | — | — |
 | `value?` | `FilterGroup` | — | — |
 
@@ -27,13 +27,28 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
 | Part | Selector |
 | --- | --- |
-| `filter-bar` | `[data-ag-part="filter-bar"]` |
-| `filter-search` | `[data-ag-part="filter-search"]` |
-| `filter-chip` | `[data-ag-part="filter-chip"]` |
-| `filter-chip-remove` | `[data-ag-part="filter-chip-remove"]` |
+| `control` | `[data-ag-part="control"]` |
+| `control-shell` | `[data-ag-part="control-shell"]` |
+| `detent-live` | `[data-ag-part="detent-live"]` |
 | `filter-add` | `[data-ag-part="filter-add"]` |
+| `filter-bar` | `[data-ag-part="filter-bar"]` |
 | `filter-clear` | `[data-ag-part="filter-clear"]` |
+| `filter-collapsed` | `[data-ag-part="filter-collapsed"]` |
 | `filter-count` | `[data-ag-part="filter-count"]` |
+| `filter-more` | `[data-ag-part="filter-more"]` |
+| `filter-quick` | `[data-ag-part="filter-quick"]` |
+| `filter-rule-chip` | `[data-ag-part="filter-rule-chip"]` |
+| `filter-rule-edit` | `[data-ag-part="filter-rule-edit"]` |
+| `filter-rule-remove` | `[data-ag-part="filter-rule-remove"]` |
+| `filter-rules` | `[data-ag-part="filter-rules"]` |
+| `filter-search` | `[data-ag-part="filter-search"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
+| `icon` | `[data-ag-part="icon"]` |
+| `item` | `[data-ag-part="item"]` |
+| `label` | `[data-ag-part="label"]` |
+| `popup` | `[data-ag-part="popup"]` |
+| `positioner` | `[data-ag-part="positioner"]` |
+| `root` | `[data-ag-part="root"]` |
 
 ## States
 

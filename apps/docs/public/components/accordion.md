@@ -14,7 +14,7 @@ Tier T1 · RSC client · APG accordion
 | --- | --- | --- | --- |
 | `defaultValue?` | `string[]` | — | — |
 | `multiple?` | `boolean` | — | Allow several open items (value stays an array either way). |
-| `onValueChange?` | `(value: string[], eventDetails: unknown) => void` | — | — |
+| `onValueChange?` | `(value: string[], details: ChangeDetails) => void` | — | — |
 | `ref?` | `Ref<HTMLDivElement>` | — | — |
 | `value?` | `string[]` | — | — |
 
@@ -27,6 +27,7 @@ Tier T1 · RSC client · APG accordion
 | `header` | `[data-ag-part="header"]` |
 | `trigger` | `[data-ag-part="trigger"]` |
 | `content` | `[data-ag-part="content"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 
 ## States
 

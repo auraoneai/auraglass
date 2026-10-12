@@ -6,22 +6,22 @@
 import { Sparkline } from 'aura-glass/data';
 ```
 
-Tier T2 · RSC server
+Tier T2 · RSC server · APG img
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appearance?` | `'area' \| 'line' \| 'bar'` | — | Non-material look (S-30): emitted as data-ag-appearance. Default 'line'. |
 | `aria-hidden?` | `boolean` | — | — |
 | `data` | `readonly (number \| null)[]` | — | — |
 | `height?` | `number` | — | — |
 | `intent?` | `'info' \| 'success' \| 'danger' \| 'neutral'` | — | — |
-| `label?` | `string` | — | Required unless aria-hidden; the svg accessible name carries the summary. |
+| `label` | `string` | — | — |
 | `locale?` | `string` | — | — |
 | `max?` | `number` | — | — |
 | `min?` | `number` | — | — |
 | `showLastPoint?` | `boolean` | — | — |
-| `variant?` | `'area' \| 'line' \| 'bar'` | — | — |
 | `width?` | `string \| number` | — | — |
 
 ## Parts
@@ -29,10 +29,6 @@ Tier T2 · RSC server
 | Part | Selector |
 | --- | --- |
 | `sparkline` | `[data-ag-part="sparkline"]` |
-| `sparkline-line` | `[data-ag-part="sparkline-line"]` |
-| `sparkline-area` | `[data-ag-part="sparkline-area"]` |
-| `sparkline-bar` | `[data-ag-part="sparkline-bar"]` |
-| `sparkline-dot` | `[data-ag-part="sparkline-dot"]` |
 
 ## States
 

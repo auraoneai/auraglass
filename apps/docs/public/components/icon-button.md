@@ -24,9 +24,9 @@ Tier T1 · RSC client · APG button
 | `ref?` | `Ref<HTMLButtonElement>` | — | — |
 | `refraction?` | `boolean` | — | — |
 | `render?` | `RenderProp` | — | — |
-| `shape?` | `'fixed' \| 'capsule'` | — | 'capsule' (default) = fully rounded, 'fixed' = component radius. |
+| `shape?` | `'capsule' \| 'fixed'` | — | 'capsule' (default) = fully rounded, 'fixed' = component radius. |
 | `size?` | `'sm' \| 'md' \| 'lg'` | — | Emitted as data-ag-size. |
-| `suppressInnerParts?` | `boolean` | — | Internal: omit inner part attrs (icon/hit-area/spinner/label) so the button can sit inside another component's DOM without leaking undeclared data-ag-parts. |
+| `suppressInnerParts?` | `boolean` | — | Internal: omit inner part attrs (icon/hit-area/spinner/label) so the button can sit inside another component's DOM without leaking undeclared data-parts. |
 | `thickness?` | `Thickness` | — | — |
 | `variant?` | `'regular' \| 'clear' \| 'identity'` | — | Material axis: 'regular' (default) \| 'clear' \| 'identity'. Never a `material` prop. |
 

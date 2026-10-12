@@ -1,1 +1,1 @@
-export function classifyPlaywrightReport(report: { suites?: unknown[] }): { total: number; failed: number; pendingOnly: boolean; pendingReasons: string[] };
+export function classifyPlaywrightReport(report: { suites?: unknown[] }): { total: number; failed: number; pendingOnly: boolean; pendingReasons: string[]; doubles: number };

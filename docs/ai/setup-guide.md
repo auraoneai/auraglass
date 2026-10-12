@@ -664,7 +664,7 @@ https://console.cloud.google.com/billing
 ## 🆘 Getting Help
 
 - **Documentation**: See [docs/ai/](../ai/)
-- **Examples**: See [src/components/ai/examples/](../../src/components/ai/examples/)
+- **Examples**: See the [AI components](https://auraglass-48859d.gitlab.io/components/thread) in the component reference
 - **Issues**: https://github.com/auraoneai/auraglass/issues
 
 ---

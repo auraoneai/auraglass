@@ -14,7 +14,7 @@ const report = (...specs: Array<ReturnType<typeof t>>): Parameters<typeof classi
 describe('classifyPlaywrightReport', () => {
   test('pending-only failures', () => {
     const c = classifyPlaywrightReport(report(t('a', 'expected'), t('b', 'unexpected', 'pending: no index.json (producer: G-08)\n  at x')));
-    expect(c).toEqual({ total: 2, failed: 1, pendingOnly: true, pendingReasons: ['pending: no index.json (producer: G-08)'] });
+    expect(c).toEqual({ total: 2, failed: 1, pendingOnly: true, pendingReasons: ['pending: no index.json (producer: G-08)'], doubles: 0 });
   });
 
   test('a real failure next to a pending one is not pending', () => {

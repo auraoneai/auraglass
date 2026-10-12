@@ -157,14 +157,14 @@ const { fps, gpuMemory, quality } = useLiquidGlassPerformance()
 
 ## Migration Guide
 
-See [Liquid Glass Migration Guide](../migration.md) for detailed migration instructions.
+See the [4.x → 5.0 migration guide](https://auraglass-48859d.gitlab.io/plat/migrate/5) for detailed migration instructions.
 
 ## Related Components
 
 - [LiquidGlassMaterial](./liquid-glass-material.md) - Core primitive
-- [GlassModal](../../components/07-modal/glass-modal.md) - Liquid glass modals
-- [GlassButton](../../components/13-buttons/glass-button.md) - Interactive elements
-- [GlassCard](../../components/14-cards/glass-card.md) - Container surfaces
+- [Dialog](https://auraglass-48859d.gitlab.io/components/dialog) (4.x `GlassModal`) - Liquid glass modals
+- [Button](https://auraglass-48859d.gitlab.io/components/button) (4.x `GlassButton`) - Interactive elements
+- [Card](https://auraglass-48859d.gitlab.io/components/card) (4.x `GlassCard`) - Container surfaces
 
 ## Troubleshooting
 

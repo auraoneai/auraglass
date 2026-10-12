@@ -6,7 +6,7 @@
 import { AgentSteps } from 'aura-glass/ai';
 ```
 
-Tier T2 · RSC server
+Tier T2 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 
 ## Props
 
@@ -20,12 +20,13 @@ Tier T2 · RSC server
 | Part | Selector |
 | --- | --- |
 | `agent-steps` | `[data-ag-part="agent-steps"]` |
+| `state-icon` | `[data-ag-part="state-icon"]` |
 | `step` | `[data-ag-part="step"]` |
+| `step-detail` | `[data-ag-part="step-detail"]` |
+| `step-duration` | `[data-ag-part="step-duration"]` |
 | `step-icon` | `[data-ag-part="step-icon"]` |
 | `step-label` | `[data-ag-part="step-label"]` |
 | `step-state` | `[data-ag-part="step-state"]` |
-| `step-duration` | `[data-ag-part="step-duration"]` |
-| `step-detail` | `[data-ag-part="step-detail"]` |
 
 ## States
 

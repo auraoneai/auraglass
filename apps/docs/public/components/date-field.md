@@ -15,6 +15,7 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton
 | `className?` | `string` | — | — |
 | `defaultValue?` | `DateValue \| null` | — | — |
 | `description?` | `ReactNode` | — | — |
+| `dir?` | `'ltr' \| 'rtl'` | — | Text direction; defaults to the closest `[dir]` in the DOM (REQ-SURF-98). |
 | `errorMessage?` | `ReactNode` | — | — |
 | `firstDayOfWeek?` | `'sun' \| 'mon' \| 'tue' \| 'wed' \| 'thu' \| 'fri' \| 'sat'` | — | — |
 | `granularity?` | `'day' \| 'hour' \| 'minute' \| 'second'` | — | — |
@@ -29,7 +30,7 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton
 | `maxValue?` | `DateValue` | — | — |
 | `minValue?` | `DateValue` | — | — |
 | `name?` | `string` | — | — |
-| `onValueChange?` | `(v: DateValue \| null) => void` | — | — |
+| `onValueChange?` | `(v: DateValue \| null, details: ChangeDetails) => void` | — | — |
 | `size?` | `'sm' \| 'md' \| 'lg'` | — | — |
 | `value?` | `DateValue \| null` | — | — |
 
@@ -38,11 +39,7 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton
 | Part | Selector |
 | --- | --- |
 | `date-field` | `[data-ag-part="date-field"]` |
-| `field-label` | `[data-ag-part="field-label"]` |
-| `field-input` | `[data-ag-part="field-input"]` |
-| `field-segment` | `[data-ag-part="field-segment"]` |
-| `field-description` | `[data-ag-part="field-description"]` |
-| `field-error` | `[data-ag-part="field-error"]` |
+| `date-input` | `[data-ag-part="date-input"]` |
 
 ## States
 

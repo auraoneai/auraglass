@@ -6,7 +6,7 @@
 import { Pagination } from 'aura-glass';
 ```
 
-Tier T1 · RSC mixed
+Tier T1 · RSC mixed · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/
 
 ## Props
 
@@ -28,13 +28,14 @@ Tier T1 · RSC mixed
 
 | Part | Selector |
 | --- | --- |
+| `ellipsis` | `[data-ag-part="ellipsis"]` |
+| `item` | `[data-ag-part="item"]` |
+| `next` | `[data-ag-part="next"]` |
+| `page` | `[data-ag-part="page"]` |
 | `pagination` | `[data-ag-part="pagination"]` |
 | `pagination-list` | `[data-ag-part="pagination-list"]` |
-| `item` | `[data-ag-part="item"]` |
-| `page` | `[data-ag-part="page"]` |
 | `previous` | `[data-ag-part="previous"]` |
-| `next` | `[data-ag-part="next"]` |
-| `ellipsis` | `[data-ag-part="ellipsis"]` |
+| `status` | `[data-ag-part="status"]` |
 
 ## States
 

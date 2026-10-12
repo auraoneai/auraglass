@@ -6,17 +6,18 @@
 import { CarouselRail } from 'aura-glass/media';
 ```
 
-Tier T2 · RSC client · APG apg/carousel-rail
+Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/carousel/
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `autoplay?` | `false \| { interval: number; }` | — | {interval ms ≥5000} \| false — rotates only under the continuous gate. |
+| `children?` | `ReactNode` | — | Compose the parts yourself; omitted → Autoplay toggle, Viewport, Prev, Next, Indicators. |
 | `className?` | `string` | — | — |
 | `defaultIndex?` | `number` | — | — |
 | `index?` | `number` | — | — |
-| `indicatorsAs?` | `'tabs' \| 'buttons'` | — | — |
+| `indicatorsAs?` | `CarouselRailIndicatorsAs` | — | Alias of `<CarouselRail.Indicators semantics>` for the default layout. |
 | `label` | `string` | — | — |
 | `loop?` | `boolean` | — | — |
 | `onIndexChange?` | `(index: number) => void` | — | — |
@@ -28,14 +29,16 @@ Tier T2 · RSC client · APG apg/carousel-rail
 
 | Part | Selector |
 | --- | --- |
+| `backdrop-content` | `[data-ag-part="backdrop-content"]` |
+| `backdrop-layer` | `[data-ag-part="backdrop-layer"]` |
 | `carousel` | `[data-ag-part="carousel"]` |
-| `viewport` | `[data-ag-part="viewport"]` |
-| `slide` | `[data-ag-part="slide"]` |
-| `prev` | `[data-ag-part="prev"]` |
-| `next` | `[data-ag-part="next"]` |
-| `indicators` | `[data-ag-part="indicators"]` |
-| `indicator` | `[data-ag-part="indicator"]` |
-| `autoplay-toggle` | `[data-ag-part="autoplay-toggle"]` |
+| `carousel-autoplay-toggle` | `[data-ag-part="carousel-autoplay-toggle"]` |
+| `carousel-indicator` | `[data-ag-part="carousel-indicator"]` |
+| `carousel-indicators` | `[data-ag-part="carousel-indicators"]` |
+| `carousel-next` | `[data-ag-part="carousel-next"]` |
+| `carousel-prev` | `[data-ag-part="carousel-prev"]` |
+| `carousel-slide` | `[data-ag-part="carousel-slide"]` |
+| `carousel-viewport` | `[data-ag-part="carousel-viewport"]` |
 
 ## States
 

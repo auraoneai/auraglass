@@ -49,6 +49,7 @@ Tier T1 · RSC client · APG slider
 | `value` | `[data-ag-part="value"]` |
 | `mark` | `[data-ag-part="mark"]` |
 | `mark-label` | `[data-ag-part="mark-label"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 
 ## States
 

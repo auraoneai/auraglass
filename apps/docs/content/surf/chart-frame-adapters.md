@@ -1,95 +1,123 @@
 # ChartFrame adapters (SURF-531)
 
-`ChartFrame` renders a `ChartSpec` through a renderer you supply. The three
-adapters below were verified against the docs-app type-check lane (pinned
-versions live in the docs app only — **none of these libraries is added to
-the aura-glass dependency set**).
+`ChartFrame` (from `aura-glass/data`) is the accessible shell — title,
+legend, data table and colours — around a chart engine you supply. The
+engine is an **adapter**: either a render function `(ctx) => ReactNode`
+(`ChartAdapter<TRow>`, client components only) or a client component that
+reads the same `ChartContext<TRow>` through `ChartFrame.useContext()` (the
+RSC-safe form). The three adapters below are examples; none of these
+libraries is added to the aura-glass dependency set.
 
 Rule that applies to every adapter: **register the engine inside the
-component (or `mount`), never at module scope** — module-scope registration
-breaks SSR (no `window`/`ResizeObserver`) and leaks state between frames.
+component (or its effect), never at module scope** — module-scope
+registration breaks SSR (no `window`/`ResizeObserver`) and leaks state
+between frames.
 
 ## Recharts 2.x
 
-Recharts is declarative; the adapter renders `ChartSpec` to its component
-tree inside `ChartFrame`'s slot:
+Recharts is declarative; the adapter maps the context to its component
+tree inside `ChartFrame`:
 
 ```tsx
+'use client';
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
-import type { ChartSpec } from 'aura-glass/charts';
+import type { ChartAdapter } from 'aura-glass/data';
 
-export function RechartsAdapter({ spec }: { spec: ChartSpec }) {
-  // Mapping happens in render, not module scope: the theme tokens come
-  // from the frame's provider, not a file-level constant.
-  const series = spec.encodings.map((e) => (
-    <Line key={e.field} dataKey={e.field} stroke="var(--ag-chart-series, currentColor)" dot={false} />
-  ));
-  return (
-    <LineChart data={spec.data} width={spec.width} height={spec.height}>
-      <XAxis dataKey={spec.encodings[0]?.field} />
-      <YAxis />
-      <Tooltip />
-      {series}
-    </LineChart>
-  );
-}
+type Row = { month: string; revenue: number; cost: number };
+
+export const rechartsAdapter: ChartAdapter<Row> = (ctx) => (
+  // Mapping happens in render, not module scope: colours come from the
+  // frame's context, not a file-level constant.
+  <LineChart data={[...ctx.data]} width={ctx.width ?? 640} height={ctx.height}>
+    <XAxis dataKey="month" tickFormatter={ctx.formatX} />
+    <YAxis tickFormatter={(v) => ctx.formatY(v)} />
+    <Tooltip />
+    {ctx.visibleSeries.map((s) => (
+      <Line key={s.key} dataKey={s.key} stroke={ctx.color(s.key)} dot={false} isAnimationActive={!ctx.reducedMotion} />
+    ))}
+  </LineChart>
+);
 ```
 
 ## visx
 
-visx is lower-level; mount scales once and update via `update`:
+visx is lower-level; build scales from the context on every render:
 
-```ts
+```tsx
+'use client';
 import { scaleLinear } from '@visx/scale';
-import type { ChartRenderer } from 'aura-glass/charts';
+import { ChartFrame } from 'aura-glass/data';
 
-export const visxRenderer: ChartRenderer = {
-  mount(el, spec) {
-    // Engine handles live inside mount — no shared module-level scales.
-    const y = scaleLinear({ domain: spec.yDomain, range: [spec.height, 0] });
-    const render = (s: ChartSpec) => {
-      el.replaceChildren(buildPoints(s, y));
-    };
-    render(spec);
-    return {
-      update: render,
-      resize: () => y.range([spec.height, 0]),
-      destroy: () => el.replaceChildren(),
-    };
-  },
-};
+type Row = { x: number; y: number };
+
+export function VisxPoints() {
+  const ctx = ChartFrame.useContext<Row>();
+  // Engine handles live inside the component — no shared module-level scales.
+  const width = ctx.width ?? 640;
+  const x = scaleLinear({ domain: [0, Math.max(1, ...ctx.data.map((d) => d.x))], range: [0, width] });
+  const y = scaleLinear({ domain: [0, Math.max(1, ...ctx.data.map((d) => d.y))], range: [ctx.height, 0] });
+  return (
+    <svg width={width} height={ctx.height} aria-hidden="true">
+      {ctx.data.map((d, i) => <circle key={i} cx={x(d.x)} cy={y(d.y)} r={3} fill={ctx.color('y')} />)}
+    </svg>
+  );
+}
 ```
 
 ## chart.js 4
 
-Chart.js mutates a canvas in place; the adapter owns the instance:
+Chart.js mutates a canvas in place; the adapter owns the instance and
+creates it in an effect:
 
-```ts
+```tsx
+'use client';
+import * as React from 'react';
 import { Chart, registerables } from 'chart.js';
-import type { ChartRenderer } from 'aura-glass/charts';
+import { ChartFrame } from 'aura-glass/data';
 
-export const chartJsRenderer: ChartRenderer = {
-  mount(el, spec) {
-    // registerables registration + Chart construction INSIDE mount —
-    // module-scope `Chart.register(...)` breaks SSR and is flagged.
+type Row = { label: string; value: number };
+
+export function ChartJsBars() {
+  const ctx = ChartFrame.useContext<Row>();
+  const canvas = React.useRef<HTMLCanvasElement>(null);
+  React.useEffect(() => {
+    if (!canvas.current) return;
+    // Registration + Chart construction INSIDE the effect — module-scope
+    // `Chart.register(...)` breaks SSR and is flagged.
     Chart.register(...registerables);
-    const canvas = document.createElement('canvas');
-    el.append(canvas);
-    const chart = new Chart(canvas, toChartJsConfig(spec));
-    return {
-      update: (s) => { chart.data = toChartJsConfig(s).data; chart.update(); },
-      resize: (w, h) => chart.resize(w, h),
-      destroy: () => { chart.destroy(); canvas.remove(); },
-    };
-  },
-};
+    const chart = new Chart(canvas.current, {
+      type: 'bar',
+      data: {
+        labels: ctx.data.map((d) => d.label),
+        datasets: ctx.visibleSeries.map((s) => ({ label: s.label, data: ctx.data.map((d) => d.value), backgroundColor: ctx.color(s.key) })),
+      },
+      options: { animation: ctx.reducedMotion ? false : undefined },
+    });
+    return () => chart.destroy();
+  }, [ctx]);
+  return <canvas ref={canvas} width={ctx.width} height={ctx.height} aria-hidden="true" />;
+}
 ```
 
-## Verification
+Use a context-reading adapter as the frame's child, from a Server
+Component as well:
 
-Each adapter is exercised by `tests/capability/registry/` conformance rows
-plus the docs-app type-check (React 19, strict mode). The pinned versions
-the examples were verified against:
+```tsx
+import { ChartFrame } from 'aura-glass/data';
+import { ChartJsBars } from './ChartJsBars';
+
+export function Revenue({ rows }: { rows: { label: string; value: number }[] }) {
+  return (
+    <ChartFrame title="Revenue" data={rows} series={[{ key: 'value', label: 'Revenue' }]} x={{ key: 'label', label: 'Month' }}>
+      <ChartJsBars />
+    </ChartFrame>
+  );
+}
+```
+
+## Versions
+
+The examples target these engine versions:
 
 - `recharts` 2.15.x
 - `@visx/scale` + friends 3.12.x

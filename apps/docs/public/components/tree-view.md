@@ -12,7 +12,7 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-label?` | `string` | — | — |
+| `aria-label` | `string` | — | — |
 | `aria-labelledby?` | `string` | — | — |
 | `children?` | `ReactNode` | — | — |
 | `className?` | `string` | — | — |
@@ -24,6 +24,7 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
 | `getKey?` | `(item: T) => Key` | — | — |
 | `getTextValue?` | `(item: T) => string` | — | — |
 | `items?` | `readonly T[]` | — | — |
+| `labels?` | `TreeViewLabels` | — | Localised strings (chevron names). |
 | `loadChildren?` | `(item: T) => Promise<T[]>` | — | — |
 | `onAction?` | `(key: Key) => void` | — | — |
 | `onExpandedChange?` | `(keys: Set<Key>) => void` | — | — |
@@ -32,17 +33,15 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
 | `renderItem?` | `(item: T, state: { level: number; isExpanded: boolean; isSelected: boolean; hasChildren: boolean; }) => ReactNode` | — | — |
 | `selectedKeys?` | `Iterable<Key>` | — | — |
 | `selectionMode?` | `'none' \| 'single' \| 'multiple'` | — | — |
-| `virtualize?` | `boolean \| { estimateRowHeight?: number \| undefined; overscan?: number \| undefined; }` | — | — |
+| `virtualize?` | `boolean \| { estimateRowHeight?: number \| undefined; overscan?: number \| undefined; }` | — | REQ-SURF-83: render only the visible rows. `estimateRowHeight` is the fixed row height in px the rows are laid out at (default 32); `overscan` adds that many rows above and below the viewport (default 0). The tree becomes its own scroll container and fills its parent's block size, so give the parent a height. |
 
 ## Parts
 
 | Part | Selector |
 | --- | --- |
-| `tree` | `[data-ag-part="tree"]` |
-| `treeitem` | `[data-ag-part="treeitem"]` |
-| `treeitem-label` | `[data-ag-part="treeitem-label"]` |
-| `treeitem-chevron` | `[data-ag-part="treeitem-chevron"]` |
-| `treeitem-children` | `[data-ag-part="treeitem-children"]` |
+| `root` | `[data-ag-part="root"]` |
+| `tree-item` | `[data-ag-part="tree-item"]` |
+| `tree-view` | `[data-ag-part="tree-view"]` |
 
 ## States
 

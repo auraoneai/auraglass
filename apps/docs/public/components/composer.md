@@ -6,7 +6,7 @@
 import { Composer } from 'aura-glass/ai';
 ```
 
-Tier T1 · RSC client
+Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 ## Props
 
@@ -15,6 +15,7 @@ Tier T1 · RSC client
 | `accept?` | `string` | — | — |
 | `children?` | `ReactNode` | — | — |
 | `className?` | `string` | — | — |
+| `defaultFiles?` | `readonly File[]` | — | Attachments present on mount (uncontrolled), e.g. a restored draft. |
 | `defaultValue?` | `string` | — | — |
 | `disabled?` | `boolean` | — | — |
 | `labels?` | `ComposerLabels` | — | — |
@@ -25,7 +26,7 @@ Tier T1 · RSC client
 | `onAttachmentReject?` | `(rej: AttachmentReject) => void` | — | — |
 | `onStop?` | `() => void` | — | — |
 | `onSubmit?` | `(detail: { text: string; files: File[]; }) => void` | — | — |
-| `onValueChange?` | `(value: string) => void` | — | — |
+| `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | — |
 | `ref?` | `Ref<HTMLFormElement>` | — | — |
 | `status?` | `AgChatStatus` | — | — |
 | `stopOnEscape?` | `boolean` | — | — |
@@ -36,18 +37,42 @@ Tier T1 · RSC client
 
 | Part | Selector |
 | --- | --- |
-| `composer` | `[data-ag-part="composer"]` |
-| `input` | `[data-ag-part="input"]` |
-| `attachments` | `[data-ag-part="attachments"]` |
+| `action` | `[data-ag-part="action"]` |
+| `actions` | `[data-ag-part="actions"]` |
 | `attachment` | `[data-ag-part="attachment"]` |
 | `attachment-name` | `[data-ag-part="attachment-name"]` |
 | `attachment-remove` | `[data-ag-part="attachment-remove"]` |
-| `actions` | `[data-ag-part="actions"]` |
-| `action` | `[data-ag-part="action"]` |
-| `submit` | `[data-ag-part="submit"]` |
-| `stop` | `[data-ag-part="stop"]` |
+| `attachments` | `[data-ag-part="attachments"]` |
+| `bottom-sentinel` | `[data-ag-part="bottom-sentinel"]` |
+| `composer` | `[data-ag-part="composer"]` |
+| `composer-menu` | `[data-ag-part="composer-menu"]` |
+| `composer-menu-trigger` | `[data-ag-part="composer-menu-trigger"]` |
+| `content` | `[data-ag-part="content"]` |
 | `counter` | `[data-ag-part="counter"]` |
+| `field` | `[data-ag-part="field"]` |
 | `file-input` | `[data-ag-part="file-input"]` |
+| `heading` | `[data-ag-part="heading"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
+| `icon` | `[data-ag-part="icon"]` |
+| `io` | `[data-ag-part="io"]` |
+| `io-pre` | `[data-ag-part="io-pre"]` |
+| `label` | `[data-ag-part="label"]` |
+| `log` | `[data-ag-part="log"]` |
+| `message` | `[data-ag-part="message"]` |
+| `reasoning` | `[data-ag-part="reasoning"]` |
+| `running-dots` | `[data-ag-part="running-dots"]` |
+| `state-icon` | `[data-ag-part="state-icon"]` |
+| `stop` | `[data-ag-part="stop"]` |
+| `submit` | `[data-ag-part="submit"]` |
+| `text-part` | `[data-ag-part="text-part"]` |
+| `textarea` | `[data-ag-part="textarea"]` |
+| `thread` | `[data-ag-part="thread"]` |
+| `tool-call` | `[data-ag-part="tool-call"]` |
+| `tool-name` | `[data-ag-part="tool-name"]` |
+| `tool-state` | `[data-ag-part="tool-state"]` |
+| `top-sentinel` | `[data-ag-part="top-sentinel"]` |
+| `trigger` | `[data-ag-part="trigger"]` |
+| `waiting` | `[data-ag-part="waiting"]` |
 
 ## States
 

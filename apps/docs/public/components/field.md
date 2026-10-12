@@ -6,7 +6,7 @@
 import { Field } from 'aura-glass';
 ```
 
-Tier T1 · RSC client
+Tier T1 · RSC client · APG none
 
 ## Props
 

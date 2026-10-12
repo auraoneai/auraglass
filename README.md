@@ -5,6 +5,12 @@
 > `next` under the `next` dist-tag; `latest` stays on 4.x until GA. Migrating
 > from 4.x: `npx @auraglass/cli migrate 4to5`. 4.x remains in LTS (fixes +
 > security only) for 12 months after GA — see `docs/release/lts-policy.md`.
+>
+> npm dist-tags today (checked by `verify-release-comms --dist-tags`):
+>
+> - `latest`: 4.1.0
+> - `next`: none
+> - `v4-lts`: none
 <!-- /AG-RELEASE-BANNER -->
 
 <!-- README.md is generated from scripts/docs/readme.tmpl.md by scripts/docs/gen-readme.mjs. Edit the template, not README.md. -->
@@ -58,7 +64,7 @@ Every number on this page is generated from the release pipeline's artifacts
 5. Render it — replace `app/page.tsx` with:
 
    ```tsx
-   import { AppFrame } from '@/components/aura/app-frame';
+   import { AppFrame } from '../components/aura/app-frame';
 
    export default function Page() {
      return <AppFrame />;
@@ -111,7 +117,7 @@ npx @auraglass/cli migrate 4to5 --dry-run   # preview the 4.x → 5.0 codemods
 Registry items are shadcn-format JSON, so the shadcn CLI installs them too:
 
 ```bash
-npx shadcn@latest add https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/r/app-frame.json
+npx shadcn@latest add https://auraglass-48859d.gitlab.io/r/app-frame.json
 ```
 
 ## Peer dependencies

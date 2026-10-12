@@ -12,17 +12,19 @@ Tier T0 · RSC server
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `columns?` | `number \| { base?: number \| undefined; sm?: number \| undefined; md?: number \| undefined; lg?: number \| undefined; }` | — | — |
-| `gap?` | `string \| number` | — | — |
+| `columns?` | `GridColumns` | — | — |
+| `gap?` | `SpaceTokenLike` | — | SpaceToken index (→ var(--ag-space-N)) or a raw CSS length. |
+| `masonry?` | `boolean` | — | Shortcut for `variant="masonry"`. |
 | `minItemWidth?` | `string \| number` | — | When set, columns auto-fill at this minimum item width. |
 | `ref?` | `Ref<HTMLDivElement>` | — | — |
-| `variant?` | `'standard' \| 'masonry'` | — | 'standard' grid or 'masonry' (CSS columns). |
+| `variant?` | `'standard' \| 'masonry'` | — | 'standard' grid or 'masonry'. |
 
 ## Parts
 
 | Part | Selector |
 | --- | --- |
 | `root` | `[data-ag-part="root"]` |
+| `shell` | `[data-ag-part="shell"]` |
 
 ## States
 

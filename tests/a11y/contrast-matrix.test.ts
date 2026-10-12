@@ -128,21 +128,31 @@ const SCRIM_BLACK = { r: 0, g: 0, b: 0, alpha: SCRIM_CLEAR };
 const composite = (fg: any, alpha: number | undefined, bg: any) =>
   compositeOver({ ...fg, alpha: alpha ?? fg.alpha ?? 1 }, { ...bg, alpha: bg.alpha ?? 1 });
 
-/** Recompute a cell's minRatio exactly as the solver does (color.mjs). */
-const recomputeCell = (preset: string, scheme: Scheme, tr: string, variant: string, th: string, bd: string, floorAlpha: number) => {
-  const samples = bd === 'light' ? ['#ffffff'] : bd === 'dark' ? ['#000000'] : BUSY;
+/* Solver model (MAT-046, REQ-MAT-10 / REQ-FIN-03 in contrast-solve.mjs): every
+   declared backdrop is evaluated over all three composites #ffffff, #000000 and
+   the nine busy samples — the declared backdrop only selects the clear scrim
+   underlay — and transparency=solid is the canvas at fallbackFill.alpha. */
+const SOLVER_COMPOSITES = ['#ffffff', '#000000', ...BUSY];
+const FALLBACK_ALPHA: number = SPEC.fallbackFill.alpha;
+const solverSurfaces = (canvas: any, tr: string, variant: string, th: string, bd: string, floorAlpha: number) => {
   const tint = SPEC[tintKey(variant)][variant][th].alpha;
   const floor = FLOORS[th]!;
+  return SOLVER_COMPOSITES.map((s) => {
+    let sample = hex(s) as import('../../src/theme/color').Srgb;
+    if (variant === 'clear' && (bd === 'light' || bd === 'media')) sample = composite(SCRIM_BLACK, undefined, sample);
+    return tr === 'solid' ? composite(canvas, FALLBACK_ALPHA, sample) : composite(canvas, Math.min(1, tint + floorAlpha - floor), sample);
+  });
+};
+
+/** Recompute a cell's minRatio exactly as the solver does (color.mjs). */
+const recomputeCell = (preset: string, scheme: Scheme, tr: string, variant: string, th: string, bd: string, floorAlpha: number) => {
   const canvas = canvasOf(preset, scheme);
   const onSurface = sysColor('--ag-color-on-surface', scheme);
   const muted = sysColor('--ag-color-on-surface-muted', scheme);
   const border = sysColor('--ag-color-border', scheme);
   const focusInner = sysColor('--ag-color-focus-inner', scheme);
   const mins: number[] = [];
-  for (const s of samples) {
-    let sample = hex(s) as import('../../src/theme/color').Srgb;
-    if (variant === 'clear' && (bd === 'light' || bd === 'media')) sample = composite(SCRIM_BLACK, undefined, sample);
-    const surface = tr === 'solid' ? canvas : composite(canvas, Math.min(1, tint + floorAlpha - floor), sample);
+  for (const surface of solverSurfaces(canvas, tr, variant, th, bd, floorAlpha)) {
     const disabledSurface = composite(surface, 0.45, canvas);
     mins.push(Math.min(
       wcagContrast(onSurface, surface),
@@ -157,14 +167,9 @@ const recomputeCell = (preset: string, scheme: Scheme, tr: string, variant: stri
 
 /** Recompute one pair's ratio at the emitted floor alpha (case proofs). */
 const pairRatio = (preset: string, scheme: Scheme, tr: string, variant: string, th: string, bd: string, floorAlpha: number, pair: 'disabled' | 'muted' | 'border' | 'focus' | 'on-surface') => {
-  const tint = SPEC[tintKey(variant)][variant][th].alpha;
-  const floor = FLOORS[th]!;
   const canvas = canvasOf(preset, scheme);
   let worst = Infinity;
-  for (const s of (bd === 'light' ? ['#ffffff'] : bd === 'dark' ? ['#000000'] : BUSY)) {
-    let sample = hex(s) as import('../../src/theme/color').Srgb;
-    if (variant === 'clear' && (bd === 'light' || bd === 'media')) sample = composite(SCRIM_BLACK, undefined, sample);
-    const surface = tr === 'solid' ? canvas : composite(canvas, Math.min(1, tint + floorAlpha - floor), sample);
+  for (const surface of solverSurfaces(canvas, tr, variant, th, bd, floorAlpha)) {
     const bg = pair === 'disabled' ? composite(surface, 0.45, canvas) : surface;
     const fg = sysColor(pair === 'disabled' || pair === 'on-surface' ? '--ag-color-on-surface' : pair === 'muted' ? '--ag-color-on-surface-muted' : pair === 'border' ? '--ag-color-border' : '--ag-color-focus-inner', scheme);
     worst = Math.min(worst, wcagContrast(fg, bg));

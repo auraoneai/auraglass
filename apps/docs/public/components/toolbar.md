@@ -21,6 +21,7 @@ Tier T1 · RSC client · APG toolbar
 | `ref?` | `Ref<HTMLDivElement>` | — | — |
 | `refraction?` | `boolean` | — | — |
 | `render?` | `RenderProp` | — | — |
+| `spacing?` | `'0' \| '1' \| '2' \| '3' \| '4' \| '5' \| '6' \| '8' \| '10' \| '12' \| '16'` | — | SurfaceGroup spacing token on the root (the root IS the surface — REQ-CMP-37). |
 | `thickness?` | `Thickness` | — | — |
 | `variant?` | `MaterialVariant` | — | — |
 

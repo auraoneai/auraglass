@@ -16,6 +16,7 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 | `className?` | `string` | — | — |
 | `defaultValue?` | `DateValue \| null` | — | — |
 | `description?` | `ReactNode` | — | — |
+| `dir?` | `'ltr' \| 'rtl'` | — | Text direction; defaults to the closest `[dir]` in the DOM (REQ-SURF-98). |
 | `errorMessage?` | `ReactNode` | — | — |
 | `firstDayOfWeek?` | `'sun' \| 'mon' \| 'tue' \| 'wed' \| 'thu' \| 'fri' \| 'sat'` | — | — |
 | `granularity?` | `'day' \| 'hour' \| 'minute' \| 'second'` | — | — |
@@ -26,11 +27,12 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 | `isReadOnly?` | `boolean` | — | — |
 | `isRequired?` | `boolean` | — | — |
 | `label?` | `ReactNode` | — | — |
+| `labels?` | `CalendarLabels` | — | — |
 | `locale?` | `string` | — | — |
 | `maxValue?` | `DateValue` | — | — |
 | `minValue?` | `DateValue` | — | — |
 | `name?` | `string` | — | — |
-| `onValueChange?` | `(v: DateValue \| null) => void` | — | — |
+| `onValueChange?` | `(v: DateValue \| null, details: ChangeDetails) => void` | — | — |
 | `showWeekNumbers?` | `boolean` | — | — |
 | `size?` | `'sm' \| 'md' \| 'lg'` | — | — |
 | `value?` | `DateValue \| null` | — | — |
@@ -40,12 +42,9 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 | Part | Selector |
 | --- | --- |
 | `calendar` | `[data-ag-part="calendar"]` |
-| `calendar-header` | `[data-ag-part="calendar-header"]` |
 | `calendar-grid` | `[data-ag-part="calendar-grid"]` |
-| `calendar-weekday` | `[data-ag-part="calendar-weekday"]` |
-| `calendar-cell` | `[data-ag-part="calendar-cell"]` |
+| `calendar-weekno-header` | `[data-ag-part="calendar-weekno-header"]` |
 | `calendar-weekno` | `[data-ag-part="calendar-weekno"]` |
-| `calendar-nav` | `[data-ag-part="calendar-nav"]` |
 
 ## States
 

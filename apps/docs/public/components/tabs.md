@@ -6,7 +6,7 @@
 import { Tabs } from 'aura-glass';
 ```
 
-Tier T1 · RSC client
+Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 
 ## Props
 
@@ -15,7 +15,7 @@ Tier T1 · RSC client
 | `activateOnFocus?` | `boolean` | — | Roving focus activates the focused tab (default false — manual activation). |
 | `appearance?` | `'pill' \| 'underline'` | — | — |
 | `defaultValue?` | `string` | — | — |
-| `onValueChange?` | `(value: string, details?: unknown) => void` | — | — |
+| `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | (value, details) — details.reason comes from Base UI's event details (SURF-047). |
 | `orientation?` | `'vertical' \| 'horizontal'` | — | — |
 | `ref?` | `Ref<HTMLElement>` | — | — |
 | `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | — |
@@ -26,11 +26,11 @@ Tier T1 · RSC client
 
 | Part | Selector |
 | --- | --- |
-| `tabs` | `[data-ag-part="tabs"]` |
-| `list` | `[data-ag-part="list"]` |
-| `tab` | `[data-ag-part="tab"]` |
-| `panel` | `[data-ag-part="panel"]` |
 | `indicator` | `[data-ag-part="indicator"]` |
+| `list` | `[data-ag-part="list"]` |
+| `panel` | `[data-ag-part="panel"]` |
+| `tab` | `[data-ag-part="tab"]` |
+| `tabs` | `[data-ag-part="tabs"]` |
 
 ## States
 

@@ -600,7 +600,7 @@ When reviewing component implementations:
 - [Elevation Guidelines](./elevation-guidelines.md)
 - [Design System Enforcement](./design-system-enforcement.md)
 - [Button Spacing Guide](./button-spacing.md)
-- [Glass Utility Reference](../glass-utilities.md)
+- Glass Utility Reference (`docs/glass-utilities.md` in the repository)
 - [Accessibility Guide](./accessibility.md)
 
 ---

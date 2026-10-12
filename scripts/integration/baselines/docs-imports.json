@@ -1,0 +1,26 @@
+[
+  {
+    "file": "docs/guides/component-standards.md",
+    "owner": "PLAT",
+    "reqFin": "REQ-FIN-43",
+    "expires": "RC-1"
+  },
+  {
+    "file": "docs/guides/elevation-guidelines.md",
+    "owner": "PLAT",
+    "reqFin": "REQ-FIN-43",
+    "expires": "RC-1"
+  },
+  {
+    "file": "docs/guides/focus-management-guide.md",
+    "owner": "PLAT",
+    "reqFin": "REQ-FIN-43",
+    "expires": "RC-1"
+  },
+  {
+    "file": "docs/guides/focus-management-quick-reference.md",
+    "owner": "PLAT",
+    "reqFin": "REQ-FIN-43",
+    "expires": "RC-1"
+  }
+]

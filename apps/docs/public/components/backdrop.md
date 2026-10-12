@@ -6,7 +6,7 @@
 import { Backdrop } from 'aura-glass/backdrops';
 ```
 
-Tier T2 · RSC server
+Tier T2 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 ## Props
 
@@ -17,22 +17,23 @@ Tier T2 · RSC server
 | `crossOrigin?` | `'' \| 'anonymous' \| 'use-credentials'` | — | — |
 | `fixed?` | `boolean` | — | position: fixed; never background-attachment: fixed. |
 | `grain?` | `boolean` | — | Grain overlay on any preset. |
+| `mediaTone?` | `BackdropToneProp` | — | Explicit media tone when sampling cannot run (SSR, CORS-less, no idle); emitted as data-ag-media-tone. Named `mediaTone`, not `tone`: `tone` is in contract S-30 BANNED_PROPS (REQ-SURF-11; OD-17 / C-13 fallback rename). |
 | `motion?` | `BackdropMotion` | — | 'drift' runs one keyframe under the continuous gate. Default 'static'. |
 | `palette?` | `BackdropPalette` | — | 5-id palette; mono forces mono regardless of preset colours. |
 | `poster?` | `string` | — | — |
 | `preset` | `'photo'` | — | — |
+| `ref?` | `Ref<HTMLDivElement>` | — | — |
 | `scheme?` | `BackdropScheme` | — | aurora/mesh only — declares data-ag-backdrop='light'\|'dark'\|'auto'. |
 | `sizes?` | `string` | — | — |
 | `src?` | `string` | — | — |
 | `srcSet?` | `string` | — | — |
-| `tone?` | `BackdropToneProp` | — | Explicit tone when sampling cannot run (SSR, CORS-less, no idle). |
 
 ## Parts
 
 | Part | Selector |
 | --- | --- |
-| `backdrop-layer` | `[data-ag-part="backdrop-layer"]` |
 | `backdrop-content` | `[data-ag-part="backdrop-content"]` |
+| `backdrop-layer` | `[data-ag-part="backdrop-layer"]` |
 | `backdrop-pause` | `[data-ag-part="backdrop-pause"]` |
 
 ## States

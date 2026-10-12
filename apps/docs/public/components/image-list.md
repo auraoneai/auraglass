@@ -6,7 +6,7 @@
 import { ImageList } from 'aura-glass';
 ```
 
-Tier T2 · RSC client
+Tier T2 · RSC server · APG none
 
 ## Props
 
@@ -14,6 +14,7 @@ Tier T2 · RSC client
 | --- | --- | --- | --- |
 | `cols?` | `number` | — | — |
 | `gap?` | `string \| number` | — | — |
+| `items?` | `readonly ImageListItem[]` | — | Flat API — renders Item/ItemBar parts per row. |
 | `minItemWidth?` | `number` | — | Minimum item width used to reduce cols; default 160px. |
 | `ref?` | `Ref<HTMLDivElement>` | — | — |
 | `variant?` | `'standard' \| 'masonry' \| 'quilted'` | — | — |

@@ -37,6 +37,9 @@ describe('parsing', () => {
   it('slugs headings like GitHub, with duplicate suffixes and explicit ids', () => {
     expect([...anchorsOf('# Hello World!\n## Hello World\n<a id="x-y"></a>')]).toEqual(['hello-world', 'hello-world-1', 'x-y']);
   });
+  it('anchors a `{#id}` heading at its explicit id, as the docs renderer does', () => {
+    expect([...anchorsOf('### B1: React ^19.0 floor {#b-1}\n#### DEP-S0800: `workspace` {#dep-s0800}\n## Plain')]).toEqual(['b-1', 'dep-s0800', 'plain']);
+  });
 });
 
 describe('case-sensitive resolution', () => {

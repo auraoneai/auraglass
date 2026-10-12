@@ -6,7 +6,7 @@
 import { SourceList } from 'aura-glass/ai';
 ```
 
-Tier T2 · RSC client
+Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
 ## Props
 
@@ -21,14 +21,15 @@ Tier T2 · RSC client
 
 | Part | Selector |
 | --- | --- |
-| `source-list` | `[data-ag-part="source-list"]` |
-| `trigger` | `[data-ag-part="trigger"]` |
-| `sources` | `[data-ag-part="sources"]` |
+| `icon` | `[data-ag-part="icon"]` |
 | `source` | `[data-ag-part="source"]` |
-| `source-link` | `[data-ag-part="source-link"]` |
-| `source-text` | `[data-ag-part="source-text"]` |
-| `source-host` | `[data-ag-part="source-host"]` |
 | `source-file` | `[data-ag-part="source-file"]` |
+| `source-host` | `[data-ag-part="source-host"]` |
+| `source-link` | `[data-ag-part="source-link"]` |
+| `source-list` | `[data-ag-part="source-list"]` |
+| `source-text` | `[data-ag-part="source-text"]` |
+| `sources` | `[data-ag-part="sources"]` |
+| `trigger` | `[data-ag-part="trigger"]` |
 
 ## States
 

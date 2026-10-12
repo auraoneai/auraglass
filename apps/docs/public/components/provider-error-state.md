@@ -6,27 +6,28 @@
 import { ProviderErrorState } from 'aura-glass/ai';
 ```
 
-Tier T2 · RSC client
+Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/alert/
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `appearance?` | `'compact' \| 'panel'` | — | Non-material look (S-30): emitted as data-ag-appearance. Default 'panel'. |
 | `className?` | `string` | — | — |
 | `detail?` | `string` | — | — |
 | `kind` | `AgErrorKind` | — | — |
 | `onRetry?` | `() => void` | — | — |
 | `retryAfterMs?` | `number` | — | — |
 | `title?` | `string` | — | — |
-| `variant?` | `'compact' \| 'panel'` | — | — |
 
 ## Parts
 
 | Part | Selector |
 | --- | --- |
-| `provider-error` | `[data-ag-part="provider-error"]` |
-| `error-title` | `[data-ag-part="error-title"]` |
 | `error-detail` | `[data-ag-part="error-detail"]` |
+| `error-title` | `[data-ag-part="error-title"]` |
+| `icon` | `[data-ag-part="icon"]` |
+| `provider-error` | `[data-ag-part="provider-error"]` |
 | `retry` | `[data-ag-part="retry"]` |
 
 ## States

@@ -6,13 +6,13 @@
 import { Thread } from 'aura-glass/ai';
 ```
 
-Tier T1 · RSC client
+Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children?` | `ReactNode` | — | — |
+| `children?` | `ReactNode` | — | Defaults to `<Thread.Viewport><Thread.Items/></Thread.Viewport>`. |
 | `className?` | `string` | — | — |
 | `label?` | `string` | — | — |
 | `labels?` | `ThreadLabels` | — | — |
@@ -28,20 +28,41 @@ Tier T1 · RSC client
 
 | Part | Selector |
 | --- | --- |
-| `thread` | `[data-ag-part="thread"]` |
-| `log` | `[data-ag-part="log"]` |
-| `viewport` | `[data-ag-part="viewport"]` |
-| `top-sentinel` | `[data-ag-part="top-sentinel"]` |
+| `attachment` | `[data-ag-part="attachment"]` |
+| `attachment-link` | `[data-ag-part="attachment-link"]` |
+| `attachment-type` | `[data-ag-part="attachment-type"]` |
 | `bottom-sentinel` | `[data-ag-part="bottom-sentinel"]` |
-| `empty` | `[data-ag-part="empty"]` |
-| `jump-to-latest` | `[data-ag-part="jump-to-latest"]` |
-| `message` | `[data-ag-part="message"]` |
-| `heading` | `[data-ag-part="heading"]` |
-| `avatar` | `[data-ag-part="avatar"]` |
-| `content` | `[data-ag-part="content"]` |
-| `text-part` | `[data-ag-part="text-part"]` |
-| `streaming-text` | `[data-ag-part="streaming-text"]` |
 | `caret` | `[data-ag-part="caret"]` |
+| `content` | `[data-ag-part="content"]` |
+| `empty` | `[data-ag-part="empty"]` |
+| `error-text` | `[data-ag-part="error-text"]` |
+| `heading` | `[data-ag-part="heading"]` |
+| `icon` | `[data-ag-part="icon"]` |
+| `io` | `[data-ag-part="io"]` |
+| `io-pre` | `[data-ag-part="io-pre"]` |
+| `jump-to-latest` | `[data-ag-part="jump-to-latest"]` |
+| `log` | `[data-ag-part="log"]` |
+| `message` | `[data-ag-part="message"]` |
+| `reasoning` | `[data-ag-part="reasoning"]` |
+| `running-dots` | `[data-ag-part="running-dots"]` |
+| `source` | `[data-ag-part="source"]` |
+| `source-file` | `[data-ag-part="source-file"]` |
+| `source-host` | `[data-ag-part="source-host"]` |
+| `source-link` | `[data-ag-part="source-link"]` |
+| `source-list` | `[data-ag-part="source-list"]` |
+| `source-text` | `[data-ag-part="source-text"]` |
+| `sources` | `[data-ag-part="sources"]` |
+| `state-icon` | `[data-ag-part="state-icon"]` |
+| `streaming-text` | `[data-ag-part="streaming-text"]` |
+| `text` | `[data-ag-part="text"]` |
+| `text-part` | `[data-ag-part="text-part"]` |
+| `thread` | `[data-ag-part="thread"]` |
+| `tool-call` | `[data-ag-part="tool-call"]` |
+| `tool-name` | `[data-ag-part="tool-name"]` |
+| `tool-state` | `[data-ag-part="tool-state"]` |
+| `top-sentinel` | `[data-ag-part="top-sentinel"]` |
+| `trigger` | `[data-ag-part="trigger"]` |
+| `waiting` | `[data-ag-part="waiting"]` |
 
 ## States
 

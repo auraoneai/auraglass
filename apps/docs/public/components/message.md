@@ -6,7 +6,7 @@
 import { Message } from 'aura-glass/ai';
 ```
 
-Tier T1 · RSC server
+Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 
 ## Props
 
@@ -25,18 +25,35 @@ Tier T1 · RSC server
 
 | Part | Selector |
 | --- | --- |
-| `message` | `[data-ag-part="message"]` |
-| `heading` | `[data-ag-part="heading"]` |
-| `avatar` | `[data-ag-part="avatar"]` |
-| `content` | `[data-ag-part="content"]` |
-| `actions` | `[data-ag-part="actions"]` |
 | `action` | `[data-ag-part="action"]` |
-| `footer` | `[data-ag-part="footer"]` |
-| `text-part` | `[data-ag-part="text-part"]` |
-| `streaming-text` | `[data-ag-part="streaming-text"]` |
-| `caret` | `[data-ag-part="caret"]` |
+| `actions` | `[data-ag-part="actions"]` |
 | `attachment` | `[data-ag-part="attachment"]` |
+| `attachment-link` | `[data-ag-part="attachment-link"]` |
+| `attachment-name` | `[data-ag-part="attachment-name"]` |
+| `attachment-type` | `[data-ag-part="attachment-type"]` |
+| `avatar` | `[data-ag-part="avatar"]` |
+| `caret` | `[data-ag-part="caret"]` |
+| `content` | `[data-ag-part="content"]` |
+| `error-detail` | `[data-ag-part="error-detail"]` |
+| `error-title` | `[data-ag-part="error-title"]` |
+| `footer` | `[data-ag-part="footer"]` |
+| `heading` | `[data-ag-part="heading"]` |
+| `icon` | `[data-ag-part="icon"]` |
+| `io` | `[data-ag-part="io"]` |
+| `io-pre` | `[data-ag-part="io-pre"]` |
+| `message` | `[data-ag-part="message"]` |
+| `message-list` | `[data-ag-part="message-list"]` |
+| `provider-error` | `[data-ag-part="provider-error"]` |
+| `state-icon` | `[data-ag-part="state-icon"]` |
+| `step-separator` | `[data-ag-part="step-separator"]` |
 | `stopped` | `[data-ag-part="stopped"]` |
+| `streaming-text` | `[data-ag-part="streaming-text"]` |
+| `text` | `[data-ag-part="text"]` |
+| `text-part` | `[data-ag-part="text-part"]` |
+| `tool-call` | `[data-ag-part="tool-call"]` |
+| `tool-name` | `[data-ag-part="tool-name"]` |
+| `tool-state` | `[data-ag-part="tool-state"]` |
+| `trigger` | `[data-ag-part="trigger"]` |
 
 ## States
 

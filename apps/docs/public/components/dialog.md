@@ -19,6 +19,7 @@ Tier T1 · RSC client · APG dialog-modal
 | `modal?` | `boolean \| 'trap-focus'` | — | 'trap-focus' keeps the focus trap without scroll-lock or outside-press inert. |
 | `onOpenChange?` | `(open: boolean, details: OverlayOpenChangeDetails) => void` | — | — |
 | `open?` | `boolean` | — | — |
+| `ref?` | `Ref<HTMLElement>` | — | — |
 
 ## Parts
 
@@ -33,6 +34,8 @@ Tier T1 · RSC client · APG dialog-modal
 | `header` | `[data-ag-part="header"]` |
 | `body` | `[data-ag-part="body"]` |
 | `footer` | `[data-ag-part="footer"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
+| `concentric-frame` | `[data-ag-part="concentric-frame"]` |
 
 ## States
 

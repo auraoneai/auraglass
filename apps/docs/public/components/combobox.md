@@ -63,6 +63,7 @@ Tier T1 · RSC client · APG combobox
 | `group-label` | `[data-ag-part="group-label"]` |
 | `positioner` | `[data-ag-part="positioner"]` |
 | `create-item` | `[data-ag-part="create-item"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 
 ## States
 

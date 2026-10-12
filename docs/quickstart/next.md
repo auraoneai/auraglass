@@ -67,7 +67,7 @@ Replace `app/page.tsx` with:
 
 {step edit file=app/page.tsx}
 ```tsx
-import { AppFrame } from '@/components/aura/app-frame';
+import { AppFrame } from '../components/aura/app-frame';
 
 export default function Page() {
   return <AppFrame />;

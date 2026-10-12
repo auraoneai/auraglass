@@ -20,7 +20,7 @@ Tier preview · RSC mixed · APG https://www.w3.org/WAI/ARIA/apg/practices/grid-
 | `grid?` | `boolean` | — | — |
 | `height?` | `number` | — | — |
 | `hiddenSeries?` | `readonly string[]` | — | — |
-| `labels?` | `{ showTable?: string \| undefined; hideTable?: string \| undefined; lastSeries?: string \| undefined; }` | — | — |
+| `labels?` | `ChartFrameLabels` | — | — |
 | `legend?` | `'none' \| 'top' \| 'bottom'` | — | — |
 | `locale?` | `string` | — | — |
 | `onHiddenSeriesChange?` | `(keys: string[]) => void` | — | — |
@@ -32,21 +32,25 @@ Tier preview · RSC mixed · APG https://www.w3.org/WAI/ARIA/apg/practices/grid-
 | `tooltip?` | `boolean` | — | — |
 | `type?` | `ChartType` | — | — |
 | `x` | `{ key: string; label: string; format?: DateTimeFormatOptions \| NumberFormatOptions \| undefined; }` | — | — |
-| `yDomain?` | `'auto' \| [number, number]` | — | — |
+| `yDomain?` | `'auto' \| [number, number]` | — | Fixed y-scale extent [min, max] for line/area/bar, or 'auto' (data extent). |
 | `yLabel?` | `string` | — | — |
 
 ## Parts
 
 | Part | Selector |
 | --- | --- |
-| `chart` | `[data-ag-part="chart"]` |
 | `chart-frame` | `[data-ag-part="chart-frame"]` |
-| `chart-title` | `[data-ag-part="chart-title"]` |
-| `chart-plot` | `[data-ag-part="chart-plot"]` |
 | `chart-legend` | `[data-ag-part="chart-legend"]` |
 | `chart-legend-item` | `[data-ag-part="chart-legend-item"]` |
+| `chart-mark-area` | `[data-ag-part="chart-mark-area"]` |
+| `chart-mark-bar` | `[data-ag-part="chart-mark-bar"]` |
+| `chart-mark-donut` | `[data-ag-part="chart-mark-donut"]` |
+| `chart-mark-line` | `[data-ag-part="chart-mark-line"]` |
+| `chart-plot` | `[data-ag-part="chart-plot"]` |
+| `chart-plot-svg` | `[data-ag-part="chart-plot-svg"]` |
 | `chart-table` | `[data-ag-part="chart-table"]` |
-| `chart-tooltip` | `[data-ag-part="chart-tooltip"]` |
+| `chart-table-toggle` | `[data-ag-part="chart-table-toggle"]` |
+| `chart-title` | `[data-ag-part="chart-title"]` |
 
 ## States
 

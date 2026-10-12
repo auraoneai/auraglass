@@ -6,7 +6,7 @@
 import { StatCard } from 'aura-glass/data';
 ```
 
-Tier T1 · RSC server
+Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/link/
 
 ## Props
 
@@ -19,6 +19,7 @@ Tier T1 · RSC server
 | `description?` | `ReactNode` | — | — |
 | `format?` | `NumberFormatOptions` | — | — |
 | `href?` | `string` | — | — |
+| `id?` | `string` | — | Id base for the card's labelledby target; defaults to a React.useId id so two cards with the same label never share an id. |
 | `label` | `string` | — | — |
 | `labels?` | `{ up?: string \| undefined; down?: string \| undefined; unchanged?: string \| undefined; }` | — | — |
 | `loading?` | `boolean` | — | — |
@@ -31,12 +32,13 @@ Tier T1 · RSC server
 
 | Part | Selector |
 | --- | --- |
+| `sparkline` | `[data-ag-part="sparkline"]` |
 | `stat-card` | `[data-ag-part="stat-card"]` |
-| `stat-card-label` | `[data-ag-part="stat-card-label"]` |
-| `stat-card-value` | `[data-ag-part="stat-card-value"]` |
 | `stat-card-delta` | `[data-ag-part="stat-card-delta"]` |
-| `stat-card-sparkline` | `[data-ag-part="stat-card-sparkline"]` |
 | `stat-card-description` | `[data-ag-part="stat-card-description"]` |
+| `stat-card-label` | `[data-ag-part="stat-card-label"]` |
+| `stat-card-sparkline` | `[data-ag-part="stat-card-sparkline"]` |
+| `stat-card-value` | `[data-ag-part="stat-card-value"]` |
 
 ## States
 

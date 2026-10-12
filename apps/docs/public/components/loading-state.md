@@ -6,7 +6,7 @@
 import { LoadingState } from 'aura-glass';
 ```
 
-Tier T2 · RSC server
+Tier T2 · RSC server · APG none
 
 ## Props
 
@@ -16,6 +16,7 @@ Tier T2 · RSC server
 | `icon?` | `ReactNode` | — | — |
 | `label?` | `string` | — | Live-region text; defaults to 'Loading'. |
 | `ref?` | `Ref<HTMLDivElement>` | — | — |
+| `variant?` | `'progress' \| 'skeleton'` | — | — |
 
 ## Parts
 

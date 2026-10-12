@@ -16,6 +16,7 @@ Tier T1 · RSC client · APG button
 | `className?` | `string` | — | — |
 | `defaultValue?` | `string[]` | — | — |
 | `disabled?` | `boolean` | — | — |
+| `loop?` | `boolean` | — | Roving-focus wrap-around (default true — REQ-CMP-38). |
 | `multiple?` | `boolean` | — | Allow multiple pressed items (default false — single-select clears the others). |
 | `onValueChange?` | `(value: string[], details: ChangeDetails) => void` | — | — |
 | `orientation?` | `'vertical' \| 'horizontal'` | — | — |
@@ -28,6 +29,7 @@ Tier T1 · RSC client · APG button
 | --- | --- |
 | `root` | `[data-ag-part="root"]` |
 | `item` | `[data-ag-part="item"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 
 ## States
 
