@@ -11,6 +11,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['hit-area', 'indicator', 'list', 'panel', 'tab', 'tabs'],
   states: ['active', 'inactive'],
+  material: { layer: 'content', refractionEligible: false },
   variants: {},
   migration: [{ from: 'GlassTabs', props: { selectedTab: 'value', onTabChange: 'onValueChange', activeTab: 'value', onTabClick: 'onValueChange', onChange: 'onValueChange' }, automation: 'mostly', compat: true }],
 });

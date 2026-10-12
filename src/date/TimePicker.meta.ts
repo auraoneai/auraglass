@@ -10,6 +10,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['time-picker', 'time-input', 'time-picker-trigger', 'time-picker-popover', 'positioner', 'time-picker-hours', 'time-picker-minutes'],
   states: ['open', 'invalid', 'disabled'],
+  material: { layer: 'content', refractionEligible: false },
   variants: {},
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/',
   budgetKb: 14,

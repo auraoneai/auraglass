@@ -11,6 +11,7 @@ export default defineMeta({
   states: ['seeking', 'hover', 'focus-visible', 'disabled'],
   material: { layer: 'chrome', refractionEligible: false },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/slider/',
+  budgetKb: 6,
   variants: {},
   migration: [
     { from: 'GlassScrubber', props: {}, automation: 'mostly', compat: true },

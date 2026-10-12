@@ -9,6 +9,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['hit-area', 'icon', 'source', 'source-file', 'source-host', 'source-link', 'source-list', 'source-text', 'sources', 'trigger'],
   states: [],
+  material: { layer: 'content', refractionEligible: false },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/',
   variants: {},
   budgetKb: 9,

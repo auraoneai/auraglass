@@ -9,6 +9,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['hit-area', 'root', 'tree-item', 'tree-view'],
   states: ['expanded', 'collapsed', 'selected', 'focused'],
+  material: { layer: 'content', refractionEligible: false },
   variants: {},
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/treeview/',
   budgetKb: 8,

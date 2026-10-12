@@ -11,6 +11,7 @@ export default defineMeta({
   // live in ActivityFeed.meta.ts).
   parts: ['timeline', 'timeline-container', 'timeline-description', 'timeline-item', 'timeline-marker', 'timeline-meta', 'timeline-time', 'timeline-title'],
   states: [],
+  material: { layer: 'content', refractionEligible: false },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/feed/',
   variants: { density: ['compact', 'comfortable'] },
   budgetKb: 4,

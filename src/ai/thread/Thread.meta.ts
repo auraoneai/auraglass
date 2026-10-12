@@ -9,6 +9,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['attachment', 'attachment-link', 'attachment-type', 'bottom-sentinel', 'caret', 'content', 'empty', 'error-text', 'heading', 'hit-area', 'icon', 'io', 'io-pre', 'jump-to-latest', 'log', 'message', 'reasoning', 'running-dots', 'source', 'source-file', 'source-host', 'source-link', 'source-list', 'source-text', 'sources', 'state-icon', 'streaming-text', 'text', 'text-part', 'thread', 'tool-call', 'tool-name', 'tool-state', 'top-sentinel', 'trigger', 'waiting'],
   states: ['complete', 'streaming', 'pending', 'error', 'aborted'],
+  material: { layer: 'content', refractionEligible: false },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/feed/',
   variants: {},
   budgetKb: 21,

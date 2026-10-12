@@ -9,6 +9,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['hit-area', 'icon', 'indicator', 'label', 'root', 'table-body', 'table-cell', 'table-column-menu', 'table-empty', 'table-header', 'table-header-cell', 'table-loading', 'table-resize-handle', 'table-root', 'table-row', 'table-scroller', 'table-selection-cell', 'table-sort-trigger'],
   states: ['sorted-asc', 'sorted-desc', 'selected', 'empty', 'loading', 'resizing'],
+  material: { layer: 'content', refractionEligible: false },
   variants: { size: ['sm', 'md', 'lg'], mode: ['table', 'grid'] },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/table/',
   budgetKb: 19,

@@ -9,6 +9,7 @@ export default defineMeta({
   rsc: 'server',
   parts: ['sparkline'],
   states: [],
+  material: { layer: 'content', refractionEligible: false },
   // Non-interactive role="img" graphic: no APG pattern (apg is the pattern URL of interactive metas).
   variants: { appearance: ['line', 'area', 'bar'], intent: ['neutral', 'info', 'success', 'danger'] },
   budgetKb: 2.5,

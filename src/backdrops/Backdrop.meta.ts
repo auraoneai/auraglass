@@ -8,6 +8,7 @@ export default defineMeta({
   rsc: 'server',
   parts: ['backdrop-content', 'backdrop-layer', 'backdrop-pause'],
   states: ['media', 'light', 'dark', 'auto', 'none'],
+  material: { layer: 'content', refractionEligible: false },
   variants: { preset: ['photo', 'video', 'aurora', 'mesh', 'grain'] },
   budgetKb: 7,
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/button/',

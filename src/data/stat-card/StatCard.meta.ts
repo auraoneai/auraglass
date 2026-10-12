@@ -9,6 +9,7 @@ export default defineMeta({
   rsc: 'server',
   parts: ['sparkline', 'stat-card', 'stat-card-delta', 'stat-card-description', 'stat-card-label', 'stat-card-sparkline', 'stat-card-value'],
   states: ['loading'],
+  material: { layer: 'content', refractionEligible: false },
   variants: { trendDirection: ['up-is-good', 'down-is-good', 'neutral'] },
   budgetKb: 3,
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/link/',

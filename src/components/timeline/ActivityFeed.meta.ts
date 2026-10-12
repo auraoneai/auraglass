@@ -11,6 +11,7 @@ export default defineMeta({
   // composes, and the CMP Avatar parts (root/image/fallback) of each actor.
   parts: ['activity-actor', 'activity-day-heading', 'activity-feed', 'activity-load-more', 'fallback', 'image', 'root', 'timeline', 'timeline-container', 'timeline-description', 'timeline-item', 'timeline-marker', 'timeline-meta', 'timeline-time', 'timeline-title'],
   states: ['new-items'],
+  material: { layer: 'content', refractionEligible: false },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/feed/',
   variants: {},
   budgetKb: 5,

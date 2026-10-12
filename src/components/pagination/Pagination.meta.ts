@@ -11,6 +11,7 @@ export default defineMeta({
   rsc: 'mixed',
   parts: ['ellipsis', 'hit-area', 'item', 'next', 'page', 'pagination', 'pagination-list', 'previous', 'status'],
   states: ['current'],
+  material: { layer: 'content', refractionEligible: false },
   variants: {},
   migration: [{ from: 'GlassPagination', props: { totalPages: 'pageCount', currentPage: 'page', onChange: 'onPageChange' }, automation: 'mostly', compat: true }],
 });
