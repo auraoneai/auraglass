@@ -78,7 +78,8 @@ export const ContextMenuScene: Story = {
     <AuraGlassProvider><OverlayStage>
       <ContextMenu.Root>
         <ContextMenu.Trigger>
-          <div style={{ padding: 24, border: '1px dashed #888' }}>Right-click or Shift+F10 here</div>
+          {/* focusable region so Shift+F10 / the ContextMenu key reach the trigger and focus can restore */}
+          <div role="region" aria-label="Canvas" tabIndex={0} data-context-area="" style={{ padding: 24, border: '1px dashed #888' }}>Right-click or Shift+F10 here</div>
         </ContextMenu.Trigger>
         <ContextMenu.Content>
           <ContextMenu.Item>Inspect</ContextMenu.Item>

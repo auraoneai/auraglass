@@ -16,6 +16,7 @@ import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes'
 import { cn } from '../../internal';
 import { materialProps } from '../../material';
 import { useControllableWarning } from '../../foundation/controllable';
+import { stateRender, toDataState } from '../../foundation/state';
 import type {
   MenuRootProps, MenuTriggerProps, MenuPortalProps, MenuPositionerProps,
   MenuPopupProps, MenuContentProps, MenuArrowProps, MenuItemProps, MenuLinkItemProps,
@@ -70,7 +71,8 @@ function MenuTrigger({ openOnHover, delay, className, children, ref, ...rest }: 
         {...(openOnHover !== undefined ? { openOnHover } : {})}
         {...(delay !== undefined ? { delay } : {})}
         {...rest}
-        render={trigger.render}
+        /* REQ-CMP-07: normalised open|closed on the trigger */
+        render={stateRender<{ open: boolean }>((s) => toDataState({ open: s.open }), trigger.render, 'button')}
       >
         <span data-ag-part="hit-area" aria-hidden="true" />
         {trigger.children}
@@ -171,7 +173,12 @@ function MenuLinkItem({ className, children, href, target, rel, shortcut, ref, .
     );
 }
 
-function MenuCheckboxItem({ className, children, checked, onCheckedChange, ref, ...rest }: MenuCheckboxItemProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+/* REQ-CMP-07: checkbox/radio items carry one normalised data-state
+   (checked | unchecked | indeterminate); BU's data-checked/-unchecked pass through. */
+const checkableItemState = (indeterminate: boolean) =>
+  (s: { checked: boolean }) => toDataState({ checked: indeterminate ? 'mixed' : s.checked });
+
+function MenuCheckboxItem({ className, children, checked, onCheckedChange, render, ref, ...rest }: MenuCheckboxItemProps & { ref?: React.Ref<HTMLElement> | undefined }) {
     // CMP-275: 'indeterminate' → aria-checked="mixed" on the item
     return (
       <Base.CheckboxItem
@@ -182,6 +189,7 @@ function MenuCheckboxItem({ className, children, checked, onCheckedChange, ref, 
         {...(checked === 'indeterminate' ? { 'aria-checked': 'mixed', 'data-indeterminate': true } : {})}
         {...(onCheckedChange !== undefined ? { onCheckedChange: (c: boolean) => onCheckedChange(c) } : {})}
         {...rest}
+        render={stateRender(checkableItemState(checked === 'indeterminate'), render, 'div')}
       >
         <span className="ag-menu-item-indicator" data-ag-part="indicator" aria-hidden="true" />
         <span data-ag-part="hit-area" aria-hidden="true" />
@@ -202,13 +210,14 @@ function MenuRadioGroup({ children, ...rest }: MenuRadioGroupProps) {
   return <Base.RadioGroup {...rest}>{children}</Base.RadioGroup>;
 }
 
-function MenuRadioItem({ className, children, ref, ...rest }: MenuRadioItemProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+function MenuRadioItem({ className, children, render, ref, ...rest }: MenuRadioItemProps & { ref?: React.Ref<HTMLElement> | undefined }) {
     return (
       <Base.RadioItem
         ref={ref as React.Ref<HTMLDivElement>}
         data-ag-part="item"
         className={cn('ag-menu-item', 'ag-menu-radio-item', className)}
         {...rest}
+        render={stateRender(checkableItemState(false), render, 'div')}
       >
         <span className="ag-menu-item-indicator" data-ag-part="indicator" aria-hidden="true" />
         <span data-ag-part="hit-area" aria-hidden="true" />
@@ -259,13 +268,15 @@ function MenuSubmenu(props: MenuSubmenuProps) {
   );
 }
 
-function MenuSubmenuTrigger({ className, children, ref, ...rest }: MenuSubmenuTriggerProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+function MenuSubmenuTrigger({ className, children, render, ref, ...rest }: MenuSubmenuTriggerProps & { ref?: React.Ref<HTMLElement> | undefined }) {
     return (
       <Base.SubmenuTrigger
         ref={ref as React.Ref<HTMLDivElement>}
         data-ag-part="submenu-trigger"
         className={cn('ag-menu-item', 'ag-menu-submenu-trigger', className)}
         {...rest}
+        /* REQ-CMP-07: open|closed for the submenu it controls */
+        render={stateRender<{ open: boolean }>((s) => toDataState({ open: s.open }), render, 'div')}
       >
         <span data-ag-part="hit-area" aria-hidden="true" />
         <span className="ag-menu-item-label">{children}</span>

@@ -1,39 +1,56 @@
 import * as React from 'react';
 import { mergeProps } from '@base-ui/react/merge-props';
 /* CMP foundation states (CMP-009): the 13 shared data-state values (S-33).
-   Components emit these on data-state (space-joined when several hold). */
+   A part emits exactly ONE of these on data-state (REQ-CMP-07). */
 export const AG_STATES = [
   'open', 'closed', 'checked', 'unchecked', 'indeterminate', 'active', 'inactive',
   'on', 'off', 'expanded', 'collapsed', 'loading', 'idle',
 ] as const;
 export type AgState = (typeof AG_STATES)[number];
 
-export interface DataStateFlags {
-  open?: boolean;
-  checked?: boolean | 'mixed';
-  active?: boolean;
+interface StateFlagValues {
+  open: boolean;
+  checked: boolean | 'mixed';
+  active: boolean;
   /** toggle/button pressed — emits 'on' | 'off' */
-  pressed?: boolean;
-  expanded?: boolean;
-  loading?: boolean;
+  pressed: boolean;
+  expanded: boolean;
+  loading: boolean;
 }
+type FlagKey = keyof StateFlagValues;
+
+/** Exactly one state flag per call (REQ-CMP-07: one normalised value per part).
+    Passing two flags is a type error; `undefined` omits the attribute. */
+export type DataStateFlags = {
+  [K in FlagKey]: { [P in K]?: StateFlagValues[P] | undefined } & { [P in Exclude<FlagKey, K>]?: never };
+}[FlagKey];
+
+const FLAG_ORDER: readonly FlagKey[] = ['open', 'checked', 'active', 'pressed', 'expanded', 'loading'];
 
 /**
- * Maps component state flags to the shared vocabulary. Each flag contributes its
- * pair member (open->'open'|'closed', checked->'checked'|'unchecked'|('mixed'->
- * 'indeterminate'), active->'active'|'inactive', pressed->'on'|'off',
- * expanded->'expanded'|'collapsed', loading->'loading'|'idle').
- * Returns undefined when no flag is set so the attribute is omitted entirely.
+ * Maps one component state flag to the shared vocabulary: open->'open'|'closed',
+ * checked->'checked'|'unchecked'|('mixed'->'indeterminate'), active->'active'|'inactive',
+ * pressed->'on'|'off', expanded->'expanded'|'collapsed', loading->'loading'|'idle'.
+ * Always a single AG_STATES value (never space-joined); undefined when the flag is
+ * unset so the attribute is omitted entirely. A caller that bypasses the type and
+ * passes several flags gets a dev error and the first flag's value.
  */
-export function toDataState(flags: DataStateFlags): string | undefined {
-  const out: AgState[] = [];
-  if (flags.open !== undefined) out.push(flags.open ? 'open' : 'closed');
-  if (flags.checked !== undefined) out.push(flags.checked === 'mixed' ? 'indeterminate' : flags.checked ? 'checked' : 'unchecked');
-  if (flags.active !== undefined) out.push(flags.active ? 'active' : 'inactive');
-  if (flags.pressed !== undefined) out.push(flags.pressed ? 'on' : 'off');
-  if (flags.expanded !== undefined) out.push(flags.expanded ? 'expanded' : 'collapsed');
-  if (flags.loading !== undefined) out.push(flags.loading ? 'loading' : 'idle');
-  return out.length ? out.join(' ') : undefined;
+export function toDataState(flags: DataStateFlags): AgState | undefined {
+  const f = flags as Partial<StateFlagValues>;
+  const set = FLAG_ORDER.filter((k) => f[k] !== undefined);
+  if (set.length > 1 && process.env.NODE_ENV !== 'production') {
+    console.error(`[aura-glass] toDataState takes one state flag, got ${set.join(', ')} — data-state carries a single value (REQ-CMP-07).`);
+  }
+  const key = set[0];
+  if (key === undefined) return undefined;
+  switch (key) {
+    case 'open': return f.open ? 'open' : 'closed';
+    case 'checked': return f.checked === 'mixed' ? 'indeterminate' : f.checked ? 'checked' : 'unchecked';
+    case 'active': return f.active ? 'active' : 'inactive';
+    case 'pressed': return f.pressed ? 'on' : 'off';
+    case 'expanded': return f.expanded ? 'expanded' : 'collapsed';
+    case 'loading': return f.loading ? 'loading' : 'idle';
+  }
 }
 
 /**

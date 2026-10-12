@@ -14,6 +14,7 @@ import { toOverlayReason } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
 import { useControllableWarning } from '../../foundation/controllable';
+import { stateRender, toDataState } from '../../foundation/state';
 import type {
   TooltipProviderProps, TooltipRootProps, TooltipTriggerProps,
   TooltipPortalProps, TooltipPositionerProps, TooltipPopupProps, TooltipArrowProps, TooltipContentProps,
@@ -104,7 +105,8 @@ function TooltipTrigger({ className, children, onPointerDown, onPointerUp, onPoi
         onPointerUp={handleEnd}
         onPointerCancel={handleEnd}
         {...rest}
-        render={trigger.render}
+        /* REQ-CMP-07: normalised open|closed on the trigger */
+        render={stateRender<{ open: boolean }>((s) => toDataState({ open: s.open }), trigger.render, 'button')}
       >
         {trigger.children}
       </Base.Trigger>

@@ -2,7 +2,7 @@
    data-ag-part values must be a subset of meta.parts and their union must equal
    meta.parts; every data-state value must be in AG_STATES. */
 import * as React from 'react';
-import { describe, expect, it, afterEach } from '@jest/globals';
+import { describe, expect, it, afterEach, jest } from '@jest/globals';
 import { render, cleanup, act, fireEvent } from '@testing-library/react';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -233,5 +233,138 @@ describe('data-state interaction contract (REQ-CMP-07)', () => {
     fireEvent.click(secondItem);
     await act(async () => {});
     expectSingleState(secondItem, 'checked');
+  });
+
+  it('menu trigger closed → open; checkbox item unchecked → checked; mixed → indeterminate', async () => {
+    const { Menu } = await import('../../components/menu/Menu.client');
+    const Demo = () => {
+      const [wrap, setWrap] = React.useState(false);
+      return (
+        <Menu.Root>
+          <Menu.Trigger>actions</Menu.Trigger>
+          <Menu.Content>
+            <Menu.CheckboxItem checked={wrap} onCheckedChange={(c) => setWrap(c === true)}>Wrap</Menu.CheckboxItem>
+            <Menu.CheckboxItem checked="indeterminate">Selective</Menu.CheckboxItem>
+          </Menu.Content>
+        </Menu.Root>
+      );
+    };
+    render(<Demo />);
+    const trigger = document.querySelector('[data-ag-part="trigger"]') as HTMLElement;
+    expectSingleState(trigger, 'closed');
+    fireEvent.click(trigger);
+    await act(async () => {});
+    expectSingleState(trigger, 'open');
+    const item = (label: string) => Array.from(document.querySelectorAll('[role="menuitemcheckbox"]')).find((n) => n.textContent?.includes(label)) as HTMLElement;
+    expectSingleState(item('Wrap'), 'unchecked');
+    expectSingleState(item('Selective'), 'indeterminate');
+    fireEvent.click(item('Wrap'));
+    await act(async () => {});
+    expectSingleState(item('Wrap'), 'checked');
+  });
+
+  it('menu radio items: checked moves on click; submenu trigger closed → open', async () => {
+    const { Menu } = await import('../../components/menu/Menu.client');
+    render(
+      <Menu.Root defaultOpen>
+        <Menu.Trigger>view</Menu.Trigger>
+        <Menu.Content>
+          <Menu.RadioGroup defaultValue="list">
+            <Menu.RadioItem value="list">List</Menu.RadioItem>
+            <Menu.RadioItem value="grid">Grid</Menu.RadioItem>
+          </Menu.RadioGroup>
+          <Menu.Submenu>
+            <Menu.SubmenuTrigger>Share</Menu.SubmenuTrigger>
+            <Menu.Content><Menu.Item>Email</Menu.Item></Menu.Content>
+          </Menu.Submenu>
+        </Menu.Content>
+      </Menu.Root>,
+    );
+    await act(async () => {});
+    const radio = (label: string) => Array.from(document.querySelectorAll('[role="menuitemradio"]')).find((n) => n.textContent?.includes(label)) as HTMLElement;
+    expectSingleState(radio('List'), 'checked');
+    expectSingleState(radio('Grid'), 'unchecked');
+    fireEvent.click(radio('Grid'));
+    await act(async () => {});
+    expectSingleState(radio('Grid'), 'checked');
+    expectSingleState(radio('List'), 'unchecked');
+    const sub = document.querySelector('[data-ag-part="submenu-trigger"]') as HTMLElement;
+    expectSingleState(sub, 'closed');
+    sub.focus();
+    fireEvent.keyDown(sub, { key: 'ArrowRight' });
+    await act(async () => {});
+    expect(document.querySelectorAll('[role="menu"]')).toHaveLength(2);
+    expectSingleState(sub, 'open');
+  });
+
+  it('context-menu items and trigger carry single data-state values', async () => {
+    const { ContextMenu, ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem } = await import('../../components/menu/ContextMenu.client');
+    render(
+      <ContextMenu.Root>
+        <ContextMenu.Trigger><div>area</div></ContextMenu.Trigger>
+        <ContextMenu.Content>
+          <ContextMenuCheckboxItem checked>Grid lines</ContextMenuCheckboxItem>
+          <ContextMenuRadioGroup defaultValue="a">
+            <ContextMenuRadioItem value="a">A</ContextMenuRadioItem>
+            <ContextMenuRadioItem value="b">B</ContextMenuRadioItem>
+          </ContextMenuRadioGroup>
+        </ContextMenu.Content>
+      </ContextMenu.Root>,
+    );
+    const trigger = document.querySelector('[data-ag-part="context-trigger"]') as HTMLElement;
+    expectSingleState(trigger, 'closed');
+    fireEvent.contextMenu(trigger);
+    await act(async () => {});
+    expectSingleState(trigger, 'open');
+    expectSingleState(document.querySelector('[role="menuitemcheckbox"]'), 'checked');
+    const radios = document.querySelectorAll('[role="menuitemradio"]');
+    expectSingleState(radios[0]!, 'checked');
+    expectSingleState(radios[1]!, 'unchecked');
+  });
+
+  it('popover and tooltip triggers: closed → open', async () => {
+    const { Popover } = await import('../../components/popover/Popover.client');
+    render(
+      <Popover.Root>
+        <Popover.Trigger>info</Popover.Trigger>
+      </Popover.Root>,
+    );
+    const trigger = document.querySelector('[data-ag-part="trigger"]') as HTMLElement;
+    expectSingleState(trigger, 'closed');
+    fireEvent.click(trigger);
+    await act(async () => {});
+    expectSingleState(trigger, 'open');
+    cleanup();
+    const { Tooltip } = await import('../../components/tooltip/Tooltip.client');
+    render(
+      <Tooltip.Root open>
+        <Tooltip.Trigger>help</Tooltip.Trigger>
+      </Tooltip.Root>,
+    );
+    expectSingleState(document.querySelector('[data-ag-part="trigger"]'), 'open');
+  });
+});
+
+describe('toDataState emits exactly one value (REQ-CMP-07)', () => {
+  it('maps each flag to its single AG_STATES member', async () => {
+    const { toDataState } = await import('../../foundation/state');
+    expect(toDataState({ open: true })).toBe('open');
+    expect(toDataState({ open: false })).toBe('closed');
+    expect(toDataState({ checked: 'mixed' })).toBe('indeterminate');
+    expect(toDataState({ pressed: false })).toBe('off');
+    expect(toDataState({ expanded: true })).toBe('expanded');
+    expect(toDataState({ loading: undefined })).toBeUndefined();
+    expect(toDataState({})).toBeUndefined();
+  });
+
+  it('two flags are a type error and, at runtime, a dev error with one value (never space-joined)', async () => {
+    const { toDataState } = await import('../../foundation/state');
+    const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
+    // @ts-expect-error — one flag per call
+    const v = toDataState({ open: true, loading: true });
+    expect(v).toBe('open');
+    expect(v).not.toMatch(/\s/);
+    expect(spy.mock.calls.filter((c) => String(c[0]).includes('one state flag'))).toHaveLength(1);
+    spy.mockRestore();
   });
 });
