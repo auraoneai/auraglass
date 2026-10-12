@@ -14,6 +14,6 @@ export default defineMeta({
   budgetKb: 6,
   variants: {},
   migration: [
-    { from: 'GlassScrubber', props: {}, automation: 'mostly', compat: true },
+    { from: 'GlassScrubber', props: {}, selectors: { '.glass-scrubber': '[data-ag-part="media-scrubber"]' }, automation: 'mostly', compat: true },
   ],
 });

@@ -13,5 +13,5 @@ export default defineMeta({
   apg: 'https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/',
   budgetKb: 8,
   variants: {},
-  migration: [{ from: 'GlassInspector', props: {}, automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassInspector', props: {}, selectors: { '.glass-inspector': '[data-ag-part="inspector"]' }, automation: 'mostly', compat: true }],
 });

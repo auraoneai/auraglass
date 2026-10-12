@@ -18,6 +18,6 @@ export default defineMeta({
   migration: [
     { from: 'GlassActivityFeed', props: { entries: 'items' }, selectors: { '.glass-activity-feed': '[data-ag-part="activity-feed"]' }, automation: 'mostly', compat: true },
     // 4.x GlassInfiniteScroll feeds: ActivityFeed autoLoad (one IntersectionObserver) + onLoadMore/hasMore.
-    { from: 'GlassInfiniteScroll', props: {}, automation: 'manual', compat: false },
+    { from: 'GlassInfiniteScroll', props: {}, selectors: { '.glass-infinite-scroll': '[data-ag-part="activity-feed"]' }, automation: 'manual', compat: false },
   ],
 });

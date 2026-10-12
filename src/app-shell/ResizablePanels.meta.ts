@@ -13,5 +13,5 @@ export default defineMeta({
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/',
   budgetKb: 6,
   variants: {},
-  migration: [{ from: 'GlassResizablePanels', props: {}, automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassResizablePanels', props: {}, selectors: { '.glass-resizable-panels': '[data-ag-part="resizable-panels"]' }, automation: 'mostly', compat: true }],
 });

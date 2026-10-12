@@ -13,5 +13,5 @@ export default defineMeta({
   apg: 'https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/',
   budgetKb: 3,
   variants: {},
-  migration: [{ from: 'GlassStatusBar', props: {}, automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassStatusBar', props: {}, selectors: { '.glass-status-bar': '[data-ag-part="status-bar"]' }, automation: 'mostly', compat: true }],
 });

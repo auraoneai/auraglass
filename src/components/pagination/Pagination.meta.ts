@@ -13,5 +13,5 @@ export default defineMeta({
   states: ['current'],
   material: { layer: 'content', refractionEligible: false },
   variants: {},
-  migration: [{ from: 'GlassPagination', props: { totalPages: 'pageCount', currentPage: 'page', onChange: 'onPageChange' }, automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassPagination', props: { totalPages: 'pageCount', currentPage: 'page', onChange: 'onPageChange' }, selectors: { '.glass-pagination': '[data-ag-part="pagination"]' }, automation: 'mostly', compat: true }],
 });

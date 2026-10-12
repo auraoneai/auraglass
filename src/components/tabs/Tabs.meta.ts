@@ -13,5 +13,5 @@ export default defineMeta({
   states: ['active', 'inactive'],
   material: { layer: 'content', refractionEligible: false },
   variants: {},
-  migration: [{ from: 'GlassTabs', props: { selectedTab: 'value', onTabChange: 'onValueChange', activeTab: 'value', onTabClick: 'onValueChange', onChange: 'onValueChange' }, automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassTabs', props: { selectedTab: 'value', onTabChange: 'onValueChange', activeTab: 'value', onTabClick: 'onValueChange', onChange: 'onValueChange' }, selectors: { '.glass-tabs': '[data-ag-part="tabs"]' }, automation: 'mostly', compat: true }],
 });

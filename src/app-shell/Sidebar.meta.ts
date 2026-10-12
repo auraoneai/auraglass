@@ -14,5 +14,5 @@ export default defineMeta({
   apg: 'https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/',
   budgetKb: 6,
   variants: {},
-  migration: [{ from: 'GlassSidebar', props: { items: null, activeId: 'currentValue', onClick: 'onSelect', badge: 'badge' }, automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassSidebar', props: { items: null, activeId: 'currentValue', onClick: 'onSelect', badge: 'badge' }, selectors: { '.glass-sidebar': '[data-ag-part="sidebar"]' }, automation: 'mostly', compat: true }],
 });

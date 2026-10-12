@@ -13,6 +13,6 @@ export default defineMeta({
   variants: {},
   budgetKb: 4,
   migration: [
-    { from: 'GlassDateRangeCalendar', props: {}, automation: 'mostly', compat: true },
+    { from: 'GlassDateRangeCalendar', props: {}, selectors: { '.glass-date-range-calendar': '[data-ag-part="range-calendar"]' }, automation: 'mostly', compat: true },
   ],
 });

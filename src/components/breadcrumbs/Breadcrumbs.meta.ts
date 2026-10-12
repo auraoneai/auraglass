@@ -13,5 +13,5 @@ export default defineMeta({
   states: [],
   material: { layer: 'content', refractionEligible: false },
   variants: {},
-  migration: [{ from: 'GlassBreadcrumbs', props: { items: null, separator: 'separator' }, automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassBreadcrumbs', props: { items: null, separator: 'separator' }, selectors: { '.glass-breadcrumbs': '[data-ag-part="breadcrumbs"]' }, automation: 'mostly', compat: true }],
 });

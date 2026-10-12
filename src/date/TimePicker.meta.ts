@@ -14,5 +14,5 @@ export default defineMeta({
   variants: {},
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/',
   budgetKb: 14,
-  migration: [{ from: 'GlassTimePicker', props: {}, automation: 'manual', compat: false }],
+  migration: [{ from: 'GlassTimePicker', props: {}, selectors: { '.glass-time-picker': '[data-ag-part="time-picker"]' }, automation: 'manual', compat: false }],
 });

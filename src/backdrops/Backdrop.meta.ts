@@ -14,10 +14,10 @@ export default defineMeta({
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/button/',
   migration: [
     { from: 'AuroraBackground', props: { motion: { to: 'motion', values: { none: 'static', subtle: 'static', full: 'drift' } } }, selectors: { '.aurora-background': '.ag-backdrop[data-ag-backdrop-preset="aurora"]' }, automation: 'partial', compat: true },
-    { from: 'AuroraOrb', props: {}, automation: 'partial', compat: true },
-    { from: 'AtmosphericBackground', props: { variant: null, weather: null, colorScheme: null }, automation: 'partial', compat: true },
-    { from: 'GlassDynamicAtmosphere', props: { type: null, primaryColor: null, secondaryColor: null }, automation: 'partial', compat: true },
-    { from: 'GlassMeshGradient', props: { colors: null, animate: 'motion' }, automation: 'partial', compat: true },
-    { from: 'LiquidGlassBackdropSampler', props: {}, automation: 'none', compat: false },
+    { from: 'AuroraOrb', props: {}, selectors: { '.aurora-orb': '[data-ag-part="backdrop-layer"]' }, automation: 'partial', compat: true },
+    { from: 'AtmosphericBackground', props: { variant: null, weather: null, colorScheme: null }, selectors: { '.atmospheric-background': '[data-ag-part="backdrop-layer"]' }, automation: 'partial', compat: true },
+    { from: 'GlassDynamicAtmosphere', props: { type: null, primaryColor: null, secondaryColor: null }, selectors: { '.glass-dynamic-atmosphere': '[data-ag-part="backdrop-layer"]' }, automation: 'partial', compat: true },
+    { from: 'GlassMeshGradient', props: { colors: null, animate: 'motion' }, selectors: { '.glass-mesh-gradient': '[data-ag-part="backdrop-layer"]' }, automation: 'partial', compat: true },
+    { from: 'LiquidGlassBackdropSampler', props: {}, selectors: { '.glass-backdrop-sampler': '[data-ag-part="backdrop-layer"]' }, automation: 'none', compat: false },
   ],
 });
