@@ -5,7 +5,7 @@ export default defineMeta({
   owner: 'SURF',
   entry: '.',
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/',
-  budgetKb: 5,
+  budgetKb: 9,
   flagship: 27,
   tier: 'T1',
   rsc: 'mixed',

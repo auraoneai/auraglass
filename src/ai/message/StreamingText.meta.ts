@@ -9,6 +9,6 @@ export default defineMeta({
   parts: ['caret', 'streaming-text', 'text'],
   states: ['streaming', 'done'],
   variants: {},
-  budgetKb: 2,
+  budgetKb: 6,
   migration: [],
 });

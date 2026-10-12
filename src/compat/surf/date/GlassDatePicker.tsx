@@ -8,12 +8,13 @@
    mode="range" consumers move to DateRangePicker (GlassDateRangePicker);
    placeholder becomes the label when no label is given (the 5.0 field needs
    an accessible name); format/today/clear buttons are locale- and
-   component-owned in 5.0 and are dropped. */
+   component-owned in 5.0 and are dropped. The mapping lives in
+   ./GlassDatePicker.impl, loaded on first render (../lazyAdapter) so importing
+   aura-glass/compat never evaluates the optional date peers. */
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { DatePicker } from '../../../date/DatePicker';
-import type { DateValue } from '../../../date/shared';
-import { fieldProps, toCalendarDate, toJsDate, type LegacyFieldProps } from './shared';
+import { lazyAdapter } from '../lazyAdapter';
+import type { LegacyFieldProps } from './shared';
 
 export interface GlassDatePickerProps extends LegacyFieldProps {
   value?: Date | null;
@@ -27,15 +28,7 @@ export interface GlassDatePickerProps extends LegacyFieldProps {
   [legacy: string]: unknown;
 }
 
-export function unavailable(disabledDates: GlassDatePickerProps['disabledDates'], timeZone?: string) {
-  if (!disabledDates) return undefined;
-  return (d: DateValue) => {
-    const js = toJsDate(d, timeZone)!;
-    if (typeof disabledDates === 'function') return disabledDates(js);
-    const day = d.toString().slice(0, 10);
-    return disabledDates.some((x) => toCalendarDate(x, timeZone)!.toString() === day);
-  };
-}
+const Impl = lazyAdapter<GlassDatePickerProps>(() => import('./GlassDatePicker.impl').then((m) => m.GlassDatePickerImpl));
 
 /**
  * 4.x `GlassDatePicker` compat adapter (DEP-S0222).
@@ -43,25 +36,5 @@ export function unavailable(disabledDates: GlassDatePickerProps['disabledDates']
  */
 export function GlassDatePicker(props: GlassDatePickerProps) {
   warnDeprecated('DEP-S0222');
-  const { value, defaultValue, onChange, minDate, maxDate, disabledDates, timeZone, className } = props;
-  const v = toCalendarDate(value, timeZone);
-  const dv = toCalendarDate(defaultValue, timeZone);
-  const minV = toCalendarDate(minDate, timeZone);
-  const maxV = toCalendarDate(maxDate, timeZone);
-  const isUnavailable = unavailable(disabledDates, timeZone);
-  // 4.x had only a placeholder; the 5.0 field needs a label for its
-  // accessible name, so the placeholder text becomes the label.
-  const label = props.label ?? (typeof props['placeholder'] === 'string' ? props['placeholder'] : 'Date');
-  return (
-    <DatePicker
-      {...fieldProps({ ...props, label })}
-      {...(value !== undefined ? { value: v ?? null } : {})}
-      {...(dv ? { defaultValue: dv } : {})}
-      {...(minV ? { minValue: minV } : {})}
-      {...(maxV ? { maxValue: maxV } : {})}
-      {...(isUnavailable ? { isDateUnavailable: isUnavailable } : {})}
-      {...(onChange ? { onValueChange: (next: DateValue | null) => onChange(toJsDate(next, timeZone)) } : {})}
-      {...(className ? { className } : {})}
-    />
-  );
+  return <Impl.Render {...props} />;
 }

@@ -124,6 +124,19 @@ export async function emitMotionTs(records, resolved) {
     lines.push('  },');
   }
   lines.push('} as const;', '');
+  // Per-key scalar exports of the flat duration/ease keys: a consumer that
+  // needs one fallback value (viewTransition reads duration.micro and
+  // ease.standard) imports the scalar, so bundlers drop the whole
+  // motionTokens table (REQ-PLAT-76 motion rows).
+  lines.push('/** Scalar exports of the flat duration.* / ease.* keys (tree-shakable). */');
+  for (const [name, rec] of [...records.entries()].sort()) {
+    if (!name.startsWith('sys.motion.') || (rec.type !== 'duration' && rec.type !== 'cubicBezier')) continue;
+    const key = name.replace(/^sys\.motion\./, '');
+    const ident = 'motionToken' + key.split(/[.-]/).map((p) => p[0].toUpperCase() + p.slice(1)).join('');
+    const v = resolved.get(name);
+    lines.push(`export const ${ident} = ${rec.type === 'duration' ? v.value : `'cubic-bezier(${v.join(', ')})'`};`);
+  }
+  lines.push('');
   return prettierFormat(lines.join('\n'), 'typescript');
 }
 

@@ -18,7 +18,7 @@
 import { existsSync, readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
 import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { realpathSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { build as esbuildBundle } from 'esbuild';
@@ -66,6 +66,16 @@ const cssPathFor = (row) => {
   const spec = row.import.replace(/^['"]|['"]$/g, '').replace(/#.*$/, '');
   if (spec.startsWith('aura-glass/')) return join(ROOT, 'dist', spec.slice('aura-glass/'.length));
   return join(ROOT, spec);
+};
+
+/* gzip-9 of every shipped preset block (presetCssText values, joined the way
+   a page holding all of them would carry them); null until dist has them. */
+const PRESETS_DIST = join(ROOT, 'dist', 'tokens', 'generated', 'presets.js');
+const presetBlocksBytes = async () => {
+  if (!existsSync(PRESETS_DIST)) return null;
+  const { presetCssText } = await import(pathToFileURL(PRESETS_DIST).href);
+  if (!presetCssText || typeof presetCssText !== 'object') return null;
+  return gzipSync(Object.values(presetCssText).join('\n'), { level: 9 }).length;
 };
 
 const bundle = async (spec) => {
@@ -139,9 +149,20 @@ export async function run() {
     let measured = null;
     let metafile = null;
     if (row.kind === 'css') {
-      const f = cssPathFor(row);
-      if (!existsSync(f)) { results.push({ ...row, status: 'pending', measuredBytes: null }); continue; }
-      measured = gzipSync(readFileSync(f), { level: 9 }).length;
+      /* '#preset-blocks' (MAT-342: "tokens.css <= 8 KB excluding presets, with
+         preset blocks <= 2 KB") measures the preset blocks themselves — the
+         generated preset cssText the package ships (dist/tokens/generated/
+         presets.js, injected by the provider's preset prop) — never the whole
+         tokens.css, which the separate mat:tokens-css row already covers. */
+      if (/#preset-blocks$/.test(row.import)) {
+        const bytes = await presetBlocksBytes();
+        if (bytes === null) { results.push({ ...row, status: 'pending', measuredBytes: null }); continue; }
+        measured = bytes;
+      } else {
+        const f = cssPathFor(row);
+        if (!existsSync(f)) { results.push({ ...row, status: 'pending', measuredBytes: null }); continue; }
+        measured = gzipSync(readFileSync(f), { level: 9 }).length;
+      }
     } else {
       /* wildcard specifiers (aura-glass/x/*) measure each emitted file */
       const wild = /aura-glass\/[\w./-]+\*/.exec(row.import);

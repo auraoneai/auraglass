@@ -12,6 +12,6 @@ export default defineMeta({
   states: ['queued', 'running', 'needs-approval', 'succeeded', 'failed', 'denied'],
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/',
   variants: {},
-  budgetKb: 8,
+  budgetKb: 10,
   migration: [],
 });

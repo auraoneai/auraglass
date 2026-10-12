@@ -10,7 +10,7 @@ import {
   formatLightDark,
   type Oklch,
 } from "./color";
-import { manifest } from "../tokens/generated/manifest";
+import { themeManifestInputs } from "../tokens/generated/manifest";
 import { presets, type PresetId, type ThemePreset } from "./presets";
 
 export type GlassThemeMode = "light" | "dark" | "system" | "high-contrast";
@@ -84,37 +84,24 @@ export interface CreateGlassThemeOptions {
   contrast?: GlassContrastAxis;
 }
 
+/* Only the manifest slice the theme reads (themeManifestInputs, generated next
+   to `manifest`): importing the full manifest here kept ~26 KB of token
+   metadata in every createGlassTheme/createBrandTheme/provider bundle. */
+type ThemeInputValue = { value?: string; modes: Readonly<Record<string, string>> };
+const THEME_VALUES = themeManifestInputs.values as Readonly<Record<string, ThemeInputValue>>;
+
 const manifestValue = (cssVar: string, mode?: "light" | "dark"): string | undefined => {
-  const t = (manifest.tokens as readonly { cssVar: string; value?: string; modes?: Record<string, string> }[]).find(
-    (x) => x.cssVar === cssVar
-  );
-  if (mode && t?.modes?.[mode]) return t.modes[mode];
+  const t = THEME_VALUES[cssVar];
+  if (mode && t?.modes[mode]) return t.modes[mode];
   return t?.value;
 };
 
 const DENSITY_SCALE = { compact: 0.875, regular: 1, spacious: 1.125 } as const;
 
-type ManifestToken = {
-  cssVar: string;
-  public?: boolean;
-  modes?: Readonly<Record<string, string>>;
-  consumers?: readonly { count?: number }[];
-};
-
 /** contrast 'more' values: every public, consumed manifest var that carries a
  *  `more` mode (the same values dist/tokens.css emits under
  *  [data-ag-contrast=more]), applied in the theme scope. */
-const CONTRAST_MORE_VARS: readonly (readonly [string, string])[] = (
-  manifest.tokens as readonly ManifestToken[]
-)
-  .filter(
-    (t) =>
-      t.public !== false &&
-      !t.cssVar.startsWith("--_ag-") &&
-      t.modes?.more !== undefined &&
-      (t.consumers ?? []).reduce((n, c) => n + (c.count ?? 1), 0) >= 1
-  )
-  .map((t) => [t.cssVar, t.modes!.more!] as const);
+const CONTRAST_MORE_VARS: readonly (readonly [string, string])[] = themeManifestInputs.contrastMore;
 
 /** One development warning per distinct adjustment set (REQ-MAT-15). */
 const warnedAdjustments = new Set<string>();

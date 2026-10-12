@@ -3,13 +3,19 @@
 // successor from its 4.x story props and warns exactly once with its DEP-S id.
 // Harness: tests/app-shell/compat-harness.tsx. Story props:
 // tests/fixtures/consumer-4x/cases/surf/data/story-args.tsx.
-import { describe, expect, it, jest } from '@jest/globals';
+import { beforeAll, describe, expect, it, jest } from '@jest/globals';
 import { cleanup, fireEvent, render } from '@testing-library/react';
 import * as React from 'react';
 import { expectAdapter, type CompatRow } from '../app-shell/compat-harness';
 import { W2_STORY_ARGS as A } from '../fixtures/consumer-4x/cases/surf/data/story-args';
 import * as compat from '../../src/compat/surf';
 import { COMPAT_IDS } from '../fixtures/consumer-4x/cases/surf/compat-ids';
+import { preloadLazyAdapters } from '../../src/compat/surf/lazyAdapter';
+
+// The date and tree adapters load their implementation (and the optional
+// react-aria/date peers) on first render so importing aura-glass/compat stays
+// peer-free (REQ-PLAT-70); preloading makes these first renders synchronous.
+beforeAll(() => preloadLazyAdapters());
 
 type C = React.ComponentType<Record<string, unknown>>;
 const row = (name: keyof typeof compat & keyof typeof A, part: string, extra?: Record<string, unknown>): CompatRow => ({

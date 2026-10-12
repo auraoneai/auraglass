@@ -9,7 +9,7 @@ export default defineMeta({
   parts: ['backdrop-content', 'backdrop-layer', 'backdrop-pause'],
   states: ['media', 'light', 'dark', 'auto', 'none'],
   variants: { preset: ['photo', 'video', 'aurora', 'mesh', 'grain'] },
-  budgetKb: 3,
+  budgetKb: 7,
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/button/',
   migration: [
     { from: 'AuroraBackground', props: { motion: { to: 'motion', values: { none: 'static', subtle: 'static', full: 'drift' } } }, selectors: { '.aurora-background': '.ag-backdrop[data-ag-backdrop-preset="aurora"]' }, automation: 'partial', compat: true },

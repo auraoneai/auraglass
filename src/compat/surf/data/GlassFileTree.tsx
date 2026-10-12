@@ -4,11 +4,15 @@
    expandedNodes), selectedNodeId → selected key, onNodeSelect(node) /
    onNodeToggle(id, expanded) fire from the tree. Create/rename/move/copy
    affordances are app concerns in 5.0 and are not rendered. The legacy
-   `files` [{name, children}] shape is also accepted. */
+   `files` [{name, children}] shape is also accepted. The mapping lives in
+   ./GlassFileTree.impl, loaded on first render (../lazyAdapter) so importing
+   aura-glass/compat never evaluates react-aria-components. */
 'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { TreeView, type TreeViewBaseProps } from '../../../data/tree-view/TreeView';
+import type { TreeViewBaseProps } from '../../../data/tree-view/TreeView';
+import { lazyAdapter } from '../lazyAdapter';
+import type { FileItem } from './GlassFileTree.impl';
 
 export interface LegacyFileNode {
   id?: string;
@@ -18,29 +22,6 @@ export interface LegacyFileNode {
   children?: LegacyFileNode[];
   isExpanded?: boolean;
   [extra: string]: unknown;
-}
-
-interface FileItem {
-  id: string;
-  name: string;
-  node: LegacyFileNode;
-  children?: FileItem[];
-  [key: string]: unknown;
-}
-
-function toItems(nodes: readonly LegacyFileNode[], prefix = ''): FileItem[] {
-  return nodes.map((n, i) => {
-    const id = n.id ?? n.path ?? `${prefix}${i}-${n.name}`;
-    return { id, name: n.name, node: n, ...(n.children?.length ? { children: toItems(n.children, `${id}/`) } : {}) };
-  });
-}
-
-function collect(items: readonly FileItem[], pick: (i: FileItem) => boolean, out: FileItem[] = []): FileItem[] {
-  for (const i of items) {
-    if (pick(i)) out.push(i);
-    if (i.children) collect(i.children, pick, out);
-  }
-  return out;
 }
 
 export interface GlassFileTreeProps extends Omit<TreeViewBaseProps<FileItem>, 'items'> {
@@ -56,40 +37,12 @@ export interface GlassFileTreeProps extends Omit<TreeViewBaseProps<FileItem>, 'i
   [legacy: string]: unknown;
 }
 
+const LegacyFileTreeLazy = lazyAdapter<GlassFileTreeProps>(() => import('./GlassFileTree.impl').then((m) => m.LegacyFileTreeImpl));
+
+/** Shared 4.x file-tree mapping (GlassFileTree, GlassFileExplorer); renders
+    the 5.0 TreeView preset="files" once its implementation module has loaded. */
 export function LegacyFileTree(props: GlassFileTreeProps) {
-  const { nodes, files, selectedNodeId, expandedNodes, onNodeSelect, onNodeToggle, className } = props;
-  const items = React.useMemo(() => toItems(nodes ?? files ?? []), [nodes, files]);
-  const all = React.useMemo(() => new Map(collect(items, () => true).map((i) => [i.id, i])), [items]);
-  const initiallyExpanded = React.useMemo(
-    () => expandedNodes ?? collect(items, (i) => i.node.isExpanded === true).map((i) => i.id),
-    [items, expandedNodes],
-  );
-  const expanded = React.useRef(new Set(initiallyExpanded));
-  return (
-    <TreeView<FileItem>
-      {...props}
-      items={items}
-      preset="files"
-      getTextValue={(i) => i.name}
-      selectionMode="single"
-      aria-label={props['aria-label'] ?? 'Files'}
-      aria-labelledby={props['aria-labelledby']}
-      defaultExpandedKeys={initiallyExpanded}
-      {...(selectedNodeId !== undefined ? { defaultSelectedKeys: [selectedNodeId] } : {})}
-      onSelectionChange={(keys: Set<React.Key>) => {
-        const first = [...keys][0];
-        const item = first !== undefined ? all.get(String(first)) : undefined;
-        if (item) onNodeSelect?.(item.node);
-      }}
-      onExpandedChange={(keys: Set<React.Key>) => {
-        const next = new Set([...keys].map(String));
-        for (const id of next) if (!expanded.current.has(id)) onNodeToggle?.(id, true);
-        for (const id of expanded.current) if (!next.has(id)) onNodeToggle?.(id, false);
-        expanded.current = next;
-      }}
-      {...(className ? { className } : {})}
-    />
-  );
+  return <LegacyFileTreeLazy.Render {...props} />;
 }
 
 /**

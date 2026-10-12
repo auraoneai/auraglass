@@ -54,3 +54,21 @@ export const motionTokens = {
     },
   },
 } as const;
+
+/** Scalar exports of the flat duration.* / ease.* keys (tree-shakable). */
+export const motionTokenDurationAmbient = 40000;
+export const motionTokenDurationInstant = 90;
+export const motionTokenDurationInstantExit = 60;
+export const motionTokenDurationLarge = 450;
+export const motionTokenDurationLargeExit = 320;
+export const motionTokenDurationMedium = 320;
+export const motionTokenDurationMediumExit = 220;
+export const motionTokenDurationMicro = 120;
+export const motionTokenDurationMicroExit = 80;
+export const motionTokenDurationSmall = 200;
+export const motionTokenDurationSmallExit = 140;
+export const motionTokenEaseAccelerate = "cubic-bezier(0.3, 0, 1, 1)";
+export const motionTokenEaseEmphasized = "cubic-bezier(0.2, 0, 0, 1)";
+export const motionTokenEaseEmphasizedDecelerate =
+  "cubic-bezier(0.05, 0.7, 0.1, 1)";
+export const motionTokenEaseStandard = "cubic-bezier(0.2, 0, 0, 1)";

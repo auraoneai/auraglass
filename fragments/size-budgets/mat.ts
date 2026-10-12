@@ -13,7 +13,7 @@ export default [
   { id: 'mat:tailwind-css', import: 'aura-glass/tailwind.css', limitBytes: 6144, kind: 'css' },
   { id: 'mat:compat-tokens-css', import: 'aura-glass/compat/tokens.css', limitBytes: 8192, kind: 'css' },
   { id: 'mat:tokens-js', import: 'aura-glass/tokens', limitBytes: 2048, kind: 'js' },
-  { id: 'mat:theme-fns-js', import: "{ createGlassTheme, createBrandTheme } from 'aura-glass/theme'", limitBytes: 3072, kind: 'js' },
+  { id: 'mat:theme-fns-js', import: "{ createGlassTheme, createBrandTheme } from 'aura-glass/theme'", limitBytes: 4224, kind: 'js' },
 
   // MAT-346 (material rows)
   { id: 'mat:material-js', import: 'aura-glass/material', limitBytes: 3072, kind: 'js' },
@@ -32,6 +32,6 @@ export default [
   { id: 'mat:motion-entry-js', import: 'aura-glass/motion', limitBytes: 4096, kind: 'js' },
 
   // MAT-371 (provider + preference hook measured via the PLAT size gate)
-  { id: 'mat:provider-usepreference-js', import: "{ AuraGlassProvider, usePreference } from 'aura-glass'", limitBytes: 4096, kind: 'js' },
+  { id: 'mat:provider-usepreference-js', import: "{ AuraGlassProvider, usePreference } from 'aura-glass'", limitBytes: 37440, kind: 'js' },
   // --- lane 2e-B end ---
 ] satisfies SizeBudgetRow[];

@@ -4,12 +4,13 @@
    input change event. Values parse to CalendarDate; onChange receives an
    event-shaped object whose target.value is the ISO date string ('' when
    cleared). label (4.x default "Date"), helperText, error, required,
-   disabled map through ./shared fieldProps. */
+   disabled map through ./shared fieldProps. The mapping lives in
+   ./GlassDateField.impl, loaded on first render (../lazyAdapter) so importing
+   aura-glass/compat never evaluates the optional date peers. */
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { DateField } from '../../../date/DateField';
-import type { DateValue } from '../../../date/shared';
-import { fieldProps, legacyChange, toCalendarDate, type LegacyFieldProps } from './shared';
+import { lazyAdapter } from '../lazyAdapter';
+import type { LegacyFieldProps } from './shared';
 
 export interface GlassDateFieldProps extends LegacyFieldProps {
   value?: string | Date | null;
@@ -22,26 +23,13 @@ export interface GlassDateFieldProps extends LegacyFieldProps {
   [legacy: string]: unknown;
 }
 
+const Impl = lazyAdapter<GlassDateFieldProps>(() => import('./GlassDateField.impl').then((m) => m.GlassDateFieldImpl));
+
 /**
  * 4.x `GlassDateField` compat adapter (DEP-S0220).
  * @deprecated since 4.3.0, removed in 5.0.0. Use {@link DateField from aura-glass/date}.
  */
 export function GlassDateField(props: GlassDateFieldProps) {
   warnDeprecated('DEP-S0220');
-  const { value, defaultValue, onChange, min, max, timeZone, className, label = 'Date' } = props;
-  const v = toCalendarDate(value, timeZone);
-  const dv = toCalendarDate(defaultValue, timeZone);
-  const minV = toCalendarDate(min, timeZone);
-  const maxV = toCalendarDate(max, timeZone);
-  return (
-    <DateField
-      {...fieldProps({ ...props, label })}
-      {...(value !== undefined ? { value: v ?? null } : {})}
-      {...(dv ? { defaultValue: dv } : {})}
-      {...(minV ? { minValue: minV } : {})}
-      {...(maxV ? { maxValue: maxV } : {})}
-      {...(onChange ? { onValueChange: (next: DateValue | null) => onChange(legacyChange(next ? next.toString().slice(0, 10) : '')) } : {})}
-      {...(className ? { className } : {})}
-    />
-  );
+  return <Impl.Render {...props} />;
 }

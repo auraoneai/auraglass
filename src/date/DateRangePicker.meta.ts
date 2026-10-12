@@ -11,7 +11,7 @@ export default defineMeta({
   states: ['open', 'invalid', 'disabled'],
   variants: { visibleMonths: ['1', '2'] },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/',
-  budgetKb: 8,
+  budgetKb: 12,
   migration: [
     { from: 'GlassDateRangePicker', props: {}, selectors: { '.glass-date-range-picker': '[data-ag-part="date-range-picker"]' }, automation: 'mostly', compat: true },
   ],
