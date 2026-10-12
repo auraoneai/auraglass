@@ -46,7 +46,7 @@ module.exports = {
       undefinedConditional: 'animate has an `undefined` branch while initial={{initial}} is not the settled state, so reduced-motion users are left at initial: give the branch the FINAL state (animate={r ? FINAL : X}) or skip the entrance (initial={r ? false : I}).',
       emptyConditional: '{{prop}} uses an empty-object conditional branch — reduced motion must render the settled state: initial={r ? false : I}, animate={r ? FINAL : X}, transition={r ? { duration: 0 } : T}.',
       emptyAnimate: 'animate={{}} has no target keys (REQ-MOT-64): an empty animate renders instantly — remove the prop or give it a contract target.',
-      fadedConditional: 'initial={{opacity:0}} with a conditional animate can leave the element invisible (REQ-MOT-64): make the animate unconditional or drive opacity from a motion scalar.',
+      fadedConditional: 'An initial opacity of 0 with a conditional animate can leave the element invisible (REQ-MOT-64): make the animate unconditional or drive opacity from a motion scalar.',
     },
   },
   create(context) {
