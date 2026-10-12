@@ -206,7 +206,16 @@ describe('SURF meta coverage (REQ-SURF-09)', () => {
 
   const BUDGET_ROWS = (sizeBudgets as ReadonlyArray<{ id: string; import: string; limitBytes: number; kind: string }>)
     .filter((row) => row.kind === 'js')
-    .map((row) => ({ ...row, names: (/^\{\s*([^}]+)\}/.exec(row.import)?.[1] ?? '').split(',').map((s) => s.trim()).filter(Boolean) }));
+    // Row names come from a `{ X }` import, or from an `export const X = Ns.Part`
+    // statement measuring a namespace member (e.g. Sidebar.Drawer, REQ-PLAT-30) —
+    // the same dual form fragments/size-budgets/plat.ts recognizes for targets.
+    .map((row) => ({
+      ...row,
+      names: [
+        ...(/^\{\s*([^}]+)\}/.exec(row.import)?.[1] ?? '').split(',').map((s) => s.trim()).filter(Boolean),
+        ...[...row.import.matchAll(/export const (\w+) =/g)].map((m) => m[1]!),
+      ],
+    }));
   const rowsFor = (name: string) => BUDGET_ROWS.filter((row) => row.names.includes(name));
   const WITH_ROW = SURF_METAS.filter((r) => rowsFor(r.meta.name).length > 0);
   const WITHOUT_ROW = SURF_METAS.filter((r) => rowsFor(r.meta.name).length === 0);
