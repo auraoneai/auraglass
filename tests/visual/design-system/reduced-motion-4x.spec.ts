@@ -4,7 +4,8 @@
    src/__tests__/motion/reduced-motion-visible.test.tsx):
      - 500 ms after load, no visible text node has computed opacity < 1
      - 1 s after mount, document.getAnimations().length === 0 (subtree)
-   Artifacts: .artifacts/plat/visual-4x/<component>.png (+ summary.json).
+   Artifacts: $AURAGLASS_EVIDENCE_DIR (the plat:test:visual-4x job dir,
+   .artifacts/plat/plat-test-visual-4x/)/<component>.png (+ summary.json).
    Remote-only subject; skips locally without AG_STORYBOOK_URL. */
 import { test, expect } from '@playwright/test';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -12,7 +13,9 @@ import { join } from 'node:path';
 
 /* CJS-transpiled spec: __dirname is available. */
 const ROOT = join(__dirname, '..', '..', '..');
-const OUT = join(ROOT, '.artifacts', 'plat', 'visual-4x');
+const OUT = process.env.AURAGLASS_EVIDENCE_DIR
+  ? join(ROOT, process.env.AURAGLASS_EVIDENCE_DIR)
+  : join(ROOT, '.artifacts', 'plat', 'plat-test-visual-4x');
 const TABLE = join(ROOT, 'src/__tests__/motion/reduced-motion-visible.test.tsx');
 
 /* Parse the 35-row {file, component} table. */
