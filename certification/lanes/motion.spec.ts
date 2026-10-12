@@ -15,7 +15,8 @@
    Negative control: stories/qual/fixtures/InfiniteAnimation.stories.tsx.
    The probe is packages/qa/src/motion/idleProbe.ts (self-test:
    packages/qa/test/settled-idle.selftest.test.ts). Remote-only browser lane. */
-import { test, expect, type Browser, type Page } from '@playwright/test';
+import type { Browser, Page } from '@playwright/test';
+import { test, expect } from './_fixtures/determinism';
 import { gotoStory } from '../../tests/helpers';
 import { VISUAL_TOLERANCE } from '../../src/contracts/testing';
 import {

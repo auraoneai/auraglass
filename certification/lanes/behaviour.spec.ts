@@ -14,7 +14,8 @@
    Location-discovered stream specs (tests/a11y/apg/<stream>/**, tests/e2e/<stream>/**) are separate projects of
    certification/playwright.cert.config.ts. Storybook `play` functions are not the mechanism. Browser lane: GitLab CI /
    gated remote runner only. Tests titled @engine-<engine> run only in that engine's lane project (grepInvert). */
-import { test, expect, type Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
+import { test, expect } from './_fixtures/determinism';
 import { gotoStory } from '../../tests/helpers';
 import { apg, axeScan, BLOCKING_IMPACTS, FLAGSHIP_BLOCKING_IMPACTS, formatViolations } from '../../tests/a11y/apg/harness';
 import type { ApgStep } from '../../src/contracts/testing';

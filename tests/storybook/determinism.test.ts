@@ -60,3 +60,19 @@ describe('determinism init (REQ-QUAL-11)', () => {
     expect(users).toEqual([join('certification', 'lanes', '_fixtures', 'determinism.ts')]);
   });
 });
+
+describe('every lane spec uses the shared determinism fixture (REQ-QUAL-11)', () => {
+  const lanesDir = join(ROOT, 'certification', 'lanes');
+  const specs = readdirSync(lanesDir).filter((n) => n.endsWith('.spec.ts')).sort();
+
+  it('finds the lane specs', () => {
+    expect(specs.length).toBeGreaterThanOrEqual(10);
+  });
+
+  it.each(specs)('%s imports test from ./_fixtures/determinism, never a runtime import from @playwright/test', (name) => {
+    const src = readFileSync(join(lanesDir, name), 'utf8');
+    expect(src).toMatch(/^import \{[^}]*\btest\b[^}]*\} from '\.\/_fixtures\/determinism';$/m);
+    const runtime = [...src.matchAll(/^import (?!type\b)[^;]*from '@playwright\/test';$/gm)].map((m) => m[0]);
+    expect(runtime).toEqual([]);
+  });
+});

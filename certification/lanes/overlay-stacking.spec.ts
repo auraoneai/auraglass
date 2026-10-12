@@ -7,7 +7,8 @@
      layer's own centre is covered by an earlier one;
    - Escape closes LIFO: Tooltip, then Menu, then Dialog, one per press.
    Browser lane: GitLab CI / gated remote runner only, chromium + webkit + firefox. */
-import { test, expect, type Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
+import { test, expect } from './_fixtures/determinism';
 import { gotoStory } from '../../tests/helpers';
 import { fixtureStory } from './_fixtures/subjects';
 
