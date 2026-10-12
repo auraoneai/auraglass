@@ -46,7 +46,7 @@ describe('compat/cmp/layout (REQ-CMP-127)', () => {
     expect('GlassGallery' in compat).toBe(false);
     const { default: cmpRows } = await import('../../../../../fragments/deprecations/cmp');
     const { default: surfRows } = await import('../../../../../fragments/deprecations/surf');
-    const rows = [...cmpRows, ...surfRows].filter((r) => r.symbol === 'GlassGallery');
+    const rows = ([...cmpRows, ...surfRows] as readonly { id: string; symbol: string; compat?: string }[]).filter((r) => r.symbol === 'GlassGallery');
     expect(rows.map((r) => [r.id, r.compat ?? null])).toEqual([['DEP-S0605', null]]);
   });
 });
