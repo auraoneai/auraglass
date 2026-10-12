@@ -77,7 +77,7 @@ describe('SearchField (REQ-CMP-63)', () => {
     expect(shell.parentElement!.closest('[data-ag-surface]')).not.toBeNull();
     expect(shell.hasAttribute('data-ag-allow-nested')).toBe(false);
     const css = readFileSync(join(process.cwd(), 'src/material/css/material.css'), 'utf8');
-    expect(css).toMatch(/:where\(\[data-ag-surface\]\) \[data-ag-surface\]:not\(:where\(\[data-ag-allow-nested\]\)\)::before,[^{]*\{\s*backdrop-filter: none;/);
+    expect(css).toMatch(/:where\(\[data-ag-surface\]\) \[data-ag-surface\]:not\(:where\(\[data-ag-allow-nested\]\)\)::before,[^{]*\{\s*backdrop-filter: none;/); // @ag-literal-allowed: test-vector
   });
 
   it('start/end adornments render inside the shell around the control', () => {
