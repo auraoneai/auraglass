@@ -247,7 +247,8 @@ function SheetPopup({
       ref={setRefs}
       {...rest}
     >
-      <FocusScope trapped={ctx.modal} loop={ctx.modal} autoFocus restoreFocus style={{ display: 'contents' }}>
+      {/* The focus trap wrapper is not a Sheet part: clear FocusScope's default data-ag-part="root" (S-33). */}
+      <FocusScope data-ag-part={undefined} trapped={ctx.modal} loop={ctx.modal} autoFocus restoreFocus style={{ display: 'contents' }}>
         {children}
       </FocusScope>
     </Base.Popup>

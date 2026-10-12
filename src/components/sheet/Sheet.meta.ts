@@ -11,6 +11,8 @@ const meta: ControlMeta = defineMeta({
   parts: [
     'trigger', 'backdrop', 'popup', 'handle', 'title', 'description',
     'close', 'action', 'header', 'body', 'footer', 'detent-live', 'hit-area',
+    // Sheet.Action renders a Button, whose label part is part of the action (REQ-CMP-93)
+    'label',
   ],
   states: [
     'popup-open', 'open', 'closed', 'starting-style', 'ending-style',
