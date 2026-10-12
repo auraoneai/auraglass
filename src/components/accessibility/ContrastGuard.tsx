@@ -1,7 +1,8 @@
 "use client";
 /**
  * ContrastGuard Component
- * A React wrapper component that ensures WCAG contrast compliance
+ * Applies heuristic text-contrast adjustments over glass surfaces.
+ * Does not measure rendered contrast. Do not use as a WCAG signal.
  */
 
 import React, {
@@ -84,12 +85,14 @@ export interface ContrastGuardProps extends React.HTMLAttributes<HTMLElement> {
   as?: ContrastGuardElement;
 
   /**
-   * Callback when contrast adjustment is applied. `status` is always
-   * 'unverified' — adjustments are heuristics over a translucent backdrop,
-   * never a verified WCAG claim (DEP-P0021).
+   * Callback when a contrast adjustment is applied.
+   * Does not measure rendered contrast. Do not use as a WCAG signal.
+   * `meetsRequirement` is always
+   * `undefined`, `status` is always 'unverified' and `ratio` is the
+   * heuristic's estimate, not a measurement (REQ-PLAT-43, DEP-P0072).
    */
   onAdjustment?: (
-    meetsRequirement: boolean,
+    meetsRequirement: undefined,
     ratio: number,
     status: "unverified"
   ) => void;
@@ -149,8 +152,10 @@ function demoBackdropStyle(
 /**
  * ContrastGuard wrapper component
  * Applies heuristic contrast adjustments over translucent backdrops.
- * The rendered state is always reported as `unverified` — the package cannot
- * measure the real backdrop, so it never claims a WCAG result.
+ * Does not measure rendered contrast. Do not use as a WCAG signal.
+ * The rendered state is always `data-contrast-status="unverified"`: the
+ * package cannot measure the real backdrop, so it emits no ratio and no
+ * WCAG result.
  */
 export const ContrastGuard = forwardRef<HTMLElement | null, ContrastGuardProps>(
   (
@@ -196,11 +201,7 @@ export const ContrastGuard = forwardRef<HTMLElement | null, ContrastGuardProps>(
               if (elementRef.current) {
                 applyContrastAdjustment(elementRef.current, adj);
               }
-              onAdjustment?.(
-                adj.meetsRequirement,
-                adj.adjustedContrast,
-                "unverified"
-              );
+              onAdjustment?.(undefined, adj.adjustedContrast, "unverified");
 
               // Apply styles dynamically
               const styles: React.CSSProperties = {};
@@ -227,10 +228,9 @@ export const ContrastGuard = forwardRef<HTMLElement | null, ContrastGuardProps>(
               fontWeight: 700,
               letterSpacing: "0.06em",
               textTransform: "uppercase",
-              color: adjustment?.meetsRequirement ? "#052e16" : "#451a03",
-              background: adjustment?.meetsRequirement
-                ? "rgba(134,239,172,0.92)"
-                : "rgba(253,186,116,0.92)",
+              // neutral outline badge: the state is never "pass"
+              color: "inherit",
+              border: "1px solid currentColor",
             },
           },
           "unverified"
@@ -244,7 +244,6 @@ export const ContrastGuard = forwardRef<HTMLElement | null, ContrastGuardProps>(
         ref: elementRef,
         className: cn(
           "contrast-guard",
-          adjustment?.meetsRequirement && "contrast-guard--compliant",
           adjustment?.modifications.fallbackMode && "contrast-guard--fallback",
           className
         ),
@@ -255,7 +254,6 @@ export const ContrastGuard = forwardRef<HTMLElement | null, ContrastGuardProps>(
           ...(backgroundColor && { backgroundColor }),
         },
         "data-contrast-level": level,
-        "data-contrast-ratio": adjustment?.adjustedContrast?.toFixed(2),
         "data-contrast-status": "unverified",
         "data-demo-backdrop":
           demoBackdrop === "none" ? undefined : demoBackdrop,

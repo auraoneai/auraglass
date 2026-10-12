@@ -926,60 +926,20 @@ export const glassTokenUtils = {
   },
 
   /**
-   * Validate contrast ratio for text over surface
+   * Does not measure rendered contrast. Do not use as a WCAG signal.
+   *
+   * Always returns `"unverified"`: the colours passed in are token values,
+   * not the pixels a translucent glass surface renders over, so no ratio
+   * computed from them can verify WCAG contrast (REQ-PLAT-43, DEP-P0072).
+   *
+   * WARNING: `"unverified"` is a truthy string. `if (validateTextContrast(a, b))`
+   * is always true — compare with `=== true` if you previously relied on the
+   * boolean result.
    */
   validateTextContrast: (
-    textColor: string,
-    surfaceColor: string
-  ): boolean | "unverified" => {
-    const toRgb = (value: string): number[] | null => {
-      const trimmed = (value || "").trim();
-      if (!trimmed || trimmed.startsWith("var(") || trimmed === "transparent") {
-        return null;
-      }
-      const hex = trimmed.replace(/^#/, "");
-      if (/^[0-9a-fA-F]{3}$/.test(hex)) {
-        const full = hex
-          .split("")
-          .map((c) => c + c)
-          .join("");
-        return [
-          parseInt(full.slice(0, 2), 16),
-          parseInt(full.slice(2, 4), 16),
-          parseInt(full.slice(4, 6), 16),
-        ];
-      }
-      if (/^[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$/.test(hex)) {
-        return [
-          parseInt(hex.slice(0, 2), 16),
-          parseInt(hex.slice(2, 4), 16),
-          parseInt(hex.slice(4, 6), 16),
-        ];
-      }
-      const channel = trimmed.match(
-        /rgba?\(\s*(\d+)\s*[, ]\s*(\d+)\s*[, ]\s*(\d+)/
-      );
-      return channel
-        ? [Number(channel[1]), Number(channel[2]), Number(channel[3])]
-        : null;
-    };
-    const channelLuminance = (c: number) => {
-      const v = c / 255;
-      return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-    };
-    const luminance = (rgb: number[]) =>
-      0.2126 * channelLuminance(rgb[0] ?? 0) +
-      0.7152 * channelLuminance(rgb[1] ?? 0) +
-      0.0722 * channelLuminance(rgb[2] ?? 0);
-
-    const fg = toRgb(textColor);
-    const bg = toRgb(surfaceColor);
-    if (!fg || !bg) return "unverified";
-    const l1 = luminance(fg);
-    const l2 = luminance(bg);
-    const ratio = (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
-    return ratio >= 4.5;
-  },
+    _textColor: string,
+    _surfaceColor: string
+  ): boolean | "unverified" => "unverified",
 
   /**
    * Generate CSS backdrop-filter string
