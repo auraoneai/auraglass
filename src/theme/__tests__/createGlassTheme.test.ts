@@ -21,8 +21,8 @@ import { deltaE2000, parseColor } from '../color';
 const OPTIONS = {
   id: 't1',
   name: 'T1',
-  brandColor: '#3b82f6',
-  accentColor: '#3b82f6',
+  brandColor: '#3b82f6', // @ag-literal-allowed: test-vector
+  accentColor: '#3b82f6', // @ag-literal-allowed: test-vector
   preset: 'aura',
   neutralHue: 250,
   radiusScale: 1.1,
@@ -206,7 +206,7 @@ describe('createGlassTheme', () => {
   });
 
   it('4 colour syntaxes agree within dE2000 <= 0.5', () => {
-    const spellings = ['#3b82f6', 'rgb(59, 130, 246)', 'hsl(217, 91%, 60%)', 'oklch(0.623185 0.188259 259.815)'];
+    const spellings = ['#3b82f6', 'rgb(59, 130, 246)', 'hsl(217, 91%, 60%)', 'oklch(0.623185 0.188259 259.815)']; // @ag-literal-allowed: test-vector
     const accents = spellings.map((s) => parseColor(s));
     for (let i = 1; i < accents.length; i++) {
       expect(deltaE2000(accents[0]!, accents[i]!)).toBeLessThanOrEqual(0.5);

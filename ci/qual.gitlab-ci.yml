@@ -269,6 +269,10 @@ qual:certify:release:
     - node scripts/storybook/verify-fresh.mjs --dir storybook-static
     - |
       rc=0
+      # REQ-QUAL-72 / REQ-FIN-110: L13 aggregate the ReleaseVerdict reads (G-09).
+      # Exit 1 (fail/incomplete) is the verdict's to judge; usage errors (64) fail here.
+      node tests/a11y/manual/aggregate.mjs --sha "$CI_COMMIT_SHA" --out ".artifacts/qual/a11y-manual-$CI_COMMIT_SHA.json"; ac=$?
+      [ "$ac" -le 1 ] || rc=1
       node scripts/qual/shard-plan.mjs collect --plan .artifacts/qual/qual-certify-release-plan/shards.json \
         --out .artifacts/qual/$CI_JOB_NAME_SLUG/shards-summary.json || rc=1
       AG_RELEASE_SHARDS=.artifacts/qual/$CI_JOB_NAME_SLUG/shards-summary.json \

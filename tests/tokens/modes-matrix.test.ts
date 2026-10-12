@@ -61,7 +61,9 @@ describe('mode matrix (MAT-035)', () => {
     const norm = (s: string) => s.replace(/\s+/g, ' ').replace(/\(\s+/g, '(').replace(/\s+\)/g, ')').trim();
     const rows = new Map<string, number>();
     postcss.parse(floors).walkRules((r) => {
-      r.walkDecls('--_ag-tint-floor', (d) => void rows.set(norm(r.selector), parseFloat(d.value)));
+      // generated rows are calc(<solved> + var(--_ag-floor-lift, 0)) (REQ-MAT-09 lift)
+      r.walkDecls('--_ag-tint-floor', (d) => void rows.set(norm(r.selector),
+        Number(/^calc\(\s*(\d+(?:\.\d+)?)\s*\+\s*var\(--_ag-floor-lift,\s*0\)\s*\)$/.exec(d.value.trim())?.[1] ?? Number.NaN)));
     });
     const on = (attr: string, v: string) => `:is([data-ag-${attr}="${v}"], [data-ag-${attr}="${v}"] *)`;
     const floorAt = (cond: string, th: string, b: string) =>

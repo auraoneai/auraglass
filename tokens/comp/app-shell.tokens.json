@@ -17,7 +17,8 @@
           "ag.tier": "comp",
           "ag.since": "5.0.0",
           "ag.public": false,
-          "ag.cssVar": "--_ag-app-shell-sidebar-width"
+          "ag.cssVar": "--_ag-app-shell-sidebar-width",
+          "ag.requestedBy": "MAT-083"
         }
       },
       "rail-width": {
@@ -30,7 +31,8 @@
           "ag.tier": "comp",
           "ag.since": "5.0.0",
           "ag.public": false,
-          "ag.cssVar": "--_ag-app-shell-rail-width"
+          "ag.cssVar": "--_ag-app-shell-rail-width",
+          "ag.requestedBy": "MAT-083"
         }
       },
       "inspector-width": {
@@ -43,7 +45,8 @@
           "ag.tier": "comp",
           "ag.since": "5.0.0",
           "ag.public": false,
-          "ag.cssVar": "--_ag-app-shell-inspector-width"
+          "ag.cssVar": "--_ag-app-shell-inspector-width",
+          "ag.requestedBy": "MAT-083"
         }
       },
       "topbar-height": {
@@ -63,7 +66,8 @@
           "ag.since": "5.0.0",
           "ag.public": false,
           "ag.cssVar": "--_ag-app-shell-topbar-height",
-          "ag.valueType": "dimension"
+          "ag.valueType": "dimension",
+          "ag.requestedBy": "MAT-083"
         }
       },
       "tabbar-height": {
@@ -76,7 +80,8 @@
           "ag.tier": "comp",
           "ag.since": "5.0.0",
           "ag.public": false,
-          "ag.cssVar": "--_ag-app-shell-tabbar-height"
+          "ag.cssVar": "--_ag-app-shell-tabbar-height",
+          "ag.requestedBy": "MAT-083"
         }
       },
       "gap": {
@@ -91,7 +96,8 @@
           "ag.since": "5.0.0",
           "ag.public": false,
           "ag.cssVar": "--_ag-app-shell-gap",
-          "ag.valueType": "dimension"
+          "ag.valueType": "dimension",
+          "ag.requestedBy": "MAT-083"
         }
       }
     }

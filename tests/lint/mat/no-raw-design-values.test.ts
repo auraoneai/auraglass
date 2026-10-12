@@ -164,8 +164,41 @@ describe('stylelint mirror (stylelint.config.mjs)', () => {
   });
 
   it('the ratchet matcher (scanText) keeps counting the semantic values the stylelint rule accepts', () => {
+    // outside the MAT optics owner every backdrop-filter declaration is a finding (MAT-062 superset)
     const css = '.a { backdrop-filter: none; }\n.b { mask: linear-gradient(#000 0 0); }';
-    const cats = scanText(css, 'src/material/css/x.css').map((h: { category: string }) => h.category);
-    expect(cats).toEqual(['blur', 'color']);
+    for (const file of ['src/components/card/Card.css', 'src/theme/x.css', 'src/app-shell/x.css']) {
+      const cats = scanText(css, file).map((h: { category: string }) => h.category);
+      expect({ file, cats }).toEqual({ file, cats: ['blur', 'color'] });
+    }
+    const js = "const s = { backdropFilter: 'var(--_ag-blur)' };";
+    expect(scanText(js, 'src/components/card/Card.tsx').map((h) => h.category)).toEqual(['blur']);
+  });
+
+  it('inside the MAT optics owner only literal-carrying backdrop-filter values count (REQ-MAT-39 recipe)', () => {
+    const recipe = [
+      '.a::before { backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)); -webkit-backdrop-filter: none; }',
+      '.b::before { backdrop-filter: url(#ag-lens-fixed-control) blur(var(--_ag-blur)); }',
+    ].join('\n');
+    for (const file of ['src/material/css/x.css', 'src/a11y/css/rungs.css']) {
+      expect({ file, cats: scanText(recipe, file).map((h) => h.category) }).toEqual({ file, cats: [] });
+    }
+    // a literal inside the owner still counts: the declaration and the blur(<n>px) matcher
+    const literal = '.a::before { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(var(--x)) saturate(1.6); }';
+    expect(scanText(literal, 'src/material/css/x.css').map((h) => h.category)).toEqual(['blur', 'blur', 'blur']);
+    // a var() fallback literal is a literal
+    expect(scanText('.a { backdrop-filter: blur(var(--x, 8px)); }', 'src/material/css/x.css').map((h) => h.category)).toEqual(['blur']);
+  });
+
+  it('feature probes and zero-time resets are not design values; real values around them still count', () => {
+    const css = [
+      '@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {',
+      '  .a { transition-duration: 0s; animation-duration: 0ms, 0s; }',
+      '  .b { box-shadow: 0 1px 2px #000; }',
+      '}',
+      '.c { transition: opacity 0s, transform 120ms; }',
+    ].join('\n');
+    expect(scanText(css, 'src/components/card/Card.css').map((h) => h.category)).toEqual(['shadow', 'color', 'duration']);
+    const js = "const ok = CSS.supports('(backdrop-filter: blur(1px))') || css.supports('(-webkit-backdrop-filter: blur(1px))');\nconst bad = 'blur(4px)';";
+    expect(scanText(js, 'src/theme/preferences/store.ts').map((h) => h.category)).toEqual(['blur']);
   });
 });

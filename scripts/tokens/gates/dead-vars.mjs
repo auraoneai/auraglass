@@ -13,7 +13,11 @@
 //     that nothing outside reads is dead as a whole);
 //   - `initial` reservations (the MAT-003 privates registry in dist/tokens.css)
 //     neither define nor read anything;
-//   - @property registration is not a reader (no channel exemption).
+//   - @property registration is not a reader (no channel exemption);
+//   - an `inherit` declaration (the ::before/::after forwarding of every private
+//     scalar, REQ-MAT-28) defines no value of its own — it only forwards the
+//     host's — so it neither defines nor reads; a scalar declared only that way
+//     and registered by @property is a reservation, not a dead var.
 // Each dead var is attributed to the stream(s) owning its defining file(s)
 // (contracts/ownership.json). Non-MAT findings print `pre-existing (<stream>)`;
 // the gate exits 1 only on MAT findings.
@@ -62,7 +66,8 @@ for (const f of [...distFiles, ...srcFiles]) {
   const r = rel(f);
   const text = readFileSync(f, 'utf8');
   if (f.endsWith('.css')) {
-    take(scanCss(text, f), r);
+    const scanned = scanCss(text, f);
+    take({ ...scanned, defs: scanned.defs.filter((d) => String(d.value).trim() !== 'inherit') }, r);
   } else {
     // css text inside TS (template/string literals): `--_ag-x: value` declarations
     // and every static var(--_ag-x) read; a read inside a declaration value is via it.

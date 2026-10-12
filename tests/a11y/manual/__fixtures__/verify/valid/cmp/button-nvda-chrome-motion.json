@@ -18,7 +18,11 @@
       "action": "Activate Button with OS reduced motion on",
       "expected": "No press scale animation",
       "announced": "Save, button",
-      "pass": true
+      "pass": true,
+      "nameRoleValue": "Save, button",
+      "stateChange": "n/a",
+      "openClose": "n/a",
+      "liveRegion": "n/a"
     }
   ],
   "storybookArtifactUrl": "https://gitlab.com/example/-/jobs/1/artifacts/storybook-static/index.html"

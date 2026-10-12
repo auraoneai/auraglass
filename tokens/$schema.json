@@ -546,6 +546,11 @@
           "type": "boolean",
           "description": "frozen 4.x primitive (tokens/legacy/*); never emitted"
         },
+        "ag.requestedBy": {
+          "type": "string",
+          "pattern": "^(MAT|CMP|SURF|PLAT|QUAL|FIN)-\\d+$",
+          "description": "comp tier: the task that requested the row (REQ-MAT-01)"
+        },
         "ag.legacyVar": {
           "type": "string",
           "pattern": "^--(glass|aura|persona|glass-theme)-",

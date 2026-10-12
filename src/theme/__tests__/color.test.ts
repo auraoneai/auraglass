@@ -22,14 +22,14 @@ const srgbBytes = (s: Srgb): [number, number, number] => [
 ];
 
 describe('color math (CSS Color 4)', () => {
-  it('oklch(0.628 0.2577 29.23) ~ #ff0000 within 1/255', () => {
+  it('oklch(0.628 0.2577 29.23) ~ #ff0000 within 1/255', () => { // @ag-literal-allowed: test-vector
     const [r, g, b] = srgbBytes(oklchToSrgb({ l: 0.628, c: 0.2577, h: 29.23 }));
     expect(near(r, 255, 1)).toBe(true);
     expect(near(g, 0, 1)).toBe(true);
     expect(near(b, 0, 1)).toBe(true);
   });
 
-  it('oklch(1 0 0) = #ffffff and oklch(0 0 0) = #000000', () => {
+  it('oklch(1 0 0) = #ffffff and oklch(0 0 0) = #000000', () => { // @ag-literal-allowed: test-vector
     expect(srgbBytes(oklchToSrgb({ l: 1, c: 0, h: 0 }))).toEqual([255, 255, 255]);
     expect(srgbBytes(oklchToSrgb({ l: 0, c: 0, h: 0 }))).toEqual([0, 0, 0]);
   });
@@ -74,10 +74,10 @@ describe('color math (CSS Color 4)', () => {
   });
 
   it('parseColor equality across hex/rgb/hsl/oklch spellings', () => {
-    const hex = parseColor('#ff0000');
-    const rgb = parseColor('rgb(255, 0, 0)');
-    const hsl = parseColor('hsl(0, 100%, 50%)');
-    const oklch = parseColor('oklch(0.627955 0.257683 29.2339)');
+    const hex = parseColor('#ff0000'); // @ag-literal-allowed: test-vector
+    const rgb = parseColor('rgb(255, 0, 0)'); // @ag-literal-allowed: test-vector
+    const hsl = parseColor('hsl(0, 100%, 50%)'); // @ag-literal-allowed: test-vector
+    const oklch = parseColor('oklch(0.627955 0.257683 29.2339)'); // @ag-literal-allowed: test-vector
     for (const other of [rgb, hsl, oklch]) {
       expect(Math.abs(other.l - hex.l)).toBeLessThan(0.002);
       expect(Math.abs(other.c - hex.c)).toBeLessThan(0.002);
@@ -85,12 +85,12 @@ describe('color math (CSS Color 4)', () => {
       if (dh > 180) dh = 360 - dh;
       expect(dh).toBeLessThan(0.5);
     }
-    expect(parseColor('#00f').l).toBeCloseTo(parseColor('rgb(0 0 255)').l, 3);
+    expect(parseColor('#00f').l).toBeCloseTo(parseColor('rgb(0 0 255)').l, 3); // @ag-literal-allowed: test-vector
   });
 
   it('deltaE2000 reference pairs (Sharma 2005)', () => {
-    expect(deltaE2000('#000000', '#000000')).toBeLessThan(0.0001);
-    expect(deltaE2000('#ffffff', '#ffffff')).toBeLessThan(0.0001);
+    expect(deltaE2000('#000000', '#000000')).toBeLessThan(0.0001); // @ag-literal-allowed: test-vector
+    expect(deltaE2000('#ffffff', '#ffffff')).toBeLessThan(0.0001); // @ag-literal-allowed: test-vector
     // canonical pair: Lab(50, 2.6772, -79.7751) vs Lab(50, 0, -82.7485) -> 2.0425
     const a = srgbToOklch({ r: 0.4, g: 0.2, b: 0.6 });
     const b = srgbToOklch({ r: 0.45, g: 0.15, b: 0.55 });
@@ -98,24 +98,24 @@ describe('color math (CSS Color 4)', () => {
     expect(dSelf).toBeLessThan(0.0001);
     expect(deltaE2000(a, b)).toBeGreaterThan(0);
     // far pair beats near pair
-    expect(deltaE2000('#ff0000', '#0000ff')).toBeGreaterThan(deltaE2000('#ff0000', '#ff3333'));
+    expect(deltaE2000('#ff0000', '#0000ff')).toBeGreaterThan(deltaE2000('#ff0000', '#ff3333')); // @ag-literal-allowed: test-vector
   });
 
   // ---- MAT-254 a11y reference vectors ----
-  it('contrastRatio(#777777, #ffffff) = 4.48 ± 0.01', () => {
-    expect(Math.abs(contrastRatio('#777777', '#ffffff') - 4.48)).toBeLessThanOrEqual(0.01);
+  it('contrastRatio(#777777, #ffffff) = 4.48 ± 0.01', () => { // @ag-literal-allowed: test-vector
+    expect(Math.abs(contrastRatio('#777777', '#ffffff') - 4.48)).toBeLessThanOrEqual(0.01); // @ag-literal-allowed: test-vector
   });
 
-  it('contrastRatio(#000000, #ffffff) = 21', () => {
-    expect(contrastRatio('#000000', '#ffffff')).toBeCloseTo(21, 1);
+  it('contrastRatio(#000000, #ffffff) = 21', () => { // @ag-literal-allowed: test-vector
+    expect(contrastRatio('#000000', '#ffffff')).toBeCloseTo(21, 1); // @ag-literal-allowed: test-vector
   });
 
   it('wcagContrast agrees with contrastRatio', () => {
-    expect(wcagContrast('#777777', '#ffffff')).toBeCloseTo(contrastRatio('#777777', '#ffffff'), 3);
+    expect(wcagContrast('#777777', '#ffffff')).toBeCloseTo(contrastRatio('#777777', '#ffffff'), 3); // @ag-literal-allowed: test-vector
   });
 
-  it('compositeOver(#fff over #000 at 0.5) = #808080 ± 1/255', () => {
-    const c = compositeOver({ r: 1, g: 1, b: 1, alpha: 0.5 } as Srgb, '#000000');
+  it('compositeOver(#fff over #000 at 0.5) = #808080 ± 1/255', () => { // @ag-literal-allowed: test-vector
+    const c = compositeOver({ r: 1, g: 1, b: 1, alpha: 0.5 } as Srgb, '#000000'); // @ag-literal-allowed: test-vector
     for (const ch of srgbBytes(c)) expect(Math.abs(ch - 128)).toBeLessThanOrEqual(1);
   });
 

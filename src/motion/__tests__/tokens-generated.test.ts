@@ -39,7 +39,7 @@ describe('motionTokens easings + springs (MAT-189/-190)', () => {
     expect(easeKeys).toHaveLength(4);
     for (const [name, tuple] of Object.entries(EASES) as Array<[EaseName, readonly number[]]>) {
       const v = val(`ease-${name}`);
-      expect(v).toBe(`cubic-bezier(${tuple.join(', ')})`);
+      expect(v).toBe(`cubic-bezier(${tuple.join(', ')})`); // @ag-literal-allowed: test-vector
       expect(tuple[1]).toBeGreaterThanOrEqual(0);
       expect(tuple[1]).toBeLessThanOrEqual(1);
       expect(tuple[3]).toBeGreaterThanOrEqual(0);

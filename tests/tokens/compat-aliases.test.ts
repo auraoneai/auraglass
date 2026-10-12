@@ -6,6 +6,7 @@ import { describe, test, expect } from '@jest/globals';
 // [data-theme=dark] / .dark block mapping to every 5.x --ag-color-* dark value;
 // map keys equal the reader set exactly.
 import { readFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 import postcss from 'postcss';
 import { ROOT } from '../../scripts/tokens/validate.mjs';
@@ -87,5 +88,46 @@ describe('compat aliases (MAT-076)', () => {
     const dropped = defined.filter(([n]) => !CSS.includes(`${n}:`));
     console.log(`defined legacy names: ${defined.length}; successor-mapped: ${defined.filter(([, v]: [string, any]) => v.successor).length}`);
     expect(dropped).toEqual([]);
+  });
+});
+
+// REQ-MAT-21: tokens/compat-alias-map.json (scripts/mat/compat-alias-map.mjs)
+// gives every --glass-* name with a 4.x reader an --ag-* successor or a frozen
+// legacy value; nothing is left uncovered and no template prefix is a name.
+describe('compat alias map coverage (REQ-MAT-21)', () => {
+  const ALIAS = JSON.parse(readFileSync(join(ROOT, 'tokens/compat-alias-map.json'), 'utf8')) as {
+    counts: { total: number; mapped: number; frozen: number; uncovered: number; runtimeSet: number; undeclared: number };
+    entries: Record<string, { successor?: string; frozenValue?: unknown; frozenAs?: string; setBy?: string[] }>;
+  };
+  const entries = Object.entries(ALIAS.entries);
+
+  test('uncovered === 0 and every entry has a successor or a frozen value', () => {
+    expect(ALIAS.counts.uncovered).toBe(0);
+    expect(entries.length).toBe(ALIAS.counts.total);
+    const bad = entries.filter(([, e]) => !(typeof e.successor === 'string' && e.successor.startsWith('--ag-'))
+      && (e.frozenValue === null || e.frozenValue === undefined));
+    expect(bad.map(([k]) => k)).toEqual([]);
+    expect(ALIAS.counts.mapped + ALIAS.counts.frozen).toBe(ALIAS.counts.total);
+  });
+
+  test('names never declared in 4.x freeze at initial and say why', () => {
+    const unset = entries.filter(([, e]) => e.frozenAs !== undefined);
+    expect(unset.length).toBe(ALIAS.counts.runtimeSet + ALIAS.counts.undeclared);
+    for (const [k, e] of unset) {
+      expect({ k, v: e.frozenValue }).toEqual({ k, v: 'initial' });
+      expect(['runtime-set-in-4x', 'undeclared-in-4x']).toContain(e.frozenAs);
+      if (e.frozenAs === 'runtime-set-in-4x') expect((e.setBy ?? []).length).toBeGreaterThan(0);
+    }
+  });
+
+  test('no template prefix (name ending in "-") in either map or the reader set', () => {
+    expect(Object.keys(ALIAS.entries).filter((k) => k.endsWith('-'))).toEqual([]);
+    expect(Object.keys(MAP).filter((k) => k.endsWith('-'))).toEqual([]);
+    expect([...(legacyReaderSet() as Iterable<string>)].filter((k) => k.endsWith('-'))).toEqual([]);
+  });
+
+  test('the committed map equals a fresh generation from the 4.1.0 snapshot', () => {
+    const out = execFileSync(process.execPath, ['scripts/mat/compat-alias-map.mjs', '--check'], { cwd: ROOT, encoding: 'utf8' });
+    expect(out).toContain('0 uncovered');
   });
 });

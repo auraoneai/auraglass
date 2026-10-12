@@ -8,8 +8,9 @@ export const MAT_BUNDLES: Set<string>;
 export const CSS_TARGETS: string;
 export const COLOR_MIX_SUPPORTS: string;
 export const CSS_FILES_BASELINE: string;
+export const CSS_A11Y_PAIRING_BASELINE: string;
 export interface StyleRule { selector: string; headers: string[]; body: string }
-export interface CssFragmentEntry { stream: string; layer: string; bundle: string; order: number; file: string; content: string; baselined?: string }
+export interface CssFragmentEntry { stream: string; layer: string; bundle: string; order: number; file: string; content: string; baselined?: string; a11y?: 'none' }
 export interface CssFilesBaselineRow { file: string; owner: string; reqFin: string; expires: string; [key: string]: unknown }
 export function topLevelHeaders(css: string): string[];
 export function styleRules(css: string): StyleRule[];
@@ -23,6 +24,6 @@ export function containerCount(css: string): number;
 export function rebaseCssUrls(css: string, srcFile: string, bundle: string, root?: string): { css: string; assets: Array<{ from: string; to: string }> };
 export function assembleBundle(bundle: string, fragments: CssFragmentEntry[], root?: string, assets?: Array<{ from: string; to: string }> | null): Promise<string>;
 export function lowerCss(css: string, targets?: string): Promise<string>;
-export function computeOwnership(fragments: CssFragmentEntry[]): unknown;
+export function computeOwnership(fragments: CssFragmentEntry[], opts?: { a11yBaseline?: Map<string, unknown> | null }): unknown;
 export function checkOwnership(bundle: string, css: string, ownership: unknown): unknown;
 export function assembleAllCss(root?: string, opts?: { lower?: boolean }): Promise<unknown>;

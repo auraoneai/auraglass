@@ -25,7 +25,7 @@ describe('createBrandTheme', () => {
   it('emits a 12-step accent ramp monotone in L', () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     try {
-      for (const brand of ['#3b82f6', ...FIXTURES]) {
+      for (const brand of ['#3b82f6', ...FIXTURES]) { // @ag-literal-allowed: test-vector
         const theme = createBrandTheme(brand);
         const ls = rampL(theme.cssText);
         expect(ls.length).toBe(12);
@@ -38,10 +38,10 @@ describe('createBrandTheme', () => {
     }
   });
 
-  it('oklch(0.85 0.1 95) yields adjustments, all pairs passing, one console.warn', () => {
+  it('oklch(0.85 0.1 95) yields adjustments, all pairs passing, one console.warn', () => { // @ag-literal-allowed: test-vector
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     try {
-      const theme = createBrandTheme('oklch(0.85 0.1 95)');
+      const theme = createBrandTheme('oklch(0.85 0.1 95)'); // @ag-literal-allowed: test-vector
       expect(theme.contrast.adjusted.length).toBeGreaterThan(0);
       expect(theme.contrast.pairs.length).toBeGreaterThan(0);
       // text pairs all pass; brandOnBackground is a reported (non-text) pair
@@ -181,7 +181,7 @@ describe('createBrandTheme', () => {
   });
 
   it('relative-color ramp + literal fallback inside @supports-not', () => {
-    const theme = createBrandTheme('#ff8800');
+    const theme = createBrandTheme('#ff8800'); // @ag-literal-allowed: test-vector
     const text = theme.cssText;
     expect(text).toContain('oklch(from var(--ag-color-accent)');
     expect(text).toContain('@supports');
