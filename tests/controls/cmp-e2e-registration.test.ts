@@ -7,8 +7,10 @@
 import { describe, expect, it } from '@jest/globals';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import picomatch from 'picomatch';
 import { BUILTINS, locationBuiltins } from '../../certification/lanes.config';
+
+// same loading pattern as tests/helpers/index.ts (no picomatch types dependency)
+const picomatch = require('picomatch') as (glob: string, opts: { dot: boolean }) => (p: string) => boolean;
 
 const ROOT = join(__dirname, '..', '..');
 
