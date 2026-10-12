@@ -50,7 +50,7 @@ describe('per-subpath css ownership (REQ-PLAT-74)', () => {
    computeOwnership at assembly time (source fragments, no build needed). */
 describe('a11y pairing is explicit (REQ-PLAT-74)', () => {
   const frag = (file: string, layer: string, bundle: string, content: string, a11y?: 'none') =>
-    ({ stream: 'cmp', file, layer, bundle, order: 0, content, ...(a11y ? { a11y } : {}) });
+    ({ stream: 'cmp', file, layer, bundle, order: 0, content, ...(a11y ? { a11y } : {}) } as const);
   const comp = (a11y?: 'none', bundle = 'styles.css') =>
     frag('src/components/x/X.css', 'ag.components', bundle, '@layer ag.components { .ag-x { color: red; } }', a11y);
   const a11yRule = (bundle = 'styles.css') =>
@@ -71,7 +71,7 @@ describe('a11y pairing is explicit (REQ-PLAT-74)', () => {
 
   it('the repo fragments pass with the expiring baseline, and every baseline row is still needed', async () => {
     const rows = JSON.parse(readFileSync(join(ROOT, CSS_A11Y_PAIRING_BASELINE), 'utf8')) as Array<{ file: string; owner: string; reqFin: string; expires: string }>;
-    const fragments = await collectCssFragments(ROOT, { validate: false }) as Array<{ file: string; layer: string; a11y?: string }>;
+    const fragments = await collectCssFragments(ROOT, { validate: false });
     const own = computeOwnership(fragments, { a11yBaseline: new Map(rows.map((r) => [r.file, r])) }) as { a11y: Record<string, string> };
     expect(Object.keys(own.a11y).length).toBeGreaterThan(0);
     const components = new Set(fragments.filter((f) => f.layer === 'ag.components' && f.a11y !== 'none').map((f) => f.file));

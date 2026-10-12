@@ -8,8 +8,9 @@ export const MAT_BUNDLES: Set<string>;
 export const CSS_TARGETS: string;
 export const COLOR_MIX_SUPPORTS: string;
 export const CSS_FILES_BASELINE: string;
+export const CSS_A11Y_PAIRING_BASELINE: string;
 export interface StyleRule { selector: string; headers: string[]; body: string }
-export interface CssFragmentEntry { stream: string; layer: string; bundle: string; order: number; file: string; content: string; baselined?: string }
+export interface CssFragmentEntry { stream: string; layer: string; bundle: string; order: number; file: string; content: string; baselined?: string; a11y?: 'none' }
 export interface CssFilesBaselineRow { file: string; owner: string; reqFin: string; expires: string; [key: string]: unknown }
 export function topLevelHeaders(css: string): string[];
 export function styleRules(css: string): StyleRule[];

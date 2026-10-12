@@ -153,6 +153,7 @@ describe('legacy gate superset (MAT-062)', () => {
     // (scripts/mat/count-glass-recipes.mjs), which reports every src file that
     // declares a backdrop filter. Inside the MAT optics owner the literal-free
     // recipe declarations are the recipe itself, so there the metric is the gate.
+    // @ts-ignore mjs module
     const { count } = await import('../../scripts/mat/count-glass-recipes.mjs');
     const recipes = count(ROOT) as { inside: string[]; outside: string[] };
     const recipeFiles = new Set([...recipes.inside, ...recipes.outside]);

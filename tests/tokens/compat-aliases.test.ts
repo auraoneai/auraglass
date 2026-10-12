@@ -71,7 +71,7 @@ describe('compat aliases (MAT-076)', () => {
 // legacy value; nothing is left uncovered and no template prefix is a name.
 describe('compat alias map coverage (REQ-MAT-21)', () => {
   const ALIAS = JSON.parse(readFileSync(join(ROOT, 'tokens/compat-alias-map.json'), 'utf8')) as {
-    counts: Record<string, number>;
+    counts: { total: number; mapped: number; frozen: number; uncovered: number; runtimeSet: number; undeclared: number };
     entries: Record<string, { successor?: string; frozenValue?: unknown; frozenAs?: string; setBy?: string[] }>;
   };
   const entries = Object.entries(ALIAS.entries);
