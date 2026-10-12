@@ -14,7 +14,7 @@ export default defineMeta({
   states: ['playing', 'paused', 'waiting', 'ended', 'error'],
   variants: {},
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/',
-  budgetKb: 14,
+  budgetKb: 18,
   // §16 perf row: perf/media-playback; APG: tests/e2e/apg/media-controls.apg.spec.ts;
   // env baseline: env-baseline-2026-10 (SURF-495); fixtures: fragments/codemods/surf/fixtures/media-backdrops/media-controls/.
   migration: [

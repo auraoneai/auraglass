@@ -5,11 +5,14 @@
    expandedKeys/defaultExpandedKeys; disabled nodes → disabledKeys;
    onSelect(id, node) / onSelectionChange(ids, nodes) ← onSelectionChange;
    onExpand(id, expanded) ← onExpandedChange. Lines/icons/checkbox styling has
-   no 5.0 equivalent. */
+   no 5.0 equivalent. The mapping lives in ./GlassTreeView.impl, loaded on
+   first render (../lazyAdapter) so importing aura-glass/compat never
+   evaluates react-aria-components. */
 'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { TreeView, type TreeViewBaseProps } from '../../../data/tree-view/TreeView';
+import type { TreeViewBaseProps } from '../../../data/tree-view/TreeView';
+import { lazyAdapter } from '../lazyAdapter';
 
 export interface GlassTreeNode {
   id: string;
@@ -40,53 +43,12 @@ export interface GlassTreeViewProps extends Omit<TreeViewBaseProps<GlassTreeNode
   [legacy: string]: unknown;
 }
 
-function flatten(nodes: readonly GlassTreeNode[], out = new Map<string, GlassTreeNode>()): Map<string, GlassTreeNode> {
-  for (const n of nodes) {
-    out.set(n.id, n);
-    if (n.children) flatten(n.children, out);
-  }
-  return out;
-}
+const LegacyTreeLazy = lazyAdapter<GlassTreeViewProps>(() => import('./GlassTreeView.impl').then((m) => m.LegacyTreeImpl));
 
+/** Shared 4.x tree mapping (GlassTreeView, TreeView 4.x); renders the 5.0
+    TreeView once its implementation module has loaded. */
 export function LegacyTree(props: GlassTreeViewProps) {
-  const {
-    data, nodes, items, selectionMode, selectedId, selectedIds, defaultSelectedIds, expandedIds, defaultExpandedIds,
-    onSelect, onSelectionChange, onExpand, className, selectedKey,
-  } = props;
-  const tree = React.useMemo(() => data ?? nodes ?? items ?? [], [data, nodes, items]);
-  const byId = React.useMemo(() => flatten(tree), [tree]);
-  const disabledKeys = React.useMemo(() => [...byId.values()].filter((n) => n.disabled).map((n) => n.id), [byId]);
-  const selected = props.selectedKeys ?? selectedIds ?? (selectedKey !== undefined ? [selectedKey] : selectedId !== undefined ? [selectedId] : undefined);
-  const mode = selectionMode ?? (selected || defaultSelectedIds || onSelect || onSelectionChange ? 'single' : 'none');
-  const expandedRef = React.useRef(new Set(expandedIds ?? defaultExpandedIds ?? []));
-  return (
-    <TreeView<GlassTreeNode>
-      {...props}
-      items={tree}
-      getTextValue={(n) => (typeof n.label === 'string' ? n.label : n.id)}
-      selectionMode={mode}
-      aria-label={props['aria-label'] ?? 'Tree'}
-      aria-labelledby={props['aria-labelledby']}
-      {...(selected ? { selectedKeys: selected } : {})}
-      {...(defaultSelectedIds ? { defaultSelectedKeys: defaultSelectedIds } : {})}
-      {...(expandedIds ? { expandedKeys: expandedIds } : {})}
-      {...(defaultExpandedIds ? { defaultExpandedKeys: defaultExpandedIds } : {})}
-      {...(disabledKeys.length ? { disabledKeys } : {})}
-      onSelectionChange={(keys: Set<React.Key>) => {
-        const ids = [...keys].map(String);
-        const picked = ids.map((id) => byId.get(id)).filter((n): n is GlassTreeNode => n !== undefined);
-        if (picked[0] && onSelect) onSelect(picked[0].id, picked[0]);
-        onSelectionChange?.(ids, picked);
-      }}
-      onExpandedChange={(keys: Set<React.Key>) => {
-        const next = new Set([...keys].map(String));
-        for (const id of next) if (!expandedRef.current.has(id)) onExpand?.(id, true);
-        for (const id of expandedRef.current) if (!next.has(id)) onExpand?.(id, false);
-        expandedRef.current = next;
-      }}
-      {...(className ? { className } : {})}
-    />
-  );
+  return <LegacyTreeLazy.Render {...props} />;
 }
 
 /**

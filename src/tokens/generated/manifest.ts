@@ -2131,3 +2131,41 @@ export const manifest = {
   }
  ]
 } as const;
+
+/** Runtime inputs of src/theme/createGlassTheme.ts, derived from `manifest` above. */
+export const themeManifestInputs = {
+ "values": {
+  "--ag-color-on-accent": {
+   "value": "oklch(1 0 0)",
+   "modes": {
+    "light": "light-dark(oklch(1 0 0), oklch(1 0 0))",
+    "dark": "oklch(1 0 0)"
+   }
+  },
+  "--ag-color-on-surface": {
+   "value": "oklch(0.26 0.016 250)",
+   "modes": {
+    "light": "light-dark(oklch(0.26 0.016 250), oklch(0.99 0.004 250))",
+    "dark": "oklch(0.99 0.004 250)"
+   }
+  }
+ },
+ "contrastMore": [
+  [
+   "--ag-state-disabled-alpha",
+   "0.5"
+  ],
+  [
+   "--ag-focus-width",
+   "3px"
+  ],
+  [
+   "--ag-state-hover-specular",
+   "0"
+  ],
+  [
+   "--ag-state-press-glow",
+   "0"
+  ]
+ ]
+} as const;

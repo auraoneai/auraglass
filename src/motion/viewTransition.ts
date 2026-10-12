@@ -13,7 +13,7 @@
    - none: update runs synchronously, no transition */
 import { useId } from 'react';
 import { onMotionChange, resolvedMotion } from './ticker';
-import { motionTokens } from './tokens.generated';
+import { motionTokenDurationMicro, motionTokenEaseStandard } from './tokens.generated';
 import type { MotionPreference } from '../contracts/motion';
 import * as React from 'react';
 
@@ -42,7 +42,7 @@ function cssTimeMs(raw: string): number | null {
 export function computedMicroMs(el: Element | null | undefined): number {
   const win = el?.ownerDocument?.defaultView;
   const raw = el && win ? win.getComputedStyle(el).getPropertyValue('--ag-duration-micro') : '';
-  return cssTimeMs(raw) ?? motionTokens['duration.micro'];
+  return cssTimeMs(raw) ?? motionTokenDurationMicro;
 }
 
 /** True when the engine matches :active-view-transition-type(), i.e. the calm
@@ -77,7 +77,7 @@ async function flipFallback(surfaces: Element[], update: UpdateFn, calm: boolean
   const win = surfaces[0]?.ownerDocument?.defaultView;
   const cs = win ? win.getComputedStyle(surfaces[0] as Element) : null;
   const easing = calm
-    ? cs?.getPropertyValue('--ag-ease-standard').trim() || motionTokens['ease.standard']
+    ? cs?.getPropertyValue('--ag-ease-standard').trim() || motionTokenEaseStandard
     : cs?.getPropertyValue('--ag-spring-fluid').trim() || 'ease';
   const duration = calm
     ? computedMicroMs(surfaces[0])

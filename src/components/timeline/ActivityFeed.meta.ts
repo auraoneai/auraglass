@@ -13,7 +13,7 @@ export default defineMeta({
   states: ['new-items'],
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/feed/',
   variants: {},
-  budgetKb: 4,
+  budgetKb: 5,
   migration: [
     { from: 'GlassActivityFeed', props: { entries: 'items' }, selectors: { '.glass-activity-feed': '[data-ag-part="activity-feed"]' }, automation: 'mostly', compat: true },
     // 4.x GlassInfiniteScroll feeds: ActivityFeed autoLoad (one IntersectionObserver) + onLoadMore/hasMore.

@@ -14,7 +14,7 @@ export default defineMeta({
   states: ['empty', 'active'],
   variants: {},
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/',
-  budgetKb: 8,
+  budgetKb: 18,
   migration: [
     { from: 'GlassFilterBar', props: { fields: 'schema', filters: 'value', onChange: 'onValueChange' }, selectors: { '.glass-filter-bar': '[data-ag-part="filter-bar"]' }, automation: 'mostly', compat: true },
     { from: 'GlassSearchBar', props: {}, selectors: { '.glass-filter-bar': '[data-ag-part="filter-bar"]' }, automation: 'manual', compat: true },

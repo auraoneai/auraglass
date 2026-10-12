@@ -4,7 +4,7 @@
    outermost creates it), so panels register whether they render inside the
    bar or as siblings of it under one Tabs.Root. Registration is a ref-set
    written in layout effects — it never re-renders the bar. */
-import { createContext, useContext, useRef } from 'react';
+import { createContext, useContext, useLayoutEffect, useRef } from 'react';
 
 export interface PanelRegistry {
   readonly panels: ReadonlySet<string>;
@@ -39,4 +39,11 @@ export function useOwnOrOuterPanelRegistry(): PanelRegistry {
   if (outer) return outer;
   own.current ??= createPanelRegistry();
   return own.current;
+}
+
+/** Register a Tabs.Panel value so TabBar semantics='tabs' can validate it
+    (layout effect: registered before the bar's post-commit check). */
+export function useTabBarPanel(value: string): void {
+  const registry = useContext(PanelRegistryContext);
+  useLayoutEffect(() => (registry ? registry.register(value) : undefined), [registry, value]);
 }

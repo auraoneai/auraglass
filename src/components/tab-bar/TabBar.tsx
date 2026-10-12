@@ -217,12 +217,10 @@ export function TabBarSearch({ render, ...rest }: PartProps<'div'>) {
 }
 TabBarSearch.displayName = 'TabBar.Search';
 
-/** Register a Tabs.Panel value so TabBar semantics='tabs' can validate it
-    (layout effect: registered before the bar's post-commit check). */
-export function useTabBarPanel(value: string): void {
-  const registry = React.useContext(PanelRegistryContext);
-  React.useLayoutEffect(() => (registry ? registry.register(value) : undefined), [registry, value]);
-}
+/* useTabBarPanel lives in ./panelRegistry so Tabs can register panels without
+   importing this module (its parts' top-level displayName writes would keep
+   TabBar, SearchField and the TopBar edge registrar in every Tabs bundle). */
+export { useTabBarPanel } from './panelRegistry';
 
 export const TabBar = {
   Root: TabBarRoot,

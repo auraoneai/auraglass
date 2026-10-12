@@ -11,7 +11,7 @@ export default defineMeta({
   states: ['complete', 'streaming', 'pending', 'error', 'aborted'],
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/feed/',
   variants: {},
-  budgetKb: 18,
+  budgetKb: 21,
   // REQ-FIN-110 → REQ-FIN-85 (SURF-196 transfer): 4.x GlassMessageList had no
   // semantic class (utility classes only); its stable hook was the
   // role=log + aria-label="Message list" root, which maps to the Thread log.

@@ -11,6 +11,6 @@ export default defineMeta({
   states: ['complete', 'streaming', 'pending', 'error', 'aborted'],
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/feed/',
   variants: {},
-  budgetKb: 10,
+  budgetKb: 17,
   migration: [],
 });

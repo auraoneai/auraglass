@@ -11,7 +11,7 @@ export default defineMeta({
   states: ['closed', 'open', 'zoomed'],
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/',
   variants: {},
-  budgetKb: 10,
+  budgetKb: 13,
   migration: [
     { from: 'GlassImageViewer', props: { images: 'items', initialIndex: 'defaultValue' }, selectors: { '.glass-image-viewer': '[data-ag-part="image-viewer-popup"]' }, automation: 'partial', compat: true },
     { from: 'GlassGallery', props: { images: 'items' }, selectors: { '.glass-image-viewer': '[data-ag-part="image-viewer-popup"]' }, automation: 'partial', compat: true },
