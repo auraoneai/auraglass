@@ -1,8 +1,20 @@
-/* CMP-316: Rating — own role='radiogroup' with roving tabindex; Arrow keys
-   (RTL-aware), Home/End; readOnly → aria-readonly and no interaction;
-   `allowHalf` selects half steps by click position / Shift+Arrow. */
+/* CMP-316 / REQ-CMP-123: Rating — an owned role='radiogroup' over Base UI
+   `Radio` items with roving tabindex; Arrow keys (RTL-aware), Home/End;
+   readOnly → aria-readonly and no interaction; `allowHalf` selects half steps
+   by click position / Shift+Arrow.
+
+   The group is owned (not Base UI RadioGroup) because a rating value can be
+   fractional (3.5 checks item 4 and reads "3.5 of 5") and its keys step by
+   halves; RadioGroup's composite would commit whole item values on focus.
+   Each item is a standalone `Radio.Root` (role=radio, aria-checked, data-
+   checked/unchecked, the hidden input, Space activation through Base UI's
+   button). Outside a RadioGroup, Base UI derives `checked` as
+   `value === ''` (RadioRoot.js: `groupContext ? checkedValue === value :
+   value === ''`), so the checked item is given the empty value and every
+   other item its ordinal. */
 'use client';
 import * as React from 'react';
+import { Radio } from '@base-ui/react/radio';
 import { cn } from '../../internal/index';
 
 export interface RatingProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange' | 'defaultValue'> {
@@ -75,7 +87,9 @@ export function Rating({
   const onItemClick = (index: number, e: React.MouseEvent<HTMLElement>) => {
     if (!interactive) return;
     let v = index;
-    if (allowHalf) {
+    // a keyboard (Space) activation has detail 0 and no pointer position: it
+    // selects the whole item
+    if (allowHalf && e.detail !== 0) {
       const rect = e.currentTarget.getBoundingClientRect();
       const rtl = isRtl(e.currentTarget);
       const leftHalf = rtl ? e.clientX > rect.left + rect.width / 2 : e.clientX < rect.left + rect.width / 2;
@@ -108,15 +122,16 @@ export function Rating({
         const roving = interactive ? (checked || (current <= 0 && v === 1) ? 0 : -1) : -1;
         const fractional = current % 1 !== 0;
         return (
-          <span
+          <Radio.Root
             key={v}
-            role="radio"
-            aria-checked={checked}
+            value={checked ? '' : String(v)}
+            readOnly={readOnly}
+            disabled={disabled}
             aria-posinset={v}
             aria-setsize={max}
             aria-label={checked && fractional ? `${current} of ${max}` : `${v} of ${max}`}
             tabIndex={roving}
-            onClick={(e) => onItemClick(v, e)}
+            onClick={(e: React.MouseEvent<HTMLElement>) => onItemClick(v, e)}
             data-ag-part="item"
             data-value={v}
             data-state={filled ? 'on' : 'off'}
@@ -124,7 +139,7 @@ export function Rating({
             className={cn('ag-rating-item', filled ? 'ag-rating-item-on' : undefined)}
           >
             {icon ?? '★'}
-          </span>
+          </Radio.Root>
         );
       })}
     </div>

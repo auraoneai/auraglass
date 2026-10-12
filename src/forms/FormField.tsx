@@ -7,7 +7,12 @@
      prop resolves to the inner input — RHF registers it (register()-style).
    - mode="controller" (Switch/Checkbox/Select/Combobox): bound via RHF
      Controller — value/checked + onValueChange/onCheckedChange forward to
-     field.value/onChange; `name` on the hidden input submits the value. */
+     field.value/onChange; `name` on the hidden input submits the value.
+     The Base UI hidden <input name> is handed to RHF as the field's `ref`
+     (controller.field.ref), so setFocus() and shouldFocusError reach the
+     control: Base UI forwards focus from that input to the visible control
+     (switch/checkbox root, select trigger, combobox input). Resolved from the
+     rendered Field.Root, so no control needs a public inputRef prop. */
 import * as React from 'react';
 import { useFormField, type FormFieldRules } from './useFormField';
 import { Field } from '../components/field/index';
@@ -50,8 +55,23 @@ export function FormField({ name, mode = 'native', control, label, error, valueP
       };
   const ctl = React.cloneElement(control, bound);
   const message = error ?? rhfError;
+
+  const rootRef = React.useRef<HTMLDivElement | null>(null);
+  const boundInput = React.useRef<HTMLInputElement | null>(null);
+  const fieldRef = controller.field.ref;
+  React.useLayoutEffect(() => {
+    if (mode !== 'controller' || !rootRef.current) return;
+    const candidates = Array.from(rootRef.current.querySelectorAll<HTMLInputElement>('input[name]'))
+      .filter((el) => el.name === name);
+    const input = candidates.find((el) => el.getAttribute('aria-hidden') === 'true') ?? candidates[0] ?? null;
+    if (input && input !== boundInput.current) {
+      boundInput.current = input;
+      fieldRef(input);
+    }
+  });
+
   return (
-    <Field.Root name={name} invalid={invalid} disabled={disabled ?? false}>
+    <Field.Root ref={rootRef} name={name} invalid={invalid} disabled={disabled ?? false}>
       {label != null ? <Field.Label>{label}</Field.Label> : null}
       {ctl}
       {/* RHF owns validity here, so the error always matches when present

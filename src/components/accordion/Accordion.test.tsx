@@ -62,4 +62,32 @@ describe('Accordion REQ-CMP-121', () => {
     expect(trigger.getAttribute('aria-controls')).toBeTruthy();
     expect(trigger.getAttribute('aria-controls')).toBe(content.id);
   });
+  /* REQ-CMP-121: Arrow, Home and End move focus between headers. */
+  it('ArrowDown/ArrowUp/End/Home move focus between triggers', async () => {
+    const { getByText } = render(
+      <Accordion.Root>
+        {['one', 'two', 'three'].map((v) => (
+          <Accordion.Item key={v} value={v}>
+            <Accordion.Header><Accordion.Trigger>{v}</Accordion.Trigger></Accordion.Header>
+            <Accordion.Content>{`panel ${v}`}</Accordion.Content>
+          </Accordion.Item>
+        ))}
+      </Accordion.Root>,
+    );
+    // let Base UI's composite list register every trigger index
+    await act(async () => { await new Promise((r) => setTimeout(r, 0)); });
+    const t = (label: string) => getByText(label).closest('button')!;
+    act(() => { t('one').focus(); });
+    const press = (key: string) => { fireEvent.keyDown(document.activeElement!, { key }); };
+    press('ArrowDown');
+    expect(document.activeElement).toBe(t('two'));
+    press('ArrowDown');
+    expect(document.activeElement).toBe(t('three'));
+    press('ArrowUp');
+    expect(document.activeElement).toBe(t('two'));
+    press('End');
+    expect(document.activeElement).toBe(t('three'));
+    press('Home');
+    expect(document.activeElement).toBe(t('one'));
+  });
 });

@@ -5,5 +5,8 @@
   .ag-scroll-area { overflow: hidden; position: relative; }
   .ag-scroll-area-viewport { block-size: 100%; overflow: auto; scrollbar-width: none; }
   .ag-scroll-area-scrollbar { display: flex; touch-action: none; padding: 1px; }
-  .ag-scroll-area-thumb { flex: 1; border-radius: var(--ag-radius-full); background-color: var(--_ag-thumb, currentColor); opacity: 0.4; }
+  /* REQ-CMP-122: the thumb carries the content material role (no backdrop
+     filter); its fill stays the quiet ink thumb — the `background` shorthand
+     owns the whole fill so the content-raised canvas fill does not paint. */
+  .ag-scroll-area-thumb { flex: 1; border-radius: var(--ag-radius-full); background: var(--_ag-thumb, currentColor); opacity: 0.4; }
 }

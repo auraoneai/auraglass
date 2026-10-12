@@ -83,6 +83,55 @@ describe('Button', () => {
     expect(btn.getAttribute('data-ag-variant')).toBe('regular');
   });
 
+  /* REQ-CMP-34: every non-neutral S-30 intent is emitted (material attributes
+     unchanged); neutral omits the attribute. */
+  it.each(['info', 'success', 'warning', 'danger'] as const)('intent="%s" emits data-ag-intent and keeps the chrome material', (intent) => {
+    render(<Button intent={intent}>Act</Button>);
+    const btn = screen.getByRole('button');
+    expect(btn.getAttribute('data-ag-intent')).toBe(intent);
+    expect(btn.getAttribute('data-ag-layer')).toBe('chrome');
+    expect(btn.getAttribute('data-ag-thickness')).toBe('thin');
+    expect(btn.getAttribute('data-ag-variant')).toBe('regular');
+  });
+
+  it('intent="neutral" (and no intent) omits data-ag-intent', () => {
+    render(<><Button intent="neutral">A</Button><Button>B</Button></>);
+    for (const btn of screen.getAllByRole('button')) expect(btn.hasAttribute('data-ag-intent')).toBe(false);
+  });
+
+  it('Button.css tints text, rim and specular for each non-neutral intent', () => {
+    const css = require('node:fs').readFileSync(require('node:path').join(__dirname, 'Button.css'), 'utf8') as string;
+    for (const intent of ['info', 'success', 'warning', 'danger']) {
+      // the per-intent one-line rule (not the shared grouped selector list)
+      const rule = new RegExp(`\\.ag-button\\[data-ag-intent='${intent}'\\] \\{ (color:[^}]*)\\}`, 'u').exec(css)?.[1] ?? '';
+      expect(rule).toContain(`color: var(--ag-color-${intent})`);
+      expect(rule).toContain(`--ag-color-specular: var(--ag-color-${intent})`);
+    }
+    expect(css).toMatch(/--ag-surface-rim: currentColor/u);
+    expect(css).not.toMatch(/data-ag-intent='neutral'/u);
+  });
+
+  /* REQ-CMP-35: keyboard activation — Enter and Space each fire one click,
+     and a toggle Button flips aria-pressed on each. */
+  it('Enter and Space each activate once; a toggle flips aria-pressed on each', async () => {
+    const onClick = jest.fn();
+    const onPressedChange = jest.fn();
+    render(<><Button onClick={onClick}>Go</Button><Button defaultPressed onPressedChange={onPressedChange}>Bold</Button></>);
+    const [go, bold] = screen.getAllByRole('button') as [HTMLElement, HTMLElement];
+    go.focus();
+    await userEvent.keyboard('{Enter}');
+    expect(onClick).toHaveBeenCalledTimes(1);
+    await userEvent.keyboard(' ');
+    expect(onClick).toHaveBeenCalledTimes(2);
+    bold.focus();
+    expect(bold.getAttribute('aria-pressed')).toBe('true');
+    await userEvent.keyboard('{Enter}');
+    expect(bold.getAttribute('aria-pressed')).toBe('false');
+    await userEvent.keyboard(' ');
+    expect(bold.getAttribute('aria-pressed')).toBe('true');
+    expect(onPressedChange.mock.calls.map((c) => c[0])).toEqual([false, true]);
+  });
+
   it('identity variant emits data-ag-variant=identity', () => {
     render(<Button variant="identity">Ghost</Button>);
     expect(screen.getByRole('button').getAttribute('data-ag-variant')).toBe('identity');

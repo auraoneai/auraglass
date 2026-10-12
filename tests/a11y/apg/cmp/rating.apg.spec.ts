@@ -15,11 +15,19 @@ test.describe('rating APG (CMP-355)', () => {
     await page.keyboard.press('Tab');
     const focused = page.locator('[data-ag-part="item"][tabindex="0"]');
     await expect(focused).toBeFocused();
+    /* REQ-CMP-123: each key moves the value — focus follows the newly
+       checked radio, so the focused item must be aria-checked and named by
+       its ordinal (a no-op key fails the step). */
+    const start = Number(await focused.getAttribute('data-value'));
+    const after = Math.min(5, start + 1);
     await apg.keyboard(page, [
-      { press: 'ArrowRight', expectFocus: 'item' },
-      { press: 'End', expectFocus: 'item' },
-      { press: 'Home', expectFocus: 'item' },
+      { press: 'ArrowRight', expectFocus: `role=radio[name=${after} of 5]`, expectState: { 'aria-checked': 'true' } },
+      { press: 'End', expectFocus: 'role=radio[name=5 of 5]', expectState: { 'aria-checked': 'true' } },
+      { press: 'Home', expectFocus: 'role=radio[name=1 of 5]', expectState: { 'aria-checked': 'true' } },
     ]);
+    // exactly one radio is checked after the moves, and it is the first
+    await expect(radios.and(page.locator('[aria-checked="true"]'))).toHaveCount(1);
+    await expect(radios.first()).toHaveAttribute('aria-checked', 'true');
     // radios carry ordinal labels
     await expect(radios.first()).toHaveAttribute('aria-label', '1 of 5');
   });
