@@ -21,6 +21,15 @@ export default [
     remote: false,
     failClosed: true,
   },
+  // REQ-CMP-139: the literals baseline is current and 0 for every CMP file
+  {
+    lane: "L1",
+    kind: "node-script",
+    path: "scripts/cmp/gen-literals-baseline.mjs --check --enforce-zero",
+    scope: "pr",
+    remote: false,
+    failClosed: true,
+  },
   // L5 — a11y APG specs
   {
     lane: "L5",
