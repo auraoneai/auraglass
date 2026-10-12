@@ -122,7 +122,7 @@ export function CommandPalette({
     >
       {/* null = no provider: Base UI's default container (S-23 fallback). */}
       <BaseDialog.Portal data-ag-part="portal" {...(container ? { container } : {})}>
-        <BaseDialog.Backdrop data-ag-part="scrim" data-ag-scrim="" className="ag-command-palette__scrim" />
+        <BaseDialog.Backdrop data-ag-part="scrim" data-scrim="" className="ag-command-palette__scrim" />
         <BaseDialog.Popup
           ref={setPopup}
           aria-label={ariaLabel}
