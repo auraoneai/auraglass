@@ -23,6 +23,7 @@ export function GlassSelectRoot(props: Parameters<typeof Select.Root>[0]) {
     />
   );
 }
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Select.Trigger}. */
 export function GlassSelectTrigger(props: Parameters<typeof Select.Trigger>[0]) {
   warn();
   /* 4.x <Trigger><Value placeholder="…" /></Trigger> is 5.0
@@ -39,14 +40,17 @@ export function GlassSelectTrigger(props: Parameters<typeof Select.Trigger>[0]) 
   }
   return <Select.Trigger {...props} />;
 }
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Select.Popup}. */
 export function GlassSelectContent(props: Parameters<typeof Select.Content>[0]) {
   warn();
   return <Select.Content {...props} />;
 }
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Select.Item}. */
 export function GlassSelectItem(props: Parameters<typeof Select.Item>[0]) {
   warn();
   return <Select.Item {...props} />;
 }
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Select.Value}. */
 export function GlassSelectValue({ placeholder, ...props }: Parameters<typeof Select.Value>[0] & { placeholder?: React.ReactNode }) {
   warn();
   /* Inside GlassSelectTrigger the placeholder is lifted onto Select.Trigger
@@ -55,14 +59,17 @@ export function GlassSelectValue({ placeholder, ...props }: Parameters<typeof Se
   if (placeholder !== undefined) drop('placeholder');
   return <Select.Value {...props} />;
 }
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Select.GroupLabel}. */
 export function GlassSelectLabel(props: { children?: React.ReactNode }) {
   warn();
   return <Select.GroupLabel {...props} />;
 }
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Select.Group}. */
 export function GlassSelectGroup(props: Parameters<typeof Select.Group>[0]) {
   warn();
   return <Select.Group {...props} />;
 }
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Select.Separator}. */
 export function GlassSelectSeparator(props: Parameters<typeof Select.Separator>[0]) {
   warn();
   return <Select.Separator {...props} />;
@@ -83,6 +90,7 @@ function GlassSelectCompoundRoot(props: Parameters<typeof Select.Root>[0]) {
   return <GlassSelectRoot {...props} />;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Select}. */
 export const GlassSelectCompound = Object.assign(GlassSelectCompoundRoot, {
   Root: GlassSelectRoot,
   Trigger: GlassSelectTrigger,

@@ -8,6 +8,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0252';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link ScrollArea}. */
 export function GlassScrollArea(props: React.ComponentProps<typeof ScrollArea.Root>) {
   warnDeprecated(DEP);
   return wrap('GlassScrollArea', <ScrollArea.Root {...props} />);

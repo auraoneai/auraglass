@@ -8,6 +8,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0246';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Separator}. */
 export function GlassSeparator(props: React.ComponentProps<typeof Separator>) {
   warnDeprecated(DEP);
   return wrap('GlassSeparator', <Separator {...props} />);

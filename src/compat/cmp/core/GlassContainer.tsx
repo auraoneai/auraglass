@@ -8,6 +8,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0273';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Container}. */
 export function GlassContainer(props: React.ComponentProps<typeof Container>) {
   warnDeprecated(DEP);
   return wrap('GlassContainer', <Container {...props} />);

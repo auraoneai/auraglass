@@ -7,6 +7,7 @@ import { ImageList as AgImageList } from '../../../components/image-list';
 
 const DEP = 'DEP-C0259';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link ImageList}. */
 export function ImageList(props: React.ComponentProps<typeof AgImageList>) {
   warnDeprecated(DEP);
   return <AgImageList {...props} />;

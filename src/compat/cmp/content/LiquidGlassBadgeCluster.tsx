@@ -31,6 +31,7 @@ export interface LiquidGlassBadgeClusterProps extends React.HTMLAttributes<HTMLD
   materialVariant?: 'regular' | 'clear' | undefined;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Badge}. */
 export function LiquidGlassBadgeCluster({
   items,
   expanded = false,

@@ -20,6 +20,7 @@ export interface GlassIconButtonProps
 
 const SIZE_MAP = { xs: 'sm', xl: 'lg' } as const;
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link IconButton}. */
 export function GlassIconButton({ icon, children, title, size, variant, ...rest }: GlassIconButtonProps) {
   warnDeprecated(DEP);
   const aria = (rest as Record<string, unknown>)['aria-label'] as string | undefined;

@@ -27,6 +27,7 @@ export interface GlassActionSheetProps {
   className?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Sheet}. */
 export function GlassActionSheet({ open, onClose, actions, cancelText, title, children, className }: GlassActionSheetProps) {
   warnDeprecated(DEP);
   return wrap('GlassActionSheet', (

@@ -10,6 +10,7 @@ import { Portal } from '../../../primitives';
 
 const DEP = 'DEP-C0276';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Portal}. */
 export function GlassPortal(props: React.ComponentProps<typeof Portal>) {
   warnDeprecated(DEP);
   return <Portal {...props} />;

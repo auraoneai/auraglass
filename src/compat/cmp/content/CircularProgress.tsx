@@ -37,6 +37,7 @@ export interface CircularProgressProps
   ref?: React.Ref<HTMLDivElement> | undefined;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Progress}. */
 export function CircularProgress({
   value = 0,
   size = 'md',

@@ -29,6 +29,7 @@ export interface GlassStatusDotProps {
   label?: string | undefined;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Badge}. */
 export function GlassStatusDot({ status = 'ok', size, className, label }: GlassStatusDotProps) {
   warnDeprecated(DEP);
   return (

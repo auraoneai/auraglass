@@ -81,6 +81,7 @@ function MagneticInner({ loaded, magneticStrength, ref: forwardedRef, style: use
   return <MotionButton buttonProps={rest} ref={ref} style={{ ...style, ...userStyle } as MotionStyle} />;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Button}. */
 export function MagneticButton({ magnetic, magneticStrength, magneticRadius, ...rest }: MagneticButtonProps) {
   warnDeprecated(DEP);
   if (magneticRadius !== undefined) drop('magneticRadius');

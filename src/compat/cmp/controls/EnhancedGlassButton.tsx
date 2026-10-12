@@ -16,6 +16,7 @@ export interface EnhancedGlassButtonProps extends GlassButtonProps {
   animation?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Button}. */
 export function EnhancedGlassButton({ enhanced, glowIntensity, animation, ...rest }: EnhancedGlassButtonProps) {
   warnDeprecated(DEP);
   if (enhanced !== undefined) drop('enhanced');

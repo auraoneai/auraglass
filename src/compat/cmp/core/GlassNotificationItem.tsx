@@ -16,6 +16,7 @@ export interface GlassNotificationItemProps extends Omit<React.HTMLAttributes<HT
   intent?: 'info' | 'success' | 'warning' | 'danger';
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Toast}. */
 export function GlassNotificationItem({ title, message, description, type, intent, children, ...rest }: GlassNotificationItemProps) {
   warnDeprecated(DEP);
   const ag = intent ?? (type === 'error' ? 'danger' : type) ?? 'info';

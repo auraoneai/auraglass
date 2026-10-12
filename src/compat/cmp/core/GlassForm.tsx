@@ -8,6 +8,7 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 
 const DEP = 'DEP-C0283';
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Form}. */
 export function GlassForm(props: React.ComponentProps<typeof Form>) {
   warnDeprecated(DEP);
   return wrap('GlassForm', <Form {...props} />);

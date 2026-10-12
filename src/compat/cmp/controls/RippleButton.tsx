@@ -15,6 +15,7 @@ export interface RippleButtonProps extends GlassButtonProps {
   rippleColor?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Button}. */
 export function RippleButton({ ripple, rippleColor, ...rest }: RippleButtonProps) {
   warnDeprecated(DEP);
   if (ripple !== undefined) drop('ripple');

@@ -16,6 +16,7 @@ export interface GlassGalleryProps {
   className?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link ImageList}. */
 export function GlassGallery({ images, columns, gap, className }: GlassGalleryProps) {
   warnDeprecated(DEP);
   const items: ImageListItem[] | undefined = images?.map((im) => ({

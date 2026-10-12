@@ -31,13 +31,16 @@ export function GlassDropdownMenuRoot(props: Record<string, unknown> & { childre
   );
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Menu.Trigger}. */
 export function GlassDropdownMenuTrigger({ asChild, children, ...rest }: Record<string, unknown> & { asChild?: boolean; children?: React.ReactNode }) {
   warn();
   return <Menu.Trigger {...(rest as object)} {...(asChild ? { render: children as never } : {})}>{asChild ? undefined : children}</Menu.Trigger>;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Menu.Portal}. */
 export const GlassDropdownMenuPortal = MenuPortal;
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Menu.Popup}. */
 export function GlassDropdownMenuContent({ placement, side, align, sideOffset, children, ...rest }: Record<string, unknown> & { placement?: string; side?: 'top'|'bottom'|'left'|'right'; align?: 'start'|'center'|'end'; sideOffset?: number; children?: React.ReactNode }) {
   warn();
   const pos = splitPlacement(placement);
@@ -53,6 +56,7 @@ export function GlassDropdownMenuContent({ placement, side, align, sideOffset, c
   );
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Menu.Item}. */
 export function GlassDropdownMenuItem({ asChild, onSelect, onClick, children, ...rest }: Record<string, unknown> & { asChild?: boolean; onSelect?: (e: unknown) => void; children?: React.ReactNode }) {
   warn();
   const cb = onSelect ?? onClick;
@@ -64,6 +68,7 @@ export function GlassDropdownMenuItem({ asChild, onSelect, onClick, children, ..
   );
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Menu.CheckboxItem}. */
 export function GlassDropdownMenuCheckboxItem({ checked, onCheckedChange, onSelect, children, ...rest }: Record<string, unknown> & { checked?: boolean; onCheckedChange?: (c: boolean) => void; onSelect?: (e: unknown) => void; children?: React.ReactNode }) {
   warn();
   return (
@@ -79,6 +84,7 @@ export function GlassDropdownMenuCheckboxItem({ checked, onCheckedChange, onSele
   );
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Menu.RadioGroup}. */
 export function GlassDropdownMenuRadioGroup(props: Record<string, unknown> & { children?: React.ReactNode }) {
   warn();
   const { onValueChange, onChange, ...rest } = props;
@@ -92,6 +98,7 @@ export function GlassDropdownMenuRadioGroup(props: Record<string, unknown> & { c
   );
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Menu.RadioItem}. */
 export function GlassDropdownMenuRadioItem({ children, ...rest }: Record<string, unknown> & { value?: string; children?: React.ReactNode }) {
   warn();
   return (
@@ -102,36 +109,43 @@ export function GlassDropdownMenuRadioItem({ children, ...rest }: Record<string,
   );
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Menu.Group}. */
 export function GlassDropdownMenuGroup(props: Record<string, unknown> & { children?: React.ReactNode }) {
   warn();
   return <Menu.Group {...(props as object)} />;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Menu.GroupLabel}. */
 export function GlassDropdownMenuLabel(props: Record<string, unknown> & { children?: React.ReactNode }) {
   warn();
   return <Menu.GroupLabel {...(props as object)} />;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Menu.Separator}. */
 export function GlassDropdownMenuSeparator(props: Record<string, unknown>) {
   warn();
   return <Menu.Separator {...(props as object)} />;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Menu.SubmenuRoot}. */
 export function GlassDropdownMenuSub(props: Record<string, unknown> & { children?: React.ReactNode }) {
   warn();
   return <Menu.Submenu {...(props as object)} />;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Menu.SubmenuTrigger}. */
 export function GlassDropdownMenuSubTrigger({ asChild, children, ...rest }: Record<string, unknown> & { asChild?: boolean; children?: React.ReactNode }) {
   warn();
   return <Menu.SubmenuTrigger {...(rest as object)} {...(asChild ? { render: children as never } : {})}>{asChild ? undefined : children}</Menu.SubmenuTrigger>;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Menu.Arrow}. */
 export function GlassDropdownMenuArrow(props: Record<string, unknown>) {
   warn();
   return <MenuArrow {...(props as object)} />;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Menu}. */
 export const GlassDropdownMenu = {
   Root: GlassDropdownMenuRoot,
   Trigger: GlassDropdownMenuTrigger,

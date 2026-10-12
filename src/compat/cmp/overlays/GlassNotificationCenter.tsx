@@ -26,6 +26,7 @@ export interface GlassNotificationCenterProps {
   className?: string;
 }
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Popover}. */
 export function GlassNotificationCenter({ notifications, onMarkAllRead, trigger, className }: GlassNotificationCenterProps) {
   warnDeprecated(DEP);
   return wrap('GlassNotificationCenter', (
@@ -53,9 +54,12 @@ export interface UseNotificationsCompatReturn {
   addNotification: (n: GlassNotification) => string;
 }
 
-/** 4.x useNotifications() -> 5.0 useToast() provider history (REQ-CMP-110).
-   `notifications` reads the provider's history items (read flag included);
-   addNotification still routes through useToast().add. */
+/**
+ * 4.x useNotifications() -> 5.0 useToast() provider history (REQ-CMP-110).
+ * `notifications` reads the provider's history items (read flag included);
+ * addNotification still routes through useToast().add.
+ * @deprecated since 4.3.0, removed in 6.0.0. Use {@link useToast}.
+ */
 export function useNotifications(): UseNotificationsCompatReturn {
   const api = useToast();
   const ref = React.useRef(api);

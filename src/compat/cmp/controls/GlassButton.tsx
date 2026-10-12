@@ -21,21 +21,33 @@ export interface GlassButtonProps
   rightIcon?: React.ReactNode;
   asChild?: boolean;
   loading?: boolean;
+  /** @deprecated since 4.2.0, removed in 5.0.0. */
   glassVariant?: string;
+  /** @deprecated since 4.3.0, removed in 5.0.0. Use {@link 'prominent'}. */
   material?: string;
+  /** @deprecated since 4.2.0, removed in 5.0.0. */
   materialProps?: Record<string, unknown>;
-  /** speculative 4.x props — dropped with one warning each */
+  /**
+   * speculative 4.x props — dropped with one warning each
+   * @deprecated since 4.2.0, removed in 5.0.0.
+   */
   predictive?: unknown;
+  /** @deprecated since 4.2.0, removed in 5.0.0. */
   eyeTracking?: unknown;
+  /** @deprecated since 4.2.0, removed in 5.0.0. */
   adaptive?: unknown;
+  /** @deprecated since 4.2.0, removed in 5.0.0. */
   spatialAudio?: unknown;
+  /** @deprecated since 4.2.0, removed in 5.0.0. */
   trackAchievements?: unknown;
+  /** @deprecated since 4.2.0, removed in 5.0.0. */
   usageContext?: unknown;
   children?: React.ReactNode;
 }
 
 const SIZE_MAP = { xs: 'sm', xl: 'lg' } as const;
 
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Button}. */
 export function GlassButton(props: GlassButtonProps) {
   warnDeprecated(DEP);
   const {
