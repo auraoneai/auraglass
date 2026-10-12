@@ -29,7 +29,7 @@ type ItemSpec = {
 
 const VIRTUALIZE_THRESHOLD = 100;
 
-const Ctx = React.createContext<{
+const Ctx = /*#__PURE__*/ React.createContext<{
   query: string;
   setQuery: (q: string) => void;
   items: ItemSpec[];

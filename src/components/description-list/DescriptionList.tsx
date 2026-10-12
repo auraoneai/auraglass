@@ -62,4 +62,4 @@ function Details({ className, ref, ...rest }: React.HTMLAttributes<HTMLElement> 
   return <dd {...rest} ref={ref} data-ag-part="value" className={cn('ag-dl-details', className)} />;
 }
 
-export const DescriptionList = Object.assign(Root, { Item, Term, Details });
+export const DescriptionList = /*#__PURE__*/ Object.assign(Root, { Item, Term, Details });

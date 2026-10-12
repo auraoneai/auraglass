@@ -24,7 +24,7 @@ export interface AiRenderers {
   onApprovalResponse?: ((detail: AgApprovalResponse) => void) | undefined;
 }
 
-const RenderersContext = React.createContext<AiRenderers>({});
+const RenderersContext = /*#__PURE__*/ React.createContext<AiRenderers>({});
 
 export function AiRenderersProvider(props: AiRenderers & { children?: React.ReactNode }) {
   const { renderers, renderText, onApprovalResponse, children } = props;

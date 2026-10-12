@@ -24,7 +24,7 @@ export interface ChipProps {
   className?: string | undefined;
 }
 
-const CONTENT_MATERIAL = materialProps({ layer: 'content', content: 'content-raised' });
+const CONTENT_MATERIAL = /*#__PURE__*/ materialProps({ layer: 'content', content: 'content-raised' });
 
 export function Chip({
   children,

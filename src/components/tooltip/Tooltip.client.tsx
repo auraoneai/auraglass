@@ -32,7 +32,7 @@ interface TooltipCtx {
   requestOpen: () => void;
   setPopupMounted: (m: boolean) => void;
 }
-const TooltipCtx = React.createContext<TooltipCtx>({ open: false, popupMounted: false, popupId: '', requestOpen: () => {}, setPopupMounted: () => {} });
+const TooltipCtx = /*#__PURE__*/ React.createContext<TooltipCtx>({ open: false, popupMounted: false, popupId: '', requestOpen: () => {}, setPopupMounted: () => {} });
 
 const LONG_PRESS_MS = 500;
 

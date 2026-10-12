@@ -34,7 +34,7 @@ interface DialogCtx {
   setPopupElement: (el: HTMLElement | null) => void;
   rootRef?: React.Ref<HTMLElement> | undefined;
 }
-const DialogContext = React.createContext<DialogCtx>({ depth: 0, open: false, modal: true, labels: undefined, setPopupElement: () => {} });
+const DialogContext = /*#__PURE__*/ React.createContext<DialogCtx>({ depth: 0, open: false, modal: true, labels: undefined, setPopupElement: () => {} });
 
 function DialogRoot({
   open,

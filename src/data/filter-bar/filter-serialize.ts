@@ -33,7 +33,7 @@ const devWarn = (msg: string) => {
 };
 
 /** Decodes `v`; returns a symbol when it is not JSON. */
-const INVALID = Symbol('invalid');
+const INVALID = /*#__PURE__*/ Symbol('invalid');
 function decodeValue(raw: string): unknown {
   try {
     return JSON.parse(raw) as unknown;

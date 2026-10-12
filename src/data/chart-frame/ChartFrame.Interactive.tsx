@@ -62,7 +62,7 @@ interface FrameState {
   plotRef: React.RefCallback<HTMLDivElement>;
 }
 
-const FrameCtx = React.createContext<FrameState | null>(null);
+const FrameCtx = /*#__PURE__*/ React.createContext<FrameState | null>(null);
 
 function useFrame(part: string): FrameState {
   const v = React.useContext(FrameCtx);

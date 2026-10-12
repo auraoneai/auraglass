@@ -26,11 +26,11 @@ import type {
 } from './Menu.types';
 
 interface MenuCtx { open: boolean }
-const MenuCtx = React.createContext<MenuCtx>({ open: false });
+const MenuCtx = /*#__PURE__*/ React.createContext<MenuCtx>({ open: false });
 /* Own menubar marker — BU's useMenubarContext is internal-only (not exported
    from the package index, and a deep import would hit the dual .mjs/.js
    instance split anyway). Our Menubar wraps children in this provider. */
-const MenubarCtx = React.createContext(false);
+const MenubarCtx = /*#__PURE__*/ React.createContext(false);
 
 function MenuRoot({ open, defaultOpen, onOpenChange, loop = true, orientation, children }: MenuRootProps) {
   useControllableWarning('Menu', 'open', open);
@@ -329,6 +329,6 @@ export const Menu = {
 /* REQ-CMP-105: Menubar is a compound — Menubar.Root is the real root (loop
    default true via BU), Menubar.Menu aliases Menu.Root. The flat callable
    stays as a deprecated alias so existing <Menubar> keeps working. */
-export const Menubar = Object.assign(MenubarRoot, { Root: MenubarRoot, Menu: MenuRoot });
+export const Menubar = /*#__PURE__*/ Object.assign(MenubarRoot, { Root: MenubarRoot, Menu: MenuRoot });
 
 export { MenuPortal, MenuPositioner, MenuPopup, MenuArrow, MenuLinkItem, MenuCheckboxItemIndicator, MenuRadioItemIndicator };

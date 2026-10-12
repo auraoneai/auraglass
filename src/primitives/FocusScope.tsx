@@ -4,7 +4,7 @@
    components (Sheet detents, ResizablePanels, Tour) only. */
 import * as React from 'react';
 
-const FOCUSABLE_SELECTOR = [
+const FOCUSABLE_SELECTOR = /*#__PURE__*/ [
   'a[href]:not([disabled])',
   'button:not([disabled])',
   'textarea:not([disabled])',

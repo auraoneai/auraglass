@@ -29,7 +29,7 @@ interface ThumbBindings {
   inputRef?: React.Ref<HTMLInputElement> | undefined;
 }
 
-const ThumbBindingContext = React.createContext<ThumbBindings | null>(null);
+const ThumbBindingContext = /*#__PURE__*/ React.createContext<ThumbBindings | null>(null);
 
 type ItemProps = React.HTMLAttributes<HTMLElement> & { ref?: React.Ref<HTMLElement> | undefined };
 

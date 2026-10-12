@@ -12,7 +12,7 @@ import { TopBarEdgeRegistrar } from '../../app-shell/TopBar.EdgeRegistrar';
 import type { PartProps } from '../../contracts/components';
 import { PanelRegistryContext, useOwnOrOuterPanelRegistry } from './panelRegistry';
 
-const TabBarCtx = React.createContext<{ semantics: 'navigation' | 'tabs' }>({
+const TabBarCtx = /*#__PURE__*/ React.createContext<{ semantics: 'navigation' | 'tabs' }>({
   semantics: 'navigation',
 });
 

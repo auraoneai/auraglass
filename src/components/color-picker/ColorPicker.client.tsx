@@ -25,7 +25,7 @@ interface Ctx {
   hex: string;
   serialized: ColorPickerValue;
 }
-const ColorCtx = React.createContext<Ctx | null>(null);
+const ColorCtx = /*#__PURE__*/ React.createContext<Ctx | null>(null);
 
 type PickerValueLike = ColorPickerValue | string;
 

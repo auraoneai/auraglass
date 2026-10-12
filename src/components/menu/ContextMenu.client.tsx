@@ -18,7 +18,7 @@ import type {
 } from './Menu.types';
 
 interface Ctx { open: boolean }
-const Ctx = React.createContext<Ctx>({ open: false });
+const Ctx = /*#__PURE__*/ React.createContext<Ctx>({ open: false });
 
 function ContextMenuRoot({ open, defaultOpen, onOpenChange, loop = true, children }: ContextMenuRootProps) {
   useControllableWarning('ContextMenu', 'open', open);

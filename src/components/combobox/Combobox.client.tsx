@@ -61,10 +61,10 @@ interface ComboboxInternal {
   chipsRef: React.RefObject<HTMLDivElement | null>;
 }
 
-const InternalCtx = React.createContext<ComboboxInternal | null>(null);
+const InternalCtx = /*#__PURE__*/ React.createContext<ComboboxInternal | null>(null);
 /* REQ-CMP-12: the popup registers with the LayerStack through
    useOverlayLayer — the positioner element is published here for the entry. */
-const ComboboxLayerContext = React.createContext<{ setPopupElement: (el: HTMLElement | null) => void }>({ setPopupElement: () => {} });
+const ComboboxLayerContext = /*#__PURE__*/ React.createContext<{ setPopupElement: (el: HTMLElement | null) => void }>({ setPopupElement: () => {} });
 const useInternal = () => {
   const c = React.useContext(InternalCtx);
   if (!c) throw new Error('aura-glass Combobox.* must be used inside <Combobox.Root>');
@@ -74,7 +74,7 @@ const useInternal = () => {
 const CREATE_PREFIX = '__ag-create__:';
 
 /** Lazy so @tanstack/react-virtual stays out of the base chunk (CMP-185). */
-const LazyVirtualList = React.lazy(async () => {
+const LazyVirtualList = /*#__PURE__*/ React.lazy(async () => {
   const m = await import('./ComboboxVirtualList.client');
   return { default: m.ComboboxVirtualList };
 });

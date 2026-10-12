@@ -1,35 +1,60 @@
 /* @jest-environment node */
-/* REQ-PLAT-65: dist preserves per-module structure — emitted entries keep a
-   directory tree (one dist dir per emitted subpath entry), no flat bundle. */
-import { describe, expect, it } from '@jest/globals';
-import { readdirSync, statSync } from 'node:fs';
-import { join } from 'node:path';
-import { DIST, ensureBuilt, walk } from './helpers';
+/* REQ-PLAT-65: module graph. Every src module reachable from an emitted entry
+   (tests, stories and src/contracts/{seed.tsx,testing.ts,fragments.ts,load-fragments.mjs}
+   excluded) maps to exactly one dist/<path>.js; no chunk-* or hashed file.
+   Reachability is computed with the TypeScript compiler API at statement level
+   (tests/build/ts-graph.ts), mirroring the bundler's moduleSideEffects:false
+   tree-shaking: a module emits when an entry demands live runtime code of its
+   own; pure forwarding barrels and type-only modules are reachable but own no
+   code, so they fold into their importers and emit nothing. */
+import { beforeAll, describe, expect, it } from '@jest/globals';
+import { basename, join, relative } from 'node:path';
+import { DIST, ROOT, SRC, ensureBuilt, walk } from './helpers';
+import { bindingGraph, isExcludedSource } from './ts-graph';
 
-describe('preserve-modules', () => {
-  it('dist emits many js modules (no single flat bundle)', () => {
-    ensureBuilt();
-    const js = walk(DIST, (p) => p.endsWith('.js') && !p.endsWith('.min.js'));
-    expect(js.length).toBeGreaterThan(10);
+type Graph = typeof import('../../scripts/build/lib/graph.mjs');
+let g: Graph;
+let reachable: Set<string>;
+let emitting: Set<string>;
+let stem: (srcFile: string) => string;
+
+beforeAll(async () => {
+  g = await import('../../scripts/build/lib/graph.mjs');
+  const { keep } = g.buildableEntries();
+  const entries = [...keep, ...g.patternEntries(keep)].map((e: { source: string }) => join(ROOT, e.source));
+  ({ reachable, emitting } = bindingGraph(entries, (f) => isExcludedSource(f) || !!g.seamReexportTarget(f)));
+  stem = (f) => `dist/${g.distChunkStem(relative(SRC, f).replace(/\.(tsx?|jsx?|mjs)$/, ''))}.js`;
+});
+
+const distJs = () => walk(DIST, (p) => p.endsWith('.js')).map((p) => relative(ROOT, p));
+
+describe('preserve-modules (REQ-PLAT-65)', () => {
+  it('the reachable set is non-trivial and excludes tests, stories and contract seeds', () => {
+    expect(emitting.size).toBeGreaterThan(10);
+    const leaked = [...reachable].filter(isExcludedSource).map((f) => relative(ROOT, f));
+    expect(leaked).toEqual([]);
   });
-  it('dist tree is a directory structure mirroring emitted entries', () => {
-    ensureBuilt();
-    const dirs = readdirSync(DIST).filter((d) => statSync(join(DIST, d)).isDirectory());
-    // every emitted entry gets its own subtree (icons/, material/, tokens/, ...)
-    expect(dirs.length).toBeGreaterThanOrEqual(3);
-    const empty: string[] = [];
-    for (const d of dirs) {
-      // compat/ is a css-only subtree — every other dir must hold js or d.ts
-      if (d === 'compat') continue;
-      if (!walk(join(DIST, d), (p) => /\.(js|d\.ts)$/.test(p)).length) empty.push(d);
-    }
-    expect(empty).toEqual([]);
+
+  it('no two reachable sources claim the same dist path', () => {
+    const owners = new Map<string, string[]>();
+    for (const f of reachable) owners.set(stem(f), [...(owners.get(stem(f)) ?? []), relative(ROOT, f)]);
+    expect([...owners].filter(([, o]) => o.length > 1)).toEqual([]);
   });
-  it('each emitted subtree preserves nested module files (not inlined into index)', () => {
+
+  it('every reachable source with live runtime code emits exactly its dist/<path>.js', () => {
     ensureBuilt();
-    const iconFiles = walk(join(DIST, 'icons'), (p) => p.endsWith('.js'));
-    // icons keep per-file modules under dist/icons/<group>/<name>.js
-    expect(iconFiles.length).toBeGreaterThan(20);
-    expect(iconFiles.some((p) => /\/icons\/(media|action|ai|status)\//.test(p))).toBe(true);
+    const have = new Set(distJs());
+    const missing = [...emitting].map(stem).filter((d) => !have.has(d)).sort();
+    expect(missing).toEqual([]);
+  });
+
+  it('every dist js is the emit of exactly one reachable source (no extra, chunk or hashed file)', () => {
+    ensureBuilt();
+    const expected = new Set([...emitting].map(stem));
+    const extra = distJs().filter((d) => !expected.has(d));
+    expect(extra).toEqual([]);
+    // a hashed name cannot equal a src-derived path, so the equality above already rejects it
+    const shaped = distJs().filter((d) => /^(chunk|rolldown-runtime|rollup)[-_.]/.test(basename(d)) || /(^|\/)_virtual\//.test(d));
+    expect(shaped).toEqual([]);
   });
 });

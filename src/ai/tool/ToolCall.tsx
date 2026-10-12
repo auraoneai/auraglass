@@ -198,7 +198,7 @@ export interface ToolCallComponent {
 }
 
 /** REQ-SURF-02 static: `ToolCall.displayState` is the §4.5 mapper. */
-export const ToolCall = Object.assign(ToolCallBase, {
+export const ToolCall = /*#__PURE__*/ Object.assign(ToolCallBase, {
   displayState: toolDisplayState,
   Approval: ToolCallApproval,
 }) as ToolCallComponent;

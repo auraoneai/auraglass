@@ -30,7 +30,7 @@ export function createPanelRegistry(): PanelRegistry {
   };
 }
 
-export const PanelRegistryContext = createContext<PanelRegistry | null>(null);
+export const PanelRegistryContext = /*#__PURE__*/ createContext<PanelRegistry | null>(null);
 
 /** The enclosing registry, or a stable one owned by the caller. */
 export function useOwnOrOuterPanelRegistry(): PanelRegistry {

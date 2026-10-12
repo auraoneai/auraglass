@@ -37,7 +37,7 @@ export interface GlassFileTreeProps extends Omit<TreeViewBaseProps<FileItem>, 'i
   [legacy: string]: unknown;
 }
 
-const LegacyFileTreeLazy = lazyAdapter<GlassFileTreeProps>(() => import('./GlassFileTree.impl').then((m) => m.LegacyFileTreeImpl));
+const LegacyFileTreeLazy = /*#__PURE__*/ lazyAdapter<GlassFileTreeProps>(() => import('./GlassFileTree.impl').then((m) => m.LegacyFileTreeImpl));
 
 /** Shared 4.x file-tree mapping (GlassFileTree, GlassFileExplorer); renders
     the 5.0 TreeView preset="files" once its implementation module has loaded. */

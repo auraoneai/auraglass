@@ -13,7 +13,7 @@ import type { PartProps } from '../../contracts/components';
 
 type TransitionState = { active: string | null };
 
-const Ctx = React.createContext<{
+const Ctx = /*#__PURE__*/ React.createContext<{
   active: string | null;
   begin: (id: string) => void;
   /** SURF-064: Root-level source registry (dev error on duplicate ids). */

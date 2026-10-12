@@ -36,7 +36,7 @@ export function sourceUrlLabel(s: { url: string; title?: string | undefined }): 
 interface SourceListApi { openAndFocus(sourceId: string): void }
 type SourceRegistry = Map<string, SourceListApi>;
 
-const SourceScopeContext = React.createContext<SourceRegistry | null>(null);
+const SourceScopeContext = /*#__PURE__*/ React.createContext<SourceRegistry | null>(null);
 const byElement = new WeakMap<Element, SourceListApi>();
 
 /** Internal (not re-exported from `aura-glass/ai`): Thread/Message render it

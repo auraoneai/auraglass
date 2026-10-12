@@ -16,7 +16,7 @@ export interface PortalRootState {
   root: HTMLElement | null;
 }
 
-export const PortalRootContext = React.createContext<PortalRootState | null>(null);
+export const PortalRootContext = /*#__PURE__*/ React.createContext<PortalRootState | null>(null);
 
 export const queryLayerRoot = (
   host: HTMLElement | Document | null, name: PortalLayerRoot,

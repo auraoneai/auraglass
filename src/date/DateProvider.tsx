@@ -32,7 +32,7 @@ interface DateLocaleCtx {
   anchorRef: (el: Element | null) => void;
 }
 
-const DateLocaleContext = React.createContext<DateLocaleCtx | null>(null);
+const DateLocaleContext = /*#__PURE__*/ React.createContext<DateLocaleCtx | null>(null);
 
 const noopRef = () => {};
 

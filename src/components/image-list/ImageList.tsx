@@ -8,7 +8,7 @@ import { cn } from '../../internal/index';
 import { materialProps } from '../../material/index';
 import { MasonryRoot as MasonryViewport } from './ImageList.Masonry.client';
 
-const CHROME_THIN = materialProps({ layer: 'chrome', thickness: 'thin' });
+const CHROME_THIN = /*#__PURE__*/ materialProps({ layer: 'chrome', thickness: 'thin' });
 
 export interface ImageListItem {
   src: string;
@@ -138,4 +138,4 @@ export function ItemBar({
   );
 }
 
-export const ImageList = Object.assign(Root, { Item, ItemBar });
+export const ImageList = /*#__PURE__*/ Object.assign(Root, { Item, ItemBar });

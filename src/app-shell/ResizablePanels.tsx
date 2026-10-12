@@ -53,7 +53,7 @@ interface PanelsCtx {
   panelEl(id: string): HTMLElement | null;
 }
 
-const Ctx = React.createContext<PanelsCtx | null>(null);
+const Ctx = /*#__PURE__*/ React.createContext<PanelsCtx | null>(null);
 
 export type ResizablePanelsRootProps = Omit<PartProps<'div'>, 'onLayout'> & {
   orientation?: Orientation | undefined;

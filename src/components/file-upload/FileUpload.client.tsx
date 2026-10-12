@@ -11,7 +11,7 @@ import { Field } from '../field';
 import { materialProps } from '../../material/index';
 import { useAnnouncer } from '../../theme/announcer/useAnnouncer';
 
-const SUNKEN = materialProps({ layer: 'content', content: 'content-sunken' });
+const SUNKEN = /*#__PURE__*/ materialProps({ layer: 'content', content: 'content-sunken' });
 
 export interface FileUploadItem {
   file: File;

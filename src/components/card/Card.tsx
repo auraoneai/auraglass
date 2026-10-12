@@ -65,4 +65,4 @@ function Footer({ className, ref, ...rest }: React.HTMLAttributes<HTMLDivElement
   return <div {...rest} ref={ref} data-ag-part="footer" className={cn('ag-card-footer', className)} />;
 }
 
-export const Card = Object.assign(Root, { Root, Header, Title, Description, Body, Footer });
+export const Card = /*#__PURE__*/ Object.assign(Root, { Root, Header, Title, Description, Body, Footer });

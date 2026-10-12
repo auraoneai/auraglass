@@ -28,7 +28,7 @@ export interface CarouselRailContextValue {
   viewportRef: React.RefObject<HTMLDivElement | null>;
   viewportId: string;
 }
-export const CarouselRailContext = React.createContext<CarouselRailContextValue | null>(null);
+export const CarouselRailContext = /*#__PURE__*/ React.createContext<CarouselRailContextValue | null>(null);
 export function useCarouselRail(part: string): CarouselRailContextValue {
   const c = React.useContext(CarouselRailContext);
   if (!c) throw new Error(`CarouselRail.${part} must render inside <CarouselRail.Root>`);

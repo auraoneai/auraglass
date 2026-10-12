@@ -29,7 +29,7 @@ interface AlertCtx {
   setPopupElement: (el: HTMLElement | null) => void;
   rootRef?: React.Ref<HTMLElement> | undefined;
 }
-const AlertContext = React.createContext<AlertCtx>({
+const AlertContext = /*#__PURE__*/ React.createContext<AlertCtx>({
   depth: 0,
   open: false, intent: 'neutral', labels: undefined,
   popupElRef: { current: null }, setPopupElement: () => {},

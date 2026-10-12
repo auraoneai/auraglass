@@ -27,7 +27,7 @@ export interface GlassCalendarProps {
   [legacy: string]: unknown;
 }
 
-const Impl = lazyAdapter<GlassCalendarProps>(() => import('./GlassCalendar.impl').then((m) => m.GlassCalendarImpl));
+const Impl = /*#__PURE__*/ lazyAdapter<GlassCalendarProps>(() => import('./GlassCalendar.impl').then((m) => m.GlassCalendarImpl));
 
 /**
  * 4.x `GlassCalendar` compat adapter (DEP-S0224).
