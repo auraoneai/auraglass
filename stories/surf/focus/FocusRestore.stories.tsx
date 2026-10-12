@@ -26,7 +26,10 @@ import { Calendar } from '../../../src/date';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
 const meta = {
-  title: 'surf/focus-restore',
+  // Under Flagships/App Shell like its subjects AppShell and Calendar (one top-level group per component);
+  // `id` keeps the ids tests/e2e/surf/focus.spec.ts addresses (surf-focus-restore--*).
+  title: 'Flagships/App Shell/FocusRestore/AppShell',
+  id: 'surf-focus-restore',
   parameters: { ag: { subject: 'AppShell', kind: 'component' } satisfies StoryAgParameters },
 } satisfies Meta;
 export default meta;

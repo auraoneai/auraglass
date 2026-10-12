@@ -24,7 +24,6 @@ export const Ready: Story = {
     await expect(input).toHaveValue('');
   },
 };
-export const WithDraft: Story = { render: () => <Composer defaultValue="Half-written reply" /> };
 export const WithAttachments: Story = {
   render: () => <Composer accept=".log,.txt" defaultFiles={[new File(['ok'], 'build.log', { type: 'text/plain' })]} />,
 };
@@ -50,9 +49,6 @@ function DraggingHarness() {
   );
 }
 export const Dragging: Story = { render: () => <DraggingHarness /> };
-export const Submitted: Story = {
-  render: () => <Composer status="submitted" />,
-};
 export const StreamingStop: Story = {
   render: () => <Composer status="streaming" onStop={() => undefined} />,
   play: async ({ canvasElement }) => {
@@ -75,9 +71,20 @@ export const ImeComposition: Story = {
     await expect(input).toHaveValue('');
   },
 };
-export const Error: Story = { render: () => <Composer status="error" /> };
-export const NearLimit: Story = { render: () => <Composer defaultValue="xx" maxLength={3} /> };
-export const Disabled: Story = { render: () => <Composer disabled /> };
+
+/* meta.states (ready is the Ready story, streaming is StreamingStop): a draft, submitted, error,
+   near the length limit and disabled. */
+export const States: Story = {
+  render: () => (
+    <div style={{ display: 'grid', gap: 'var(--ag-space-4)' }}>
+      <Composer defaultValue="Half-written reply" />
+      <Composer status="submitted" />
+      <Composer status="error" />
+      <Composer defaultValue="xx" maxLength={3} />
+      <Composer disabled />
+    </div>
+  ),
+};
 
 /** REQ-SURF-118: drop target for composer-dropzone.spec.ts — accepts .log/.txt
     up to 1 KiB; every rejection is listed (and announced). */

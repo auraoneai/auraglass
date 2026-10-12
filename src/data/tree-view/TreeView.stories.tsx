@@ -49,7 +49,7 @@ function KeyboardDemo() {
     </div>
   );
 }
-export const Keyboard: Story = { render: () => <KeyboardDemo /> };
+export const Keyboard: Story = { tags: ['apg'], render: () => <KeyboardDemo /> };
 
 /** REQ-SURF-83: 5,000 nodes (50 folders x 99 files) virtualized in a 480px
     container. "Expand all" / "Collapse all" drive the controlled

@@ -40,6 +40,7 @@ Tier T1 · RSC mixed · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 | `image` | `[data-ag-part="image"]` |
 | `root` | `[data-ag-part="root"]` |
 | `timeline` | `[data-ag-part="timeline"]` |
+| `timeline-container` | `[data-ag-part="timeline-container"]` |
 | `timeline-description` | `[data-ag-part="timeline-description"]` |
 | `timeline-item` | `[data-ag-part="timeline-item"]` |
 | `timeline-marker` | `[data-ag-part="timeline-marker"]` |

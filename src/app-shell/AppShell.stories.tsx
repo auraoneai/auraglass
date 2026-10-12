@@ -1,4 +1,5 @@
-// AppShell.stories.tsx — SURF story contract (S-41).
+// AppShell.stories.tsx — SURF story contract (S-41). Flagship #22 (App Shell).
+// `id` keeps the published story ids (surf-app-shell--*) the e2e specs address.
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { AppShell } from './AppShell';
@@ -13,7 +14,8 @@ import { createBrandTheme } from '../theme/createBrandTheme';
 import type { Oklch } from '../theme/color';
 
 const meta: Meta = {
-  title: 'surf/app-shell',
+  title: 'Flagships/App Shell/AppShell',
+  id: 'surf-app-shell',
   component: AppShell.Root,
   // fullscreen: the shell is 100dvh, so story padding would scroll the document (SURF-19).
   parameters: { layout: 'fullscreen', ag: { subject: 'AppShell', kind: 'component' } },
@@ -22,9 +24,6 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = { render: () => <AppShell.Root><TopBar.Root><TopBar.Title>App</TopBar.Title></TopBar.Root><Sidebar.Root><Sidebar.Nav aria-label="Main"><Sidebar.Item href="/home">Home</Sidebar.Item></Sidebar.Nav></Sidebar.Root><AppShell.Main><p>Content</p></AppShell.Main><StatusBar.Root><StatusBar.Item>Ready</StatusBar.Item></StatusBar.Root></AppShell.Root> };
-export const RTL: Story = { render: () => <AppShell.Root><TopBar.Root><TopBar.Title>App</TopBar.Title></TopBar.Root><Sidebar.Root><Sidebar.Nav aria-label="Main"><Sidebar.Item href="/home">Home</Sidebar.Item></Sidebar.Nav></Sidebar.Root><AppShell.Main><p>Content</p></AppShell.Main><StatusBar.Root><StatusBar.Item>Ready</StatusBar.Item></StatusBar.Root></AppShell.Root>, parameters: { globals: { dir: 'rtl' } } };
-export const ReducedTransparency: Story = { render: () => <AppShell.Root><TopBar.Root><TopBar.Title>App</TopBar.Title></TopBar.Root><Sidebar.Root><Sidebar.Nav aria-label="Main"><Sidebar.Item href="/home">Home</Sidebar.Item></Sidebar.Nav></Sidebar.Root><AppShell.Main><p>Content</p></AppShell.Main><StatusBar.Root><StatusBar.Item>Ready</StatusBar.Item></StatusBar.Root></AppShell.Root>, parameters: { ag: { material: 'regular' } } };
-export const ForcedColors: Story = { render: () => <AppShell.Root><TopBar.Root><TopBar.Title>App</TopBar.Title></TopBar.Root><Sidebar.Root><Sidebar.Nav aria-label="Main"><Sidebar.Item href="/home">Home</Sidebar.Item></Sidebar.Nav></Sidebar.Root><AppShell.Main><p>Content</p></AppShell.Main><StatusBar.Root><StatusBar.Item>Ready</StatusBar.Item></StatusBar.Root></AppShell.Root>, parameters: { globals: { forcedColors: 'active' } } };
 
 const rows = (n: number, label: string) =>
   Array.from({ length: n }, (_, i) => <p key={i}>{`${label} row ${i + 1}`}</p>);
@@ -55,7 +54,8 @@ export const ScrollOwnership: Story = {
   ),
 };
 
-/** SURF-24/25/26: every chrome part at once — the first focusable is the top
+/** SURF-24/25/26: every chrome part at once (PageHeader with eyebrow, title,
+    description and actions) — the first focusable is the top
     bar action (theme.spec focuses it by keyboard), the sidebar has a current
     item, Main carries Tabs with an indicator, the bottom TabBar has a current
     item. Identical markup across the brand stories below: only the theme
@@ -74,7 +74,13 @@ const Chrome = () => (
       </Sidebar.Nav>
     </Sidebar.Root>
     <AppShell.Main>
-      <AppShell.PageHeader title="Overview" actions={<button type="button">Share</button>} headingLevel={1} />
+      <AppShell.PageHeader
+        eyebrow="Projects"
+        title="Overview"
+        description="Release train for the 5.0 line."
+        actions={<button type="button">Share</button>}
+        headingLevel={1}
+      />
       <Tabs.Root defaultValue="a">
         <Tabs.List>
           <Tabs.Tab value="a">Alpha</Tabs.Tab>
@@ -224,23 +230,5 @@ export const ContainerPlayground: Story = {
         <StatusBar.Root><StatusBar.Item>Ready</StatusBar.Item></StatusBar.Root>
       </AppShell.Root>
     </div>
-  ),
-};
-
-/* Page chrome: skip link and a full PageHeader inside Main. */
-export const Anatomy: Story = {
-  render: () => (
-    <AppShell.Root>
-      <AppShell.SkipLink />
-      <AppShell.Main>
-        <AppShell.PageHeader
-          eyebrow="Projects"
-          title="Atlas"
-          description="Release train for the 5.0 line."
-          actions={<span>Share</span>}
-          tabs={<span>Overview</span>}
-        />
-      </AppShell.Main>
-    </AppShell.Root>
   ),
 };

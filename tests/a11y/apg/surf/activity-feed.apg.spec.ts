@@ -8,10 +8,10 @@
 import { test, expect, type Page } from '@playwright/test';
 import { gotoStory, listSubjects } from '../../../helpers';
 
-async function gotoFeedStory(page: Page, suffix: string) {
+async function gotoFeedStory(page: Page, id: string) {
   const subjects = await listSubjects({});
-  const story = subjects.find((s) => (s.subject === 'ActivityFeed' || s.subject === 'activity-feed') && s.id.endsWith(`--${suffix}`));
-  expect(story, `ActivityFeed story --${suffix} must be registered`).toBeDefined();
+  const story = subjects.find((s) => s.subject === 'ActivityFeed' && s.id === id);
+  expect(story, `ActivityFeed story ${id} must be registered`).toBeDefined();
   await gotoStory(page, story!.id);
   const feed = page.locator('[data-ag-part="activity-feed"]');
   await expect(feed).toHaveCount(1);
@@ -20,7 +20,7 @@ async function gotoFeedStory(page: Page, suffix: string) {
 
 test.describe('activity feed APG (REQ-SURF-97)', () => {
   test('day headings are level-3 headings; list items expose time', async ({ page }) => {
-    const feed = await gotoFeedStory(page, 'grouped-by-day');
+    const feed = await gotoFeedStory(page, 'surf-activity-feed--grouped-by-day');
     const headings = feed.getByRole('heading', { level: 3 });
     await expect(headings).toHaveText(['Oct 2, 2026', 'Oct 1, 2026', 'Sep 30, 2026']);
     const lists = feed.getByRole('list');
@@ -41,7 +41,7 @@ test.describe('activity feed APG (REQ-SURF-97)', () => {
   });
 
   test('Load more: Tab reaches it, Enter appends, no announcement', async ({ page }) => {
-    const feed = await gotoFeedStory(page, 'load-more');
+    const feed = await gotoFeedStory(page, 'surf-activity-feed--keyboard');
     const status = feed.getByRole('status');
     const more = feed.getByRole('button', { name: 'Load more' });
     await expect(feed.getByRole('listitem')).toHaveCount(4);
@@ -55,7 +55,7 @@ test.describe('activity feed APG (REQ-SURF-97)', () => {
   });
 
   test('prepends announce once per 2 s window: "3 new activities"', async ({ page }) => {
-    const feed = await gotoFeedStory(page, 'default');
+    const feed = await gotoFeedStory(page, 'surf-activity-feed--default');
     const status = feed.getByRole('status');
     await expect(status).toHaveAttribute('aria-live', 'polite');
     await page.getByTestId('feed-prepend').click();

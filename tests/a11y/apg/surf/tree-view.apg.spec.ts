@@ -6,10 +6,12 @@ import { test, expect, type Page } from '@playwright/test';
 import { gotoStory, listSubjects } from '../../../helpers';
 import { TREE_ITEM_SELECTOR, TREE_ROLE } from '../../../../src/data/tree-view/treeSemantics';
 
+const KEYBOARD_STORY = 'surf-tree-view--keyboard';
+
 async function gotoKeyboardStory(page: Page) {
   const subjects = await listSubjects({});
-  const story = subjects.find((s) => (s.subject === 'TreeView' || s.subject === 'tree-view') && s.id.endsWith('--keyboard'));
-  expect(story, 'TreeView Keyboard story must be registered').toBeDefined();
+  const story = subjects.find((s) => s.subject === 'TreeView' && s.id === KEYBOARD_STORY);
+  expect(story, `TreeView Keyboard story ${KEYBOARD_STORY} must be registered`).toBeDefined();
   await gotoStory(page, story!.id);
 }
 

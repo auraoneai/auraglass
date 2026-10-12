@@ -1,6 +1,7 @@
 // citation.apg.spec.ts — SURF-386 / REQ-SURF-124/125: APG keyboard spec for
-// AI/Sources Citation through the shared apg harness (QUAL L5). A missing
-// story fails the test.
+// Citation through the shared apg harness (QUAL L5): the Citation Keyboard story
+// (src/ai/sources/Citation.stories.tsx) and the citation + SourceList composition
+// (src/ai/sources/Sources.stories.tsx). A missing story fails the test.
 import { test, expect, type Page } from '@playwright/test';
 import { listSubjects, gotoStory, apg } from '../../../helpers';
 
@@ -14,7 +15,7 @@ async function openStory(page: Page, id: string) {
 
 test.describe('citation APG (SURF-386)', () => {
   test('focus opens the preview (no popup role); Escape closes it and focus stays on the citation', async ({ page }) => {
-    await openStory(page, 'ai-sources--citation-in-message');
+    await openStory(page, 'ai-citation--keyboard');
     const cite = page.getByRole('link', { name: 'Source 1: Reference 1' });
     await apg.keyboard(page, [{ press: 'Tab', expectFocus: 'citation' }]);
     await expect(cite).toBeFocused();

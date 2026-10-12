@@ -1,10 +1,12 @@
-// SourceList.stories.tsx — AI/SourceList (SURF-348/349).
+// SourceList.stories.tsx — SourceList (SURF-348/349). Flagship #42 (AI).
+// `id` keeps the published story ids (ai-sourcelist--*).
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { SourceList, type AgSourcePart } from './SourceList';
 
 const meta = {
-  title: 'AI/SourceList',
+  title: 'Flagships/AI/SourceList',
+  id: 'ai-sourcelist',
   parameters: { ag: { subject: 'SourceList', kind: 'component' } },
 } satisfies Meta;
 export default meta;

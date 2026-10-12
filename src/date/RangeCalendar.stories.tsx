@@ -3,8 +3,10 @@ import * as React from 'react';
 import { CalendarDate } from '@internationalized/date';
 import { RangeCalendar } from './Calendar';
 
+/* `id` keeps the published story ids (surf-range-calendar--*). */
 const meta = {
-  title: 'surf/range-calendar',
+  title: 'Core/RangeCalendar',
+  id: 'surf-range-calendar',
   parameters: { ag: { subject: 'RangeCalendar', kind: 'component' } },
 } satisfies Meta;
 export default meta;

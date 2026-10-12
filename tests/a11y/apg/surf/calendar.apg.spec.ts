@@ -2,18 +2,20 @@
 // arrow / Home / End / PageUp / PageDown / Shift+Page navigation (focused
 // cell and heading asserted), Enter/Space selection, unavailable cell
 // aria-disabled yet focusable, week-number rowheaders, coarse 44px cells.
-// Subject: src/date/Calendar.stories.tsx Default (en-US, 2026-10-07 selected,
+// Subject: src/date/Calendar.stories.tsx Keyboard (en-US, 2026-10-07 selected,
 // 2026-10-13 unavailable, week numbers on).
 import { test, expect, type Page } from '@playwright/test';
 import { gotoStory } from '../../../helpers';
 import { requireStory } from '../../../e2e/surf/date/subjects';
 
+const KEYBOARD_STORY = 'surf-calendar--keyboard';
+
 const focused = (page: Page) => page.locator('[role="grid"] :focus');
 const heading = (page: Page) => page.locator('.ag-calendar__heading');
 
 async function focusGrid(page: Page) {
-  const id = await requireStory('Calendar', 'default');
-  await gotoStory(page, id);
+  expect(await requireStory('Calendar', 'keyboard')).toBe(KEYBOARD_STORY);
+  await gotoStory(page, KEYBOARD_STORY);
   const grid = page.locator('[role="grid"]').first();
   await expect(grid).toBeVisible();
   // One tab stop: exactly one cell is in the tab order.
