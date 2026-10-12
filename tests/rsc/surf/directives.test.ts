@@ -204,6 +204,73 @@ describe('REQ-SURF-07 module directives', () => {
     expect(bad).toEqual([]);
   });
 
+  /* A server module must never render a client module's namespace static
+     (<Avatar.Root>): across the 'use client' boundary the imported namespace
+     object becomes a client reference with no such property, so the element
+     type is undefined at RSC prerender (plat:integration:next /cmp/server +
+     /surf/data-server, both via ActivityFeed's actor avatar). Client islands
+     are imported as direct named bindings (AvatarRoot, BreadcrumbsOverflow). */
+  it('server modules render no namespace static of a client module', () => {
+    const resolveRel = (fromFile: string, spec: string): string | null => {
+      const base = join(ROOT, fromFile.split('/').slice(0, -1).join('/'), spec);
+      for (const cand of [`${base}.tsx`, `${base}.ts`, join(base, 'index.ts'), join(base, 'index.tsx')]) {
+        if (existsSync(cand)) return relative(ROOT, cand).split(sep).join('/');
+      }
+      return null;
+    };
+    const hasClientDirective = (relFile: string): boolean => {
+      const text = readFileSync(join(ROOT, relFile), 'utf8')
+        .replace(/^\/\*[\s\S]*?\*\//, '')
+        .replace(/^(\s*\/\/[^\n]*\n)+/, '');
+      return /^\s*['"]use client['"]/.test(text);
+    };
+    const exportIsClient = (relFile: string, name: string, depth = 0): boolean => {
+      if (depth > 3) return false;
+      if (hasClientDirective(relFile)) return true;
+      const text = readFileSync(join(ROOT, relFile), 'utf8');
+      const re = /export\s*\{([^}]+)\}\s*from\s*['"]([^'"]+)['"]/g;
+      let m: RegExpExecArray | null;
+      while ((m = re.exec(text)) !== null) {
+        for (const part of m[1]!.split(',')) {
+          const mm = part.trim().match(/^(?:type\s+)?(\w+)(?:\s+as\s+(\w+))?$/);
+          if (mm && (mm[2] ?? mm[1]) === name) {
+            const target = resolveRel(relFile, m[2]!);
+            return target !== null && exportIsClient(target, mm[1]!, depth + 1);
+          }
+        }
+      }
+      return false;
+    };
+    const bad: string[] = [];
+    for (const f of serverFiles) {
+      const text = readFileSync(join(ROOT, f), 'utf8');
+      const imports = new Map<string, { name: string; spec: string }>();
+      const ire = /import\s*\{([^}]+)\}\s*from\s*['"]([^'"]+)['"]/g;
+      let m: RegExpExecArray | null;
+      while ((m = ire.exec(text)) !== null) {
+        if (!m[2]!.startsWith('.')) continue;
+        for (const part of m[1]!.split(',')) {
+          const mm = part.trim().match(/^(?:type\s+)?(\w+)(?:\s+as\s+(\w+))?$/);
+          if (mm && !part.trim().startsWith('type ')) imports.set(mm[2] ?? mm[1]!, { name: mm[1]!, spec: m[2]! });
+        }
+      }
+      const jsx = /<([A-Z]\w*)\.([A-Z]\w*)/g;
+      const seen = new Set<string>();
+      while ((m = jsx.exec(text)) !== null) {
+        const obj = m[1]!;
+        if (seen.has(obj)) continue;
+        seen.add(obj);
+        const imp = imports.get(obj);
+        if (!imp) continue;
+        const target = resolveRel(f, imp.spec);
+        if (target !== null && exportIsClient(target, imp.name)) {
+          bad.push(`${f}: <${obj}.${m[2]}> reads a static off the client-module namespace ${obj} (undefined under RSC) — import the part directly`);
+        }
+      }
+    }
+    expect(bad).toEqual([]);
+  });
+
   it('entry barrels carry no directive', () => {
     const barrels = files.filter((f) => f.endsWith('index.ts') && isBarrel(readFileSync(join(ROOT, f), 'utf8')));
     const bad = barrels.filter((f) => firstDirective(readFileSync(join(ROOT, f), 'utf8')) !== null);

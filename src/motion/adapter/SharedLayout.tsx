@@ -9,7 +9,10 @@ export function SharedLayout({ children, id }: { children?: React.ReactNode; id?
   return React.createElement(motionPeer().LayoutGroup, id === undefined ? {} : { id }, children) as React.ReactElement;
 }
 
-export function Shared({ id, children, ...rest }: { id: string; children?: React.ReactNode } & Record<string, unknown>) {
+/* Explicit ReactElement return: the inferred type of the motion.div element
+   names framer-motion, which would leak the optional `motion` peer into the
+   public d.ts (REQ-CMP-01). */
+export function Shared({ id, children, ...rest }: { id: string; children?: React.ReactNode } & Record<string, unknown>): React.ReactElement {
   const ref = React.useRef<HTMLDivElement>(null);
   const onStart = () => {
     ref.current?.setAttribute('data-ag-animating', '');
@@ -28,5 +31,5 @@ export function Shared({ id, children, ...rest }: { id: string; children?: React
       ...rest,
     },
     children,
-  );
+  ) as React.ReactElement;
 }

@@ -803,12 +803,21 @@ describe('plat:test:pack-matrix:5x (REQ-PLAT-68)', () => {
       .some((r) => r.job === 'plat:test:pack-matrix:5x');
     expect(j.allow_failure).toBe(!activated);
   });
-  it('builds dist/ on the leg Node, then runs the node-esm-require resolution suite', () => {
-    const build = lines.indexOf('npm run build');
+  /* C8: Node >=20.19 (package.json engines, REQ-PKG-15) is the tarball
+     RUNTIME floor (import/require on 20.19 + 22), not a build floor — the
+     tsdown 0.23 toolchain requires Node ^22.18 || ^24.11, so no leg builds
+     here. Both legs test the dist/ artifact built once by plat:build:dist
+     on the pinned Node 22 image; dist/index.js guards fail closed. */
+  it('tests the Node-22-built dist/ artifact on the leg Node (no leg build), then runs the suite', () => {
+    const needs = j.needs.map((n: any) => (typeof n === 'string' ? { job: n } : n));
+    expect(needs).toContainEqual({ job: 'plat:build:dist', artifacts: true });
+    expect(lines.filter((l) => l === 'npm run build')).toEqual([]);
+    const guard = lines.findIndex((l) => l.startsWith('test -f dist/index.js'));
     const run = lines.findIndex((l) => l.startsWith('node --test ') && l.endsWith(` ${SUITE}`));
     expect(lines.indexOf('npm install -g "npm@$AG_PACK_NPM_VERSION"')).toBe(0);
-    expect(build).toBeGreaterThan(0);
-    expect(run).toBeGreaterThan(build);
+    expect(guard).toBeGreaterThan(0);
+    expect(lines[guard]).toContain('exit 1');
+    expect(run).toBeGreaterThan(guard);
     expect(run).toBe(lines.length - 1);
     // no fail-open anywhere in the job (REQ-PLAT-05)
     expect(lines.join('\n')).not.toMatch(/\|\| *(echo|true)\b/);

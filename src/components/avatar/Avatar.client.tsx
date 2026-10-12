@@ -93,3 +93,10 @@ function Fallback(props: AvatarFallbackProps) {
 }
 
 export const Avatar = { Root, Image, Fallback };
+
+/* Direct part exports for server-module composition: a Server Component
+   cannot read `.Root` off the `Avatar` namespace object across the
+   'use client' boundary (the client reference has no such property, so
+   <Avatar.Root> is undefined at RSC prerender). Server modules import the
+   part itself, e.g. ActivityFeed (REQ-SURF-97) imports AvatarRoot. */
+export { Root as AvatarRoot, Image as AvatarImage, Fallback as AvatarFallback };
