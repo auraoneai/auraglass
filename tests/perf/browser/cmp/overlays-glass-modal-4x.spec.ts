@@ -18,9 +18,9 @@ test.describe('glass modal 4.x pixel parity (CMP-385/387)', () => {
      src/compat/cmp/overlays/*). Each case runs against its successor's
      registered subject; a missing subject fails the case, never skips it. */
   const STORIES: Array<[legacy: string, successor: string]> = [
-    ['glass-modal--default', 'overlays-dialog--default'],
-    ['glass-dialog--default', 'overlays-dialog--default'],
-    ['glass-drawer--default', 'overlays-sheet--right-panel'],
+    ['glass-modal--default', 'flagships-overlays-dialog--playground'],
+    ['glass-dialog--default', 'flagships-overlays-dialog--playground'],
+    ['glass-drawer--default', 'flagships-overlays-sheet--right-panel'],
   ];
 
   for (const vp of VIEWPORTS) {
@@ -55,6 +55,8 @@ test.describe('glass modal 4.x pixel parity (CMP-385/387)', () => {
   test('modal perf story forced-colors: 0 visible backdrop-filters (4.x: 10)', async ({ page }) => {
     await page.emulateMedia({ forcedColors: 'active' });
     await gotoStory(page, 'cmp-fixtures-dialog-perf--dialog-over-dashboard', { forcedColors: true });
+    // The perf story is trigger-driven (REQ-CMP-90): open it first.
+    await page.getByRole('button', { name: 'Open dialog', exact: true }).click();
     await expect(page.locator('[data-ag-part="popup"]').first()).toBeVisible();
     const blurred = await page.evaluate(() =>
       [...document.querySelectorAll<HTMLElement>('*')].filter((el) => {
