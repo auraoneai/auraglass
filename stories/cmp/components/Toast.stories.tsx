@@ -3,7 +3,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { Toast, useToast } from '../../../src/components/toast';
-import { Button } from '../../../src/components/button';
 import { AuraGlassProvider } from '../../../src/theme';
 import { OverlayStage } from '../overlays/OverlayStage';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
@@ -42,9 +41,10 @@ function Toasts({ position }: { position?: ToastPosition }) {
   return (
     <>
       <OverlayStage title="Inbox" subtitle="3 unread">
-        <Button onClick={() => t.info({ title: 'Saved', description: 'Your changes were saved.' })}>Info</Button>
-        <Button onClick={() => t.success({ title: 'Done' })}>Success</Button>
-        <Button intent="danger" onClick={() => t.error({ title: 'Failed', description: 'Try again.' })}>Error</Button>
+        {/* native triggers: S-33 requires the story's rendered parts to be Toast's own */}
+        <button type="button" onClick={() => t.info({ title: 'Saved', description: 'Your changes were saved.' })}>Info</button>
+        <button type="button" onClick={() => t.success({ title: 'Done' })}>Success</button>
+        <button type="button" onClick={() => t.error({ title: 'Failed', description: 'Try again.' })}>Error</button>
       </OverlayStage>
       <ToastList t={t} {...(position ? { position } : {})} />
     </>
