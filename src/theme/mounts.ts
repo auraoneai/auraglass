@@ -68,9 +68,13 @@ const brandCss = (brand: string): string => createBrandTheme(brand).cssText;
 export const PRODUCTION_MOUNTS: Required<ProviderMounts> = {
   lensDefs: LensDefs,
   pointerLight: gatedPointerLight,
-  // dev only: the provider starts it only when NODE_ENV !== 'production', and
-  // startSurfaceCounter itself is inert in production builds.
-  devDiagnostics: (doc: Document) => startSurfaceCounter(doc),
+  // REQ-MAT-38: dev only. The NODE_ENV ternary is folded by the consumer's
+  // production build (define + DCE), which leaves the dev counter import
+  // unused so the side-effect-free dev module drops out of the bundle; the provider
+  // also calls it only when NODE_ENV !== 'production'.
+  devDiagnostics: process.env.NODE_ENV !== 'production'
+    ? (doc: Document) => startSurfaceCounter(doc)
+    : () => undefined,
   presetCss,
   brandCss,
 };
