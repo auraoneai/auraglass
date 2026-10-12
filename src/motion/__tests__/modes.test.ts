@@ -126,8 +126,9 @@ describe('forced-colors and reduced highlights (REQ-MOT-113/-117)', () => {
     expect(src).toContain('--_ag-pointer');
     expect(src).toContain('--_ag-optics');
     expect(src).toContain('animation: none');
-    // focus ring never transitions: the allow-list keeps paint properties only
-    expect(src).toContain('transition-property: color, background-color, border-color, outline-color');
+    // focus ring (and every part) never transitions; paint properties are not ANIMATABLE
+    expect(src).toContain('transition-property: none');
+    expect(src).not.toMatch(/transition-property:[^;]*(?:color|outline)/);
     expect(src).not.toContain('--_ag-focus');
   });
   it('[data-ag-highlights] disables pointer light, press glow and sweeps', () => {

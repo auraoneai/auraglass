@@ -57,16 +57,11 @@ const transitionProps = (node: postcss.Container): string[] => {
   });
   return props;
 };
-/* REQ-MAT-42: every transition list in the MAT-owned motion files
-   (motion.css, view-transition.css) is a subset of ANIMATABLE (S-12) — no
-   --_ag-hover, display/overlay, rotate or paint colours. motion-modes.css's
-   calm paint-property list (color/background-color/border-color/outline-color)
-   is REQ-FIN-12's file (FIN-A) and is checked against this wider set until
-   that change lands. */
+/* REQ-MAT-42: every transition list in the MAT motion files (motion.css,
+   view-transition.css, loading.css, motion-modes.css) is a subset of
+   ANIMATABLE (S-12) — no --_ag-hover, display/overlay, rotate or paint
+   colours (the forced-colors block uses transition-property: none). */
 const MAT_TRANSITION_FILES = ['motion', 'vt'] as const;
-const FOREIGN_MODES_ALLOWED = new Set([
-  ...ANIMATABLE, 'color', 'background-color', 'border-color', 'outline-color',
-]);
 
 describe('REQ-MOT-10 / REQ-MAT-28: motion css registers no @property', () => {
   /* --_ag-optics/--_ag-press are registered once in
@@ -204,8 +199,8 @@ describe('REQ-MOT-12/-18, REQ-MAT-42: transition allow-list', () => {
   it('loading.css transitions only ANIMATABLE properties', () => {
     expect(offenders(parse(FILES.loading), animatable)).toEqual([]);
   });
-  it('motion-modes.css stays within ANIMATABLE plus its calm paint list (REQ-FIN-12 file)', () => {
-    expect(offenders(parse(FILES.modes), FOREIGN_MODES_ALLOWED)).toEqual([]);
+  it('motion-modes.css transitions only ANIMATABLE properties', () => {
+    expect(offenders(parse(FILES.modes), animatable)).toEqual([]);
   });
 });
 

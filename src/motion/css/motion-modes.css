@@ -66,14 +66,16 @@
   }
 
   /* ---- forced colors (REQ-MOT-113): pointer light, sweeps and optics fades off;
-     focus rings (and everything else) never transition — paint properties only. ---- */
+     focus rings (and everything else) never transition. System colours are
+     forced, so there is nothing left to cross-fade, and paint properties are
+     not in ANIMATABLE (S-12, REQ-MAT-42). ---- */
   @media (forced-colors: active) {
     :root :where([data-ag-part], [data-ag-surface]),
     :root:where([data-ag-part], [data-ag-surface]) {
       --_ag-pointer: 50% 50%;
       --_ag-optics: 1;
       animation: none;
-      transition-property: color, background-color, border-color, outline-color;
+      transition-property: none;
     }
   }
 
