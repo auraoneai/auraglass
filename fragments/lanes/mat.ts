@@ -195,10 +195,15 @@ export default [
   // capability context, modes, spring/linear, tokens) on every PR.
   { lane: 'L12', kind: 'jest', path: 'src/motion/__tests__/*.test.ts', scope: 'pr', remote: false, failClosed: true },
 
-  // MAT-371 (L11 Consumer canaries): MAT canary fixtures (provider + script in
-  // app/layout, 0 hydration warnings) exercised by QUAL's L11 harness on
-  // Next 15/16 + Vite canaries.
-  { lane: 'L11', kind: 'story-subjects', path: 'canaries/*/fixtures/mat/**', scope: 'pr', remote: true, failClosed: true },
+  // MAT-371 (L11 Consumer canaries): no row — the lane definition was wrong.
+  // There are no canaries/*/fixtures/mat/** files and no *.stories.* anywhere
+  // under canaries/ (canary apps are packed-artifact consumers, not Storybook
+  // subjects, so a story-subjects row can never match). The MAT canary
+  // surface — AuraGlassScript (prepaint) + AuraGlassProvider in
+  // canaries/next15/app/layout.tsx and canaries/next16/app/layout.tsx — is
+  // exercised by PLAT's per-canary L11 rows (fragments/lanes/plat.ts), whose
+  // specs render through that layout (cmp-server asserts 0 hydration
+  // warnings on next16).
 
   // MAT-374 (GA cert): collect the §16 numbers on the GA SHA from their lanes
   // and fail on any overrun; emits the budget-table artifact.

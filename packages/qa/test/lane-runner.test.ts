@@ -3,11 +3,11 @@
    sources (published dist-tag, release/4.x head). Fixture registrations: tests/contract-doubles/fragments/. */
 import { afterAll, describe, expect, it, jest } from '@jest/globals';
 import { execFileSync } from 'node:child_process';
-import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import {
-  EXIT, PENDING_EXIT, branchStream, loadRegistrations, parseArgs, playwrightConfigFor, readBrowserVersions, resolveHeadV4Tarball, resolvePublishedV4Tarball,
+  EXIT, PENDING_EXIT, branchStream, jestConfigPath, loadRegistrations, parseArgs, playwrightConfigFor, readBrowserVersions, resolveHeadV4Tarball, resolvePublishedV4Tarball,
   resolveTarball, selectRows, validateManifest,
   type Registration,
 } from '../src/evidence/laneRunner.ts';
@@ -86,6 +86,25 @@ describe('registry = built-ins + loadFragments(lanes)', () => {
     expect(playwrightConfigFor(['tests/e2e/mat/a.spec.ts'])).toBe('playwright.config.ts');
     expect(playwrightConfigFor(['certification/lanes/engine.spec.ts'])).toBe('certification/playwright.cert.config.ts');
     expect(playwrightConfigFor(['certification/lanes/a.spec.ts', 'tests/e2e/mat/a.spec.ts'])).toBeNull();
+  });
+
+  it('runs canary specs under their own app config and registry-render under its dedicated config', () => {
+    expect(playwrightConfigFor(['canaries/next16/tests/cmp-server.spec.ts'])).toBe('canaries/next16/playwright.config.ts');
+    expect(playwrightConfigFor(['canaries/vite/tests/axe.spec.ts', 'canaries/vite/tests/cascade.spec.ts'])).toBe('canaries/vite/playwright.config.ts');
+    // a row spanning two canary apps (or a canary + a stream spec) has no single config
+    expect(playwrightConfigFor(['canaries/next16/tests/a.spec.ts', 'canaries/next15/tests/a.spec.ts'])).toBeNull();
+    expect(playwrightConfigFor(['canaries/next16/tests/a.spec.ts', 'tests/e2e/mat/a.spec.ts'])).toBeNull();
+    expect(playwrightConfigFor(['tests/dx/registry-render.spec.ts'])).toBe('tests/dx/registry.playwright.config.ts');
+    expect(playwrightConfigFor(['tests/dx/quickstart.spec.ts'])).toBe('playwright.config.ts');
+  });
+
+  it('a jest row naming one jest config file is a config reference, not a test pattern', () => {
+    expect(jestConfigPath(['tests/data/jest.doubles.cjs'])).toBe('tests/data/jest.doubles.cjs');
+    expect(jestConfigPath(['jest.config.js'])).toBe('jest.config.js');
+    expect(jestConfigPath(['tests/x.test.ts'])).toBeNull();
+    expect(jestConfigPath(['lint/rules/plat/no-foo.cjs'])).toBeNull();
+    expect(jestConfigPath(['tests/data/jest.doubles.cjs', 'tests/ai/jest.doubles.cjs'])).toBeNull();
+    expect(jestConfigPath([])).toBeNull();
   });
 });
 
@@ -177,6 +196,46 @@ writeFileSync(join(dir, 'dist-perf.json'), JSON.stringify({ bytes: { Button: 421
     const failing = await runFixture(root, { tools: { jestBin: fakeJest(root, report('Error: expect(received).toBe(expected)'), 1) } });
     expect(results(failing)[0]).toMatchObject({ state: 'fail', tests: 1 });
     expect(failing.code).toBe(EXIT.fail);
+  });
+
+  it('runs a jest config-file row (SURF doubles preset) as `jest -c <preset>` with no test pattern', async () => {
+    const preset = 'tests/data/jest.doubles.cjs';
+    const root = makeRepo({ fragments: { surf: `[${row({ lane: 'L12', kind: 'jest', path: preset })}]` }, files: { [preset]: 'module.exports = {};\n' } });
+    const argvFile = join(root, 'jest-argv.json');
+    const jestBin = fakeTool(root, 'jest', `const fs = require('node:fs');
+fs.writeFileSync(${JSON.stringify(argvFile)}, JSON.stringify(process.argv.slice(2)));
+const a = process.argv.find((x) => x.startsWith('--outputFile='));
+if (a) fs.writeFileSync(a.slice('--outputFile='.length), JSON.stringify({ success: true, numTotalTests: 3, numFailedTests: 0, testResults: [] }));
+process.exit(0);\n`);
+    const r = await runFixture(root, { lane: 'L12', tools: { jestBin } });
+    expect(r.code).toBe(EXIT.ok);
+    expect(results(r)[0]).toMatchObject({ path: preset, state: 'pass', tests: 3 });
+    const argv = JSON.parse(readFileSync(argvFile, 'utf8')) as string[];
+    expect(argv).toContain(preset);
+    expect(argv[argv.indexOf(preset) - 1]).toBe('-c');
+    expect(argv).not.toContain('--runTestsByPath');
+    expect(argv).not.toContain('--findRelatedTests');
+  });
+
+  it('runs a canary playwright row from the canary dir under its own config, spec paths relative to it', async () => {
+    const root = makeRepo({
+      fragments: { cmp: `[${row({ lane: 'L11', kind: 'playwright', path: 'canaries/next16/tests/cmp-server.spec.ts', remote: true })}]` },
+      files: { 'canaries/next16/playwright.config.ts': '', 'canaries/next16/tests/cmp-server.spec.ts': '' },
+    });
+    const argvFile = join(root, 'pw-argv.json');
+    const playwrightCli = fakeTool(root, 'playwright', `const fs = require('node:fs');
+fs.writeFileSync(${JSON.stringify(argvFile)}, JSON.stringify({ cwd: process.cwd(), argv: process.argv.slice(2) }));
+fs.writeFileSync(process.env.PLAYWRIGHT_JSON_OUTPUT_NAME, JSON.stringify({ stats: { expected: 1, unexpected: 0, flaky: 0 }, suites: [] }));
+process.exit(0);\n`);
+    const r = await runFixture(root, { lane: 'L11', tools: { playwrightCli } });
+    expect(r.code).toBe(EXIT.ok);
+    expect(results(r)[0]).toMatchObject({ path: 'canaries/next16/tests/cmp-server.spec.ts', state: 'pass', tests: 1 });
+    const seen = JSON.parse(readFileSync(argvFile, 'utf8')) as { cwd: string; argv: string[] };
+    expect(seen.cwd).toBe(realpathSync(join(root, 'canaries/next16')));
+    expect(seen.argv).toContain('playwright.config.ts');
+    expect(seen.argv[seen.argv.indexOf('playwright.config.ts') - 1]).toBe('-c');
+    expect(seen.argv).toContain('tests/cmp-server.spec.ts');
+    expect(seen.argv).not.toContain('canaries/next16/tests/cmp-server.spec.ts');
   });
 
   it('attributes a failure outside the PR stream as pre-existing (contracts/ownership.json owners)', async () => {

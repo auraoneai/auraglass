@@ -294,14 +294,23 @@ function ownersOf(files: readonly string[], ctx: RowContext): string[] {
   return [...new Set(files.map((f) => ownerOf(f).toLowerCase()))];
 }
 
+/** A jest row whose registered path is a single jest config file (e.g. SURF's L12
+    `tests/<area>/jest.doubles.cjs` presets) names the config to run under, not a test
+    pattern: passed as a pattern it matches 0 tests and jest writes no report. */
+export function jestConfigPath(files: readonly string[]): string | null {
+  if (files.length !== 1) return null;
+  const base = files[0]!.split('/').pop()!;
+  return /^jest\.[^/]+\.(cjs|mjs|js)$/.test(base) && !/\.test\./.test(base) ? files[0]! : null;
+}
+
 function runJest(row: Registration, ctx: RowContext): RowResult {
   const outFile = join(ctx.evidenceDir, `jest-${ctx.idx}.json`);
   const workers = String(Math.max(1, Math.min(cpus().length, 4)));
   // The verbatim root config needs ESM vm-modules (as `npm test`); jest.qual.config.js runs everything through babel.
   // --workerIdleMemoryLimit recycles a worker whose heap has grown past 1 GB between test files (jsdom/coverage
   // retention), so the whole-repo L12 coverage row stays bounded on a shared runner instead of being OOM-killed.
-  const base = [...(row.config ? [] : ['--experimental-vm-modules']), ctx.tools.jestBin, ...(row.config ? ['-c', row.config] : []),
-    '--ci', '--json', `--outputFile=${outFile}`, `--maxWorkers=${workers}`, '--workerIdleMemoryLimit=1GB'];
+  const tail = ['--ci', '--json', `--outputFile=${outFile}`, `--maxWorkers=${workers}`, '--workerIdleMemoryLimit=1GB'];
+  const base = [...(row.config ? [] : ['--experimental-vm-modules']), ctx.tools.jestBin, ...(row.config ? ['-c', row.config] : []), ...tail];
   let args: string[];
   let plan: ReturnType<typeof buildCoveragePlan> | null = null;
   let coverageDir: string | null = null;
@@ -318,12 +327,21 @@ function runJest(row: Registration, ctx: RowContext): RowResult {
   } else {
     const files = expand(row.path, ctx.root);
     if (!files.length) return { state: 'fail', reason: `registered path matches nothing: ${row.path}`, tests: 0 };
-    const isTest = row.config ? (p: string) => /\.test\.(ts|tsx|mjs|js)$/.test(p) : isRootJestTest;
-    const tests = files.filter(isTest);
-    const sources = files.filter((f) => !isTest(f));
-    // Test files run directly; non-test paths (e.g. rule sources) run the tests that import them.
-    args = tests.length ? [...base, '--runTestsByPath', ...tests] : [...base, '--findRelatedTests', ...sources];
-    subjectFiles = files.length;
+    const preset = row.config ? null : jestConfigPath(files);
+    if (preset) {
+      // Config-file row: the preset's own testMatch/testPathIgnorePatterns select the tests,
+      // exactly as ci/surf/doubles/run.mjs runs `jest -c <preset> --ci` (no positional paths,
+      // so packed-entry suites the preset ignores stay out of this sources-only cell).
+      args = ['--experimental-vm-modules', ctx.tools.jestBin, '-c', preset, ...tail];
+      subjectFiles = files.length;
+    } else {
+      const isTest = row.config ? (p: string) => /\.test\.(ts|tsx|mjs|js)$/.test(p) : isRootJestTest;
+      const tests = files.filter(isTest);
+      const sources = files.filter((f) => !isTest(f));
+      // Test files run directly; non-test paths (e.g. rule sources) run the tests that import them.
+      args = tests.length ? [...base, '--runTestsByPath', ...tests] : [...base, '--findRelatedTests', ...sources];
+      subjectFiles = files.length;
+    }
   }
   const r = run(ctx.tools.node, args, ctx.root, rowEnv(row, ctx));
   let report: JestReport | null = null;
@@ -362,12 +380,23 @@ interface PwSuite { file?: string; specs?: Array<{ file?: string; title?: string
 interface PwReport { stats?: { expected?: number; unexpected?: number; flaky?: number; skipped?: number }; suites?: PwSuite[]; errors?: Array<{ message?: string }> }
 
 /** QUAL's certification specs (certification/**) run under certification/playwright.cert.config.ts (its testDir is
-    certification/); stream specs (tests/{a11y/apg,e2e,visual,ssr,rsc}/<stream>/**, canaries, …) under the verbatim root
-    playwright.config.ts, whose projects and fragment projects own them. null = a row mixing both. */
+    certification/); stream specs (tests/{a11y/apg,e2e,visual,ssr,rsc}/<stream>/**, …) under the verbatim root
+    playwright.config.ts, whose projects and fragment projects own them. Canary specs
+    (canaries/<app>/tests/**) run under that app's own playwright.config.ts — its
+    webServer/globalSetup installs and serves the packed artifact (ci/plat/canaries.mjs runs
+    playwright with cwd = the canary dir); the root config's testDir is ./tests, so it
+    collects 0 canary tests. tests/dx/registry-render.spec.ts likewise has a dedicated
+    config (plat:test:registry passes `-c tests/dx/registry.playwright.config.ts`; the root
+    config only matches stream kind dirs, not tests/dx). null = a row mixing configs. */
 export function playwrightConfigFor(files: readonly string[]): string | null {
   const cert = files.filter((f) => f.startsWith('certification/') || f.startsWith('tests/a11y/browser/'));
   if (cert.length === files.length) return 'certification/playwright.cert.config.ts';
-  return cert.length ? null : 'playwright.config.ts';
+  if (cert.length) return null;
+  const canary = files.map((f) => f.match(/^(canaries\/[^/]+)\//)?.[1]);
+  if (canary.every(Boolean)) return new Set(canary).size === 1 ? `${canary[0]}/playwright.config.ts` : null;
+  if (canary.some(Boolean)) return null;
+  if (files.length === 1 && files[0] === 'tests/dx/registry-render.spec.ts') return 'tests/dx/registry.playwright.config.ts';
+  return 'playwright.config.ts';
 }
 
 /** Playwright JSON report → counts. A failing test whose error starts with `pending:` is a producer that has not
@@ -419,11 +448,15 @@ export function readBrowserVersions(evidenceDir: string): Record<string, string>
 }
 
 async function runPlaywright(row: Registration, ctx: RowContext): Promise<RowResult> {
-  const files = expand(row.path, ctx.root).filter((f) => /\.spec\.(ts|tsx|js|mjs)$/.test(f));
+  const files = expand(row.path, ctx.root).filter((f) => /\.spec\.(ts|tsx|js|mjs|mts|cts)$/.test(f));
   if (!files.length) return { state: 'fail', reason: `registered path matches no spec: ${row.path}` };
   const outFile = join(ctx.evidenceDir, `playwright-${ctx.idx}.json`);
   const config = playwrightConfigFor(files);
-  if (!config) return { state: 'fail', reason: `registered path mixes certification/ and stream specs: ${row.path} (register them separately)` };
+  if (!config) return { state: 'fail', reason: `registered path mixes specs that need different playwright configs: ${row.path} (register them separately)` };
+  // Canary rows run from the canary dir with paths relative to it, as
+  // ci/plat/canaries.mjs does (the config's webServer/globalSetup are cwd-relative).
+  const canaryDir = config.startsWith('canaries/') ? config.slice(0, -'/playwright.config.ts'.length) : null;
+  if (canaryDir && !existsSync(join(ctx.root, config))) return { state: 'fail', reason: `canary playwright config missing: ${config}` };
   if (config === 'certification/playwright.cert.config.ts' && existsSync(join(ctx.root, 'certification/lanes/_fixtures/fragments.ts'))) {
     const { loadCertProjects } = await loadTsModule(join(ctx.root, 'certification/lanes/_fixtures/fragments.ts')) as
       { loadCertProjects: (root: string) => { projects: Array<{ testDir: string }> } };
@@ -439,8 +472,9 @@ async function runPlaywright(row: Registration, ctx: RowContext): Promise<RowRes
         + `'${row.stream}:cert-<id>' project in fragments/playwright/${row.stream}.json covering: ${uncovered.slice(0, 5).join(', ')}${uncovered.length > 5 ? ', …' : ''}` };
     }
   }
-  const r = run(ctx.tools.node, [ctx.tools.playwrightCli, 'test', '-c', config, '--reporter=line,json', ...files],
-    ctx.root, { ...rowEnv(row, ctx), PLAYWRIGHT_JSON_OUTPUT_NAME: outFile, AG_LANE_EVIDENCE_DIR: ctx.evidenceDir });
+  const r = run(ctx.tools.node, [ctx.tools.playwrightCli, 'test', '-c', canaryDir ? 'playwright.config.ts' : config, '--reporter=line,json',
+    ...(canaryDir ? files.map((f) => f.slice(canaryDir.length + 1)) : files)],
+    canaryDir ? join(ctx.root, canaryDir) : ctx.root, { ...rowEnv(row, ctx), PLAYWRIGHT_JSON_OUTPUT_NAME: outFile, AG_LANE_EVIDENCE_DIR: ctx.evidenceDir });
   if (r.error || r.signal) return { state: 'fail', reason: `crashed: ${r.error ?? r.signal}`, durationMs: r.durationMs };
   let report: PwReport | null = null;
   try { report = JSON.parse(readFileSync(outFile, 'utf8')) as PwReport; } catch { /* no report */ }
@@ -479,8 +513,11 @@ async function runPlaywright(row: Registration, ctx: RowContext): Promise<RowRes
       : { state: 'quarantined', reason: `${cells.length} failing cell(s) are quarantined in ${QUARANTINE_FILE}`, quarantined: cells, ...common };
   }
   if (allPending(messages)) return { state: 'pending', reason: 'every failure is a pending-producer error', ...common };
-  // Playwright reports spec files relative to the config's testDir (tests/ or certification/).
-  const testDir = config === 'playwright.config.ts' ? 'tests/' : 'certification/';
+  // Playwright reports spec files relative to the config's testDir (tests/, certification/,
+  // a canary's tests/, or tests/dx for the registry-render config whose testDir is '.').
+  const testDir = config === 'playwright.config.ts' ? 'tests/'
+    : config === 'certification/playwright.cert.config.ts' ? 'certification/'
+    : canaryDir ? `${canaryDir}/tests/` : 'tests/dx/';
   const failedSuites = [...new Set(failing.map((f) => f.file).filter(Boolean).map((f) => (isAbsolute(f) ? relToRoot(f, ctx.root) : f.startsWith(testDir) ? f : `${testDir}${f}`)))];
   return { state: 'fail', reason: `playwright: ${s.unexpected ?? 0} failed test(s) (exit ${r.status})`, failedSuites, failedOwners: ownersOf(failedSuites, ctx), ...common };
 }
