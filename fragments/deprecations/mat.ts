@@ -3009,6 +3009,10 @@ const b = [
     doc: '#dep-m0981',
     compat: 'LiquidGlassLayerProvider',
   },
+  /* REQ-PLAT-80: deprecation entries for the removed/registry/labs names the
+     coverage baseline carried (replacements from component-dispositions.md). */
+  { id: 'DEP-M0982', kind: 'export', status: 'planned', entry: '.', symbol: 'GlassDraggable', since: '4.2.0', removeIn: '5.0.0', replacement: null, codemod: 'removed', automation: 'mostly', breaking: 'B3', message: 'GlassDraggable is removed in 5.0; no 5.0 successor (./motion drag helper).', doc: '#dep-m0982' },
+  { id: 'DEP-M0983', kind: 'export', status: 'planned', entry: '.', symbol: 'GlassPerformanceOptimization', since: '4.2.0', removeIn: '5.0.0', replacement: null, codemod: 'removed', automation: 'mostly', breaking: 'B3', message: 'GlassPerformanceOptimization is removed in 5.0; no 5.0 successor (tiers resolved pre-paint (D-09, D-10)).', doc: '#dep-m0983' },
 ] as const;
 // --- lane 2e-B end ---
 

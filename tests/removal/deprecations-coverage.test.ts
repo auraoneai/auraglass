@@ -7,15 +7,19 @@
    list is written to .artifacts/plat/deprecations-coverage.json (G-07 input)
    by `node scripts/removal/deprecations-coverage.mjs`. */
 import { describe, expect, it } from '@jest/globals';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { coverage, exportSet, run, validReplacement } from '../../scripts/removal/deprecations-coverage.mjs';
 import { ROOT } from '../build/helpers';
 
 type Row = { name: string; id?: string; owner: string; reqFin: string; expires: string };
-const BASELINE = JSON.parse(readFileSync(join(ROOT, 'tests/removal/deprecations-coverage.baseline.json'), 'utf8')) as {
-  missing: Row[]; invalid: Row[];
-};
+/* REQ-PLAT-80: the expiring baseline reached zero rows and was deleted; a
+   reintroduced baseline file (rows only ever shrink) is honoured again, but
+   its absence tolerates no gaps at all. */
+const BASELINE_PATH = join(ROOT, 'tests/removal/deprecations-coverage.baseline.json');
+const BASELINE = (existsSync(BASELINE_PATH)
+  ? JSON.parse(readFileSync(BASELINE_PATH, 'utf8'))
+  : { missing: [], invalid: [] }) as { missing: Row[]; invalid: Row[] };
 const STREAMS = ['PLAT', 'MAT', 'CMP', 'SURF', 'QUAL'];
 
 describe('deprecations coverage (removed/registry/labs public names)', () => {

@@ -11,11 +11,18 @@ test.describe('vite canary', () => {
   test('unlayered .app-btn beats layered styles', async ({ page }) => {
     await page.goto('/plat/button');
     await page.waitForSelector('[data-ag-canary="plat-button"] button'); /* lazy route chunk */
-    await page.addStyleTag({
-      content: `
-        @layer theme, base, ag, components, utilities;
-        .app-btn { background: rgb(255 0 0); }`,
+    /* REQ-PLAT-77: no post-load injection — src/cascade.css (loaded by
+       main.tsx) declares `@layer theme, base, ag, components, utilities;`,
+       imports aura-glass/styles.css into layer(ag) and defines the
+       unlayered .app-btn rule. Prove that stylesheet is really in effect:
+       an `ag` layer exists before the class is ever added. */
+    const hasAgLayer = await page.evaluate(() => {
+      const walk = (rules: CSSRuleList): boolean => [...rules].some((r) =>
+        (r instanceof CSSLayerBlockRule && (r.name === 'ag' || r.name.startsWith('ag.'))) ||
+        (r instanceof CSSLayerStatementRule && r.nameList.includes('ag')));
+      return [...document.styleSheets].some((s) => { try { return walk(s.cssRules); } catch { return false; } });
     });
+    expect(hasAgLayer).toBe(true);
     await page.evaluate(() => document.querySelector('button')?.classList.add('app-btn'));
     const bg = await page.evaluate(() => getComputedStyle(document.querySelector('button')!).backgroundColor);
     expect(bg).toBe('rgb(255, 0, 0)');

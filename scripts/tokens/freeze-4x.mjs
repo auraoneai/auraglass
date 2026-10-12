@@ -4,10 +4,12 @@
  * tokens/legacy/4x-rendered.tokens.json so the 4.2 bridge and the compat
  * adapters reproduce legacy pixels exactly (values unrounded).
  *
- * Sources (quarantined under legacy/, read-only):
- *   legacy/src/tokens/glass.ts  — the shared rendered literals (background
- *     gradient ~:997, fill ~:1001, border ~:1030), the backdropFilter blur
- *     ternary, and buildSurfaceStyles() output per {intent, elevation, tier}.
+ * Sources (frozen under tokens/legacy/):
+ *   tokens/legacy/4x-glass-source.json — the rendered surface literals
+ *     (background gradient, fill, border), the backdropFilter blur ternary,
+ *     and buildSurfaceStyles() output per {intent, elevation, tier},
+ *     extracted from legacy/src/tokens/glass.ts before REQ-PLAT-79 deleted
+ *     legacy/ (the 4.x original lives on release/4.x).
  *   tokens/legacy/4x-primitives.css — every --glass-* primitive in :root.
  *
  * Every emitted token carries $extensions["ag.tier"] = "legacy" (schema
@@ -16,10 +18,9 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { build } from 'esbuild';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
-const GLASS_TS = join(root, 'legacy/src/tokens/glass.ts');
+const GLASS_SOURCE = join(root, 'tokens/legacy/4x-glass-source.json');
 const TOKENS_CSS = join(root, 'tokens/legacy/4x-primitives.css');
 const OUT = join(root, 'tokens/legacy/4x-rendered.tokens.json');
 
@@ -28,39 +29,35 @@ const LEGACY_EXT = { 'ag.tier': 'legacy', 'ag.legacy': true };
 // (schema MAT-005): verbatim strings, never re-interpreted by the compiler.
 const tok = (value, type) => ({ $value: value, $type: type, $extensions: { ...LEGACY_EXT } });
 
-// --- 1. load the legacy module ------------------------------------------------
-// glass.ts is a leaf TS file (no imports); bundle it to a data: URL and import.
-const bundled = await build({
-  entryPoints: [GLASS_TS],
-  bundle: true,
-  write: false,
-  format: 'esm',
-  platform: 'node',
-  logLevel: 'silent',
-});
-const url = 'data:text/javascript;base64,' + Buffer.from(bundled.outputFiles[0].text).toString('base64');
-const mod = await import(url);
-const { AURA_GLASS, PERFORMANCE_TIERS, glassTokenUtils } = mod;
-if (!AURA_GLASS?.surfaces || !glassTokenUtils?.buildSurfaceStyles) {
-  console.error('freeze-4x: legacy/src/tokens/glass.ts did not expose AURA_GLASS/glassTokenUtils');
+// --- 1. load the frozen 4.x surface source -------------------------------------
+// REQ-PLAT-79: legacy/src/tokens/glass.ts is deleted with legacy/**; the
+// rendered literals it produced are frozen verbatim in 4x-glass-source.json.
+const { cells } = JSON.parse(readFileSync(GLASS_SOURCE, 'utf8'));
+if (!cells || typeof cells !== 'object' || !cells.neutral?.level1?.high) {
+  console.error('freeze-4x: tokens/legacy/4x-glass-source.json did not expose the expected cells matrix');
   process.exit(1);
 }
 
-const intents = Object.keys(AURA_GLASS.surfaces).sort();
-const elevations = Object.keys(AURA_GLASS.surfaces[intents[0]]).sort();
-const tiers = Object.keys(PERFORMANCE_TIERS).sort();
+const intents = Object.keys(cells).sort();
+const elevations = Object.keys(cells[intents[0]]).sort();
+const tiers = Object.keys(cells[intents[0]][elevations[0]]).sort();
+const cell = (intent, elevation, tier) => {
+  const c = cells[intent]?.[elevation]?.[tier];
+  if (!c) { console.error(`freeze-4x: missing cell ${intent}/${elevation}/${tier} in 4x-glass-source.json`); process.exit(1); }
+  return c;
+};
 
 // --- 2. freeze rendered surface styles ----------------------------------------
-// Rendered once per {intent, elevation, tier} via the real 4.x render path.
+// One frozen cell per {intent, elevation, tier} from the real 4.x render path.
 const surface = {};
 for (const intent of intents) {
   surface[intent] = {};
   for (const elevation of elevations) {
     surface[intent][elevation] = {};
     for (const tier of tiers) {
-      const styles = glassTokenUtils.buildSurfaceStyles(intent, elevation, tier);
+      const styles = cell(intent, elevation, tier);
       surface[intent][elevation][tier] = {
-        'backdrop-blur': tok(`${AURA_GLASS.surfaces[intent][elevation].backdropBlur.px}px`, 'ag-rendered'),
+        'backdrop-blur': tok(`${styles.backdropBlurPx}px`, 'ag-rendered'),
         'backdrop-filter': tok(styles.backdropFilter, 'ag-rendered'),
         'box-shadow': tok(styles.boxShadow, 'ag-rendered'),
       };
@@ -70,7 +67,7 @@ for (const intent of intents) {
 
 // Shared rendered literals from buildSurfaceStyles' return (identical for every
 // surface cell — verified across the matrix below).
-const probe = glassTokenUtils.buildSurfaceStyles('neutral', 'level1', 'high');
+const probe = cell('neutral', 'level1', 'high');
 const shared = {
   gradient: tok(probe.background, 'ag-rendered'),
   fill: tok(probe.backgroundColor, 'ag-rendered'),
@@ -79,7 +76,7 @@ const shared = {
 for (const intent of intents)
   for (const elevation of elevations)
     for (const tier of tiers) {
-      const s = glassTokenUtils.buildSurfaceStyles(intent, elevation, tier);
+      const s = cell(intent, elevation, tier);
       if (s.background !== probe.background || s.backgroundColor !== probe.backgroundColor || s.border !== probe.border) {
         console.error(`freeze-4x: ${intent}/${elevation}/${tier} rendered literals diverge from shared values`);
         process.exit(1);
@@ -91,9 +88,9 @@ for (const intent of intents)
 const blurTernary = {};
 for (const intent of intents)
   for (const elevation of elevations) {
-    const px = AURA_GLASS.surfaces[intent][elevation].backdropBlur.px;
+    const px = cell(intent, elevation, 'high').backdropBlurPx;
     blurTernary[String(px)] = tok(
-      glassTokenUtils.buildSurfaceStyles(intent, elevation, 'high').backdropFilter,
+      cell(intent, elevation, 'high').backdropFilter,
       'ag-rendered'
     );
   }
@@ -118,7 +115,7 @@ if (primitiveCount === 0) {
 // --- 4. emit -------------------------------------------------------------------
 const doc = {
   $description:
-    'Frozen 4.x rendered material values (MAT-328). Generated by scripts/tokens/freeze-4x.mjs from legacy/src/tokens/glass.ts and tokens/legacy/4x-primitives.css; do not hand-edit.',
+    'Frozen 4.x rendered material values (MAT-328). Generated by scripts/tokens/freeze-4x.mjs from tokens/legacy/4x-glass-source.json (extracted from the deleted legacy/src/tokens/glass.ts, REQ-PLAT-79) and tokens/legacy/4x-primitives.css; do not hand-edit.',
   legacy: {
     '4x-rendered': {
       shared,

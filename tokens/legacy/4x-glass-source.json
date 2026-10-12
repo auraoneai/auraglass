@@ -1,0 +1,1037 @@
+{
+  "$description": "Frozen 4.x rendered surface literals extracted from legacy/src/tokens/glass.ts before its deletion (REQ-PLAT-79). Input to scripts/tokens/freeze-4x.mjs; regenerate only from the archived 4.x source (release/4.x), never hand-edit values.",
+  "cells": {
+    "danger": {
+      "level1": {
+        "auto": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px hsl(var(--glass-color-danger)/0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px hsl(var(--glass-color-danger)/0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 14px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px hsl(var(--glass-color-danger)/0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 19px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px hsl(var(--glass-color-danger)/0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level2": {
+        "auto": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px hsl(var(--glass-color-danger)/0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px hsl(var(--glass-color-danger)/0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 19px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px hsl(var(--glass-color-danger)/0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 26px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px hsl(var(--glass-color-danger)/0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level3": {
+        "auto": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 40px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px hsl(var(--glass-color-danger)/0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 40px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px hsl(var(--glass-color-danger)/0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 24px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px hsl(var(--glass-color-danger)/0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 32px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px hsl(var(--glass-color-danger)/0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level4": {
+        "auto": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 48px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px hsl(var(--glass-color-danger)/0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 48px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px hsl(var(--glass-color-danger)/0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 29px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 38px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px hsl(var(--glass-color-danger)/0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level5": {
+        "auto": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 56px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px hsl(var(--glass-color-danger)/0.20)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 56px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px hsl(var(--glass-color-danger)/0.20)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 34px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 45px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px hsl(var(--glass-color-danger)/0.20)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      }
+    },
+    "info": {
+      "level1": {
+        "auto": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(14,165,233,0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(14,165,233,0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 14px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(14,165,233,0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 19px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(14,165,233,0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level2": {
+        "auto": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(14,165,233,0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(14,165,233,0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 19px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(14,165,233,0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 26px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(14,165,233,0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level3": {
+        "auto": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 40px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px rgba(14,165,233,0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 40px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px rgba(14,165,233,0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 24px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px rgba(14,165,233,0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 32px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px rgba(14,165,233,0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level4": {
+        "auto": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 48px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px rgba(14,165,233,0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 48px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px rgba(14,165,233,0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 29px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 38px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px rgba(14,165,233,0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level5": {
+        "auto": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 56px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px rgba(14,165,233,0.20)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 56px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px rgba(14,165,233,0.20)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 34px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 45px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px rgba(14,165,233,0.20)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      }
+    },
+    "neutral": {
+      "level1": {
+        "auto": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(255,255,255,0.10)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(255,255,255,0.10)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 14px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(255,255,255,0.10)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 19px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(255,255,255,0.10)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level2": {
+        "auto": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(255,255,255,0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(255,255,255,0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 19px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(255,255,255,0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 26px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(255,255,255,0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level3": {
+        "auto": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 40px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px rgba(255,255,255,0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 40px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px rgba(255,255,255,0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 24px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px rgba(255,255,255,0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 32px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px rgba(255,255,255,0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level4": {
+        "auto": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 48px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px rgba(255,255,255,0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 48px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px rgba(255,255,255,0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 29px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 38px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px rgba(255,255,255,0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level5": {
+        "auto": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 56px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px rgba(255,255,255,0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 56px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px rgba(255,255,255,0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 34px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 45px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px rgba(255,255,255,0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      }
+    },
+    "primary": {
+      "level1": {
+        "auto": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px hsl(var(--glass-color-primary)/0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px hsl(var(--glass-color-primary)/0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 14px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px hsl(var(--glass-color-primary)/0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 19px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px hsl(var(--glass-color-primary)/0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level2": {
+        "auto": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px hsl(var(--glass-color-primary)/0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px hsl(var(--glass-color-primary)/0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 19px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px hsl(var(--glass-color-primary)/0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 26px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px hsl(var(--glass-color-primary)/0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level3": {
+        "auto": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 40px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px hsl(var(--glass-color-primary)/0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 40px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px hsl(var(--glass-color-primary)/0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 24px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px hsl(var(--glass-color-primary)/0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 32px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px hsl(var(--glass-color-primary)/0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level4": {
+        "auto": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 48px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px hsl(var(--glass-color-primary)/0.20)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 48px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px hsl(var(--glass-color-primary)/0.20)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 29px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 38px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px hsl(var(--glass-color-primary)/0.20)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level5": {
+        "auto": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 56px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px hsl(var(--glass-color-primary)/0.22)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 56px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px hsl(var(--glass-color-primary)/0.22)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 34px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 45px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px hsl(var(--glass-color-primary)/0.22)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      }
+    },
+    "success": {
+      "level1": {
+        "auto": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(34,197,94,0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(34,197,94,0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 14px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(34,197,94,0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 19px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px rgba(34,197,94,0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level2": {
+        "auto": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(34,197,94,0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(34,197,94,0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 19px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(34,197,94,0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 26px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px rgba(34,197,94,0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level3": {
+        "auto": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 40px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px rgba(34,197,94,0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 40px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px rgba(34,197,94,0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 24px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px rgba(34,197,94,0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 32px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px rgba(34,197,94,0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level4": {
+        "auto": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 48px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px rgba(34,197,94,0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 48px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px rgba(34,197,94,0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 29px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 38px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px rgba(34,197,94,0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level5": {
+        "auto": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 56px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px rgba(34,197,94,0.20)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 56px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px rgba(34,197,94,0.20)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 34px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 45px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px rgba(34,197,94,0.20)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      }
+    },
+    "warning": {
+      "level1": {
+        "auto": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px hsl(var(--glass-color-warning)/0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 24px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px hsl(var(--glass-color-warning)/0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 14px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px hsl(var(--glass-color-warning)/0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 16,
+          "backdropFilter": "blur(16px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 4px 19px 0px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.18), inset 0 0 8px hsl(var(--glass-color-warning)/0.12)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level2": {
+        "auto": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px hsl(var(--glass-color-warning)/0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 32px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px hsl(var(--glass-color-warning)/0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 19px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px hsl(var(--glass-color-warning)/0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 24,
+          "backdropFilter": "blur(24px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 8px 26px 0px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 0 12px hsl(var(--glass-color-warning)/0.14)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level3": {
+        "auto": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 40px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px hsl(var(--glass-color-warning)/0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 40px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px hsl(var(--glass-color-warning)/0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 24px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px hsl(var(--glass-color-warning)/0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 32,
+          "backdropFilter": "blur(32px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 12px 32px 0px rgba(0,0,0,0.26), inset 0 1px 0 rgba(255,255,255,0.25), inset 0 0 16px hsl(var(--glass-color-warning)/0.16)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level4": {
+        "auto": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 48px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px hsl(var(--glass-color-warning)/0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 48px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px hsl(var(--glass-color-warning)/0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 29px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 40,
+          "backdropFilter": "blur(40px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 16px 38px 0px rgba(0,0,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 0 20px hsl(var(--glass-color-warning)/0.18)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      },
+      "level5": {
+        "auto": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 56px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px hsl(var(--glass-color-warning)/0.20)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "high": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 56px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px hsl(var(--glass-color-warning)/0.20)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "low": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 34px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        },
+        "medium": {
+          "backdropBlurPx": 48,
+          "backdropFilter": "blur(48px) saturate(1.4) brightness(1.08) contrast(1.04)",
+          "boxShadow": "0px 20px 45px 0px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.32), inset 0 0 24px hsl(var(--glass-color-warning)/0.20)",
+          "background": "linear-gradient(145deg, rgba(255,255,255,0.105) 0%, rgba(255,255,255,0.035) 52%, rgba(255,255,255,0.018) 100%)",
+          "backgroundColor": "rgba(255,255,255,0.018)",
+          "border": "1px solid rgba(255,255,255,0.18)"
+        }
+      }
+    }
+  }
+}
