@@ -1,0 +1,8 @@
+{
+  "$comment": "REQ-CMP-125 / REQ-CMP-139: ColorPicker test vectors. Colour values are the unit under test, so they live in this data file instead of a CMP source file (the CMP literals baseline stays 0).",
+  "conversions": ["#000000", "#ffffff", "#ff0000", "#3b82f6", "#0ea5e9", "#22c55e", "#eab308"],
+  "exactHsv": ["#000000", "#ffffff", "#ff0000", "#3b82f6"],
+  "start": "#3b82f6",
+  "roundTrip": { "typed": "#336699", "areaValueText": "saturation 67%, brightness 60%" },
+  "oklchTyped": "oklch(0.7 0.15 200)"
+}

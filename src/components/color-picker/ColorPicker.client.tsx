@@ -1,7 +1,8 @@
-/* CMP-319: ColorPicker — Trigger + Popover content (PRD-09 seam). Area is a
-   single focusable role='slider' with aria-roledescription='2D slider'
-   (arrows step s/v, PageUp/PageDown coarse); Hue is a horizontal slider.
-   Value is hex; hsv/oklch helpers live in ./colors. */
+/* CMP-319 / REQ-CMP-125: ColorPicker — Trigger + Popover content (overlay
+   regular). Area is a single focusable role='slider' with
+   aria-roledescription='2D slider' (Arrow 1%, Shift+Arrow 10%); Hue, Channel
+   and Alpha are Base UI sliders; Input round-trips hex / oklch().
+   hsv/oklch helpers live in ./colors. */
 'use client';
 import * as React from 'react';
 import { cn } from '../../internal/index';
@@ -133,7 +134,10 @@ function Area({ className, ref, 'aria-label': ariaLabel, ...rest }: AreaProps & 
   const { hsv, setHsv } = ctx;
   const move = (ds: number, dv: number, e: React.KeyboardEvent) => {
     e.preventDefault();
-    setHsv({ ...hsv, s: Math.min(1, Math.max(0, hsv.s + ds)), v: Math.min(1, Math.max(0, hsv.v + dv)) });
+    /* Step from the announced (whole-percent) value so each press moves the
+       aria-valuetext by exactly 1% (Shift: 10%), clamped to 0–100%. */
+    const step = (x: number, d: number) => Math.min(100, Math.max(0, Math.round(x * 100) + Math.round(d * 100))) / 100;
+    setHsv({ ...hsv, s: ds ? step(hsv.s, ds) : hsv.s, v: dv ? step(hsv.v, dv) : hsv.v });
   };
   const point = (e: React.PointerEvent<HTMLDivElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
@@ -178,41 +182,35 @@ function Hue({ className, ref, 'aria-label': ariaLabel, ...rest }: AreaProps & {
   const ctx = React.useContext(ColorCtx);
   if (!ctx) return null;
   const { hsv, setHsv } = ctx;
+  /* REQ-CMP-125: the hue slider is a Base UI Slider (keyboard, pointer, RTL and
+     aria-valuenow come from Base UI); Arrow steps 1°, Shift+Arrow/PageUp 15°. */
   return (
-    <div
-      {...rest}
-      ref={ref}
-      role="slider"
-      aria-label={ariaLabel ?? 'Hue'}
-      aria-orientation="horizontal"
-      aria-valuemin={0}
-      aria-valuemax={360}
-      aria-valuenow={Math.round(hsv.h)}
-      tabIndex={0}
-      data-ag-part="hue"
-      className={cn('ag-color-picker-hue', className)}
-      onKeyDown={(e) => {
-        const step = e.shiftKey ? 15 : 1;
-        if (e.key === 'ArrowRight' || e.key === 'ArrowUp') { e.preventDefault(); setHsv({ ...hsv, h: (hsv.h + step) % 360 }); }
-        else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') { e.preventDefault(); setHsv({ ...hsv, h: (hsv.h - step + 360) % 360 }); }
-      }}
-    >
-      <span data-ag-part="hue-thumb" className="ag-color-picker-hue-thumb" style={{ insetInlineStart: `${(hsv.h / 360) * 100}%` }} />
+    <div {...rest} ref={ref} data-ag-part="hue" className={cn('ag-color-picker-hue', className)}>
+      <Slider.Root
+        value={Math.round(hsv.h)}
+        min={0}
+        max={359}
+        step={1}
+        largeStep={15}
+        aria-label={ariaLabel ?? 'Hue'}
+        getAriaValueText={(v) => `hue ${v}°`}
+        onValueChange={(v) => setHsv({ ...hsv, h: v })}
+      />
     </div>
   );
 }
 
 export interface ChannelProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onValueChange' | 'defaultValue' | 'onChange'> {
-  /** Channel to edit: hsv h/s/v or rgb r/g/b. */
-  channel: 'h' | 's' | 'v' | 'r' | 'g' | 'b';
+  /** Channel to edit: hsv h/s/v or rgb r/g/b (default 's'). */
+  channel?: 'h' | 's' | 'v' | 'r' | 'g' | 'b';
   'aria-label'?: string;
 }
 
-const CHANNEL_RANGE: Record<ChannelProps['channel'], [number, number, number]> = {
+const CHANNEL_RANGE: Record<NonNullable<ChannelProps['channel']>, [number, number, number]> = {
   h: [0, 360, 1], s: [0, 100, 1], v: [0, 100, 1], r: [0, 255, 1], g: [0, 255, 1], b: [0, 255, 1],
 };
 
-function Channel({ channel, className, ref, 'aria-label': ariaLabel, ...rest }: ChannelProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+function Channel({ channel = 's', className, ref, 'aria-label': ariaLabel, ...rest }: ChannelProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
   const ctx = React.useContext(ColorCtx);
   if (!ctx) return null;
   const { hsv, setHsv } = ctx;
@@ -241,7 +239,7 @@ function Channel({ channel, className, ref, 'aria-label': ariaLabel, ...rest }: 
       setHsv(n);
     }
   };
-  const labels: Record<ChannelProps['channel'], string> = { h: 'Hue', s: 'Saturation', v: 'Brightness', r: 'Red', g: 'Green', b: 'Blue' };
+  const labels: Record<NonNullable<ChannelProps['channel']>, string> = { h: 'Hue', s: 'Saturation', v: 'Brightness', r: 'Red', g: 'Green', b: 'Blue' };
   return (
     <div {...rest} ref={ref} data-ag-part="channel" data-channel={channel} className={cn('ag-color-picker-channel', className)}>
       <Slider.Root
@@ -313,8 +311,6 @@ function Input({ className, ref, 'aria-label': ariaLabel, ...rest }: InputProps 
   );
 }
 
-/* S-30: the public compound is exactly the contract parts (COMPOUND_PARTS).
-   Channel/Alpha/Input are not contract parts yet, so they stay named exports
-   of this module until the contract promotes them. */
-export const ColorPicker = { Root, Trigger, Content, Area, Hue };
-export { Channel as ColorPickerChannel, Alpha as ColorPickerAlpha, Input as ColorPickerInput };
+/* S-30: the public compound is exactly the contract parts (COMPOUND_PARTS.ColorPicker):
+   REQ-CMP-125's three Base UI sliders (Hue, Channel, Alpha), the round-tripping Input and the 2-D Area. */
+export const ColorPicker = { Root, Trigger, Content, Area, Hue, Channel, Alpha, Input };

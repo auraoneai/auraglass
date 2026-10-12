@@ -6,7 +6,7 @@ export default defineMeta({
   entry: '.',
   tier: 'T2',
   rsc: 'client',
-  parts: ['root','trigger','swatch','positioner','popup','area','area-thumb','hue','hue-thumb'],
+  parts: ['root','trigger','swatch','positioner','popup','area','area-thumb','hue','channel','alpha','input'],
   states: ['open','closed'],
   variants: {},
   material: { layer: 'content' },
