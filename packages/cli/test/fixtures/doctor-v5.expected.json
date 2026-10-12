@@ -64,6 +64,15 @@
       },
       {
         "path": "src/App.tsx",
+        "line": 2,
+        "symbol": "GlassCard",
+        "entry": ".",
+        "automation": "automatic",
+        "codemod": "canonical-names",
+        "message": "'GlassCard' is renamed to 'Card' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names)."
+      },
+      {
+        "path": "src/App.tsx",
         "line": 3,
         "symbol": "GlassButton",
         "entry": ".",
@@ -82,6 +91,15 @@
           "automation": "automatic",
           "codemod": "canonical-names",
           "message": "'GlassButton' is renamed to 'Button' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names)."
+        },
+        {
+          "path": "src/App.tsx",
+          "line": 2,
+          "symbol": "GlassCard",
+          "entry": ".",
+          "automation": "automatic",
+          "codemod": "canonical-names",
+          "message": "'GlassCard' is renamed to 'Card' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names)."
         },
         {
           "path": "src/App.tsx",

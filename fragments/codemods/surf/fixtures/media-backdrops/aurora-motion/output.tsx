@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Backdrop } from 'aura-glass/backdrops';
 
 export function Hero() {
