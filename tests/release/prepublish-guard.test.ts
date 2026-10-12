@@ -35,6 +35,19 @@ describe('require-ci-publish guard', () => {
   });
 });
 
+describe('REQ-PLAT-12 failure message', () => {
+  it('prints the PRD literal `publishing is CI-only` on stderr and exits 1', () => {
+    let out: { status: number; stderr: string } = { status: 0, stderr: '' };
+    try {
+      execFileSync('node', [S], { env: { ...process.env, GITLAB_CI: '' }, encoding: 'utf8', stdio: 'pipe' });
+    } catch (e: any) {
+      out = { status: e.status, stderr: String(e.stderr) };
+    }
+    expect(out.status).toBe(1);
+    expect(out.stderr).toContain('publishing is CI-only');
+  });
+});
+
 describe('REQ-FIN-31 guard hardening', () => {
   it('fails inside GitHub Actions even when names match', () => {
     expect(run({ GITHUB_ACTIONS: 'true', GITLAB_CI: 'true', CI_PROJECT_ID: '87152036',
