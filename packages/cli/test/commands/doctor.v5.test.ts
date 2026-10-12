@@ -9,6 +9,11 @@ describe('doctor --v5', () => {
   it('reports per-codemod findings', () => {
     const dir = tmp();
     fs.writeFileSync(path.join(dir, 'a.tsx'), "import { GlassButton } from 'aura-glass';\nconst x=<GlassButton/>;\n");
-    expect(runV5(dir).byCodemod).toBeDefined();
+    const { findings, byCodemod } = runV5(dir);
+    expect(byCodemod['canonical-names']).toHaveLength(2);
+    expect(findings.map(({ symbol, automation }) => ({ symbol, automation }))).toEqual([
+      { symbol: 'GlassButton', automation: 'automatic' },
+      { symbol: 'GlassButton', automation: 'automatic' },
+    ]);
   });
 });

@@ -27,7 +27,7 @@ function literalOf(a: Attr): { static: true; value: string } | { static: false }
   if (v.type === 'Literal' || v.type === 'StringLiteral') return { static: true, value: String(v.value) };
   if (v.type === 'JSXExpressionContainer' && v.expression) {
     const e = v.expression;
-    if (e.type === 'Literal' || e.type === 'StringLiteral') return { static: true, value: String(e.value) };
+    if (e.type === 'Literal' || e.type === 'StringLiteral' || e.type === 'BooleanLiteral') return { static: true, value: String(e.value) };
     return { static: false };
   }
   return { static: false };
@@ -231,6 +231,23 @@ function applyCode(source: string, ctx: TransformCtx): TransformResult {
       if (row.from.includes(':')) continue;
       const attr = attrs.find((a: any) => a.type === 'JSXAttribute' && a.name?.name === row.from && !handled.has(a));
       if (!attr) continue;
+      if (row.to === null && row.from === 'mode' && ctx.mappings.components[exportName]?.to === 'DatePicker' && literalOf(attr)?.static && (literalOf(attr) as { value: string }).value === 'range') {
+        const target = Object.entries(ctx.mappings.components).find(([name, mapping]) => name !== 'DateRangePicker' && mapping.to === 'DateRangePicker')?.[0];
+        if (!target) { pushTodo(`${localName} range mode requires DateRangePicker`); continue; }
+        const localTarget = localName === exportName ? target : localName;
+        nameNode.name = localTarget;
+        const closing = p.parent.node.closingElement;
+        if (closing) closing.name.name = localTarget;
+        root.find(j.ImportSpecifier).forEach((ip: any) => {
+          if (ip.node.imported.name === exportName && (ip.node.local?.name ?? exportName) === localName) {
+            ip.node.imported.name = target;
+            if (localName === exportName && ip.node.local) ip.node.local.name = target;
+          }
+        });
+        removeIdx.add(attr);
+        changes.push({ transform: 'prop-grammar', description: `${exportName} mode=range -> ${target}` });
+        continue;
+      }
       if (row.to === null) {
         removeIdx.add(attr);
         changes.push({ transform: 'prop-grammar', description: `remove ${localName}.${row.from}` });
@@ -249,6 +266,11 @@ function applyCode(source: string, ctx: TransformCtx): TransformResult {
       if (row.values) {
         const got = literalOf(attr);
         if (!got || !got.static) {
+          if (row.from === 'collapsed' && row.to === 'defaultSidebar' && attr.value?.expression) {
+            rename();
+            attr.value = j.jsxExpressionContainer(j.conditionalExpression(attr.value.expression as never, j.stringLiteral('rail'), j.stringLiteral('expanded'))) as never;
+            continue;
+          }
           rename();
           pushTodo(`${localName}.${row.to} value is dynamic${row.todo ? ` — ${row.todo}` : ''}`);
           continue;
@@ -278,7 +300,9 @@ function applyCode(source: string, ctx: TransformCtx): TransformResult {
       } else {
         rename();
         if (row.from === 'onChange') adaptHandler(attr, localName, row.to);
-        if (row.todo) pushTodo(`${localName}.${row.to}: ${row.todo}`);
+        const fn = attr.value?.expression as { type?: string; params?: unknown[] } | undefined;
+        const valueHandler = row.from === 'onChange' && /Tabs$/.test(exportName) && (fn?.type === 'ArrowFunctionExpression' || fn?.type === 'FunctionExpression') && fn.params?.length === 1;
+        if (row.todo && !valueHandler) pushTodo(`${localName}.${row.to}: ${row.todo}`);
       }
     }
     p.node.attributes = attrs.filter((a: any) => !removeIdx.has(a)).concat(extraAttrs) as never;

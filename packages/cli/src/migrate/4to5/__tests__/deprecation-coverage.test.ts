@@ -24,7 +24,7 @@ describe('deprecation coverage', () => {
   it('every codemod-bearing entry symbol appears in >=1 fixture input', () => {
     const missing = dep
       .filter((e) => e.codemod && e.symbol && /^[A-Za-z_$][A-Za-z0-9_$.]*$/.test(String(e.symbol)) && String(e.symbol) !== '*' && !inputText.includes(String(e.symbol)))
-      .map((e) => String(e.symbol));
+      .map((e) => ({ id: e.id, kind: e.kind, transform: e.codemod, symbol: e.symbol }));
     expect(missing).toEqual([]);
   });
   it('full-automation fixture outputs contain 0 TODO markers', () => {

@@ -106,7 +106,9 @@ export function loadCompiledMappings(dir: string = MAPPINGS_DIR): CompiledMappin
         continue;
       }
       const c = out.components[r.from] ?? (out.components[r.from] = { compatOnly: false } as CompiledMappings['components'][string]);
-      if (c.to === undefined || c.to === r.from) {
+      // Explicit compatibility routing protects legacy semantics and takes
+      // precedence over a generic component rename from another stream.
+      if (r.compatOnly === true || (!c.compatOnly && (c.to === undefined || c.to === r.from))) {
         c.to = r.to;
         c.toEntry = normEntry(r.toEntry);
         c.compatOnly = c.compatOnly || r.compatOnly === true;

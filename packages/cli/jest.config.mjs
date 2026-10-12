@@ -5,7 +5,8 @@ export default {
   testEnvironment: 'node',
   testMatch: ['<rootDir>/test/**/*.test.{ts,tsx,mjs}', '<rootDir>/src/migrate/4to5/__tests__/**/*.test.{ts,tsx,mjs}'],
   transform: {
-    '^.+\\.(ts|tsx|mts)$': [
+    // The lint contract imports the package's ESM eslint.config.js too.
+    '^.+\\.(ts|tsx|mts|js)$': [
       'babel-jest',
       { presets: [['@babel/preset-env', { targets: { node: 'current' } }], '@babel/preset-typescript'] },
     ],

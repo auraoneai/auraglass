@@ -1,5 +1,5 @@
 /**
- * doctor --v5 (PLAT-315): per-file/line usage of removeIn:'5.0.0' deprecation
+ * doctor --v5 (PLAT-315): per-file/line usage of 5.0 migration deprecation
  * entries, grouped by codemod id, bucketed {automatic, needsReview, manual}.
  * Deterministic output (sorted) — used by the doctor-v5 golden test.
  */
@@ -28,12 +28,16 @@ const AUTOMATION_MAP: Record<string, V5Finding['automation']> = {
 
 export function runV5(cwd: string): { findings: V5Finding[]; byCodemod: Record<string, V5Finding[]> } {
   const mappings = loadCompiledMappings();
-  const entries = mappings.deprecations.filter((e) => (e as { removeIn?: string }).removeIn === '5.0.0');
+  // Compatibility aliases survive until 6.0 but their canonical-name migration
+  // already applies in 5.0. A removal deadline is not a migration start date.
+  const entries = mappings.deprecations.filter((e) =>
+    e.status !== 'planned' && (e.removeIn === '5.0.0' || Boolean(e.codemod)),
+  );
   const findings: V5Finding[] = [];
   const needles = entries.map((e) => {
-    const row = e as { symbol?: string; entry?: string; codemod?: string | null; automation?: string; message?: string };
-    return { symbol: row.symbol ?? '', entry: row.entry ?? '', codemod: row.codemod ?? null, automation: AUTOMATION_MAP[row.automation ?? 'manual'] ?? 'manual', message: row.message ?? '' };
-  }).filter((n: any) => n.symbol);
+    const row = e as { kind?: string; symbol?: string; entry?: string; codemod?: string | null; automation?: string; message?: string };
+    return { kind: row.kind ?? '', symbol: row.symbol ?? '', entry: row.entry ?? '', codemod: row.codemod ?? null, automation: AUTOMATION_MAP[row.automation ?? 'manual'] ?? 'manual', message: row.message ?? '' };
+  }).filter((n) => n.symbol);
   for (const abs of walkFiles(cwd)) {
     if (!/\.(tsx?|jsx?|mjs|cjs|css)$/.test(abs)) continue;
     let src: string;
@@ -45,7 +49,7 @@ export function runV5(cwd: string): { findings: V5Finding[]; byCodemod: Record<s
         if (!line.includes(n.symbol)) continue;
         // entry scoping: a symbol only counts when its entry is imported in the file,
         // except css-var/subpath entries which match textually.
-        if (n.entry && n.entry !== '.' && !/css-var|subpath/.test(String((n as { kind?: string }).kind ?? '')) && !src.includes(n.entry)) continue;
+        if (n.entry && n.entry !== '.' && !/css-var|subpath/.test(n.kind) && !src.includes(n.entry)) continue;
         findings.push({ path: rel, line: i + 1, symbol: n.symbol, entry: n.entry, automation: n.automation, codemod: n.codemod, message: n.message });
       }
     });

@@ -23,13 +23,54 @@ function specName(s: Spec): string | undefined {
 }
 
 export function applyCode(source: string, ctx: TransformCtx): TransformResult {
-  const map = ctx.mappings.components;
+  const map: TransformCtx['mappings']['components'] = { ...ctx.mappings.components, ColumnDefinition: { to: 'TableColumnDef', toEntry: 'aura-glass/data', compatOnly: false } };
   const root = j(source);
   const changes: TransformResult['changes'] = [];
   const todos: TransformResult['todos'] = [];
   /** local name -> { tag: rename JSX/value refs to this } */
   const jsxRenames = new Map<string, string>();
-  const moves = new Map<string, Array<{ imported: string; local: string }>>();
+  const moves = new Map<string, Array<{ imported: string; local: string; typeOnly?: boolean }>>();
+
+  // ColumnDefinition is a structural API migration, not just a type rename.
+  const columnLocals = new Map<string, string>();
+  root.find(j.ImportDeclaration).forEach((p: any) => {
+    if (!/^aura-glass(?:\/|$)/.test(String(p.node.source.value))) return;
+    for (const spec of p.node.specifiers ?? []) {
+      if (spec.imported?.name === 'ColumnDefinition') {
+        const local = spec.local?.name ?? 'ColumnDefinition';
+        columnLocals.set(local, local === 'ColumnDefinition' ? 'TableColumnDef' : local);
+      }
+    }
+  });
+  if (columnLocals.size) {
+    root.find(j.VariableDeclarator).forEach((p: any) => {
+      const type = p.node.id.typeAnnotation?.typeAnnotation;
+      const element = type?.type === 'TSArrayType' ? type.elementType : undefined;
+      if (element?.type !== 'TSTypeReference' || !columnLocals.has(element.typeName.name) || p.node.init?.type !== 'ArrayExpression') return;
+      for (const column of p.node.init.elements) {
+        if (column?.type !== 'ObjectExpression') continue;
+        for (const prop of column.properties) {
+          const key = prop.key?.name;
+          const rename: Record<string, string> = { key: 'accessorKey', label: 'header', sortable: 'enableSorting', width: 'size' };
+          if (rename[key]) prop.key.name = rename[key];
+          else if (key === 'align' && ['left', 'right', 'center'].includes(prop.value?.value)) {
+            prop.key.name = 'meta';
+            const value = { left: 'start', right: 'end', center: 'center' }[prop.value.value as 'left' | 'right' | 'center'];
+            prop.value = j.objectExpression([j.property('init', j.identifier('align'), j.stringLiteral(value))]);
+          } else if (key === 'render') {
+            prop.key.name = 'cell';
+            const handler = j(prop.value).toSource({ quote: 'single' });
+            prop.value = j(`const cell = ({ getValue, row }) => (${handler})(getValue(), row.original);`).find(j.VariableDeclarator).nodes()[0].init;
+          }
+        }
+      }
+    });
+    root.find(j.TSTypeReference).forEach((p: any) => {
+      const target = columnLocals.get(p.node.typeName.name);
+      if (target) p.node.typeName.name = target;
+    });
+    changes.push({ transform: 'canonical-names', description: 'ColumnDefinition -> TableColumnDef column grammar' });
+  }
 
   const declarations = root.find(j.ImportDeclaration);
 
@@ -127,7 +168,7 @@ export function applyCode(source: string, ctx: TransformCtx): TransformResult {
         // Move to a different entry, preserving any `as` local name.
         const m = moves.get(entry) ?? [];
         const newLocal = (local === imp ? head : local) ?? head!;
-        m.push({ imported: head, local: newLocal });
+        m.push({ imported: head, local: newLocal, typeOnly: (s as Spec & { importKind?: string }).importKind === 'type' || p.node.importKind === 'type' });
         moves.set(entry, m);
         if (local === imp) jsxRenames.set(imp, `${newLocal}${rest}`);
         else if (rest) jsxRenames.set(local, `${newLocal}${rest}`);
@@ -154,7 +195,7 @@ export function applyCode(source: string, ctx: TransformCtx): TransformResult {
   // Fix double-renames: when we renamed a specifier in place but kept local
   // alias, JSX refs still use the local alias — no tag rename needed. Only
   // unaliased specifiers renamed to a different name need tag rewrites.
-  let out = root.toSource({ quote: 'single', reuseWhitespace: true });
+  let out: string = root.toSource({ quote: 'single', reuseWhitespace: true });
 
   // Add/move import declarations for moved specifiers (dedup imported+local).
   for (const [entry, rawSpecs] of moves) {
@@ -165,7 +206,7 @@ export function applyCode(source: string, ctx: TransformCtx): TransformResult {
       seen.add(k);
       return true;
     });
-    const declText = `import { ${specs.map((s: any) => (s.local === s.imported ? s.imported : `${s.imported} as ${s.local}`)).join(', ')} } from '${entry}';`;
+    const declText = `import { ${specs.map((s: any) => `${s.typeOnly ? 'type ' : ''}${s.local === s.imported ? s.imported : `${s.imported} as ${s.local}`}`).join(', ')} } from '${entry}';`;
     if (!out.includes(`from '${entry}'`)) {
       // Insert after the last import.
       const lines = out.split('\n');
@@ -178,7 +219,7 @@ export function applyCode(source: string, ctx: TransformCtx): TransformResult {
     } else {
       out = out.replace(new RegExp(`(import\\s*\\{[^}]*\\}\\s*from\\s*'${entry.replace(/[/.]/g, '\\$&')}')`), (m: any) => {
         const inner = m.match(/\{([^}]*)\}/)?.[1] ?? '';
-        const merged = `${inner.trim()}${inner.trim() ? ', ' : ''}${specs.map((s: any) => (s.local === s.imported ? s.imported : `${s.imported} as ${s.local}`)).join(', ')}`;
+        const merged = `${inner.trim()}${inner.trim() ? ', ' : ''}${specs.map((s: any) => `${s.typeOnly ? 'type ' : ''}${s.local === s.imported ? s.imported : `${s.imported} as ${s.local}`}`).join(', ')}`;
         return m.replace(/\{[^}]*\}/, `{ ${merged} }`);
       });
     }

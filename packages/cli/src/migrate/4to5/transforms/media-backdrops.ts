@@ -18,12 +18,12 @@ const TODO_ROWS_UNPREFIXED = ['AtmosphericBackground', 'DynamicAtmosphere'];
 const AURORA_MOTION: Record<string, string> = { none: 'static', subtle: 'static', full: 'drift' };
 
 /** 4.x Glass* names this transform handles, read from its spec (REQ-PLAT-90). */
-interface MediaNames { imageViewer: string; carousel: string; todoRows: Set<string> }
+interface MediaNames { mesh: string; imageViewer: string; carousel: string; todoRows: Set<string> }
 function mediaNames(m: CompiledMappings): MediaNames {
   const [imageViewer] = specNames(m, 'media-backdrops', /images -> items/);
   const [carousel] = specNames(m, 'media-backdrops', /infinite -> loop/);
   const mesh = specNames(m, 'media-backdrops', /-> TODO rows/);
-  return { imageViewer: imageViewer!, carousel: carousel!, todoRows: new Set([...mesh, ...TODO_ROWS_UNPREFIXED]) };
+  return { mesh: specNames(m, 'media-backdrops', /colors\[\]/)[0]!, imageViewer: imageViewer!, carousel: carousel!, todoRows: new Set([...mesh, ...TODO_ROWS_UNPREFIXED]) };
 }
 
 function applyOtherComponents(source: string): string {
@@ -63,6 +63,15 @@ function applyCode(source: string, unitSource: string, N: MediaNames): Transform
       return undefined;
     };
 
+    if (name === N.mesh) {
+      (open!.name as { name: string }).name = 'Backdrop';
+      if (p.node.closingElement) p.node.closingElement.name.name = 'Backdrop';
+      open.attributes = [j.jsxAttribute(j.jsxIdentifier('preset'), j.stringLiteral('mesh')), ...attrs.filter(a => a.name?.name !== 'colors')];
+      if (get('colors')) todos.push({ transform: 'media-backdrops', reason: `${N.mesh} colors[] has no 5.0 prop; mesh palettes come from S-03 colours`, doc: DOC });
+      newImports.set('aura-glass/backdrops', new Set(['Backdrop']));
+      changes.push({ transform: 'media-backdrops', description: `${N.mesh} -> Backdrop preset=mesh` });
+      return;
+    }
     if (name === 'AuroraBackground') {
       const m = lit(get('motion'));
       const mapped = m !== undefined ? AURORA_MOTION[m] : undefined;
@@ -161,7 +170,7 @@ function applyCode(source: string, unitSource: string, N: MediaNames): Transform
 
   // Rewrite/insert imports: old component names get replaced in specifiers;
   // new entries are added as fresh import declarations.
-  const movedNames = new Set(['AuroraBackground', N.imageViewer, N.carousel, 'LiquidGlassCarouselRail', 'LiquidGlassMediaControls']);
+  const movedNames = new Set([N.mesh, 'AuroraBackground', N.imageViewer, N.carousel, 'LiquidGlassCarouselRail', 'LiquidGlassMediaControls']);
   root.find(j.ImportDeclaration).forEach((p: any) => {
     const src = String((p.node.source as { value?: unknown }).value ?? '');
     if (!/^(aura-glass|@auraglass\/)/.test(src)) return;
@@ -172,12 +181,22 @@ function applyCode(source: string, unitSource: string, N: MediaNames): Transform
     // Side-effect imports have no specifiers to begin with and must survive.
     const hadSpecifiers = (p.node.specifiers ?? []).length > 0;
     p.node.specifiers = kept as never;
-    if (hadSpecifiers && kept.length === 0) j(p).remove();
+    if (hadSpecifiers && kept.length === 0) {
+      const comments = p.node.comments;
+      if (comments?.length) {
+        const first = root.find(j.Program).get('body').value.find((n: any) => n !== p.node);
+        if (first) first.comments = [...comments, ...(first.comments ?? [])];
+      }
+      j(p).remove();
+    }
   });
   const prog = root.find(j.Program).get('body');
   let insertAt = 0;
+  const leadingComments = prog.value[0]?.comments;
+  if (newImports.size && leadingComments) prog.value[0].comments = [];
   for (const [entry, names] of newImports) {
     const decl = j.importDeclaration([...names].map((n: any) => j.importSpecifier(j.identifier(n))) as never, j.literal(entry));
+    if (insertAt === 0 && leadingComments) decl.comments = leadingComments;
     prog.value.splice(insertAt++, 0, decl);
   }
 
@@ -195,6 +214,10 @@ function applyCode(source: string, unitSource: string, N: MediaNames): Transform
       out = out.slice(0, i) + (imageViewerReplace as { text: string }).text + out.slice(end);
     }
   }
+  if (todos.some(t => t.reason.startsWith(`${N.mesh} colors`))) {
+    const marker = todoLine(`${N.mesh} colors[] has no 5.0 prop; mesh palettes come from S-03 colours`, DOC);
+    out = out.replace(/^(import .*backdrops.*)$/m, `${marker}\n$1`);
+  }
   // SURF goldens embed TODOs inline (items array, JSX comment) — no file-top markers.
   return { source: out, changes, todos };
 }
@@ -204,7 +227,7 @@ export const mediaBackdrops: Transform = {
   run(unit: FileUnit, ctx: TransformCtx): TransformResult {
     if (unit.kind !== 'code') return { source: unit.source, changes: [], todos: [] };
     const N = mediaNames(ctx.mappings);
-    const handled = ['AuroraBackground', N.imageViewer, N.carousel, 'LiquidGlassCarouselRail', 'LiquidGlassMediaControls', ...N.todoRows];
+    const handled = [N.mesh, 'AuroraBackground', N.imageViewer, N.carousel, 'LiquidGlassCarouselRail', 'LiquidGlassMediaControls', ...N.todoRows];
     if (!handled.some((n) => unit.source.includes(n))) {
       return { source: unit.source, changes: [], todos: [] };
     }
