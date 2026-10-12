@@ -6,6 +6,11 @@
 import * as React from 'react';
 import { ScrollArea as BaseScrollArea } from '@base-ui/react/scroll-area';
 import { cn } from '../../internal/index';
+import { materialProps } from '../../material/index';
+
+/* REQ-CMP-122: the thumb is a content-layer surface (content materials never
+   carry a backdrop filter — no blur). */
+const THUMB_MATERIAL = materialProps({ layer: 'content' });
 
 /* REQ-CMP-01: AuraGlass-owned part props (no Base UI types in the d.ts). */
 interface ScrollAreaPartProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> {
@@ -80,7 +85,7 @@ function Scrollbar({ className, ref, ...rest }: ScrollAreaScrollbarProps) {
 }
 
 function Thumb({ className, ref, ...rest }: ScrollAreaThumbProps) {
-  return <BaseScrollArea.Thumb {...rest} ref={ref} data-ag-part="thumb" className={cn('ag-scroll-area-thumb', className)} />;
+  return <BaseScrollArea.Thumb {...rest} {...THUMB_MATERIAL} ref={ref} data-ag-part="thumb" className={cn('ag-scroll-area-thumb', className)} />;
 }
 
 export const ScrollArea = { Root, Viewport, Scrollbar, Thumb };

@@ -207,6 +207,67 @@ describe('forms entry (REQ-CMP-31)', () => {
     expect(screen.queryByText('accept the terms')).toBeNull();
   });
 
+  /* REQ-CMP-31: controller-bound controls are bound to RHF through ref (their
+     Base UI hidden input), so RHF's shouldFocusError moves focus to the first
+     invalid control on submit. */
+  it.each([
+    ['Switch', 'sw', <Switch key="s" aria-label="notify" />, 'switch'],
+    ['Checkbox', 'cb', <Checkbox key="c" aria-label="agree" />, 'checkbox'],
+  ] as const)('%s: a failing required controller field receives focus on submit', async (_n, name, control, role) => {
+    const got = jest.fn<SubmitFn>();
+    render(
+      <Harness onSubmit={got} defaultValues={{ before: 'x', [name]: false }}>
+        <FormField name="before" control={<TextField aria-label="before" />} />
+        <FormField name={name} mode="controller" rules={{ validate: (v) => v === true || `${name} required` }} control={control} />
+      </Harness>,
+    );
+    screen.getByRole('button', { name: 'go' }).focus();
+    fireEvent.submit(screen.getByTestId('form'));
+    await screen.findByText(`${name} required`);
+    expect(got).not.toHaveBeenCalled();
+    expect(document.activeElement).toBe(screen.getByRole(role));
+  });
+
+  it('Select: a failing required controller field focuses its trigger on submit', async () => {
+    const got = jest.fn<SubmitFn>();
+    render(
+      <Harness onSubmit={got} defaultValues={{ pick: null }}>
+        <FormField name="pick" mode="controller" rules={{ required: 'pick one' }} control={
+          <Select.Root>
+            <Select.Trigger aria-label="pick" />
+            <Select.Content>
+              <Select.Item value="a">A</Select.Item>
+            </Select.Content>
+          </Select.Root>
+        } />
+      </Harness>,
+    );
+    screen.getByRole('button', { name: 'go' }).focus();
+    fireEvent.submit(screen.getByTestId('form'));
+    await screen.findByText('pick one');
+    expect(document.activeElement).toBe(screen.getByRole('combobox', { name: 'pick' }));
+  });
+
+  it('Combobox: a failing required controller field focuses its input on submit', async () => {
+    const got = jest.fn<SubmitFn>();
+    render(
+      <Harness onSubmit={got} defaultValues={{ cbx: null }}>
+        <FormField name="cbx" mode="controller" rules={{ required: 'pick a fruit' }} control={
+          <Combobox.Root>
+            <Combobox.Input aria-label="fruit" />
+            <Combobox.Content>
+              <Combobox.Item value="x">Xenia</Combobox.Item>
+            </Combobox.Content>
+          </Combobox.Root>
+        } />
+      </Harness>,
+    );
+    screen.getByRole('button', { name: 'go' }).focus();
+    fireEvent.submit(screen.getByTestId('form'));
+    await screen.findByText('pick a fruit');
+    expect(document.activeElement).toBe(screen.getByLabelText('fruit'));
+  });
+
   it('react-hook-form is imported only under src/forms/**', () => {
     const root = path.resolve(__dirname, '../..');
     const offenders: string[] = [];

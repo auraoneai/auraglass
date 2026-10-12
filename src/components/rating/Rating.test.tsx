@@ -1,5 +1,5 @@
 /* CMP-316: Rating — generated for lane 3g (T0/T2 components). */
-import { describe, expect, it } from '@jest/globals';
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import { fireEvent, render } from '@testing-library/react';
 import * as React from 'react';
 import { Rating } from './index';
@@ -47,6 +47,12 @@ describe('Rating', () => {
   });
 });
 describe('Rating REQ-CMP-123', () => {
+  // jsdom has no PointerEvent; Base UI's radio dispatches one on click
+  beforeEach(() => {
+    if (window.PointerEvent === undefined) {
+      (window as unknown as Record<string, unknown>).PointerEvent = window.MouseEvent;
+    }
+  });
   it('roving tabindex: checked item is the only tabbable radio', () => {
     const { container } = render(<Rating value={3} />);
     const items = [...container.querySelectorAll('[role="radio"]')];
@@ -71,5 +77,35 @@ describe('Rating REQ-CMP-123', () => {
     const css = require('node:fs').readFileSync(require('node:path').join(__dirname, 'Rating.css'), 'utf8');
     expect(css).toContain('.ag-rating-item::before');
     expect(css).toContain('24px');
+  });
+  it('items are Base UI Radio roots: aria-checked/data-checked follow the value, one hidden radio input each', () => {
+    const { container } = render(<Rating value={3} />);
+    const items = [...container.querySelectorAll('[data-ag-part="item"]')];
+    expect(items.map((i) => i.getAttribute('aria-checked'))).toEqual(['false', 'false', 'true', 'false', 'false']);
+    expect(items[2]!.hasAttribute('data-checked')).toBe(true);
+    expect(items[0]!.hasAttribute('data-unchecked')).toBe(true);
+    expect(container.querySelectorAll('input[type="radio"][aria-hidden="true"]')).toHaveLength(5);
+  });
+  it('click commits the item value and moves aria-checked', () => {
+    const seen: number[] = [];
+    const { container } = render(<Rating defaultValue={1} onValueChange={(v: number) => seen.push(v)} />);
+    fireEvent.click(container.querySelector('[data-value="4"]')!, { detail: 1 });
+    expect(seen).toEqual([4]);
+    expect(container.querySelector('[data-value="4"]')!.getAttribute('aria-checked')).toBe('true');
+    expect(container.querySelector('[data-value="1"]')!.getAttribute('aria-checked')).toBe('false');
+  });
+  it('a keyboard activation (detail 0) of an allowHalf item selects the whole item', () => {
+    const seen: number[] = [];
+    const { container } = render(<Rating defaultValue={1} allowHalf onValueChange={(v: number) => seen.push(v)} />);
+    fireEvent.click(container.querySelector('[data-value="3"]')!, { detail: 0 });
+    expect(seen).toEqual([3]);
+  });
+  it('readOnly items are Base UI read-only radios and ignore clicks', () => {
+    const seen: number[] = [];
+    const { container } = render(<Rating value={2} readOnly onValueChange={(v: number) => seen.push(v)} />);
+    const item = container.querySelector('[data-value="4"]')!;
+    expect(item.hasAttribute('data-readonly')).toBe(true);
+    fireEvent.click(item, { detail: 1 });
+    expect(seen).toEqual([]);
   });
 });

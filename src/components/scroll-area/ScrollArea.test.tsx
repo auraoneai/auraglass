@@ -90,4 +90,21 @@ describe('ScrollArea REQ-CMP-122', () => {
       warn.mockRestore();
     }
   });
+
+  it('the thumb is a content-layer surface with no blur', () => {
+    const { container } = render(
+      <ScrollArea.Root>
+        <ScrollArea.Viewport><div>content</div></ScrollArea.Viewport>
+        <ScrollArea.Scrollbar orientation="vertical" keepMounted><ScrollArea.Thumb /></ScrollArea.Scrollbar>
+      </ScrollArea.Root>,
+    );
+    const thumb = container.querySelector('[data-ag-part="thumb"]')!;
+    expect(thumb.hasAttribute('data-ag-surface')).toBe(true);
+    expect(thumb.getAttribute('data-ag-layer')).toBe('content');
+    // content materials never take a glass variant/thickness (no backdrop filter)
+    expect(thumb.hasAttribute('data-ag-variant')).toBe(false);
+    expect(thumb.hasAttribute('data-ag-thickness')).toBe(false);
+    // the scrollbar track and the viewport stay plain (only the thumb is a surface)
+    expect(container.querySelector('[data-ag-part="scrollbar"]')!.hasAttribute('data-ag-surface')).toBe(false);
+  });
 });

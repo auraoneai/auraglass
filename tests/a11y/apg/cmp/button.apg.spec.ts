@@ -33,6 +33,18 @@ test.describe('button APG (CMP-365 / REQ-CMP-35)', () => {
     await expect(btn).toHaveAttribute('aria-pressed', 'false');
     await btn.click();
     await expect(btn).toHaveAttribute('aria-pressed', 'true');
+
+    // REQ-CMP-35: the toggle flips on Enter and on Space (one flip per press)
+    await btn.focus();
+    await page.keyboard.press('Enter');
+    await expect(btn).toHaveAttribute('aria-pressed', 'false');
+    await page.keyboard.press('Space');
+    await expect(btn).toHaveAttribute('aria-pressed', 'true');
+    await page.keyboard.press('Space');
+    await expect(btn).toHaveAttribute('aria-pressed', 'false');
+    await page.keyboard.press('Enter');
+    await expect(btn).toHaveAttribute('aria-pressed', 'true');
+    await expect(btn).toBeFocused();
     await apg.axe(page);
   });
 });

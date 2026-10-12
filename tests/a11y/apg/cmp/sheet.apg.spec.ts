@@ -27,6 +27,32 @@ test.describe('sheet APG (CMP-405)', () => {
     // announcement derives from the detent value — 'full' reads 'Full height'
     await expect(page.locator('[data-ag-part="detent-live"]')).toHaveText(/full height/i);
 
+    /* REQ-CMP-95 (CC-CMP-03): the full-height detent resolves the popup's
+       material to the tinted rung. The popup carries the full-height
+       appearance, and its computed fill equals a reference surface with the
+       same material attributes on the [data-ag-transparency=tinted] rung. */
+    await expect(popup).toHaveAttribute('data-ag-appearance', 'full-height');
+    const fill = await popup.evaluate((el) => {
+      const ref = document.createElement('div');
+      for (const a of Array.from(el.attributes)) {
+        if (a.name.startsWith('data-ag-') && a.name !== 'data-ag-appearance') ref.setAttribute(a.name, a.value);
+      }
+      ref.setAttribute('data-ag-transparency', 'tinted');
+      ref.className = el.className;
+      ref.style.cssText = 'position:fixed;inset:auto;inline-size:10px;block-size:10px;pointer-events:none;';
+      el.parentElement!.appendChild(ref);
+      const read = (n: Element) => {
+        const cs = getComputedStyle(n);
+        return { floor: cs.getPropertyValue('--_ag-tint-floor').trim(), background: cs.backgroundColor };
+      };
+      const out = { popup: read(el), tinted: read(ref) };
+      ref.remove();
+      return out;
+    });
+    expect(fill.popup.floor).not.toBe('');
+    expect(fill.popup.floor).toBe(fill.tinted.floor);
+    expect(fill.popup.background).toBe(fill.tinted.background);
+
     await apg.keyboard(page, [{ press: 'Tab' }]);
     const inside = await page.evaluate(
       () => !!document.querySelector('[data-ag-part="popup"]')?.contains(document.activeElement),
@@ -35,6 +61,8 @@ test.describe('sheet APG (CMP-405)', () => {
 
     await page.keyboard.press('Escape');
     await expect(popup).toHaveCount(0);
+    // focus returns to the trigger after Escape
+    await expect(page.getByRole('button', { name: 'Open sheet' })).toBeFocused();
     await apg.axe(page);
   });
 });

@@ -2,7 +2,8 @@
    AG_REMOTE_RUNNER=1. 4x CPU throttle; open_ms = click → first rAF with the
    popup painted (<=100ms); longtask windows A (enter: 0 tasks >50ms) and B
    (5s settle: <=2 tasks, total <=150ms, none >80ms). Real story ids.
-   SURF palette row stays 'pending' (not skip-as-pass) until its stories land. */
+   SURF palette row: REQ-CMP-79/82 over every palette subject listSubjects()
+   finds; none found throws `pending:` (not skip-as-pass, not a failure). */
 import { test, expect } from '@playwright/test';
 import { gotoStory, perf, listSubjects } from '../../../helpers/index';
 
@@ -89,12 +90,48 @@ test.describe('dialog perf (REQ-CMP-90)', () => {
     expect(idle.infiniteAnimations).toBe(0);
   });
 
-  test('CommandPalette over the overlay stack stays within 3 blurred surfaces', async ({ page }) => {
+  /* REQ-CMP-90: REQ-CMP-79 (one scrim, top blur <=12px) and REQ-CMP-82 (idle
+     is free) run over every SURF palette story listSubjects() finds. None
+     found = `pending:` (pw-verdict reports PENDING below release scope), never
+     a CMP failure. */
+  test('CommandPalette subjects: one scrim (blur <=12px), <=3 blurred, idle is free', async ({ page }) => {
     const subjects = await listSubjects();
     const cp = subjects.filter((s) => /command-?palette/i.test(s.id));
-    // SURF's CommandPalette stories have landed (src/components/command-palette/CommandPalette.stories.tsx)
-    expect(cp.length, 'SURF CommandPalette stories not in SubjectIndex (REQ-OVL-04/-06)').toBeGreaterThan(0);
-    await gotoStory(page, cp[0]!.id);
-    expect(await perf.blurredSurfaces(page)).toBeLessThanOrEqual(3);
+    if (cp.length === 0) {
+      throw new Error('pending: no SURF CommandPalette story in the SubjectIndex (producer: SURF, REQ-OVL-04/-06)');
+    }
+    for (const subject of cp) {
+      await gotoStory(page, subject.id);
+      const scrims = await page.evaluate(() => {
+        const nodes = [...new Set(document.querySelectorAll(
+          '.ag-scrim, [data-ag-layer="scrim"], [data-scrim], [data-ag-part="scrim"], [data-ag-part="backdrop"]',
+        ))];
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const blurPx = (el: Element) => {
+          const m = /blur\(([\d.]+)px\)/u.exec(getComputedStyle(el).backdropFilter);
+          return m ? Number(m[1]) : 0;
+        };
+        const spanning = nodes.filter((el) => {
+          const r = el.getBoundingClientRect();
+          return r.width >= vw - 1 && r.height >= vh - 1;
+        });
+        return {
+          open: !!document.querySelector('[data-ag-part="command-palette"], [role="dialog"]'),
+          count: spanning.length,
+          blurred: spanning.filter((el) => blurPx(el) > 0).length,
+          maxBlur: Math.max(0, ...spanning.map(blurPx)),
+        };
+      });
+      // REQ-CMP-79: one scrim when open (none when closed), only the top one blurs, at <=12px
+      expect(scrims.count, `${subject.id}: full-viewport scrims`).toBe(scrims.open ? 1 : 0);
+      expect(scrims.blurred, `${subject.id}: blurred scrims`).toBeLessThanOrEqual(1);
+      expect(scrims.maxBlur, `${subject.id}: scrim blur px`).toBeLessThanOrEqual(12);
+      expect(await perf.blurredSurfaces(page), `${subject.id}: blurred surfaces`).toBeLessThanOrEqual(3);
+      // REQ-CMP-82: no infinite animation and no live interval once settled
+      const idle = await perf.settledIdle(page, { afterMs: 400 });
+      expect(idle.infiniteAnimations, `${subject.id}: infinite animations`).toBe(0);
+      expect(idle.intervals, `${subject.id}: live intervals`).toBe(0);
+    }
   });
 });
