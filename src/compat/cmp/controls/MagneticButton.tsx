@@ -9,7 +9,6 @@ import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { GlassButton } from './GlassButton';
 import type { GlassButtonProps } from './GlassButton';
-import type { MotionStyle } from 'motion/react';
 
 const DEP = 'DEP-C0007';
 const drop = (p: string) => warnDeprecated(`${DEP}.prop.${p}`);
@@ -36,6 +35,8 @@ function createMotionButton(peer: typeof import('motion/react')) {
 }
 
 type LoadedMotion = { mod: MotionModule; Button: ReturnType<typeof createMotionButton> };
+// the motion-wrapped host's style type (no direct `motion/react` import outside src/motion/adapter, REQ-MOT-60)
+type MotionStyle = NonNullable<React.ComponentProps<LoadedMotion['Button']>['style']>;
 type MotionState = LoadedMotion | 'missing' | null;
 
 /* Resolves aura-glass/motion on mount; 'missing' when the optional peer is

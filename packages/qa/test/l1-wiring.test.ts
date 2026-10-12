@@ -34,6 +34,7 @@ describe('L1 registry on this repository', () => {
     const pending = regs.pending.find((p) => p.lane === 'L1' && p.path === gate);
     expect({ gate, registered: registered || !!pending }).toEqual({ gate, registered: true });
     if (pending) expect(pending.producer).toMatch(/^G-\d+/);
+    else expect(registered).toBe(true);
   });
 
   it('runs every stream L1 node-script fragment row at its scope (and every wider scope)', () => {

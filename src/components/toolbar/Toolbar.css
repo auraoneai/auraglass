@@ -74,9 +74,10 @@
   }
 
 /* REQ-CMP-40: concentric item shape inside capsule roots — inner radius =
-   max(0, root radius - root inset padding). */
+   root radius - root inset padding (--ag-radius-full is a pill radius far
+   above --ag-space-1, so no 0 clamp is needed). */
 .ag-toolbar[data-ag-shape='capsule'] .ag-button {
-  border-radius: max(0px, calc(var(--ag-radius-full) - var(--ag-space-1)));
+  border-radius: calc(var(--ag-radius-full) - var(--ag-space-1));
 }
 
 /* REQ-CMP-40: container-query driven overflow — the toolbar is a size

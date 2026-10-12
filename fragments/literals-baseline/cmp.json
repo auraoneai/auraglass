@@ -505,15 +505,6 @@
       "shadow": 0,
       "spring": 0
     },
-    "src/components/chip/Chip.meta.ts": {
-      "blur": 0,
-      "color": 0,
-      "duration": 0,
-      "easing": 0,
-      "radius": 0,
-      "shadow": 0,
-      "spring": 0
-    },
     "src/components/chip/Chip.test.tsx": {
       "blur": 0,
       "color": 0,
@@ -615,7 +606,7 @@
     },
     "src/components/color-picker/ColorPicker.test.tsx": {
       "blur": 0,
-      "color": 13,
+      "color": 5,
       "duration": 0,
       "easing": 0,
       "radius": 0,
@@ -749,6 +740,15 @@
       "spring": 0
     },
     "src/components/control-shared/controls.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/control-shared/ime.ts": {
       "blur": 0,
       "color": 0,
       "duration": 0,
@@ -1207,7 +1207,7 @@
       "shadow": 0,
       "spring": 0
     },
-    "src/components/image-list/ImageList.Masonry.client.tsx": {
+    "src/components/image-list/ImageList.css": {
       "blur": 0,
       "color": 0,
       "duration": 0,
@@ -1216,7 +1216,7 @@
       "shadow": 0,
       "spring": 0
     },
-    "src/components/image-list/ImageList.css": {
+    "src/components/image-list/ImageList.Masonry.client.tsx": {
       "blur": 0,
       "color": 0,
       "duration": 0,
@@ -1235,6 +1235,15 @@
       "spring": 0
     },
     "src/components/image-list/ImageList.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/image-list/ImageList.tsx": {
       "blur": 0,
       "color": 0,
       "duration": 0,
@@ -1361,15 +1370,6 @@
       "spring": 0
     },
     "src/components/key-value-editor/KeyValueEditor.css": {
-      "blur": 0,
-      "color": 0,
-      "duration": 0,
-      "easing": 0,
-      "radius": 0,
-      "shadow": 0,
-      "spring": 0
-    },
-    "src/components/key-value-editor/KeyValueEditor.meta.ts": {
       "blur": 0,
       "color": 0,
       "duration": 0,
@@ -1774,6 +1774,15 @@
       "shadow": 0,
       "spring": 0
     },
+    "src/components/overlays/_shared/portalContainer.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
     "src/components/overlays/_shared/positioning.ts": {
       "blur": 0,
       "color": 0,
@@ -1792,6 +1801,15 @@
       "shadow": 0,
       "spring": 0
     },
+    "src/components/overlays/_shared/renderChild.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
     "src/components/overlays/_shared/useOverlayAnimating.ts": {
       "blur": 0,
       "color": 0,
@@ -1802,6 +1820,15 @@
       "spring": 0
     },
     "src/components/overlays/_shared/useOverlayLayer.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/overlays/_shared/useScrimTop.ts": {
       "blur": 0,
       "color": 0,
       "duration": 0,
@@ -2080,6 +2107,15 @@
       "shadow": 0,
       "spring": 0
     },
+    "src/components/search-field/SearchField.kbd.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
     "src/components/search-field/SearchField.meta.ts": {
       "blur": 0,
       "color": 0,
@@ -2126,6 +2162,15 @@
       "spring": 0
     },
     "src/components/segmented-control/SegmentedControl.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/segmented-control/SegmentedControl.keys.ts": {
       "blur": 0,
       "color": 0,
       "duration": 0,
@@ -3061,6 +3106,15 @@
       "shadow": 0,
       "spring": 0
     },
+    "src/foundation/__tests__/ref-callback-cleanup.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
     "src/foundation/__tests__/ref-forwarding.test.tsx": {
       "blur": 0,
       "color": 0,
@@ -3070,7 +3124,34 @@
       "shadow": 0,
       "spring": 0
     },
+    "src/foundation/__tests__/use-global-hotkey.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/foundation/controllable.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
     "src/foundation/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/foundation/meta.ts": {
       "blur": 0,
       "color": 0,
       "duration": 0,
@@ -3107,6 +3188,15 @@
       "spring": 0
     },
     "src/foundation/types.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/foundation/useGlobalHotkey.ts": {
       "blur": 0,
       "color": 0,
       "duration": 0,

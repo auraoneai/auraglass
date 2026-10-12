@@ -92,7 +92,7 @@
     position: absolute;
     inset-block-start: 0;
     inset-inline-start: 0;
-    border-radius: max(0px, calc(var(--ag-radius-full) - var(--ag-space-1)));
+    border-radius: calc(var(--ag-radius-full) - var(--ag-space-1));
     background: var(--ag-color-specular, var(--ag-color-border));
     inline-size: var(--_ag-seg-w, 0px);
     block-size: var(--_ag-seg-h, 0px);
@@ -112,7 +112,7 @@
   /* calm/none: jump — zero transition duration */
   [data-ag-motion='calm'] .ag-segmented-control[data-ag-animating] [data-ag-part='indicator'],
   [data-ag-motion='none'] .ag-segmented-control[data-ag-animating] [data-ag-part='indicator'] {
-    transition-duration: 0s;
+    transition: none;
   }
 
   /* REQ-CMP-41 */

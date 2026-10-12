@@ -59,6 +59,9 @@ describe('certification/scenes manifest (REQ-QUAL-07)', () => {
       expect(v.length).toBe(e.video.bytes);
       expect(e.video.width).toBeGreaterThanOrEqual(2880);
       expect(e.video.height).toBeGreaterThanOrEqual(1800);
+    } else {
+      // video-frame is the one scene that carries a video (see the 9-asset check above)
+      expect(id).not.toBe('video-frame');
     }
   });
 

@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { Linter } from 'eslint';
 import { tester } from './helpers';
 
-const rule = require('../../../lint/rules/plat/no-cn-outside-internal.cjs');
+const rule = require('../../../lint/rules/plat/_no-cn-outside-internal.cjs');
 const F = 'src/material/Surface.tsx';
 const CN = 'src/internal/cn.ts';
 const imp = (mod: string) => [{ messageId: 'import' as const, data: { mod } }];

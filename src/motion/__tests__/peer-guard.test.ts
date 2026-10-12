@@ -2,9 +2,11 @@
  * (no node: imports; Node's resolver is feature-detected) and turns a failed load of the optional
  * `motion` peer into the contract install message. */
 import { describe, expect, it, jest } from '@jest/globals';
-import * as MotionReact from 'motion/react';
 import { MOTION_PEER_MESSAGE, guardMotionPeer } from '../peer-guard';
 import type { MotionPeer } from '../adapter/peer';
+
+// The real peer, loaded through the adapter (the only place motion/react is imported, REQ-MOT-60).
+const loadMotionReact = async (): Promise<MotionPeer> => (await import('../adapter/peer')).importMotionPeer();
 
 const CONTRACT_MESSAGE =
   'aura-glass/motion requires the optional peer "motion@^12". Install it with: npm i motion@^12';
@@ -29,6 +31,7 @@ describe('peer-guard (REQ-MAT-50)', () => {
   });
 
   it('installs the loaded peer for the adapter', async () => {
+    const MotionReact = await loadMotionReact();
     const load = jest.fn(() => Promise.resolve(MotionReact as MotionPeer));
     let motionPeer: (() => MotionPeer) | null = null;
     let guard: typeof guardMotionPeer | null = null;
@@ -56,6 +59,7 @@ describe('peer-guard (REQ-MAT-50)', () => {
   });
 
   it('adapter reads wait on the pending load, then return the installed peer', async () => {
+    const MotionReact = await loadMotionReact();
     let motionPeer: (() => MotionPeer) | null = null;
     let start: ((from: string, load: () => Promise<MotionPeer>) => void) | null = null;
     jest.isolateModules(() => {

@@ -39,6 +39,14 @@ const INVALID: Record<(typeof RULE_IDS)[number], Fixture[]> = {
         if (value > 0) expect(value).toBe(1);
         else console.log('skipped');
       });` },
+    { name: 'early return with nothing asserted after it', file: 'tests/x/b.test.ts', code: `
+      it('maybe asserts', () => {
+        if (el) {
+          expect(el.getAttribute('data-state')).toBe('open');
+          return;
+        }
+        console.log('no element');
+      });` },
   ],
   'unguarded-query-loop': [
     { name: 'for-of over querySelectorAll', file: 'tests/x/c.test.tsx', code: `
@@ -133,6 +141,21 @@ const VALID: Fixture[] = [
       else expect(x).toBe(2);
       if (!el) throw new Error('subject missing: Dialog');
       if (ready) { expect(el).toBeTruthy(); } else { throw new Error('not ready'); }
+    });` },
+  { name: 'consequent that exits: throw, or return with the rest of the block as the else', file: 'tests/x/ok.test.ts', code: `
+    it('forks', () => {
+      if (strict) {
+        expect(() => run()).toThrow('strict');
+        return;
+      }
+      expect(run()).toHaveLength(1);
+    });
+    it('fails after checking', () => {
+      if (pending) {
+        expect(drawer).toBeNull();
+        throw new Error('pending: producer gap');
+      }
+      expect(page).toBeTruthy();
     });` },
   { name: 'conditional test registration is not a conditional assertion', file: 'tests/x/ok.test.ts', code: `
     if (pending.length) {

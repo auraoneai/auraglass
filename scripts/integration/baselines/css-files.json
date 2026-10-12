@@ -1,11 +1,5 @@
 [
   {
-    "file": "src/compat/css/globals.css",
-    "owner": "PLAT",
-    "reqFin": "REQ-FIN-33",
-    "expires": "RC-1"
-  },
-  {
     "file": "src/material/css/lens.css",
     "owner": "MAT",
     "reqFin": "REQ-FIN-02",

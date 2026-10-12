@@ -1,6 +1,7 @@
 'use client';
 import * as React from 'react';
 import { useAnnouncer, useResolvedPreferences } from '../../theme';
+import { subscribeFrame } from '../../motion';
 
 export interface StreamingTextHandle {
   /** Replaces the text. Same-frame calls coalesce into one commit (next animation frame). */
@@ -51,11 +52,13 @@ function createTextStore(initialProp: string): TextStore {
   let base = initialProp;
   let current: string | null = null;
   let pending: string | null = null;
-  let frame: number | null = null;
+  // one-shot subscription to the shared motion ticker (REQ-MOT-65): no component-owned rAF
+  let frame: (() => void) | null = null;
   const listeners = new Set<() => void>();
   const emit = () => { for (const l of listeners) l(); };
+  const cancelFrame = () => { frame?.(); frame = null; };
   const flush = () => {
-    frame = null;
+    cancelFrame();
     if (pending === null) return;
     const next = pending;
     pending = null;
@@ -66,7 +69,7 @@ function createTextStore(initialProp: string): TextStore {
   const schedule = () => {
     if (frame !== null) return;
     if (!hasRaf()) { flush(); return; }
-    frame = requestAnimationFrame(flush);
+    frame = subscribeFrame(flush);
   };
   return {
     subscribe(listener) {
@@ -79,13 +82,11 @@ function createTextStore(initialProp: string): TextStore {
     resetToProp(text) {
       base = text;
       pending = null;
-      if (frame !== null && hasRaf()) cancelAnimationFrame(frame);
-      frame = null;
+      cancelFrame();
       if (current !== null) { current = null; emit(); }
     },
     dispose() {
-      if (frame !== null && hasRaf()) cancelAnimationFrame(frame);
-      frame = null;
+      cancelFrame();
       pending = null;
       listeners.clear();
     },
@@ -158,25 +159,25 @@ export const StreamingText = React.memo(function StreamingText({
     wasStreaming.current = streaming;
     if (announce !== 'sentences' || !streaming || !hasRaf()) return undefined;
 
-    // Batch completed sentences with an rAF-timestamp gate (the SURF purity
-    // gate bans setTimeout in shipped ai code).
-    let frame: number | null = null;
-    const tick = (now: number) => {
-      frame = null;
+    // Batch completed sentences with a frame-timestamp gate on the shared
+    // motion ticker (the SURF purity gate bans setTimeout in shipped ai code;
+    // REQ-MOT-65 bans a component-owned rAF loop). Stays subscribed until the
+    // batch window has passed, then unsubscribes.
+    let frame: (() => void) | null = null;
+    const stop = () => { frame?.(); frame = null; };
+    const tick = (_dt: number, now: number) => {
       const t = shownRef.current;
       const boundary = lastSentenceEnd(t);
-      if (boundary <= spoken.current) return;
-      if (now - lastBatchAt.current < SENTENCE_BATCH_MS) {
-        frame = requestAnimationFrame(tick);
-        return;
-      }
+      if (boundary <= spoken.current) { stop(); return; }
+      if (now - lastBatchAt.current < SENTENCE_BATCH_MS) return;
+      stop();
       const batch = t.slice(spoken.current, boundary).trim();
       spoken.current = boundary;
       lastBatchAt.current = now;
       if (batch) speak(truncateAnnouncement(batch));
     };
-    if (lastSentenceEnd(shown) > spoken.current) frame = requestAnimationFrame(tick);
-    return () => { if (frame !== null) cancelAnimationFrame(frame); };
+    if (lastSentenceEnd(shown) > spoken.current) frame = subscribeFrame(tick);
+    return stop;
   }, [shown, streaming, announce, speak]);
 
   const { motion } = useResolvedPreferences();

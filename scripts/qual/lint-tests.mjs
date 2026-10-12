@@ -6,7 +6,9 @@
  * (REQ-FIN-08, PRD-F §12 rule 1):
  *
  *   container-in-document      expect(container).toBeInTheDocument()
- *   expect-in-if               expect(...) inside an `if` consequent with no failing `else`
+ *   expect-in-if               expect(...) inside an `if` consequent with no failing `else` (an `else`-less
+ *                              consequent that ends in `throw`, or in `return` followed by asserting
+ *                              statements, is a fork, not a conditional assertion)
  *   unguarded-query-loop       a loop over querySelectorAll(...) with no preceding length assertion
  *   jsdom-animation-duration   getComputedStyle(...).animationDuration read in a jsdom test
  *   dom-snapshot-under-src     toMatchSnapshot()/toMatchInlineSnapshot() on DOM in a test under src/**
@@ -167,6 +169,25 @@ function analyse(ast, src, file) {
     return contains(alt, (x) => isBareExpect(x) || x.type === 'ThrowStatement'
       || (x.type === 'CallExpression' && unwrap(x.callee).type === 'Identifier' && unwrap(x.callee).name === 'fail'));
   };
+  const asserts = (x) => isBareExpect(x) || x.type === 'ThrowStatement'
+    || (x.type === 'CallExpression' && unwrap(x.callee).type === 'Identifier' && unwrap(x.callee).name === 'fail');
+  // The statement a branch always ends with (`return` / `throw`), or null when it can fall through.
+  const exitOf = (stmt) => {
+    const last = stmt.type === 'BlockStatement' ? stmt.body[stmt.body.length - 1] : stmt;
+    return last && (last.type === 'ReturnStatement' || last.type === 'ThrowStatement') ? last.type : null;
+  };
+  // An `if` with no `else` is still a fork when its consequent always exits:
+  //   - ends in `throw` → the branch itself fails (its expects are preconditions of the failure);
+  //   - ends in `return` → the statements after the `if` in the same block are the `else`, so they must assert.
+  const exitingFork = (ifStmt) => {
+    const exit = exitOf(ifStmt.consequent);
+    if (exit === 'ThrowStatement') return true;
+    if (exit !== 'ReturnStatement') return false;
+    const block = parents.get(ifStmt);
+    const body = block && (block.type === 'BlockStatement' || block.type === 'Program') ? block.body : null;
+    if (!body) return false;
+    return body.slice(body.indexOf(ifStmt) + 1).some((s) => contains(s, asserts));
+  };
   const flaggedIfs = new Set();
   walk(ast, (n) => {
     if (!isBareExpect(n)) return;
@@ -175,7 +196,7 @@ function analyse(ast, src, file) {
       // an `if` outside the test body only decides whether a test is registered, not whether it asserts
       if (isFn(child) && p.type === 'CallExpression' && isTestCall(p)) return;
       if (p.type === 'IfStatement' && p.consequent === child) {
-        if (!failingBranch(p.alternate) && !flaggedIfs.has(p)) { flaggedIfs.add(p); report('expect-in-if', p); }
+        if (!failingBranch(p.alternate) && !(p.alternate == null && exitingFork(p)) && !flaggedIfs.has(p)) { flaggedIfs.add(p); report('expect-in-if', p); }
         return;
       }
       child = p; p = parents.get(p);

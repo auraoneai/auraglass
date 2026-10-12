@@ -22,7 +22,7 @@
     /* depth is the material shadow for this thickness (MAT ladder,
        --_ag-mat-shadow); the old --_ag-shadow-overlay/-transient were never
        defined and overrode identity/solid rungs with a fixed shadow */
-    box-shadow: var(--_ag-surface-shadow);
+    box-shadow: var(--ag-surface-shadow);
     color: var(--ag-on-surface);
     font-family: var(--ag-font-sans);
     font-size: var(--ag-type-body-size);

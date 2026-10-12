@@ -3,6 +3,7 @@ import { act, render } from '@testing-library/react';
 import * as React from 'react';
 import { clearToneCache, getOrSampleTone, TONE_CACHE_MAX } from '../toneCache';
 import { useMediaElement } from '../../../media/useMediaElement';
+import { subscribeFrame } from '../../../motion';
 
 /* REQ-SURF-153 — the tone LRU and the real sampler underneath it. jsdom has
  * no 2D canvas, so the only stub is the canvas context: getImageData is the
@@ -22,7 +23,8 @@ beforeEach(() => {
 afterEach(() => { HTMLCanvasElement.prototype.getContext = realGetContext; });
 
 const flush = async () => {
-  await act(async () => { await new Promise((r) => requestAnimationFrame(() => r(undefined))); });
+  // one frame of the shared motion ticker (REQ-MOT-65: no direct rAF under src/backdrops)
+  await act(async () => { await new Promise<void>((r) => { const off = subscribeFrame(() => { off(); r(); }); }); });
 };
 
 const sized = <T extends HTMLImageElement | HTMLVideoElement>(el: T, src: string): T => {

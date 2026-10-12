@@ -128,6 +128,9 @@ describe('no-overlay-global-listeners gate (REQ-FIN-07)', () => {
     expect(primitivesHit).toHaveLength(2);
     if (baseline.length > 0) {
       expect(ruleHits(bad, baseline[0]!.file, rule.agConfig[0]!.ignores ?? [])).toEqual([]);
+    } else {
+      // an empty baseline leaves no file exempt beyond tests/fixtures/stories
+      expect([...(rule.agConfig[0]!.ignores ?? [])].sort()).toEqual([...NON_BASELINE_IGNORES].sort());
     }
   });
 

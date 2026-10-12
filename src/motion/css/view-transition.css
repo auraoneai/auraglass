@@ -12,7 +12,9 @@
      the morph owner sets it from useMorphName). The type selectors below cover
      startMorph's types: ['ag-morph'] / ['ag-morph-calm'] on engines that ship
      :active-view-transition-type() — each in its own rule so an engine without
-     it drops only that rule. */
+     it drops only that rule. That pseudo-class only ever matches the document
+     element, so it carries no `:root` (REQ-PLAT-74: no :root subject outside
+     ag.tokens / ag.compat). */
   [data-ag-vt], [data-ag-vt-participant] { view-transition-class: ag-morph; }
 
   :root:active-view-transition [data-ag-surface][data-ag-vt],
@@ -21,7 +23,7 @@
     animation-duration: var(--ag-duration-medium);
     animation-timing-function: var(--ag-spring-fluid);
   }
-  :root:active-view-transition-type(ag-morph)::view-transition-group(*) {
+  :active-view-transition-type(ag-morph)::view-transition-group(*) {
     animation-duration: var(--ag-duration-medium);
     animation-timing-function: var(--ag-spring-fluid);
   }
@@ -33,12 +35,12 @@
      transitions carry no ag types). */
   @keyframes ag-vt-fade-out { from { opacity: 1; } to { opacity: 0; } }
   @keyframes ag-vt-fade-in { from { opacity: 0; } to { opacity: 1; } }
-  :root:active-view-transition-type(ag-morph-calm)::view-transition-group(*) { animation: none; }
-  :root:active-view-transition-type(ag-morph-calm)::view-transition-old(*) {
+  :active-view-transition-type(ag-morph-calm)::view-transition-group(*) { animation: none; }
+  :active-view-transition-type(ag-morph-calm)::view-transition-old(*) {
     animation: ag-vt-fade-out var(--ag-duration-micro) var(--ag-ease-standard) both;
     mix-blend-mode: plus-lighter;
   }
-  :root:active-view-transition-type(ag-morph-calm)::view-transition-new(*) {
+  :active-view-transition-type(ag-morph-calm)::view-transition-new(*) {
     animation: ag-vt-fade-in var(--ag-duration-micro) var(--ag-ease-standard) both;
     mix-blend-mode: plus-lighter;
   }

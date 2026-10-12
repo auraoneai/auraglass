@@ -344,7 +344,7 @@ describe('REQ-MAT-48: view-transition selection and calm cross-fade', () => {
   it('the morph group runs --ag-duration-medium + --ag-spring-fluid by class and by type', () => {
     for (const sel of [
       '::view-transition-group(*.ag-morph)',
-      ':root:active-view-transition-type(ag-morph)::view-transition-group(*)',
+      ':active-view-transition-type(ag-morph)::view-transition-group(*)',
     ]) {
       const r = all.find((x) => x.selector === sel);
       expect(r).toBeDefined();
@@ -361,7 +361,7 @@ describe('REQ-MAT-48: view-transition selection and calm cross-fade', () => {
   });
 
   it('calm (type and calm root) drops group geometry and cross-fades old/new over micro, opacity only', () => {
-    for (const scope of [':root:active-view-transition-type(ag-morph-calm)', ':root[data-ag-motion=calm]']) {
+    for (const scope of [':active-view-transition-type(ag-morph-calm)', ':root[data-ag-motion=calm]']) {
       const group = all.find((r) => r.selector === `${scope}::view-transition-group(*)`);
       expect(group && declsOf(group).animation).toBe('none');
       for (const [pseudo, from, to] of [['old', '1', '0'], ['new', '0', '1']] as const) {

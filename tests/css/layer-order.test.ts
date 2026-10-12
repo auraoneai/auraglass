@@ -56,6 +56,13 @@ describe('layer order (PLAT-278)', () => {
     }
     // and the generated token->var map MAT's build ships (S-11).
     for (const m of readFileSync('src/tokens/generated/tokens.ts', 'utf8').matchAll(/["'](--[\w-]+)["']\s*:/g)) defined.add(m[1]);
+    // a registered custom property (@property, which carries an initial-value) is defined.
+    for (const m of css.matchAll(/@property\s+(--[\w-]+)/g)) defined.add(m[1]);
+    // a private var the owning component writes as an inline style key
+    // (style={{ '--_ag-x': ... }}) is defined at runtime on that element.
+    for (const f of walk('src', p => /\.tsx?$/.test(p) && !/\.test\.tsx?$|__tests__/.test(p))) {
+      for (const m of readFileSync(f, 'utf8').matchAll(/["'](--_ag-[\w-]+)["'](?:\s*:|\]\s*=(?!=))/g)) defined.add(m[1]);
+    }
     // a var() call with a fallback can never go undefined; only refs without a
     // top-level fallback inside their own call must be defined.
     const used = new Set<string>();

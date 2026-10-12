@@ -18,9 +18,16 @@ function withBuildLock<T>(fn: () => T): T {
   try { return fn(); } finally { rmSync(LOCK, { recursive: true, force: true }); }
 }
 export function ensureBuilt(): void {
-  if (built || existsSync(join(DIST, 'styles.css'))) { built = true; return; }
+  if (built) return;
   withBuildLock(() => {
-    execFileSync('npx', ['tsdown'], { cwd: ROOT, stdio: 'inherit' });
+    // re-check under the lock: another worker may be mid-build (post.mjs writes
+    // styles.css before tailwind.css), so an unlocked existence check races.
+    if (existsSync(join(DIST, 'styles.css'))) return;
+    // same steps as `npm run build` + postbuild: the token build emits
+    // dist/tokens/manifest.json, dist/tokens.css and dist/compat/tokens.css,
+    // which post.mjs assembles into styles.css and the tailwind bridge.
+    execFileSync('node', ['scripts/tokens/build.mjs'], { cwd: ROOT, stdio: 'inherit' });
+    execFileSync('npx', ['tsdown', '--no-clean'], { cwd: ROOT, stdio: 'inherit' });
     execFileSync('node', ['scripts/build/post.mjs'], { cwd: ROOT, stdio: 'inherit' });
   });
   built = true;

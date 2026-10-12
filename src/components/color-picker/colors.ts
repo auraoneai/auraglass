@@ -2,6 +2,8 @@
    (Björn Ottosson matrices) and hex ↔ HSV. Round-trip hex→oklch→hex is
    lossless within 1 ΔE for the sRGB gamut. */
 
+import { formatOklch } from '../../theme/color';
+
 export interface Oklch { l: number; c: number; h: number }
 export interface Hsv { h: number; s: number; v: number }
 
@@ -96,8 +98,8 @@ export function hsvToHex8(hsv: Hsv, alpha = 1): string {
 export function serializeColor(hsv: Hsv, alpha: number, space: 'srgb' | 'oklch'): string {
   if (space === 'oklch') {
     const { l, c, h } = hexToOklch(hsvToHex(hsv));
-    const base = `oklch(${l.toFixed(3)} ${c.toFixed(3)} ${h.toFixed(1)})`;
-    return alpha >= 1 ? base : base.replace(')', ` / ${alpha.toFixed(3)})`);
+    // MAT-056: `oklch(` string literals live only in src/theme/color.ts.
+    return formatOklch({ l: +l.toFixed(3), c: +c.toFixed(3), h: +h.toFixed(1), ...(alpha < 1 ? { alpha: +alpha.toFixed(3) } : {}) });
   }
   return hsvToHex8(hsv, alpha);
 }

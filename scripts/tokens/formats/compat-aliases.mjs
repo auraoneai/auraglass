@@ -144,12 +144,22 @@ export function compatCss(map, darkOverrides = {}) {
   // Reader names never defined in 4.x tokens.css have no compat value to emit;
   // they are accounted for in tokens/generated/compat-alias-map.json
   // (defined: false), not as CSS comments (MAT-021 gzip cap).
+  // REQ-PLAT-74: a color-mix() value ships only inside an
+  // @supports (color: color-mix(in srgb, red, red)) guard, nested in the same
+  // (single) ag.compat layer block.
+  const guarded = [];
   for (const [name, e] of Object.entries(map)) {
     if (!e.defined) continue;
-    if (e.successor) lines.push(`    ${name}: var(${e.successor});`);
-    else lines.push(`    ${name}: ${e.frozen};`);
+    const line = e.successor ? `    ${name}: var(${e.successor});` : `    ${name}: ${e.frozen};`;
+    (!e.successor && /color-mix\s*\(/.test(String(e.frozen)) ? guarded : lines).push(line);
   }
-  lines.push('  }', '}', '');
+  lines.push('  }');
+  if (guarded.length) {
+    lines.push('  @supports (color: color-mix(in srgb, red, red)) {', '  :where(:root) {');
+    for (const l of guarded) lines.push(`  ${l}`);
+    lines.push('  }', '  }');
+  }
+  lines.push('}', '');
   // MAT-036 contract: dist/compat/tokens.css emits ZERO legacy hook selectors
   // (no [data-theme=dark]/.dark blocks). darkOverrides are not emitted here.
   return lines.join('\n');

@@ -164,12 +164,15 @@ function expectStructure(entry: ShowcaseEntry): void {
     const own = els.filter((e) => !e.hasAttribute('data-ag-layer-root')).map(nameOf);
     expect({ role, duplicates: own.filter((n, i) => own.indexOf(n) !== i) }).toEqual({ role, duplicates: [] });
   }
+}
 
-  if (entry.id === 'ai-command-center') {
-    const logs = main.querySelectorAll('[role="log"]');
-    expect(logs.length).toBeGreaterThanOrEqual(1);
-    expect(textRuns(logs[0]!)).toBeGreaterThan(0);
-  }
+/** `ai-command-center`: the conversation thread is a non-empty role="log" inside the main. */
+function expectThreadLog(): void {
+  const mains = document.querySelectorAll('main, [role="main"]');
+  expect(mains).toHaveLength(1);
+  const logs = mains[0]!.querySelectorAll('[role="log"]');
+  expect(logs.length).toBeGreaterThanOrEqual(1);
+  expect(textRuns(logs[0]!)).toBeGreaterThan(0);
 }
 
 function expectCopy(): void {
@@ -226,6 +229,14 @@ describe.each(SHOWCASES.map((s) => [s.id, s] as const))('%s', (_id, entry) => {
     expectStructure(entry);
   });
 
+  if (entry.id === 'ai-command-center') {
+    it('renders its conversation thread as a role="log" inside the main', async () => {
+      setViewport(entry.viewport.width);
+      await mount(<Page />);
+      expectThreadLog();
+    });
+  }
+
   it('uses product-realistic copy with a data-dense region', async () => {
     setViewport(entry.viewport.width);
     await mount(<Page />);
@@ -257,11 +268,12 @@ describe.each(SHOWCASES.map((s) => [s.id, s] as const))('%s', (_id, entry) => {
       await act(async () => { fireEvent.click(toggle!); });
       await settle();
       expect(document.querySelector('[data-ag-part="sidebar-drawer"]')).toBeNull();
-    }
-    expectStructure(entry);
-    if (openOnLoad) {
+      expectStructure(entry);
+      if (entry.id === 'ai-command-center') expectThreadLog();
       throw new Error(`pending: ${entry.id} at ${w} — the compact shell opens the Sidebar drawer (modal) on load because the store maps sidebar="expanded" to an open drawer; REQ-QUAL-59 needs the collapsed layout closed at first paint (producer SURF, src/app-shell/appShellStore.ts / Sidebar.Drawer.tsx)`);
     }
+    expectStructure(entry);
+    if (entry.id === 'ai-command-center') expectThreadLog();
   });
 
   it('collapses the shell at 390 px (Sidebar -> drawer Sheet, Inspector -> bottom Sheet)', async () => {
@@ -297,6 +309,9 @@ describe.each(SHOWCASES.map((s) => [s.id, s] as const))('%s', (_id, entry) => {
       expect(drawer!.closest('[role="dialog"]') ?? drawer!.querySelector('[role="dialog"]') ?? (drawer!.getAttribute('role') === 'dialog' ? drawer : null)).not.toBeNull();
       await act(async () => { fireEvent.keyDown(drawer!, { key: 'Escape' }); });
       await settle();
+    } else {
+      // no sidebar slot: the showcase must not compose one itself (Sidebar.Root always renders the slot)
+      expect(showcaseOwns(entry, 'Sidebar')).toBe(false);
     }
 
     if (inspector) {
@@ -315,6 +330,9 @@ describe.each(SHOWCASES.map((s) => [s.id, s] as const))('%s', (_id, entry) => {
         // Inspector.Sheet (src/app-shell/Inspector.Sheet.tsx, SURF-038) decides the sheet's side; the showcase cannot.
         throw new Error(`pending: ${entry.id} at 390 — Inspector.Sheet presents side="${popupSide}", REQ-QUAL-59 needs a bottom Sheet (producer SURF, src/app-shell/Inspector.Sheet.tsx)`);
       }
+    } else {
+      // no inspector slot: the showcase must not compose one itself (Inspector.Root always renders the slot)
+      expect(showcaseOwns(entry, 'Inspector')).toBe(false);
     }
   });
 });

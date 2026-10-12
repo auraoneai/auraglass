@@ -3,7 +3,12 @@
    - importing or re-exporting clsx / tailwind-merge / classnames
      (`import … from`, `export … from`, `import()`, `require()`);
    - defining a binding named `cn` (`const|let|var cn`, `function cn`).
-   Consumers import `cn` from src/internal (barrel) or src/internal/cn. */
+   Consumers import `cn` from src/internal (barrel) or src/internal/cn.
+   The `_` prefix keeps eslint-plugin-auraglass.js from auto-discovering it: the
+   rule is not registered in contracts/lint-rule-owners.json (the loader throws on
+   unregistered rule files). Until an additive contract PR registers it under
+   `plat` (then drop the prefix), tests/lint/plat/no-cn-outside-internal.test.ts
+   enforces it over the whole src/ tree. */
 const CLASS_MODULES = new Set(['clsx', 'tailwind-merge', 'classnames']);
 const CN_FILE = /src[/\\]internal[/\\]cn\.tsx?$/;
 
