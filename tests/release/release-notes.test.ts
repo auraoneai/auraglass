@@ -47,6 +47,76 @@ describe('release notes (REQ-PLAT-32)', () => {
   });
 });
 
+/* REQ-PLAT-32 / REQ-SURF-182: every 5x section has a content source — the
+   deprecation fragments, SURF's new-capability.md, visual-fix records and the
+   security claims file / exception:'security' fragments — and no placeholder
+   literal is emitted. */
+describe('release notes 5x sources (REQ-PLAT-32, REQ-SURF-182)', () => {
+  const PLACEHOLDERS = ['_Populated by the fix ledger at RC._', '_Entries come from',
+    '_Sourced from the security claims file', 'aura-glass/migrate'];
+  const section = (out: string, h: string) => {
+    const i = out.indexOf(`## ${h}\n`);
+    const j = out.indexOf('\n## ', i + 3);
+    return out.slice(i, j < 0 ? undefined : j);
+  };
+  const DEPS = [
+    { id: 'DEP-P0101', kind: 'export', entry: '.', symbol: 'oldThing', since: '5.0.0', removeIn: '6.0.0', message: 'use newThing' },
+    { id: 'DEP-P0102', kind: 'export', entry: '.', symbol: 'olderThing', since: '4.1.1', removeIn: '5.0.0', message: 'gone' },
+    { id: 'DEP-P0103', kind: 'export', entry: '.', symbol: 'leakyAuth', since: '5.0.0', removeIn: '6.0.0',
+      exception: 'security', message: 'leaked a token' },
+  ];
+  const CAP = '## New capability (5.0.0)\n\n- **Kbd** (X-06, CMP): `Kbd` — [CI artifacts](https://gitlab.com/g/p/-/jobs/1/artifacts/browse)\n';
+
+  it('empty inputs: no placeholder literal, every heading states its empty source', () => {
+    const out = EVAL(`console.log(m.renderNotes({ version: '5.0.0' }))`);
+    for (const p of PLACEHOLDERS) expect(out).not.toContain(p);
+    expect(section(out, 'Fixed')).toContain('No fix commit in the range.');
+    expect(section(out, 'Visual bug fixes')).toContain('No visual-fix record');
+    expect(section(out, 'Security')).toContain('No security advisory and no security-exception deprecation');
+    expect(section(out, 'Added')).toContain('`@auraglass/cli` with `migrate 4to5`');
+  });
+  it('Deprecated lists exactly the fragment entries whose since is the version', () => {
+    const out = EVAL(`console.log(m.renderNotes({ version: '5.0.0', deprecations: ${JSON.stringify(DEPS)} }))`);
+    const dep = section(out, 'Deprecated');
+    expect(dep).toContain('- `DEP-P0101` (export . oldThing, removed in 6.0.0): use newThing');
+    expect(dep).toContain('`DEP-P0103`');
+    expect(dep).not.toContain('DEP-P0102');
+  });
+  it('Security comes from exception:security fragments and the claims Advisories bullets', () => {
+    const out = EVAL(`console.log(m.renderNotes({ version: '5.0.0', deprecations: ${JSON.stringify(DEPS)},
+      claims: { security: '# Security\\n\\n## Advisories\\n\\n- GHSA-xxxx: hosted runtime JWT default\\n\\n## Other\\n- not this\\n' } }))`);
+    const sec = section(out, 'Security');
+    expect(sec).toContain('- GHSA-xxxx: hosted runtime JWT default');
+    expect(sec).toContain('- `DEP-P0103` (export . leakyAuth, security exception): leaked a token');
+    expect(sec).not.toContain('DEP-P0101');
+    expect(sec).not.toContain('not this');
+    expect(sec).not.toContain('No security advisory');
+  });
+  it('Visual bug fixes come from docs/release/visual-fixes/*.json with the composite link', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'vf-'));
+    writeFileSync(join(dir, 'dark-text.json'), JSON.stringify({ id: 'D-28-dark-text',
+      cells: ['chromium/dark/1440', 'chromium/dark/390'], compositeArtifact: 'https://gitlab.com/g/p/-/jobs/2/artifacts/file/c.png' }));
+    const out = EVAL(`console.log(m.renderNotes({ version: '5.0.0', visualFixes: m.loadVisualFixes('${dir}') }))`);
+    expect(section(out, 'Visual bug fixes')).toContain(
+      '- `D-28-dark-text` (`docs/release/visual-fixes/dark-text.json`, 2 cells) — [composite](https://gitlab.com/g/p/-/jobs/2/artifacts/file/c.png)');
+  });
+  it('a malformed visual-fix record fails closed', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'vf-'));
+    writeFileSync(join(dir, 'bad.json'), '{');
+    expect(() => EVAL(`m.loadVisualFixes('${dir}')`)).toThrow(/visual-fixes\/bad\.json is not JSON/);
+  });
+  it('the SURF New capability file renders under Added; the ledger rows are never read', () => {
+    const out = EVAL(`console.log(m.renderNotes({ version: '5.0.0', newCapability: ${JSON.stringify(CAP)},
+      capabilityLedger: { capabilities: [{ id: 'NOPE', summary: 'from the ledger' }] } }))`);
+    const added = section(out, 'Added');
+    expect(added).toContain('### New capability (5.0.0)');
+    expect(added).toContain('- **Kbd** (X-06, CMP)');
+    expect(out).not.toContain('from the ledger');
+    const empty = EVAL(`console.log(m.renderNotes({ version: '5.0.0', newCapability: '## New capability (5.0.0)\\n' }))`);
+    expect(section(empty, 'Added')).toContain('No capability-ledger row is delivered in this release.');
+  });
+});
+
 /* REQ-PLAT-16: the tag pipeline calls `release-notes.mjs --tag "$CI_COMMIT_TAG"
    --line "$AG_LINE"`; the version comes from the tag and a 4.x tag gets 4.x
    notes, never the 5.0.0 skeleton. */
@@ -150,6 +220,22 @@ describe('release notes --tag/--line (REQ-PLAT-16)', () => {
     // Range base is v5.0.0-alpha.1, so the pre-alpha commit is out of range.
     expect(notes).toContain('GlassCanvas action guard');
     expect(notes).not.toContain('only-in-5x-prerelease-range');
+  });
+  it('CLI --line 5x reads .artifacts/surf/ledger/new-capability.md and requires it in the tag pipeline', () => {
+    const dir = fixtureRepo();
+    const outFile = join(dir, 'notes.md');
+    // Tag pipeline of this tag without SURF's file: exit 1.
+    expect(EVAL(`const code = await m.main(${JSON.stringify(['--tag', 'v5.0.0-beta.1', '--line', '5x', '--out', outFile])},
+      { root: ${JSON.stringify(dir)}, env: { CI_COMMIT_TAG: 'v5.0.0-beta.1' } }); console.log('EXIT=' + code)`)).toContain('EXIT=1');
+    mkdirSync(join(dir, '.artifacts/surf/ledger'), { recursive: true });
+    writeFileSync(join(dir, '.artifacts/surf/ledger/new-capability.md'),
+      '## New capability (5.0.0-beta.1)\n\n- **Kbd** (X-06, CMP): `Kbd` — [CI artifacts](https://gitlab.com/g/p/-/jobs/1/artifacts/browse)\n');
+    expect(EVAL(`const code = await m.main(${JSON.stringify(['--tag', 'v5.0.0-beta.1', '--line', '5x', '--out', outFile])},
+      { root: ${JSON.stringify(dir)}, env: { CI_COMMIT_TAG: 'v5.0.0-beta.1' } }); console.log('EXIT=' + code)`)).toContain('EXIT=0');
+    const notes = readFileSync(outFile, 'utf8');
+    expect(notes).toContain('### New capability (5.0.0-beta.1)');
+    expect(notes.indexOf('### New capability')).toBeGreaterThan(notes.indexOf('## Added'));
+    expect(notes.indexOf('### New capability')).toBeLessThan(notes.indexOf('## Fixed'));
   });
   it('CLI exits 1 on an unknown --line and on a 4x tag without a CHANGELOG section', () => {
     const dir = fixtureRepo();

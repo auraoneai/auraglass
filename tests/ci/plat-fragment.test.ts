@@ -1176,6 +1176,14 @@ describe('docs / registry / pages wiring (B3-8)', () => {
       expect(l.indexOf(chain)).toBeLessThan(notesAt);
       expect(l.indexOf(lint)).toBeGreaterThan(notesAt);
     });
+    it('5x: SURF writes new-capability.md into the job dir and the notes read that file (REQ-SURF-182)', () => {
+      const block = l[notesAt]!;
+      const report = block.indexOf('verify-capability-ledger.mjs --report release-notes --version "${CI_COMMIT_TAG#v}" --out "$AURAGLASS_EVIDENCE_DIR/new-capability.md"');
+      const notes5x = block.indexOf('release-notes.mjs --tag "$CI_COMMIT_TAG" --line 5x --new-capability "$AURAGLASS_EVIDENCE_DIR/new-capability.md"');
+      expect(report).toBeGreaterThan(-1);
+      expect(notes5x).toBeGreaterThan(report);
+      expect(block).toContain('release-notes.mjs --tag "$CI_COMMIT_TAG" --line "$AG_LINE" --out "$AURAGLASS_EVIDENCE_DIR/release-notes.md"');
+    });
     it('5x: gen-claims → gen-readme → render-claims; claims.json kept; a failure stops the job', () => {
       const EV = `.artifacts/plat/${slug('plat:release:notes')}`;
       for (const [exit, expected, status] of [['0', ['gen-claims', 'gen-readme', 'render-claims'], 0], ['1', ['gen-claims'], 1]] as const) {

@@ -4,11 +4,16 @@
    order: Breaking -> Deprecated -> Added -> Fixed -> Visual bug fixes ->
    Security. Any dependency floor claims land FIRST inside Breaking (the deps
    codemod handles them). Counts are claims-sourced: each claims-*.md file
-   contributes its declared numbers verbatim — no re-derivation. The SURF
-   capability-ledger is read-only input for the Added/Fixed section mapping.
+   contributes its declared numbers verbatim — no re-derivation. Sources:
+   Deprecated = deprecation fragments with `since` == version; Added = commits,
+   changesets and SURF's "New capability" file (REQ-SURF-182: the output of
+   `verify-capability-ledger.mjs --report release-notes --out`, never the
+   ledger itself); Visual bug fixes = docs/release/visual-fixes/*.json plus
+   change-class.json; Security = `## Advisories` bullets of
+   docs/claims/claims-security.md plus fragments with exception 'security'.
 
      node scripts/release/release-notes.mjs [--claims-dir docs/claims]
-            [--capability-ledger docs/auraglass-5/capability-ledger.json]
+            [--new-capability .artifacts/surf/ledger/new-capability.md]
             [--out docs/release/notes/5.0.0.md] [--check]
             [--tag vX.Y.Z] [--line 4x|5x] [--since <ref>]
 
@@ -29,8 +34,9 @@ import { fileURLToPath } from 'node:url';
 import { relPaths } from './lib/policy.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
-const PATHS = relPaths(ROOT);
 export const HEADINGS = ['Breaking', 'Deprecated', 'Added', 'Fixed', 'Visual bug fixes', 'Security'];
+/** Output of `verify-capability-ledger.mjs --report release-notes --out`. */
+export const NEW_CAPABILITY_REL = '.artifacts/surf/ledger/new-capability.md';
 export const DEP_FLOORS = [
   'date-fns', 'chart.js', 'react-chartjs-2', 'zod', 'framer-motion', 'tailwind-merge',
 ];
@@ -89,8 +95,40 @@ export function commitsToSections(subjects) {
   return sec;
 }
 
-export function renderNotes({ version = '5.0.0', claims = {}, capabilityLedger = null,
-  breakingRegister = null, changesets = [], commitSubjects = [], changeClass = null } = {}) {
+/** REQ-PLAT-20: docs/release/visual-fixes/<slug>.json records
+ *  `{ id, cells[], compositeArtifact, measuredContrast?[] }`, sorted by slug. */
+export function loadVisualFixes(dir) {
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir).filter((f) => f.endsWith('.json')).sort().map((f) => {
+    let rec;
+    try { rec = JSON.parse(readFileSync(join(dir, f), 'utf8')); } catch (e) {
+      throw new Error(`release-notes: docs/release/visual-fixes/${f} is not JSON (${String(e?.message ?? e).split('\n')[0]})`);
+    }
+    return { slug: f.replace(/\.json$/, ''), ...rec };
+  });
+}
+
+/** Bullets under `## Advisories` in the security claims file, verbatim. */
+export function securityAdvisories(text) {
+  const m = String(text ?? '').match(/^## Advisories\n([\s\S]*?)(?=^##\s|(?![\s\S]))/m);
+  return m ? m[1].split('\n').filter((l) => /^\s*-\s+\S/.test(l)).map((l) => l.trim()) : [];
+}
+
+/** SURF's `--report release-notes --out` output (REQ-SURF-182): its
+ *  `## New capability (<v>)` heading becomes a `###` under Added. */
+export function newCapabilityLines(text) {
+  if (text == null) return [];
+  const out = String(text).trimEnd().split('\n').map((l) => l.replace(/^## /, '### '));
+  if (!out.some((l) => /^\s*-\s+\S/.test(l))) out.push('', 'No capability-ledger row is delivered in this release.');
+  return out;
+}
+
+const depSubject = (d) => [d.kind, d.entry, d.symbol ?? d.component ?? d.prop ?? d.selector]
+  .filter(Boolean).join(' ');
+
+export function renderNotes({ version = '5.0.0', claims = {}, breakingRegister = null,
+  changesets = [], commitSubjects = [], changeClass = null, deprecations = [],
+  visualFixes = [], newCapability = null } = {}) {
   const lines = [`# aura-glass ${version} release notes`, ''];
   lines.push('## Breaking', '');
   lines.push('### Dependency floors — handled by the `deps` codemod', '');
@@ -107,34 +145,55 @@ export function renderNotes({ version = '5.0.0', claims = {}, capabilityLedger =
     for (const [k, v] of Object.entries(depClaims)) lines.push(`- ${k}: ${v}`);
     lines.push('');
   }
-  lines.push('All 4.x deprecations and the new 5.x deprecation entries are listed in the',
+  // The deprecation fragments are the source: every entry whose `since` is
+  // this version, with its removal version and message.
+  const added = deprecations.filter((d) => d.since === version)
+    .sort((a, b) => String(a.id).localeCompare(String(b.id)));
+  for (const d of added) {
+    lines.push(`- \`${d.id}\` (${depSubject(d)}, removed in ${d.removeIn ?? 'n/a'}): ${d.message ?? ''}`.trimEnd());
+  }
+  if (!added.length) lines.push(`No deprecation entry has \`since: '${version}'\`.`);
+  lines.push('', 'All 4.x deprecations and the new 5.x deprecation entries are listed in the',
     'generated guide (`apps/docs/generated/migration/deprecations.md` in a release',
     'build). Runtime warnings name the codemod that performs the change.', '');
   const secs = commitsToSections(commitSubjects);
   for (const s of secs.Deprecated) lines.push(s);
+  if (secs.Deprecated.length) lines.push('');
   lines.push('## Added', '');
   lines.push('- `aura-glass/compat` adapters for every deprecated component export.');
-  lines.push('- `aura-glass/migrate` CLI (4to5 transforms; see the removal train).');
+  lines.push('- `@auraglass/cli` with `migrate 4to5` (codemod transforms; see the removal train).');
   for (const s of secs.Added) lines.push(s);
   for (const cs of changesets.filter((c) => c.bumps.length))
     lines.push(`- ${cs.body.split('\n')[0]} (.changeset/${cs.file})`);
-  if (capabilityLedger?.capabilities) {
-    for (const c of capabilityLedger.capabilities) lines.push(`- ${c.name ?? c.id}: ${c.summary ?? ''}`);
-  }
+  const cap = newCapabilityLines(newCapability);
+  if (cap.length) lines.push('', ...cap);
   lines.push('', '## Fixed', '');
   if (secs.Fixed.length) for (const s of secs.Fixed) lines.push(s);
-  else lines.push('_Populated by the fix ledger at RC._');
+  else lines.push('No fix commit in the range.');
   lines.push('');
   lines.push('## Visual bug fixes', '');
-  const vf = changeClass?.visualFixes ?? changeClass?.visual ?? null;
-  if (Array.isArray(vf) && vf.length) {
-    for (const v of vf) lines.push(`- ${v.title ?? v.id}${v.pr ? ` (PR #${v.pr})` : ''}`);
-  } else {
-    lines.push('_Entries come from `docs/release/visual-fixes/*.json` records (change class C-I-VF)._');
-  }
+  const vf = [
+    ...visualFixes.map((v) => {
+      const cells = Array.isArray(v.cells) ? v.cells.length : 0;
+      const link = v.compositeArtifact ? ` — [composite](${v.compositeArtifact})` : '';
+      return `- \`${v.id}\` (\`docs/release/visual-fixes/${v.slug}.json\`, ${cells} cell${cells === 1 ? '' : 's'})${link}`;
+    }),
+    ...(changeClass?.visualFixes ?? changeClass?.visual ?? []).map((v) =>
+      `- ${v.title ?? v.id}${v.pr ? ` (PR #${v.pr})` : ''}${v.compositeArtifact ? ` — [composite](${v.compositeArtifact})` : ''}`),
+  ];
+  if (vf.length) lines.push(...vf);
+  else lines.push('No visual-fix record (`docs/release/visual-fixes/*.json`) and no C-I-VF change in this release.');
   lines.push('');
   lines.push('## Security', '');
-  lines.push('_Sourced from the security claims file; see SECURITY.md for the support policy._', '');
+  const sec = [
+    ...securityAdvisories(claims.security),
+    ...deprecations.filter((d) => d.exception === 'security' && d.since === version)
+      .sort((a, b) => String(a.id).localeCompare(String(b.id)))
+      .map((d) => `- \`${d.id}\` (${depSubject(d)}, security exception): ${d.message ?? ''}`.trimEnd()),
+  ];
+  if (sec.length) lines.push(...sec);
+  else lines.push('No security advisory and no security-exception deprecation in this release.');
+  lines.push('', 'Supported versions and reporting: `SECURITY.md`.', '');
   return lines.join('\n');
 }
 
@@ -351,7 +410,6 @@ function commitRange({ root, since, tag, version, line }) {
 export async function main(argv = process.argv.slice(2), { root = ROOT, env = process.env } = {}) {
   const arg = (n, d) => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : d; };
   const claimsDir = arg('--claims-dir', join(root, 'docs/claims'));
-  const ledgerPath = arg('--capability-ledger', PATHS.capabilityLedger);
   // --tag <vX.Y.Z>: version from the tag, subjects since the previous tag of
   // the line; --line <4x|5x> selects the 4.x or 5.x notes; --since overrides
   // the range.
@@ -411,14 +469,27 @@ export async function main(argv = process.argv.slice(2), { root = ROOT, env = pr
     text = renderNotes4x({ version, changelog, deprecations: await loadEntries(root),
       commitSubjects, previous, rangeError, moved, downstream });
   } else {
-    const capabilityLedger = existsSync(ledgerPath) ? JSON.parse(readFileSync(ledgerPath, 'utf8')) : null;
-    const breakingRegister = existsSync(PATHS.breakingRegister)
-      ? JSON.parse(readFileSync(PATHS.breakingRegister, 'utf8')) : null;
+    const { breakingRegister: brPath } = relPaths(root);
+    const breakingRegister = existsSync(brPath) ? JSON.parse(readFileSync(brPath, 'utf8')) : null;
     const changeClassPath = arg('--change-class', join(root, '.artifacts/plat/change-class.json'));
     const changeClass = existsSync(changeClassPath) ? JSON.parse(readFileSync(changeClassPath, 'utf8')) : null;
-    text = renderNotes({ version, claims: loadClaims(claimsDir), capabilityLedger,
-      breakingRegister, changesets: loadChangesets(join(root, '.changeset')),
-      commitSubjects, changeClass });
+    // REQ-SURF-182 seam: SURF's ledger verifier writes the "New capability"
+    // section (`--report release-notes --version <v> --out`); PLAT reads that
+    // file and never the ledger rows. The tag pipeline of this tag requires it.
+    const capPath = arg('--new-capability', join(root, NEW_CAPABILITY_REL));
+    const newCapability = existsSync(capPath) ? readFileSync(capPath, 'utf8') : null;
+    if (newCapability == null) {
+      if (tag && env.CI_COMMIT_TAG === tag) {
+        console.error(`FAIL release-notes: ${NEW_CAPABILITY_REL} is required for ${tag} (node scripts/surf/verify-capability-ledger.mjs --report release-notes --version ${version} --out)`);
+        return 1;
+      }
+      console.error(`release-notes: ${NEW_CAPABILITY_REL} not found; the New capability section is omitted`);
+    }
+    const { loadEntries } = await import('./gen-deprecations.mjs');
+    text = renderNotes({ version, claims: loadClaims(claimsDir), breakingRegister,
+      changesets: loadChangesets(join(root, '.changeset')), commitSubjects, changeClass,
+      deprecations: await loadEntries(root),
+      visualFixes: loadVisualFixes(join(root, 'docs/release/visual-fixes')), newCapability });
   }
   if (argv.includes('--check')) {
     const existing = existsSync(out) ? readFileSync(out, 'utf8') : null;
