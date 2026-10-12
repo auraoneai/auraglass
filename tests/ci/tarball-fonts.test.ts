@@ -69,6 +69,35 @@ describe("tarball fonts (PLAT-54)", () => {
     expect(existsSync(join(ROOT, "docs/release/decisions/4.1.1-font-licence.md"))).toBe(true);
   });
 
+  it("every font-family site named by REQ-PLAT-54 carries the full system stack", () => {
+    const STACK = 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+    const SVG_STACK = STACK.replace(/"/g, "'");
+    const read = (f: string) => readFileSync(join(ROOT, f), "utf8");
+    const personas = JSON.parse(read("tokens/personas/default.json"));
+    expect(personas.typography.families.sans).toBe(STACK);
+    expect(read("src/styles/variables.css").replace(/\s+/g, " ")).toContain(`--aura-font-sans: ${STACK};`);
+    expect(read("src/tokens/designConstants.ts")).toContain(`sans: '${STACK}',`);
+    expect(read("src/theme/tokens.ts")).toContain(`'${STACK}'`);
+    const chart = read("src/components/charts/GlassDataChart.tsx");
+    expect(chart).toContain(`'${STACK}';`);
+    expect(chart.split(`px ${STACK}\``).length - 1).toBe(2);
+    const modular = read("src/components/charts/ModularGlassDataChart.tsx");
+    expect(modular).toContain(`ctx.font = 'bold 16px ${STACK}';`);
+    expect(modular).toContain(`ctx.font = '12px ${STACK}';`);
+    expect(read("src/components/media/GlassAdvancedAudioPlayer.tsx").split(`font-family="${SVG_STACK}"`).length - 1).toBe(1);
+    expect(read("src/components/media/GlassAdvancedVideoPlayer.tsx").split(`font-family="${SVG_STACK}"`).length - 1).toBe(2);
+    // No short stack (the pre-fix 'Roboto, sans-serif' tail) is left at these sites.
+    for (const f of ["src/tokens/designConstants.ts", "src/theme/tokens.ts", "src/components/charts/GlassDataChart.tsx"]) {
+      expect([f, /Roboto, sans-serif/.test(read(f))]).toEqual([f, false]);
+    }
+  });
+
+  it("one font decision record: the duplicate 4.1.1-font-aeonik.md is gone", () => {
+    expect(existsSync(join(ROOT, "docs/release/decisions/4.1.1-font-aeonik.md"))).toBe(false);
+    const rec = readFileSync(join(ROOT, "docs/release/decisions/4.1.1-font-licence.md"), "utf8");
+    expect(rec).toContain("`--aura-font-sans`");
+  });
+
   it("fixture: a poisoned css string still trips the pattern", () => {
     const poisoned = '--aura-font-sans: "Aeonik", system-ui, sans-serif;';
     expect(AEONIK.test(poisoned)).toBe(true);

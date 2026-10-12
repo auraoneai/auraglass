@@ -719,7 +719,7 @@ if (defaults?.plugins?.tooltip) {
 }
 if (defaults?.font) {
   defaults.font.family =
-    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
 }
 // Set colors safely
 defaults.color =
@@ -1684,7 +1684,7 @@ const GlassDataChartComponent = React.forwardRef<
       exportContext.textBaseline = "middle";
 
       if (title) {
-        exportContext.font = `bold ${16 * devicePixelRatio}px Arial, sans-serif`;
+        exportContext.font = `bold ${16 * devicePixelRatio}px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif`;
         exportContext.fillStyle = "#ffffff";
         exportContext.fillText(
           title,
@@ -1694,7 +1694,7 @@ const GlassDataChartComponent = React.forwardRef<
       }
 
       if (subtitle) {
-        exportContext.font = `${14 * devicePixelRatio}px Arial, sans-serif`;
+        exportContext.font = `${14 * devicePixelRatio}px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif`;
         exportContext.fillStyle = "rgba(255, 255, 255, 0.76)";
         exportContext.fillText(
           subtitle,
