@@ -43,12 +43,8 @@ const CM_TOKENS = load(P('tokens/contrast/contrast-matrix.tokens.json'));
 const MAT_TOKENS = load(P('tokens/material/material.tokens.json'));
 const TOKENS_CSS = readFileSync(P('dist/tokens.css'), 'utf8');
 
-const FLOORS: Record<string, number> = Object.fromEntries(
-  Object.entries(CM_TOKENS.contrast.matrix.floors).map(([k, v]: [string, any]) => [k, v.$value]),
-);
 const SCRIM_CLEAR: number = MAT_TOKENS.material.material.$value.scrim.clear;
 const SPEC = MAT_TOKENS.material.material.$value;
-const tintKey = (variant: string) => (SPEC.variants[variant] ? 'variants' : 'content');
 
 // -- resolved color values parsed out of emitted tokens.css -------------------
 type Scheme = 'light' | 'dark';
@@ -136,12 +132,11 @@ const composite = (fg: any, alpha: number | undefined, bg: any) =>
 const SOLVER_COMPOSITES = ['#ffffff', '#000000', ...BUSY];
 const FALLBACK_ALPHA: number = SPEC.fallbackFill.alpha;
 const solverSurfaces = (canvas: any, tr: string, variant: string, th: string, bd: string, floorAlpha: number) => {
-  const tint = SPEC[tintKey(variant)][variant][th].alpha;
-  const floor = FLOORS[th]!;
   return SOLVER_COMPOSITES.map((s) => {
     let sample = hex(s) as import('../../src/theme/color').Srgb;
     if (variant === 'clear' && (bd === 'light' || bd === 'media')) sample = composite(SCRIM_BLACK, undefined, sample);
-    return tr === 'solid' ? composite(canvas, FALLBACK_ALPHA, sample) : composite(canvas, Math.min(1, tint + floorAlpha - floor), sample);
+    // REQ-MAT-29: the rendered alpha IS the floor — the solver searches that alpha directly.
+    return tr === 'solid' ? composite(canvas, FALLBACK_ALPHA, sample) : composite(canvas, Math.min(1, floorAlpha), sample);
   });
 };
 
@@ -389,8 +384,6 @@ describe('a11y/contrast-matrix (MAT-091..094)', () => {
     let belowScrim = 0; let wouldFail = 0;
     const clear = cells.filter(([, , , , variant, , bd]) => variant === 'clear' && (bd === 'light' || bd === 'media'));
     for (const [preset, scheme, , tr, , th, bd, cell] of clear) {
-      const tint = SPEC[tintKey('clear')].clear[th].alpha;
-      const floor = FLOORS[th]!;
       const canvas = canvasOf(preset, scheme as Scheme);
       const onSurface = sysColor('--ag-color-on-surface', scheme as Scheme);
       const muted = sysColor('--ag-color-on-surface-muted', scheme as Scheme);
@@ -398,7 +391,7 @@ describe('a11y/contrast-matrix (MAT-091..094)', () => {
       const focusInner = sysColor('--ag-color-focus-inner', scheme as Scheme);
       let unscrummed = Infinity;
       for (const s of (bd === 'light' ? ['#ffffff'] : BUSY)) {
-        const surface = tr === 'solid' ? canvas : composite(canvas, Math.min(1, tint + cell.floorAlpha - floor), hex(s));
+        const surface = tr === 'solid' ? canvas : composite(canvas, Math.min(1, cell.floorAlpha), hex(s));
         unscrummed = Math.min(unscrummed,
           wcagContrast(onSurface, surface), wcagContrast(muted, surface),
           wcagContrast(border, surface), wcagContrast(focusInner, surface),
