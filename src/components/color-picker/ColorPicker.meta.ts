@@ -4,7 +4,7 @@ export default defineMeta({
   name: 'ColorPicker',
   owner: 'CMP',
   entry: '.',
-  tier: 'T1',
+  tier: 'T2',
   rsc: 'client',
   parts: ['root','trigger','swatch','positioner','popup','area','area-thumb','hue','hue-thumb'],
   states: ['open','closed'],

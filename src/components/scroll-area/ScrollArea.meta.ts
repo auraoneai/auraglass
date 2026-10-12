@@ -4,7 +4,7 @@ export default defineMeta({
   name: 'ScrollArea',
   owner: 'CMP',
   entry: '.',
-  tier: 'T1',
+  tier: 'T2',
   rsc: 'client',
   parts: ['root','viewport','scrollbar','thumb'],
   states: [],

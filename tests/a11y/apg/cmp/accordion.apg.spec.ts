@@ -7,7 +7,7 @@ import { apg } from '../harness';
 
 test.describe('accordion APG (CMP-351)', () => {
   test('keyboard contract: triggers are buttons inside headings', async ({ page }) => {
-    await gotoStory(page, 'flagships-overlays-accordion--keyboard');
+    await gotoStory(page, 'core-accordion--keyboard');
     await apg.keyboard(page, [
       { press: 'Tab', expectFocus: 'trigger' },
       { press: 'Enter', expectState: { 'aria-expanded': 'true' } },
@@ -31,7 +31,7 @@ test.describe('accordion APG (CMP-351)', () => {
   });
 
   test('headingLevel story renders trigger inside an h4', async ({ page }) => {
-    await gotoStory(page, 'flagships-overlays-accordion--heading-level');
+    await gotoStory(page, 'core-accordion--heading-level');
     const trigger = page.locator('[data-ag-part="trigger"]');
     expect(await trigger.evaluate((el) => !!el.closest('h4'))).toBe(true);
   });

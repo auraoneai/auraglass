@@ -4,7 +4,7 @@ export default defineMeta({
   name: 'Meter',
   owner: 'CMP',
   entry: '.',
-  tier: 'T1',
+  tier: 'T2',
   rsc: 'client',
   parts: ['root','track','indicator','label','value'],
   states: [],

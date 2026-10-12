@@ -7,7 +7,7 @@ import { apg } from './harness';
 
 test.describe('accordion APG (FND-086)', () => {
   test('keyboard contract: headers as buttons, Enter/Space toggle, arrows move', async ({ page }) => {
-    await gotoStory(page, 'flagships-overlays-accordion--default');
+    await gotoStory(page, 'core-accordion--default');
     await apg.keyboard(page, [
       { press: 'Tab', expectFocus: 'trigger' },
       { press: 'ArrowDown', expectFocus: 'trigger' },

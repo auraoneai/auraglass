@@ -3,12 +3,12 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Accordion } from '../../../src/components/accordion';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 
-/* Accordion is flagship #18 (ComponentMeta.flagship), so it is titled under Flagships with the REQUIRED_FLAGSHIP_STORIES
-   (Playground, States, Keyboard). Ids flagships-overlays-accordion--*. */
+/* Accordion is T2 core (REQ-CMP-22: flagship 18 is Popover), so it is titled under Core (REQ-QUAL-49). It keeps the
+   Playground, States and Keyboard stories for the APG script and the L13 spot check. Ids core-accordion--*. */
 const sbMeta = {
-  title: 'Flagships/Overlays/Accordion',
+  title: 'Core/Accordion',
   component: Accordion.Root,
-  tags: ['certified', 'flagship'],
+  tags: ['certified', 'core'],
   parameters: { ag: { tier: 'standard', subject: 'Accordion', kind: 'component' } satisfies StoryAgParameters },
 } satisfies Meta<typeof Accordion.Root>;
 export default sbMeta;
