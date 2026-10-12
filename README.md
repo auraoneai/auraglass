@@ -117,7 +117,7 @@ npx @auraglass/cli migrate 4to5 --dry-run   # preview the 4.x → 5.0 codemods
 Registry items are shadcn-format JSON, so the shadcn CLI installs them too:
 
 ```bash
-npx shadcn@latest add https://chahal-foundation-group.gitlab.io/github-auraoneai/auraglass/r/app-frame.json
+npx shadcn@latest add https://auraglass-48859d.gitlab.io/r/app-frame.json
 ```
 
 ## Peer dependencies
