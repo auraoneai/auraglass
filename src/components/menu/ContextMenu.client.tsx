@@ -10,6 +10,7 @@ import { toOverlayReason } from '../overlays/_shared/overlayTypes';
 import type { OverlayOpenChangeDetails } from '../overlays/_shared/overlayTypes';
 import { cn } from '../../internal';
 import { useControllableWarning } from '../../foundation/controllable';
+import { stateRender, toDataState } from '../../foundation/state';
 import type {
   ContextMenuRootProps, ContextMenuTriggerProps, MenuPortalProps,
   MenuPositionerProps, MenuPopupProps, MenuContentProps, MenuItemProps, MenuGroupProps,
@@ -17,21 +18,38 @@ import type {
   MenuRadioGroupProps, MenuRadioItemProps,
 } from './Menu.types';
 
-interface Ctx { open: boolean }
-const Ctx = React.createContext<Ctx>({ open: false });
+interface Ctx { open: boolean; opener: React.MutableRefObject<HTMLElement | null> | null }
+const Ctx = React.createContext<Ctx>({ open: false, opener: null });
+
+/* REQ-CMP-105: focus restores on every close. BU returns focus itself for
+   Escape/item activation; an outside press on a non-focusable spot leaves
+   focus on <body>, so after close we hand it back to the element that had
+   focus when the menu opened — never stealing it from a control the press
+   focused. */
+function restoreFocusAfterClose(opener: HTMLElement | null) {
+  setTimeout(() => {
+    const active = document.activeElement;
+    if (!opener || !opener.isConnected) return;
+    if (active === null || active === document.body || active === document.documentElement) opener.focus({ preventScroll: true });
+  }, 0);
+}
 
 function ContextMenuRoot({ open, defaultOpen, onOpenChange, loop = true, children }: ContextMenuRootProps) {
   useControllableWarning('ContextMenu', 'open', open);
   const [internal, setInternal] = React.useState(Boolean(defaultOpen));
   const controlled = open !== undefined;
   const current = controlled ? open : internal;
+  const opener = React.useRef<HTMLElement | null>(null);
+  const value = React.useMemo(() => ({ open: current, opener }), [current]);
   return (
-    <Ctx.Provider value={{ open: current }}>
+    <Ctx.Provider value={value}>
       <Base.Root
         open={controlled ? open : undefined}
         defaultOpen={defaultOpen}
+        loopFocus={loop}
         onOpenChange={(o, details) => {
           if (!controlled) setInternal(o);
+          if (!o) restoreFocusAfterClose(opener.current);
           onOpenChange?.(o, { ...details, reason: toOverlayReason(details?.reason) } as OverlayOpenChangeDetails);
         }}
       >
@@ -42,16 +60,25 @@ function ContextMenuRoot({ open, defaultOpen, onOpenChange, loop = true, childre
 }
 
 const CONTEXT_LONG_PRESS_MS = 500;
-function ContextMenuTrigger({ className, children, onKeyDown, onPointerDown, onPointerUp, onPointerCancel, onPointerMove, ref, ...rest }: ContextMenuTriggerProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
-    // BU ContextMenu opens on contextmenu only — Shift+F10 is ours (CMP-277
-    // APG): synthesize a contextmenu event at the trigger's center so BU does
-    // anchor + open through its own path.
+function ContextMenuTrigger({ className, children, onKeyDown, onPointerDown, onPointerUp, onPointerCancel, onPointerMove, render, ref, ...rest }: ContextMenuTriggerProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
+    // BU ContextMenu opens on contextmenu only — Shift+F10 and the ContextMenu
+    // key are ours (CMP-277 APG, REQ-CMP-105): synthesize a contextmenu event at
+    // the trigger's center so BU does anchor + open through its own path. The
+    // keydown is prevented so a browser that also fires a native contextmenu
+    // for the key does not open the menu twice.
     const synth = (el: HTMLElement, x: number, y: number) => {
       el.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, cancelable: true, clientX: x, clientY: y }));
     };
+    const { opener } = React.useContext(Ctx);
+    const { onContextMenuCapture } = rest;
+    const recordOpener: React.MouseEventHandler<HTMLDivElement> = (e) => {
+      onContextMenuCapture?.(e);
+      const active = document.activeElement;
+      if (opener) opener.current = active instanceof HTMLElement && active !== document.body ? active : null;
+    };
     const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
       onKeyDown?.(e);
-      if (e.defaultPrevented || !(e.key === 'F10' && e.shiftKey)) return;
+      if (e.defaultPrevented || !((e.key === 'F10' && e.shiftKey) || e.key === 'ContextMenu')) return;
       e.preventDefault();
       const r = e.currentTarget.getBoundingClientRect();
       synth(e.currentTarget, r.left + r.width / 2, r.top + r.height / 2);
@@ -87,6 +114,9 @@ function ContextMenuTrigger({ className, children, onKeyDown, onPointerDown, onP
         onPointerCancel={handleEnd}
         onPointerMove={handleEnd}
         {...rest}
+        onContextMenuCapture={recordOpener}
+        /* REQ-CMP-07: normalised open|closed on the trigger region */
+        render={stateRender<{ open: boolean }>((s) => toDataState({ open: s.open }), render, 'div')}
       >
         {children}
       </Base.Trigger>
@@ -117,6 +147,16 @@ function ContextMenuPopup({ className, children, ref, ...rest }: MenuPopupProps 
       if (typeof ref === 'function') ref(node);
       else if (ref) ref.current = node;
     };
+    /* REQ-CMP-105: BU's focus manager lands on the popup itself for
+       pointer-opened (right-click, long-press, the synthesized Shift+F10 /
+       ContextMenu-key event) context menus; APG wants the first item. */
+    const { onFocus } = rest;
+    const handleFocus: React.FocusEventHandler<HTMLDivElement> = (e) => {
+      onFocus?.(e);
+      if (e.defaultPrevented || e.target !== e.currentTarget) return;
+      const first = e.currentTarget.querySelector<HTMLElement>('[role^="menuitem"]:not([aria-disabled="true"])');
+      first?.focus();
+    };
     return (
       <Base.Popup
         ref={setRefs}
@@ -125,6 +165,7 @@ function ContextMenuPopup({ className, children, ref, ...rest }: MenuPopupProps 
         {...overlayMaterial('menu')}
         className={cn('ag-menu-popup', 'ag-contextmenu-popup', className)}
         {...rest}
+        onFocus={handleFocus}
       >
         {children}
       </Base.Popup>
@@ -174,7 +215,7 @@ function ContextMenuSeparator({ className, ref, ...rest }: MenuSeparatorProps & 
     return <Base.Separator ref={ref as React.Ref<HTMLDivElement>} data-ag-part="separator" className={cn('ag-menu-separator', className)} {...rest} />;
   }
 
-function ContextMenuCheckboxItem({ className, children, checked, onCheckedChange, ref, ...rest }: MenuCheckboxItemProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+function ContextMenuCheckboxItem({ className, children, checked, onCheckedChange, render, ref, ...rest }: MenuCheckboxItemProps & { ref?: React.Ref<HTMLElement> | undefined }) {
     return (
       <Base.CheckboxItem
         ref={ref as React.Ref<HTMLDivElement>}
@@ -184,6 +225,7 @@ function ContextMenuCheckboxItem({ className, children, checked, onCheckedChange
         {...(checked === 'indeterminate' ? { 'aria-checked': 'mixed', 'data-indeterminate': true } : {})}
         {...(onCheckedChange !== undefined ? { onCheckedChange: (c: boolean) => onCheckedChange(c) } : {})}
         {...rest}
+        render={stateRender<{ checked: boolean }>((s) => toDataState({ checked: checked === 'indeterminate' ? 'mixed' : s.checked }), render, 'div')}
       >
         <span className="ag-menu-item-indicator" data-ag-part="indicator" aria-hidden="true" />
         <span className="ag-menu-item-label">{children}</span>
@@ -195,13 +237,14 @@ function ContextMenuRadioGroup({ children, ...rest }: MenuRadioGroupProps) {
   return <Base.RadioGroup {...rest}>{children}</Base.RadioGroup>;
 }
 
-function ContextMenuRadioItem({ className, children, ref, ...rest }: MenuRadioItemProps & { ref?: React.Ref<HTMLElement> | undefined }) {
+function ContextMenuRadioItem({ className, children, render, ref, ...rest }: MenuRadioItemProps & { ref?: React.Ref<HTMLElement> | undefined }) {
     return (
       <Base.RadioItem
         ref={ref as React.Ref<HTMLDivElement>}
         data-ag-part="item"
         className={cn('ag-menu-item', 'ag-menu-radio-item', className)}
         {...rest}
+        render={stateRender<{ checked: boolean }>((s) => toDataState({ checked: s.checked }), render, 'div')}
       >
         <span className="ag-menu-item-indicator" data-ag-part="indicator" aria-hidden="true" />
         <span className="ag-menu-item-label">{children}</span>

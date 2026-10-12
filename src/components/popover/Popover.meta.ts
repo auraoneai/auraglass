@@ -11,7 +11,7 @@ const meta: ControlMeta = defineMeta({
   flagship: 19,
   rsc: 'client',
   parts: [
-    'trigger', 'positioner', 'popup', 'arrow', 'title', 'description', 'close',
+    'trigger', 'positioner', 'popup', 'arrow', 'title', 'description', 'close', 'hit-area',
   ],
   states: [
     'open', 'closed', 'starting-style', 'ending-style', 'animating',

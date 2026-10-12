@@ -1,8 +1,9 @@
 /* CMP-283..294 (REQ-CMP-106..110): Toast + useToast over BU Toast —
    Provider default limit 3 / timeout 5000, six-position Viewport ported to
    the toast layer-root, F6 → viewport (BU), intent → role status|alert,
-   pause on hover/focus/hidden (BU timers), Progress part, append-only
-   session history, dev warning for interactive non-action content. */
+   pause on hover/focus/hidden (BU timers), Progress part, opt-in
+   session history of dismissed/expired toasts, dev warning for
+   priority 'high' on a non-danger intent. */
 'use client';
 import * as React from 'react';
 import { Toast as Base } from '@base-ui/react/toast';
@@ -10,6 +11,7 @@ import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared
 import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { overlayMaterial } from '../overlays/_shared';
 import { cn } from '../../internal';
+import { SurfaceGroup } from '../../material';
 import type {
   ToastProviderProps, ToastViewportProps, ToastRootProps, ToastTitleProps,
   ToastDescriptionProps, ToastActionProps, ToastCloseProps, ToastProgressProps,
@@ -19,17 +21,27 @@ import type {
 
 const DEFAULT_HISTORY_CAP = 50;
 
-const intentPriority = (intent: ToastIntent): 'low' | 'high' => (intent === 'danger' ? 'high' : 'low');
+/* REQ-CMP-107: 'low' (role=status) is the default for every intent.
+   'high' (role=alert) is only allowed with intent 'danger'; anything else
+   gets a dev warning and still renders role=status (see ToastRoot). */
+const normalizeIntent = (intent: ToastIntent | undefined): ToastIntent => (intent === 'error' ? 'danger' : intent ?? 'info');
+function resolvePriority(intent: ToastIntent, priority: 'low' | 'high' | undefined): 'low' | 'high' {
+  if (priority === 'high' && intent !== 'danger' && process.env.NODE_ENV !== 'production') {
+    console.warn(`[aura-glass] Toast priority 'high' (role=alert) is only allowed with intent 'danger' — got intent '${intent}'; it is announced politely (role=status).`);
+  }
+  return priority ?? 'low';
+}
 
 /* REQ-CMP-110: history lives in the Provider (React state — a NEW items array
-   on every change so subscribers re-render). `history={false}` disables it and
-   useToast returns history: null. The toast manager is also per-provider:
-   creating it at module scope ran BU work on import (import-gate). */
+   on every change so subscribers re-render). It is opt-in: the default
+   `history={false}` leaves useToast().history null. Toasts land in history
+   when they are dismissed or expire (ToastHistoryRecorder), never on add.
+   The toast manager is also per-provider: creating it at module scope ran BU
+   work on import (import-gate). */
 interface HistoryStore {
-  /** Stamps `at`/`createdAt` itself when the open is recorded (event time),
-      so no clock is read on the useToast() render path (REQ-PLAT-69). */
-  recordOpen: (entry: Omit<ToastRecord, 'at' | 'createdAt'>) => void;
-  recordClosed: (id: string) => void;
+  /** Appends a closed toast. Timestamps come from the recorder's effect
+      (event time), so no clock is read on the useToast() render path (REQ-PLAT-69). */
+  record: (entry: ToastRecord) => void;
   api: ToastHistory;
 }
 const ToastHistoryCtx = React.createContext<HistoryStore | null>(null);
@@ -45,7 +57,62 @@ type BaseToastManager = ReturnType<typeof Base.useToastManager>;
 const ToastManagerCtx = React.createContext<BaseToastManager | null>(null);
 function ToastManagerBridge({ children }: { children?: React.ReactNode }) {
   const mgr = Base.useToastManager();
-  return <ToastManagerCtx.Provider value={mgr}>{children}</ToastManagerCtx.Provider>;
+  return (
+    <ToastManagerCtx.Provider value={mgr}>
+      <ToastHistoryRecorder toasts={mgr.toasts} />
+      {children}
+    </ToastManagerCtx.Provider>
+  );
+}
+
+/* REQ-CMP-110: watches the manager's toast list and appends each toast to
+   history once, when it starts closing (dismissed, swiped, Escape) or leaves
+   the list (Base UI's timeout expiry) — whichever is observed first. */
+type BaseToast = BaseToastManager['toasts'][number];
+interface SeenToast { intent: ToastIntent; title: React.ReactNode; description: React.ReactNode; createdAt: number }
+function ToastHistoryRecorder({ toasts }: { toasts: readonly BaseToast[] }) {
+  const store = React.useContext(ToastHistoryCtx);
+  const record = store?.record;
+  const seen = React.useRef(new Map<string, SeenToast>());
+  const recorded = React.useRef(new Set<string>());
+  React.useEffect(() => {
+    if (!record) return;
+    const now = Date.now();
+    const commit = (id: string, entry: SeenToast) => {
+      if (recorded.current.has(id)) return;
+      recorded.current.add(id);
+      record({
+        id,
+        intent: (entry.intent === 'error' ? 'danger' : entry.intent) as ToastRecord['intent'],
+        title: entry.title ?? null,
+        description: entry.description,
+        createdAt: entry.createdAt,
+        at: now,
+        status: 'closed',
+        read: false,
+      });
+    };
+    const live = new Set<string>();
+    for (const t of toasts) {
+      live.add(t.id);
+      const prev = seen.current.get(t.id);
+      const entry: SeenToast = {
+        intent: normalizeIntent(t.type as ToastIntent | undefined),
+        title: t.title,
+        description: t.description,
+        createdAt: prev?.createdAt ?? now,
+      };
+      seen.current.set(t.id, entry);
+      if (t.transitionStatus === 'ending') commit(t.id, entry);
+    }
+    for (const [id, entry] of seen.current) {
+      if (live.has(id)) continue;
+      commit(id, entry);
+      seen.current.delete(id);
+      recorded.current.delete(id);
+    }
+  }, [toasts, record]);
+  return null;
 }
 const LOGICAL_TO_POSITION: Record<ToastLogicalPosition, ToastPosition> = {
   'top-start': 'top-left', 'top-center': 'top-center', 'top-end': 'top-right',
@@ -56,7 +123,7 @@ const POSITION_SWIPE: Record<ToastPosition, ('up' | 'down' | 'left' | 'right')[]
   'bottom-left': ['left', 'down'], 'bottom-center': ['down'], 'bottom-right': ['right', 'down'],
 };
 
-function ToastProvider({ limit = 3, timeout = 5000, history = true, position = 'bottom-end', children }: ToastProviderProps) {
+function ToastProvider({ limit = 3, timeout = 5000, history = false, position = 'bottom-end', children }: ToastProviderProps) {
   const parent = React.useContext(ToastProviderCtx);
   // Module-level once-flag is written in an effect, not during render (REQ-CMP-24).
   const nested = parent !== null;
@@ -72,18 +139,14 @@ function ToastProvider({ limit = 3, timeout = 5000, history = true, position = '
   const historyCap = (typeof history === 'object' && history !== null && history.limit !== undefined)
     ? history.limit : DEFAULT_HISTORY_CAP;
   const [items, setItems] = React.useState<ToastRecord[]>([]);
-  const setItemsCapped = React.useCallback((entry: ToastRecord) => {
+  const record = React.useCallback((entry: ToastRecord) => {
     setItems(previous => { const next = [...previous, entry]; return historyCap <= 0 ? [] : next.slice(-historyCap); });
   }, [historyCap]);
   const store = React.useMemo<HistoryStore | null>(() => {
     if (!historyEnabled) return null;
     const unread = items.filter((i) => !i.read).length;
     return {
-      recordOpen: (entry) => {
-        const now = Date.now();
-        setItemsCapped({ ...entry, createdAt: now, at: now });
-      },
-      recordClosed: (id) => setItems(previous => previous.map((e) => (e.id === id && e.status === 'open' ? { ...e, status: 'closed' as const } : e))),
+      record,
       api: {
         items,
         unread,
@@ -92,7 +155,7 @@ function ToastProvider({ limit = 3, timeout = 5000, history = true, position = '
         clear: () => setItems([]),
       },
     };
-  }, [historyEnabled, items, setItemsCapped]);
+  }, [historyEnabled, items, record]);
   return (
     <ToastProviderCtx.Provider value={config}><ToastHistoryCtx.Provider value={store}>
       <Base.Provider toastManager={toastManager} limit={limit} timeout={timeout}>
@@ -143,7 +206,13 @@ function ToastViewport({ position, className, children, ref, ...rest }: ToastVie
           className={cn('ag-toast-viewport', className)}
           {...rest}
         >
-          <ToastViewportCtx.Provider value={resolved}>{children}</ToastViewportCtx.Provider>
+          <ToastViewportCtx.Provider value={resolved}>
+            {/* REQ-CMP-109: the stack shares ONE SurfaceGroup — toasts are its direct
+                children, so MAT drops their own backdrop and 3 toasts add 1 blurred layer. */}
+            {React.Children.count(children) > 0
+              ? <SurfaceGroup className="ag-toast-stack">{children}</SurfaceGroup>
+              : null}
+          </ToastViewportCtx.Provider>
         </Base.Viewport>
       </Base.Portal>
     );
@@ -216,12 +285,20 @@ function ToastDescription({ className, ref, ...rest }: ToastDescriptionProps & {
   }
 
 function ToastAction({ className, ref, ...rest }: ToastActionProps & { ref?: React.Ref<HTMLButtonElement> | undefined }) {
-    return <Base.Action ref={ref} data-ag-part="action" className={cn('ag-toast-action', className)} {...rest} />;
+    /* REQ-CMP-20: hit-area sized by MAT's targets.css (44px under coarse pointers). */
+    const { children, ...props } = rest;
+    return (
+      <Base.Action ref={ref} data-ag-part="action" className={cn('ag-toast-action', className)} {...props}>
+        <span data-ag-part="hit-area" aria-hidden="true" />
+        {children}
+      </Base.Action>
+    );
   }
 
 function ToastClose({ className, children, ref, ...rest }: ToastCloseProps & { ref?: React.Ref<HTMLButtonElement> | undefined }) {
     return (
       <Base.Close ref={ref} data-ag-part="close" aria-label={rest['aria-label'] ?? 'Dismiss'} className={cn('ag-toast-close', className)} {...rest}>
+        <span data-ag-part="hit-area" aria-hidden="true" />
         {children}
       </Base.Close>
     );
@@ -279,7 +356,7 @@ export function useToast(): UseToastReturn {
 
 function toastApi(mgr: BaseToastManager, hist: React.ContextType<typeof ToastHistoryCtx>): UseToastReturn {
   const add = (t: ToastData) => {
-    const intent = t.intent ?? 'info';
+    const intent = normalizeIntent(t.intent);
     /* REQ-CMP-108: a toast carrying an action never auto-dismisses — the user
        must get to decide. timeout explicit 0 (sticky) unless duration given. */
     const hasAction = t.actionLabel !== undefined || t.onAction !== undefined;
@@ -288,22 +365,24 @@ function toastApi(mgr: BaseToastManager, hist: React.ContextType<typeof ToastHis
       title: t.title,
       description: t.description,
       type: intent,
-      priority: t.priority ?? intentPriority(intent),
+      priority: resolvePriority(intent, t.priority),
       ...(timeout !== undefined ? { timeout } : {}),
       ...(t.actionLabel !== undefined ? { actionLabel: t.actionLabel } : {}),
       ...(t.onAction !== undefined ? { onAction: t.onAction } : {}),
     } as Parameters<typeof mgr.add>[0]);
-    hist?.recordOpen({ id, intent: intent === 'error' ? 'danger' : intent, title: t.title ?? null, description: t.description, status: 'open', read: false });
     return id;
   };
-  const close = (id: string) => { mgr.close(id); hist?.recordClosed(id); };
+  // history is written by ToastHistoryRecorder when the toast closes/expires
+  const close = (id: string) => { mgr.close(id); };
   const update = (id: string, t: Partial<ToastData>) => {
     mgr.update(id, {
       ...(t.title !== undefined ? { title: t.title } : {}),
       ...(t.description !== undefined ? { description: t.description } : {}),
-      ...(t.intent !== undefined ? { type: t.intent, priority: intentPriority(t.intent) } : {}),
+      ...(t.intent !== undefined ? { type: normalizeIntent(t.intent) } : {}),
       ...((t.duration ?? t.timeout) !== undefined ? { timeout: t.duration ?? t.timeout } : {}),
-      ...(t.priority !== undefined ? { priority: t.priority } : {}),
+      ...(t.priority !== undefined
+        ? { priority: resolvePriority(normalizeIntent(t.intent ?? (mgr.toasts.find((x) => x.id === id)?.type as ToastIntent | undefined)), t.priority) }
+        : {}),
       ...(t.action !== undefined ? { actionLabel: t.action.label, onAction: t.action.onClick } : {}),
     });
   };
@@ -311,10 +390,9 @@ function toastApi(mgr: BaseToastManager, hist: React.ContextType<typeof ToastHis
     const toOpts = (t: ToastData) => ({
       title: t.title,
       description: t.description,
-      type: t.intent ?? 'info',
-      priority: intentPriority(t.intent ?? 'info') as 'low' | 'high',
+      type: normalizeIntent(t.intent),
+      priority: resolvePriority(normalizeIntent(t.intent), t.priority),
       ...((t.duration ?? t.timeout) !== undefined ? { timeout: t.duration ?? t.timeout } : {}),
-      ...(t.priority !== undefined ? { priority: t.priority } : {}),
       ...(t.action !== undefined ? { actionLabel: t.action.label, onAction: t.action.onClick } : {}),
     });
     return mgr.promise(p, {

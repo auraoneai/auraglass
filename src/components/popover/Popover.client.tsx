@@ -6,6 +6,7 @@
 import * as React from 'react';
 import { childAsRender } from '../overlays/_shared/renderChild';
 import { useControllableWarning } from '../../foundation/controllable';
+import { stateRender, toDataState } from '../../foundation/state';
 import { Popover as Base } from '@base-ui/react/popover';
 import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
 import { overlayMaterial, defaultPositionerProps, useOverlayLayer, useOverlayAnimating } from '../overlays/_shared';
@@ -161,7 +162,8 @@ function PopoverTrigger({ openOnHover, delay, closeDelay, className, children, o
           },
         } : { onFocus, onBlur })}
         {...rest}
-        render={trigger.render}
+        /* REQ-CMP-07: normalised open|closed on the trigger */
+        render={stateRender<{ open: boolean }>((s) => toDataState({ open: s.open }), trigger.render, 'button')}
       >
         {trigger.children}
       </Base.Trigger>
@@ -235,7 +237,17 @@ function PopoverDescription({ className, ref, ...rest }: PopoverDescriptionProps
 
 function PopoverClose({ className, children, ref, ...rest }: PopoverCloseProps & { ref?: React.Ref<HTMLButtonElement> | undefined }) {
     const trigger = rest.render === undefined ? childAsRender(children) : { render: rest.render, children };
-    return <Base.Close ref={ref} data-ag-part="close" className={cn('ag-popover-close', className)} {...rest} render={trigger.render ?? <Button size="sm" suppressInnerParts />}>{trigger.children}</Base.Close>;
+    /* REQ-CMP-20: the default Button render suppresses its inner parts (so no
+       undeclared label/icon parts leak into the popover), so the close carries
+       its own hit-area — same shape as Dialog.Close. A caller render brings
+       its own control (and hit-area) and is left untouched. */
+    const ownRender = trigger.render === undefined;
+    return (
+      <Base.Close ref={ref} data-ag-part="close" className={cn('ag-popover-close', className)} {...rest} render={trigger.render ?? <Button size="sm" suppressInnerParts />}>
+        {ownRender ? <span data-ag-part="hit-area" aria-hidden="true" /> : null}
+        {trigger.children}
+      </Base.Close>
+    );
 }
 
 function PopoverContent({ keepMounted, side, align, sideOffset, collisionPadding, anchor, children, ref, ...rest }: import('./Popover.types').PopoverContentProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {

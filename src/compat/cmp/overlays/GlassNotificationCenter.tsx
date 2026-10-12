@@ -54,8 +54,11 @@ export interface UseNotificationsCompatReturn {
 }
 
 /** 4.x useNotifications() -> 5.0 useToast() provider history (REQ-CMP-110).
-   `notifications` reads the provider's history items (read flag included);
-   addNotification still routes through useToast().add. */
+   `notifications` reads the provider's history items (read flag included).
+   History is opt-in in 5.0 (REQ-CMP-106: `<Toast.Provider history>`; the
+   default `false` leaves it null and the list empty) and holds toasts once
+   they are dismissed or expire. addNotification still routes through
+   useToast().add. */
 export function useNotifications(): UseNotificationsCompatReturn {
   const api = useToast();
   const ref = React.useRef(api);

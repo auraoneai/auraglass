@@ -126,4 +126,40 @@ export default [
     remote: false,
     failClosed: true,
   },
+  // L5 — REQ-CMP-19: two-tone focus ring on every focusable part (kept on focusable-disabled)
+  {
+    lane: "L5",
+    kind: "playwright",
+    path: "tests/e2e/cmp/focus.spec.ts",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
+  // L5 — REQ-CMP-20/104: target sizes via elementFromPoint (24px fine, 44px coarse hit-area)
+  {
+    lane: "L5",
+    kind: "playwright",
+    path: "tests/e2e/cmp/sizing.spec.ts",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
+  // L5 — REQ-CMP-104: material specs (disabled never dims with opacity, content layer)
+  {
+    lane: "L5",
+    kind: "playwright",
+    path: "tests/e2e/cmp/material/**",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
+  // L5 — REQ-CMP-109: overlay e2e specs incl. toast swipe-dismiss on touch
+  {
+    lane: "L5",
+    kind: "playwright",
+    path: "tests/e2e/cmp/overlays/**",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
 ] satisfies LaneRegistration[];

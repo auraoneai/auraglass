@@ -2,6 +2,9 @@ import { describe, expect, it, jest, afterEach } from '@jest/globals';
 import '@testing-library/jest-dom/jest-globals';
 import { render, screen, act, fireEvent, createEvent } from '@testing-library/react';
 import * as React from 'react';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import postcss, { type Rule, type AtRule } from 'postcss';
 import { AuraGlassProvider } from '../../theme';
 import { Menu, Menubar, ContextMenu } from './index';
 
@@ -144,6 +147,8 @@ describe('ContextMenu', () => {
 });
 
 describe('Menubar', () => {
+  afterEach(() => { jest.useRealTimers(); });
+
   it('role=menubar + roving tabindex on triggers; openOnHover allowed silently', async () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
     render(
@@ -210,14 +215,16 @@ describe('Menubar', () => {
     jest.useFakeTimers();
     render(
       <ContextMenu.Root>
-        <ContextMenu.Trigger><div data-testid="area">area</div></ContextMenu.Trigger>
+        <ContextMenu.Trigger><div data-testid="area" tabIndex={0}>area</div></ContextMenu.Trigger>
         <ContextMenu.Content>
           <ContextMenu.Item>Inspect</ContextMenu.Item>
+          <ContextMenu.Item>Rename</ContextMenu.Item>
         </ContextMenu.Content>
       </ContextMenu.Root>,
     );
     await act(async () => {});
     const area = screen.getByTestId('area');
+    area.focus();
     const popup = () => document.querySelector('[data-ag-part="popup"]');
     // touch long-press on the trigger area
     const down = createEvent.pointerDown(area);
@@ -229,13 +236,17 @@ describe('Menubar', () => {
     fireEvent(area, up);
     await act(async () => {});
     expect(popup()).not.toBeNull();
-    // first item is highlighted / focusable
-    expect(document.querySelector('[role="menuitem"]')).not.toBeNull();
-    // outside press closes and restores focus
+    // focus lands on the first item
+    await act(async () => { jest.advanceTimersByTime(50); });
+    const first = document.querySelectorAll('[role="menuitem"]')[0] as HTMLElement;
+    expect(first.textContent).toBe('Inspect');
+    expect(document.activeElement).toBe(first);
+    // outside press closes and restores focus to the region that opened it
     fireEvent.pointerDown(document.body);
     fireEvent.mouseDown(document.body);
-    await act(async () => {});
+    await act(async () => { jest.advanceTimersByTime(50); });
     expect(popup()).toBeNull();
+    expect(document.activeElement).toBe(area);
     jest.useRealTimers();
   });
 
@@ -293,3 +304,143 @@ describe('Menubar', () => {
     expect(popup()).toBeNull();
   });
 });
+
+describe('ContextMenu keyboard openers (REQ-CMP-105)', () => {
+  afterEach(() => { jest.useRealTimers(); });
+
+  it.each([
+    ['Shift+F10', { key: 'F10', shiftKey: true }],
+    ['the ContextMenu key', { key: 'ContextMenu' }],
+  ])('%s opens on the first item and Escape restores focus', async (_label, init) => {
+    render(
+      <ContextMenu.Root>
+        <ContextMenu.Trigger><div data-testid="area" tabIndex={0}>area</div></ContextMenu.Trigger>
+        <ContextMenu.Content>
+          <ContextMenu.Item>Inspect</ContextMenu.Item>
+          <ContextMenu.Item>Rename</ContextMenu.Item>
+        </ContextMenu.Content>
+      </ContextMenu.Root>,
+    );
+    await act(async () => {});
+    const area = screen.getByTestId('area');
+    area.focus();
+    const down = fireEvent.keyDown(area, init);
+    // the opener key is consumed so a native contextmenu cannot open it twice
+    expect(down).toBe(false);
+    await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
+    expect(document.querySelector('[data-ag-part="popup"]')).not.toBeNull();
+    expect(document.querySelectorAll('[role="menu"]')).toHaveLength(1);
+    const first = document.querySelectorAll('[role="menuitem"]')[0] as HTMLElement;
+    expect(document.activeElement).toBe(first);
+    act(() => { key(first, 'Escape'); });
+    await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
+    expect(document.querySelector('[data-ag-part="popup"]')).toBeNull();
+    expect(document.activeElement).toBe(area);
+  });
+});
+
+describe('Menu submenu hover (REQ-CMP-103)', () => {
+  afterEach(() => { jest.useRealTimers(); });
+
+  it('resting on a SubmenuTrigger opens the submenu after 100 ms, not before', async () => {
+    render(
+      <Menu.Root defaultOpen>
+        <Menu.Trigger>actions</Menu.Trigger>
+        <Menu.Content>
+          <Menu.Item>Cut</Menu.Item>
+          <Menu.Submenu>
+            <Menu.SubmenuTrigger>Share</Menu.SubmenuTrigger>
+            <Menu.Content><Menu.Item>Email</Menu.Item></Menu.Content>
+          </Menu.Submenu>
+        </Menu.Content>
+      </Menu.Root>,
+    );
+    await act(async () => {});
+    jest.useFakeTimers();
+    const share = screen.getByText('Share').closest('[data-ag-part="submenu-trigger"]') as HTMLElement;
+    const menus = () => document.querySelectorAll('[role="menu"]').length;
+    expect(menus()).toBe(1);
+    const enter = (type: string) => {
+      const ev = new MouseEvent(type, { bubbles: type !== 'mouseenter' && type !== 'pointerenter' });
+      Object.defineProperty(ev, 'pointerType', { value: 'mouse' });
+      share.dispatchEvent(ev);
+    };
+    act(() => { enter('pointerenter'); enter('mouseenter'); enter('pointermove'); enter('mousemove'); });
+    act(() => { jest.advanceTimersByTime(90); });
+    expect(menus()).toBe(1);
+    act(() => { jest.advanceTimersByTime(20); });
+    await act(async () => { jest.advanceTimersByTime(1); });
+    expect(menus()).toBe(2);
+    expect(share).toHaveAttribute('data-state', 'open');
+  });
+});
+
+/* REQ-CMP-104: menu item metrics are pinned in Menu.css (parsed, not regexed). */
+describe('Menu.css metrics (REQ-CMP-104 / REQ-CMP-19)', () => {
+  const root = postcss.parse(readFileSync(join(__dirname, 'Menu.css'), 'utf8'));
+  const rules: Rule[] = [];
+  root.walkRules((r) => { rules.push(r); });
+  const inMedia = (r: Rule, q: RegExp) => {
+    for (let p: { type: string; parent?: unknown } | undefined = r.parent; p; p = p.parent as typeof p) {
+      if (p.type === 'atrule' && (p as AtRule).name === 'media' && q.test((p as AtRule).params)) return true;
+    }
+    return false;
+  };
+  const decl = (r: Rule, prop: string) => {
+    let v: string | undefined;
+    r.walkDecls(prop, (d) => { v = d.value; });
+    return v;
+  };
+  const ruleFor = (sel: string, opts: { media?: RegExp; prop: string }) =>
+    rules.find((r) => r.selectors.includes(sel) && decl(r, opts.prop) !== undefined
+      && (opts.media ? inMedia(r, opts.media) : !inMedia(r, /./)));
+
+  it('items are 32px at fine pointers and 44px under (pointer: coarse)', () => {
+    for (const sel of ['.ag-menu-item', '.ag-menu-submenu-trigger']) {
+      expect(decl(ruleFor(sel, { prop: 'min-block-size' })!, 'min-block-size')).toBe('32px');
+      expect(decl(ruleFor(sel, { prop: 'min-block-size', media: /pointer:\s*coarse/ })!, 'min-block-size')).toBe('44px');
+    }
+  });
+
+  it('items use --ag-space-3 inline padding', () => {
+    const pad = decl(ruleFor('.ag-menu-item', { prop: 'padding' })!, 'padding')!;
+    expect(pad.split(/\s+(?![^(]*\))/).pop()).toBe('var(--ag-space-3)');
+  });
+
+  it('popup inline size: min the trigger (anchor) width, max 320px', () => {
+    const popup = ruleFor('.ag-menu-popup', { prop: 'min-inline-size' })!;
+    expect(decl(popup, 'min-inline-size')).toMatch(/^var\(--anchor-width\b/);
+    expect(decl(popup, 'max-inline-size')).toMatch(/^min\(320px\b/);
+  });
+
+  it('highlight raises the fill with no per-item blur', () => {
+    const hl = rules.filter((r) => r.selectors.some((x) => x.includes('[data-highlighted]')));
+    expect(hl.length).toBeGreaterThan(0);
+    expect(hl.some((r) => decl(r, 'background') !== undefined)).toBe(true);
+    for (const r of rules.filter((x) => x.selectors.some((y) => /ag-menu-(item|submenu-trigger)/.test(y)))) {
+      // no backdrop optics (prefixed or not) on any item rule
+      const optics: string[] = [];
+      r.walkDecls((d) => { if (/^(-webkit-)?backdrop-/.test(d.prop)) optics.push(d.prop); });
+      expect(optics).toEqual([]);
+    }
+  });
+
+  it('disabled items use a colour token, never opacity, and no box-shadow-only ring', () => {
+    for (const r of rules.filter((x) => x.selectors.some((y) => y.includes('[data-disabled]')))) {
+      expect(decl(r, 'opacity')).toBeUndefined();
+      expect(decl(r, 'box-shadow')).toBeUndefined();
+    }
+    const dis = ruleFor('.ag-menu-item[data-disabled]', { prop: 'color' })!;
+    expect(decl(dis, 'color')).toMatch(/^var\(--ag-/);
+  });
+
+  it('focus rings use --ag-focus-outer (never the retired --ag-color-focus-*) and always an outline', () => {
+    const css = root.toString();
+    expect(css).not.toMatch(/--ag-color-focus-/);
+    for (const r of rules.filter((x) => x.selectors.some((y) => y.includes(':focus-visible')))) {
+      if (inMedia(r, /forced-colors/)) continue;
+      expect(decl(r, 'outline')).toMatch(/var\(--ag-focus-outer/);
+    }
+  });
+});
+

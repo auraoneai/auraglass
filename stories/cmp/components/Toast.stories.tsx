@@ -42,9 +42,9 @@ function Toasts({ position }: { position?: ToastPosition }) {
     <>
       <OverlayStage title="Inbox" subtitle="3 unread">
         {/* native triggers: S-33 requires the story's rendered parts to be Toast's own */}
-        <button type="button" onClick={() => t.info({ title: 'Saved', description: 'Your changes were saved.' })}>Info</button>
-        <button type="button" onClick={() => t.success({ title: 'Done' })}>Success</button>
-        <button type="button" onClick={() => t.error({ title: 'Failed', description: 'Try again.' })}>Error</button>
+        <button type="button" onClick={() => t.toast({ title: 'Saved', description: 'Your changes were saved.', intent: 'info' })}>Info</button>
+        <button type="button" onClick={() => t.toast({ title: 'Done', intent: 'success' })}>Success</button>
+        <button type="button" onClick={() => t.toast({ title: 'Failed', description: 'Try again.', intent: 'danger' })}>Error</button>
       </OverlayStage>
       <ToastList t={t} {...(position ? { position } : {})} />
     </>
@@ -70,12 +70,12 @@ function Seeded({ position, seeds }: { position?: ToastPosition; seeds: (t: Toas
 }
 
 const seedIntents = (t: ToastApi) => {
-  t.info({ title: 'Sync paused', description: 'Reconnect to resume syncing.', timeout: 0 });
-  t.success({ title: 'Invite sent', description: 'name@auraone.ai will get an email.', timeout: 0 });
-  t.error({ title: 'Upload failed', description: 'The file is larger than 25 MB.', timeout: 0 });
+  t.toast({ title: 'Sync paused', description: 'Reconnect to resume syncing.', intent: 'info', duration: 0 });
+  t.toast({ title: 'Invite sent', description: 'name@auraone.ai will get an email.', intent: 'success', duration: 0 });
+  t.toast({ title: 'Upload failed', description: 'The file is larger than 25 MB.', intent: 'danger', duration: 0 });
 };
 const seedOne = (t: ToastApi) => {
-  t.info({ title: 'Message archived', description: 'Moved to Archive.', timeout: 0 });
+  t.toast({ title: 'Message archived', description: 'Moved to Archive.', intent: 'info', duration: 0 });
 };
 
 export const Playground: Story = {
@@ -116,7 +116,7 @@ function SeededToast() {
   React.useEffect(() => {
     if (seeded.current) return;
     seeded.current = true;
-    t.info({ title: 'Message archived', description: 'Moved to Archive.', actionLabel: 'Undo', onAction: () => undefined, timeout: 0 });
+    t.toast({ title: 'Message archived', description: 'Moved to Archive.', intent: 'info', action: { label: 'Undo', onClick: () => undefined }, duration: 0 });
   }, [t]);
   return (
     <>

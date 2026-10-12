@@ -36,15 +36,19 @@ test.describe('menu APG (CMP-401 / REQ-CMP-103)', () => {
     await page.keyboard.press('Escape');
     await page.keyboard.press('ArrowUp');
     await expect(page.locator(MENU)).toHaveCount(1);
-    const lastFocused = page.locator(`${ITEM0}:focus-visible, ${ITEM0}[data-highlighted]`).last();
-    await expect(lastFocused).toHaveText(/Share|Banana/);
+    // the last item is the 'Share' submenu trigger — exactly it, nothing else
+    await expect(item('Share')).toBeFocused();
 
     // ArrowDown opens focusing first; Home/End move
     await page.keyboard.press('Escape');
     await page.keyboard.press('ArrowDown');
     await expect(item('Apple')).toBeFocused();
     await page.keyboard.press('End');
-    await page.keyboard.press('ArrowDown'); // wraps to first
+    await expect(item('Share')).toBeFocused();
+    await page.keyboard.press('ArrowDown'); // loop: wraps from last to first
+    await expect(item('Apple')).toBeFocused();
+    await page.keyboard.press('ArrowUp'); // loop: wraps from first to last
+    await expect(item('Share')).toBeFocused();
     await page.keyboard.press('Home');
     await expect(item('Apple')).toBeFocused();
 
@@ -55,7 +59,7 @@ test.describe('menu APG (CMP-401 / REQ-CMP-103)', () => {
 
     // exactly one menuitem with tabindex=0
     const tabStops = await page.locator('[role^="menuitem"][tabindex="0"]').count();
-    expect(tabStops).toBeLessThanOrEqual(1);
+    expect(tabStops).toBe(1);
 
     // ArrowRight on Share opens submenu + focuses its first item
     await item('Share').focus();
@@ -67,6 +71,16 @@ test.describe('menu APG (CMP-401 / REQ-CMP-103)', () => {
     await page.keyboard.press('ArrowLeft');
     await expect(page.locator(MENU)).toHaveCount(1);
     await expect(item('Share')).toBeFocused();
+
+    // hover: resting on Share opens the submenu after Base UI's 100 ms delay
+    await page.keyboard.press('Home');
+    const shareBox = await item('Share').boundingBox();
+    expect(shareBox, 'Share submenu trigger has a layout box').not.toBeNull();
+    await page.mouse.move(shareBox!.x + shareBox!.width / 2, shareBox!.y + shareBox!.height / 2, { steps: 2 });
+    // (the exact 100 ms delay is pinned with fake timers in Menu.test.tsx)
+    await expect(page.locator(MENU)).toHaveCount(2, { timeout: 1000 });
+    await page.keyboard.press('ArrowLeft');
+    await expect(page.locator(MENU)).toHaveCount(1);
 
     // Escape closes the outer menu only
     await page.keyboard.press('Escape');

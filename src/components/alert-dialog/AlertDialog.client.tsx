@@ -175,6 +175,8 @@ function AlertDialogCancel({ children, className, ref, ...rest }: AlertDialogBut
       ref={ref as React.Ref<HTMLButtonElement>}
       {...rest}
     >
+      {/* REQ-CMP-20: suppressInnerParts drops Button's hit-area part, so carry our own */}
+      <span data-ag-part="hit-area" aria-hidden="true" />
       {children ?? 'Cancel'}
     </Base.Close>
   );
@@ -193,6 +195,7 @@ function AlertDialogAction({ children, className, onClick, intent: intentProp, r
       ref={ref as never}
       {...rest}
     >
+      <span data-ag-part="hit-area" aria-hidden="true" />
       {children ?? 'Confirm'}
     </Base.Close>
   );

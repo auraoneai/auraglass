@@ -16,3 +16,13 @@ void opt;
 // @ts-expect-error — 'error' is a 4.x compat intent, not a contract Intent
 const badIntent: Intent = 'error';
 void badIntent;
+
+// REQ-CMP-107: the hook itself is assignable to the contract hook type (the
+// extra 4.x conveniences add/close/info/... are a superset, never a narrowing).
+const _hook: UseToast = useToast;
+void _hook;
+
+// priority accepts only the contract union
+// @ts-expect-error — 'assertive' is the 4.x OVL-62 value, replaced by 'high'
+const badPriority: ToastOptions = { title: 't', priority: 'assertive' };
+void badPriority;

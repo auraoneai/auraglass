@@ -24,6 +24,19 @@
   .ag-toast-viewport[data-position$='right'] { right: 0; align-items: flex-end; }
   .ag-toast-viewport[data-position$='center'] { left: 50%; transform: translateX(-50%); align-items: center; }
 
+  /* REQ-CMP-109: the shared SurfaceGroup host. Toasts are its direct children
+     (MAT drops their own backdrop), so the stack adds one blurred layer. It
+     follows the viewport's stacking direction and lets clicks through between
+     cards (each toast re-enables pointer events). */
+  .ag-toast-stack {
+    display: flex;
+    flex-direction: inherit;
+    align-items: inherit;
+    gap: var(--ag-space-2);
+    inline-size: 100%;
+    pointer-events: none;
+  }
+
   .ag-toast {
     pointer-events: auto;
     position: relative;
@@ -43,8 +56,9 @@
     font-size: var(--ag-type-callout-size);
     line-height: var(--ag-type-callout-leading);
     outline: none;
-    /* intent is a dot before the title, not a 3px border stripe bent around
-       the glass corner radius */
+    /* REQ-CMP-109: intent tints only the leading icon and a 3px inline-start
+       rim (--_ag-toast-accent, set per intent below). */
+    border-inline-start: 3px solid var(--_ag-toast-accent);
     --_ag-toast-accent: var(--ag-color-info);
   }
   .ag-toast[data-state='open'],
@@ -63,21 +77,38 @@
     from { opacity: 1; }
     to { opacity: 0; transform: translateY(4px) scale(0.98); }
   }
-  .ag-toast[data-swiping] { transition: none; }
+  /* REQ-CMP-109: swipe follows the pointer with transform only — Base UI
+     writes the live drag offset into --toast-swipe-movement-x/y. */
+  .ag-toast[data-swiping] {
+    transition: none;
+    transform: translate(var(--toast-swipe-movement-x, 0px), var(--toast-swipe-movement-y, 0px));
+  }
 
   /* REQ-CMP-109: collapsed stack — cards behind the top one step back and
      shrink so the stack reads as depth. BU sets data-expanded on hover; in
      collapsed state each card transforms by --toast-index (the root writes
      its DOM order). */
-  .ag-toast:not([data-expanded]) {
+  .ag-toast:not([data-expanded]):not([data-swiping]) {
     transform: translateY(calc(var(--toast-index, 0) * 8px)) scale(calc(1 - var(--toast-index, 0) * 0.04));
   }
-  /* Intent tint: icon + 3px border-inline-start (accent set per-intent below). */
+  /* Intent tint: icon + the 3px border-inline-start rim above. */
   .ag-toast [data-ag-part='icon'] { color: var(--_ag-toast-accent, var(--_ag-info, var(--ag-color-info))); flex: none; }
 
-  /* Narrow container layout. */
-  @container (max-width: 360px) {
-    .ag-toast { min-width: 0; width: 100%; padding: var(--_ag-space-2-5, 10px) var(--ag-space-3); }
+  /* REQ-CMP-109: below 640px the viewport spans the full width minus 16px
+     (8px each side) and toasts fill it. */
+  @media (max-width: 639.98px) {
+    .ag-toast-viewport,
+    .ag-toast-viewport[data-position$='center'] {
+      inset-inline: 8px;
+      left: 8px;
+      right: auto;
+      transform: none;
+      inline-size: calc(100% - 16px);
+      width: calc(100% - 16px);
+      padding-inline: 0;
+      align-items: stretch;
+    }
+    .ag-toast { min-width: 0; inline-size: 100%; padding-block: var(--_ag-space-2-5, 10px); }
     .ag-toast-action { margin-block-start: var(--ag-space-2); }
   }
 
@@ -96,22 +127,13 @@
     font-weight: var(--ag-type-label-weight);
     line-height: var(--ag-type-label-leading);
   }
-  .ag-toast-title::before {
-    content: '';
-    flex: none;
-    inline-size: var(--ag-space-2);
-    block-size: var(--ag-space-2);
-    border-radius: var(--ag-radius-full);
-    background: var(--_ag-toast-accent);
-  }
   .ag-toast-description {
-    padding-inline-start: calc(var(--ag-space-2) * 2);
     font-size: var(--ag-type-callout-size);
     color: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted));
   }
   .ag-toast-action {
+    position: relative;
     align-self: flex-start;
-    margin-inline-start: calc(var(--ag-space-2) * 2);
     padding: var(--ag-space-1) var(--ag-space-3);
     border: 0;
     border-radius: var(--ag-radius-full);
@@ -123,7 +145,7 @@
     cursor: default;
   }
   .ag-toast-close {
-    position: absolute;
+    position: absolute; /* also anchors its hit-area */
     inset-block-start: var(--ag-space-2);
     inset-inline-end: var(--ag-space-2);
     display: inline-flex;
@@ -146,7 +168,7 @@
   }
   .ag-toast-action:focus-visible,
   .ag-toast-close:focus-visible {
-    outline: var(--ag-focus-width, 2px) solid var(--ag-color-focus-outer, Highlight);
+    outline: var(--ag-focus-width) solid var(--ag-focus-outer);
     outline-offset: 1px;
   }
 
