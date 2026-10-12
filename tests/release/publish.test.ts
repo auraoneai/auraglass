@@ -271,8 +271,10 @@ describe('plat:package:pack -> plat:publish:npm handoff (REQ-PLAT-11)', () => {
       // fixture's own record is removed: only the pack job's output may satisfy publish.mjs
       rmSync(join(f.dir, EVIDENCE, 'pack-record.json'), { force: true });
       mkdirSync(join(f.dir, EVIDENCE, 'npm-pack'), { recursive: true });
-      for (const [w, file] of [['aura-glass', root], ['cli', cli]]) {
-        const { name, version } = f.state.files[file];
+      for (const [w, file] of [['aura-glass', root], ['cli', cli]] as const) {
+        const entry = f.state.files[file];
+        if (!entry) throw new Error(`pack fixture has no registry entry for ${file}`);
+        const { name, version } = entry;
         const integrity = sha512(join(f.dir, '.artifacts/pack', file));
         writeFileSync(join(f.dir, EVIDENCE, 'npm-pack', `${w}.json`), JSON.stringify([{ name, version, filename: file, integrity }]));
       }

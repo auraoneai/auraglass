@@ -23,7 +23,7 @@ afterEach(() => {
 describe('AuraGlassProvider preset prop (MAT-14)', () => {
   it('preset="graphite" renders one <style> with the graphite cssText, no manual registration', () => {
     const { container } = render(
-      React.createElement(AuraGlassProvider, { preset: 'graphite' }, React.createElement('p', null, 'x')),
+      React.createElement(AuraGlassProvider, { preset: 'graphite', children: React.createElement('p', null, 'x') }),
     );
     const styles = [...document.querySelectorAll('style')].filter((s) => (s.textContent ?? '').includes('--ag-color-'));
     expect(styles).toHaveLength(1);

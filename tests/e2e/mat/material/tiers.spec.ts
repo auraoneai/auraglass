@@ -23,6 +23,7 @@ async function hostFill(page: Page, selector: string) {
     ctx.fillStyle = css;
     ctx.fillRect(0, 0, 1, 1);
     const [r, g, b, a] = ctx.getImageData(0, 0, 1, 1).data;
+    if (r === undefined || g === undefined || b === undefined || a === undefined) return null;
     const lin = (c: number) => { const v = c / 255; return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
     // WCAG relative luminance of the un-premultiplied fill colour
     const luminance = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
