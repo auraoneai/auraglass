@@ -57,6 +57,12 @@ const w2 = [
   // REQ-SURF-08: cross-TZ canary hydration (job surf:test:canary-hydration).
   { lane: 'L11', kind: 'playwright', path: 'tests/ssr/surf/hydration.spec.ts', scope: 'main', remote: true, failClosed: true },
   { lane: 'L12', kind: 'jest', path: 'tests/data/jest.doubles.cjs', scope: 'pr', remote: false, failClosed: true },
+  // REQ-SURF-95/90/91: L4 token-contrast rows for the chart palette, stat-card
+  // delta and sparkline intent colours, computed from the SHIPPED CSS: the
+  // lane passes AURAGLASS_TARBALL and tests/data/helpers/built-css.ts reads
+  // package/dist/{tokens,material,data}.css from it (fails closed without it).
+  { lane: 'L4', kind: 'jest', path: 'tests/data/{chart-palette,stat-card-contrast,sparkline-contrast}.test.ts', scope: 'pr', remote: false, failClosed: true },
+  { lane: 'L4', kind: 'jest', path: 'tests/data/{chart-palette,stat-card-contrast,sparkline-contrast}.test.ts', scope: 'main', remote: false, failClosed: true },
 ] as const;
 // --- lane W2 end ---
 
