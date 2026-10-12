@@ -101,10 +101,7 @@ export const PRODUCERS = [
   ['dist/tokens.css', 'scripts/tokens/build.mjs'],
   ['dist/tokens/**', 'scripts/tokens/build.mjs'],
   ['dist/tailwind.css', 'scripts/tokens/build.mjs'],
-  ['dist/css/tokens.css', 'scripts/tokens/build.mjs'],
-  ['dist/css/tailwind.css', 'scripts/tokens/build.mjs'],
   ['dist/compat/tokens.css', 'scripts/tokens/build.mjs'],
-  ['dist/css/compat/**', 'scripts/tokens/build.mjs'],
 ].map(([glob, producer]) => ({ test: picomatch(glob, { dot: true }), producer }));
 
 /** Owning stream (lower-case: mat, plat, cmp, surf, qual, contract, none) of a repo-relative path. */

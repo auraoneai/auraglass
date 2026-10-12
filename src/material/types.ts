@@ -105,6 +105,12 @@ export type DeletedGlassProp =
  * boolean 5.0 meaning and is not deleted).
  */
 export interface SurfaceProps extends ContractSurfaceProps {
+  /**
+   * Enhanced-tier edge refraction (bezel-band lens, D-05). Inert unless the provider mounted
+   * `LensDefs` and the enhanced selector matches; ignored with a dev warning on non-chrome layers.
+   * @preview Ships inert until L8 certification passes at RC-1; otherwise promoted in 5.1 (REQ-MAT-36).
+   */
+  refraction?: boolean;
   as?: never;
   caustics?: never;
   chromatic?: never;

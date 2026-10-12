@@ -18,7 +18,7 @@ import { shadcnSourceRegistered, SHADCN_SOURCE_ATTR } from '../../scripts/tokens
 import { PUBLIC_CSS_VARS } from '../../src/contracts/tokens';
 import { AG_ATTRIBUTES } from '../../src/contracts/material';
 
-const DIST_CSS = readFileSync(join(ROOT, 'dist/css/tokens.css'), 'utf8');
+const DIST_CSS = readFileSync(join(ROOT, 'dist/tokens.css'), 'utf8');
 const FIXTURE = join(ROOT, 'tests/tokens/fixtures/shadcn/emit.mjs');
 const SOURCE_SEL = ':root[data-ag-shadcn-source]';
 const DEFAULT_SEL = ':where(:root:not([data-ag-shadcn-source]))';

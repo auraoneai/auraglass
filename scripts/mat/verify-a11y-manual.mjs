@@ -21,13 +21,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-// The one SrRecord schema. C-16 (contract/v1.2-final, FIN-463) moves it to
-// contracts/schemas/sr-record.schema.json; this constant and the deleted
-// tests/ copy are the only change needed once that merges.
-export const SCHEMA_PATH = path.join(REPO, 'tests/a11y/manual/sr-record.schema.json');
+// The one SrRecord schema (C-16, contract/v1.2-final): contracts/schemas/sr-record.schema.json.
+export const SCHEMA_PATH = path.join(REPO, 'contracts/schemas/sr-record.schema.json');
 const DEFAULT_DIR = 'tests/a11y/manual/records';
 
-const ANNOTATIONS = new Set(['$schema', '$id', 'title', 'description']);
+const ANNOTATIONS = new Set(['$schema', '$id', '$comment', 'title', 'description']);
 const KEYWORDS = new Set([
   'type', 'enum', 'const', 'pattern', 'minLength', 'minimum', 'minItems', 'format',
   'required', 'properties', 'additionalProperties', 'items', 'allOf', 'anyOf', 'if', 'then',

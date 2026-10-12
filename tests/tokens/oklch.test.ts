@@ -9,7 +9,7 @@ import { gamutMapOklch, oklchToSrgb, clampSrgb, srgbToHex } from '../../scripts/
 import postcss, { type AtRule, type Container } from 'postcss';
 
 const ref = JSON.parse(readFileSync(join(ROOT, 'tokens/ref/color.tokens.json'), 'utf8'));
-const css = readFileSync(join(ROOT, 'dist/css/tokens.css'), 'utf8');
+const css = readFileSync(join(ROOT, 'dist/tokens.css'), 'utf8');
 const sys = JSON.parse(readFileSync(join(ROOT, 'tokens/sys/color.tokens.json'), 'utf8'));
 
 const L = (v: any) => v.$value.components[0];
@@ -64,8 +64,8 @@ describe('oklch colour contract (MAT-031)', () => {
 
 // MAT-05 (REQ-FIN-50): `@supports not (color: oklch(0 0 0))` carries an sRGB value for
 // every --ag-color-* per scheme, keeps alpha, and serialises shadows as full sRGB strings.
-// Checked on the published `aura-glass/tokens.css` (dist/tokens.css) and dist/css/tokens.css.
-describe.each(['dist/tokens.css', 'dist/css/tokens.css'])('sRGB fallback block (MAT-05) in %s', (file) => {
+// Checked on the published `aura-glass/tokens.css` (dist/tokens.css).
+describe.each(['dist/tokens.css'])('sRGB fallback block (MAT-05) in %s', (file) => {
   const SRGB = /^#[0-9a-f]{6}$|^rgb\(/;
   const root = postcss.parse(readFileSync(join(ROOT, file), 'utf8'));
   const fallback: AtRule[] = [];

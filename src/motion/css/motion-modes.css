@@ -7,9 +7,10 @@
 
 @layer ag.a11y {
 
-  /* ---- calm (REQ-MOT-20): opacity cross-fades keep token durations;
-     transforms settle instantly; springs become --ag-ease-standard;
-     hover/press light response is instant; infinite animation stops. ---- */
+  /* ---- calm (REQ-MAT-44, REQ-MOT-20): opacity cross-fades keep token durations
+     (finite CSS animations and transitions are NOT cancelled); transforms settle
+     instantly; springs become --ag-ease-standard; hover/press light response is
+     instant; infinite animation stops. ---- */
   [data-ag-motion=calm] :where([data-ag-part], [data-ag-surface]),
   :where([data-ag-motion=calm][data-ag-part], [data-ag-motion=calm][data-ag-surface]) {
     /* every spring token resolves to the standard ease in calm subtrees */
@@ -18,7 +19,20 @@
     --ag-spring-fluid: var(--ag-ease-standard);
     /* pointer light frozen (JS install is gated separately) */
     --_ag-pointer: 50% 50%;
-    /* no finite or infinite CSS animation survives calm */
+  }
+
+  /* infinite animations get `animation: none` in calm. By contract (REQ-MAT-46,
+     REQ-MOT-30..32) every infinite library animation exists only under a
+     [data-ag-continuous=on] ancestor, which the provider writes only at resolved
+     motion full — so the one place an infinite loop can reach a calm element is a
+     calm subtree (or calm part) inside a continuous root. Library elements only
+     (parts, surfaces, loading hosts, ag-* classes) and their pseudo-elements. */
+  [data-ag-motion=calm] :where([data-ag-continuous=on] :is([data-ag-part], [data-ag-surface], [data-loading], [aria-busy=true], [class^=ag-], [class*=" ag-"])),
+  [data-ag-motion=calm] :where([data-ag-continuous=on] :is([data-ag-part], [data-ag-surface], [data-loading], [aria-busy=true], [class^=ag-], [class*=" ag-"]))::before,
+  [data-ag-motion=calm] :where([data-ag-continuous=on] :is([data-ag-part], [data-ag-surface], [data-loading], [aria-busy=true], [class^=ag-], [class*=" ag-"]))::after,
+  :where([data-ag-continuous=on] [data-ag-motion=calm], [data-ag-continuous=on][data-ag-motion=calm]),
+  :where([data-ag-continuous=on] [data-ag-motion=calm], [data-ag-continuous=on][data-ag-motion=calm])::before,
+  :where([data-ag-continuous=on] [data-ag-motion=calm], [data-ag-continuous=on][data-ag-motion=calm])::after {
     animation: none;
   }
 
@@ -45,6 +59,11 @@
       --ag-spring-smooth: var(--ag-ease-standard);
       --ag-spring-fluid: var(--ag-ease-standard);
       --_ag-pointer: 50% 50%;
+    }
+    /* infinite (continuous-gated) animations stop; finite cross-fades keep running */
+    :root:not([data-ag-motion]) :where([data-ag-continuous=on] :is([data-ag-part], [data-ag-surface], [data-loading], [aria-busy=true], [class^=ag-], [class*=" ag-"])),
+    :root:not([data-ag-motion]) :where([data-ag-continuous=on] :is([data-ag-part], [data-ag-surface], [data-loading], [aria-busy=true], [class^=ag-], [class*=" ag-"]))::before,
+    :root:not([data-ag-motion]) :where([data-ag-continuous=on] :is([data-ag-part], [data-ag-surface], [data-loading], [aria-busy=true], [class^=ag-], [class*=" ag-"]))::after {
       animation: none;
     }
     :root:not([data-ag-motion]) :where([data-starting-style], [data-ending-style]) {

@@ -5,7 +5,7 @@ import { describe, test, expect } from '@jest/globals';
 // runs schema validation + alias resolution + every guard over a token tree.
 import { spawnSync } from 'node:child_process';
 import { join } from 'node:path';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 
 const ROOT = join(__dirname, '..', '..');
@@ -55,15 +55,18 @@ describe('compiler guards (REQ-MAT-02, scripts/tokens/guards.mjs)', () => {
   });
 });
 
-// build.mjs pipeline rows (validate + resolve + build.mjs's current in-file guards).
-// The build.mjs -> guards.mjs call is the REQ-FIN-01 transfer to FIN-A; these rows
-// hold before and after it.
+// build.mjs pipeline rows: validate + resolve + guards.mjs assertGuards() (REQ-MAT-02 /
+// REQ-FIN-01: build.mjs runs every guard from guards.mjs; it has no in-file guards).
 const BUILD_CASES: Array<[string, RegExp]> = [
   ['unresolved-alias', /unresolved alias \{missing\.token\} referenced from sys\.bad/],
   ['cycle', /alias cycle.*sys\.a/],
-  ['material-to-ref', /material\.leak.*tier 'ref'/],
+  ['material-to-ref', /guard material-alias: material\.leak: material\.\* alias \{ref\.local\} targets tier 'ref'/],
+  ['material-to-material', /guard material-alias: material\.outer: material\.\* alias \{material\.inner\} targets tier 'material'/],
+  ['comp-ref-leak', /guard ref-leak: comp\.button\.radius: comp-tier token resolves through ref-tier ref\.dimension\.r8 with no sys hop/],
+  ['public-ref-leak', /guard ref-leak: ref\.dimension\.r8: emitted --ag-leak is a ref-tier token/],
+  ['blur-cap', /guard blur-cap: sys\.blur\.huge: blur 40px exceeds the 32px cap/],
   ['preset-material', /schema violations[\s\S]*\$\.preset\.bad\.\$value: additional property 'material'/],
-  ['preset-private-var', /preset\.bad.*--_ag-/],
+  ['preset-private-var', /guard preset: preset\.bad\.name: preset value contains private --_ag-\* var/],
   ['schema', /schema violations[\s\S]*\$\.sys\.bad/],
   ['bezier-y', /schema violations[\s\S]*\$\.sys\.ease\.overshoot\.\$value\[1\]: 1\.5 > max 1/],
   ['spring-zeta', /schema violations[\s\S]*\$\.sys\.spring\.wobbly\.\$value\.dampingRatio: 0\.5 < min 0\.8/],
@@ -81,4 +84,25 @@ describe('build.mjs guard pipeline (MAT-008)', () => {
       rmSync(out, { recursive: true, force: true });
     }
   });
+
+  // The preset-name-material fixture is a one-token tree (too small for the emitters),
+  // so the build-level pass case renames a real preset to contain "material." and
+  // builds the full real tree: the key-walk guard must not string-match plain names.
+  test('a preset named "... material.leak ..." builds the real tree with exit 0', () => {
+    const work = mkdtempSync(join(tmpdir(), 'ag-fix-'));
+    try {
+      const tokens = join(work, 'tokens');
+      cpSync(join(ROOT, 'tokens'), tokens, { recursive: true });
+      const file = join(tokens, 'presets', 'graphite.tokens.json');
+      const src = readFileSync(file, 'utf8');
+      const renamed = src.replace('"name": "Graphite"', '"name": "Graphite material.leak override"');
+      expect(renamed).not.toBe(src);
+      writeFileSync(file, renamed);
+      const { status, text } = run('scripts/tokens/build.mjs', ['--fixtures', tokens, '--out', join(work, 'out')]);
+      expect(text).not.toMatch(/guard /);
+      expect(status).toBe(0);
+    } finally {
+      rmSync(work, { recursive: true, force: true });
+    }
+  }, 60000);
 });

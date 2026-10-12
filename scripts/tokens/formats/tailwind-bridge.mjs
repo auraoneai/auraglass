@@ -1,9 +1,9 @@
-// MAT-068: dist/css/tailwind.css — @theme inline map, 6 @utility rules,
+// MAT-068: dist/tailwind.css — @theme inline map, 6 @utility rules,
 // custom variants, shadcn-source scoped dark.
 import { die, prettierFormat } from './_shared.mjs';
 import { cellScalars } from '../transforms/glass-material.mjs';
 
-/** Emit dist/css/tailwind.css — Tailwind v4 bridge (MAT-068).
+/** Emit dist/tailwind.css — Tailwind v4 bridge (MAT-068).
  *  @theme inline maps every public colour/radius/ease/duration/shadow/type-size/breakpoint;
  *  6 @utility rules whose declarations are byte-equal to the compiled attribute rules. */
 export async function emitTailwind(cells, records, resolved) {

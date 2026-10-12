@@ -71,7 +71,7 @@ describe('literal lint (MAT-061)', () => {
   }
 
   test('exempt paths are allowed', () => {
-    for (const p of ['tokens/ref/x.tokens.json', 'src/tokens/generated/tokens.ts', 'dist/css/tokens.css'])
+    for (const p of ['tokens/ref/x.tokens.json', 'src/tokens/generated/tokens.ts', 'dist/tokens.css'])
       expect({ p, exempt: isExempt(p) }).toEqual({ p, exempt: true });
     // same literal content inside an exempt file never reaches the ratchet
     expect(isExempt('src/tokens/generated/manifest.ts')).toBe(true);

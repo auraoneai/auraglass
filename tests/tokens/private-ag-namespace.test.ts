@@ -49,8 +49,8 @@ const manifest = (): { version: number; tokens: Array<{ cssVar: string; type: st
 const generatedVars = (): Set<string> => {
   const defined = new Set<string>();
   for (const f of [
-    'dist/css/tokens.css',
-    'dist/css/tailwind.css',
+    'dist/tokens.css',
+    'dist/tailwind.css',
     'src/material/css/generated/ladders.css',
     'src/material/css/generated/floors.css',
     'src/material/css/properties.css', // hand-authored @property registry (REQ-MAT-28)

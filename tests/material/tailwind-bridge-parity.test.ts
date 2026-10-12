@@ -4,7 +4,7 @@
    content-raised in the DS Tailwind bridge equal their [data-ag-*] attribute
    counterparts byte for byte.
    The bridge is a token-compiler output (scripts/tokens/build.mjs writes
-   dist/css/tailwind.css and the ./tailwind.css subpath file, MAT-068). The
+   dist/tailwind.css, the ./tailwind.css subpath file, MAT-068). The
    suite compiles the tokens into a temp root (the same --out flag the
    determinism test uses) and reads the bridge and ladders.css from there, so it
    needs no prior dist build and never touches the working tree. */
@@ -34,7 +34,7 @@ let ladders: postcss.Root;
 beforeAll(() => {
   const out = mkdtempSync(join(tmpdir(), 'ag-mat133-'));
   execFileSync(process.execPath, ['scripts/tokens/build.mjs', '--out', out], { cwd: ROOT, stdio: 'pipe' });
-  const bridgeFile = join(out, 'dist/css/tailwind.css');
+  const bridgeFile = join(out, 'dist/tailwind.css');
   const laddersFile = join(out, 'src/material/css/generated/ladders.css');
   expect(existsSync(bridgeFile)).toBe(true);
   expect(existsSync(laddersFile)).toBe(true);

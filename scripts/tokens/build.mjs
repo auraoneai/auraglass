@@ -7,8 +7,9 @@
      - schema violation            (validate.mjs)
      - unresolved alias            resolveAliases()
      - alias cycle                 resolveAliases()
-     - material.* alias to non-sys guardMaterialAliases()
-     - preset defining material.*  guardPresets()
+     - compiler guards             guards.mjs assertGuards() (REQ-MAT-02): material-alias
+                                   (sys.* only), preset key-walk, ref-leak, blur-cap,
+                                   bezier-y, spring-zeta, spring-response
      - preset/theme output containing --_ag-*  emitTokensCss()
    Flags: --fixtures <dir> (token root override), --out <dir> (output root override,
    used by tests/tokens/determinism.test.ts to build into temp dirs). */
@@ -21,6 +22,7 @@ import { springToLinear, springDurationMs, compileSpring } from './transforms/mo
 import { buildLadders, buildFloors } from './transforms/glass-material.mjs';
 import { solveContrastMatrix, matrixJson } from './transforms/contrast-solve.mjs';
 import { createHash } from 'node:crypto';
+import { assertGuards } from './guards.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
@@ -98,34 +100,6 @@ export function resolveAliases(records) {
 }
 
 const stringifyResolved = (v) => (v && typeof v === 'object' ? JSON.stringify(v) : String(v));
-
-/** material.* tokens may only alias sys.* or other material.* tokens (MAT-007 guard). */
-function guardMaterialAliases(records) {
-  for (const rec of records.values()) {
-    if (rec.ext?.['ag.tier'] !== 'material') continue;
-    const scan = (v) => {
-      if (typeof v === 'string') for (const m of v.matchAll(REF_RE)) {
-        const target = records.get(m[1]);
-        const tt = target?.ext?.['ag.tier'];
-        if (target && tt !== 'sys' && tt !== 'material')
-          die(`${rec.name}: material.* alias {${m[1]}} targets tier '${tt ?? 'none'}' (must alias sys.* or material.* only)`);
-      } else if (v && typeof v === 'object') for (const x of Object.values(v)) scan(x);
-    };
-    scan(rec.value);
-  }
-}
-
-/** presets must not define material.* keys or private vars (MAT-007 guards). */
-function guardPresets(records, resolved) {
-  for (const rec of records.values()) {
-    if (!rec.name.startsWith('preset.')) continue;
-    const v = resolved.get(rec.name);
-    if (JSON.stringify(v).includes('material.') || /"material"\s*:/.test(JSON.stringify(v)))
-      die(`${rec.name}: preset defines material.* keys`);
-    if (JSON.stringify(rec.value).includes('--_ag-'))
-      die(`${rec.name}: preset value contains private --_ag-* var`);
-  }
-}
 
 // ---------- mode expansion ----------
 
@@ -227,9 +201,9 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
   if (errors.length) die(`schema violations:\n  ${errors.join('\n  ')}`);
 
   const records = loadTokens(tokenDir);
-  guardMaterialAliases(records);
   const resolved = resolveAliases(records);
-  guardPresets(records, resolved);
+  // REQ-MAT-02: every compiler guard from guards.mjs; exits 1 naming each offending path.
+  assertGuards(records, resolved);
   const axisDefs = readAxisDefs(records, resolved);
   const cells = expandModes(records, resolved, axisDefs);
 
@@ -244,8 +218,8 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
   // contract outputs (src/contracts/tokens.ts TOKEN_OUTPUTS)
   // Every layered token CSS output starts with LAYER_ORDER_STATEMENT on line 1,
   // header comment after (REQ-MAT-19 item 1, REQ-FIN-01).
+  // dist/tokens.css is written once, below, after the MAT-003 privates registry is appended.
   let tokensCss = layerFirst(await emitTokensCss(cells, axisDefs, records, resolved));
-  write('dist/tokens.css', tokensCss);
   const { tokensTs, indexTs } = await emitTokensTs(cells);
   write('src/tokens/generated/tokens.ts', tokensTs);
   write('src/tokens/generated/tokens.d.ts', tokensTs.replace("export function token", "export declare function token").replace('{\n  return tokens[path];\n}', ';'));
@@ -283,7 +257,7 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
   write('src/material/css/generated/floors.css', floorsCss);
   write('src/material/css/generated/properties.css', propertiesCss);
 
-  // tailwind bridge + registry + css/ tokens copy (MAT-068/072; @import "./tokens.css" resolves in dist/css)
+  // tailwind bridge + registry (MAT-068/072; the bridge's @import "./tokens.css" resolves in dist/)
   const tailwindCss = await emitTailwind(cells, records, resolved);
   // MAT-003: every --_ag-* private referenced under src/** must be registered in
   // generated css. Emit a privates registry block inside @layer ag.tokens —
@@ -309,8 +283,9 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
     // append inside the final @layer ag.tokens :root block
     tokensCss = tokensCss.replace(/(  }\n}\n?)$/, `${lines.join('\n')}\n$1`);
   }
-  write('dist/css/tokens.css', tokensCss);
-  write('dist/css/tailwind.css', tailwindCss);
+  // REQ-MAT-03: the build writes exactly TOKEN_OUTPUTS (src/contracts/tokens.ts) — no
+  // dist/css/* copies; dist/compat/tokens.css @imports ../tokens.css.
+  write('dist/tokens.css', tokensCss);
   write('dist/tailwind.css', tailwindCss); // ./tailwind.css subpath in package exports
   write('dist/tokens/registry-cssvars.json', emitRegistry(cells));
 
@@ -318,10 +293,12 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
   // emitCompat is the sole writer of dist/compat/tokens.css.
   if (existsSync(join(tokenDir, 'legacy', '4x-rendered.tokens.json'))) {
     const { emitCompat } = await import('./formats/compat-aliases.mjs');
-    // [data-theme=dark], .dark compat block: every --ag-color-* dark value.
+    // REQ-MAT-13 [data-theme=dark], .dark compat block: every public dark scheme value
+    // (all --ag-color-* plus the --ag-surface/on-surface/focus pairs), i.e. exactly the
+    // light-dark() fallback dark block of dist/tokens.css.
     const darkOverrides = {};
     for (const c of cells)
-      if (c.axis === 'scheme' && c.axisValue === 'dark' && typeof c.cssVar === 'string' && c.cssVar.startsWith('--ag-color-'))
+      if (c.axis === 'scheme' && c.axisValue === 'dark' && typeof c.cssVar === 'string' && c.cssVar.startsWith('--ag-'))
         darkOverrides[c.cssVar] = renderValue(c);
     const { count } = emitCompat(write, tokenDir, darkOverrides);
     if (!quiet) console.log(`compat: ${count} reader names mapped`);

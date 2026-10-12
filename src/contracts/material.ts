@@ -24,6 +24,11 @@ export interface MaterialRole {
   fallbackRadius?: RadiusToken;
   interactive?: boolean;
   prominent?: boolean;
+  /**
+   * Enhanced-tier edge refraction (bezel-band lens, D-05). Inert unless the provider mounted
+   * `LensDefs` and the enhanced selector matches; ignored with a dev warning on non-chrome layers.
+   * @preview Ships inert until L8 certification passes at RC-1; otherwise promoted in 5.1 (REQ-MAT-36).
+   */
   refraction?: boolean;
   allowNested?: boolean;
 }
@@ -48,7 +53,16 @@ export interface SurfaceProps extends MaterialRole, Omit<React.HTMLAttributes<HT
   render?: React.ReactElement;
   ref?: React.Ref<HTMLElement>;
 }
-export interface SurfaceGroupProps { spacing?: SpaceToken; children: React.ReactNode; className?: string; refraction?: boolean }
+export interface SurfaceGroupProps {
+  spacing?: SpaceToken;
+  children: React.ReactNode;
+  className?: string;
+  /**
+   * Group-level enhanced-tier refraction (writes `data-ag-refraction`).
+   * @preview Ships inert until L8 certification passes at RC-1; otherwise promoted in 5.1 (REQ-MAT-36).
+   */
+  refraction?: boolean;
+}
 export interface EnvironmentProps { backdrop: Backdrop; image?: string; video?: string; children: React.ReactNode; className?: string }
 export interface ScrollEdgeProps { edge: 'top' | 'bottom'; edgeStyle?: EdgeStyle }
 export interface ConcentricFrameProps { radius: RadiusToken; inset: SpaceToken; children: React.ReactNode }

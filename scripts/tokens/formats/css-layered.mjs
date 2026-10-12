@@ -1,4 +1,4 @@
-// MAT-026/MAT-070: dist/css/tokens.css emitter — layered :root + axis blocks,
+// MAT-026/MAT-070: dist/tokens.css emitter — layered :root + axis blocks,
 // scheme-paired light-dark(), shadcn bridge, @supports fallbacks.
 import { colorToCss, gamutMapOklch, oklchToSrgb, clampSrgb, srgbToHex } from '../color.mjs';
 import { compileSpring } from '../transforms/motion-spring.mjs';
@@ -6,6 +6,7 @@ import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { die, dim, renderValue, prettierFormat, HEADER_CSS, LAYER_ORDER, SHADCN_MAP, AXIS_ORDER } from './_shared.mjs';
+import { PRESET_IDS, presetOverrides, presetDecls, presetThemeSelector } from './preset-css.mjs';
 export { HEADER_CSS, LAYER_ORDER };
 
 /** Selector of the ConcentricFrame part (REQ-MAT-26): disambiguates the frame's
@@ -207,11 +208,23 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
   assertShadcnAcyclic([...baseDecls, ...downPairs], 'default');
   assertShadcnAcyclic([...baseDecls, ...sourcePairs], 'shadcn-source');
 
-  // MAT-14: presets ship as scoped cssText, never data-ag-theme selectors.
+  // REQ-MAT-14: one [data-ag-theme="<id>"] block per preset, compiled from the preset
+  // emitter (preset-css.mjs). Each overrides only sys.color.{canvas,accent,on-accent,
+  // border} (light-dark()) and --ag-radius-{xs..xl}. The main blocks follow :root and
+  // precede the axis blocks, so a same-element [data-ag-contrast]/[data-ag-transparency]
+  // block still wins; their no-light-dark() and sRGB mirrors are emitted below.
+  // Only when the tree defines every preset (fixture trees may define none).
+  const presetSets = PRESET_IDS.every((id) => resolved?.get?.(`preset.${id}`))
+    ? PRESET_IDS.map((id) => ({ sel: presetThemeSelector(id), ...presetDecls(presetOverrides(id, records, resolved)) }))
+    : [];
+  const ind = (decls, pad = '    ') => decls.map((d) => `${pad}${d}`);
 
   // --_ag-target (MAT-015: --ag-target-min, --ag-target-coarse under coarse
   // pointers) is declared next to its reader in src/a11y/css/targets.css.
   const parts = [HEADER_CSS, '', LAYER_ORDER, '', '@layer ag.tokens {', '  :root {', '    color-scheme: light dark;', ...base, '  }'];
+  for (const p of presetSets) {
+    parts.push('', `  ${p.sel} {`, ...ind(p.main), '  }');
+  }
 
   // axis blocks: attribute selectors + media mirrors on :root:not([data-ag-<axis>])
   // MAT-12 (REQ-MAT-12/54): a non-default axis value that declares selectors
@@ -242,6 +255,7 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
       blockSelectors.get(m[1]).push(sel);
     }
   };
+  for (const p of presetSets) noteDecls(ind(p.main), p.sel);
   for (const axis of AXIS_ORDER) {
     if (axis === 'preset') continue;
     const def = axisDefs[axis];
@@ -293,8 +307,20 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
     '  @media (prefers-color-scheme: dark) {',
     '    :root:not([data-ag-scheme]) {', '      color-scheme: dark;', ...darkFallback, '    }',
     '  }',
-    '}', '',
   );
+  // REQ-MAT-14 preset sides, after the generic scheme fallback (same-element ties go to the preset)
+  for (const p of presetSets) {
+    const dark = `${p.sel}[data-ag-scheme="dark"]`;
+    const media = `${p.sel}:not([data-ag-scheme])`;
+    parts.push(
+      `  ${p.sel} {`, ...ind(p.light), '  }',
+      `  ${dark} {`, ...ind(p.dark), '  }',
+      '  @media (prefers-color-scheme: dark) {', `    ${media} {`, ...ind(p.dark, '      '), '    }', '  }',
+    );
+    noteDecls(ind(p.dark), dark);
+    noteDecls(ind(p.dark), media);
+  }
+  parts.push('}', '');
 
   // oklch fallback (MAT-026, MAT-05): hex / rgb() only here. Every block above that
   // carries an oklch() value is mirrored with the same selectors and in the same order,
@@ -307,6 +333,15 @@ export async function emitTokensCss(cells, axisDefs, records, resolved, opts = {
   const DARK_MEDIA = '@media (prefers-color-scheme: dark)';
   const schemeDark = srgbDecls(base.filter(hasLightDark), 'dark');
   const supports = ['@supports not (color: oklch(0 0 0)) {', ...fb(':root', srgbDecls(base, 'light'))];
+  // preset mirrors in main-layer order (right after :root): light main, then dark sides
+  for (const p of presetSets) {
+    const pDark = srgbDecls(ind(p.main).filter(hasLightDark), 'dark');
+    supports.push(
+      ...fb(p.sel, srgbDecls(ind(p.main), 'light')),
+      ...fb(`${p.sel}[data-ag-scheme="dark"]`, pDark),
+      ...fbMedia('@media (prefers-color-scheme: dark)', `${p.sel}:not([data-ag-scheme])`, pDark),
+    );
+  }
   for (const axis of AXIS_ORDER) {
     if (axis === 'preset') continue;
     const def = axisDefs[axis];

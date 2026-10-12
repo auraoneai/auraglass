@@ -123,8 +123,8 @@
       "danger": {
         "$type": "color",
         "$value": {
-          "light": "{ref.color.danger.7}",
-          "dark": "{ref.color.danger.6}"
+          "light": "{ref.color.danger.9}",
+          "dark": "{ref.color.danger.3}"
         },
         "$extensions": {
           "ag.public": true,

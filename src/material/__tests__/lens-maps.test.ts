@@ -1,6 +1,7 @@
 /* @jest-environment node */
-/* MAT-184 — lens maps + LensDefs: 9 ids, generator determinism, no
-   feTurbulence, <= 3 KB per map, LensDefs server-safe. */
+/* MAT-184 / REQ-MAT-36 — lens maps + LensDefs: 9 ids, generator determinism, no
+   feTurbulence, <= 3 KB per map, markup + inlined maps <= 30 KB, LensDefs
+   server-safe; `refraction` carries a TSDoc @preview tag. */
 import { describe, expect, it } from '@jest/globals';
 import * as React from 'react';
 import { renderToString } from 'react-dom/server';
@@ -70,5 +71,36 @@ describe('LensDefs', () => {
     expect(src).not.toMatch(/^['"]use client['"]/m);
     const hooks = src.match(/use(State|Effect|SyncExternalStore|LayoutEffect)/g) ?? [];
     expect(hooks).toEqual([]);
+  });
+});
+
+describe('REQ-MAT-36 budgets and preview status', () => {
+  it('LensDefs markup plus inlined maps is <= 30 KB', () => {
+    const html = renderToString(React.createElement(LensDefs));
+    // the maps are inlined as data: URIs, so the markup length covers both
+    expect(html).toContain('data:image/png;base64,');
+    expect(Buffer.byteLength(html, 'utf8')).toBeLessThanOrEqual(30720);
+  });
+
+  it('every public `refraction` prop carries a TSDoc @preview tag', () => {
+    const ts = require('typescript') as typeof import('typescript');
+    const ROOT = join(__dirname, '../../..');
+    const targets: Array<[string, string]> = [
+      ['src/contracts/material.ts', 'MaterialRole'],
+      ['src/contracts/material.ts', 'SurfaceGroupProps'],
+      ['src/material/types.ts', 'SurfaceProps'],
+    ];
+    for (const [file, iface] of targets) {
+      const sf = ts.createSourceFile(file, readFileSync(join(ROOT, file), 'utf8'), ts.ScriptTarget.Latest, true);
+      let tags: string[] | null = null;
+      sf.forEachChild((n) => {
+        if (!ts.isInterfaceDeclaration(n) || n.name.text !== iface) return;
+        for (const m of n.members) {
+          if (!m.name || !ts.isIdentifier(m.name) || m.name.text !== 'refraction') continue;
+          tags = ts.getJSDocTags(m).map((t) => t.tagName.text);
+        }
+      });
+      expect({ file, iface, tags }).toEqual({ file, iface, tags: expect.arrayContaining(['preview']) });
+    }
   });
 });

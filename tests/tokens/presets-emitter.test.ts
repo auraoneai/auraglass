@@ -1,8 +1,9 @@
 /** @jest-environment node */
 import { describe, test, expect, jest, afterEach } from '@jest/globals';
 // MAT-14 (REQ-MAT-14, REQ-FIN-52, FIN D.3-10): preset emitter.
-// - dist/ carries no [data-ag-theme] (OD-16 C-2 fallback): presets ship as
-//   cssText scoped to [data-ag-root] in src/tokens/generated/presets.ts.
+// - dist/tokens.css compiles one [data-ag-theme="<id>"] block set per preset
+//   (data-ag-theme is in AG_ATTRIBUTES); the provider's interim path still ships
+//   each preset as cssText scoped to [data-ag-root] in src/tokens/generated/presets.ts.
 // - each cssText overrides only sys.color.{canvas,accent,on-accent,border}
 //   (each light-dark()) and --ag-radius-{xs..xl} (default x radiusScale).
 // - neutral steps follow the preset's neutralHue; contrast pairs hold in both
@@ -15,7 +16,7 @@ import { presets, presetCssText, PRESET_SCOPE } from '../../src/tokens/generated
 import type { PresetId } from '../../src/tokens/generated/presets';
 import { parseColor, wcagContrast } from '../../src/theme/color';
 
-const DIST_CSS = ['dist/tokens.css', 'dist/css/tokens.css'].map((f) => [f, readFileSync(join(ROOT, f), 'utf8')] as const);
+const DIST_CSS = ['dist/tokens.css'].map((f) => [f, readFileSync(join(ROOT, f), 'utf8')] as const);
 const IDS = Object.keys(presets) as PresetId[];
 const COLOR_VARS = ['--ag-color-canvas', '--ag-color-accent', '--ag-color-on-accent', '--ag-color-border'];
 const RADIUS_VARS = ['xs', 'sm', 'md', 'lg', 'xl'].map((s) => `--ag-radius-${s}`);
@@ -46,8 +47,55 @@ const pair = (decls: Map<string, string>, v: string) => {
 afterEach(() => { jest.restoreAllMocks(); });
 
 describe('preset emitter (MAT-14)', () => {
-  test('dist token CSS has 0 data-ag-theme occurrences', () => {
-    for (const [file, css] of DIST_CSS) expect({ file, n: css.split('data-ag-theme').length - 1 }).toEqual({ file, n: 0 });
+  test('dist token CSS compiles exactly 4 [data-ag-theme] blocks overriding only the allowed vars', () => {
+    const THEME_RE = /^\[data-ag-theme="([a-z]+)"\]((?:\[data-ag-scheme="dark"\]|:not\(\[data-ag-scheme\]\))?)$/;
+    for (const [file, css] of DIST_CSS) {
+      const root = postcss.parse(css);
+      const mainBlocks = new Map<string, Map<string, string>>();
+      const sides: string[] = [];
+      root.walkRules((r) => {
+        if (!r.selector.includes('data-ag-theme')) return;
+        let layer = '';
+        const chain: string[] = [];
+        for (let n = r.parent; n && n.type !== 'root'; n = n.parent as postcss.Container) {
+          const at = n as postcss.AtRule;
+          if (at.name === 'layer') layer = at.params;
+          else chain.push(`${at.name} ${at.params}`);
+        }
+        expect({ file, sel: r.selector, layer }).toEqual({ file, sel: r.selector, layer: 'ag.tokens' });
+        if (chain.some((c) => c.startsWith('media (forced-colors'))) return; // forced-colours absolute block
+        for (const sel of r.selector.split(/,\s*/)) {
+          const m = THEME_RE.exec(sel);
+          expect({ file, sel, ok: !!m && IDS.includes(m[1] as PresetId) }).toEqual({ file, sel, ok: true });
+        }
+        const decls = new Map<string, string>();
+        // prettier may wrap long light-dark() values; compare normalised values
+        r.walkDecls((d) => void decls.set(d.prop, d.value.replace(/\s+/g, ' ').replace(/\( /g, '(').replace(/ \)/g, ')')));
+        for (const k of decls.keys()) expect([...COLOR_VARS, ...RADIUS_VARS]).toContain(k);
+        if (chain.length === 0) {
+          const id = THEME_RE.exec(r.selector)![1]!;
+          expect(mainBlocks.has(id)).toBe(false);
+          mainBlocks.set(id, decls);
+        } else sides.push(r.selector);
+      });
+      // 4 main blocks equal the preset emitter's light-dark()/radius declarations
+      expect([...mainBlocks.keys()].sort()).toEqual([...IDS].sort());
+      for (const id of IDS) expect(Object.fromEntries(mainBlocks.get(id)!)).toEqual(Object.fromEntries(mainDecls(presetCssText[id])));
+      // each preset carries its no-light-dark() and sRGB scheme mirrors (light, dark, media dark) x 2
+      for (const id of IDS) expect({ id, n: sides.filter((s) => s.startsWith(`[data-ag-theme="${id}"]`)).length }).toEqual({ id, n: 6 });
+    }
+  });
+
+  test('forced colours repeat every [data-ag-theme] colour selector', () => {
+    for (const [file, css] of DIST_CSS) {
+      const forced: string[] = [];
+      postcss.parse(css).walkAtRules('media', (at) => {
+        if (at.params === '(forced-colors: active)') at.walkRules((r) => void forced.push(...r.selector.split(/,\s*/)));
+      });
+      for (const id of IDS)
+        for (const sel of [`[data-ag-theme="${id}"]`, `[data-ag-theme="${id}"][data-ag-scheme="dark"]`, `[data-ag-theme="${id}"]:not([data-ag-scheme])`])
+          expect({ file, sel, ok: forced.includes(sel) }).toEqual({ file, sel, ok: true });
+    }
   });
 
   test('every preset has cssText scoped to [data-ag-root] only', () => {

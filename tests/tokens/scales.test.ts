@@ -10,7 +10,7 @@ import { join } from 'node:path';
 import postcss from 'postcss';
 import { ROOT } from '../../scripts/tokens/validate.mjs';
 
-const css = readFileSync(join(ROOT, 'dist/css/tokens.css'), 'utf8');
+const css = readFileSync(join(ROOT, 'dist/tokens.css'), 'utf8');
 const ROLES = ['display', 'title-1', 'title-2', 'title-3', 'body', 'callout', 'caption', 'label', 'mono'];
 
 const prop = (v: string) => {

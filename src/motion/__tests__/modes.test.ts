@@ -1,13 +1,14 @@
 /* @jest-environment node */
-/* MAT-202 REQ-MOT-T04: modes css — calm strips transforms/infinite animation but
-   keeps opacity cross-fades at token durations; none is scoped to
+/* MAT-202 REQ-MOT-T04 / REQ-MAT-44: modes css — calm strips transforms/infinite
+   animation but keeps opacity cross-fades at token durations (finite animations
+   are never cancelled; animation: none is scoped to the continuous gate); none is scoped to
    [data-ag-part]/[data-ag-surface] with no '*'; forced-colors and
    data-ag-highlights blocks present. Selectors stay ≤ (0,2,0) (REQ-MAT-19). */
 import { describe, expect, it } from '@jest/globals';
 import postcss from 'postcss';
 import parser from 'postcss-selector-parser';
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { join, relative } from 'node:path';
 
 const FILE = join(__dirname, '..', 'css', 'motion-modes.css');
 const root = postcss.parse(readFileSync(FILE, 'utf8'), { from: FILE });
@@ -77,6 +78,20 @@ describe('calm mode', () => {
     expect(joined).toContain('animation: none');
     expect(joined).toContain('--_ag-pointer: 50% 50%');
   });
+  it('calm never cancels finite animations: animation: none only under the continuous gate', () => {
+    const animating = calmRules.filter((r) => r.some((n) => n.type === 'decl' && /^animation(-name)?$/.test(n.prop)));
+    expect(animating.length).toBeGreaterThanOrEqual(1);
+    for (const r of animating) {
+      for (const sel of r.selectors) expect({ sel, gated: sel.includes('[data-ag-continuous=on]') }).toEqual({ sel, gated: true });
+    }
+    // the part/surface calm rule (springs, pointer) leaves animation alone, so a finite
+    // opacity cross-fade keeps its token duration
+    const partRule = calmRules.find((r) => r.toString().includes('--ag-spring-snappy'))!;
+    expect(partRule.toString()).not.toMatch(/animation|transition-duration/);
+    // the starting-style rule never touches opacity or durations
+    const se = calmRules.filter((r) => /starting-style/.test(r.selector)).map((r) => r.toString()).join('\n');
+    expect(se).not.toMatch(/opacity|transition|animation/);
+  });
   it('calm makes hover/press light response instant (durations kept elsewhere)', () => {
     const interactive = calmRules.filter((r) => r.selector.includes('data-ag-interactive'));
     expect(interactive.length).toBeGreaterThanOrEqual(1);
@@ -95,6 +110,55 @@ describe('prefers-reduced-motion media mirror', () => {
     expect(src).toContain('animation: none');
     expect(src).toContain('scale: none');
     expect(src).toContain('translate: none');
+    // same rule as calm: animation: none only for continuous-gated (infinite) loops
+    mirror!.walkDecls(/^animation$/, (d) => {
+      for (const sel of (d.parent as postcss.Rule).selectors) expect({ sel, gated: sel.includes('[data-ag-continuous=on]') }).toEqual({ sel, gated: true });
+    });
+  });
+});
+
+describe('infinite animations are continuous-gated (REQ-MAT-44 calm premise, REQ-MAT-46)', () => {
+  // calm's scoped `animation: none` is sufficient only because every looping library
+  // animation lives under [data-ag-continuous="on"] (infinite) or explicit full motion
+  // (finite multi-iteration spinners), so neither ever runs at resolved calm.
+  const SRC = join(__dirname, '..', '..');
+  const cssFiles = (d: string, out: string[] = []): string[] => {
+    for (const n of readdirSync(d)) {
+      const p = join(d, n);
+      if (statSync(p).isDirectory()) { if (n !== '__tests__' && n !== 'node_modules') cssFiles(p, out); }
+      else if (n.endsWith('.css')) out.push(p);
+    }
+    return out;
+  };
+  const selectorChain = (n: postcss.Node): string => {
+    const parts: string[] = [];
+    for (let p: postcss.Node | undefined = n.parent as postcss.Node; p && p.type !== 'root'; p = p.parent as postcss.Node) {
+      if (p.type === 'rule') parts.push((p as postcss.Rule).selector);
+      if (p.type === 'atrule') parts.push(`@${(p as postcss.AtRule).name} ${(p as postcss.AtRule).params}`);
+    }
+    return parts.join(' | ');
+  };
+  const iterationCounts = (value: string): string[] =>
+    value.split(',').flatMap((one) => one.trim().split(/\s+/).filter((t) => t === 'infinite' || /^\d+(\.\d+)?$/.test(t)));
+
+  it('every infinite iteration sits under [data-ag-continuous=on]; every count > 1 under continuous or motion full', () => {
+    const bad: string[] = [];
+    let infinite = 0;
+    for (const f of cssFiles(SRC)) {
+      const r = postcss.parse(readFileSync(f, 'utf8'), { from: f });
+      r.walkDecls(/^animation(-iteration-count)?$/, (d) => {
+        if (d.parent?.type === 'atrule' && /keyframes/.test((d.parent as postcss.AtRule).name)) return;
+        const chain = selectorChain(d);
+        for (const c of iterationCounts(d.value)) {
+          const continuous = /\[data-ag-continuous=['"]?on['"]?\]/.test(chain);
+          const full = /\[data-ag-motion=['"]?full['"]?\]/.test(chain);
+          if (c === 'infinite') { infinite += 1; if (!continuous) bad.push(`${relative(SRC, f)}: ${chain} { ${d.prop}: ${d.value} }`); }
+          else if (Number(c) > 1 && !continuous && !full) bad.push(`${relative(SRC, f)}: ${chain} { ${d.prop}: ${d.value} }`);
+        }
+      });
+    }
+    expect(infinite).toBeGreaterThanOrEqual(1);
+    expect(bad).toEqual([]);
   });
 });
 
