@@ -16,7 +16,7 @@ Tier T1 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/practices/landmark-
 | `labels?` | `{ navigation?: string \| undefined; }` | — | Overrides for the built-in, localizable UI strings. |
 | `ref?` | `Ref<HTMLElement>` | — | Ref to the rendered root element. |
 | `render?` | `RenderProp<Record<string, unknown>, Record<string, unknown>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
-| `variant?` | `MaterialVariant` | — | Material variant override — the ONLY source of data-ag-variant. |
+| `variant?` | `MaterialVariant` | — | Material variant override — the only input to data-ag-variant (default 'regular' for the chrome layer, contract S-05). |
 
 ## Parts
 

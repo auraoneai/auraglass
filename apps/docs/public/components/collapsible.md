@@ -6,7 +6,7 @@
 import { Collapsible } from 'aura-glass';
 ```
 
-Tier T1 · RSC client · APG disclosure
+Tier T2 · RSC client · APG disclosure
 
 ## Props
 

@@ -15,7 +15,7 @@ Tier T0 · RSC server · APG none
 | `level` | `2 \| 3 \| 4 \| 5 \| 6 \| 1` | — | Semantic level 1..6 — controls the rendered element only. |
 | `ref?` | `Ref<HTMLHeadingElement>` | — | Ref to the rendered root element. |
 | `render?` | `RenderProp<HTMLAttributes<HTMLHeadingElement>>` | — | Replaces the rendered element; the component props and state are merged onto it. |
-| `size?` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'display' \| 'title-1' \| 'title-2' \| 'title-3'` | — | Visual role; defaults by level — 1→'title-1', 2→'title-2', 3+→'title-3'. |
+| `size?` | `'display' \| 'title-1' \| 'title-2' \| 'title-3'` | — | Visual role; defaults by level — 1→'title-1', 2→'title-2', 3+→'title-3'. |
 
 ## Parts
 

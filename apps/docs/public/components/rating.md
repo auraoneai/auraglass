@@ -6,7 +6,7 @@
 import { Rating } from 'aura-glass';
 ```
 
-Tier T1 · RSC client · APG radio
+Tier T2 · RSC client · APG radio
 
 ## Props
 

@@ -6,7 +6,7 @@
 import { Progress } from 'aura-glass';
 ```
 
-Tier T1 · RSC client · APG none
+Tier T2 · RSC client · APG none
 
 ## Props
 

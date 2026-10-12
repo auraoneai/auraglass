@@ -21,10 +21,12 @@ Tier T1 · RSC client · APG searchbox
 | `defaultValue?` | `string` | — | Initial value when uncontrolled. |
 | `description?` | `ReactNode` | — | Helper text rendered under the label and linked with `aria-describedby`. |
 | `disabled?` | `boolean` | — | Disables interaction. |
+| `endAdornment?` | `ReactNode` | — | Trailing content inside the shell, before the clear button (adornment-end part). |
 | `error?` | `ReactNode` | — | Error message; marks the field invalid when set. |
 | `id?` | `string` | — | Id of the input element; generated when omitted. |
 | `label?` | `ReactNode` | — | Visible label. |
 | `loading?` | `boolean` | — | Loading state: spinner part + aria-busy on the root. |
+| `maxLength?` | `number` | — | — |
 | `name?` | `string` | — | Form field name submitted with the value. |
 | `onClear?` | `(details: ChangeDetails) => void` | — | Called after the value is cleared via Escape or the clear button. |
 | `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
@@ -34,7 +36,11 @@ Tier T1 · RSC client · APG searchbox
 | `refraction?` | `boolean` | — | Opt-in refraction on refraction-eligible materials; ignored where unsupported. |
 | `required?` | `boolean` | — | Marks the field as required for form validation. |
 | `shortcut?` | `string` | — | Hint text rendered as a Kbd inside the shell; registers NO listener. |
+| `showCount?` | `boolean` | — | Render the counter part (current/maxLength). |
 | `size?` | `ControlSize` | — | Control size. |
+| `startAdornment?` | `ReactNode` | — | Leading content inside the shell, after the search glyph (adornment-start part). |
+| `validate?` | `FieldValidate` | — | — |
+| `validationMode?` | `FieldValidationMode` | — | — |
 | `value?` | `string` | — | Controlled value. Pair with `onValueChange`. |
 | `variant?` | `'regular' \| 'clear' \| 'identity'` | — | Material variant of the field. |
 
@@ -46,12 +52,15 @@ Tier T1 · RSC client · APG searchbox
 | `label` | `[data-ag-part="label"]` |
 | `control-shell` | `[data-ag-part="control-shell"]` |
 | `icon` | `[data-ag-part="icon"]` |
+| `adornment-start` | `[data-ag-part="adornment-start"]` |
 | `control` | `[data-ag-part="control"]` |
-| `clear` | `[data-ag-part="clear"]` |
-| `shortcut` | `[data-ag-part="shortcut"]` |
 | `spinner` | `[data-ag-part="spinner"]` |
+| `adornment-end` | `[data-ag-part="adornment-end"]` |
+| `shortcut` | `[data-ag-part="shortcut"]` |
+| `clear` | `[data-ag-part="clear"]` |
 | `description` | `[data-ag-part="description"]` |
 | `error` | `[data-ag-part="error"]` |
+| `counter` | `[data-ag-part="counter"]` |
 
 ## States
 

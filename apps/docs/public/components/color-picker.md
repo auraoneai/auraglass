@@ -6,7 +6,7 @@
 import { ColorPicker } from 'aura-glass';
 ```
 
-Tier T1 · RSC client · APG slider
+Tier T2 · RSC client · APG slider
 
 ## Props
 
@@ -32,7 +32,15 @@ Tier T1 · RSC client · APG slider
 | `area` | `[data-ag-part="area"]` |
 | `area-thumb` | `[data-ag-part="area-thumb"]` |
 | `hue` | `[data-ag-part="hue"]` |
-| `hue-thumb` | `[data-ag-part="hue-thumb"]` |
+| `channel` | `[data-ag-part="channel"]` |
+| `alpha` | `[data-ag-part="alpha"]` |
+| `input` | `[data-ag-part="input"]` |
+| `control` | `[data-ag-part="control"]` |
+| `track` | `[data-ag-part="track"]` |
+| `range` | `[data-ag-part="range"]` |
+| `thumb` | `[data-ag-part="thumb"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
+| `value` | `[data-ag-part="value"]` |
 
 ## States
 

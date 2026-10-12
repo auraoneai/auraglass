@@ -40,6 +40,7 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/table/
 | `maxHeight?` | `string \| number` | — | Maximum height of the scroll area (number in CSS pixels, or a CSS length). |
 | `messages?` | `TableMessages` | — | Overrides for the built-in, localizable strings and announcements. |
 | `mode?` | `TableMode` | — | 'grid' turns on the interactive data-grid keyboard model (one focusable cell). |
+| `onCellEditCommit?` | `(rowId: string, columnId: string, value: TableEditValue) => void` | — | REQ-SURF-79 (5.1): grid-mode inline edit. Enter or F2 on a cell whose column declares `meta.editor` opens the editor; Enter/Tab (or choosing an option) commits once with the new value — `data` is never mutated, the owner applies the change. Escape cancels. |
 | `onColumnOrderChange?` | `(s: ColumnOrderState) => void` | — | Called with the next column order. |
 | `onColumnPinningChange?` | `(s: ColumnPinningState) => void` | — | Called with the next pinned columns. |
 | `onColumnSizingChange?` | `(s: ColumnSizingState) => void` | — | Called with the next column widths. |

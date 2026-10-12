@@ -37,6 +37,7 @@ Tier T1 · RSC client · APG dialog-modal
 | `title` | `[data-ag-part="title"]` |
 | `description` | `[data-ag-part="description"]` |
 | `close` | `[data-ag-part="close"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 
 ## States
 

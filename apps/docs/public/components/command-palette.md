@@ -18,6 +18,7 @@ Tier T1 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/dialog-mod
 | `hotkey?` | `string \| false` | — | Global hotkey — 'mod+k' by default; pass false to disable. |
 | `onOpenChange?` | `(open: boolean, details: ChangeDetails) => void` | — | Called with the next open state when it changes. |
 | `open?` | `boolean` | — | Controlled open state. Pair with `onOpenChange`. |
+| `ref?` | `Ref<HTMLDivElement>` | — | REQ-CMP-03: resolves to the root part — the [data-ag-part=command-palette] popup while open. |
 
 ## Parts
 

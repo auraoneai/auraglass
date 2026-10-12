@@ -25,6 +25,7 @@ Tier T1 · RSC mixed · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 | `now?` | `number \| Date` | — | Required when timeFormat='relative' on the server (else dev error). |
 | `onLoadMore?` | `() => void` | — | Called to load older items. |
 | `orientation?` | `'vertical' \| 'horizontal'` | — | Direction of the timeline. |
+| `ref?` | `Ref<HTMLElement>` | — | REQ-CMP-03: resolves to the root part ([data-ag-part=timeline-container]). |
 | `timeFormat?` | `'relative' \| 'absolute' \| DateTimeFormatOptions` | — | Timestamp format: relative ('3 h ago'), absolute, or Intl.DateTimeFormat options. |
 | `timeZone?` | `string` | — | IANA zone for absolute and option formats. Default 'UTC', so server and client render the same text whatever their host zone is. |
 

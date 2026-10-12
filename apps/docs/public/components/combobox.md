@@ -12,35 +12,35 @@ Tier T1 · RSC client · APG combobox
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `autoHighlight?` | `boolean` | — | — |
-| `children?` | `ReactNode` | — | — |
+| `autoHighlight?` | `boolean` | — | Highlights the first matching item while typing. |
+| `children?` | `ReactNode` | — | Content rendered inside the component. |
 | `creatable?` | `ComboboxCreatable` | — | Allow creating a value not present in items. |
-| `defaultInputValue?` | `string` | — | — |
-| `defaultOpen?` | `boolean` | — | — |
-| `defaultValue?` | `Value \| Value[] \| null` | — | — |
-| `disabled?` | `boolean` | — | — |
+| `defaultInputValue?` | `string` | — | Initial text of the input when uncontrolled. |
+| `defaultOpen?` | `boolean` | — | Initial open state when uncontrolled. |
+| `defaultValue?` | `Value \| Value[] \| null` | — | Initial value when uncontrolled. |
+| `disabled?` | `boolean` | — | Disables interaction. |
 | `filter?` | `((item: Value, query: string) => boolean) \| null` | — | null disables the built-in client filter (external/async filtering). |
-| `inputValue?` | `string` | — | — |
-| `isItemEqualToValue?` | `(itemValue: Value, value: Value) => boolean` | — | — |
+| `inputValue?` | `string` | — | Controlled text of the input. Pair with `onInputValueChange`. |
+| `isItemEqualToValue?` | `(itemValue: Value, value: Value) => boolean` | — | Equality used to match items against the selected value. |
 | `items?` | `Value[]` | — | Data items rendered by the list (flat array; nullish entries unsupported). |
-| `itemToString?` | `(item: Value) => string` | — | — |
-| `itemToValue?` | `(item: Value) => string` | — | — |
-| `loadDebounceMs?` | `number` | — | — |
+| `itemToString?` | `(item: Value) => string` | — | Label shown for an item in the input and the list. |
+| `itemToValue?` | `(item: Value) => string` | — | String value submitted with the form for an item. |
+| `loadDebounceMs?` | `number` | — | Delay, in milliseconds, between typing and `loadOptions`. |
 | `loading?` | `boolean` | — | Sets aria-busy on the list and one polite announcement (<=1/500ms). |
 | `loadOptions?` | `(query: string, ctx: ComboboxLoadContext) => Promise<Value[]>` | — | Async options source; debounced loadDebounceMs after the last keystroke. |
-| `messages?` | `Partial<Record<'clearSearch' \| 'increase' \| 'decrease' \| 'removeItem' \| 'noResults' \| 'openCalendar' \| 'loadError' \| 'loadFailed' \| 'createItem' \| 'loadingResults' \| 'required' \| 'optional' \| 'showPassword' \| 'hidePassword', string>>` | — | — |
+| `messages?` | `Partial<Record<'clearSearch' \| 'increase' \| 'decrease' \| 'removeItem' \| 'noResults' \| 'openCalendar' \| 'loadError' \| 'loadFailed' \| 'createItem' \| 'loadingResults' \| 'required' \| 'optional' \| 'showPassword' \| 'hidePassword', string>>` | — | Overrides for the built-in, localizable status messages. |
 | `mode?` | `ComboboxMode` | — | 'select' (default) \| 'autocomplete' — free text is the value. |
-| `multiple?` | `boolean` | — | — |
-| `name?` | `string` | — | — |
-| `onCreate?` | `(query: string) => void` | — | — |
-| `onInputValueChange?` | `(inputValue: string, details: ChangeDetails) => void` | — | — |
-| `onOpenChange?` | `(open: boolean, details: ChangeDetails) => void` | — | — |
-| `onValueChange?` | `(value: Value \| Value[] \| null, details: ChangeDetails) => void` | — | — |
-| `open?` | `boolean` | — | — |
-| `readOnly?` | `boolean` | — | — |
-| `required?` | `boolean` | — | — |
-| `size?` | `ControlSize` | — | — |
-| `value?` | `Value \| Value[] \| null` | — | — |
+| `multiple?` | `boolean` | — | Allows more than one selected value. |
+| `name?` | `string` | — | Form field name submitted with the value. |
+| `onCreate?` | `(query: string) => void` | — | Called with the query when the user creates a new item; enables the "Create" option. |
+| `onInputValueChange?` | `(inputValue: string, details: ChangeDetails) => void` | — | Called with the input text whenever it changes. |
+| `onOpenChange?` | `(open: boolean, details: ChangeDetails) => void` | — | Called with the next open state when it changes. |
+| `onValueChange?` | `(value: Value \| Value[] \| null, details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
+| `open?` | `boolean` | — | Controlled open state. Pair with `onOpenChange`. |
+| `readOnly?` | `boolean` | — | Makes the value read-only while keeping it focusable. |
+| `required?` | `boolean` | — | Marks the field as required for form validation. |
+| `size?` | `ControlSize` | — | Control size. |
+| `value?` | `Value \| Value[] \| null` | — | Controlled value. Pair with `onValueChange`. |
 
 ## Parts
 
@@ -79,4 +79,22 @@ Tier T1 · RSC client · APG combobox
 
 ## Example
 
-_Example pending: no `apps/docs/examples/combobox/*.tsx` yet._
+```tsx
+import { Combobox } from 'aura-glass';
+
+const PEOPLE = ['Ada Lovelace', 'Grace Hopper', 'Alan Turing'];
+
+export default function ComboboxMinimal() {
+  return (
+    <Combobox.Root items={PEOPLE}>
+      <Combobox.Input placeholder="Search people" aria-label="Assignee" />
+      <Combobox.Content>
+        {PEOPLE.map((p) => (
+          <Combobox.Item key={p} value={p}>{p}</Combobox.Item>
+        ))}
+        <Combobox.Empty />
+      </Combobox.Content>
+    </Combobox.Root>
+  );
+}
+```

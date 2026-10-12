@@ -6,7 +6,7 @@
 import { Accordion } from 'aura-glass';
 ```
 
-Tier T1 · RSC client · APG accordion
+Tier T2 · RSC client · APG accordion
 
 ## Props
 

@@ -31,6 +31,7 @@
     "src/components/steps/Steps.tsx",
     "src/components/text/Text.tsx",
     "src/components/timeline/Timeline.tsx",
+    "src/data/chart-frame/ChartFrame.tsx",
     "src/data/sparkline/Sparkline.tsx",
     "src/data/stat-card/StatCard.tsx",
     "src/icons/action.ts",
@@ -869,8 +870,7 @@
       "module": "src/data/chart-frame/ChartFrame.tsx",
       "from": "meta",
       "meta": "ChartFrame",
-      "safe": false,
-      "reason": "client signal (import of useChartContext from client module './ChartFrame.Interactive') in src/data/chart-frame/ChartFrame.tsx"
+      "safe": true
     },
     {
       "module": "src/data/sparkline/Sparkline.tsx",
@@ -1828,8 +1828,7 @@
     },
     {
       "subpath": "./data",
-      "safe": false,
-      "reason": "client signal (import of useChartContext from client module './ChartFrame.Interactive') in src/data/chart-frame/ChartFrame.tsx"
+      "safe": true
     },
     {
       "subpath": "./date",

@@ -6,7 +6,7 @@
 import { ScrollArea } from 'aura-glass';
 ```
 
-Tier T1 · RSC client · APG region
+Tier T2 · RSC client · APG region
 
 ## Props
 

@@ -6,7 +6,7 @@
 import { InlineEdit } from 'aura-glass';
 ```
 
-Tier T1 · RSC client · APG textbox
+Tier T2 · RSC client · APG textbox
 
 ## Props
 

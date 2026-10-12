@@ -34,6 +34,7 @@ Tier T1 · RSC client · APG alertdialog
 | `header` | `[data-ag-part="header"]` |
 | `body` | `[data-ag-part="body"]` |
 | `footer` | `[data-ag-part="footer"]` |
+| `hit-area` | `[data-ag-part="hit-area"]` |
 
 ## States
 

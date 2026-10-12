@@ -21,6 +21,10 @@ Tier T2 · RSC server · APG https://www.w3.org/WAI/ARIA/apg/patterns/meter/
 
 | Part | Selector |
 | --- | --- |
+| `indicator` | `[data-ag-part="indicator"]` |
+| `label` | `[data-ag-part="label"]` |
+| `root` | `[data-ag-part="root"]` |
+| `track` | `[data-ag-part="track"]` |
 | `usage` | `[data-ag-part="usage"]` |
 | `usage-meter` | `[data-ag-part="usage-meter"]` |
 | `usage-window` | `[data-ag-part="usage-window"]` |
