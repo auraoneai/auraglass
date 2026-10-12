@@ -108,7 +108,7 @@ const MessageBase = (props: MessageRootProps) => (
   </MessageRoot>
 );
 
-export const Message = Object.assign(MessageBase, {
+export const Message = /*#__PURE__*/ Object.assign(MessageBase, {
   Root: MessageRoot,
   Avatar: MessageAvatar,
   Content: MessageContent,

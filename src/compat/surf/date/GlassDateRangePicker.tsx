@@ -33,7 +33,7 @@ export interface GlassDateRangePickerProps extends LegacyFieldProps {
   [legacy: string]: unknown;
 }
 
-const Impl = lazyAdapter<GlassDateRangePickerProps>(
+const Impl = /*#__PURE__*/ lazyAdapter<GlassDateRangePickerProps>(
   () => import('./GlassDateRangePicker.impl').then((m) => m.GlassDateRangePickerImpl),
 );
 

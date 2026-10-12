@@ -3,5 +3,5 @@
  * data-ag-backdrop='media', so MAT's clear-over-media rules apply). */
 import { materialProps } from '../../material';
 
-export const chromeMaterial = materialProps({ layer: 'chrome', variant: 'clear' });
+export const chromeMaterial = /*#__PURE__*/ materialProps({ layer: 'chrome', variant: 'clear' });
 export const chromeClass = (part: string): string => `ag-surface ${part}`;

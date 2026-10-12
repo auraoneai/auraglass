@@ -63,7 +63,7 @@ type CommandCtx = {
   filtering: boolean;
 };
 
-const Ctx = React.createContext<CommandCtx | null>(null);
+const Ctx = /*#__PURE__*/ React.createContext<CommandCtx | null>(null);
 
 export type CommandRootProps = Omit<PartProps<'div'>, 'onChange'> & {
   filter?: CommandFilter | undefined;

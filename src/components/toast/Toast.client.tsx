@@ -45,17 +45,17 @@ interface HistoryStore {
   record: (entry: ToastRecord) => void;
   api: ToastHistory;
 }
-const ToastHistoryCtx = React.createContext<HistoryStore | null>(null);
+const ToastHistoryCtx = /*#__PURE__*/ React.createContext<HistoryStore | null>(null);
 
-const ToastProviderCtx = React.createContext<{ position: ToastPosition; timeout: number } | null>(null);
-const ToastViewportCtx = React.createContext<ToastPosition>('bottom-right');
+const ToastProviderCtx = /*#__PURE__*/ React.createContext<{ position: ToastPosition; timeout: number } | null>(null);
+const ToastViewportCtx = /*#__PURE__*/ React.createContext<ToastPosition>('bottom-right');
 let warnedNestedProvider = false;
 let warnedNoProvider = false;
 /* BU's useToastManager throws without its provider, so useToast() cannot call it
    conditionally (rules of hooks, REQ-CMP-24). The provider bridges the manager into
    this context instead; outside a provider it is null and useToast() is a no-op. */
 type BaseToastManager = ReturnType<typeof Base.useToastManager>;
-const ToastManagerCtx = React.createContext<BaseToastManager | null>(null);
+const ToastManagerCtx = /*#__PURE__*/ React.createContext<BaseToastManager | null>(null);
 function ToastManagerBridge({ children }: { children?: React.ReactNode }) {
   const mgr = Base.useToastManager();
   return (

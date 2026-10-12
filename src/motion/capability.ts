@@ -3,4 +3,4 @@
 import { createContext } from 'react';
 import type { MotionCapability } from '../contracts/motion';
 
-export const MotionCapabilityContext = createContext<MotionCapability | null>(null);
+export const MotionCapabilityContext = /*#__PURE__*/ createContext<MotionCapability | null>(null);

@@ -12,6 +12,8 @@ import { CONTRACTS_RUNTIME_DIR, DIST, FOUNDATION_RUNTIME_DIR, SRC, walk } from '
 import { existsSync } from 'node:fs';
 
 const SPEC_RE = /(from\s*|import\s*\(\s*|import\s*)['"]([^'"]+)['"]/g;
+/** a specifier that already names a runtime file (not a dotted module name such as `./Menu.client`). */
+export const HAS_RUNTIME_EXT = /\.(?:[cm]?js|json|css)$/;
 
 export function rewriteFile(dtsFile) {
   let text = readFileSync(dtsFile, 'utf8');
@@ -28,9 +30,10 @@ export function rewriteFile(dtsFile) {
       const sub = spec.slice(2);
       for (const c of [join(DIST, `${sub}/index.d.ts`), join(DIST, `${sub}.d.ts`)]) if (existsSync(c)) target = c;
       if (!target) return m;
-    } else if (spec.startsWith('.') && !/\.\w+$/.test(spec)) {
+    } else if (spec.startsWith('.') && !HAS_RUNTIME_EXT.test(spec)) {
       // extensionless relative specifier: node16 ESM resolves `./x` literally
       // (no extension search), so point it at the runtime `.js` (REQ-PLAT-73).
+      // A dotted module name (`./Menu.client`, `./Sheet.types`) is still extensionless.
       const dir = dirname(dtsFile);
       for (const [cand, suffix] of [[join(dir, `${spec}.d.ts`), '.js'], [join(dir, spec, 'index.d.ts'), '/index.js']]) {
         if (existsSync(cand)) { changed = true; return `${pre}'${spec}${suffix}'`; }

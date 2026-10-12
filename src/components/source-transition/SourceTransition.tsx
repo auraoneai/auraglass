@@ -11,7 +11,7 @@ import { viewTransitionParticipantAttributes } from '../../material/stateAttribu
 import { partElement } from '../../app-shell/_internal/partElement';
 import type { PartProps } from '../../contracts/components';
 
-const Ctx = React.createContext<{
+const Ctx = /*#__PURE__*/ React.createContext<{
   active: string | null;
   begin: (id: string, from: Element) => void;
   /** SURF-064: Root-level source registry (dev error on duplicate ids). */

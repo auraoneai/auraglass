@@ -51,7 +51,7 @@ interface ThreadContextValue {
   onUserInput: () => void;
 }
 
-const ThreadContext = React.createContext<ThreadContextValue | null>(null);
+const ThreadContext = /*#__PURE__*/ React.createContext<ThreadContextValue | null>(null);
 
 function useThread(): ThreadContextValue {
   const ctx = React.useContext(ThreadContext);
@@ -251,7 +251,7 @@ export interface ThreadComponent {
   RenderersProvider: typeof AiRenderersProvider;
 }
 
-export const Thread = Object.assign(ThreadRoot, {
+export const Thread = /*#__PURE__*/ Object.assign(ThreadRoot, {
   Root: ThreadRoot,
   Viewport: ThreadViewport,
   Items: ThreadItems,

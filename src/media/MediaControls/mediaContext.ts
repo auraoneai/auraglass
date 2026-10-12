@@ -50,8 +50,8 @@ export interface MediaControlsLayout {
   register(part: RegisteredPart): () => void;
 }
 
-export const MediaControlsContext = React.createContext<MediaModel | null>(null);
-export const MediaControlsLayoutContext = React.createContext<MediaControlsLayout | null>(null);
+export const MediaControlsContext = /*#__PURE__*/ React.createContext<MediaModel | null>(null);
+export const MediaControlsLayoutContext = /*#__PURE__*/ React.createContext<MediaControlsLayout | null>(null);
 
 export function useMediaModel(part: string): MediaModel {
   const ctx = React.useContext(MediaControlsContext);

@@ -24,7 +24,7 @@ const SCALE: Record<Exclude<SizeClass, 'sheet'>, number> = {
    package (the package ships dist/ only). */
 const mapHref = (id: LensId) => LENS_MAP_DATA[id];
 
-export const LENS_IDS: readonly LensId[] = SHAPES.flatMap((shape) =>
+export const LENS_IDS: readonly LensId[] = /*#__PURE__*/ SHAPES.flatMap((shape) =>
   SIZECLASSES.map((sc) => `ag-lens-${shape}-${sc}` as LensId));
 
 export function LensDefs() {

@@ -8,7 +8,7 @@ import { Meter as BaseMeter } from '@base-ui/react/meter';
 import { cn } from '../../internal/index';
 import { materialProps } from '../../material/index';
 
-const SUNKEN = materialProps({ layer: 'content', content: 'content-sunken' });
+const SUNKEN = /*#__PURE__*/ materialProps({ layer: 'content', content: 'content-sunken' });
 
 export interface MeterProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'prefix'> {
   value: number;

@@ -23,7 +23,7 @@ export interface GlassDateFieldProps extends LegacyFieldProps {
   [legacy: string]: unknown;
 }
 
-const Impl = lazyAdapter<GlassDateFieldProps>(() => import('./GlassDateField.impl').then((m) => m.GlassDateFieldImpl));
+const Impl = /*#__PURE__*/ lazyAdapter<GlassDateFieldProps>(() => import('./GlassDateField.impl').then((m) => m.GlassDateFieldImpl));
 
 /**
  * 4.x `GlassDateField` compat adapter (DEP-S0220).

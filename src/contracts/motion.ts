@@ -18,10 +18,10 @@ export const SPRINGS: Record<SpringName, { zeta: number; responseMs: number }> =
   snappy: { zeta: 1.0, responseMs: 200 }, smooth: { zeta: 0.9, responseMs: 350 }, fluid: { zeta: 0.82, responseMs: 450 },
 };
 export const MOTION_CSS_VARS = [
-  ...(['instant', 'micro', 'small', 'medium', 'large'] as const).flatMap((d) => [`--ag-duration-${d}`, `--ag-duration-${d}-exit`]),
+  .../*#__PURE__*/ (['instant', 'micro', 'small', 'medium', 'large'] as const).flatMap((d) => [`--ag-duration-${d}`, `--ag-duration-${d}-exit`]),
   '--ag-duration-ambient',
-  ...(['standard', 'emphasized', 'emphasized-decelerate', 'accelerate'] as const).map((e) => `--ag-ease-${e}`),
-  ...(['snappy', 'smooth', 'fluid'] as const).flatMap((s) => [`--ag-spring-${s}`, `--ag-spring-${s}-duration`]),
+  .../*#__PURE__*/ (['standard', 'emphasized', 'emphasized-decelerate', 'accelerate'] as const).map((e) => `--ag-ease-${e}`),
+  .../*#__PURE__*/ (['snappy', 'smooth', 'fluid'] as const).flatMap((s) => [`--ag-spring-${s}`, `--ag-spring-${s}-duration`]),
 ] as const;
 /** Properties components may animate (lint auraglass/motion-*): */
 export const ANIMATABLE = ['transform', 'opacity', 'translate', 'scale', '--ag-specular', '--_ag-optics', '--_ag-press', '--_ag-refraction-scale'] as const;

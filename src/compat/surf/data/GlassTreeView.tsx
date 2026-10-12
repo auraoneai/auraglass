@@ -43,7 +43,7 @@ export interface GlassTreeViewProps extends Omit<TreeViewBaseProps<GlassTreeNode
   [legacy: string]: unknown;
 }
 
-const LegacyTreeLazy = lazyAdapter<GlassTreeViewProps>(() => import('./GlassTreeView.impl').then((m) => m.LegacyTreeImpl));
+const LegacyTreeLazy = /*#__PURE__*/ lazyAdapter<GlassTreeViewProps>(() => import('./GlassTreeView.impl').then((m) => m.LegacyTreeImpl));
 
 /** Shared 4.x tree mapping (GlassTreeView, TreeView 4.x); renders the 5.0
     TreeView once its implementation module has loaded. */

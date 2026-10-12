@@ -32,7 +32,7 @@ const useIsoLayoutEffect = typeof window === 'undefined' ? React.useEffect : Rea
 
 /** Deprecation-warning mode forwarded to the compat layer (S-37 internals
    consume this context; 'warn' is the default in development). */
-export const DeprecationModeContext = React.createContext<'warn' | 'silent' | undefined>(undefined);
+export const DeprecationModeContext = /*#__PURE__*/ React.createContext<'warn' | 'silent' | undefined>(undefined);
 
 const PORTAL_ROOT_ATTR = 'data-ag-portal-root';
 
@@ -74,7 +74,7 @@ interface DocumentPreferences {
   user(): PersistedUser;
 }
 
-const DocumentPreferencesContext = React.createContext<DocumentPreferences | null>(null);
+const DocumentPreferencesContext = /*#__PURE__*/ React.createContext<DocumentPreferences | null>(null);
 
 const readUser = (storage: PreferenceStorage | null): PersistedUser => {
   if (!storage) return {};

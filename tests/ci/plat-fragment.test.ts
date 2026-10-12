@@ -51,26 +51,28 @@ describe('plat:test:pack-matrix', () => {
     expect(yaml.stringify(j.rules)).toContain('$AG_LINE == "4x"');
     expect(j.timeout).toBe('45 minutes');
   });
-  it('runs the build + verify steps explicitly, then npm publish --dry-run --ignore-scripts (PLAT-05 item 2)', () => {
+  it('runs prepublish:verify (the guard-free half of prepublishOnly), prepack, then npm publish --dry-run --ignore-scripts (PLAT-05 item 2, REQ-PLAT-38)', () => {
     const lines: string[] = j.script;
     const s = lines.join('\n');
     // prepublishOnly starts with require-ci-publish.js, which exits 1 outside plat:publish:npm.
     expect(s).not.toContain('prepublishOnly');
     expect(s).not.toContain('require-ci-publish');
     const idx = (needle: string) => lines.findIndex((l) => l.includes(needle));
-    const build = lines.indexOf('npm run build');
-    const verify = idx('for s in verify:pack verify:css-vars');
+    const guard = idx("includes('prepublish:verify')");
+    const verify = lines.indexOf('npm run prepublish:verify');
     const prepack = idx('npm run prepack');
     const publish = lines.indexOf('npm publish --dry-run --ignore-scripts');
-    expect(build).toBeGreaterThanOrEqual(0);
-    expect(verify).toBeGreaterThan(build);
+    expect(guard).toBeGreaterThanOrEqual(0);
+    expect(verify).toBeGreaterThan(guard);
     expect(prepack).toBeGreaterThan(verify);
     expect(publish).toBeGreaterThan(prepack);
     expect(publish).toBe(lines.length - 1);
+    // the 5.0 split build/verify steps are gone: the 4.x chain is the one script
+    expect(lines.filter((l) => l === 'npm run build' || /for s in verify:pack/.test(l))).toEqual([]);
     // every publish line is the lifecycle-free dry run
     expect(lines.filter((l) => /npm publish/.test(l))).toEqual(['npm publish --dry-run --ignore-scripts']);
-    // a missing verify script fails closed
-    expect(lines[verify]).toMatch(/\{ echo "PENDING: npm script \$s \(lane 1b\)"; exit 1; \}/);
+    // a missing prepublish:verify script fails closed
+    expect(lines[guard]).toMatch(/\{ echo "PENDING: npm script prepublish:verify \(REQ-PLAT-38\)"; exit 1; \}/);
   });
 });
 

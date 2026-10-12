@@ -1,0 +1,129 @@
+{
+  "$comment": "REQ-PLAT-65 dist-purity debt (shrink-only). Top-level statements still emitted by dist that the purity rule forbids. tests/build/dist-purity.test.ts fails on any impure statement not listed here AND on any listed entry that no longer occurs, so this file can only shrink. Remaining work: convert each X.displayName / X.member expando on a function declaration to const X = /*#__PURE__*/ Object.assign(function X(..) {..}, { displayName }) and regenerate etc/api (npm run api:update) in CI; motion/adapter/entry startMotionPeer is the REQ-MAT-50 peer start and needs a cross-PRD resolution.",
+  "entries": {
+    "dist/app-shell/AppShell.js": [
+      "Main.displayName =",
+      "PageHeader.displayName =",
+      "Root.displayName =",
+      "SkipLink.displayName ="
+    ],
+    "dist/app-shell/Inspector.js": [
+      "InspectorContent.displayName =",
+      "InspectorField.displayName =",
+      "InspectorHeader.displayName =",
+      "InspectorRoot.displayName ="
+    ],
+    "dist/app-shell/ResizablePanels.js": [
+      "ResizableHandle.displayName =",
+      "ResizablePanel.displayName =",
+      "ResizablePanelsRoot.displayName ="
+    ],
+    "dist/app-shell/Sidebar.Nav.js": [
+      "SidebarItem.displayName =",
+      "SidebarItemBadge.displayName =",
+      "SidebarItemIcon.displayName =",
+      "SidebarNav.displayName ="
+    ],
+    "dist/app-shell/Sidebar.js": [
+      "SidebarContent.displayName =",
+      "SidebarFooter.displayName =",
+      "SidebarGroup.displayName =",
+      "SidebarGroupLabel.displayName =",
+      "SidebarHeader.displayName =",
+      "SidebarRoot.displayName =",
+      "SidebarSeparator.displayName ="
+    ],
+    "dist/app-shell/TopBar.js": [
+      "TopBarCenter.displayName =",
+      "TopBarLeading.displayName =",
+      "TopBarRoot.displayName =",
+      "TopBarTitle.displayName =",
+      "TopBarTrailing.displayName ="
+    ],
+    "dist/components/breadcrumbs/Breadcrumbs.js": [
+      "BreadcrumbsCurrent.displayName =",
+      "BreadcrumbsEllipsis.displayName =",
+      "BreadcrumbsItem.displayName =",
+      "BreadcrumbsLink.displayName =",
+      "BreadcrumbsList.displayName =",
+      "BreadcrumbsRoot.displayName =",
+      "BreadcrumbsSeparator.displayName ="
+    ],
+    "dist/components/command-palette/Command.js": [
+      "CommandEmpty.displayName =",
+      "CommandGroup.displayName =",
+      "CommandInput.displayName =",
+      "CommandItem.displayName =",
+      "CommandList.displayName =",
+      "CommandLoading.displayName =",
+      "CommandRoot.displayName =",
+      "CommandSeparator.displayName ="
+    ],
+    "dist/components/pagination/Pagination.js": [
+      "PaginationEllipsis.displayName =",
+      "PaginationItem.displayName =",
+      "PaginationNext.displayName =",
+      "PaginationPrevious.displayName =",
+      "PaginationRoot.displayName ="
+    ],
+    "dist/components/segmented-control/SegmentedControl.client.js": [
+      "SegmentedControlIndicator.displayName ="
+    ],
+    "dist/components/source-transition/SourceTransition.js": [
+      "Destination.displayName =",
+      "Source.displayName =",
+      "SourceTransitionRoot.displayName ="
+    ],
+    "dist/components/tab-bar/TabBar.js": [
+      "TabBarAccessory.displayName =",
+      "TabBarItem.displayName =",
+      "TabBarItemBadge.displayName =",
+      "TabBarItemIcon.displayName =",
+      "TabBarItemLabel.displayName =",
+      "TabBarRoot.displayName =",
+      "TabBarSearch.displayName ="
+    ],
+    "dist/components/tabs/Tabs.js": [
+      "TabsIndicator.displayName =",
+      "TabsList.displayName =",
+      "TabsPanel.displayName =",
+      "TabsRoot.displayName =",
+      "TabsTab.displayName ="
+    ],
+    "dist/components/timeline/Timeline.js": [
+      "Timeline.formatTimestamp ="
+    ],
+    "dist/data/chart-frame/ChartFrame.js": [
+      "ChartFrame.useContext ="
+    ],
+    "dist/data/filter-bar/FilterBar.js": [
+      "FilterBar.parse =",
+      "FilterBar.serialize =",
+      "FilterBar.useModel ="
+    ],
+    "dist/data/tree-view/TreeView.js": [
+      "TreeView.Item ="
+    ],
+    "dist/motion/adapter/entry.js": [
+      "startMotionPeer("
+    ],
+    "dist/primitives/DismissableLayer.js": [
+      "DismissableLayer.displayName ="
+    ],
+    "dist/primitives/FocusScope.js": [
+      "FocusScope.displayName ="
+    ],
+    "dist/primitives/Label.js": [
+      "Label.displayName ="
+    ],
+    "dist/primitives/Portal.js": [
+      "Portal.displayName ="
+    ],
+    "dist/primitives/Slot.js": [
+      "Slot.displayName ="
+    ],
+    "dist/primitives/VisuallyHidden.js": [
+      "VisuallyHidden.displayName ="
+    ]
+  }
+}

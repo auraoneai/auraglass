@@ -28,7 +28,7 @@ export interface ImageViewerContextValue {
   /** REQ-SURF-145: sample the current image tone onto the Stage. */
   sampleTone: boolean;
 }
-export const ImageViewerContext = React.createContext<ImageViewerContextValue | null>(null);
+export const ImageViewerContext = /*#__PURE__*/ React.createContext<ImageViewerContextValue | null>(null);
 export function useImageViewer(part: string): ImageViewerContextValue {
   const c = React.useContext(ImageViewerContext);
   if (!c) throw new Error(`ImageViewer.${part} must render inside <ImageViewer.Root>`);

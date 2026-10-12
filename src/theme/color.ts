@@ -145,8 +145,8 @@ const invert3 = (m: Mat3): Mat3 => {
     ],
   ];
 };
-const LMS_TO_LIN_SRGB = invert3(LIN_SRGB_TO_LMS);
-const LMSPRIME_TO_OKLAB = invert3(OKLAB_TO_LMSPRIME);
+const LMS_TO_LIN_SRGB = /*#__PURE__*/ invert3(LIN_SRGB_TO_LMS);
+const LMSPRIME_TO_OKLAB = /*#__PURE__*/ invert3(OKLAB_TO_LMSPRIME);
 
 /** Oklch -> sRGB channel floats 0..1 (may exceed gamut before mapping). */
 export const oklchToSrgbRaw = (color: Oklch): [number, number, number] => {

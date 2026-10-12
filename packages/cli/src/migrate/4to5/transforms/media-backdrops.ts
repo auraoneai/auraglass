@@ -9,19 +9,31 @@
  * aura-glass/backdrops preset="aurora"); GlassMeshGradient /
  * AtmosphericBackground / DynamicAtmosphere -> TODO rows.
  */
-import { j, type FileUnit, type Transform, type TransformResult } from './shared.js';
+import { j, specNames, type FileUnit, type Transform, type TransformCtx, type TransformResult } from './shared.js';
+import type { CompiledMappings } from '../mappings.js';
 import { todoLine } from '../todo.js';
 
 const DOC = 'apps/docs/content/surf/migration/media.md';
-const TODO_ROWS = new Set(['GlassMeshGradient', 'AtmosphericBackground', 'DynamicAtmosphere']);
+const TODO_ROWS_UNPREFIXED = ['AtmosphericBackground', 'DynamicAtmosphere'];
 const AURORA_MOTION: Record<string, string> = { none: 'static', subtle: 'static', full: 'drift' };
+
+/** 4.x Glass* names this transform handles, read from its spec (REQ-PLAT-90). */
+interface MediaNames { imageViewer: string; carousel: string; todoRows: Set<string> }
+function mediaNames(m: CompiledMappings): MediaNames {
+  const [imageViewer] = specNames(m, 'media-backdrops', /images -> items/);
+  const [carousel] = specNames(m, 'media-backdrops', /infinite -> loop/);
+  const mesh = specNames(m, 'media-backdrops', /-> TODO rows/);
+  return { imageViewer: imageViewer!, carousel: carousel!, todoRows: new Set([...mesh, ...TODO_ROWS_UNPREFIXED]) };
+}
 
 function applyOtherComponents(source: string): string {
   // second-pass textual/AST rewrites for non-ImageViewer components
   return source;
 }
 
-function applyCode(source: string, unitSource: string): TransformResult {
+function applyCode(source: string, unitSource: string, N: MediaNames): TransformResult {
+  const IV_OPEN = `<${N.imageViewer}`;
+  const IV_CLOSE = `</${N.imageViewer}>`;
   const root = j(source);
   const changes: TransformResult['changes'] = [];
   const todos: TransformResult['todos'] = [];
@@ -70,7 +82,7 @@ function applyCode(source: string, unitSource: string): TransformResult {
       newImports.get('aura-glass/backdrops')?.add('Backdrop') ?? newImports.set('aura-glass/backdrops', new Set(['Backdrop']));
       return;
     }
-    if (name === 'GlassImageViewer') {
+    if (name === N.imageViewer) {
       const images = get('images');
       const initIdx = get('initialIndex');
       const expr = images?.value?.expression as { type?: string; elements?: unknown[] } | undefined;
@@ -95,24 +107,24 @@ function applyCode(source: string, unitSource: string): TransformResult {
           (initIdx as { rawAttr?: string }).rawAttr = `defaultValue="img-${n}"`;
         }
         const src = `(\n    <ImageViewer.Root\n      ${iv}${initIdx ? '\n      defaultValue="img-' + String((initIdx.value?.expression as { value?: unknown } | undefined)?.value ?? '') + '"' : ''}\n    >\n      {/* compose Trigger + Popup */}\n    </ImageViewer.Root>\n  )`;
-        const openTag = unitSource.indexOf('<GlassImageViewer');
+        const openTag = unitSource.indexOf(IV_OPEN);
         let endIdx = openTag;
         if (openTag >= 0) {
           const selfClose = unitSource.indexOf('/>', openTag);
-          const closeTag = unitSource.indexOf('</GlassImageViewer>', openTag);
+          const closeTag = unitSource.indexOf(IV_CLOSE, openTag);
           endIdx = closeTag >= 0 && closeTag < (selfClose < 0 ? Infinity : selfClose)
-            ? closeTag + '</GlassImageViewer>'.length
+            ? closeTag + IV_CLOSE.length
             : selfClose + 2;
           imageViewerReplace = { start: openTag, end: endIdx, text: src };
         }
         if (missingAlt) todos.push({ transform: 'media-backdrops', reason: 'ImageViewer items require alt text', doc: DOC });
       }
-      changes.push({ transform: 'media-backdrops', description: 'GlassImageViewer -> ImageViewer.Root items/defaultValue' });
+      changes.push({ transform: 'media-backdrops', description: `${N.imageViewer} -> ImageViewer.Root items/defaultValue` });
       newImports.get('aura-glass/media')?.add('ImageViewer') ?? newImports.set('aura-glass/media', new Set(['ImageViewer']));
       todos.push({ transform: 'media-backdrops', reason: 'compose Trigger + Popup', doc: DOC });
       return;
     }
-    if (name === 'GlassCarousel' || name === 'LiquidGlassCarouselRail') {
+    if (name === N.carousel || name === 'LiquidGlassCarouselRail') {
       for (const a of attrs) {
         const n = a.name?.name;
         if (n === 'infinite') { a.name!.name = 'loop'; changes.push({ transform: 'media-backdrops', description: 'infinite -> loop' }); }
@@ -142,14 +154,14 @@ function applyCode(source: string, unitSource: string): TransformResult {
       newImports.get('aura-glass/media')?.add('MediaControls') ?? newImports.set('aura-glass/media', new Set(['MediaControls']));
       return;
     }
-    if (TODO_ROWS.has(name)) {
+    if (N.todoRows.has(name)) {
       todos.push({ transform: 'media-backdrops', reason: `${name} has no automatic 5.0 rewrite — migrate per the media guide`, doc: DOC });
     }
   });
 
   // Rewrite/insert imports: old component names get replaced in specifiers;
   // new entries are added as fresh import declarations.
-  const movedNames = new Set(['AuroraBackground', 'GlassImageViewer', 'GlassCarousel', 'LiquidGlassCarouselRail', 'LiquidGlassMediaControls']);
+  const movedNames = new Set(['AuroraBackground', N.imageViewer, N.carousel, 'LiquidGlassCarouselRail', 'LiquidGlassMediaControls']);
   root.find(j.ImportDeclaration).forEach((p: any) => {
     const src = String((p.node.source as { value?: unknown }).value ?? '');
     if (!/^(aura-glass|@auraglass\/)/.test(src)) return;
@@ -173,13 +185,13 @@ function applyCode(source: string, unitSource: string): TransformResult {
   // New JSX attr literals print single-quoted; SURF goldens use double.
   out = out.replace(/(preset|motion)='([^']+)'/g, '$1="$2"');
   if (imageViewerReplace) {
-    // The GlassImageViewer element was never AST-mutated, so its text is
+    // The image viewer element was never AST-mutated, so its text is
     // byte-identical in `out`; locate it directly (self-close or close tag).
-    const i = out.indexOf('<GlassImageViewer');
+    const i = out.indexOf(IV_OPEN);
     if (i >= 0) {
       const sc = out.indexOf('/>', i);
-      const ct = out.indexOf('</GlassImageViewer>', i);
-      const end = ct >= 0 && (sc < 0 || ct < sc) ? ct + '</GlassImageViewer>'.length : sc + 2;
+      const ct = out.indexOf(IV_CLOSE, i);
+      const end = ct >= 0 && (sc < 0 || ct < sc) ? ct + IV_CLOSE.length : sc + 2;
       out = out.slice(0, i) + (imageViewerReplace as { text: string }).text + out.slice(end);
     }
   }
@@ -189,11 +201,13 @@ function applyCode(source: string, unitSource: string): TransformResult {
 
 export const mediaBackdrops: Transform = {
   id: 'media-backdrops',
-  run(unit: FileUnit): TransformResult {
+  run(unit: FileUnit, ctx: TransformCtx): TransformResult {
     if (unit.kind !== 'code') return { source: unit.source, changes: [], todos: [] };
-    if (!/AuroraBackground|GlassImageViewer|GlassCarousel|LiquidGlassCarouselRail|LiquidGlassMediaControls|GlassMeshGradient|AtmosphericBackground|DynamicAtmosphere/.test(unit.source)) {
+    const N = mediaNames(ctx.mappings);
+    const handled = ['AuroraBackground', N.imageViewer, N.carousel, 'LiquidGlassCarouselRail', 'LiquidGlassMediaControls', ...N.todoRows];
+    if (!handled.some((n) => unit.source.includes(n))) {
       return { source: unit.source, changes: [], todos: [] };
     }
-    return applyCode(unit.source, unit.source);
+    return applyCode(unit.source, unit.source, N);
   },
 };

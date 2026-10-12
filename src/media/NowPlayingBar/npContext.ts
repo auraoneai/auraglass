@@ -10,7 +10,7 @@ export interface NowPlayingContext {
   toggle(): void;
   sampleTone: boolean;
 }
-export const NowPlayingBarContext = React.createContext<NowPlayingContext | null>(null);
+export const NowPlayingBarContext = /*#__PURE__*/ React.createContext<NowPlayingContext | null>(null);
 export function useNowPlaying(part: string): NowPlayingContext {
   const c = React.useContext(NowPlayingBarContext);
   if (!c) throw new Error(`NowPlayingBar.${part} must render inside <NowPlayingBar.Root>`);

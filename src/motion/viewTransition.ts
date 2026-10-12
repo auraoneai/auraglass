@@ -22,8 +22,8 @@ import * as React from 'react';
    "export not found" error in webpack (Next 15) on React builds that do not
    ship it (React 19.0 is in the peer range). */
 const VT_KEYS = ['ViewTransition', 'unstable_ViewTransition'];
-export const reactViewTransition: unknown =
-  VT_KEYS.map((k) => (React as Record<string, unknown>)[k]).find((v) => v != null) ?? null;
+export const reactViewTransition: unknown = /*#__PURE__*/ (() =>
+  VT_KEYS.map((k) => (React as Record<string, unknown>)[k]).find((v) => v != null) ?? null)();
 
 interface VTLike { finished: Promise<void>; ready?: Promise<void>; skip?: () => void }
 type UpdateFn = () => void | Promise<void>;

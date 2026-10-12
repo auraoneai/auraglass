@@ -26,7 +26,7 @@ interface Ctx {
   opener: React.MutableRefObject<HTMLElement | null> | null;
   actions?: React.RefObject<OverlayRootActions | null>;
 }
-const Ctx = React.createContext<Ctx>({ open: false, opener: null });
+const Ctx = /*#__PURE__*/ React.createContext<Ctx>({ open: false, opener: null });
 
 /* REQ-CMP-105: focus restores on every close. BU returns focus itself for
    Escape/item activation; an outside press on a non-focusable spot leaves

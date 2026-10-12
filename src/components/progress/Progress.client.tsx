@@ -8,7 +8,7 @@ import { Progress as BaseProgress } from '@base-ui/react/progress';
 import { cn } from '../../internal/index';
 import { materialProps } from '../../material/index';
 
-const SUNKEN = materialProps({ layer: 'content', content: 'content-sunken' });
+const SUNKEN = /*#__PURE__*/ materialProps({ layer: 'content', content: 'content-sunken' });
 
 export interface ProgressProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'prefix' | 'onChange'> {
   /** 0..max, or null for indeterminate. */

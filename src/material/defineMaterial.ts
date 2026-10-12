@@ -41,7 +41,7 @@ export const DEFAULT_MATERIAL_SPEC: MaterialSpec = {
   saturation: 1.6,
   brightness: 1.0,
   tint: { light: 0.6, dark: 0.72, media: 0.55 },
-  opacityFloor: initialFloor(0.6),
+  opacityFloor: /*#__PURE__*/ initialFloor(0.6),
   /* Colours derive from the sys tokens through relative colour syntax (REQ-MAT-18:
      no literal colour in src; REQ-MAT-01: design values live in tokens/**). The
      offsets match the material engine (src/material/css/material.css). */
