@@ -392,6 +392,13 @@ export function readCaptureEvidence(evidenceDir: string): { plan: { cells?: stri
   return { plan, captures, captureRate: captures && seconds ? captures / seconds : null };
 }
 
+/** REQ-QUAL-29: the consumer-4x record certification/lanes/canaries.spec.ts writes (TODO count after migrate 4to5). */
+export function readConsumer4x(evidenceDir: string): Record<string, unknown> | null {
+  const f = join(evidenceDir, 'canaries', 'consumer-4x.json');
+  if (!existsSync(f)) return null;
+  try { return JSON.parse(readFileSync(f, 'utf8')) as Record<string, unknown>; } catch { return { invalid: f }; }
+}
+
 /** REQ-QUAL-05: `{ <engine>: <version> }` from the per-worker files the shared lane fixture
     (certification/lanes/_fixtures/determinism.ts) writes under <evidenceDir>/browser-versions/. One engine seen at two
     versions in one run (REQ-QUAL-66 forbids it) is reported with both, comma-separated, so the manifest shows it. */
@@ -861,6 +868,7 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
     runnerTag: env.CI_RUNNER_TAGS || null, image: env.CI_JOB_IMAGE || null, imageDigest: imageDigestOf(env.CI_JOB_IMAGE), browserVersions: readBrowserVersions(evidenceDir),
     // REQ-QUAL-66: one Playwright version/image digest per run, fonts listed, quarantine and the nightly L7 agreement.
     fonts: listFonts(env),
+    ...(readConsumer4x(evidenceDir) ? { consumer4x: readConsumer4x(evidenceDir) } : {}),
     quarantine: { file: QUARANTINE_FILE, entries: quarantine.entries.length, cells: quarantine.entries.map((e) => e.cell), quarantined: [...new Set(results.flatMap((r) => r.quarantined ?? []))] },
     ...(determinism.length ? { determinism } : {}),
     ...(shardsFile ? { shards: shards ? { file: env.AG_RELEASE_SHARDS, parallel: shards.parallel ?? null, cells: shards.cells ?? null, ok: shards.ok === true } : { file: env.AG_RELEASE_SHARDS, missing: true } } : {}),
@@ -951,6 +959,7 @@ async function runLine4x(args: Args, regs: Registrations, c: Line4xContext): Pro
     version: 1, lane: args.lane, line: '4x', sha: gitSha(root, env), scope: args.scope,
     branch: env.CI_COMMIT_BRANCH || env.CI_COMMIT_REF_NAME || null, prStream: null,
     runnerTag: env.CI_RUNNER_TAGS || null, image: env.CI_JOB_IMAGE || null, imageDigest: imageDigestOf(env.CI_JOB_IMAGE), browserVersions: readBrowserVersions(evidenceDir),
+    ...(readConsumer4x(evidenceDir) ? { consumer4x: readConsumer4x(evidenceDir) } : {}),
     subjects: [...new Set(results.flatMap((r) => r.subjects ?? [r.path]))], cells: [], results,
     tarball: null,
     tarballs: tarballs.map((t) => Object.fromEntries(Object.entries({
