@@ -97,6 +97,8 @@ export interface RowResult {
   coveragePending?: Array<{ key: string; reason: string }>;
   /** REQ-QUAL-66: quarantined cells among this row's failures */
   quarantined?: string[];
+  /** G-17: tests of a passing row that ran against a contract double (reported as a separate double-pass result) */
+  doublePass?: number;
   /** REQ-QUAL-66: nightly L7 double-run agreement */
   determinism?: Omit<Agreement, 'disagreements'> & { disagreements: Agreement['disagreements']; runs: 2 };
 }
@@ -334,7 +336,8 @@ export function playwrightConfigFor(files: readonly string[]): string | null {
 
 /** Playwright JSON report → counts. A failing test whose error starts with `pending:` is a producer that has not
     landed (PRD-F §4.3 rule 2; lanes throw it only below release scope). */
-export { classifyPlaywrightReport } from './playwrightReport.mjs';
+import { classifyPlaywrightReport } from './playwrightReport.mjs';
+export { classifyPlaywrightReport };
 
 /** Spec files the cert config cannot run: outside certification/lanes and outside every `<stream>:cert-*` fragment
     project (REQ-QUAL-12: the cert config lists only those). Reported with the fix instead of Playwright's bare
@@ -365,7 +368,13 @@ async function runPlaywright(row: Registration, ctx: RowContext): Promise<RowRes
   if (config === 'certification/playwright.cert.config.ts' && existsSync(join(ctx.root, 'certification/lanes/_fixtures/fragments.ts'))) {
     const { loadCertProjects } = await loadTsModule(join(ctx.root, 'certification/lanes/_fixtures/fragments.ts')) as
       { loadCertProjects: (root: string) => { projects: Array<{ testDir: string }> } };
-    const uncovered = uncoveredSpecs(files, ctx.root, [...loadCertProjects(ctx.root).projects.map((p) => p.testDir), join(ctx.root, 'tests/a11y/browser')]);
+    // REQ-QUAL-19 (G-17): the location-discovered projects (tests/a11y/apg/<stream>, tests/e2e/<stream>,
+    // tests/a11y/browser — lanes/_fixtures/behaviour.ts) are cert projects too.
+    const behaviour = join(ctx.root, 'certification/lanes/_fixtures/behaviour.ts');
+    const located = existsSync(behaviour)
+      ? ((await loadTsModule(behaviour)) as { locationProjects: (root: string) => Array<{ testDir: string }> }).locationProjects(ctx.root).map((p) => p.testDir)
+      : [join(ctx.root, 'tests/a11y/browser')];
+    const uncovered = uncoveredSpecs(files, ctx.root, [...loadCertProjects(ctx.root).projects.map((p) => p.testDir), ...located]);
     if (uncovered.length) {
       return { state: 'fail', reason: `${uncovered.length} spec(s) outside certification/lanes and every ${row.stream}:cert-* project — register a `
         + `'${row.stream}:cert-<id>' project in fragments/playwright/${row.stream}.json covering: ${uncovered.slice(0, 5).join(', ')}${uncovered.length > 5 ? ', …' : ''}` };
@@ -394,7 +403,13 @@ async function runPlaywright(row: Registration, ctx: RowContext): Promise<RowRes
     const verdict = await l7RowResult({ report, status: r.status, evidenceDir: ctx.evidenceDir, scope: ctx.scope, branch: ctx.env.CI_COMMIT_BRANCH || ctx.env.CI_COMMIT_REF_NAME || null, root: ctx.root });
     return { ...common, ...verdict };
   }
-  if (r.status === 0 && !(s.unexpected ?? 0)) return { state: 'pass', ...common };
+  if (r.status === 0 && !(s.unexpected ?? 0)) {
+    // G-17 / contract §5.2 rule 4: tests annotated `double-pass` ran against a contract double; they are their own
+    // `double-pass` result, never counted as `pass`.
+    const { doubles } = classifyPlaywrightReport(report);
+    if (doubles && doubles >= total) return { state: 'double-pass', ...common };
+    return { state: 'pass', ...common, ...(doubles ? { tests: total - doubles, doublePass: doubles } : {}) };
+  }
   // REQ-QUAL-66: failures that are all quarantined cells (and no run-level error) are `quarantined`, never `pass`;
   // at release scope they stay `fail` (no release SHA carries a quarantined cell).
   const q = partitionQuarantined(failing, ctx.quarantine ?? []);
@@ -738,7 +753,11 @@ export async function runLanes(argv: readonly string[], opts: MainOptions): Prom
       if (!owners.includes(prStream)) entry = { ...entry, state: 'pre-existing', blockingFor: owners.join(',') };
     }
     console.log(`=== [${row.lane}] ${entry.state}${entry.reason ? ` — ${entry.reason}` : ''}`);
-    push(entry);
+    const { doublePass, ...rest } = entry;
+    push(rest);
+    if (doublePass && entry.state === 'pass') {
+      push({ lane: row.lane, stream: row.stream, kind: row.kind, path: `${row.path} (contract doubles)`, scope: args.scope, source: row.source, state: 'double-pass', tests: doublePass });
+    }
   }
   for (const p of regs.pending.filter((p) => lanes.includes(p.lane))) {
     push({ lane: p.lane, stream: 'qual', kind: 'node-script', path: p.path, scope: args.scope, source: 'certification/lanes.config.ts', state: 'pending', reason: `producer ${p.producer} not merged` });

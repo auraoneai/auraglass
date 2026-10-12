@@ -26,11 +26,27 @@ async function loadRunner() {
   return import(`${pathToFileURL(out).href}?t=${Date.now()}`);
 }
 
+const isMain = Boolean(process.argv[1]) && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+
+let runner;
 try {
-  const { runLanes, EXIT } = await loadRunner();
-  const { code } = await runLanes(process.argv.slice(2), { root: ROOT, env: process.env });
-  process.exit(code ?? EXIT.fail);
+  runner = await loadRunner();
 } catch (e) {
   console.error(`run.mjs: lane runner crashed: ${e?.stack ?? e}`);
-  process.exit(1);
+  if (isMain) process.exit(1);
+  throw e;
+}
+
+/* Library surface for importers (ci/plat/canaries.mjs, tests/a11y/browser/behaviour-plan.test.ts): importing this
+   module never runs a lane; only `node certification/run.mjs …` does. */
+export const { classifyPlaywrightReport, uncoveredSpecs, selectRows, parseArgs } = runner;
+
+if (isMain) {
+  try {
+    const { code } = await runner.runLanes(process.argv.slice(2), { root: ROOT, env: process.env });
+    process.exit(code ?? runner.EXIT.fail);
+  } catch (e) {
+    console.error(`run.mjs: lane runner crashed: ${e?.stack ?? e}`);
+    process.exit(1);
+  }
 }

@@ -173,7 +173,11 @@ describe('lane runner accounting (run.mjs)', () => {
     expect(l5.every((r) => r.kind === 'playwright' && r.remote === true && r.failClosed === true)).toBe(true);
     const loc = locationBuiltins(ROOT);
     const cmp = loc.filter((r) => r.path === 'tests/a11y/apg/cmp/**/*.apg.spec.ts');
-    expect(cmp.map((r) => r.scope).sort()).toEqual(['main', 'nightly', 'pr', 'release']);
+    // A registration's scope is the narrowest it runs at (lanes.config.ts; laneRunner selectRows: registration
+    // scope <= run scope), so one pr row per directory runs at pr, main, nightly and release.
+    expect(cmp.map((r) => r.scope)).toEqual(['pr']);
+    for (const scope of ['pr', 'main', 'nightly', 'release'])
+      expect(runMjs('m.selectRows(a.rows, "L5", a.scope).map((r) => r.path)', { rows: cmp, scope })).toEqual([cmp[0]!.path]);
     expect(cmp.every((r) => r.owner === 'cmp' && r.lane === 'L5')).toBe(true);
     expect(loc.some((r) => r.path === 'tests/e2e/surf/**/*.spec.ts' && r.owner === 'surf')).toBe(true);
   });
