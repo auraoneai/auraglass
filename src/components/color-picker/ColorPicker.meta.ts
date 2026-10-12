@@ -4,9 +4,10 @@ export default defineMeta({
   name: 'ColorPicker',
   owner: 'CMP',
   entry: '.',
-  tier: 'T1',
+  tier: 'T2',
   rsc: 'client',
-  parts: ['root','trigger','swatch','positioner','popup','area','area-thumb','hue','hue-thumb'],
+  /* hue/channel/alpha are Base UI Sliders: their root/control/track/range/thumb/hit-area/value parts render inside. */
+  parts: ['root','trigger','swatch','positioner','popup','area','area-thumb','hue','channel','alpha','input','control','track','range','thumb','hit-area','value'],
   states: ['open','closed'],
   variants: {},
   material: { layer: 'content' },

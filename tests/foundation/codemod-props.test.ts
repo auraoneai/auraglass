@@ -181,4 +181,20 @@ describe('REQ-CMP-133 fragment props == meta migration.props', () => {
     }
     expect(missing).toEqual([]);
   });
+
+  /* REQ-CMP-133: mappings never guess. A root rename must land on a real 5.0 root export (ROOT_EXPORTS); a name
+     with no root target (GlassStepper: Steps is not a 5.0 export) routes to its compat adapter, which makes the
+     engine write TODO_MARKER, and the routing is decided by the import path (fromEntry), not by the name alone. */
+  it('root renames target ROOT_EXPORTS; GlassStepper routes to compat by import path', async () => {
+    const { ROOT_EXPORTS } = await import('../../src/contracts/entries');
+    const root = new Set<string>(Object.values(ROOT_EXPORTS).flat() as string[]);
+    const bad = (fragment.renames ?? [])
+      .filter((r) => r.from !== '*' && r.toEntry === '.' && !r.compatOnly && !root.has(r.to.split('.')[0]!))
+      .map((r) => `${r.fromEntry}:${r.from} -> ${r.to}`);
+    expect(bad).toEqual([]);
+    expect((fragment.renames ?? []).filter((r) => r.from === 'GlassStepper'))
+      .toEqual([{ from: 'GlassStepper', fromEntry: '.', to: 'GlassStepper', toEntry: '.', compatOnly: true }]);
+    const compat = readFileSync(join(ROOT, 'src/compat/cmp/index.ts'), 'utf8');
+    expect(compat).toMatch(/export \* from '\.\/core\/GlassStepper';/);
+  });
 });

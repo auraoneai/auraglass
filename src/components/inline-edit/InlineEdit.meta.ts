@@ -4,7 +4,7 @@ export default defineMeta({
   name: 'InlineEdit',
   owner: 'CMP',
   entry: '.',
-  tier: 'T1',
+  tier: 'T2',
   rsc: 'client',
   parts: ['root','trigger','input'],
   states: ['active','idle'],

@@ -35,6 +35,12 @@ export function SearchField({
   label,
   description,
   error,
+  startAdornment,
+  endAdornment,
+  maxLength,
+  showCount,
+  validate,
+  validationMode,
   size,
   required,
   disabled,
@@ -108,11 +114,16 @@ export function SearchField({
       invalid={invalid}
       disabled={disabled}
       name={name}
+      validate={validate}
+      validationMode={validationMode}
       aria-busy={loading ? true : undefined}
     >
       {label !== undefined && label !== null ? <Base.Label data-ag-part="label">{label}</Base.Label> : null}
       <div data-ag-part="control-shell" className="ag-sf-shell" {...materialProps({ layer: 'chrome', thickness: 'thin', ...(variant !== undefined ? { variant } : {}), ...(refraction !== undefined ? { refraction } : {}) })}>
         <SearchGlyph />
+        {startAdornment !== undefined && startAdornment !== null ? (
+          <span data-ag-part="adornment-start">{startAdornment}</span>
+        ) : null}
         <BaseInput
           id={controlId}
           type="search"
@@ -128,12 +139,16 @@ export function SearchField({
           required={required}
           readOnly={readOnly}
           autoComplete={autoComplete}
+          maxLength={maxLength}
           ref={setRefs}
           aria-label={rest['aria-label']}
           aria-labelledby={rest['aria-labelledby']}
           aria-describedby={rest['aria-describedby']}
         />
         {loading ? <span data-ag-part="spinner" aria-hidden="true" /> : null}
+        {endAdornment !== undefined && endAdornment !== null ? (
+          <span data-ag-part="adornment-end">{endAdornment}</span>
+        ) : null}
         {shortcut !== undefined && !hasValue ? (
           <span data-ag-part="shortcut">
             <Kbd>{shortcut}</Kbd>
@@ -156,6 +171,12 @@ export function SearchField({
         <Base.Description data-ag-part="description">{description}</Base.Description>
       ) : null}
       {invalid ? <Base.Error data-ag-part="error" match={true}>{error}</Base.Error> : null}
+      {showCount ? (
+        <span data-ag-part="counter">
+          {current.length}
+          {maxLength !== undefined ? `/${maxLength}` : ''}
+        </span>
+      ) : null}
     </Base.Root>
   );
 }

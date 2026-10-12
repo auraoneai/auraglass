@@ -8,6 +8,8 @@ import { j, type FileUnit, type Transform, type TransformCtx, type TransformResu
 import { todoLine } from '../todo.js';
 
 const DOC = 'docs/auraglass-5/migrate/5.md#b-5';
+/** Source of the placeholder that keeps an emptied declaration's comments (see applyCode). */
+const MOVED_PLACEHOLDER = '__aura-glass-moved-import__';
 
 type Spec = {
   type?: string;
@@ -139,7 +141,14 @@ export function applyCode(source: string, ctx: TransformCtx): TransformResult {
     // specifiers to begin with and must survive.
     const hadSpecifiers = (p.node.specifiers ?? []).length > 0;
     p.node.specifiers = kept as never;
-    if (hadSpecifiers && kept.length === 0) j(p).remove();
+    if (hadSpecifiers && kept.length === 0) {
+      // Removing the declaration would drop the comments attached to it (a
+      // file's leading `// @ts-nocheck` or licence header). Keep it as a
+      // placeholder side-effect import so recast prints the comments in place;
+      // the moved import is inserted after it and the placeholder is deleted.
+      if (((p.node as { comments?: unknown[] }).comments ?? []).length) p.node.source = j.stringLiteral(MOVED_PLACEHOLDER) as never;
+      else j(p).remove();
+    }
   });
 
   // Fix double-renames: when we renamed a specifier in place but kept local
@@ -173,6 +182,9 @@ export function applyCode(source: string, ctx: TransformCtx): TransformResult {
         return m.replace(/\{[^}]*\}/, `{ ${merged} }`);
       });
     }
+  }
+  if (out.includes(MOVED_PLACEHOLDER)) {
+    out = out.split('\n').filter((l) => l.trim() !== `import '${MOVED_PLACEHOLDER}';`).join('\n');
   }
 
   // JSX tags + bare refs for unaliased renames.

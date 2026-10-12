@@ -26,8 +26,19 @@ describe('auraglass/prop-grammar', () => {
         `export interface CardModel { material?: string; }`,
         // props named like banned stems but legal
         `export interface DepthListProps { depthLabel?: string; tintLabel?: string; }`,
+        // intersections whose literal members are legal
+        `export type ChipProps = BaseProps & { label?: string } & ({ size?: 'sm' } | { dense?: boolean });`,
       ],
       invalid: [
+        // REQ-CMP-05: banned names inside an intersection / union / parenthesised literal
+        {
+          code: `export type BadgeProps = React.HTMLAttributes<HTMLSpanElement> & { tone?: 'info'; intent?: 'danger' };`,
+          errors: [{ messageId: 'banned' }],
+        },
+        {
+          code: `export type ThingProps = A & (B | { as?: 'a'; glowColor?: string });`,
+          errors: [{ messageId: 'banned' }, { messageId: 'banned' }],
+        },
         {
           code: `export interface CardProps { material?: 'liquid'|'glass'; }`,
           errors: [{ messageId: 'banned' }],

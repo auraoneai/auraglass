@@ -8,7 +8,7 @@ const meta: ControlMeta = defineMeta({
   owner: 'CMP',
   entry: '.',
   tier: 'T1',
-  flagship: 19,
+  flagship: 18,
   rsc: 'client',
   parts: [
     'trigger', 'positioner', 'popup', 'arrow', 'title', 'description', 'close', 'hit-area',

@@ -4,7 +4,7 @@ export default defineMeta({
   name: 'FileUpload',
   owner: 'CMP',
   entry: '.',
-  tier: 'T1',
+  tier: 'T2',
   rsc: 'client',
   parts: ['root','dropzone','input','list','item','item-name','item-size','remove'],
   states: ['active','idle'],

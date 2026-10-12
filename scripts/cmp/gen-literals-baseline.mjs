@@ -6,6 +6,8 @@
 
    node scripts/cmp/gen-literals-baseline.mjs           rewrite the fragment
    node scripts/cmp/gen-literals-baseline.mjs --check   exit 1 if it is stale
+   node scripts/cmp/gen-literals-baseline.mjs --check --enforce-zero
+                                                        also exit 1 unless every file is 0 (REQ-CMP-139; L1 lane)
 
    The fragment is generated, never hand-edited; regenerate it after each CSS
    sweep merge (FIN-E rule 3). */
@@ -36,6 +38,12 @@ if (process.argv.includes('--check')) {
     process.exit(1);
   }
   console.log(`literals-baseline/cmp.json up to date (${Object.keys(files).length} files)`);
+  /* REQ-CMP-139: --enforce-zero also fails while any CMP file keeps a raw design value. */
+  if (process.argv.includes('--enforce-zero')) {
+    const nonZero = Object.entries(files).filter(([, r]) => Object.values(r).some((n) => n > 0));
+    for (const [f, r] of nonZero) console.error(`  non-zero: ${f} ${JSON.stringify(r)}`);
+    if (nonZero.length) { console.error(`literals-baseline/cmp.json: ${nonZero.length} CMP file(s) are not 0 (REQ-CMP-139)`); process.exit(1); }
+  }
 } else {
   writeFileSync(OUT, text);
   const nonZero = Object.entries(files).filter(([, r]) => Object.values(r).some((n) => n > 0));

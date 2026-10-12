@@ -1,6 +1,1284 @@
 {
   "version": 1,
   "files": {
+    "src/compat/cmp/content/__tests__/badge-compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/content/__tests__/progress-compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/content/__tests__/typography.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/content/CircularProgress.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/content/DisplayText.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/content/GlassConnectionStatus.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/content/GlassStatusDot.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/content/LiquidGlassBadgeCluster.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/content/Typography.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/__tests__/MagneticButton.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/__tests__/MagneticButton.missing-peer.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/Button.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/EnhancedGlassButton.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassActionBar.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassButton.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassCheckbox.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassCheckboxGroup.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassCombobox.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassCommandBar.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassFab.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassFieldGroup.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassFormField.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassIconButton.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassInput.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassIntelligentSearch.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassLabel.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassLinkButton.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassMentionList.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassMultiSelect.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassRadioGroup.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassSearchField.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassSearchInterface.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassSegmentedControl.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassSelect.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassSelectCompound.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassSlider.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassSwitch.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassTagInput.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassTextarea.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassToggle.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassToolbar.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/GlassValidationMessage.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/LiquidGlassButtonStyle.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/LiquidGlassControlGroup.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/LiquidGlassMapControls.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/LiquidGlassSearchField.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/LiquidGlassSegmentedControl.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/LiquidGlassToolbar.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/MagneticButton.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/RippleButton.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/ToggleButton.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/controls/ToggleButtonGroup.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassAccordion.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassAlert.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassAvatar.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassAvatarGroup.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassBadge.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassCard.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassCoachmarks.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassColorPicker.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassColorWheel.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassContainer.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassDismissableLayer.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassDivider.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassEmptyState.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassErrorState.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassFileUpload.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassFocusScope.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassForm.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassGradientPicker.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassInlineEdit.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassLabelPrimitive.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassLoadingSkeleton.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassLoadingState.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassNotificationItem.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassNotificationProvider.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassPortal.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassProgress.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassRating.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassScrollArea.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassSeparator.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassSkeleton.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassSlot.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassSpotlight.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassStack.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassStepper.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlassWorkspacePanel.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/GlowingCard.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/LabelRoot.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/MobileGlassBottomSheet.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/core/WidgetGlass.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/layout/__tests__/grid.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/layout/__tests__/image-list.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/layout/Box.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/layout/GlassFlex.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/layout/GlassGrid.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/layout/GlassMasonry.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/layout/GlassMasonryGrid.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/layout/ImageList.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/layout/ImageListItem.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/layout/ImageListItemBar.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/layout/spacing.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/GlassActionSheet.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/GlassBottomSheet.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/GlassContextMenu.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/GlassDialog.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/GlassDrawer.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/GlassDropdownMenu.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/GlassHoverCard.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/GlassMenubar.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/GlassModal.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/GlassNotificationCenter.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/GlassPopover.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/GlassToast.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/GlassToastProvider.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/GlassToastViewport.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/GlassTooltip.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/LiquidGlassAdaptiveSheet.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/LiquidGlassPopoverMenu.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/Positioner.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/__tests__/useToast.compat.test.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/_shared.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/GlassActionSheet.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/GlassBottomSheet.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/GlassContextMenu.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/GlassDialog.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/GlassDrawer.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/GlassDropdownMenu.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/GlassHoverCard.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/GlassMenubar.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/GlassModal.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/GlassNotificationCenter.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/GlassPopover.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/GlassToast.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/GlassToastProvider.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/GlassToastViewport.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/GlassTooltip.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/LiquidGlassAdaptiveSheet.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/LiquidGlassPopoverMenu.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/Positioner.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/compat/cmp/overlays/useToast.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
     "src/components/accordion/Accordion.client.tsx": {
       "blur": 0,
       "color": 0,
@@ -606,7 +1884,7 @@
     },
     "src/components/color-picker/ColorPicker.test.tsx": {
       "blur": 0,
-      "color": 5,
+      "color": 0,
       "duration": 0,
       "easing": 0,
       "radius": 0,

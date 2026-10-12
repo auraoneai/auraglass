@@ -30,7 +30,7 @@ function budgetRows(): Record<string, number> {
 }
 
 interface MetaLite {
-  name: string; owner: string; tier: string; budgetKb?: number;
+  name: string; owner: string; tier: string; budgetKb?: number; flagship?: number; entry?: string; rsc?: string;
   material?: { layer: string }; apg?: string;
   migration: { from: string; props?: unknown; selectors?: unknown }[];
 }
@@ -72,5 +72,35 @@ describe('REQ-CMP-22 meta completeness', () => {
         expect(to).toMatch(/data-ag-part|data-state|^\.ag-/);
       }
     }
+  });
+
+  /* REQ-CMP-22 tier rule: `T1` flagships (1–13 controls, 15–21 overlays), `T2` core, `T0` layout/type/icon.
+     The numbering is the CMP PRD §5.3/§5.4 headings (architecture §11.2): a CMP meta outside this table is not a
+     flagship, and a flagship number never names a component the PRD did not give it. */
+  const CMP_FLAGSHIPS: Record<number, readonly string[]> = {
+    1: ['Button'], 2: ['IconButton'], 3: ['Toolbar', 'ToggleGroup'], 4: ['SegmentedControl'], 5: ['Switch'],
+    6: ['Slider'], 7: ['Checkbox', 'CheckboxGroup'], 8: ['RadioGroup'], 9: ['Field', 'Fieldset', 'Form', 'TextField'],
+    10: ['SearchField'], 11: ['Select'], 12: ['Combobox'], 13: ['NumberField'],
+    15: ['Dialog'], 16: ['AlertDialog'], 17: ['Sheet'], 18: ['Popover'], 19: ['Tooltip'], 20: ['Menu'], 21: ['Toast'],
+  };
+  const isCmpFlagship = (n: unknown): n is number => typeof n === 'number' && Number.isInteger(n) && ((n >= 1 && n <= 13) || (n >= 15 && n <= 21));
+
+  it.each(all.map((r) => [r.meta.name, r] as const))('%s: tier T1 iff flagship in 1–13/15–21; T0 is layout/type/icon only', (_n, { file, meta }) => {
+    const got = { file, tier: meta.tier, flagship: meta.flagship ?? null };
+    if (meta.tier === 'T1') expect({ ...got, inRange: isCmpFlagship(meta.flagship) }).toEqual({ ...got, inRange: true });
+    if (meta.flagship !== undefined) expect({ ...got, inRange: isCmpFlagship(meta.flagship) }).toEqual({ ...got, tier: 'T1', inRange: true });
+    if (meta.tier === 'T0') {
+      expect(got.flagship).toBeNull();
+      // layout/type/icon set: server components on the root or ./icons, or the ./primitives KEEP set
+      expect({ file, ok: meta.entry === './primitives' || (meta.rsc === 'server' && (meta.entry === '.' || meta.entry === './icons')) }).toEqual({ file, ok: true });
+    }
+  });
+
+  it('flagship numbers name exactly the PRD components (Accordion is T2 core; Menu is 20)', () => {
+    const byNumber: Record<number, string[]> = {};
+    for (const { meta } of all) if (meta.flagship !== undefined) (byNumber[meta.flagship] ??= []).push(meta.name);
+    for (const names of Object.values(byNumber)) names.sort();
+    const want = Object.fromEntries(Object.entries(CMP_FLAGSHIPS).map(([n, names]) => [n, [...names].sort()]));
+    expect(byNumber).toEqual(want);
   });
 });

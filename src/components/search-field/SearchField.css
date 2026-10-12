@@ -62,6 +62,21 @@
   .ag-search-field [data-ag-part='clear'] {
     flex: none;
   }
+  /* REQ-CMP-63: TextField's single-line adornments and counter. */
+  .ag-search-field [data-ag-part='adornment-start'],
+  .ag-search-field [data-ag-part='adornment-end'] {
+    display: inline-flex;
+    align-items: center;
+    color: var(--ag-color-on-surface-muted);
+    flex: none;
+  }
+  .ag-search-field [data-ag-part='counter'] {
+    font-size: var(--ag-type-caption-size);
+    line-height: var(--ag-type-caption-leading);
+    font-variant-numeric: tabular-nums;
+    opacity: 0.78;
+    justify-self: end;
+  }
   .ag-search-field [data-ag-part='shortcut'] {
     color: var(--ag-color-on-surface-muted);
     flex: none;

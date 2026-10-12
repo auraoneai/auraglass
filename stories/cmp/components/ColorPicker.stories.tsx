@@ -12,6 +12,7 @@ const sbMeta = {
 export default sbMeta;
 type Story = StoryObj<typeof sbMeta>;
 
+/* REQ-CMP-125: every part — the 2-D area, the hue/channel/alpha Base UI sliders and the hex/OKLCH input. */
 export const Default: Story = {
   parameters: { ag: { tier: 'standard', subject: 'ColorPicker', id: 'core-color-picker--default' } },
   render: () => (
@@ -20,6 +21,9 @@ export const Default: Story = {
       <ColorPicker.Content>
         <ColorPicker.Area />
         <ColorPicker.Hue />
+        <ColorPicker.Channel channel="s" />
+        <ColorPicker.Alpha />
+        <ColorPicker.Input />
       </ColorPicker.Content>
     </ColorPicker.Root>
   ),

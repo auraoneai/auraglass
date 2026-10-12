@@ -194,3 +194,47 @@ interface LegacyValueProps { onChange?: (value: string) => void; }
 export const legacyValue: AssertNoBannedProps<LegacyValueProps> = {} as LegacyValueProps;
 interface NativeEventProps { onChange?: React.ChangeEventHandler<HTMLInputElement>; }
 export const nativeEvent: AssertNoBannedProps<NativeEventProps> = {} as NativeEventProps;
+
+/* REQ-CMP-05: the overlay and selection families (Select, Combobox, Dialog, AlertDialog, Sheet, Popover, Tooltip,
+   Menu/ContextMenu/Menubar, Toast, SegmentedControl, Toolbar) — every *Props their module index exports. */
+import type { SelectContentProps, SelectGroupLabelProps, SelectGroupProps, SelectItemProps, SelectRootProps, SelectSeparatorProps, SelectTriggerProps, SelectValueProps } from '../../../src/components/select';
+import type { ComboboxChipProps, ComboboxChipsProps, ComboboxContentProps, ComboboxEmptyProps, ComboboxGroupLabelProps, ComboboxGroupProps, ComboboxInputProps, ComboboxItemProps, ComboboxLoadingProps, ComboboxRootProps } from '../../../src/components/combobox';
+import type { DialogBackdropProps, DialogCloseProps, DialogContentProps, DialogDescriptionProps, DialogLayoutProps, DialogPopupProps, DialogPortalProps, DialogRootProps, DialogTitleProps, DialogTriggerProps } from '../../../src/components/dialog';
+import type { AlertDialogActionProps, AlertDialogButtonishProps, AlertDialogContentProps, AlertDialogLayoutProps, AlertDialogPopupProps, AlertDialogRootProps, AlertDialogTriggerProps } from '../../../src/components/alert-dialog';
+import type { SheetActionProps, SheetButtonishProps, SheetContentProps, SheetLayoutProps, SheetPopupProps, SheetRootProps, SheetTriggerProps } from '../../../src/components/sheet';
+import type { PopoverArrowProps, PopoverCloseProps, PopoverContentProps, PopoverDescriptionProps, PopoverPopupProps, PopoverPortalProps, PopoverPositionerProps, PopoverRootProps, PopoverTitleProps, PopoverTriggerProps } from '../../../src/components/popover';
+import type { TooltipArrowProps, TooltipPopupProps, TooltipPortalProps, TooltipPositionerProps, TooltipProviderProps, TooltipRootProps, TooltipTriggerProps } from '../../../src/components/tooltip';
+import type { ContextMenuRootProps, ContextMenuTriggerProps, MenuArrowProps, MenubarProps, MenuCheckboxItemIndicatorProps, MenuCheckboxItemProps, MenuGroupLabelProps, MenuGroupProps, MenuItemProps, MenuLinkItemProps, MenuPopupProps, MenuPortalProps, MenuPositionerProps, MenuRadioGroupProps, MenuRadioItemIndicatorProps, MenuRadioItemProps, MenuRootProps, MenuSeparatorProps, MenuSubmenuProps, MenuSubmenuTriggerProps, MenuTriggerProps } from '../../../src/components/menu';
+import type { ToastActionProps, ToastCloseProps, ToastDescriptionProps, ToastProgressProps, ToastProviderProps, ToastRootProps, ToastTitleProps, ToastViewportProps } from '../../../src/components/toast';
+import type { SegmentedControlIndicatorProps, SegmentedControlItemProps, SegmentedControlRootProps } from '../../../src/components/segmented-control';
+import type { ToolbarButtonProps, ToolbarGroupProps, ToolbarIconButtonProps, ToolbarLinkProps, ToolbarRootProps, ToolbarSeparatorProps } from '../../../src/components/toolbar';
+import type { ChannelProps, AlphaProps, InputProps as ColorPickerInputProps } from '../../../src/components/color-picker';
+
+type CMP_OVERLAY_SELECTION_OWNED = [
+  SelectContentProps, SelectGroupLabelProps, SelectGroupProps, SelectItemProps, SelectRootProps, SelectSeparatorProps, SelectTriggerProps, SelectValueProps,
+  ComboboxChipProps, ComboboxChipsProps, ComboboxContentProps, ComboboxEmptyProps, ComboboxGroupLabelProps, ComboboxGroupProps, ComboboxInputProps, ComboboxItemProps, ComboboxLoadingProps, ComboboxRootProps,
+  DialogBackdropProps, DialogCloseProps, DialogContentProps, DialogDescriptionProps, DialogLayoutProps, DialogPopupProps, DialogPortalProps, DialogRootProps, DialogTitleProps, DialogTriggerProps,
+  AlertDialogActionProps, AlertDialogButtonishProps, AlertDialogContentProps, AlertDialogLayoutProps, AlertDialogPopupProps, AlertDialogRootProps, AlertDialogTriggerProps,
+  SheetActionProps, SheetButtonishProps, SheetContentProps, SheetLayoutProps, SheetPopupProps, SheetRootProps, SheetTriggerProps,
+  PopoverArrowProps, PopoverCloseProps, PopoverContentProps, PopoverDescriptionProps, PopoverPopupProps, PopoverPortalProps, PopoverPositionerProps, PopoverRootProps, PopoverTitleProps, PopoverTriggerProps,
+  TooltipArrowProps, TooltipPopupProps, TooltipPortalProps, TooltipPositionerProps, TooltipProviderProps, TooltipRootProps, TooltipTriggerProps,
+  ContextMenuRootProps, ContextMenuTriggerProps, MenuArrowProps, MenubarProps, MenuCheckboxItemIndicatorProps, MenuCheckboxItemProps, MenuGroupLabelProps, MenuGroupProps, MenuItemProps, MenuLinkItemProps, MenuPopupProps, MenuPortalProps, MenuPositionerProps, MenuRadioGroupProps, MenuRadioItemIndicatorProps, MenuRadioItemProps, MenuRootProps, MenuSeparatorProps, MenuSubmenuProps, MenuSubmenuTriggerProps, MenuTriggerProps,
+  ToastActionProps, ToastCloseProps, ToastDescriptionProps, ToastProgressProps, ToastProviderProps, ToastRootProps, ToastTitleProps, ToastViewportProps,
+  SegmentedControlIndicatorProps, SegmentedControlItemProps, SegmentedControlRootProps,
+  ToolbarButtonProps, ToolbarGroupProps, ToolbarIconButtonProps, ToolbarLinkProps, ToolbarRootProps, ToolbarSeparatorProps,
+  ChannelProps, AlphaProps, ColorPickerInputProps,
+];
+type CmpOverlayAsserted = { [K in keyof CMP_OVERLAY_SELECTION_OWNED]: AssertNoBannedProps<CMP_OVERLAY_SELECTION_OWNED[K]> };
+declare const cmpOverlayProps: CMP_OVERLAY_SELECTION_OWNED;
+export const _cmpOverlayGrammarOk: CmpOverlayAsserted = cmpOverlayProps;
+
+/* REQ-CMP-63: SearchField takes TextField's single-line props (adornments, maxLength, showCount, validate,
+   validationMode); multiline and type are TextField-only. */
+export const searchFieldSingleLine: SearchFieldProps = {
+  startAdornment: 'in', endAdornment: 'scope', maxLength: 40, showCount: true,
+  validate: (v) => (String(v).length > 0 ? null : 'Required'), validationMode: 'onBlur',
+};
+type SingleLine = 'startAdornment' | 'endAdornment' | 'maxLength' | 'showCount' | 'validate' | 'validationMode';
+export const searchFieldMatchesTextField: { [K in SingleLine]: SearchFieldProps[K] } = {} as { [K in SingleLine]: TextFieldProps[K] };
+// @ts-expect-error — multiline is a TextField-only prop
+export const searchFieldNoMultiline: SearchFieldProps = { multiline: true };

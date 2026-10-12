@@ -35,10 +35,21 @@ function declName(node) {
   return node.id && node.id.type === 'Identifier' ? node.id.name : null;
 }
 
+/** Members of every type literal reachable through intersections/unions/parentheses
+    (`type XProps = Base & { ... }`, `A & (B | { ... })`) — REQ-CMP-05. */
+function literalMembers(t) {
+  if (!t) return [];
+  if (t.type === 'TSTypeLiteral') return t.members;
+  if (t.type === 'TSIntersectionType' || t.type === 'TSUnionType') return t.types.flatMap(literalMembers);
+  if (t.type === 'TSParenthesizedType') return literalMembers(t.typeAnnotation);
+  return [];
+}
+
 function membersOf(node) {
   if (node.type === 'TSInterfaceDeclaration') return node.body.body;
-  if (node.type === 'TSTypeAliasDeclaration' && node.typeAnnotation && node.typeAnnotation.type === 'TSTypeLiteral') {
-    return node.typeAnnotation.members;
+  if (node.type === 'TSTypeAliasDeclaration' && node.typeAnnotation) {
+    const members = literalMembers(node.typeAnnotation);
+    return members.length ? members : null;
   }
   return null;
 }

@@ -72,11 +72,40 @@ export interface SideEffectException { module: string; reason: string; expires: 
 export interface ReviewItem { id: string; subject: string; criterion: 'specular-quality' | 'optical-hierarchy' | 'radius-rhythm' | 'one-hand' | 'other'; note?: string }
 export interface LiteralsBaseline { version: 1; files: Record<string, Partial<Record<'color' | 'blur' | 'radius' | 'shadow' | 'duration' | 'easing' | 'spring', number>>> }
 export interface A11yBaseline { version: 1; violations: Array<{ subject: string; rule: string; count: number; issue: string }> }
-export interface SrRecord { flagship: string | number | null; at: 'voiceover-macos' | 'voiceover-ios' | 'nvda-chrome' | 'talkback-chrome' | 'touch' | 'touch-ios' | 'touch-android'; result: 'pass' | 'fail'; date: string; tester: string; notes?: string; sha: string
-  /* C-16 (v1.2), optional evidence fields; schema contracts/schemas/sr-record.schema.json is the single SrRecord schema */
-  atVersion?: string; browser?: string; browserVersion?: string; os?: string; osVersion?: string; device?: string; subject?: string;
-  /* REQ-FIN-110 (additive): L13 binding fields, required for committed records by scripts/mat/verify-a11y-manual.mjs */
-  stream?: 'mat' | 'cmp' | 'surf'; pass?: 'sr' | 'touch' | 'motion'; storybookArtifactUrl?: string;
-  steps?: ReadonlyArray<{ nameRoleValue: string; stateChange: string; openClose: string; liveRegion: string; gesture?: string; nonDragAlternative?: string; pass: boolean; notes?: string; action?: string; expected?: string; announced?: string }> }
+/** C-16 / REQ-FIN-110: mirrors contracts/schemas/sr-record.schema.json.
+ * Runtime validation additionally enforces SHA/date formats, positive integer
+ * flagship values, nonempty evidence, and device/gesture fields for touch ATs. */
+export interface SrRecord {
+  sha: string;
+  subject: string;
+  flagship: number | null;
+  stream: 'mat' | 'cmp' | 'surf';
+  pass: 'sr' | 'touch' | 'motion';
+  at: 'voiceover-macos' | 'voiceover-ios' | 'nvda-chrome' | 'talkback-chrome' | 'touch-ios' | 'touch-android';
+  atVersion: string;
+  browser: string;
+  browserVersion: string;
+  os: string;
+  osVersion: string;
+  device?: string;
+  tester: string;
+  date: string;
+  result: 'pass' | 'fail';
+  storybookArtifactUrl: string;
+  notes?: string;
+  steps: ReadonlyArray<{
+    action: string;
+    expected: string;
+    announced: string;
+    pass: boolean;
+    nameRoleValue?: string;
+    stateChange?: string;
+    openClose?: string;
+    liveRegion?: string;
+    gesture?: string;
+    nonDragAlternative?: string;
+    notes?: string;
+  }>;
+}
 export type RegistryItemOwner = { id: string; type: 'registry:base' | 'registry:block' | 'registry:item'; owner: 'PLAT' | 'CMP' | 'SURF'; ga: boolean };
 export type FragmentKind = 'deprecations' | 'codemods' | 'size-budgets' | 'perf-budgets' | 'lanes' | 'playwright' | 'css' | 'side-effects' | 'review' | 'literals-baseline' | 'a11y-baseline';
