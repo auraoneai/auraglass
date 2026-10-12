@@ -1,8 +1,13 @@
 /** @jest-environment node */
 // REQ-SURF-08 — cross-TZ hydration. Every fixture in tests/data/hydration/
-// fixtures.tsx (StatCard, Sparkline, ChartFrame, Timeline, ActivityFeed,
-// Message, formatMediaTime, a useMediaElement probe, DateField/TimeField/DatePicker/Calendar, and an
-// AppShell restored from a persisted 'sidebar:rail' cookie) renders to a
+// fixtures.tsx (every SURF flagship 14, 22–44: StatCard, Sparkline, ChartFrame,
+// Timeline, ActivityFeed, Thread, Message, Composer, ToolCall, SourceList,
+// Sidebar, TopBar, Tabs, TabBar, Breadcrumbs, Pagination, Command,
+// CommandPalette, ResizablePanels, SourceTransition, Table, TreeView,
+// FilterBar, MediaControls, ImageViewer, CarouselRail, Backdrop,
+// formatMediaTime, a useMediaElement probe, DateField/TimeField/DatePicker/
+// Calendar, and an AppShell restored from a persisted 'sidebar:rail' cookie)
+// renders to a
 // string in a spawned node child at TZ=Pacific/Kiritimati (UTC+14), then
 // hydrates in jsdom inside a second child at TZ=Pacific/Pago_Pago (UTC−11).
 // Any TZ/locale-dependent markup diverges and React reports it. A negative
@@ -23,6 +28,9 @@ const CLIENT_TZ = 'Pacific/Pago_Pago';
 const FIXTURE_NAMES = [
   'statcard', 'sparkline', 'chartframe', 'timeline', 'activityfeed', 'message', 'mediatime', 'media-element',
   'datefield', 'datefield-zoned', 'timefield', 'datepicker', 'calendar', 'appshell-rail',
+  'sidebar', 'topbar', 'tabs', 'tabbar', 'breadcrumbs', 'pagination', 'command', 'commandpalette',
+  'resizablepanels', 'sourcetransition', 'table', 'treeview', 'filterbar', 'thread', 'composer',
+  'toolcall', 'sourcelist', 'mediacontrols', 'imageviewer', 'carouselrail', 'backdrop',
 ];
 
 interface FixtureResult { recoverable: string[]; consoleErrors: string[] }
