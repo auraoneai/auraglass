@@ -7,7 +7,7 @@ export default defineMeta({
   tier: 'T2',
   flagship: 44,
   rsc: 'client',
-  parts: ['carousel', 'carousel-autoplay-toggle', 'carousel-indicator', 'carousel-indicators', 'carousel-next', 'carousel-prev', 'carousel-slide', 'carousel-viewport'],
+  parts: ['backdrop-content', 'backdrop-layer', 'carousel', 'carousel-autoplay-toggle', 'carousel-indicator', 'carousel-indicators', 'carousel-next', 'carousel-prev', 'carousel-slide', 'carousel-viewport'],
   states: ['playing', 'stopped', 'offscreen'],
   variants: { indicators: ['tabs', 'buttons'] },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/carousel/',

@@ -14,6 +14,8 @@ export interface CitationProps {
   messageId: string;
   source: AgCitationSource;
   index: number;
+  /** Initial open state of the preview card (uncontrolled). Default false. */
+  defaultOpen?: boolean | undefined;
   className?: string | undefined;
 }
 
@@ -50,8 +52,8 @@ export const CITATION_PREVIEW_DELAY = 300;
  * Activation (touch, Enter, click — including below 480 px and at coarse
  * pointers) opens the in-message SourceList and moves focus to the item.
  */
-export function Citation({ messageId, source, index, className }: CitationProps) {
-  const [open, setOpen] = React.useState(false);
+export function Citation({ messageId, source, index, defaultOpen = false, className }: CitationProps) {
+  const [open, setOpen] = React.useState(defaultOpen);
   const portal = usePortalContainer('overlay');
   const openSource = useOpenSource();
   const cardId = React.useId();

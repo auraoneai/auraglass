@@ -33,7 +33,7 @@ describe('AgentSteps', () => {
     const doc = new DOMParser().parseFromString(html, 'text/html');
     const icons = [...doc.querySelectorAll('[data-ag-part="step"] > [data-ag-part="step-icon"] > svg')];
     expect(icons).toHaveLength(3);
-    expect(icons.map((s) => s.getAttribute('data-ag-icon'))).toEqual(['succeeded', 'running', 'failed']);
+    expect(icons.map((s) => s.getAttribute('data-icon'))).toEqual(['succeeded', 'running', 'failed']);
     for (const s of icons) expect(s.getAttribute('aria-hidden')).toBe('true');
     // Icon + text: the state text stays next to every icon.
     expect([...doc.querySelectorAll('[data-ag-part="step-state"]')].map((n) => n.textContent)).toEqual(['Done', 'Running', 'Failed']);

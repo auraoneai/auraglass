@@ -105,7 +105,7 @@ export function KeyValueEditor({
         const id = rows.ids[i]!;
         const dup = isDuplicate(p.key);
         return (
-          <div key={id} data-ag-part="key-value-row" data-ag-row-id={id} className="ag-kv__row">
+          <div key={id} data-ag-part="key-value-row" data-row-id={id} className="ag-kv__row">
             <div data-ag-part="key-input" className="ag-kv__field">
               <TextField
                 aria-label={`${msgs.key} ${i + 1}`}

@@ -2,7 +2,7 @@
 /* Chip (SURF-257, REQ-SURF-88): CMP ChipToggle (the REQ-CMP-01 Base UI Toggle
    seam) when selectable, static span otherwise; separate remove button
    (≥44px coarse hit). The chip itself is a MAT `content` surface
-   (content-raised) via materialProps — never a data-ag-material attribute. */
+   (content-raised) via materialProps — never a material data attribute (banned by the contract). */
 import * as React from 'react';
 import { ChipToggle } from '../../components/chip/ChipToggle';
 import { materialProps } from '../../material';
