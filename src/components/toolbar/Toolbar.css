@@ -73,29 +73,23 @@
     outline-offset: calc(var(--ag-focus-width) * -1);
   }
 
-/* REQ-CMP-40: concentric item shape inside capsule roots — inner radius =
-   root radius - root inset padding (--ag-radius-full is a pill radius far
-   above --ag-space-1, so no 0 clamp is needed). */
-.ag-toolbar[data-ag-shape='capsule'] .ag-button {
-  border-radius: calc(var(--ag-radius-full) - var(--ag-space-1));
+/* REQ-CMP-40: concentric item shape inside capsule roots — item radius =
+   max(0, root radius - root inset padding). --ag-radius-full is a pill radius
+   far above --ag-space-1, but the max() keeps the clamp explicit. */
+.ag-toolbar[data-ag-shape='capsule'] .ag-button,
+.ag-toolbar[data-ag-shape='capsule'] .ag-toolbar-link {
+  border-radius: max(var(--ag-space-0), calc(var(--ag-radius-full) - var(--ag-space-1)));
 }
 
-/* REQ-CMP-40: container-query driven overflow — the toolbar is a size
-   container; low-priority items hide below the threshold and the overflow
-   Menu appears (wide: hidden). */
+/* REQ-CMP-40 overflow: the bar never grows past its parent; below its
+   content width the low-priority items unmount into the trailing overflow
+   Menu (measured in Toolbar.client.tsx — no attribute, no viewport query). */
 .ag-toolbar {
-  container-type: inline-size;
+  max-inline-size: 100%;
+  min-inline-size: 0;
 }
 .ag-toolbar [data-ag-part='overflow'] {
-  display: none;
-}
-@container (max-width: 480px) {
-  .ag-toolbar [data-priority='low'] {
-    display: none;
-  }
-  .ag-toolbar [data-ag-part='overflow'] {
-    display: inline-flex;
-  }
+  display: inline-flex;
 }
 
 }

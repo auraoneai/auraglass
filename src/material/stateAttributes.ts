@@ -30,6 +30,15 @@ export function setAnimating(el: Element, on: boolean): void {
   el.toggleAttribute('data-ag-animating', on);
 }
 
+/** REQ-CMP-42: a nested transient surface (a moving indicator) takes its own
+    glass while it moves: data-ag-animating plus data-ag-allow-nested, so the
+    nesting rules in material.css keep its backdrop optics; both are removed at
+    rest, where it falls back to the parent's inner fill. */
+export function setMovingOptics(el: Element, on: boolean): void {
+  el.toggleAttribute('data-ag-animating', on);
+  el.toggleAttribute('data-ag-allow-nested', on);
+}
+
 /** View-transition participant marker read by the motion seam (REQ-MOT view transitions). */
 export function viewTransitionParticipantAttributes(): { 'data-ag-vt-participant': '' } {
   return { 'data-ag-vt-participant': '' };

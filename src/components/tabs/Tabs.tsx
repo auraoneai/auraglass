@@ -7,7 +7,8 @@
 import * as React from 'react';
 import { flushSync } from 'react-dom';
 import { Tabs as BaseTabs } from '../../foundation/base-ui/tabs';
-import { startMorph } from '../../motion';
+import { startMorph, useMorphName } from '../../motion';
+import { withMorph } from '../control-shared/morph';
 import { viewTransitionParticipantAttributes } from '../../material/stateAttributes';
 import { PanelRegistryContext, useOwnOrOuterPanelRegistry, useTabBarPanel } from '../tab-bar/panelRegistry';
 import { toChangeDetails } from '../../foundation';
@@ -229,8 +230,11 @@ function TabsPanel({ value, keepMounted, children, render, ...rest }: TabsPanelP
 TabsPanel.displayName = 'Tabs.Panel';
 
 export function TabsIndicator({ render, ...rest }: PartProps<'div'>) {
-  const vtName = React.useId().replace(/[^a-zA-Z0-9_-]/g, '');
-  return (
+  /* REQ-MAT-48: useId() name sanitised to [a-z0-9-] (useMorphName), the
+     participant marker, and <ViewTransition share="ag-morph"> on React 19.3+. */
+  const vtName = useMorphName('tabs-indicator');
+  return withMorph(
+    vtName,
     <BaseTabs.Indicator
       data-ag-part="indicator"
       render={partElement('div', {
@@ -239,11 +243,11 @@ export function TabsIndicator({ render, ...rest }: PartProps<'div'>) {
         ...viewTransitionParticipantAttributes(),
         'data-state': 'active',
         className: 'ag-tabs__indicator',
-        style: { viewTransitionName: `ag-tabs-indicator-${vtName}` },
+        style: { viewTransitionName: vtName },
         'aria-hidden': true,
         ...rest,
       })}
-    />
+    />,
   );
 }
 TabsIndicator.displayName = 'Tabs.Indicator';

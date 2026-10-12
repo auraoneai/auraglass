@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
-import { Checkbox } from '../../../src/components/checkbox';
+import { Checkbox, CheckboxGroup } from '../../../src/components/checkbox';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
 import { Panel, Scene, Section, Stage } from './controls-stage';
 
@@ -93,3 +93,28 @@ export const Indeterminate: Story = {
 
 /* The story tests/a11y/apg/cmp/checkbox.apg.spec.ts drives (each box a tab stop; Space flips aria-checked). */
 export const Keyboard: Story = { tags: ['apg'], render: () => <EmailPreferences /> };
+
+/* REQ-CMP-53: a parent checkbox over a partly selected group. It starts mixed, and Space cycles it
+   mixed -> checked -> unchecked. Driven by tests/a11y/apg/cmp/checkbox.apg.spec.ts. */
+export const ParentKeyboard: Story = {
+  tags: ['apg'],
+  render: () => (
+    <Stage>
+      <Section title="Parent checkbox" note="Selects or clears every workspace; mixed while some are selected.">
+        <Scene>
+          <Panel title="Export" width={400}>
+            <CheckboxGroup defaultValue={['design']} allValues={['design', 'research']}>
+              <div style={column}>
+                <Checkbox parent value="all">All workspaces</Checkbox>
+                <div style={{ ...column, paddingInlineStart: 'var(--ag-space-6)' }}>
+                  <Checkbox value="design">Design</Checkbox>
+                  <Checkbox value="research">Research</Checkbox>
+                </div>
+              </div>
+            </CheckboxGroup>
+          </Panel>
+        </Scene>
+      </Section>
+    </Stage>
+  ),
+};

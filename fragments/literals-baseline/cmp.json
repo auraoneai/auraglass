@@ -775,6 +775,15 @@
       "shadow": 0,
       "spring": 0
     },
+    "src/components/control-shared/morph.tsx": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
     "src/components/control-shared/size.ts": {
       "blur": 0,
       "color": 0,

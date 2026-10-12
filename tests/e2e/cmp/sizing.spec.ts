@@ -3,7 +3,9 @@
    src/a11y/css/targets.css. Fine pointer: the hit box is >= 24px on both axes.
    Coarse pointer (touch/mobile emulation): the hit box is >= 44px on both axes
    and document.elementFromPoint just inside each of its four edges resolves to
-   the control that owns it (icon-only parts included). Remote e2e lane only. */
+   the control that owns it (icon-only parts included). Remote e2e lane only.
+   REQ-CMP-21: `size` emits data-ag-size and the PRD §4.4 block sizes
+   (28/36/44 px for sm/md/lg at the regular density, ±0.5 px). */
 import { test, expect, type Page } from '@playwright/test';
 import { gotoStory } from '../../helpers/index';
 
@@ -96,6 +98,33 @@ test.describe('cmp target sizing — coarse pointer (REQ-CMP-20)', () => {
         expect(b.h, `${story} ${b.part} hit-area block-size`).toBeGreaterThanOrEqual(44);
         expect(b.edgesOnControl, `${story} ${b.part} edges (left,right,top,bottom) hit the control`)
           .toEqual([true, true, true, true]);
+      }
+    });
+  }
+});
+
+/* REQ-CMP-21 / PRD §4.4: sm/md/lg = 28/36/44 px at the regular density. */
+const BLOCK_SIZE: Readonly<Record<'sm' | 'md' | 'lg', number>> = { sm: 28, md: 36, lg: 44 };
+const SIZED: ReadonlyArray<{ story: string; selector: string }> = [
+  { story: 'flagships-controls-button--density', selector: '.ag-button[data-ag-size]' },
+  { story: 'flagships-controls-iconbutton--sizes', selector: 'button[data-ag-part="root"][data-ag-size]' },
+  { story: 'flagships-controls-select--density', selector: '.ag-select[data-ag-part="trigger"][data-ag-size]' },
+];
+
+test.describe('cmp control block sizes (REQ-CMP-21, §4.4)', () => {
+  for (const { story, selector } of SIZED) {
+    test(`${story}: ${selector} block-size matches §4.4 per size (±0.5px)`, async ({ page }) => {
+      await gotoStory(page, story);
+      const rows = await page.evaluate((sel) =>
+        [...document.querySelectorAll<HTMLElement>(sel)]
+          .filter((el) => el.getBoundingClientRect().width > 0)
+          .map((el) => ({ size: el.dataset.agSize ?? '', h: el.getBoundingClientRect().height })), selector);
+      const seen = new Set(rows.map((r) => r.size));
+      expect([...seen].sort(), `${story} renders every size`).toEqual(['lg', 'md', 'sm']);
+      for (const { size, h } of rows) {
+        const want = BLOCK_SIZE[size as keyof typeof BLOCK_SIZE];
+        expect(want, `${story} unknown data-ag-size=${size}`).toBeDefined();
+        expect(Math.abs(h - want), `${story} ${size} block-size ${h}px vs ${want}px`).toBeLessThanOrEqual(0.5);
       }
     });
   }

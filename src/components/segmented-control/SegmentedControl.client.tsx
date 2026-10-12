@@ -4,12 +4,13 @@ import { stateRender, toDataState } from '../../foundation/state';
 import { RadioGroup as BUGroup } from '@base-ui/react/radio-group';
 import { Radio } from '@base-ui/react/radio';
 import { materialProps } from '../../material';
-import { setAnimating, surfaceGroupAttributes } from '../../material/stateAttributes';
+import { setMovingOptics, surfaceGroupAttributes, viewTransitionParticipantAttributes } from '../../material/stateAttributes';
 import { cn } from '../../internal';
 import { toChangeDetails } from '../../foundation';
 import { useControllableWarning } from '../../foundation/controllable';
-import { startMorph } from '../../motion';
-import { subscribeFrame } from '../../motion/ticker';
+import { startMorph, useMorphName } from '../../motion';
+import { resolvedMotion, subscribeFrame } from '../../motion/ticker';
+import { withMorph } from '../control-shared/morph';
 import type {
   SegmentedControlRootProps,
   SegmentedControlItemProps,
@@ -17,10 +18,22 @@ import type {
 } from './SegmentedControl.types';
 
 function SegmentedControlIndicator({ children, className, ref }: SegmentedControlIndicatorProps) {
-  return (
-    <span {...materialProps({ layer: 'transient', thickness: 'thin' })} data-ag-part="indicator" aria-hidden="true" className={className} ref={ref}>
+  /* REQ-MAT-48: morph owner — sanitised useId() name, participant marker and,
+     on React 19.3+, <ViewTransition share="ag-morph">. */
+  const morphName = useMorphName('segmented-indicator');
+  return withMorph(
+    morphName,
+    <span
+      {...materialProps({ layer: 'transient', thickness: 'thin', shape: 'concentric' })}
+      {...viewTransitionParticipantAttributes()}
+      data-ag-part="indicator"
+      aria-hidden="true"
+      className={className}
+      style={{ viewTransitionName: morphName }}
+      ref={ref}
+    >
       {children}
-    </span>
+    </span>,
   );
 }
 SegmentedControlIndicator.displayName = 'SegmentedControl.Indicator';
@@ -37,13 +50,64 @@ function hasCustomIndicator(children: React.ReactNode): boolean {
 const SEGMENT_SELECT_WARNED = new WeakSet<Element>();
 
 /* REQ-CMP-42: measure the checked item, drive the indicator via transform +
-   width CSS vars. One ResizeObserver on the root; animated via S-13
-   startMorph (native View Transition when available, FLIP otherwise), or the
-   CSS transition under [data-ag-animating]. Calm/none jumps. */
+   width CSS vars. One ResizeObserver on the root. A change moves the indicator
+   by View Transition when the engine has one (S-13 startMorph; MAT drops
+   optics during it), otherwise by the CSS transition (--ag-spring-snappy over
+   --ag-duration-small). While it moves the indicator carries data-ag-animating
+   + data-ag-allow-nested (its own glass); both clear on transitionend.
+   Calm/none jump. */
 /* one-shot next-frame via the motion ticker (REQ-MOT-65) */
 function nextFrame(cb: () => void): () => void {
   const off = subscribeFrame(() => { off(); cb(); });
   return off;
+}
+
+function motionAt(el: Element): 'full' | 'calm' | 'none' {
+  const attr = el.closest('[data-ag-motion]')?.getAttribute('data-ag-motion');
+  if (attr === 'full' || attr === 'calm' || attr === 'none') return attr;
+  return resolvedMotion(el.ownerDocument);
+}
+
+function indicatorOf(root: HTMLElement): HTMLElement | null {
+  for (const child of Array.from(root.children)) {
+    if (child instanceof HTMLElement && child.dataset['agPart'] === 'indicator') return child;
+  }
+  return null;
+}
+
+/** Moves the indicator to the newly checked item (REQ-CMP-42). */
+function moveIndicator(root: HTMLElement): void {
+  const indicator = indicatorOf(root);
+  const mode = motionAt(root);
+  if (!indicator || mode !== 'full') {
+    measureIntoRoot(root);
+    return;
+  }
+  setMovingOptics(indicator, true);
+  let done = false;
+  const finish = () => {
+    if (done) return;
+    done = true;
+    indicator.removeEventListener('transitionend', onEnd);
+    indicator.removeEventListener('transitioncancel', onEnd);
+    setMovingOptics(indicator, false);
+  };
+  const onEnd = (e: Event) => {
+    if (e.target === indicator) finish();
+  };
+  const doc = root.ownerDocument as Document & { startViewTransition?: unknown };
+  if (typeof doc.startViewTransition === 'function') {
+    startMorph(() => { measureIntoRoot(root); }, { surfaces: [indicator], motion: mode }).then(finish, finish);
+    return;
+  }
+  indicator.addEventListener('transitionend', onEnd);
+  indicator.addEventListener('transitioncancel', onEnd);
+  measureIntoRoot(root);
+  /* nothing to animate (same geometry, or no CSS transition engine): settle now */
+  nextFrame(() => {
+    const running = typeof indicator.getAnimations === 'function' ? indicator.getAnimations().length : 0;
+    if (running === 0) finish();
+  });
 }
 
 function measureIntoRoot(root: HTMLElement | null) {
@@ -126,17 +190,9 @@ function SegmentedControlRoot({
         defaultValue={defaultValue}
         onValueChange={(v, eventDetails) => {
           const el = measureRef.current;
-          if (el) {
-            /* REQ-CMP-42: data-ag-animating until transitionend; S-13
-               startMorph when the engine supports it, else CSS transition. */
-            setAnimating(el, true);
-            const finish = () => setAnimating(el, false);
-            nextFrame(() => {
-              startMorph(() => { measureIntoRoot(el); }, { surfaces: [el] })
-                .then(finish, finish);
-            });
-            el.addEventListener('transitionend', finish, { once: true });
-          }
+          /* REQ-CMP-42: Base UI commits aria-checked after this callback, so
+             the move measures on the next frame. */
+          if (el) nextFrame(() => moveIndicator(el));
           onValueChange?.(v as string, toChangeDetails(eventDetails));
         }}
         name={name}

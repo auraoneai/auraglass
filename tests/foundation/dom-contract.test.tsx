@@ -71,12 +71,14 @@ describe('dom-contract (REQ-CMP-14)', () => {
           // counter (Base UI useId is a module counter, not per-tree) — any
           // other difference is render nondeterminism (Date.now/Math.random).
           // React useId tokens (`_r_<n>_`) also seed derived names such as a
-          // per-instance view-transition-name, so they are normalised too.
+          // per-instance view-transition-name, so they are normalised too
+          // (useMorphName sanitises them to `-r-<n>-`, REQ-MAT-48).
           // The two renders mount one after the other: two live layers would
           // legitimately differ (the lower one is data-ag-obscured).
           const norm = (html: string) => html
             .replace(/\b(id|for|aria-labelledby|aria-describedby|aria-controls|aria-owns|aria-activedescendant)="[^"]*"/g, '$1="*"')
-            .replace(/_r_[0-9a-z]+_/g, '_r_*_');
+            .replace(/_r_[0-9a-z]+_/g, '_r_*_')
+            .replace(/(view-transition-name: ag-[a-z0-9-]*?)-r-[0-9a-z]+-/g, '$1-r-*-');
           const b = render(<>{element}</>);
           const bHtml = norm(b.container.innerHTML);
           b.unmount();

@@ -126,4 +126,31 @@ export default [
     remote: false,
     failClosed: true,
   },
+  // L6 — REQ-CMP-20/21: hit-area minimums + §4.4 control block sizes (±0.5 px)
+  {
+    lane: "L6",
+    kind: "playwright",
+    path: "tests/e2e/cmp/sizing.spec.ts",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
+  // L9 — REQ-CMP-42: indicator/thumb/popup motion frame strips
+  {
+    lane: "L9",
+    kind: "playwright",
+    path: "tests/e2e/cmp/controls/controls-motion.spec.ts",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
+  // L12 — REQ-CMP-17: renderAgServer → hydrate for every meta's default and defaultOpen stories
+  {
+    lane: "L12",
+    kind: "jest",
+    path: "tests/ssr/cmp/**",
+    scope: "pr",
+    remote: false,
+    failClosed: true,
+  },
 ] satisfies LaneRegistration[];

@@ -75,8 +75,51 @@ export const States: Story = {
 
 export const Default: Story = { args: { 'aria-label': 'Toolbar' }, render: renderBar };
 
-/* The story tests/a11y/apg/cmp/toolbar.apg.spec.ts drives (one tab stop; arrows loop; Home/End; disabled skipped). */
-export const Keyboard: Story = { tags: ['apg'], args: { 'aria-label': 'Toolbar' }, render: renderBar };
+/* The story tests/a11y/apg/cmp/toolbar.apg.spec.ts drives (one tab stop; arrows loop; Home/End; disabled skipped):
+   Bold, Italic (disabled), Undo, Docs. */
+export const Keyboard: Story = {
+  tags: ['apg'],
+  args: { 'aria-label': 'Toolbar' },
+  render: (args) => (
+    <Stage>
+      <Section title="Keyboard" note="One tab stop; arrows loop, Home and End jump, the disabled item is skipped.">
+        <Scene align="flex-start">
+          <Toolbar.Root {...args}>
+            <Toolbar.Button>Bold</Toolbar.Button>
+            <Toolbar.Button disabled>Italic</Toolbar.Button>
+            <Toolbar.Button render={<IconButton label="Undo" icon={<Glyph name="undo" />} />} />
+            <Toolbar.Separator />
+            <Toolbar.Link href="/docs">Docs</Toolbar.Link>
+          </Toolbar.Root>
+        </Scene>
+      </Section>
+    </Stage>
+  ),
+};
+
+/* REQ-CMP-40 overflow: the same bar in a 220px column — below its content width the
+   priority="low" items move into the trailing "More actions" Menu. Driven by
+   tests/a11y/apg/cmp/toolbar.apg.spec.ts. */
+export const Overflow: Story = {
+  args: { 'aria-label': 'Formatting' },
+  render: (args) => (
+    <Stage>
+      <Section title="Overflow" note="Low-priority actions collapse into a trailing menu when the bar does not fit.">
+        <Scene align="flex-start">
+          <div style={{ inlineSize: '220px', maxInlineSize: '100%' }}>
+            <Toolbar.Root {...args}>
+              <Toolbar.Button>Bold</Toolbar.Button>
+              <Toolbar.Button>Italic</Toolbar.Button>
+              <Toolbar.Button priority="low">Strikethrough</Toolbar.Button>
+              <Toolbar.Button priority="low">Highlight</Toolbar.Button>
+              <Toolbar.Button priority="low">Clear formatting</Toolbar.Button>
+            </Toolbar.Root>
+          </div>
+        </Scene>
+      </Section>
+    </Stage>
+  ),
+};
 
 export const Overview: Story = {
   render: (args) => (

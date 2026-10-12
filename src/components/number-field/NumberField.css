@@ -9,6 +9,9 @@
   .ag-number-field {
     display: grid;
     gap: var(--ag-space-1);
+    /* REQ-CMP-21: the field fills its container and may shrink below content */
+    inline-size: 100%;
+    min-inline-size: 0;
   }
   .ag-number-field [data-ag-part='label'],
   .ag-number-field [data-ag-part='scrub-area'] {

@@ -146,14 +146,17 @@
     outline: none;
     transform-origin: var(--transform-origin);
     z-index: var(--ag-z-overlay, auto);
+    /* REQ-CMP-67 (Select entrance motion): the transition lives on the popup
+       so the enter animates too; opacity + individual scale only,
+       backdrop-filter never transitions. */
+    transition:
+      opacity var(--ag-duration-small) var(--ag-ease-standard),
+      scale var(--ag-duration-small) var(--ag-ease-standard);
   }
   .ag-combobox-popup[data-starting-style],
   .ag-combobox-popup[data-ending-style] {
     opacity: 0;
-    transform: scale(0.96);
-    transition:
-      opacity var(--ag-duration-small) var(--ag-ease-standard),
-      transform var(--ag-duration-small) var(--ag-ease-standard);
+    scale: 0.96;
   }
   .ag-combobox-popup[data-ending-style] {
     transition-duration: var(--ag-duration-small-exit);
@@ -162,7 +165,19 @@
   .ag-combobox-popup[data-open],
   .ag-combobox-popup[data-instant] {
     opacity: 1;
-    transform: none;
+    scale: 1;
+  }
+
+  /* calm: opacity only; none: no transition at all */
+  [data-ag-motion='calm'] .ag-combobox-popup,
+  [data-ag-motion='calm'] .ag-combobox-popup[data-starting-style],
+  [data-ag-motion='calm'] .ag-combobox-popup[data-ending-style],
+  [data-ag-motion='none'] .ag-combobox-popup[data-starting-style],
+  [data-ag-motion='none'] .ag-combobox-popup[data-ending-style] {
+    scale: 1;
+  }
+  [data-ag-motion='none'] .ag-combobox-popup {
+    transition: none;
   }
 
   .ag-combobox-item {
@@ -229,10 +244,11 @@
     }
   }
   @media (prefers-reduced-motion: reduce) {
+    .ag-combobox-popup,
     .ag-combobox-popup[data-starting-style],
     .ag-combobox-popup[data-ending-style] {
-      transform: none;
-      transition: opacity var(--ag-duration-small) var(--ag-ease-standard);
+      scale: 1;
+      transition-property: opacity;
     }
     .ag-combobox [data-ag-part='loading'] .ag-combobox-spin {
       animation: none;

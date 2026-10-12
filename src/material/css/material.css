@@ -284,6 +284,15 @@
   :where([data-ag-surface]) [data-ag-surface]:not(:where([data-ag-allow-nested])) {
     --_ag-fill: var(--_ag-inner-fill);
   }
+  /* REQ-CMP-42: a transient surface moving inside a group (the SegmentedControl
+     indicator, setMovingOptics) keeps its own optics while it moves. Same
+     (0,1,1) specificity as the group rule above, so source order wins here and
+     every later rung reset (lightweight, solid, reduced transparency, forced
+     colours, @supports not) still removes the filter. */
+  :where([data-ag-group]) > [data-ag-surface]:where([data-ag-layer="transient"][data-ag-allow-nested][data-ag-animating])::before {
+    backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(calc(var(--_ag-brightness) * var(--_ag-env-brightness)));
+    -webkit-backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(calc(var(--_ag-brightness) * var(--_ag-env-brightness)));
+  }
   /* portaled overlays are not DOM descendants of their trigger surface, so
      they keep optics — no extra rule needed; allowNested keeps optics. */
 

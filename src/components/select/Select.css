@@ -87,14 +87,17 @@
     outline: none;
     transform-origin: var(--transform-origin);
     z-index: var(--ag-z-overlay, auto);
+    /* REQ-CMP-67: the transition lives on the popup itself so the enter
+       (starting-style removed) animates too; only opacity and the individual
+       scale property move, backdrop-filter never transitions. */
+    transition:
+      opacity var(--ag-duration-small) var(--ag-ease-standard),
+      scale var(--ag-duration-small) var(--ag-ease-standard);
   }
   .ag-select-popup[data-starting-style],
   .ag-select-popup[data-ending-style] {
     opacity: 0;
     scale: 0.96;
-    transition:
-      opacity var(--ag-duration-small) var(--ag-ease-standard),
-      scale var(--ag-duration-small) var(--ag-ease-standard);
   }
   .ag-select-popup[data-ending-style] {
     transition-duration: var(--ag-duration-small-exit);
@@ -106,11 +109,16 @@
     scale: 1;
   }
 
+  /* calm: opacity only; none: no transition at all */
+  [data-ag-motion='calm'] .ag-select-popup,
   [data-ag-motion='calm'] .ag-select-popup[data-starting-style],
   [data-ag-motion='calm'] .ag-select-popup[data-ending-style],
   [data-ag-motion='none'] .ag-select-popup[data-starting-style],
   [data-ag-motion='none'] .ag-select-popup[data-ending-style] {
     scale: 1;
+  }
+  [data-ag-motion='none'] .ag-select-popup {
+    transition: none;
   }
 
   .ag-select-popup [data-ag-part='scroll-up'],
@@ -172,10 +180,11 @@
     }
   }
   @media (prefers-reduced-motion: reduce) {
+    .ag-select-popup,
     .ag-select-popup[data-starting-style],
     .ag-select-popup[data-ending-style] {
       scale: 1;
-      transition: opacity var(--ag-duration-small) var(--ag-ease-standard);
+      transition-property: opacity;
     }
     .ag-select [data-ag-part='icon'] {
       transition: none;
