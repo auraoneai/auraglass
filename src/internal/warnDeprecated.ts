@@ -12,6 +12,13 @@ export function setDeprecationMode(next: DeprecationMode): void {
   mode = next;
 }
 
+/** Test seam (not re-exported by src/internal/index): forget every warned id,
+ *  i.e. start a new "page load". tests/compat/adapters-contract.test.tsx uses
+ *  it to observe each adapter's first-render warning. */
+export function resetDeprecationWarnings(): void {
+  warned.clear();
+}
+
 /** Call-time warning. `id` is a DEP-<stream><nnnn> key of the generated table. */
 export function warnDeprecated(id: string): void {
   if (process.env.NODE_ENV === 'production' || mode === 'silent') return;

@@ -4,7 +4,7 @@
 'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { GlassButton } from './GlassButton';
+import { GlassButtonMapped } from './_glassButtonMapping';
 import type { GlassButtonProps } from './GlassButton';
 
 const DEP = 'DEP-C0004';
@@ -20,5 +20,5 @@ export function RippleButton({ ripple, rippleColor, ...rest }: RippleButtonProps
   warnDeprecated(DEP);
   if (ripple !== undefined) drop('ripple');
   if (rippleColor !== undefined) drop('rippleColor');
-  return <GlassButton {...rest} />;
+  return <GlassButtonMapped dep={DEP} {...rest} />;
 }

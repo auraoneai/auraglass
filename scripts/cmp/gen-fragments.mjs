@@ -241,11 +241,17 @@ export const compatReport = () => {
   const surfNames = existsSync(surfIndex) ? exportedValueNames(surfIndex) : new Set();
   const indexFile = join(ROOT, 'src/compat/cmp/index.ts');
   const sf = ts.createSourceFile(indexFile, readFileSync(indexFile, 'utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.TS);
+  // `export * from` modules and `export { A, B } from` modules (REQ-PLAT-30
+  // keeps module-private helpers out of the barrel with named lists).
   const modules = sf.statements
-    .filter((st) => ts.isExportDeclaration(st) && !st.exportClause && st.moduleSpecifier)
+    .filter((st) => ts.isExportDeclaration(st) && st.moduleSpecifier && !st.isTypeOnly
+      && (!st.exportClause || ts.isNamedExports(st.exportClause)))
     .map((st) => {
       const spec = st.moduleSpecifier.text;
-      return { module: spec, names: [...exportedValueNames(resolveModule(indexFile, spec))] };
+      const names = st.exportClause
+        ? st.exportClause.elements.filter((el) => !el.isTypeOnly).map((el) => el.name.text)
+        : [...exportedValueNames(resolveModule(indexFile, spec))];
+      return { module: spec, names };
     });
 
   const byName = new Map();

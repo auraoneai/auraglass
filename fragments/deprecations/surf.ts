@@ -570,9 +570,8 @@ const surf34 = [
     automation: 'partial',
     breaking: 'B4',
     message:
-      'GlassNavigation is removed from aura-glass in 5.0; the aura-glass/compat adapter works until 6.0.0. Migrate to Sidebar + Sidebar.Nav from aura-glass/app-shell.',
+      'GlassNavigation is removed from aura-glass in 5.0; migrate to Sidebar + Sidebar.Nav from aura-glass/app-shell.',
     doc: '#dep-s0633',
-    compat: 'GlassNavigation',
   },
   {
     id: 'DEP-S0634',

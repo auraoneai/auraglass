@@ -23,6 +23,8 @@ export function GlassLinkButton({ href, target, rel, ...rest }: GlassLinkButtonP
   return (
     <Button
       {...(rest as object)}
+      // the rendered element is an <a>, not a <button> (Base UI nativeButton)
+      {...({ nativeButton: false } as object)}
       render={
         <a
           {...(href !== undefined ? { href } : {})}

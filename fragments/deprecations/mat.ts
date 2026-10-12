@@ -157,7 +157,6 @@ const b = [
     message:
       'OptimizedGlassCore is deprecated; use Surface (codemod: canonical-names).',
     doc: '#dep-m0806',
-    compat: 'OptimizedGlassCore',
   },
   {
     id: 'DEP-M0807',
@@ -327,7 +326,6 @@ const b = [
     message:
       'LiquidGlassSurfaceLayer is deprecated; layer is inferred from nesting in 5.x (codemod: providers).',
     doc: '#dep-m0816',
-    compat: 'LiquidGlassSurfaceLayer',
   },
   {
     id: 'DEP-M0817',
@@ -344,7 +342,6 @@ const b = [
     message:
       'useLiquidGlassLayer is deprecated; layer is inferred from nesting in 5.x (codemod: providers).',
     doc: '#dep-m0817',
-    compat: 'useLiquidGlassLayer',
   },
   {
     id: 'DEP-M0818',
@@ -925,7 +922,6 @@ const b = [
     message:
       'Motion (root; MotionNative alias) is removed in 5.0; use CSS motion tokens, startMorph or aura-glass/motion (codemod: motion-imports).',
     doc: '#dep-m0853',
-    compat: 'Motion',
   },
   {
     id: 'DEP-M0854',
@@ -942,7 +938,6 @@ const b = [
     message:
       'Motion (MotionFramer alias) is removed in 5.0; use CSS motion tokens, startMorph or aura-glass/motion (codemod: motion-imports).',
     doc: '#dep-m0854',
-    compat: 'Motion',
   },
   {
     id: 'DEP-M0855',
@@ -959,7 +954,6 @@ const b = [
     message:
       'GlassMotion is removed in 5.0; use CSS motion tokens, startMorph or aura-glass/motion (codemod: motion-imports).',
     doc: '#dep-m0855',
-    compat: 'GlassMotion',
   },
   {
     id: 'DEP-M0856',
@@ -976,7 +970,6 @@ const b = [
     message:
       'MotionNative is removed in 5.0; use CSS motion tokens, startMorph or aura-glass/motion (codemod: motion-imports).',
     doc: '#dep-m0856',
-    compat: 'MotionNative',
   },
   {
     id: 'DEP-M0857',
@@ -993,7 +986,6 @@ const b = [
     message:
       'MotionFramer is removed in 5.0; use CSS motion tokens, startMorph or aura-glass/motion (codemod: motion-imports).',
     doc: '#dep-m0857',
-    compat: 'MotionFramer',
   },
   {
     id: 'DEP-M0858',
@@ -1586,7 +1578,6 @@ const b = [
     message:
       'MotionPreferenceProvider (the 4.x ReducedMotionProvider role) is deprecated; preferences live under AuraGlassProvider and usePreference (codemod: providers).',
     doc: '#dep-m0894',
-    compat: 'MotionPreferenceProvider',
   },
   {
     id: 'DEP-M0895',
@@ -1603,7 +1594,6 @@ const b = [
     message:
       'useMotionPreferenceContext (MotionPreferenceContext access) is deprecated; use usePreference / useResolvedPreferences (codemod: providers).',
     doc: '#dep-m0895',
-    compat: 'useMotionPreferenceContext',
   },
   {
     id: 'DEP-M0896',
@@ -1618,9 +1608,8 @@ const b = [
     automation: 'mostly',
     breaking: 'B3',
     message:
-      'useReducedMotion is deprecated; use usePreference(\'motion\') (codemod: motion-imports). A compat wrapper ships in aura-glass/compat.',
+      'useReducedMotion is deprecated; use usePreference(\'motion\') (codemod: motion-imports).',
     doc: '#dep-m0896',
-    compat: 'useReducedMotion',
   },
   {
     id: 'DEP-M0897',
@@ -1637,7 +1626,6 @@ const b = [
     message:
       'useEnhancedReducedMotion is deprecated; use usePreference(\'motion\') (codemod: motion-imports).',
     doc: '#dep-m0897',
-    compat: 'useEnhancedReducedMotion',
   },
   {
     id: 'DEP-M0898',
@@ -1654,7 +1642,6 @@ const b = [
     message:
       'useMotionPreference is deprecated; use usePreference(\'motion\') (codemod: motion-imports).',
     doc: '#dep-m0898',
-    compat: 'useMotionPreference',
   },
   {
     id: 'DEP-M0899',
@@ -1669,9 +1656,8 @@ const b = [
     automation: 'mostly',
     breaking: 'B3',
     message:
-      'prefersReducedMotion is deprecated; use usePreference(\'motion\') (codemod: motion-imports). A compat wrapper ships in aura-glass/compat.',
+      'prefersReducedMotion is deprecated; use usePreference(\'motion\') (codemod: motion-imports).',
     doc: '#dep-m0899',
-    compat: 'prefersReducedMotion',
   },
   {
     id: 'DEP-M0900',
@@ -2217,7 +2203,6 @@ const b = [
     message:
       'AccessibilityProvider is deprecated; use AuraGlassProvider (highContrast→contrast="more", reducedTransparency→transparency="tinted", colorBlindness dropped) (codemod: providers).',
     doc: '#dep-m0933',
-    compat: 'AccessibilityProvider',
   },
   {
     id: 'DEP-M0934',
@@ -2234,7 +2219,6 @@ const b = [
     message:
       'useAccessibilityFeature is deprecated; use usePreference / useResolvedPreferences (codemod: providers).',
     doc: '#dep-m0934',
-    compat: 'useAccessibilityFeature',
   },
   {
     id: 'DEP-M0935',
@@ -2251,7 +2235,6 @@ const b = [
     message:
       'useAccessibleAnimation is deprecated; use usePreference(\'motion\') (codemod: providers).',
     doc: '#dep-m0935',
-    compat: 'useAccessibleAnimation',
   },
   {
     id: 'DEP-M0936',
@@ -2268,7 +2251,6 @@ const b = [
     message:
       'useAccessibleColors is deprecated; use usePreference / useResolvedPreferences (codemod: providers).',
     doc: '#dep-m0936',
-    compat: 'useAccessibleColors',
   },
   {
     id: 'DEP-M0937',
@@ -2285,7 +2267,6 @@ const b = [
     message:
       'GlassThemeProvider is deprecated; use AuraGlassProvider (codemod: providers).',
     doc: '#dep-m0937',
-    compat: 'GlassThemeProvider',
   },
   {
     id: 'DEP-M0938',
@@ -2302,7 +2283,6 @@ const b = [
     message:
       'ThemeProvider is deprecated; use AuraGlassProvider (codemod: providers).',
     doc: '#dep-m0938',
-    compat: 'ThemeProvider',
   },
   {
     id: 'DEP-M0939',
@@ -2319,7 +2299,6 @@ const b = [
     message:
       'useGlassTheme is deprecated; use usePreference / useResolvedPreferences (codemod: providers).',
     doc: '#dep-m0939',
-    compat: 'useGlassTheme',
   },
   {
     id: 'DEP-M0940',
@@ -2336,7 +2315,6 @@ const b = [
     message:
       'AIGlassThemeProvider is deprecated; use AuraGlassProvider (codemod: providers).',
     doc: '#dep-m0940',
-    compat: 'AIGlassThemeProvider',
   },
   {
     id: 'DEP-M0941',
@@ -2820,6 +2798,7 @@ const b = [
     message:
       'createGlassThemeCssVars is deprecated; use createGlassTheme(...).vars (codemod: providers).',
     doc: '#dep-m0970',
+    compat: 'createGlassThemeCssVars',
   },
   {
     id: 'DEP-M0971',
@@ -3008,6 +2987,25 @@ const b = [
       "LiquidGlassLayerProvider (root 'aura-glass' import) is deprecated; counts nested layers in dev and needs no provider (codemod: providers).",
     doc: '#dep-m0981',
     compat: 'LiquidGlassLayerProvider',
+  },
+  // REQ-PLAT-30: aura-glass/compat re-exports a 4.x-shaped createGlassTheme
+  // (accepts the motionPolicy option, DEP-M0902) — its compat row.
+  {
+    id: 'DEP-M0982',
+    kind: 'export',
+    status: 'planned',
+    entry: '.',
+    symbol: 'createGlassTheme',
+    since: '4.2.0',
+    removeIn: '6.0.0',
+    replacement: 'createGlassTheme from aura-glass/theme',
+    codemod: 'motion-props',
+    automation: 'mostly',
+    breaking: 'B6',
+    message:
+      "the 4.x createGlassTheme options (motionPolicy) are deprecated; use createGlassTheme from aura-glass/theme (codemod: motion-props).",
+    doc: '#dep-m0982',
+    compat: 'createGlassTheme',
   },
 ] as const;
 // --- lane 2e-B end ---

@@ -2,7 +2,13 @@
    The 4.x `createGlassThemeCssVars` lives only in the MAT compat surface; it
    is not part of `aura-glass/theme` (REQ-MAT-22 entry parity). Self-contained
    on purpose: it takes the structural slice of a GlassTheme it reads, so the
-   compat module never pulls theme internals into its import closure. */
+   compat module never pulls theme internals into its import closure. It
+   warns once through warnDeprecated (DEP-M0970), like every compat export
+   (REQ-PLAT-30). */
+import { warnDeprecated } from "../../internal/warnDeprecated";
+
+/** fragments/deprecations/mat.ts row for the 4.x --glass-theme-* output. */
+export const CREATE_GLASS_THEME_CSS_VARS_DEP_ID = "DEP-M0970";
 
 /** The part of `GlassTheme['tokens']` the 4.x `--glass-theme-*` map reads. */
 export interface GlassThemeCssVarsInput {
@@ -12,20 +18,10 @@ export interface GlassThemeCssVarsInput {
   };
 }
 
-const warned = new Set<string>();
-const devWarn = (key: string, msg: string): void => {
-  if (warned.has(key)) return;
-  warned.add(key);
-  if (typeof console !== "undefined") console.warn(msg);
-};
-
 /** @deprecated createGlassThemeCssVars is the 4.x --glass-theme-* output; use
  *  createGlassTheme(...).vars instead. Removed at 5.0 (DS-109). */
 export const createGlassThemeCssVars = (theme: GlassThemeCssVarsInput): Record<string, string> => {
-  devWarn(
-    "createGlassThemeCssVars",
-    "createGlassThemeCssVars is deprecated; use createGlassTheme(...).vars (--ag-*) instead."
-  );
+  warnDeprecated(CREATE_GLASS_THEME_CSS_VARS_DEP_ID);
   return {
     "--glass-theme-brand": theme.tokens.color.accent,
     "--glass-theme-accent": theme.tokens.color.accent,

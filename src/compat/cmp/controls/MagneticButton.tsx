@@ -7,11 +7,12 @@
 'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
-import { GlassButton } from './GlassButton';
+import { GlassButtonMapped } from './_glassButtonMapping';
 import type { GlassButtonProps } from './GlassButton';
 
 const DEP = 'DEP-C0007';
-const drop = (p: string) => warnDeprecated(`${DEP}.prop.${p}`);
+/** 4.x also shipped `GlassMagneticButton` (DEP-C0041) — the same adapter under its own id. */
+const DEP_GLASS = 'DEP-C0041';
 
 export interface MagneticButtonProps extends GlassButtonProps {
   ref?: React.Ref<HTMLButtonElement>;
@@ -26,11 +27,11 @@ type MotionModule = typeof import('../../../motion/public');
 // motion.create passes the composed ref as an element prop; React 19 hands it
 // to the function component as a plain `ref` prop (no forwardRef, REQ-PLAT-72).
 function MotionHost({ buttonProps, style, ref }: {
-  buttonProps: GlassButtonProps;
+  buttonProps: GlassButtonProps & { dep: string };
   style?: React.CSSProperties;
   ref?: React.Ref<HTMLButtonElement>;
 }) {
-  return <GlassButton {...{ ...buttonProps, ref, style }} />;
+  return <GlassButtonMapped {...{ ...buttonProps, ref, style }} />;
 }
 
 function createMotionButton(peer: typeof import('motion/react')) {
@@ -59,7 +60,7 @@ function useMotionModule(enabled: boolean): MotionState {
   return mod;
 }
 
-type MagneticInnerProps = MagneticButtonProps & { loaded: LoadedMotion };
+type MagneticInnerProps = MagneticButtonProps & { loaded: LoadedMotion; dep: string };
 
 function MagneticInner({ loaded, magneticStrength, ref: forwardedRef, style: userStyle, ...rest }: MagneticInnerProps) {
   const { ref: magneticRef, style } = loaded.mod.magnetic(magneticStrength === undefined ? {} : { strength: magneticStrength });
@@ -81,20 +82,26 @@ function MagneticInner({ loaded, magneticStrength, ref: forwardedRef, style: use
   return <MotionButton buttonProps={rest} ref={ref} style={{ ...style, ...userStyle } as MotionStyle} />;
 }
 
-/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Button}. */
-export function MagneticButton({ magnetic, magneticStrength, magneticRadius, ...rest }: MagneticButtonProps) {
-  warnDeprecated(DEP);
-  if (magneticRadius !== undefined) drop('magneticRadius');
+function MagneticAdapter({ dep, magnetic, magneticStrength, magneticRadius, ...rest }: MagneticButtonProps & { dep: string }) {
+  warnDeprecated(dep);
+  if (magneticRadius !== undefined) warnDeprecated(`${dep}.prop.magneticRadius`);
   const wanted = magnetic !== false && (magnetic !== undefined || magneticStrength !== undefined);
   const mod = useMotionModule(wanted);
-  if (!wanted) return <GlassButton {...rest} />;
+  if (!wanted) return <GlassButtonMapped dep={dep} {...rest} />;
   if (mod === 'missing') {
-    warnDeprecated(`${DEP}.peer.motion`);
-    return <GlassButton {...rest} />;
+    warnDeprecated(`${dep}.peer.motion`);
+    return <GlassButtonMapped dep={dep} {...rest} />;
   }
-  if (mod === null) return <GlassButton {...rest} />;
-  return <MagneticInner loaded={mod} {...(magneticStrength === undefined ? {} : { magneticStrength })} {...rest} />;
+  if (mod === null) return <GlassButtonMapped dep={dep} {...rest} />;
+  return <MagneticInner loaded={mod} dep={dep} {...(magneticStrength === undefined ? {} : { magneticStrength })} {...rest} />;
 }
 
-/** 4.x also shipped `GlassMagneticButton` (DEP-C0041) — same adapter. */
-export { MagneticButton as GlassMagneticButton } from './MagneticButton';
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Button}. */
+export function MagneticButton(props: MagneticButtonProps) {
+  return <MagneticAdapter dep={DEP} {...props} />;
+}
+
+/** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Button}. */
+export function GlassMagneticButton(props: MagneticButtonProps) {
+  return <MagneticAdapter dep={DEP_GLASS} {...props} />;
+}

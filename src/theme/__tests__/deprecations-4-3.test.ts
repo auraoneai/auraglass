@@ -55,12 +55,9 @@ describe('4.3 deprecations (DS-107)', () => {
     } as unknown as GlassTheme;
     const vars = createGlassThemeCssVars(theme);
     createGlassThemeCssVars(theme);
-    const deprecationCalls = warn.mock.calls.filter(([msg]) =>
-      String(msg).startsWith('createGlassThemeCssVars is deprecated'),
-    );
-    expect(deprecationCalls).toEqual([
-      ['createGlassThemeCssVars is deprecated; use createGlassTheme(...).vars (--ag-*) instead.'],
-    ]);
+    // REQ-PLAT-30: one warnDeprecated(DEP-M0970) per load, in the shared format.
+    const deprecationCalls = warn.mock.calls.filter(([msg]) => String(msg).startsWith('[aura-glass] DEP-M0970'));
+    expect(deprecationCalls).toHaveLength(1);
     expect(vars).toEqual({
       '--glass-theme-brand': 'mediumblue',
       '--glass-theme-accent': 'mediumblue',
