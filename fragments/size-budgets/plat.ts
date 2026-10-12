@@ -40,7 +40,7 @@ const ENTRIES = [...cmpDeps, ...matDeps, ...surfDeps] as readonly DeprecationEnt
  *  composite part with no row yet contributes nothing (its owner adds the
  *  row first, as for single targets); the primary target must have a row. */
 const targetsOf = (replacement: string | null): string[] => {
-  const head = (replacement ?? '').split(/\s+from\s+/)[0];
+  const head = (replacement ?? '').split(/\s+from\s+/)[0] ?? '';
   return head.split('+').map((part) => /^[A-Z]\w*/.exec(part.trim())?.[0]).filter((n): n is string => !!n);
 };
 
