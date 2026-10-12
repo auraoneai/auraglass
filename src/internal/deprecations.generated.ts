@@ -200,9 +200,9 @@ export const DEPRECATIONS: Readonly<Record<string, DeprecationRow>> = {
   "DEP-P0020": { id: "DEP-P0020", message: "cookie consent banners no longer auto-display before consent state resolves; wire visibility to your consent provider before 5.0.0.", codemod: null, since: "4.1.1", removeIn: "5.0.0", doc: "#dep-cookie-banner-auto" },
   "DEP-P0049": { id: "DEP-P0049", message: "dead optical props removed in 5.0.0; run the prop-grammar/dead-optical-props codemods.", codemod: "dead-optical-props", since: "4.2.0", removeIn: "5.0.0", doc: "#dep-dead-optical-props" },
   "DEP-P0050": { id: "DEP-P0050", message: "the five old theme/motion providers wrap AuraGlassProvider and warn once; migrate to AuraGlassProvider directly.", codemod: "providers", since: "4.2.0", removeIn: "5.0.0", doc: "#dep-old-providers" },
-  "DEP-P0066": { id: "DEP-P0066", message: "deep ./primitives/<name> imports move to the root export in 5.0.0.", codemod: "imports-subpaths", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-deep-primitives" },
-  "DEP-P0067": { id: "DEP-P0067", message: "deep ./icons/<category> imports move to ./icons in 5.0.0.", codemod: "imports-subpaths", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-deep-icons" },
-  "DEP-P0068": { id: "DEP-P0068", message: "the ./utils/env subpath is removed in 5.0.0.", codemod: "imports-subpaths", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-utils-env" },
+  "DEP-P0066": { id: "DEP-P0066", message: "deep ./primitives/<name> imports collapse into ./primitives in 5.0.0.", codemod: "imports-subpaths", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-deep-primitives" },
+  "DEP-P0067": { id: "DEP-P0067", message: "./icons/<category> imports become per-glyph ./icons/<name> imports in 5.0.0.", codemod: "imports-subpaths", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-deep-icons" },
+  "DEP-P0068": { id: "DEP-P0068", message: "the ./utils/env subpath is removed in 5.0.0; use your own typeof window check.", codemod: "imports-subpaths", since: "4.3.0", removeIn: "5.0.0", doc: "#dep-utils-env" },
   "DEP-P0107": { id: "DEP-P0107", message: "'useGalileoStateSpring' (alias 'useAuraStateSpring') never animated and is removed in 5.0.0; use aura-glass/motion springs (codemod: motion-imports).", codemod: "motion-imports", since: "4.2.0", removeIn: "5.0.0", doc: "#dep-use-galileo-state-spring" },
 };
 
@@ -6384,8 +6384,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "replacement": "5.0 server-safe entry",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "the ./ssr alias subpath is removed in 5.0.0.",
+    "breaking": "B16",
+    "message": "the ./ssr alias subpath (SSR shims) is removed in 5.0.0; import the 5.0 server-safe entry instead.",
     "doc": "#dep-subpath-ssr"
   },
   {
@@ -6399,8 +6399,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "replacement": "runtime package",
     "codemod": "imports-subpaths",
     "automation": "mostly",
-    "breaking": "B14",
-    "message": "the ./server alias subpath is removed in 5.0.0.",
+    "breaking": "B16",
+    "message": "the ./server alias subpath (server shims) is removed in 5.0.0; server code lives in the runtime package.",
     "doc": "#dep-subpath-server"
   },
   {
@@ -6429,9 +6429,9 @@ export const deprecations: readonly DeprecationEntry[] = [
     "replacement": "npx @auraglass/cli",
     "codemod": null,
     "automation": "none",
-    "breaking": "B21",
+    "breaking": "B15",
     "exception": "honesty",
-    "message": "the bundled aura-glass CLI moved to @auraglass/cli in 5.0.0.",
+    "message": "the bundled aura-glass CLI moved to @auraglass/cli in 5.0.0; run npx @auraglass/cli.",
     "doc": "#dep-bin-aura-glass"
   },
   {
@@ -6442,11 +6442,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "styles subpath",
     "since": "4.3.0",
     "removeIn": "5.0.0",
-    "replacement": "./styles/v5.css",
+    "replacement": "./styles.css",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "the ./styles subpath is replaced by ./styles/v5.css in 5.0.0.",
+    "breaking": "B17",
+    "message": "the ./styles subpath is renamed to ./styles.css in 5.0.0.",
     "doc": "#dep-subpath-styles"
   },
   {
@@ -6457,11 +6457,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "tokens css subpath",
     "since": "4.3.0",
     "removeIn": "5.0.0",
-    "replacement": "5.0 tokens css",
+    "replacement": "./tokens.css",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "the ./tokens/css subpath moves to the 5.0 token table.",
+    "breaking": "B17",
+    "message": "the ./tokens/css subpath is renamed to ./tokens.css in 5.0.0.",
     "doc": "#dep-subpath-tokens-css"
   },
   {
@@ -6472,11 +6472,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "tailwind theme subpath",
     "since": "4.3.0",
     "removeIn": "5.0.0",
-    "replacement": "5.0 tailwind preset",
+    "replacement": "./tailwind.css",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "the ./tokens/tailwind subpath moves to the 5.0 preset.",
+    "breaking": "B17",
+    "message": "the ./tokens/tailwind subpath is renamed to ./tailwind.css (Tailwind v4) in 5.0.0.",
     "doc": "#dep-subpath-tokens-tailwind"
   },
   {
@@ -6487,11 +6487,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "tokens json subpath",
     "since": "4.3.0",
     "removeIn": "5.0.0",
-    "replacement": "5.0 tokens manifest",
+    "replacement": "aura-glass/tokens",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "the ./tokens/json subpath moves to the 5.0 manifest.",
+    "breaking": "B19",
+    "message": "the ./tokens/json subpath is removed in 5.0.0; read token values from aura-glass/tokens.",
     "doc": "#dep-subpath-tokens-json"
   },
   {
@@ -6502,11 +6502,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "tokens manifest subpath",
     "since": "4.3.0",
     "removeIn": "5.0.0",
-    "replacement": "5.0 tokens manifest",
+    "replacement": "aura-glass/tokens",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "the ./tokens/manifest subpath moves to the 5.0 manifest.",
+    "breaking": "B19",
+    "message": "the ./tokens/manifest subpath is removed in 5.0.0; read token values from aura-glass/tokens.",
     "doc": "#dep-subpath-tokens-manifest"
   },
   {
@@ -6517,11 +6517,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "per-primitive deep imports",
     "since": "4.3.0",
     "removeIn": "5.0.0",
-    "replacement": "root export",
+    "replacement": "./primitives",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "deep ./primitives/<name> imports move to the root export in 5.0.0.",
+    "breaking": "B18",
+    "message": "deep ./primitives/<name> imports collapse into ./primitives in 5.0.0.",
     "doc": "#dep-deep-primitives"
   },
   {
@@ -6532,11 +6532,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "per-category icon imports",
     "since": "4.3.0",
     "removeIn": "5.0.0",
-    "replacement": "./icons root",
+    "replacement": "./icons/<name>",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "deep ./icons/<category> imports move to ./icons in 5.0.0.",
+    "breaking": "B19",
+    "message": "./icons/<category> imports become per-glyph ./icons/<name> imports in 5.0.0.",
     "doc": "#dep-deep-icons"
   },
   {
@@ -6547,11 +6547,11 @@ export const deprecations: readonly DeprecationEntry[] = [
     "symbol": "utils env subpath",
     "since": "4.3.0",
     "removeIn": "5.0.0",
-    "replacement": "5.0 env helper",
+    "replacement": "your own typeof window check",
     "codemod": "imports-subpaths",
     "automation": "full",
-    "breaking": "B14",
-    "message": "the ./utils/env subpath is removed in 5.0.0.",
+    "breaking": "B19",
+    "message": "the ./utils/env subpath is removed in 5.0.0; use your own typeof window check.",
     "doc": "#dep-utils-env"
   },
   {
@@ -6565,8 +6565,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "replacement": "ESM entry only",
     "codemod": null,
     "automation": "none",
-    "breaking": "B21",
-    "message": "the CommonJS require() entry is removed in 5.0.0; consume the ESM build.",
+    "breaking": "B2",
+    "message": "the CommonJS require() entry is removed in 5.0.0; the package ships an ESM entry only (require(esm) works on Node >= 20.19).",
     "doc": "#dep-cjs-entry"
   },
   {
@@ -6580,8 +6580,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "replacement": "react@19",
     "codemod": null,
     "automation": "none",
-    "breaking": "B21",
-    "message": "React 18 support ends with 5.0.0; React 19 is the floor.",
+    "breaking": "B1",
+    "message": "React 18 support ends with 5.0.0; react@19 is the floor.",
     "doc": "#dep-peer-react18"
   },
   {
@@ -6595,8 +6595,8 @@ export const deprecations: readonly DeprecationEntry[] = [
     "replacement": "node >= 20.19",
     "codemod": null,
     "automation": "none",
-    "breaking": "B21",
-    "message": "Node < 20.19 support ends with 5.0.0.",
+    "breaking": "B2",
+    "message": "Node < 20.19 support ends with 5.0.0; use node >= 20.19.",
     "doc": "#dep-engine-node-20-19"
   },
   {
@@ -6613,6 +6613,36 @@ export const deprecations: readonly DeprecationEntry[] = [
     "breaking": "B3",
     "message": "'useGalileoStateSpring' (alias 'useAuraStateSpring') never animated and is removed in 5.0.0; use aura-glass/motion springs (codemod: motion-imports).",
     "doc": "#dep-use-galileo-state-spring"
+  },
+  {
+    "id": "DEP-P0108",
+    "kind": "behavior",
+    "status": "active",
+    "entry": ".",
+    "symbol": "content-layer surfaces glass by default",
+    "since": "4.3.0",
+    "removeIn": "5.0.0",
+    "replacement": "variant=\"regular\" over a media backdrop",
+    "codemod": null,
+    "automation": "none",
+    "breaking": "B12",
+    "message": "content-layer surfaces (cards, panels) are no longer glass by default in 5.0.0; opt in with variant=\"regular\" over a media backdrop.",
+    "doc": "#dep-content-layer-default"
+  },
+  {
+    "id": "DEP-P0109",
+    "kind": "behavior",
+    "status": "active",
+    "entry": ".",
+    "symbol": "OS accessibility signals overridable",
+    "since": "4.3.0",
+    "removeIn": "5.0.0",
+    "replacement": null,
+    "codemod": null,
+    "automation": "none",
+    "breaking": "B13",
+    "message": "OS signals (reduced motion, reduced transparency, increased contrast) are floors in 5.0.0; props and providers can no longer force glass or animation past them.",
+    "doc": "#dep-os-signal-floors"
   },
   {
     "id": "DEP-S0001",
