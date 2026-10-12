@@ -11,5 +11,6 @@ export function legacyReaderSet(): string[];
 export function legacySourceCss(): string;
 export function buildCompatMap(legacyDecls: LegacyDecl[], readers: string[]): Record<string, CompatEntry>;
 export function legacyTokensJson(legacyDecls: LegacyDecl[]): Record<string, unknown>;
+export const COMPAT_DARK_SELECTOR: string;
 export function compatCss(map: Record<string, CompatEntry>): string;
 export function emitCompat(write: (rel: string, content: string) => void, tokenDir: string): { count: number };

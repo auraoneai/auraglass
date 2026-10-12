@@ -13,8 +13,8 @@ import { test, expect, type Page } from '@playwright/test';
 import pixelmatch from 'pixelmatch';
 
 const FIXTURES = {
-  zeroJs: '/tests/visual/tokens/fixtures/zero-js.html',
-  attr: '/tests/visual/tokens/fixtures/attr.html',
+  zeroJs: '/tests/visual/mat/tokens/fixtures/zero-js.html',
+  attr: '/tests/visual/mat/tokens/fixtures/attr.html',
 };
 
 type Pref = {

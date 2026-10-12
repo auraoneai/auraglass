@@ -33,7 +33,9 @@ describe('backdrop presets ban filter (REQ-SURF-156)', () => {
   });
 
   it('mutation: a planted filter: blur(1px) is caught', () => {
+    // eslint-disable-next-line auraglass/no-optics-outside-material -- negative control: planted declaration the detector must catch (REQ-SURF-156); CSS text input, never rendered
     expect(filterDeclarations('.x { filter: blur(1px); }')).toEqual(['filter:']);
+    // eslint-disable-next-line auraglass/no-optics-outside-material -- negative control: planted declaration the detector must catch (REQ-SURF-156); CSS text input, never rendered
     expect(filterDeclarations('.x { backdrop-filter: blur(1px); }')).toEqual(['backdrop-filter:']);
   });
 

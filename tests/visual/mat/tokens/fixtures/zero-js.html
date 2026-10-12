@@ -1,14 +1,14 @@
 <!doctype html>
-<!-- MAT-079 fixture: attribute baseline. Identical DOM to zero-js.html plus
-     the AuraGlassScript block (createGlassTheme({scheme:'system'}) follows
-     prefers-color-scheme through the emitted light-dark()/media rules). -->
+<!-- MAT-079 fixture: zero-JS baseline. Pure attribute-driven surface + text
+     over canvas; identical DOM to attr.html minus the AuraGlassScript block.
+     Served with the packed CSS — link href resolves relative to the fixture. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>attr token modes fixture</title>
-<link rel="stylesheet" href="../../../dist/tokens.css">
-<link rel="stylesheet" href="../../../dist/css/material.css">
+<title>zero-js token modes fixture</title>
+<link rel="stylesheet" href="../../../../dist/tokens.css">
+<link rel="stylesheet" href="../../../../dist/css/material.css">
 <style>
   body { font-family: var(--ag-font-sans); margin: 0; padding: var(--ag-space-4); background: var(--ag-color-canvas); color: var(--ag-color-on-surface); }
   .row { display: grid; gap: var(--ag-space-3); grid-template-columns: repeat(3, 1fr); }
@@ -42,17 +42,5 @@
 </div>
 <p><button data-ag-focusable>Focusable button</button>
 <button aria-disabled="true" data-ag-focusable>Disabled-focusable</button></p>
-<script>
-  // AuraGlassScript-equivalent bootstrap: scheme follows the media query; the
-  // data-ag-scheme attribute is written from matchMedia, exactly what the
-  // packaged script does when createGlassTheme({ scheme: 'system' }) runs.
-  const mq = matchMedia('(prefers-color-scheme: dark)');
-  const apply = () => {
-    document.documentElement.dataset.agScheme = mq.matches ? 'dark' : 'light';
-    document.documentElement.dataset.agThemeScript = 'present';
-  };
-  mq.addEventListener('change', apply);
-  apply();
-</script>
 </body>
 </html>
