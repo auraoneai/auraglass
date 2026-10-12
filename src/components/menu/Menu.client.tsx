@@ -46,7 +46,7 @@ function MenuRoot({ open, defaultOpen, onOpenChange, loop = true, orientation, c
         orientation={orientation}
         onOpenChange={(o, details) => {
           if (!controlled) setInternal(o);
-          onOpenChange?.(o, { ...details, reason: toOverlayReason(details?.reason) } as OverlayOpenChangeDetails);
+          onOpenChange?.(o, { event: details?.event, reason: toOverlayReason(details?.reason) } satisfies OverlayOpenChangeDetails);
         }}
       >
         {children}
@@ -249,7 +249,7 @@ function MenuSubmenu(props: MenuSubmenuProps) {
         defaultOpen={defaultOpen}
         onOpenChange={(o, details) => {
           if (!controlled) setInternal(o);
-          onOpenChange?.(o, { ...details, reason: toOverlayReason(details?.reason) } as OverlayOpenChangeDetails);
+          onOpenChange?.(o, { event: details?.event, reason: toOverlayReason(details?.reason) } satisfies OverlayOpenChangeDetails);
         }}
         {...rest}
       >

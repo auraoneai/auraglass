@@ -64,7 +64,7 @@ function TooltipRoot({ open, defaultOpen, onOpenChange, delay, closeDelay, child
         defaultOpen={defaultOpen}
         onOpenChange={(o, details) => {
           if (!controlled) setInternal(o);
-          onOpenChange?.(o, { ...details, reason: toOverlayReason(details?.reason) } as OverlayOpenChangeDetails);
+          onOpenChange?.(o, { event: details?.event, reason: toOverlayReason(details?.reason) } satisfies OverlayOpenChangeDetails);
         }}
       >
         {children}

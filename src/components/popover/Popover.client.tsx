@@ -77,7 +77,7 @@ function PopoverRoot({ open, defaultOpen, onOpenChange, modal, openOnHover = fal
         defaultOpen={defaultOpen}
         onOpenChange={(o, details) => {
           if (!controlled) setInternal(o);
-          onOpenChange?.(o, { ...details, reason: toOverlayReason(details?.reason) } as OverlayOpenChangeDetails);
+          onOpenChange?.(o, { event: details?.event, reason: toOverlayReason(details?.reason) } satisfies OverlayOpenChangeDetails);
         }}
         {...(modal !== undefined ? { modal } : {})}
       >
