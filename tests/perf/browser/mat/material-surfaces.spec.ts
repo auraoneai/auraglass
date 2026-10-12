@@ -7,7 +7,11 @@
 import { test, expect } from '@playwright/test';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { gotoMaterialStory } from '../../../material/helpers/story';
+
+// package.json is "type": "module": Playwright loads specs as ESM, where __dirname is undefined.
+const HERE = fileURLToPath(new URL('.', import.meta.url));
 
 interface Budgets {
   desktopFpsP50: number; mobileFpsP50: number; lensFpsP50: number;
@@ -17,7 +21,7 @@ const DEFAULT_BUDGETS: Budgets = {
   desktopFpsP50: 55, mobileFpsP50: 50, lensFpsP50: 50, gpuAddedMsP75: 2, longTasks: 0,
 };
 function loadBudgets(): Budgets {
-  const p = join(__dirname, '../../harness/budgets.json');
+  const p = join(HERE, '../../harness/budgets.json');
   if (existsSync(p)) return { ...DEFAULT_BUDGETS, ...JSON.parse(readFileSync(p, 'utf8')) };
   return DEFAULT_BUDGETS;
 }

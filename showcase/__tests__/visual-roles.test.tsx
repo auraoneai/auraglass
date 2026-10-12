@@ -7,6 +7,8 @@
    (raw select value, corner-pinned dialog footer buttons, "You"/"Assistant"
    comment authors) stay fixed. */
 import { describe, expect, it, jest, afterEach } from '@jest/globals';
+// jest-dom matcher types for tsconfig.storybook.json (showcase/** is included there, tests/helpers/setup.ts is not).
+import '@testing-library/jest-dom/jest-globals';
 import * as React from 'react';
 import { cleanup, render } from '@testing-library/react';
 

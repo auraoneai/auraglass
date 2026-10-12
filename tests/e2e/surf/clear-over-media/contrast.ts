@@ -9,7 +9,13 @@
 // (tests/a11y/pixel-contrast.contract.json, MAT-315): "sample every visible
 // text run, take the worst sample per row". SURF reads it and never copies or
 // loosens the numbers.
-import contract from '../../../a11y/pixel-contrast.contract.json';
+import { createRequire } from 'node:module';
+
+// Loaded through require, not a JSON `import`: Playwright runs this helper as
+// native ESM (package.json "type": "module"), where a JSON import needs an
+// import attribute, while jest loads it as CJS. require works in both.
+type PixelContrastContract = typeof import('../../../a11y/pixel-contrast.contract.json');
+const contract = createRequire(import.meta.url)('../../../a11y/pixel-contrast.contract.json') as PixelContrastContract;
 
 export type Rgb = readonly [number, number, number];
 export type Rgba = readonly [number, number, number, number];
