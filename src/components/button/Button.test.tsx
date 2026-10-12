@@ -137,6 +137,18 @@ describe('Button', () => {
     expect(btn.getAttribute('data-ag-interactive')).toBe('');
   });
 
+  it('REQ-MAT-23: thin comes from the control size class; refraction keys the control lens', () => {
+    render(<Button refraction>Lens</Button>);
+    const btn = screen.getByRole('button');
+    expect(btn.getAttribute('data-ag-thickness')).toBe('thin');
+    expect(btn.getAttribute('data-ag-sizeclass')).toBe('control');
+  });
+
+  it('REQ-MAT-23: toggle buttons share the control size class', () => {
+    render(<Button defaultPressed={false}>Toggle</Button>);
+    expect(screen.getByRole('button').getAttribute('data-ag-thickness')).toBe('thin');
+  });
+
   it('explicit thickness overrides the thin default', () => {
     render(<Button thickness="thick">Attrs</Button>);
     expect(screen.getByRole('button').getAttribute('data-ag-thickness')).toBe('thick');

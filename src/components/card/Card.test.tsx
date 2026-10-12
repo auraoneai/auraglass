@@ -36,6 +36,13 @@ describe('Card', () => {
     expect(el.hasAttribute('data-ag-interactive')).toBe(true);
   });
 
+  it('REQ-MAT-23: card is a panel size class (regular thickness; refraction keys the panel lens)', () => {
+    const { container } = render(<Card refraction>x</Card>);
+    const el = container.querySelector('[data-ag-part="root"]')!;
+    expect(el.getAttribute('data-ag-thickness')).toBe('regular');
+    expect(el.getAttribute('data-ag-sizeclass')).toBe('panel');
+  });
+
   it('is material-bearing: default content layer, variant → data-ag-variant', () => {
     const { container, unmount } = render(<Card>x</Card>);
     const el = container.querySelector('[data-ag-part="root"]')!;

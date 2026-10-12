@@ -9,6 +9,18 @@ import { IconButton } from '../icon-button';
 const X = <svg data-testid="x" />;
 
 describe('Toolbar', () => {
+  it('REQ-MAT-23: bar size class resolves regular thickness; refraction keys the bar lens; explicit thickness wins', () => {
+    const { unmount } = render(<Toolbar.Root aria-label="Bar" refraction><Toolbar.Button>B</Toolbar.Button></Toolbar.Root>);
+    const root = screen.getByRole('toolbar', { name: 'Bar' });
+    expect(root.getAttribute('data-ag-thickness')).toBe('regular');
+    expect(root.getAttribute('data-ag-sizeclass')).toBe('bar');
+    unmount();
+    render(<Toolbar.Root aria-label="Thin" thickness="thin"><Toolbar.Button>B</Toolbar.Button></Toolbar.Root>);
+    const thin = screen.getByRole('toolbar', { name: 'Thin' });
+    expect(thin.getAttribute('data-ag-thickness')).toBe('thin');
+    expect(thin.hasAttribute('data-ag-sizeclass')).toBe(false);
+  });
+
   it('renders root inside a SurfaceGroup with parts', () => {
     render(
       <Toolbar.Root aria-label="Editor">
