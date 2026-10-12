@@ -7,12 +7,26 @@
    import when the peer does not resolve, and otherwise starts the one dynamic
    load that adapter renders wait on (see ../peer-guard). It runs after the
    adapter modules below evaluate (they never touch the peer at module scope)
-   and before any consumer code can call into them. */
+   and before any consumer code can call into them.
+
+   The public names are bound here (const aliases), not re-exported from
+   ./index: the package declares only CSS as side-effectful, so bundlers
+   (tsdown with moduleSideEffects:false, Vite/Rollup, esbuild) keep this
+   module, and with it the peer start, only when an export it owns is used. A
+   pure `export … from` would let them trace every name to its defining module
+   and drop this file, so the import would neither throw without the peer nor
+   ever load it. */
 import { startMotionPeer } from '../peer-guard';
 import { importMotionPeer } from './peer';
+import * as adapter from './index';
 
 startMotionPeer(import.meta.url, importMotionPeer);
 
-export { MotionProvider, SharedLayout, Shared, useDragDetents, useMomentum, magnetic } from './index';
-export { toMotionTransition } from './toMotionTransition';
+export const MotionProvider: typeof adapter.MotionProvider = adapter.MotionProvider;
+export const SharedLayout: typeof adapter.SharedLayout = adapter.SharedLayout;
+export const Shared: typeof adapter.Shared = adapter.Shared;
+export const useDragDetents: typeof adapter.useDragDetents = adapter.useDragDetents;
+export const useMomentum: typeof adapter.useMomentum = adapter.useMomentum;
+export const magnetic: typeof adapter.magnetic = adapter.magnetic;
+export const toMotionTransition: typeof adapter.toMotionTransition = adapter.toMotionTransition;
 export type { DragBindings, MomentumBindings, MagneticBindings } from './index';

@@ -433,7 +433,9 @@ mat:a11y:manual-verify:
 # REQ-MAT-45 / AC-FIN-58 (D.3-27): every banned motion key is a type error
 # (tests/types/mat/**), pointer light writes nothing under forced colours, and
 # the 4.x createGlassTheme motionPolicy option is compat-only (DEP-M0902):
-# no motionPolicy anywhere in src/ outside src/compat/.
+# no motionPolicy anywhere in src/ outside src/compat/. The generated deprecation
+# table (src/internal/deprecations.generated.ts, from deprecations.json) names the
+# removed prop as data, not as API, so it is excluded too.
 mat:test:motion-ban:
   extends: .mat-base
   stage: test
@@ -445,7 +447,7 @@ mat:test:motion-ban:
     - npx tsc -p tests/types/mat/tsconfig.json --noEmit
     - npx jest src/motion/__tests__/pointerLight.test.ts src/compat/mat/__tests__/createGlassTheme.test.ts src/theme/__tests__/createGlassTheme.test.ts
     - |
-      if git grep -n motionPolicy -- src ':(exclude)src/compat/**'; then
+      if git grep -n motionPolicy -- src ':(exclude)src/compat/**' ':(exclude)src/internal/deprecations.generated.ts'; then
         echo "motionPolicy found outside src/compat (REQ-MAT-45)"; exit 1
       fi
   artifacts:
