@@ -1,31 +1,86 @@
-/* REQ-CMP-66: Home/End highlight first/last; Space selects+closes; Tab moves
-   focus to the next button. */
-import { describe, expect, it } from '@jest/globals';
+/* REQ-CMP-66: Select keyboard (select-only combobox). Base UI drives the
+   keys; these jsdom cases prove the CMP wrapper keeps them: Home/End bound
+   the highlight, Space selects and closes, and Tab while the listbox is open
+   closes it and moves focus to the next control. Opening keys and typeahead
+   are covered in src/components/select/Select.test.tsx; the in-browser legs
+   live in tests/a11y/apg/cmp/select.apg.spec.ts. */
+import { beforeAll, describe, expect, it } from '@jest/globals';
 import '@testing-library/jest-dom/jest-globals';
 import * as React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Select } from '../../src/components/select';
 
 const ITEMS = { a: 'Alpha', b: 'Beta', c: 'Gamma' };
 
+function Demo() {
+  return (
+    <>
+      <Select.Root items={ITEMS}>
+        <Select.Trigger aria-label="Letter" />
+        <Select.Content>
+          {Object.entries(ITEMS).map(([value, label]) => (
+            <Select.Item key={value} value={value} label={label} />
+          ))}
+        </Select.Content>
+      </Select.Root>
+      <button type="button">next</button>
+    </>
+  );
+}
+
+const option = (label: string) =>
+  Array.from(document.querySelectorAll<HTMLElement>('[role="option"]')).find((el) => el.textContent === label)!;
+const listbox = () => document.querySelector('[role="listbox"]');
+/* Closed = the trigger reports aria-expanded=false and the popup is no longer
+   open (jsdom keeps the popup mounted for Base UI's exit transition). */
+const expectClosed = (trigger: HTMLElement) => {
+  expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  expect(document.querySelector('[data-ag-part="popup"][data-state="open"]')).toBeNull();
+};
+
+async function openWithArrowDown() {
+  render(<Demo />);
+  const trigger = screen.getByRole('combobox');
+  trigger.focus();
+  await userEvent.keyboard('{ArrowDown}');
+  await act(async () => {});
+  expect(listbox()).toBeTruthy();
+  return trigger;
+}
+
 describe('Select keys (REQ-CMP-66)', () => {
-  it('APGLeg: select.apg.spec.ts covers Home/End/Space/Tab in-browser', () => {
-    /* jsdom cannot drive BU highlight navigation reliably; the behavioral legs
-       live in tests/a11y/apg/cmp/select.apg.spec.ts — this documents the seam. */
-    expect(Object.keys(ITEMS).length).toBe(3);
+  beforeAll(() => {
+    if (window.PointerEvent === undefined) {
+      (window as unknown as Record<string, unknown>).PointerEvent = window.MouseEvent;
+    }
   });
 
-  it('Enter opens the listbox; Space selects highlighted item and closes', async () => {
-    const { getByRole } = render(
-      <Select.Root items={ITEMS}>
-        <Select.Trigger aria-label="s" />
-      </Select.Root>,
-    );
-    const trigger = getByRole('combobox');
-    fireEvent.keyDown(trigger, { key: 'Enter' });
-    await new Promise((r) => setTimeout(r, 30));
-    const listbox = document.querySelector('[role="listbox"]');
-    if (!listbox) return; /* BU portal/positioning not reliable in jsdom — APG leg covers */
-    fireEvent.keyDown(listbox, { key: ' ' });
+  it('End highlights the last option, Home the first', async () => {
+    await openWithArrowDown();
+    await userEvent.keyboard('{End}');
+    await act(async () => {});
+    expect(option('Gamma')).toHaveAttribute('data-highlighted');
+    await userEvent.keyboard('{Home}');
+    await act(async () => {});
+    expect(option('Alpha')).toHaveAttribute('data-highlighted');
+    expect(option('Gamma')).not.toHaveAttribute('data-highlighted');
+  });
+
+  it('Space selects the highlighted option and closes', async () => {
+    const trigger = await openWithArrowDown();
+    await userEvent.keyboard('{End}');
+    await act(async () => {});
+    await userEvent.keyboard('{ }');
+    await waitFor(() => expectClosed(trigger));
+    expect(trigger).toHaveTextContent('Gamma');
+  });
+
+  it('Tab while open closes the listbox and moves focus to the next control', async () => {
+    const trigger = await openWithArrowDown();
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await userEvent.tab();
+    await waitFor(() => expectClosed(trigger));
+    expect(document.activeElement).toBe(screen.getByText('next'));
   });
 });

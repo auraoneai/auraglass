@@ -190,6 +190,9 @@ export const Keyboard: Story = {
           <Labelled text="Region">
             <OptionSelect />
           </Labelled>
+          {/* the next tab stop: select.apg.spec.ts asserts Tab from the open
+              listbox closes it and lands here (REQ-CMP-66) */}
+          <button type="button">Continue</button>
         </Panel>
       </Scene>
     </Stage>

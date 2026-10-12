@@ -58,3 +58,46 @@ test.describe('select keys (REQ-CMP-66)', () => {
     await apg.axe(page);
   });
 });
+
+/* REQ-CMP-66 (in-browser): every opening key, typeahead, and Tab while the
+   listbox is OPEN (closes it and moves focus to the next control). */
+test.describe('select opening keys, typeahead and Tab-while-open (REQ-CMP-66)', () => {
+  for (const key of ['Enter', 'Space', 'ArrowDown', 'ArrowUp'] as const) {
+    test(`${key} on the trigger opens the listbox`, async ({ page }) => {
+      await gotoStory(page, 'flagships-controls-select--keyboard');
+      const trigger = page.getByRole('combobox').first();
+      await trigger.focus();
+      await expect(page.locator('[role="listbox"]')).toHaveCount(0);
+      await page.keyboard.press(key);
+      await expect(page.locator('[role="listbox"]').first()).toBeVisible();
+      await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    });
+  }
+
+  test('typeahead highlights the option whose label starts with the typed text', async ({ page }) => {
+    await gotoStory(page, 'flagships-controls-select--keyboard');
+    const trigger = page.getByRole('combobox').first();
+    await trigger.focus();
+    await page.keyboard.press('ArrowDown');
+    await expect(page.locator('[role="listbox"]').first()).toBeVisible();
+    await page.keyboard.press('f');
+    await expect(page.getByRole('option', { name: 'Finland' })).toHaveAttribute('data-highlighted', '');
+    await page.keyboard.press('i');
+    await expect(page.getByRole('option', { name: 'Finland' })).toHaveAttribute('data-highlighted', '');
+    await page.keyboard.press('Enter');
+    await expect(page.locator('[role="listbox"]')).toHaveCount(0);
+    await expect(trigger).toHaveText(/Finland/);
+  });
+
+  test('Tab while the listbox is open closes it and moves focus to the next control', async ({ page }) => {
+    await gotoStory(page, 'flagships-controls-select--keyboard');
+    const trigger = page.getByRole('combobox').first();
+    await trigger.focus();
+    await page.keyboard.press('ArrowDown');
+    const listbox = page.locator('[role="listbox"]').first();
+    await expect(listbox).toBeVisible();
+    await page.keyboard.press('Tab');
+    await expect(page.locator('[role="listbox"]')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'Continue' })).toBeFocused();
+  });
+});
