@@ -130,16 +130,11 @@ describe.each([...SOURCE_FILES])('css-contract: %s', (file) => {
 
 describe.each(generatedFiles())('css-contract: generated/%s (2a-T output)', (file) => {
   const rel = `generated/${file}`;
-  const seeded = isSeed(join(CSS_DIR, rel));
-  if (seeded) {
-    it('is pending: still the C0 seed', () => {
-      console.warn(`[pending] src/material/css/${rel} is the C0 seed — ` +
-        'shared invariants run once 2a-T lands the compiler output');
-      expect(true).toBe(true);
-    });
-    return;
-  }
-  checkShared(`generated/${file}`, parse(rel));
+  /* 2a-T has landed the compiler output: a C0 seed here is a regression. */
+  it('is compiler output, not the C0 seed', () => {
+    expect(isSeed(join(CSS_DIR, rel))).toBe(false);
+  });
+  checkShared(rel, parse(rel));
 });
 
 /* ---------- material.css specific ---------- */
@@ -304,11 +299,8 @@ describe('private token-keyed attributes (MAT-131)', () => {
 describe('responsive ladder (MAT-130)', () => {
   it('ladders.css coarse-pointer block drops only thick blur and caps grain', () => {
     const file = join(GENERATED_DIR, 'ladders.css');
-    if (!existsSync(file) || isSeed(file)) {
-      console.warn('[pending] generated/ladders.css is the C0 seed — coarse-pointer assertions run when 2a-T lands it');
-      expect(true).toBe(true);
-      return;
-    }
+    expect(existsSync(file)).toBe(true);
+    expect(isSeed(file)).toBe(false);
     const ast = postcss.parse(readFileSync(file, 'utf8'));
     let found = false;
     let thickDropped = false;

@@ -5,7 +5,8 @@
 import { test, expect } from '@playwright/test';
 import { gotoStory } from '../../helpers/index';
 
-test.skip(!process.env.AG_REMOTE_RUNNER, 'remote visual lane only (AG_REMOTE_RUNNER=1)');
+// Remote-only (machine policy): a local run fails loudly instead of skipping (PRD §18).
+if (process.env.AG_REMOTE_RUNNER !== '1') throw new Error('remote visual lane only: run on the remote runner (AG_REMOTE_RUNNER=1)');
 
 const FAMILIES = [
   'flagships-controls-button--default',

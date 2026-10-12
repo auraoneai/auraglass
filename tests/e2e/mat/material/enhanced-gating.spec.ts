@@ -11,8 +11,16 @@ import { LensDefs } from '../../../../src/material/lens/LensDefs';
 const REFRACT = '.ag-surface[data-ag-refraction]';
 
 test.describe('enhanced gating', () => {
-  test('chromium + LensDefs -> url(#ag-lens-...) on ::before', async ({ page, browserName }) => {
-    test.skip(browserName !== 'chromium', 'enhanced is Chromium-only');
+  /* One test per engine, no skips (PRD §18): the lens is Chromium-only
+     (lens.css keys on [data-ag-engine="chromium"]), so Chromium must show
+     url(#ag-lens-...) and WebKit/Gecko must render enhanced like standard. */
+  test('enhanced: lens on chromium + LensDefs; webkit/gecko render like standard (no lens)', async ({ page, browserName }) => {
+    if (browserName !== 'chromium') {
+      await gotoMaterialStory(page, 'material-lab-examples--tiers', { tier: 'enhanced' });
+      const bf = await computedPseudoVar(page, REFRACT, '::before', 'backdrop-filter').catch(() => '');
+      expect(bf).not.toContain('url(#ag-lens');
+      return;
+    }
     await page.addInitScript(() => {
       document.documentElement.setAttribute('data-ag-engine', 'chromium');
       document.documentElement.setAttribute('data-ag-tier', 'enhanced');
@@ -33,13 +41,6 @@ test.describe('enhanced gating', () => {
     }
   });
 
-  test('non-chromium: enhanced renders like standard (no lens)', async ({ page, browserName }) => {
-    test.skip(browserName === 'chromium', 'this asserts non-chromium inertness');
-    await gotoMaterialStory(page, 'material-lab-examples--tiers', { tier: 'enhanced' });
-    const bf = await computedPseudoVar(page, REFRACT, '::before', 'backdrop-filter').catch(() => '');
-    expect(bf).not.toContain('url(#ag-lens');
-  });
-
   test('refraction on non-chrome layer is inert + dev warning', async ({ page }) => {
     const warnings: string[] = [];
     page.on('console', (m) => { if (m.text().includes('[aura-glass]')) warnings.push(m.text()); });
@@ -50,8 +51,9 @@ test.describe('enhanced gating', () => {
     }
   });
 
-  test('inert under tinted/solid transparency', async ({ page, browserName }) => {
-    test.skip(browserName !== 'chromium', 'enhanced is Chromium-only');
+  // Holds in every engine: tinted is a lens kill switch on Chromium, and the
+  // lens never applies on WebKit/Gecko.
+  test('inert under tinted/solid transparency', async ({ page }) => {
     await gotoMaterialStory(page, 'material-lab-examples--preferences', { tier: 'enhanced', engine: 'chromium' });
     const bf = await computedPseudoVar(
       page, '[data-ag-transparency="tinted"] .ag-surface[data-ag-refraction]', '::before', 'backdrop-filter')

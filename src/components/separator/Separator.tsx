@@ -1,8 +1,11 @@
-/* CMP-302/CMP-423: Separator on Base UI Separator (hairline token).
-   decorative → role='none'; semantic → role='separator' + aria-orientation +
-   data-orientation. */
+/* CMP-302/CMP-423: Separator (hairline token) as owned markup.
+   @base-ui/react/separator ships a client directive, so composing it would
+   turn this rsc:server leaf into a client module (CMP-302: use owned markup
+   to stay rsc:server). Base UI's Separator is a bare <div role=separator
+   aria-orientation>; this renders the same element directly.
+   decorative → role='none' + aria-hidden; semantic → role='separator' +
+   aria-orientation + data-orientation. */
 import * as React from 'react';
-import { Separator as BaseSeparator } from '@base-ui/react/separator';
 import { cn } from '../../internal/index';
 
 export interface SeparatorProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -19,10 +22,9 @@ export function Separator({
   ...rest
 }: SeparatorProps & { ref?: React.Ref<HTMLDivElement> | undefined }) {
   return (
-    <BaseSeparator
+    <div
       {...rest}
       ref={ref}
-      orientation={orientation}
       data-ag-part="root"
       data-orientation={orientation}
       role={decorative ? 'none' : 'separator'}

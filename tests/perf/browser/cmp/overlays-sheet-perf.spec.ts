@@ -5,7 +5,8 @@
 import { test, expect } from '@playwright/test';
 import { gotoStory, perf } from '../../../helpers/index';
 
-test.skip(!process.env.AG_REMOTE_RUNNER, 'remote perf lane only (AG_REMOTE_RUNNER=1)');
+// Remote-only (machine policy): a local run fails loudly instead of skipping (PRD §18).
+if (process.env.AG_REMOTE_RUNNER !== '1') throw new Error('remote perf lane only: run on the remote runner (AG_REMOTE_RUNNER=1)');
 
 const PROFILES: Array<{ name: string; viewport: { width: number; height: number }; cpuRate: number; p95Ms: number }> = [
   { name: 'desktop-120hz', viewport: { width: 1280, height: 800 }, cpuRate: 1, p95Ms: 16.7 },

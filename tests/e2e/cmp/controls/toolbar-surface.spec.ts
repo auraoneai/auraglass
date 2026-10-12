@@ -9,7 +9,7 @@ test.describe('toolbar surface root (REQ-CMP-37)', () => {
     await gotoStory(page, 'flagships-controls-toolbar--default')
       .catch(() => gotoStory(page, 'flagships-controls-toolbar--overview'));
     const root = page.getByRole('toolbar').first();
-    test.skip((await root.count()) === 0, 'toolbar story missing');
+    await expect(root, 'toolbar story missing').toHaveCount(1);
     await expect(root).toHaveAttribute('data-ag-part', 'root');
     await expect(root).toHaveAttribute('data-ag-group', '');
     await expect(root).toHaveAttribute('data-ag-surface', '');

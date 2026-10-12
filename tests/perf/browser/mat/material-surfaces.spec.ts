@@ -63,8 +63,9 @@ test.describe('material perf', () => {
     expect(stats.p50).toBeGreaterThanOrEqual(budgets.mobileFpsP50);
   });
 
-  test('enhanced 2 lenses meets fps + GPU budget', async ({ page, browserName }) => {
-    test.skip(browserName !== 'chromium', 'enhanced is Chromium-only');
+  // No skip (PRD §18): on Chromium this measures 2 live lenses; on WebKit/Gecko
+  // enhanced renders as standard and the same scene must hold the same budget.
+  test('enhanced 2 lenses meets fps + GPU budget', async ({ page }) => {
     await gotoMaterialStory(page, 'material-lab-examples--tiers', { tier: 'enhanced', engine: 'chromium' });
     const stats = await frameStats(page, 4000);
     expect(stats.p50).toBeGreaterThanOrEqual(budgets.lensFpsP50);

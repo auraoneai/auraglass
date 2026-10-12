@@ -7,7 +7,7 @@ test.describe('icon-button sizes (REQ-CMP-36)', () => {
   test('sm/md/lg boxes measure 28/36/44px', async ({ page }) => {
     await gotoStory(page, 'flagships-controls-iconbutton--sizes');
     const buttons = page.locator('.ag-icon-button');
-    test.skip((await buttons.count()) < 3, 'sizes story missing');
+    expect(await buttons.count(), 'sizes story missing').toBeGreaterThanOrEqual(3);
     const sizes = await buttons.evaluateAll((els) =>
       els.map((el) => ({ size: el.getAttribute('data-ag-size'), w: (el as HTMLElement).offsetWidth, h: (el as HTMLElement).offsetHeight })),
     );

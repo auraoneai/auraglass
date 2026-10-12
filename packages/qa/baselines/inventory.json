@@ -1192,6 +1192,51 @@
     "name": "OptimizedGlassAdvanced"
   },
   {
+    "file": "src/compat/mat/createBrandGlassTheme.ts",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-57",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "createBrandGlassTheme",
+    "dep": "DEP-M0969"
+  },
+  {
+    "file": "src/compat/mat/createGlassTheme.ts",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-57",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "createGlassTheme",
+    "dep": "DEP-M0902"
+  },
+  {
+    "file": "src/compat/mat/material/OptimizedGlass.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-57",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassAdvanced",
+    "dep": "DEP-M0807"
+  },
+  {
+    "file": "src/compat/mat/material/OptimizedGlass.tsx",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-57",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassPrimitive",
+    "dep": "DEP-M0811"
+  },
+  {
+    "file": "src/compat/mat/theme.ts",
+    "owner": "MAT",
+    "reqFin": "REQ-FIN-57",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "createGlassThemeCssVars",
+    "dep": "DEP-M0970"
+  },
+  {
     "file": "src/compat/cmp/overlays/Positioner.tsx",
     "owner": "CMP",
     "reqFin": "REQ-FIN-76",
@@ -1272,12 +1317,561 @@
     "name": "toSide"
   },
   {
+    "file": "src/compat/cmp/content/CircularProgress.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "CircularProgress",
+    "dep": "DEP-C0243"
+  },
+  {
+    "file": "src/compat/cmp/content/DisplayText.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "DisplayText",
+    "dep": "DEP-C0266"
+  },
+  {
+    "file": "src/compat/cmp/content/GlassConnectionStatus.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassConnectionStatus",
+    "dep": "DEP-C0238"
+  },
+  {
+    "file": "src/compat/cmp/content/GlassStatusDot.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassStatusDot",
+    "dep": "DEP-C0237"
+  },
+  {
+    "file": "src/compat/cmp/content/LiquidGlassBadgeCluster.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassBadgeCluster",
+    "dep": "DEP-C0236"
+  },
+  {
+    "file": "src/compat/cmp/content/Typography.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "Typography",
+    "dep": "DEP-C0265"
+  },
+  {
+    "file": "src/compat/cmp/controls/GlassLabel.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassLabel",
+    "dep": "DEP-C0280"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassAccordion.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassAccordion",
+    "dep": "DEP-C0251"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassAlert.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassAlert",
+    "dep": "DEP-C0241"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassAvatar.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassAvatar",
+    "dep": "DEP-C0239"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassAvatarGroup.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassAvatarGroup",
+    "dep": "DEP-C0240"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassBadge.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassBadge",
+    "dep": "DEP-C0235"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassCard.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassCard",
+    "dep": "DEP-C0231"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassCoachmarks.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassCoachmarks",
+    "dep": "DEP-C0263"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassColorPicker.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassColorPicker",
+    "dep": "DEP-C0256"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassColorWheel.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassColorWheel",
+    "dep": "DEP-C0257"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassContainer.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassContainer",
+    "dep": "DEP-C0273"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassDismissableLayer.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDismissableLayer",
+    "dep": "DEP-C0278"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassDivider.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassDivider",
+    "dep": "DEP-C0247"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassEmptyState.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassEmptyState",
+    "dep": "DEP-C0248"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassErrorState.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassErrorState",
+    "dep": "DEP-C0249"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassFileUpload.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassFileUpload",
+    "dep": "DEP-C0255"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassFocusScope.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassFocusScope",
+    "dep": "DEP-C0277"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassForm.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassForm",
+    "dep": "DEP-C0283"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassGradientPicker.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassGradientPicker",
+    "dep": "DEP-C0258"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassInlineEdit.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassInlineEdit",
+    "dep": "DEP-C0254"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassLabelPrimitive.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassLabelPrimitive",
+    "dep": "DEP-C0279"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassLoadingSkeleton.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassLoadingSkeleton",
+    "dep": "DEP-C0245"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassLoadingState.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassLoadingState",
+    "dep": "DEP-C0250"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassNotificationItem.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassNotificationItem",
+    "dep": "DEP-C0284"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassPortal.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassPortal",
+    "dep": "DEP-C0276"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassProgress.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassProgress",
+    "dep": "DEP-C0242"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassRating.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassRating",
+    "dep": "DEP-C0253"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassScrollArea.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassScrollArea",
+    "dep": "DEP-C0252"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassSeparator.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSeparator",
+    "dep": "DEP-C0246"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassSkeleton.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSkeleton",
+    "dep": "DEP-C0244"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassSlot.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSlot",
+    "dep": "DEP-C0275"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassSpotlight.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSpotlight",
+    "dep": "DEP-C0264"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassStack.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassStack",
+    "dep": "DEP-C0267"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassStepper.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassStepper",
+    "dep": "DEP-C0282"
+  },
+  {
+    "file": "src/compat/cmp/core/GlassWorkspacePanel.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassWorkspacePanel",
+    "dep": "DEP-C0234"
+  },
+  {
+    "file": "src/compat/cmp/core/GlowingCard.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlowingCard",
+    "dep": "DEP-C0232"
+  },
+  {
+    "file": "src/compat/cmp/core/LabelRoot.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LabelRoot",
+    "dep": "DEP-C0281"
+  },
+  {
+    "file": "src/compat/cmp/core/MobileGlassBottomSheet.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "MobileGlassBottomSheet",
+    "dep": "DEP-C0132"
+  },
+  {
+    "file": "src/compat/cmp/core/WidgetGlass.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "WidgetGlass",
+    "dep": "DEP-C0233"
+  },
+  {
+    "file": "src/compat/cmp/layout/Box.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "Box",
+    "dep": "DEP-C0269"
+  },
+  {
+    "file": "src/compat/cmp/layout/GlassFlex.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassFlex",
+    "dep": "DEP-C0268"
+  },
+  {
+    "file": "src/compat/cmp/layout/GlassGrid.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassGrid",
+    "dep": "DEP-C0270"
+  },
+  {
+    "file": "src/compat/cmp/layout/GlassMasonry.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassMasonry",
+    "dep": "DEP-C0271"
+  },
+  {
+    "file": "src/compat/cmp/layout/GlassMasonryGrid.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassMasonryGrid",
+    "dep": "DEP-C0272"
+  },
+  {
+    "file": "src/compat/cmp/layout/ImageListItem.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "ImageListItem",
+    "dep": "DEP-C0260"
+  },
+  {
+    "file": "src/compat/cmp/layout/ImageListItemBar.tsx",
+    "owner": "CMP",
+    "reqFin": "REQ-FIN-76",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "ImageListItemBar",
+    "dep": "DEP-C0261"
+  },
+  {
     "file": "src/compat/surf/app-shell/ZSpaceAppLayout.tsx",
     "owner": "SURF",
     "reqFin": "REQ-FIN-80",
     "expires": "RC-1",
     "entry": "./compat",
     "name": "ZSpaceAppLayout"
+  },
+  {
+    "file": "src/compat/surf/app-shell/GlassPage.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassPage",
+    "dep": "DEP-S0037"
+  },
+  {
+    "file": "src/compat/surf/app-shell/GlassSidebarPanel.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSidebarPanel",
+    "dep": "DEP-S0035"
+  },
+  {
+    "file": "src/compat/surf/app-shell/GlassSidebarRail.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSidebarRail",
+    "dep": "DEP-S0034"
+  },
+  {
+    "file": "src/compat/surf/app-shell/GlassSplitPane.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassSplitPane",
+    "dep": "DEP-S0030"
+  },
+  {
+    "file": "src/compat/surf/app-shell/LiquidGlassInsetSidebar.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassInsetSidebar",
+    "dep": "DEP-S0032"
+  },
+  {
+    "file": "src/compat/surf/app-shell/LiquidGlassInspectorPanel.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "LiquidGlassInspectorPanel",
+    "dep": "DEP-S0033"
+  },
+  {
+    "file": "src/compat/surf/data/GlassMetricChip.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassMetricChip",
+    "dep": "DEP-S0213"
+  },
+  {
+    "file": "src/compat/surf/navigation/GlassBreadcrumbs.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassBreadcrumbs",
+    "dep": "DEP-S0036"
+  },
+  {
+    "file": "src/compat/surf/navigation/GlassNavigationMenu.tsx",
+    "owner": "SURF",
+    "reqFin": "REQ-FIN-80",
+    "expires": "RC-1",
+    "entry": "./compat",
+    "name": "GlassNavigationMenu",
+    "dep": "DEP-S0031"
   },
   {
     "file": "src/date/TimePicker.tsx",

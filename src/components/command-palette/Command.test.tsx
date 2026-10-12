@@ -127,9 +127,11 @@ describe('Command (SURF-086)', () => {
       const q = Array.from({ length: 1 + (i % 8) }, () =>
         String.fromCharCode(32 + ((i * 37 + 11) % 95)),
       ).join('');
-      fireEvent.change(input, { target: { value: q } });
+      expect(() => fireEvent.change(input, { target: { value: q } })).not.toThrow();
+      expect((input as HTMLInputElement).value).toBe(q);
     }
-    expect(true).toBe(true);
+    // the list survives the whole run (no error boundary / unmount)
+    expect(screen.getByRole('listbox')).toBeTruthy();
   });
 
   it('Empty shows when the filter removes everything', () => {

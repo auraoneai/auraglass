@@ -22,7 +22,7 @@ test.describe('checkbox APG (CMP-361)', () => {
     await gotoStory(page, 'flagships-controls-checkboxgroup--keyboard');
     const boxes = page.getByRole('checkbox');
     const n = await boxes.count();
-    if (n < 2) test.skip();
+    expect(n, 'checkbox-group story renders fewer than 2 checkboxes').toBeGreaterThanOrEqual(2);
     const parent = boxes.first();
     await parent.focus();
     await page.keyboard.press('Space');

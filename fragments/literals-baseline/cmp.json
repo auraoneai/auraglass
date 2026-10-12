@@ -3187,6 +3187,15 @@
       "shadow": 0,
       "spring": 0
     },
+    "src/foundation/base-ui/popover.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
     "src/foundation/base-ui/preview-card.ts": {
       "blur": 0,
       "color": 0,
@@ -3197,6 +3206,24 @@
       "spring": 0
     },
     "src/foundation/base-ui/slider.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/foundation/base-ui/tabs.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/foundation/base-ui/toggle.ts": {
       "blur": 0,
       "color": 0,
       "duration": 0,

@@ -4,22 +4,32 @@
 import { test, expect } from '@playwright/test';
 import { gotoStory, perf } from '../../../helpers/index';
 
-test.skip(!process.env.AG_REMOTE_RUNNER, 'remote perf lane only (AG_REMOTE_RUNNER=1)');
+// Remote-only (machine policy): a local run fails loudly instead of skipping (PRD §18).
+if (process.env.AG_REMOTE_RUNNER !== '1') throw new Error('remote perf lane only: run on the remote runner (AG_REMOTE_RUNNER=1)');
 
 
 import { listSubjects } from '../../../helpers/index';
 
 test.describe('glass modal 4.x pixel parity (CMP-385/387)', () => {
   const VIEWPORTS = [{ width: 1440, height: 900 }, { width: 390, height: 844 }];
-  const STORIES = ['glass-modal--default', 'glass-dialog--default', 'glass-drawer--default'];
+  /* The 4.x story ids (glass-modal/glass-dialog/glass-drawer) are not in the
+     5.x Storybook; the 4.x names ship as compat wrappers over their 5.0
+     successors (GlassModal/GlassDialog -> Dialog, GlassDrawer -> Sheet,
+     src/compat/cmp/overlays/*). Each case runs against its successor's
+     registered subject; a missing subject fails the case, never skips it. */
+  const STORIES: Array<[legacy: string, successor: string]> = [
+    ['glass-modal--default', 'overlays-dialog--default'],
+    ['glass-dialog--default', 'overlays-dialog--default'],
+    ['glass-drawer--default', 'overlays-sheet--right-panel'],
+  ];
 
   for (const vp of VIEWPORTS) {
-    for (const story of STORIES) {
+    for (const [story, successor] of STORIES) {
       test(`${story} @ ${vp.width}x${vp.height}: screenshot vs pre-change SHA`, async ({ page }) => {
         await page.setViewportSize(vp);
         const subjects = await listSubjects();
-        const id = subjects.find((s) => s.id === story)?.id;
-        test.skip(!id, `4.x story ${story} not in subject index at this SHA`);
+        const id = subjects.find((s) => s.id === successor)?.id;
+        expect(id, `5.0 successor ${successor} of ${story} not in the subject index`).toBeTruthy();
         await gotoStory(page, id!);
         await expect(page.locator('[data-ag-part="popup"], [data-ag-part="root"]').first())
           .toHaveScreenshot(`${story}-${vp.width}.png`, { maxDiffPixels: 120 });
