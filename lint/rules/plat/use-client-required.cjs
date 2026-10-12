@@ -7,7 +7,13 @@
    - references to window|document|navigator|matchMedia|ResizeObserver|
      IntersectionObserver|localStorage
    - a non-type use[A-Z]\w* import from a client module (a relative
-     specifier whose resolved file opens with 'use client') */
+     specifier whose resolved file opens with 'use client')
+   Option { allowHooks: string[] } (default none, so lint is unchanged):
+   hook names not treated as signals. scripts/build/server-safe.mjs passes
+   the hooks React's `react-server` build exports (useId, ...) so its
+   react-server graph check runs this exact rule under that condition. */
+// REQ-PLAT-69 rollout: warn outside PLAT globs until RC-1 (PLAT globs: _strict.cjs).
+const { rolloutSeverity } = require('./_rollout.cjs');
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -56,12 +62,13 @@ module.exports = {
     type: 'problem',
     docs: { description: "require 'use client' when a module uses a client-only signal" },
     messages: { required: "Module uses a client-only signal ({{what}}) but does not open with 'use client'." },
-    schema: [],
+    schema: [{ type: 'object', properties: { allowHooks: { type: 'array', items: { type: 'string' } } }, additionalProperties: false }],
   },
   create(context) {
     const sourceCode = context.sourceCode;
     const filename = context.filename ?? '';
     if (SKIP.test(filename)) return {};
+    const allow = new Set(context.options?.[0]?.allowHooks ?? []);
     let found = null;
     const signalNames = new Set();  // identifiers imported from a signal source
     const isModuleFunction = (expr, at) => {
@@ -82,7 +89,7 @@ module.exports = {
         const src = node.source.value;
         if (SIGNAL_SOURCES.test(src)) {
           for (const s of node.specifiers) {
-            if (s.type === 'ImportSpecifier' && s.importKind !== 'type' && SIGNAL_HOOKS.has(s.imported.name)) signalNames.add(s.local.name);
+            if (s.type === 'ImportSpecifier' && s.importKind !== 'type' && SIGNAL_HOOKS.has(s.imported.name) && !allow.has(s.imported.name)) signalNames.add(s.local.name);
             if (s.type === 'ImportDefaultSpecifier' || s.type === 'ImportNamespaceSpecifier') signalNames.add(s.local.name);
           }
         }
@@ -104,6 +111,7 @@ module.exports = {
           : callee.type === 'MemberExpression' && !callee.computed && callee.object.type === 'Identifier'
             && (callee.object.name === 'React' || signalNames.has(callee.object.name)) && callee.property.type === 'Identifier'
             ? callee.property.name : null;
+        if (name && allow.has(name)) return;
         if (name && (SIGNAL_HOOKS.has(name) || signalNames.has(name))) found = `call to ${name}()`;
       },
       Identifier(node) {
@@ -133,5 +141,5 @@ module.exports = {
       },
     };
   },
-  agConfig: [{ files: ['src/**/*.{ts,tsx}'], ignores: ['**/__tests__/**', '**/*.test.*', '**/*.stories.*'], severity: 'error' }],
+  agConfig: [{ files: ['src/**/*.{ts,tsx}'], ignores: ['**/__tests__/**', '**/*.test.*', '**/*.stories.*'], severity: rolloutSeverity() }],
 };

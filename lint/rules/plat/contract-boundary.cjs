@@ -3,6 +3,8 @@
    internals). Contracts and stubs are never imported from src/**: a stub under
    contracts/stubs or contracts/stubs/** is contract scaffolding, and any
    specifier reaching contracts/ or a sibling stub dir is a boundary breach. */
+// REQ-PLAT-69 rollout: warn outside PLAT globs until RC-1 (PLAT globs: _strict.cjs).
+const { rolloutSeverity } = require('./_rollout.cjs');
 const path = require('node:path');
 
 const SRC_FILE = /(^|[/\\])src[/\\]/;
@@ -49,5 +51,5 @@ module.exports = {
       ImportExpression: (n) => n.source.type === 'Literal' && check(n.source, n.source.value),
     };
   },
-  agConfig: [{ files: ['src/**/*.{ts,tsx}'], severity: 'error' }],
+  agConfig: [{ files: ['src/**/*.{ts,tsx}'], severity: rolloutSeverity() }],
 };
