@@ -25,9 +25,9 @@ function fixture(): { dir: string; reg: string } {
   fs.writeFileSync(path.join(reg, 'w.json'), JSON.stringify({
     name: 'w', type: 'registry:component', version: '1.1.0',
     files: [
-      { path: 'unchanged.tsx', content: OLD },
-      { path: 'upchanged.tsx', content: NEW },
-      { path: 'modified.tsx', content: OLD },
+      { path: 'unchanged.tsx', type: 'registry:component', content: OLD },
+      { path: 'upchanged.tsx', type: 'registry:component', content: NEW },
+      { path: 'modified.tsx', type: 'registry:component', content: OLD },
     ],
   }));
   const compDir = path.join(dir, 'components', 'aura', 'w');

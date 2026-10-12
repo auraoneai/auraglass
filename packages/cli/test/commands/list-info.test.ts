@@ -15,31 +15,31 @@ const registryFixture = (root: string) => {
   const dir = path.join(root, 'reg');
   fs.mkdirSync(dir, { recursive: true });
   fs.writeFileSync(path.join(dir, 'index.json'), JSON.stringify({ items: [
-    { name: 'button', type: 'components', title: 'Button', description: 'Glass button' },
-    { name: 'card', type: 'components', title: 'Card', description: 'Glass card' },
-    { name: 'hero', type: 'blocks', title: 'Hero', description: 'Landing hero block' },
+    { name: 'button', type: 'registry:component', title: 'Button', description: 'Glass button' },
+    { name: 'card', type: 'registry:component', title: 'Card', description: 'Glass card' },
+    { name: 'hero', type: 'registry:block', title: 'Hero', description: 'Landing hero block' },
   ] }));
   fs.writeFileSync(path.join(dir, 'button.json'), JSON.stringify({
-    name: 'button', type: 'components', title: 'Button', description: 'Glass button',
+    name: 'button', type: 'registry:component', title: 'Button', description: 'Glass button',
     dependencies: ['clsx'],
     registryDependencies: [],
-    files: [{ path: 'button.tsx', content: "export const Button = 1;\n" }],
+    files: [{ path: 'button.tsx', type: 'registry:component', content: "export const Button = 1;\n" }],
     cssVars: { ':root': { '--ag-btn-radius': '8px', '--ag-btn-bg': 'glass' } },
     meta: { auraglass: { certified: true, sha: CERT_SHA, client: false } },
   }));
   fs.writeFileSync(path.join(dir, 'card.json'), JSON.stringify({
-    name: 'card', type: 'components', title: 'Card', description: 'Glass card',
+    name: 'card', type: 'registry:component', title: 'Card', description: 'Glass card',
     dependencies: [], registryDependencies: ['button'],
-    files: [{ path: 'card.tsx', content: "export const Card = 1;\n" }],
+    files: [{ path: 'card.tsx', type: 'registry:component', content: "export const Card = 1;\n" }],
     cssVars: { ':root': { '--ag-card-pad': '16px' } },
     meta: { auraglass: { certified: true, sha: CERT_SHA } },
   }));
   fs.writeFileSync(path.join(dir, 'hero.json'), JSON.stringify({
-    name: 'hero', type: 'blocks', title: 'Hero',
+    name: 'hero', type: 'registry:block', title: 'Hero',
     dependencies: ['framer-motion'], registryDependencies: ['button', 'card'],
     files: [
-      { path: 'hero.tsx', content: "export const Hero = 1;\n" },
-      { path: 'hero.css', content: '.hero{}\n' },
+      { path: 'hero.tsx', type: 'registry:component', content: "export const Hero = 1;\n" },
+      { path: 'hero.css', type: 'registry:style', content: '.hero{}\n' },
     ],
     cssVars: { ':root': { '--ag-hero-h': '480px' }, '.dark': { '--ag-hero-h': '560px' } },
     meta: { auraglass: { certified: true, sha: CERT_SHA, client: true } },
@@ -49,7 +49,7 @@ const registryFixture = (root: string) => {
 
 describe('list/info', () => {
   it('registryItemSchema parses a minimal item', () => {
-    const r = registryItemSchema.safeParse({ name: 'button', type: 'components', files: [] });
+    const r = registryItemSchema.safeParse({ name: 'button', type: 'registry:component', files: [] });
     expect(r.success).toBe(true);
   });
 
@@ -70,7 +70,7 @@ describe('list/info', () => {
     const { items } = JSON.parse(buf.join(''));
     const names = items.map((i: { name: string }) => i.name).sort();
     expect(names).toEqual(['button', 'card', 'hero']);
-    expect(items.find((i: { name: string }) => i.name === 'hero').type).toBe('blocks');
+    expect(items.find((i: { name: string }) => i.name === 'hero').type).toBe('registry:block');
   });
 
   it('listCommand filter narrows by name substring', async () => {
@@ -91,7 +91,7 @@ describe('list/info', () => {
     finally { spy.mockRestore(); }
     const item = JSON.parse(buf.join(''));
     expect(item.name).toBe('hero');
-    expect(item.type).toBe('blocks');
+    expect(item.type).toBe('registry:block');
     expect(item.dependencies).toEqual(['framer-motion']);
     expect(item.registryDependencies).toEqual(['button', 'card']);
     expect(item.files.map((f: { path: string }) => f.path)).toEqual(['hero.tsx', 'hero.css']);

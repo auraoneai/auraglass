@@ -62,6 +62,40 @@ const specifierToEntry = (row) => {
   return { subpath: sub, entry };
 };
 
+/* REQ-PLAT-76: PLAT's cn/warnDeprecated rows name 'aura-glass/internal',
+   which is deliberately NOT a public manifest entry. The one explicit
+   internal-row allowance maps it to src/internal (the shipped subject's
+   source); every other unknown aura-glass subpath fails the row instead of
+   sitting 'pending' forever. */
+export const INTERNAL_SUBPATH = './internal';
+export function rowTarget(row) {
+  const t = specifierToEntry(row);
+  if (!t) return null;
+  return { ...t, internal: t.subpath === INTERNAL_SUBPATH };
+}
+
+/* REQ-PLAT-76: "each compat import <= its target + 2 KB (reported
+   separately)" — one generated row per compat export whose 5.0 target
+   (exact name, or the Glass-prefixed legacy name stripped) has its own js
+   row. Rows carry `compatOf` so the aggregate reports them as the compat
+   group, distinct from the targets' own rows. */
+export function compatRows(rows, compatExports) {
+  const byId = new Map(rows.filter((r) => r.kind === 'js').map((r) => [r.id, r]));
+  const out = [];
+  for (const name of compatExports) {
+    const target = byId.get(name) ?? byId.get(name.replace(/^Glass/, '')) ?? byId.get(name.replace(/^EnhancedGlass/, ''));
+    if (!target) continue;
+    out.push({
+      id: `plat:compat:${name}`,
+      import: `export { ${name} } from 'aura-glass/compat'`,
+      limitBytes: target.limitBytes + 2048,
+      kind: 'js',
+      compatOf: target.id,
+    });
+  }
+  return out;
+}
+
 const cssPathFor = (row) => {
   const spec = row.import.replace(/^['"]|['"]$/g, '').replace(/#.*$/, '');
   if (spec.startsWith('aura-glass/')) return join(ROOT, 'dist', spec.slice('aura-glass/'.length));
@@ -78,11 +112,15 @@ const presetBlocksBytes = async () => {
   return gzipSync(Object.values(presetCssText).join('\n'), { level: 9 }).length;
 };
 
-const bundle = async (spec) => {
+const bundle = async (spec, opts = {}) => {
   const res = await esbuildBundle({
     stdin: { contents: spec, loader: 'ts', resolveDir: ROOT },
     bundle: true, write: false, minify: true, format: 'esm', platform: 'browser',
     external: EXTERNALS, treeShaking: true, metafile: true, logLevel: 'silent',
+    /* internal rows measure the production-eliminated cost: warnDeprecated
+       is dev-only by contract (its whole body, incl. the generated lookup
+       table, compiles away under NODE_ENV=production in consumer bundles). */
+    ...(opts.production ? { define: { 'process.env.NODE_ENV': '"production"' } } : {}),
   });
   return { bytes: gzipSync(res.outputFiles[0].contents, { level: 9 }).length, metafile: res.metafile };
 };
@@ -142,6 +180,13 @@ export async function run() {
   }
   const rows = [];
   for (const { value } of await loadFragments('size-budgets', ROOT)) for (const r of value ?? []) rows.push(r);
+  /* REQ-PLAT-76: generated per-compat-export rows (target + 2 KB), reported
+     separately via their `compatOf` marker in the aggregate. */
+  const compatExportsPath = join(ROOT, 'etc/api/compat.exports.json');
+  if (existsSync(compatExportsPath)) {
+    const compatNames = JSON.parse(readFileSync(compatExportsPath, 'utf8')).exports ?? [];
+    rows.push(...compatRows(rows, compatNames));
+  }
   const problems = [];
   const results = [];
   mkdirSync(META_DIR, { recursive: true });
@@ -184,11 +229,16 @@ export async function run() {
         if (measured > row.limitBytes) problems.push(`${row.id}: ${measured} B > ${row.limitBytes} B`);
         continue;
       }
-      const { subpath, entry } = specifierToEntry(row) ?? {};
-      /* an aura-glass subpath that is not (yet) a public entry in
-         build/exports.manifest.json has no shipped subject to measure —
-         pending, same as a missing css file or wildcard dir */
-      if (subpath && !entry) { results.push({ ...row, status: 'pending', measuredBytes: null }); continue; }
+      const { subpath, entry, internal } = rowTarget(row) ?? {};
+      /* REQ-PLAT-76: an aura-glass subpath that is not a public entry in
+         build/exports.manifest.json (and not the explicit internal-row
+         allowance) FAILS — an unknown subpath sitting 'pending' forever
+         silently un-measures the row. */
+      if (subpath && !entry && !internal) {
+        results.push({ ...row, status: 'fail', measuredBytes: null, error: `unknown aura-glass subpath '${subpath}' (not a manifest entry)` });
+        problems.push(`${row.id}: unknown aura-glass subpath '${subpath}' — point the row at a public entry`);
+        continue;
+      }
       /* map the aura-glass specifier to the emitted dist file */
       let spec = row.import.trim();
       const share = SHARE_RE.exec(spec)?.[1] ?? null;
@@ -196,7 +246,9 @@ export async function run() {
       /* bare 'aura-glass/x' (or quoted "'aura-glass/x'") specifiers become a
          whole-entry measurement */
       if (!/from\s*['"]/.test(spec) && /^['"]?aura-glass/.test(spec)) spec = `export * from '${spec.replace(/^['"]|['"]$/g, '')}'`;
-      if (subpath) {
+      if (internal) {
+        spec = spec.replace(/['"]aura-glass(\/[\w./-]+)?['"]/g, `'${join(ROOT, 'src/internal/index.ts')}'`);
+      } else if (subpath) {
         const target = entry ? join(ROOT, entry.default) : null;
         const distPath = target ?? join(ROOT, 'dist', subpath === '.' ? 'index.js' : `${subpath.slice(2)}/index.js`);
         spec = spec.replace(/['"]aura-glass(\/[\w./-]+)?['"]/g, `'${distPath}'`);
@@ -205,7 +257,7 @@ export async function run() {
          statement so esbuild parses it. */
       if (!/^\s*(import|export)\b/.test(spec)) spec = `export ${spec}`;
       try {
-        const b = await bundle(spec);
+        const b = await bundle(spec, internal ? { production: true } : {});
         ({ metafile } = b);
         measured = share ? shareOf(b, share) : b.bytes;
       }
@@ -223,7 +275,9 @@ export async function run() {
     }
     const provName = row.id.split(':').pop();
     const provFloor = PROVISIONAL_ROWS[provName];
-    if (provFloor !== undefined && row.limitBytes > provFloor) problems.push(`${row.id}: limit ${row.limitBytes} looser than PROVISIONAL_ROWS ${provFloor}`);
+    /* generated compat rows are target+2048 by the REQ-PLAT-76 rule itself —
+       the provisional floor binds their target row, not the compat row. */
+    if (!row.compatOf && provFloor !== undefined && row.limitBytes > provFloor) problems.push(`${row.id}: limit ${row.limitBytes} looser than PROVISIONAL_ROWS ${provFloor}`);
     results.push({ ...row, status: measured <= row.limitBytes ? 'pass' : 'fail', measuredBytes: measured });
     if (measured > row.limitBytes) problems.push(`${row.id}: ${measured} B > ${row.limitBytes} B`);
   }
@@ -233,6 +287,8 @@ export async function run() {
   /* aggregate + fixed ceilings */
   const aggregate = {
     generatedAt: new Date().toISOString(), rows: results,
+    /* REQ-PLAT-76: compat rows reported separately from their targets. */
+    compatRows: results.filter((r) => r.compatOf),
     ceilings: DEFAULT_CEILINGS,
     measured: {
       tarballPackedBytes: null, stylesCssGzBytes: existsSync(join(DIST, 'styles.css')) ? gzipSync(readFileSync(join(DIST, 'styles.css')), { level: 9 }).length : null,

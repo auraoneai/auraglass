@@ -39,6 +39,34 @@ describe('tailwind bridge (PLAT-280/281)', () => {
     return readFileSync(join(ROOT, 'dist/tailwind.css'), 'utf8');
   };
 
+  it('@theme inline contains ONLY --color-/--radius-/--shadow- declarations (REQ-PLAT-75)', () => {
+    const css = distBridge();
+    const theme = css.match(/@theme inline \{([\s\S]*?)\n\}/);
+    expect(theme).toBeTruthy();
+    const decls = [...theme![1]!.matchAll(/--([\w-]+)\s*:/g)].map((m) => m[1]!);
+    expect(decls.length).toBeGreaterThan(0);
+    expect(decls.filter((d) => !/^(color|radius|shadow)-/.test(d))).toEqual([]);
+  });
+
+  it('non color/radius/shadow tokens are dropped from a synthetic manifest', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ag-tw-drop-'));
+    const mf = join(dir, 'manifest.json');
+    const o = join(dir, 'tailwind.css');
+    writeFileSync(mf, JSON.stringify({
+      version: 1,
+      tokens: [
+        { name: 'sys.spacing.md', cssVar: '--ag-spacing-md', type: 'dimension', tier: 'sys' },
+        { name: 'sys.motion.fast', cssVar: '--ag-motion-fast', type: 'duration', tier: 'sys' },
+        { name: 'sys.color.canvas', cssVar: '--ag-color-canvas', type: 'color', tier: 'sys' },
+      ],
+    }));
+    execFileSync('node', ['scripts/build/gen-tailwind-bridge.mjs', '--manifest', mf, '--out', o], { cwd: ROOT });
+    const css = readFileSync(o, 'utf8');
+    expect(css).toContain('--color-canvas: var(--ag-color-canvas);');
+    expect(css).not.toContain('--spacing-md');
+    expect(css).not.toContain('--motion-fast');
+  });
+
   it('token categories land in the color/radius/shadow namespaces', () => {
     const css = distBridge();
     expect(css).toContain('--color-canvas: var(--ag-color-canvas);');

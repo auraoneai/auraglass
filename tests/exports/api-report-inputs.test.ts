@@ -50,6 +50,16 @@ describe('api-report inputs (REQ-PLAT-73)', () => {
     expect(listed.exports).toEqual(JSON.parse(read('package.json')).exports);
   });
 
+  it('artifact gates run publint --strict and attw --profile esm-only (REQ-PLAT-73)', () => {
+    const pkg = JSON.parse(read('package.json')) as { scripts: Record<string, string> };
+    expect(pkg.scripts['artifact:publint']).toBe('publint --strict');
+    expect(pkg.scripts['artifact:attw']).toBe('attw --pack . --profile esm-only');
+    const attw = JSON.parse(read('.attw.json')) as { excludeEntrypoints: string[] };
+    for (const css of ['./styles.css', './tokens.css', './material.css', './tailwind.css']) {
+      expect(attw.excludeEntrypoints).toContain(css);
+    }
+  });
+
   it('each built entry has exactly one .d.ts that API Extractor loads with skipLibCheck:false', () => {
     // jest's sandboxed require ignores `paths`, and ./bin/* is not in the package's
     // exports map — resolve via package.json + bin field (same as api-report.mjs).

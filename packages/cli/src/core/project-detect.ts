@@ -46,7 +46,8 @@ export function detectProject(cwd: string): ProjectInfo {
     framework = 'vite';
   }
 
-  const tsc = readJson(path.join(cwd, 'tsconfig.json'));
+  /* REQ-PLAT-87: JS projects carry the same `paths` in jsconfig.json. */
+  const tsc = readJson(path.join(cwd, 'tsconfig.json')) ?? readJson(path.join(cwd, 'jsconfig.json'));
   const paths = ((tsc?.compilerOptions as { paths?: Record<string, string[]> } | undefined)?.paths ?? {});
   const typescript = Boolean(tsc) || fs.existsSync(path.join(cwd, 'tsconfig.json'));
 

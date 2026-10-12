@@ -4,7 +4,9 @@
    /plat/button minus /plat/empty is the real cost of the styled Button. */
 import { StrictMode, Suspense, createElement, lazy } from 'react';
 import { createRoot } from 'react-dom/client';
-import 'aura-glass/styles.css';
+/* REQ-PLAT-77: library CSS enters through cascade.css (@layer order +
+   aura-glass/styles.css inside layer(ag) + an unlayered .app-btn proof). */
+import './cascade.css';
 
 const pages = import.meta.glob('./*/**/*.page.tsx') as Record<
   string,
