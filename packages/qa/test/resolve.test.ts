@@ -12,7 +12,7 @@ import { buildCertManifest, CertManifestError } from '../src/resolve/certManifes
 import { readMetaSource } from '../src/resolve/componentMetas.ts';
 import { readCsfParameters, storyAg } from '../src/resolve/csf.ts';
 import {
-  filterSubjects, loadSubjectUniverse, parseShowcases, parseSubjectIndex, resolveSubject, resolveSubjectName,
+  filterSubjects, loadSubjectUniverse, parseRegistryItem, parseShowcases, parseSubjectIndex, resolveSubject, resolveSubjectName,
   verifyManifestAgainstIndex, type StorybookIndex, type SubjectUniverse,
 } from '../src/resolve/resolveSubject.ts';
 
@@ -33,6 +33,10 @@ const universe: SubjectUniverse = {
     ]],
   ]),
   showcases: new Set(['music-player']),
+  registry: new Map([
+    ['ai-artifact-panel', [{ name: 'ai-artifact-panel', owner: 'SURF', file: 'registry/items/ai-artifact-panel/registry-item.json' }]],
+  ]),
+  lab: new Set(['lab:overview']),
 };
 
 function sbIndex(entries: Array<{ id: string; importPath: string; exportName: string; tags?: string[] }>): StorybookIndex {
@@ -72,6 +76,20 @@ export const Basic = {};
 export default { title: 'Misc/Dynamic', parameters: { ...shared } };
 export const Basic = {};
 `,
+  './registry/items/ai-artifact-panel/ArtifactPanel.stories.tsx': `export default { title: 'registry/ai-artifact-panel',
+  parameters: { ag: { subject: 'ai-artifact-panel', kind: 'showcase' } } };
+export const Default = {};
+`,
+  './certification/scenes/Scenes.stories.tsx': `const scene = (id) => ({ parameters: { ag: { subject: \`scene:\${id}\`, kind: 'scene' } } });
+export default { title: 'Scenes', tags: ['scene'], parameters: { layout: 'fullscreen' } };
+export const Photo = scene('photo');
+export const FlatBlack = scene('flat-black');
+`,
+  './stories/qual/perf/PerfFixtures.stories.tsx': `export default { title: 'QUAL/Fixtures/Perf/Harness', tags: ['lab', 'no-cert'] };
+export const Default = { parameters: { __id: 'perf-harness-blank--default' } };
+export const MountCycleDefault = { parameters: { __id: 'perf-mount-cycle--default',
+  ag: { states: [{ name: 'toggled', drive: [{ action: 'press', target: 'toggle' }] }] } } };
+`,
 };
 const read = (p: string) => {
   const s = SOURCES[p];
@@ -101,6 +119,18 @@ describe('resolveSubjectName — explicit subjects only', () => {
   });
   it('throws ambiguous-subject when two metas declare the same name', () => {
     expect(() => resolveSubjectName('Chip', universe)).toThrow(/^ambiguous-subject: 'Chip' is declared 2 times: src\/components\/chip\/Chip\.meta\.ts \(CMP\), src\/data\/chip\/Chip\.meta\.ts \(SURF\)/);
+  });
+  it('resolves registry item names as showcase subjects with the item owner (REQ-QUAL-04)', () => {
+    expect(resolveSubjectName('ai-artifact-panel', universe)).toMatchObject({ kind: 'showcase', owner: 'SURF' });
+    expect(() => resolveSubjectName('ai-artifact-panels', universe)).toThrow(/^unresolved-subject: 'ai-artifact-panels'/);
+  });
+  it('resolves scene subjects only for S-42 SceneIds (REQ-QUAL-08)', () => {
+    expect(resolveSubjectName('scene:photo', universe)).toEqual({ subject: 'scene:photo', kind: 'scene', owner: 'QUAL' });
+    expect(() => resolveSubjectName('scene:studio', universe)).toThrow(/^unresolved-subject: 'scene:studio'/);
+  });
+  it('resolves Material Lab subjects declared in the harness, and no invented ones (REQ-QUAL-53)', () => {
+    expect(resolveSubjectName('lab:overview', universe)).toEqual({ subject: 'lab:overview', kind: 'lab', owner: 'QUAL' });
+    expect(() => resolveSubjectName('lab:regualr', universe)).toThrow(/^unresolved-subject: 'lab:regualr'/);
   });
 });
 
@@ -150,6 +180,34 @@ describe('buildCertManifest', () => {
       name: 'Playground', importPath: './src/button/Button.stories.tsx', type: 'story', tags: [] } } };
     expect(buildCertManifest(idx, universe, read).index.stories.map((s) => s.id)).toEqual(['components-button--playground']);
   });
+
+  it('reads parameters.ag through a same-file story factory (the REQ-QUAL-08 scene stories)', () => {
+    const idx: StorybookIndex = { v: 5, entries: {
+      'scenes--photo': { id: 'scenes--photo', title: 'Scenes', name: 'Photo', importPath: './certification/scenes/Scenes.stories.tsx', type: 'story', tags: ['scene'] },
+      'scenes--flat-black': { id: 'scenes--flat-black', title: 'Scenes', name: 'Flat Black', importPath: './certification/scenes/Scenes.stories.tsx', type: 'story', tags: ['scene'] },
+    } };
+    expect(buildCertManifest(idx, universe, read).index.stories).toEqual([
+      { id: 'scenes--flat-black', subject: 'scene:flat-black', kind: 'scene', tags: ['scene'], owner: 'QUAL' },
+      { id: 'scenes--photo', subject: 'scene:photo', kind: 'scene', tags: ['scene'], owner: 'QUAL' },
+    ]);
+  });
+
+  it('writes registry stories as showcase rows owned by the registry item', () => {
+    const idx = sbIndex([{ id: 'registry-ai-artifact-panel--default', importPath: './registry/items/ai-artifact-panel/ArtifactPanel.stories.tsx', exportName: 'Default' }]);
+    expect(buildCertManifest(idx, universe, read).index.stories).toEqual([
+      { id: 'registry-ai-artifact-panel--default', subject: 'ai-artifact-panel', kind: 'showcase', tags: [], owner: 'SURF' },
+    ]);
+  });
+
+  it('matches exports by pinned parameters.__id and treats subject-less ag as auxiliary, not a subject', () => {
+    const idx: StorybookIndex = { v: 5, entries: {
+      'perf-harness-blank--default': { id: 'perf-harness-blank--default', title: 'QUAL/Fixtures/Perf/Harness', name: 'Harness blank', importPath: './stories/qual/perf/PerfFixtures.stories.tsx', type: 'story', tags: ['lab', 'no-cert'] },
+      'perf-mount-cycle--default': { id: 'perf-mount-cycle--default', title: 'QUAL/Fixtures/Perf/Harness', name: 'Mount cycle', importPath: './stories/qual/perf/PerfFixtures.stories.tsx', type: 'story', tags: ['lab', 'no-cert'] },
+    } };
+    const r = buildCertManifest(idx, universe, read);
+    expect(r.index.stories).toEqual([]);
+    expect(r.unannotated.sort()).toEqual(['perf-harness-blank--default', 'perf-mount-cycle--default']);
+  });
 });
 
 describe('verifyManifestAgainstIndex — both directions for lab/scene/showcase/matrix', () => {
@@ -168,6 +226,11 @@ describe('verifyManifestAgainstIndex — both directions for lab/scene/showcase/
 
   it('accepts the manifest it built', () => {
     expect(() => verifyManifestAgainstIndex(buildCertManifest(GOOD, universe, read).index, GOOD)).not.toThrow();
+  });
+
+  it('does not require no-cert fixtures in the manifest, whatever kind tag they carry', () => {
+    const idx = sbIndex([{ id: 'perf-harness-blank--default', importPath: './stories/qual/perf/PerfFixtures.stories.tsx', exportName: 'Default', tags: ['lab', 'no-cert'] }]);
+    expect(() => verifyManifestAgainstIndex(manifest([]), idx)).not.toThrow();
   });
 });
 
@@ -225,6 +288,13 @@ describe('CSF and meta static readers', () => {
     expect(storyAg(csf, 'Matrix')).toEqual({ subject: 'Button', kind: 'matrix' });
     expect(() => storyAg(csf, 'Nope')).toThrow(/^unknown-story-export/);
   });
+  it('reads a pinned parameters.__id and parameters.ag through a story factory', () => {
+    const perf = readCsfParameters('p.stories.tsx', read('./stories/qual/perf/PerfFixtures.stories.tsx'));
+    expect(perf.stories.get('MountCycleDefault')?.id).toBe('perf-mount-cycle--default');
+    const scenes = readCsfParameters('s.stories.tsx', read('./certification/scenes/Scenes.stories.tsx'));
+    expect(storyAg(scenes, 'Photo')).toEqual({ subject: 'scene:photo', kind: 'scene' });
+    expect(storyAg(scenes, 'FlatBlack')).toEqual({ subject: 'scene:flat-black', kind: 'scene' });
+  });
   it('reads Story.parameters assignments and same-file consts', () => {
     const csf = readCsfParameters('b.stories.tsx', `const ag = { subject: 'Button', kind: 'component' } as const;
 export default { parameters: { ag } };
@@ -247,6 +317,22 @@ describe('repository universe and the write-cert-manifest CLI', () => {
     const u = loadSubjectUniverse(REPO);
     expect(u.metas.size).toBeGreaterThan(0);
     for (const [name, recs] of u.metas) for (const r of recs) expect(r.name).toBe(name);
+  });
+
+  it('loads registry items and the Material Lab declarations of this repository', () => {
+    const u = loadSubjectUniverse(REPO);
+    expect(u.registry.get('ai-artifact-panel')?.map((r) => r.owner)).toEqual(['SURF']);
+    expect(u.registry.get('account-menu')?.map((r) => r.owner)).toEqual(['CMP']);
+    expect(u.lab.has('lab:overview')).toBe(true);
+    expect(resolveSubjectName('scene:photo', u)).toMatchObject({ kind: 'scene', owner: 'QUAL' });
+  });
+
+  it('parses a registry item with its declared owner, else the ownership owner, else fails', () => {
+    expect(parseRegistryItem('{"name":"x","meta":{"auraglass":{"owner":"SURF"}}}', 'registry/items/x/registry-item.json'))
+      .toEqual({ name: 'x', owner: 'SURF', file: 'registry/items/x/registry-item.json' });
+    expect(parseRegistryItem('{"name":"y"}', 'registry/items/y/registry-item.json', () => 'CMP').owner).toBe('CMP');
+    expect(() => parseRegistryItem('{"name":"y"}', 'registry/items/y/registry-item.json')).toThrow(/^invalid-registry/);
+    expect(() => parseRegistryItem('{"title":"no name"}', 'registry/items/y/registry-item.json')).toThrow(/^invalid-registry/);
   });
 
   it('exits 1 with the problem on stderr, exits 0 and writes cert-manifest.json when clean', () => {
