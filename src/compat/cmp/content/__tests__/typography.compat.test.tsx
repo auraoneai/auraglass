@@ -33,14 +33,14 @@ describe('Typography / DisplayText compat (REQ-CMP-111)', () => {
     expect(depCalls).toHaveLength(1);
     const el = container.querySelector('[data-ag-part="root"]')!;
     expect(el.tagName).toBe('P');
-    expect(el.getAttribute('data-ag-type')).toBe('caption');
+    expect(el.getAttribute('data-type')).toBe('caption');
     expect(el.getAttribute('data-type')).toBe('caption');
     expect(el.className).toContain('ag-text-type-caption');
     expect(el.textContent).toBe('cap');
     // once per page load: a second mount does not warn again
     const again = await mountAndCollect(<Typography variant="body2">x</Typography>, 'DEP-C0265');
     expect(again.depCalls).toHaveLength(0);
-    expect(again.container.querySelector('[data-ag-part="root"]')!.getAttribute('data-ag-type')).toBe('callout');
+    expect(again.container.querySelector('[data-ag-part="root"]')!.getAttribute('data-type')).toBe('callout');
     expect(again.container.querySelector('[data-ag-part="root"]')!.getAttribute('data-type')).toBe('callout');
   });
 
@@ -51,7 +51,7 @@ describe('Typography / DisplayText compat (REQ-CMP-111)', () => {
     ];
     for (const [variant, type] of cases) {
       const { container } = await mountAndCollect(<Typography variant={variant}>v</Typography>, 'DEP-C0265');
-      expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-ag-type')).toBe(type);
+      expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-type')).toBe(type);
       expect(container.querySelector('[data-ag-part="root"]')!.getAttribute('data-type')).toBe(type);
     }
   });

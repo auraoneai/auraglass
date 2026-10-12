@@ -21,7 +21,7 @@ export function GlassNotificationItem({ title, message, description, type, inten
   const ag = intent ?? (type === 'error' ? 'danger' : type) ?? 'info';
   const body = message ?? description;
   return (
-    <div {...rest} data-ag-compat="GlassNotificationItem" data-ag-part="root" data-ag-intent={ag} role="status">
+    <div {...rest} data-compat="GlassNotificationItem" data-ag-part="root" data-ag-intent={ag} role="status">
       {title ? <p data-ag-part="title">{title}</p> : null}
       {body ? <p data-ag-part="description">{body}</p> : null}
       {children}

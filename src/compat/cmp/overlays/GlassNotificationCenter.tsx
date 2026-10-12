@@ -32,9 +32,9 @@ export function GlassNotificationCenter({ notifications, onMarkAllRead, trigger,
     <Popover.Root>
       <Popover.Trigger>{trigger ?? 'Notifications'}</Popover.Trigger>
       <Popover.Content {...(className !== undefined ? { className } : {})}>
-    <ul data-ag-compat="notification-list">
+    <ul data-compat="notification-list">
       {notifications?.map((n, i) => (
-        <li key={n.id ?? i} data-ag-notification-type={n.type ?? 'info'}>
+        <li key={n.id ?? i} data-notification-type={n.type ?? 'info'}>
           {n.title}
           {n.message}
         </li>

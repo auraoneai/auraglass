@@ -18,13 +18,13 @@ export function GlassStepper({ steps, current = 0, children, className, ...rest 
   warnDeprecated(DEP);
   const items = steps ?? React.Children.toArray(children);
   return (
-    <ol {...rest} data-ag-compat="GlassStepper" className={className ? `ag-steps ${className}` : 'ag-steps'}>
+    <ol {...rest} data-compat="GlassStepper" className={className ? `ag-steps ${className}` : 'ag-steps'}>
       {items.map((s, i) => (
         <li
           key={i}
           aria-current={i === current ? 'step' : undefined}
           data-ag-part="item"
-          data-ag-status={i === current ? 'current' : i < current ? 'complete' : 'upcoming'}
+          data-status={i === current ? 'current' : i < current ? 'complete' : 'upcoming'}
         >
           {s}
         </li>
