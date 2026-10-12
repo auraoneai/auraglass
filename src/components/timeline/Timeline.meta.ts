@@ -9,7 +9,7 @@ export default defineMeta({
   rsc: 'server',
   // REQ-SURF-96: the parts Timeline itself renders (ActivityFeed's own parts
   // live in ActivityFeed.meta.ts).
-  parts: ['timeline', 'timeline-description', 'timeline-item', 'timeline-marker', 'timeline-meta', 'timeline-time', 'timeline-title'],
+  parts: ['timeline', 'timeline-container', 'timeline-description', 'timeline-item', 'timeline-marker', 'timeline-meta', 'timeline-time', 'timeline-title'],
   states: [],
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/feed/',
   variants: { density: ['compact', 'comfortable'] },

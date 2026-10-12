@@ -6,7 +6,7 @@
 import { ActivityFeed } from 'aura-glass';
 ```
 
-Tier T1 · RSC mixed · APG feed
+Tier T1 · RSC mixed · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 
 ## Props
 

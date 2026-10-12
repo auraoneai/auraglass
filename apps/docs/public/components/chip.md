@@ -6,7 +6,7 @@
 import { Chip } from 'aura-glass/data';
 ```
 
-Tier T2 · RSC client · APG button
+Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 ## Props
 

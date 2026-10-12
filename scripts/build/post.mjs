@@ -7,9 +7,9 @@
       + build/server-safe-exports.json
    5. verify-artifact.mjs  (hard gate — fails the build) */
 import { execFileSync } from 'node:child_process';
-import { existsSync, writeFileSync, mkdirSync, readdirSync, renameSync } from 'node:fs';
-import { dirname, join } from 'node:path';
-import { ROOT, DIST, buildableEntries } from './lib/graph.mjs';
+import { existsSync, writeFileSync, mkdirSync, readdirSync, readFileSync, renameSync, rmSync } from 'node:fs';
+import { dirname, join, sep } from 'node:path';
+import { ROOT, DIST, buildableEntries, walk } from './lib/graph.mjs';
 import { assembleAllCss, LAYER_CONTENT_OWNER } from './lib/css.mjs';
 import { rewriteAll } from './rewrite-dts-aliases.mjs';
 import { generateServerSafeExports } from './server-safe.mjs';
@@ -29,6 +29,23 @@ execFileSync(process.execPath, [join(ROOT, 'node_modules/typescript/bin/tsc'), '
 execFileSync(process.execPath, [join(ROOT, 'node_modules/typescript/bin/tsc'), '-p', emitConfig, '--outDir', 'dist'], { cwd: ROOT, stdio: 'inherit' });
 const rw = rewriteAll();
 console.log(`   d.ts rewritten: ${rw.rewritten}/${rw.files}`);
+/* REQ-CMP-01 / CMP-014: src/foundation/base-ui/** is the internal runtime seam
+   for non-CMP consumers of Base UI (one `export { X } from '@base-ui/react/x'`
+   per module). Consumers use those parts as values only, so no shipped d.ts
+   references the seam — but tsc still emits a declaration per program file, and
+   each seam declaration is a bare Base UI re-export (a foundation type leak,
+   tests/foundation/exports/no-foundation-types.test.ts). Drop them; the seam
+   .js files stay (runtime). A public d.ts that does reference the seam fails
+   the build: its types must be re-declared in the component module instead. */
+const SEAM_DTS = join(DIST, 'foundation', 'base-ui');
+const seamDts = existsSync(SEAM_DTS) ? walk(SEAM_DTS, (p) => /\.d\.ts(\.map)?$/.test(p)) : [];
+const seamRefs = walk(DIST, (p) => p.endsWith('.d.ts') && !p.startsWith(SEAM_DTS + sep))
+  .filter((f) => /['"][^'"]*\/foundation\/base-ui\/[^'"]*['"]/.test(readFileSync(f, 'utf8')));
+if (seamRefs.length) {
+  throw new Error(`post.mjs: public declarations reference the internal Base UI seam (src/foundation/base-ui):\n  ${seamRefs.join('\n  ')}`);
+}
+for (const f of seamDts) rmSync(f);
+console.log(`   internal Base UI seam declarations dropped: ${seamDts.filter((f) => f.endsWith('.d.ts')).length}`);
 
 step(2, 'css assembly');
 const css = await assembleAllCss(ROOT, { lower: true });

@@ -1,3 +1,4 @@
+'use client';
 /* REQ-CMP-62: IME composition guard — suppress onValueChange during a
    composition, forward once on compositionend; block Enter submits while
    composing (isComposing || keyCode 229). */

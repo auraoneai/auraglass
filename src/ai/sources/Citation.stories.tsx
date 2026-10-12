@@ -2,7 +2,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import * as React from 'react';
 import { expect, userEvent, within } from 'storybook/test';
-import { Citation } from './Citation';
+import { Citation, type AgCitationSource } from './Citation';
 import type { AgSourcePart } from './SourceList';
 
 const meta = {
@@ -42,7 +42,7 @@ export const PreviewUrl: Story = { render: () => <p>See <Previewed source={url} 
 export const PreviewDocument: Story = { render: () => <p>See <Previewed source={doc} index={2} />.</p> };
 
 /* Preview cards already open (defaultOpen): url card with snippet and host, document card with kind. */
-const quoted = { ...url, snippet: 'Rotate keys every 90 days.' } as AgSourcePart;
+const quoted: AgCitationSource = { ...url, snippet: 'Rotate keys every 90 days.' };
 export const PreviewOpen: Story = {
   render: () => (
     <p>

@@ -40,6 +40,7 @@ Tier preview · RSC mixed · APG https://www.w3.org/WAI/ARIA/apg/practices/grid-
 | Part | Selector |
 | --- | --- |
 | `chart-frame` | `[data-ag-part="chart-frame"]` |
+| `chart-grid` | `[data-ag-part="chart-grid"]` |
 | `chart-legend` | `[data-ag-part="chart-legend"]` |
 | `chart-legend-item` | `[data-ag-part="chart-legend-item"]` |
 | `chart-mark-area` | `[data-ag-part="chart-mark-area"]` |
