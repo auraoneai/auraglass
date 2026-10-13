@@ -54,6 +54,7 @@ function applyCode(source: string, unitSource: string, N: MediaNames): Transform
   const todos: TransformResult['todos'] = [];
   const newImports = new Map<string, Set<string>>(); // entry -> names
   let imageViewerReplace: { start: number; end: number; text: string } | null = null;
+  const structuralReplaces: Array<{ find: string; text: string }> = [];
   let meshTodoReason: string | undefined;
   let meshRenamed = false;
 
@@ -79,6 +80,88 @@ function applyCode(source: string, unitSource: string, N: MediaNames): Transform
       if (e && (e.type === 'Literal' || e.type === 'StringLiteral')) return String(e.value);
       return undefined;
     };
+
+    /* Whole-element structural rewrites (children/props change shape, so a
+       rename is not enough). Replacement text is spliced after printing,
+       keyed by the element's verbatim source text. */
+    const elemStart = (p.node as { start?: number }).start;
+    const elemEnd = (p.node as { end?: number }).end;
+    const elemText = elemStart !== undefined && elemEnd !== undefined ? source.slice(elemStart, elemEnd) : undefined;
+    const attrText = (a: (typeof attrs)[number]): string => {
+      const at = a as unknown as { start?: number; end?: number };
+      return at.start !== undefined && at.end !== undefined ? source.slice(at.start, at.end) : '';
+    };
+    const baseIndentOf = (at: number): string => {
+      const ls = source.lastIndexOf('\n', at) + 1;
+      return /^[ \t]*/.exec(source.slice(ls, at))?.[0] ?? '';
+    };
+    if (elemText && (name === N.carousel || name === 'LiquidGlassCarouselRail')) {
+      const base = baseIndentOf(elemStart!);
+      const inner = `${base}  `;
+      const outAttrs: string[] = [];
+      let autoplay = false;
+      const intervalAttr = get('autoPlayInterval');
+      const intervalText = intervalAttr ? attrText(intervalAttr).replace(/^autoPlayInterval=/, '') : undefined;
+      for (const a of attrs) {
+        const an = a.name?.name;
+        if (!an) continue;
+        if (an === 'infinite') {
+          const v = lit(a);
+          if (v === 'false') continue;
+          outAttrs.push(a.value ? attrText(a).replace(/^infinite/, 'loop') : 'loop');
+        } else if (an === 'autoPlay') {
+          autoplay = true;
+          outAttrs.push(intervalText !== undefined ? `autoplay={{ interval: ${intervalText.replace(/^\{|\}$/g, '')} }}` : attrText(a).replace(/^autoPlay/, 'autoplay'));
+        } else if (an === 'autoPlayInterval') {
+          if (!get('autoPlay') && intervalText !== undefined) {
+            autoplay = true;
+            outAttrs.push(`autoplay={{ interval: ${intervalText.replace(/^\{|\}$/g, '')} }}`);
+          }
+        } else if (an === 'slidesToShow') outAttrs.push(attrText(a).replace(/^slidesToShow/, 'slidesPerView'));
+        else outAttrs.push(attrText(a));
+      }
+      const kids = ((p.node.children ?? []) as Array<{ type?: string; value?: string; start?: number; end?: number }>)
+        .filter((c) => c.type !== 'JSXText' || (c.value ?? '').trim() !== '');
+      const slides = kids.map((c, i) => `{ id: 's${i}', children: ${source.slice(c.start!, c.end!).trim()} }`).join(', ');
+      const text = [
+        '(',
+        ...(autoplay ? [`${inner}// TODO(aura-glass 5): autoplay rotates only under allowContinuous — add the provider if missing`] : []),
+        `${inner}<CarouselRail.Root${outAttrs.length ? ` ${outAttrs.join(' ')}` : ''}`,
+        `${inner}  slides={[${slides}]} />`,
+        `${base})`,
+      ].join('\n');
+      structuralReplaces.push({ find: elemText, text });
+      newImports.get('aura-glass/media')?.add('CarouselRail') ?? newImports.set('aura-glass/media', new Set(['CarouselRail']));
+      changes.push({ transform: 'media-backdrops', description: `${name} -> CarouselRail.Root + slides` });
+      if (autoplay) todos.push({ transform: 'media-backdrops', reason: 'autoplay only with an allowContinuous provider', doc: DOC });
+      return;
+    }
+    if (elemText && name === 'LiquidGlassMediaControls') {
+      const base = baseIndentOf(elemStart!);
+      const inner = `${base}  `;
+      const outAttrs: string[] = [];
+      for (const a of attrs) {
+        const an = a.name?.name;
+        if (!an || an === 'compact') continue;
+        outAttrs.push(an === 'onPlayPause' ? attrText(a).replace(/^onPlayPause/, 'onPlayingChange') : attrText(a));
+      }
+      const kids = ((p.node.children ?? []) as Array<{ type?: string; value?: string; start?: number; end?: number }>)
+        .filter((c) => c.type !== 'JSXText' || (c.value ?? '').trim() !== '');
+      const childLines = kids.length
+        ? kids.map((c) => `${inner}  ${source.slice(c.start!, c.end!).trim()}`)
+        : [`${inner}  <MediaControls.PlayButton />`, `${inner}  <MediaControls.Scrubber />`];
+      const text = [
+        '(',
+        `${inner}<MediaControls.Root${outAttrs.length ? ` ${outAttrs.join(' ')}` : ''}>`,
+        ...childLines,
+        `${inner}</MediaControls.Root>`,
+        `${base})`,
+      ].join('\n');
+      structuralReplaces.push({ find: elemText, text });
+      newImports.get('aura-glass/media')?.add('MediaControls') ?? newImports.set('aura-glass/media', new Set(['MediaControls']));
+      changes.push({ transform: 'media-backdrops', description: 'LiquidGlassMediaControls -> MediaControls.Root composition' });
+      return;
+    }
 
     if (name === 'AuroraBackground') {
       const m = lit(get('motion'));
@@ -252,6 +335,12 @@ function applyCode(source: string, unitSource: string, N: MediaNames): Transform
       const end = ct >= 0 && (sc < 0 || ct < sc) ? ct + IV_CLOSE.length : sc + 2;
       out = out.slice(0, i) + (imageViewerReplace as { text: string }).text + out.slice(end);
     }
+  }
+  /* Structural rewrites (Carousel, MediaControls): the elements were never
+     AST-mutated, so their verbatim text is byte-identical in `out`. */
+  for (const r of structuralReplaces) {
+    const at = out.indexOf(r.find);
+    if (at >= 0) out = out.slice(0, at) + r.text + out.slice(at + r.find.length);
   }
   // The mesh colors TODO sits directly above the rewritten import (SURF
   // golden shape); other SURF TODOs embed inline, never as file-top markers.
