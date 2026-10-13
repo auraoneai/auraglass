@@ -283,14 +283,17 @@ async function backdropParity(page: Page, url: string): Promise<Check> {
   await page.goto(`${url}/ag-quickstart-parity`, { waitUntil: 'load' });
   await twoRaf(page);
   const r = await page.evaluate(() => {
-    const bf = (el: Element | null) => {
+    const bf = (el: Element | null, pseudo?: string) => {
       if (!el) return null;
-      const cs = getComputedStyle(el) as CSSStyleDeclaration & { webkitBackdropFilter?: string };
+      const cs = getComputedStyle(el, pseudo) as CSSStyleDeclaration & { webkitBackdropFilter?: string };
       return cs.backdropFilter || cs.webkitBackdropFilter || 'none';
     };
+    // The utility paints the filter on the element itself; the material
+    // engine paints it on the surface ::before (its optics layer). Parity is
+    // about the painted value, so each probe reads where its paint lives.
     return {
       tailwind: bf(document.querySelector('[data-qs-probe="tailwind"]')),
-      material: bf(document.querySelector('[data-qs-probe="material"][data-ag-variant="regular"]')),
+      material: bf(document.querySelector('[data-qs-probe="material"][data-ag-variant="regular"]'), '::before'),
     };
   });
   return {
