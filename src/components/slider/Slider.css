@@ -131,20 +131,5 @@
   /* Forced colours (REQ-SURF-189 slider row): CanvasText track outline,
      Highlight range and thumb — the accent range would otherwise be forced
      to the canvas and vanish. */
-  @media (forced-colors: active) {
-    .ag-slider [data-ag-part='track'] {
-      border: calc(var(--ag-focus-width) / 2) solid CanvasText;
-      background: Canvas;
-      box-shadow: none;
-    }
-    .ag-slider [data-ag-part='range'] {
-      background: Highlight;
-    }
-    .ag-slider [data-ag-part='thumb'],
-    .ag-slider[data-dragging] [data-ag-part='thumb'][data-ag-allow-nested] {
-      background: Highlight;
-      border: calc(var(--ag-focus-width) / 2) solid CanvasText;
-      box-shadow: none;
-    }
-  }
+  
 }

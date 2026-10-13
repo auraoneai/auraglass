@@ -97,26 +97,9 @@
 
   /* Focus ring: the shared REQ-CMP-19 rule in control-shared/controls.css. */
 
-  @media (prefers-reduced-motion: reduce) {
-    .ag-checkbox [data-ag-part='indicator'],
-    .ag-radio-group [data-ag-part='indicator'] {
-      transition: none;
-    }
-  }
+  
 
-  @media (forced-colors: active) {
-    .ag-checkbox [data-ag-part='indicator'],
-    .ag-radio-group [data-ag-part='indicator'] {
-      border: var(--ag-focus-width) solid ButtonText;
-      background: ButtonFace;
-      box-shadow: none;
-    }
-    .ag-checkbox[data-checked] [data-ag-part='indicator'],
-    .ag-radio-group [data-checked] [data-ag-part='indicator'] {
-      background: Highlight;
-      color: HighlightText;
-    }
-  }
+  
 
 /* REQ-CMP-53: check path draws in on [data-checked] — pathLength=1 +
    stroke-dasharray:1, dashoffset 1 -> 0 over duration-micro; instant under
@@ -129,9 +112,7 @@
   stroke-dashoffset: 0;
   transition: stroke-dashoffset var(--ag-duration-micro) var(--ag-ease-standard);
 }
-@media (prefers-reduced-motion: reduce) {
-  .ag-checkbox[data-checked] [data-ag-part='icon'] path { transition: none; }
-}
+
 [data-ag-motion='calm'] .ag-checkbox[data-checked] [data-ag-part='icon'] path,
 [data-ag-motion='none'] .ag-checkbox[data-ag-part='root'][data-checked] [data-ag-part='icon'] path,
 [data-ag-motion='none'] .ag-checkbox[data-checked] [data-ag-part='icon'] path {

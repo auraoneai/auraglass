@@ -1,0 +1,27 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Switch.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  @media (prefers-reduced-motion: reduce) {
+    .ag-switch [data-ag-part='thumb'] {
+      transition: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .ag-switch[data-ag-part='root'] {
+      border: var(--ag-focus-width) solid ButtonText;
+      background: ButtonFace;
+      box-shadow: none;
+    }
+    .ag-switch[data-ag-part='root'][data-checked] {
+      background: Highlight;
+    }
+    .ag-switch [data-ag-part='thumb'] {
+      background: ButtonText;
+      box-shadow: none;
+    }
+  }
+}

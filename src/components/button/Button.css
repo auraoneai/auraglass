@@ -107,14 +107,7 @@
     opacity: var(--ag-state-disabled-alpha);
   }
 
-  @media (forced-colors: active) {
-    .ag-button {
-      forced-color-adjust: none;
-      color: ButtonText;
-      background: ButtonFace;
-      border: var(--ag-focus-width) solid ButtonText;
-    }
-  }
+  
 
   /* REQ-33: hit-area — expands the interactive target to --ag-target-min
      (44px coarse) without changing the visual box. */

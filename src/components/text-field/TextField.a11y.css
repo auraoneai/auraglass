@@ -1,0 +1,18 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* TextField.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  @media (forced-colors: active) {
+    .ag-text-field [data-ag-part='control-shell'] {
+      border: var(--ag-focus-width) solid ButtonText;
+      background: Field;
+      box-shadow: none;
+    }
+    .ag-text-field [data-ag-part='control'] {
+      background: Field;
+      color: FieldText;
+    }
+  }
+}
