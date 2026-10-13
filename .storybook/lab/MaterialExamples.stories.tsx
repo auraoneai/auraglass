@@ -59,6 +59,9 @@ export const Clear: Story = {
         <Surface layer="chrome" variant="clear" style={{ padding: 24 }}>
           clear without a backdrop — renders as regular (dev warning)
         </Surface>
+        <Surface layer="chrome" variant="regular" style={{ padding: 24, marginTop: 8 }}>
+          regular without a backdrop — the MAT-161 comparison pair
+        </Surface>
       </Pad>
     </>
   ),
