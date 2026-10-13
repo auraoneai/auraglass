@@ -124,7 +124,10 @@ export function useThreadScroll(
   const prev = React.useRef<{ first?: string | undefined; last?: string | undefined; length: number }>({
     first: messages[0]?.id, last: messages[messages.length - 1]?.id, length: messages.length,
   });
+  const mounted = React.useRef(false);
   React.useLayoutEffect(() => {
+    const wasMounted = mounted.current;
+    mounted.current = true;
     const before = prev.current;
     const first = messages[0]?.id;
     const last = messages[messages.length - 1]?.id;
@@ -149,8 +152,15 @@ export function useThreadScroll(
       }
     }
 
+    // Same last message (streaming text growth inside it): while pinned the
+    // frame-coalesced follow still applies — the ResizeObserver below is a
+    // second signal, not the only one (it never fires when no box changes).
+    if (last !== undefined && last === before.last) {
+      if (wasMounted && pinned.current) scrollToBottom();
+      return;
+    }
     // Append: count only messages after the previous last one.
-    if (last === undefined || last === before.last) return;
+    if (last === undefined) return;
     const lastIdx = before.last === undefined ? -1 : messages.findIndex((m) => m.id === before.last);
     const appended = lastIdx >= 0 ? messages.length - 1 - lastIdx : Math.max(0, messages.length - before.length);
     if (appended <= 0) return;
