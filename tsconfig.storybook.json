@@ -18,7 +18,8 @@
     "certification/scenes/**/*.stories.tsx",
     "certification/lanes/_fixtures/**/*",
     "tests/e2e/qual/storybook/**/*",
-    "scripts/storybook/**/*.d.mts"
+    "scripts/storybook/**/*.d.mts",
+    "packages/qa/src/types/**/*.d.ts"
   ],
   "exclude": ["legacy", "dist", "node_modules", "storybook-static", "packages/*/dist", "apps/docs/.next"]
 }
