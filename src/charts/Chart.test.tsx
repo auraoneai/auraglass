@@ -8,7 +8,6 @@ import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Chart } from './Chart';
 import { ANNOUNCE_DEBOUNCE_MS } from './ChartPlot';
-import { loadScales } from './scale';
 
 // jsdom has no ResizeObserver — stub one that reports 640x240 so the
 // ChartFrame children render-prop runs (real layout comes from the browser).
@@ -71,11 +70,8 @@ function sampledY(d: string, steps = 64): number[] {
 afterEach(() => { jest.useRealTimers(); });
 
 describe('Chart (SURF-241..248)', () => {
-  it('renders inside a ChartFrame with title + legend', async () => {
+  it('renders inside a ChartFrame with title + legend', () => {
     const { container } = render(<Chart {...base} type="line" />);
-    // First render in the file waits out the dynamic d3 peer load (./scale);
-    // the cached promise makes every later render synchronous.
-    await act(async () => { await loadScales(); });
     expect(container.querySelector('figcaption')!.textContent).toContain('Revenue');
     expect(container.querySelectorAll('[data-ag-part="chart-legend-item"]').length).toBe(2);
     expect(container.querySelector('[data-ag-part="chart-mark-line"]')).toBeTruthy();

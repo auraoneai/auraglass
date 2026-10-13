@@ -20,14 +20,7 @@ import { Area } from './marks/Area';
 import { Bar } from './marks/Bar';
 import { Donut } from './marks/Donut';
 import { Line } from './marks/Line';
-import { getCachedScales, loadScales, type ChartScales } from './scale';
 import type { ChartProps, PlotProps } from './types';
-
-// Warm the d3 peer load at module evaluation (as the static import did
-// before): by first render the cached promise is usually settled, so
-// ChartPlot's effect resolves on a microtask. A rejection (peers not
-// installed) is swallowed here and re-surfaces through the effect below.
-void loadScales().catch(() => {});
 
 const VIEW_W = 640;
 /** Trailing debounce for the datum announcement (REQ-SURF-163). */
@@ -40,17 +33,6 @@ export function ChartPlot<TRow>({ ctx, type, stacked, orientation, curve, yDomai
   const labelId = React.useId();
   const [focus, setFocus] = React.useState<number | null>(null);
   const [hover, setHover] = React.useState<number | null>(null);
-  // d3 peers load through dynamic import (see ./scale); the svg shell,
-  // cursor and tooltip render immediately, marks land when scales arrive.
-  const [scales, setScales] = React.useState<ChartScales | null>(() => getCachedScales());
-  React.useEffect(() => {
-    let live = true;
-    loadScales().then(
-      (s) => { if (live) setScales(s); },
-      () => {},
-    );
-    return () => { live = false; };
-  }, []);
   const [live, setLive] = React.useState('');
   const timer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -98,11 +80,10 @@ export function ChartPlot<TRow>({ ctx, type, stacked, orientation, curve, yDomai
   const active = hover ?? focus;
   const cursorX = active !== null ? (w / Math.max(1, n)) * (active + 0.5) : 0;
 
-  const mark = scales === null ? null
-    : type === 'line' ? <Line ctx={ctx} scales={scales} w={w} h={h} curve={curve} yDomain={yDomain} xKey={xKey} />
-    : type === 'area' ? <Area ctx={ctx} scales={scales} w={w} h={h} curve={curve} stacked={stacked} yDomain={yDomain} xKey={xKey} />
-    : type === 'bar' ? <Bar ctx={ctx} scales={scales} w={w} h={h} stacked={stacked} orientation={orientation} yDomain={yDomain} xKey={xKey} />
-    : <Donut ctx={ctx} scales={scales} w={w} h={h} xKey={xKey} />;
+  const mark = type === 'line' ? <Line ctx={ctx} w={w} h={h} curve={curve} yDomain={yDomain} xKey={xKey} />
+    : type === 'area' ? <Area ctx={ctx} w={w} h={h} curve={curve} stacked={stacked} yDomain={yDomain} xKey={xKey} />
+    : type === 'bar' ? <Bar ctx={ctx} w={w} h={h} stacked={stacked} orientation={orientation} yDomain={yDomain} xKey={xKey} />
+    : <Donut ctx={ctx} w={w} h={h} xKey={xKey} />;
 
   return (
     <div className="ag-chart__plot-inner" style={{ position: 'relative' }}>
