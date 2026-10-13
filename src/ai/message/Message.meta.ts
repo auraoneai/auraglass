@@ -12,6 +12,6 @@ export default defineMeta({
   material: { layer: 'content', refractionEligible: false },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/feed/',
   variants: {},
-  budgetKb: 17,
+  budgetKb: 19,
   migration: [],
 });

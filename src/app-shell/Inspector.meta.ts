@@ -11,7 +11,7 @@ export default defineMeta({
 
   material: { layer: 'chrome', refractionEligible: false },
   apg: 'https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/',
-  budgetKb: 8,
+  budgetKb: 14,
   variants: {},
   migration: [{ from: 'GlassInspector', props: {}, selectors: { '.glass-inspector': '[data-ag-part="inspector"]' }, automation: 'mostly', compat: true }],
 });

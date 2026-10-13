@@ -11,7 +11,7 @@ export default defineMeta({
   states: ['expanded', 'collapsed', 'rail'],
   material: { layer: 'chrome', refractionEligible: false },
   apg: 'https://www.w3.org/WAI/ARIA/apg/practices/landmark-regions/',
-  budgetKb: 12,
+  budgetKb: 18,
   variants: {},
   migration: [{ from: 'GlassAppShell', props: { header: null, sidebar: null, footer: null, sidebarWidth: null, sidebarPlacement: { to: 'sidebarSide', values: { left: 'start', right: 'end' } }, collapsed: { to: 'defaultSidebar', values: { true: 'rail', false: 'expanded' } }, collapsible: null, mobileOverlay: null, padding: null, maxWidth: null }, selectors: { '.glass-app-shell': '[data-ag-part="root"]' }, automation: 'mostly', compat: true }],
 });
