@@ -4,7 +4,7 @@
 |---|---|
 | PRD id | **PRD-5** |
 | Key | **QUAL** (path key `qual`; task ids `QUAL-NNN`; requirements `REQ-QUAL-NN`; acceptance `AC-QUAL-NN`) |
-| Status | **Draft** |
+| Status | **Shipped** in AuraGlass 5.0.0 GA (2026-10-13; `aura-glass@5.0.1` is npm `latest`). Kept as spec record |
 | Date / baseline | 2026-10-06; `aura-glass` 4.1.0 at `15b6de6f7` |
 | Contract | `docs/auraglass-5/AURAGLASS_5_CONTRACTS.md` **contract-v1.1** (frozen). This PRD codes and tests only against it. Where this PRD and the contract disagree, the contract wins (contract §1.4) |
 | Sources (archived, consolidated) | `archive/v1-19-prd/prd/AURAGLASS_QA_CERTIFICATION_PRD.md` (REQ-QA-01..81, 53 REQs), `AURAGLASS_STORYBOOK_SHOWCASE_PRD.md` (REQ-SB-01..57, 48 REQs), `AURAGLASS_PERFORMANCE_PRD.md` (REQ-PERF-01..39, 39 REQs); all 140 are mapped or dropped with a reason in Appendix A; archived `_shared-contracts.md` (SC-07, -09, -15, -16, -21, -28..31) and `_completeness-review.md`; task fragments `archive/v1-19-prd/tasks/{QA,SB,PERF}.json`. Old → new mapping: Appendix A |

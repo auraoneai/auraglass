@@ -8,27 +8,27 @@ one shell: `AppShell` (block `app-frame` for a full-page composition).
 | 4.x | 5.0 |
 | --- | --- |
 | `Layout` | `AppShell` (`aura-glass/app-shell`) |
-| `GlassNavbar` | `AppShell.Nav` or `TopNav` (slot) |
-| `GlassSidebar` | `AppShell.Rail` / `SideNav` |
-| `GlassTopBar` | `TopNav` (slot `top`) |
-| `GlassBreadcrumbs` | `Breadcrumbs` (`aura-glass/app-shell`) |
+| `GlassNavbar` | `TopBar` (`aura-glass/app-shell`) |
+| `GlassSidebar` | `Sidebar` (`aura-glass/app-shell`) |
+| `GlassTopBar` | `TopBar` (`aura-glass/app-shell`) |
+| `GlassBreadcrumbs` | `Breadcrumbs` (`aura-glass`) |
 
 ## Prop mapping
 
 | 4.x | 5.0 | notes |
 | --- | --- | --- |
-| `collapsed` | `rail.collapsed` + `onCollapsedChange` | controlled via the §4.9 triple |
-| `navItems` | `nav` slot or `<Nav items>` | items keep `{label, href, icon?}` |
-| `breadcrumbs` | `<Breadcrumbs items>` | structured `{label, href?}[]` |
-| `onMenuToggle` | `onNavOpenChange` | renamed to grammar |
+| `collapsed` | `defaultSidebar="rail"` on `AppShell.Root` | the shell owns sidebar state (`expanded` / `rail` / `collapsed`); toggle it with `AppShell.SidebarToggle` |
+| `navItems` | `Sidebar.Nav` + `Sidebar.Item` children | each item is an `href` + label (optional `icon`, `badge`) |
+| `breadcrumbs` | `Breadcrumbs` children | compose the items as children; collapse with `maxItems` |
+| `onMenuToggle` | — | no callback prop; the shell store owns the state — use `AppShell.SidebarToggle` |
 
 ## Compat
 
-`src/compat/surf` carries `Layout`, `GlassNavbar`, `GlassSidebar`,
-`GlassTopBar` adapters delegating to `AppShell` with the mapping above; each
-warns once and is removed at `6.0`. Set `AG_COMPAT_SHELL=1` to silence.
+`aura-glass/compat` carries `GlassAppShell`, `GlassSidebar` and
+`GlassTopBar` adapters delegating to the 5.0 shell with the mapping above;
+each warns once and is removed at `6.0`. Silence the warnings with
+`<AuraGlassProvider deprecations="silent">`.
 
-Codemod: `aura-glass-codemod app-shell` rewrites the imports and renames
-the props in the table. Rejected-4.x variants (`GlassMegaMenu`,
-`GlassCommandPalette` legacies) are folded into `Command` — see the
-command-palette migration note.
+Codemod: `npx aura-glass-cli migrate 4to5 --transform app-shell-slots`.
+Legacy command surfaces (`GlassCommandPalette` and friends) map to `Command`
+and `CommandPalette` from `aura-glass`.

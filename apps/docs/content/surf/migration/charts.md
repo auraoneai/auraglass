@@ -1,37 +1,33 @@
 # Migrating to the 5.0 charts layer
 
-4.x `Chart` (+ `GlassChart` variants) becomes `aura-glass/charts`: a
-headless spec → renderer bridge. The default renderer is a 2-D engine the
-repo owns; a chart-adapter guide (`./chart-adapter.md`) shows how to plug
-another engine.
+There is no `aura-glass/charts` entry in 5.0.x: the `Chart` component is a
+5.1 preview and is absent from the 5.0.x exports map. In 5.0, charts are
+`ChartFrame` (`aura-glass/data`) — the accessible shell (title, legend, data
+table, colours) — around a chart engine you supply, plus `Sparkline`
+(`aura-glass/data`). The ChartFrame adapters guide shows Recharts, visx and
+chart.js adapters.
 
 ## Import mapping
 
 | 4.x | 5.0 |
 | --- | --- |
-| `Chart` (root) | `Chart` (`aura-glass/charts`) |
-| `GlassBarChart`, `GlassLineChart`, `GlassPieChart` | `Chart` with `type` |
-| `GlassSparkline` | `Sparkline` (`aura-glass/charts`) |
+| `Chart` (root), `GlassBarChart`, `GlassLineChart`, `GlassPieChart` | `ChartFrame` (`aura-glass/data`) with an engine adapter you supply |
+| `GlassChartContainer` | `ChartFrame` (`aura-glass/data`) |
+| `GlassSparkline` | `Sparkline` (`aura-glass/data`) |
 
 ## Prop mapping
 
 | 4.x | 5.0 | notes |
 | --- | --- | --- |
-| `type` | `type` | `'bar' \| 'line' \| 'area' \| 'scatter' \| 'pie' \| 'radar'` |
-| `data` | `spec.data` | spec object — see chart spec schema |
-| `options` | `spec` | 4.x option blobs map onto the spec schema |
-| `onPointClick` | `onSelect` | grammar |
-| `theme` | `theme` | design-token bridge; see adapter guide |
-
-## Spec schema
-
-A chart is `spec = { data, encodings, scales?, marks?, annotations? }`.
-The 4.x `options` bag is decomposed by the codemod; anything it cannot
-map is left behind a `// TODO(aura-glass)` comment instead of silently
-dropped.
+| `data` | `data` on `ChartFrame` | rows; one point per row and series |
+| `type`, `options` | your adapter | the mark type and engine options live in the adapter, not the frame |
+| series config in `options` | `series` + `x` on `ChartFrame` | `{ key, label }` per series; `x` names the row key |
+| `theme` | — | colours come from the frame context (`ctx.color(key)`) inside the adapter |
 
 ## Compat
 
-`Chart`/`Glass*Chart` adapters delegate to `aura-glass/charts` and warn
-once; `AG_COMPAT_CHARTS=1` silences; removed at `6.0`.
-Codemod: `aura-glass-codemod charts`.
+The 4.x chart components are removed in 5.0 with no compat adapter and no
+codemod transform — rebuild them on `ChartFrame` as above. The preview
+`Chart` (`type`: `'line' | 'area' | 'bar' | 'donut'`, built on the same
+`ChartFrame` props) ships with 5.1 on `aura-glass/charts`; code written
+against `ChartFrame` carries over.

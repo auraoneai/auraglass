@@ -4,9 +4,12 @@ This runbook covers a bad `aura-glass` release on any of the three npm dist-tag 
 
 | Dist-tag | Line | Published from |
 | --- | --- | --- |
-| `latest` | 4.x before 5.0 GA, 5.x after GA | `release/4.x` (4.x), `main` (5.x) |
-| `next` | 5.0 pre-releases (`-alpha.N`, `-beta.N`, `-rc.N`) | `next` |
-| `v4-lts` | 4.x after 5.0 GA | `release/4.x` |
+| `latest` | 5.x (5.0.0 GA shipped 2026-10-13; `aura-glass@5.0.1` is the current `latest`) | `main` |
+| `next` | Pre-releases for the next line (`-alpha.N`, `-beta.N`, `-rc.N`) | `next` |
+| `v4-lts` | 4.x LTS (currently 4.1.0) | `release/4.x` |
+
+All `aura-glass` versions before 5.0.0 are deprecated on npm; the 4.x line is
+installable only as the LTS line above.
 
 Every npm write below is a release-owner action with their own npm session; the agent and CI
 never run these commands outside the tag pipeline (`plat:publish:npm`).
@@ -34,10 +37,9 @@ npm view aura-glass@<bad> version dist.integrity time --json
 
 ## Scenarios
 
-### 1. Bad 4.x release before 5.0 GA
+### 1. Bad 5.x release on `latest`
 
-`latest` still points at 4.x. Move it back to the previous good 4.x version and deprecate the
-bad one:
+Move `latest` back to the previous good 5.x version and deprecate the bad one:
 
 ```bash
 npm dist-tag add aura-glass@<prev> latest
@@ -45,13 +47,14 @@ npm deprecate aura-glass@<bad> "<msg>"
 npm view aura-glass dist-tags --json
 ```
 
-Then ship the forward fix as the next 4.x patch from `release/4.x` (or `release/4.1.x` for a
-4.1.x patch) through the tag pipeline. A forward patch is preferred over a rollback when the
-previous version carries known security or privacy defects (4.1.0).
+Then ship the forward fix as the next 5.x patch from `main` through the tag pipeline. A
+forward patch is preferred over a rollback when the previous version carries known security
+or privacy defects. (The 5.0.1 patch on 2026-10-13 is the worked example: a forward fix for
+the `tokens.css` registry rule, with no dist-tag move.)
 
 ### 2. Bad LTS patch (`v4-lts`)
 
-After 5.0 GA, 4.x patches publish to `v4-lts`; `latest` stays on 5.x and is not touched:
+4.x patches publish to `v4-lts`; `latest` stays on 5.x and is not touched:
 
 ```bash
 npm dist-tag add aura-glass@<prev-4.x> v4-lts
@@ -62,14 +65,14 @@ npm view aura-glass dist-tags --json
 ### 3. Bad pre-release (`next`)
 
 Retag `next` to the previous good pre-release and deprecate the bad one. `latest` and `v4-lts`
-are not touched; the fixed train publishes the next pre-release on schedule.
+are not touched; the fix publishes as the next pre-release.
 
 ```bash
 npm dist-tag add aura-glass@<prev-prerelease> next
 npm deprecate aura-glass@<bad-prerelease> "<msg>"
 ```
 
-### 4. Bad 5.0 GA (`latest` back to `v4-lts`)
+### 4. Bad 5.x line (`latest` back to `v4-lts`, last resort)
 
 Move `latest` to the version that `v4-lts` currently holds. 5.0 stays installable by exact
 version; it is not unpublished.

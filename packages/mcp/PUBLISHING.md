@@ -10,11 +10,13 @@ are stored in this repo; publishing uses OIDC provenance.
 - Provider GitLab CI/CD; namespace `chahal-foundation-group/github-auraoneai`;
   project `auraglass`; file `.gitlab-ci.yml`; environment `npm-publish`.
 - Status and date: the `aura-glass-mcp` row of
-  `docs/release/trusted-publishers.md` (owner-filled). Until it is
-  `configured` the publish fails closed.
-- First publish: the name does not exist on npm yet; the owner's choice in
-  `docs/release/trusted-publishers.md` applies (D-23 fallback `aura-glass-mcp`,
-  `docs/release/decisions/npm-scope.md`).
+  `docs/release/trusted-publishers.md` (owner-filled) still reads
+  `missing`. Until it is `configured` the CI publish fails closed.
+  `aura-glass-mcp@0.1.0` shipped on npm on 2026-10-13 alongside AuraGlass
+  5.0; do not read that as the CI trusted-publishing path being live.
+- First publish: done (`0.1.0`, 2026-10-13); the name exists on npm,
+  unscoped as `aura-glass-mcp` from `veeronecorp` (OD-2,
+  `docs/release/decisions/npm-scope.md`) — never publish a second name.
 
 ## Pipeline contract
 

@@ -4,7 +4,7 @@
 |---|---|
 | PRD id | **PRD-1** |
 | Key | **PLAT** (path key `plat`; requirement prefix `REQ-PLAT-NN`, acceptance prefix `AC-PLAT-NN`, task ids `PLAT-NNN` in `tasks/PLAT.json`) |
-| Status | Draft |
+| Status | Shipped in AuraGlass 5.0.0 GA (2026-10-13; `aura-glass@5.0.1` is npm `latest`). Kept as spec record |
 | Date / baseline | 2026-10-06; `aura-glass` 4.1.0, HEAD `15b6de6f7`; contract `contract-v1.1` |
 | Binding inputs | `docs/auraglass-5/AURAGLASS_5_CONTRACTS.md` (the frozen contract: wins over this PRD, §1.4); `AURAGLASS_5_TARGET_ARCHITECTURE.md` D-01..D-32 and §3–§15 (its §16 decomposition is replaced); errata E-01..E-11 |
 | Sources (archived, `archive/v1-19-prd/prd/`) | `AURAGLASS_TRUST_PATCH_4_1_1_PRD.md` (TRUST: REQ-TRUST-01..55), `AURAGLASS_RELEASE_MIGRATION_PRD.md` (REL: REQ-REL-01..42), `AURAGLASS_PACKAGING_BUILD_PRD.md` (PKG: REQ-PKG-01..103), `AURAGLASS_DEVELOPER_EXPERIENCE_PRD.md` (DX: REQ-DX-01..91), `AURAGLASS_COMPONENT_REMEDIATION_PRD.md` (FND, removal/extraction part only: §4.6 "Leaving the package", §4.8, REQ-FND-24, -41..-52, -57); `_shared-contracts.md` rows SC-02..SC-16, SC-32..SC-40 as cited by the contract. Old → new REQ mapping: Appendix A |

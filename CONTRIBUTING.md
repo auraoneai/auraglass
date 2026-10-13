@@ -1,15 +1,15 @@
 # Contributing To AuraGlass by AuraOne
 
-AuraGlass by AuraOne is a production React and Next.js Liquid Glass component system. Contributions should improve package reliability, developer adoption, visual quality, accessibility, SSR behavior, documentation, or release evidence without weakening the package boundary.
+AuraGlass by AuraOne is the liquid-glass design system for React 19 (5.0 is the current release; `aura-glass@5.0.1` on npm `latest`). Contributions should improve package reliability, developer adoption, visual quality, accessibility, SSR behavior, documentation, or release evidence without weakening the package boundary.
 
 ## Before You Start
 
-- Work in the package repo: `/Users/gurbakshchahal/AuraGlass`.
+- Work in the package repo: `/Users/gurbakshchahal/platforms/AuraGlass`.
 - Do not edit the website repo from package changes.
 - Do not revert unrelated changes from other contributors.
 - Import public components from `aura-glass`, not private `src` paths.
-- Include `import 'aura-glass/styles';` in examples that require package styles.
-- Keep React and React DOM as peer dependencies.
+- Include `import 'aura-glass/styles.css';` in examples that require package styles (the single stylesheet; the material engine ships inside it).
+- Keep React and React DOM as peer dependencies (React ^19).
 - Keep optional feature-family peers optional.
 
 ## Good First Change Areas
@@ -47,27 +47,23 @@ Run focused checks while developing:
 
 ```bash
 npm run typecheck
-npm run lint:check
+npm run lint
 npm test -- --runInBand
 ```
 
-Run package and audit checks as the change scope grows:
+Run package checks as the change scope grows:
 
 ```bash
-npm run lint:tokens
-npm run lint:styles
-npm run audit:components
-npm run audit:exports
-npm run audit:api
-npm run audit:runtime
 npm run build
-npm run verify:pack
+npm run test:contract
+npm run pack:verify
+npm run docs:links
 ```
 
-Full release dry run:
+Full pre-publish verification (build, pack check, Next and Vite consumer integrations):
 
 ```bash
-npm run release:dry-run
+npm run prepublish:verify
 ```
 
 Do not publish, push, or create external GitHub/npm changes unless that is explicitly requested.
@@ -81,17 +77,15 @@ Every PR should include:
 - tests/checks run
 - screenshots or visual notes when UI output changed
 - changelog update for public package behavior
-- release evidence update when a 3.1 gate status changes
+- release evidence update when a release gate status changes
 
 Use the repository pull request template and leave unchecked any gate that was not run.
 
-## 3.1 Launch Evidence
+## Release Evidence
 
-3.1 claims must be backed by checked-in evidence, not README text alone. Use these ledgers:
+Release claims must be backed by checked-in evidence, not README text alone. The current records are:
 
-- [reports/3.1-release/README.md](./reports/3.1-release/README.md)
-- [reports/3.1-release/package-gates.md](./reports/3.1-release/package-gates.md)
-- [reports/3.1-release/flagship-components.md](./reports/3.1-release/flagship-components.md)
-- [reports/3.1-release/catalog-and-website-evidence.md](./reports/3.1-release/catalog-and-website-evidence.md)
-- [reports/3.1-release/accessibility-and-visual-qa.md](./reports/3.1-release/accessibility-and-visual-qa.md)
-- [reports/3.1-release/recipes-and-agent-readiness.md](./reports/3.1-release/recipes-and-agent-readiness.md)
+- [CHANGELOG.md](./CHANGELOG.md) and [RELEASE_NOTES_5.0.0.md](./RELEASE_NOTES_5.0.0.md) for the shipped 5.0.x line
+- [docs/release/](./docs/release/) for the breaking-change register, LTS policy, and release decisions
+- [docs/release-rollback-deprecation.md](./docs/release-rollback-deprecation.md) for dist-tag rollback and deprecation procedure
+- Pre-5.0 release notes and program records were deleted in the 5.0 GA cleanup (2026-10-13)

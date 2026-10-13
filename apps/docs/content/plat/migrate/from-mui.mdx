@@ -22,7 +22,7 @@ AuraGlass is not trying to clone all of MUI. The target is core app chrome for p
 | `RadioGroup` | `RadioGroup` |
 | `Switch` | `Switch` |
 | `Alert` | `Alert`, `Toast` |
-| `Chip` | `Chip` |
+| `Chip` | `Chip` (from `aura-glass/data`) |
 | `Avatar` | `Avatar` |
 | `Pagination` | `Pagination` |
 | `Skeleton` | `Skeleton` |
@@ -77,10 +77,10 @@ Use [Plain CSS → Redefining tokens](/guides/plain-css#redefining-tokens) to ca
 MUI migration is report-first because layout and component semantics are contextual:
 
 ```bash
-aura-glass migrate mui --dry-run
-aura-glass migrate mui --json
-aura-glass audit deps
-aura-glass audit imports
+npx aura-glass-cli migrate mui
+npx aura-glass-cli migrate mui --json
+npx aura-glass-cli audit deps
+npx aura-glass-cli audit imports
 ```
 
 ## Verification
@@ -88,8 +88,7 @@ aura-glass audit imports
 Run these checks after migration:
 
 ```bash
-aura-glass doctor
-node scripts/ci/verify-no-core-ui-deps.js
+npx aura-glass-cli doctor
 ```
 
 The release target is that AuraGlass core app chrome does not require MUI/material.

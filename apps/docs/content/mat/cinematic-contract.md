@@ -3,7 +3,9 @@
 `cinematic` is the fourth material tier (`lightweight | standard | enhanced |
 cinematic`). It renders WebGL over library-owned pixels, and it exists **only
 in `aura-glass-labs`** (SURF-owned package `packages/labs/**`). Core never
-renders it (REQ-MAT-37, PRD-2 §4.4).
+renders it (REQ-MAT-37, PRD-2 §4.4). As of `aura-glass-labs@0.1.0` the labs
+package exports nothing yet — this contract is the admission bar a resident
+must clear before it can ship there.
 
 ## What core guarantees
 

@@ -1,40 +1,42 @@
 # Migrating to the 5.0 data table
 
 4.x `GlassTable`, `GlassDataTable`, `GlassTableVirtuoso`, and
-`GlassEditableTable` become one `DataTable` (`aura-glass/data`) with
-optional virtualization, row actions, saved views, and faceted filtering —
-the X-01 capability (findings E-34/E-29/E-32).
+`GlassEditableTable` become one `Table` (`aura-glass/data`) with optional
+virtualization and row actions. Filtering composes separately with
+`FilterBar` (`aura-glass/data`).
 
 ## Import mapping
 
 | 4.x | 5.0 |
 | --- | --- |
-| `GlassTable`, `GlassDataTable` | `DataTable` (`aura-glass/data`) |
-| `GlassTableVirtuoso` | `DataTable` with `virtualize` |
-| `GlassEditableTable` | `DataTable` with `editing` |
+| `GlassTable`, `GlassDataTable` | `Table` (`aura-glass/data`) |
+| `GlassTableVirtuoso` | `Table` with `virtualize` |
+| `GlassEditableTable` | `Table` in `mode="grid"` with column `meta.editor` + `onCellEditCommit` |
 
 ## Prop mapping
 
 | 4.x | 5.0 | notes |
 | --- | --- | --- |
-| `columns` | `columns` | column def gains `filter` / `sortable` flags |
-| `data` | `rows` | renamed |
-| `onSort` | `sort` + `onSortChange` | grammar triple |
-| `onFilter` | `filter` + `onFilterChange` | grammar triple |
-| `pageSize` | `pagination.pageSize` | folded into the pagination config |
-| `editing` callbacks | `editing={{ mode, onCommit }}` | single config |
+| `columns` | `columns` | TanStack `ColumnDef` (`TableColumnDef`); per-column UI goes in `meta` |
+| `data` | `data` | unchanged (the compat adapter also accepts the legacy `rows`) |
+| `onSort` | `sorting` + `onSortingChange` | TanStack `SortingState` |
+| `onFilter` | — | no filter state on `Table`; compose `FilterBar` and filter `data` yourself |
+| `pageSize` | `pagination={{ pageIndex, pageSize }}` + `onPaginationChange` | TanStack `PaginationState` (or `defaultPagination`) |
+| `editing` callbacks | column `meta.editor` + `onCellEditCommit` | grid mode only; `data` is never mutated — apply the commit yourself |
 
 ## Compat
 
-`GlassTable*` adapters delegate to `DataTable`; `AG_COMPAT_DATA=1` silences
-their warnings; removed at `6.0`.
+`GlassTable*` adapters in `aura-glass/compat` delegate to `Table`; silence
+their warnings with `<AuraGlassProvider deprecations="silent">`; removed
+at `6.0`.
 
-Codemod: `aura-glass-codemod data-table` rewrites imports, moves
-sort/filter state onto the grammar triples, and converts `data` → `rows`.
+Codemod: `npx aura-glass-cli migrate 4to5` (the `canonical-names` transform
+renames the imports; prop changes above are manual).
 
 ## Saved views
 
-Persisted views are a 5.0 feature: pass `views` + `onViewsChange` (grammar
-triple). The 4.x `GlassSavedViews` helper is retired — the codemod moves
-its stored payloads onto the new shape and prints a migration note per
-site.
+`Table` has no saved-views API in 5.0, and the 4.x `GlassSavedViews` helper
+has no successor. Persist the controlled state yourself — `sorting`,
+`pagination`, `columnVisibility`, `columnSizing`, `columnPinning` and
+`columnOrder` (each with its `on*Change` partner) are plain serializable
+values you can store and pass back.

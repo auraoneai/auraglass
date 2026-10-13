@@ -8,16 +8,17 @@ REQ-PLAT-15/62/84. This package publishes as `aura-glass-cli` (name from
 
 - Provider: GitLab CI/CD; namespace `chahal-foundation-group/github-auraoneai`;
   project `auraglass`; pipeline file `.gitlab-ci.yml`; environment `npm-publish`.
-- Status: **pending owner configuration** (row `aura-glass-cli` in
-  `docs/release/trusted-publishers.md`, owner-filled status and date) — the
-  owner registers the npm trusted publisher for this package. Until configured, the publish step **fails
-  closed** (no token fallback; `prepublishOnly` runs
+- Status: the `aura-glass-cli` row in `docs/release/trusted-publishers.md`
+  (owner-filled status and date) still reads `missing`, so the CI publish
+  step still **fails closed** (no token fallback; `prepublishOnly` runs
   `scripts/ci/require-ci-publish.js`, which refuses non-CI publishes).
+  `aura-glass-cli@0.1.0` shipped on npm on 2026-10-13 alongside AuraGlass
+  5.0; do not read that as the CI trusted-publishing path being live.
 - Operator action required: configure the npm trusted publisher entry for
-  `aura-glass-cli` before `v5.0.0-rc.1`. For the 4.x line the same entry covers
-  `aura-glass-cli@0.x` from `release/4.x`.
+  `aura-glass-cli` before the next CI publish. For the 4.x line the same
+  entry covers `aura-glass-cli@0.x` from `release/4.x`.
 
-## First publish (name does not exist on npm yet)
+## First publish (done: `0.1.0`, 2026-10-13)
 
 OD-2 (2026-10-12): no `@auraglass` npm org; this package publishes unscoped as
 `aura-glass-cli` from the npm account `veeronecorp`, like `aura-glass`. Never

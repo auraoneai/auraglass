@@ -1,5 +1,7 @@
 AuraGlass House Style
 
+> **5.0 note:** the `--glass-*` variables, `.glass-*` utilities, and `createGlassStyle` named below are 4.x APIs removed in 5.0. In 5.0 (`aura-glass@5.0.1`), import `aura-glass/styles.css` once, style through components (`Surface` and the material axes) and the `--ag-*` tokens (`--glass-*` renamed to `--ag-*`), and use your own CSS or Tailwind for spacing/layout utilities. The 4.x names remain available only via `aura-glass/compat/tokens.css` / `aura-glass/compat/globals.css`. The goals and rules below are unchanged.
+
 Goals
 - Premium, readable glass surfaces with consistent depth, motion, and focus.
 - Zero dark-on-dark or light-on-light contrast mistakes across themes.
@@ -58,7 +60,7 @@ Adoption Checklist (per component)
 - Respect reduced motion; avoid layout shift on enter/hover.
 
 CI Guardrails
-- Run `npm run lint:tokens` to flag raw colors, inline blur, or `animate-pulse` usage with precise file:line.
+- Run `npm run lint` (ESLint + Stylelint in 5.0) to flag raw colors, inline blur, or `animate-pulse` usage with precise file:line.
 
 Icon Buttons (Global Rule)
 - Default style: icon-only controls render as transparent/ghost (no frosted block).

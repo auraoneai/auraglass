@@ -33,7 +33,7 @@ function versionsSection(version) {
     lines.push('- `4.x` — current stable on `latest` until 5.0.0 GA, then `v4-lts` (fixes and security only for 12 months after GA)');
   } else {
     lines.push(`- \`${major}.x\` — current stable on \`latest\``);
-    lines.push('- `4.x` — LTS on `v4-lts`: fixes and security only for 12 months after 5.0.0 GA');
+    lines.push('- `4.x` — LTS on `v4-lts`: fixes and security only for 12 months after the 5.0 GA');
   }
   lines.push('- `<4.x` — unsupported');
   return lines.join('\n');

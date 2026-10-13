@@ -3,11 +3,11 @@
 | Field | Value |
 |---|---|
 | Document | Program-level PRD. It ties the evidence, the canonical architecture, the frozen contract, the **5 concurrent PRDs**, the 5 prompts (one per PRD) and the 2,158-task ledger into one plan |
-| Status | Draft, rewritten 2026-10-07 for the 5-stream concurrent model (supersedes the 19-PRD version of 2026-10-06, kept at [`archive/v1-19-prd/AURAGLASS_5_MASTER_PRD.md`](archive/v1-19-prd/AURAGLASS_5_MASTER_PRD.md)) |
+| Status | Shipped. Rewritten 2026-10-07 for the 5-stream concurrent model (supersedes the 19-PRD version of 2026-10-06, kept at [`archive/v1-19-prd/AURAGLASS_5_MASTER_PRD.md`](archive/v1-19-prd/AURAGLASS_5_MASTER_PRD.md)). AuraGlass 5.0.0 GA shipped 2026-10-13 (`aura-glass@5.0.1` is npm `latest`); this document is kept as the program's spec record |
 | Baseline | `aura-glass` 4.1.0 at `15b6de6f7` |
 | Canonical sources | Decisions and architecture: [`AURAGLASS_5_TARGET_ARCHITECTURE.md`](AURAGLASS_5_TARGET_ARCHITECTURE.md) (D-01..D-32, unchanged). Ownership, seams, branches, CI/CD and the GA checklist: [`AURAGLASS_5_CONTRACTS.md`](AURAGLASS_5_CONTRACTS.md) (`contract-v1.1`, frozen). Precedence: Gurbaksh's live instructions → contract → architecture → PRDs → this document |
-| Evidence | [`AURAGLASS_CURRENT_STATE_AUTOPSY.md`](AURAGLASS_CURRENT_STATE_AUTOPSY.md), [`AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md`](AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md), [`AURAGLASS_MISSING_CAPABILITY_MAP.md`](AURAGLASS_MISSING_CAPABILITY_MAP.md), [`component-inventory.json`](component-inventory.json), `autopsy/`, `research/` |
-| Execution | PRDs in [`prd/`](prd/), prompts in [`prompts/`](prompts/), tasks in [`tasks/<KEY>.json`](tasks/) compiled into [`AURAGLASS_5_IMPLEMENTATION_TASKLIST.md`](AURAGLASS_5_IMPLEMENTATION_TASKLIST.md) / `.csv` by `tools/build-tasklist.mjs` |
+| Evidence | [`AURAGLASS_CURRENT_STATE_AUTOPSY.md`](AURAGLASS_CURRENT_STATE_AUTOPSY.md), [`AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md`](AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md), [`AURAGLASS_MISSING_CAPABILITY_MAP.md`](AURAGLASS_MISSING_CAPABILITY_MAP.md), [`component-inventory.json`](component-inventory.json), subsystem autopsies and research archived in `the deleted pre-5.0 program records` |
+| Execution | PRDs in [`prd/`](prd/); prompts, task fragments (``tasks/<KEY>.json``) and the compiled ledger (``AURAGLASS_5_IMPLEMENTATION_TASKLIST.md`` / `.csv`, by `tools/build-tasklist.mjs`) are archived in `the deleted pre-5.0 program records` |
 | CI/CD | **GitLab CI only**, in `gitlab.com/chahal-foundation-group/github-auraoneai/auraglass` (project 87152036). No GitHub Actions for build, test, certification, deploy or publish. `github.com/auraoneai/auraglass` stays the git source of truth |
 | Index | [`README.md`](README.md) |
 
@@ -51,7 +51,7 @@ Components choose a *role* (layer, variant, thickness), never optics. The engine
 
 ## 2. Evidence summary
 
-Full detail: [`AURAGLASS_CURRENT_STATE_AUTOPSY.md`](AURAGLASS_CURRENT_STATE_AUTOPSY.md) (deliverables A, B, D), backed by the 14 subsystem reports in [`autopsy/`](autopsy/) (each with an adversarial verification section) and the remote browser run in [`autopsy/runtime-remote.md`](autopsy/runtime-remote.md) (624 page loads, headless Chromium 141 on ephemeral EC2, software raster). The remote run used a `storybook-static/` built before the 4.1.0 commit, so it describes pre-4.1.0 source.
+Full detail: [`AURAGLASS_CURRENT_STATE_AUTOPSY.md`](AURAGLASS_CURRENT_STATE_AUTOPSY.md) (deliverables A, B, D), backed by the 14 subsystem reports in ``autopsy/`` (each with an adversarial verification section) and the remote browser run in ``autopsy/runtime-remote.md`` (624 page loads, headless Chromium 141 on ephemeral EC2, software raster). The remote run used a `storybook-static/` built before the 4.1.0 commit, so it describes pre-4.1.0 source.
 
 ### 2.1 Scorecard (condensed from autopsy §A2; 1–10 against "premium first-party design system")
 
@@ -82,7 +82,7 @@ The CSS preference-fallback block (`src/styles/glass.css:4022-4123`), the behavi
 
 ### 2.3 Market position
 
-From [`AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md`](AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md) (deliverable C) and [`research/competitors.md`](research/competitors.md): no mainstream library ships a refractive liquid-glass material, and the glass-specific kits are single-effect or hobby-scale. That slot is open (an inference, marked [I]). AuraGlass does not occupy it today. [`AURAGLASS_MISSING_CAPABILITY_MAP.md`](AURAGLASS_MISSING_CAPABILITY_MAP.md) (deliverable F) lists the missing primitives (message parts, streaming, tool calls, citations, virtualized table, APG date picker); SURF's capability ledger (`docs/auraglass-5/capability-ledger.json`, contract row B20a) turns them into owned rows.
+From [`AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md`](AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md) (deliverable C) and ``research/competitors.md``: no mainstream library ships a refractive liquid-glass material, and the glass-specific kits are single-effect or hobby-scale. That slot is open (an inference, marked [I]). AuraGlass does not occupy it today. [`AURAGLASS_MISSING_CAPABILITY_MAP.md`](AURAGLASS_MISSING_CAPABILITY_MAP.md) (deliverable F) lists the missing primitives (message parts, streaming, tool calls, citations, virtualized table, APG date picker); SURF's capability ledger (`docs/auraglass-5/capability-ledger.json`, contract row B20a) turns them into owned rows.
 
 ---
 
@@ -211,25 +211,25 @@ Owner instruction (2026-10-06): GitHub Actions are not used for anything; GitLab
 
 ### 5.6 Prompt index (5 prompts, one per PRD)
 
-There are exactly five prompts in [`prompts/`](prompts/), one per PRD. Give each to one agent; all five start on day 0 and none waits on another. Inside each prompt, work packages touch disjoint files, so an agent that can spawn subagents runs them in parallel; otherwise it works through them in order.
+There were exactly five prompts in `prompts/`, one per PRD, archived in `the deleted pre-5.0 program records`. Each was given to one agent; all five started on day 0 and none waited on another. Inside each prompt, work packages touch disjoint files, so an agent that could spawn subagents ran them in parallel; otherwise it worked through them in order. They are a historical record of the shipped program; do not run them for new work.
 
 | Prompt | PRD | Work packages | Tasks |
 |---|---|---|---|
-| [`PROMPT_1_PLAT.md`](prompts/PROMPT_1_PLAT.md) | [Platform & release](prd/AURAGLASS_PLATFORM_RELEASE_PRD.md) | 1a CI/CD, Pages, npm publish · 1b 4.1.1 + 4.2/4.3 bridge · 1c release governance · 1d build/exports · 1e CLI/codemods · 1f registry/docs | 402 |
-| [`PROMPT_2_MAT.md`](prompts/PROMPT_2_MAT.md) | [Material system](prd/AURAGLASS_MATERIAL_SYSTEM_PRD.md) | 2a tokens · 2b material engine/tiers · 2c motion · 2d preferences/a11y · 2e bridge/compat | 374 |
-| [`PROMPT_3_CMP.md`](prompts/PROMPT_3_CMP.md) | [Core components](prd/AURAGLASS_CORE_COMPONENTS_PRD.md) | 3a foundation · 3b actions · 3c inputs · 3d pickers · 3e modal overlays · 3f anchored overlays · 3g core · 3h migration · 3i browser specs | 428 |
-| [`PROMPT_4_SURF.md`](prompts/PROMPT_4_SURF.md) | [Product surfaces](prd/AURAGLASS_PRODUCT_SURFACES_PRD.md) | 4a app shell/nav · 4b data/date/charts · 4c AI · 4d media/backdrops · 4e glue | 645 |
-| [`PROMPT_5_QUAL.md`](prompts/PROMPT_5_QUAL.md) | [Quality & showcase](prd/AURAGLASS_QUALITY_SHOWCASE_PRD.md) | 5a contract helpers · 5b GitLab CI lanes · 5c scenes/pixel · 5d regression · 5e behaviour · 5f perf · 5g Storybook/Material Lab · 5h showcases | 309 |
+| ``PROMPT_1_PLAT.md`` | [Platform & release](prd/AURAGLASS_PLATFORM_RELEASE_PRD.md) | 1a CI/CD, Pages, npm publish · 1b 4.1.1 + 4.2/4.3 bridge · 1c release governance · 1d build/exports · 1e CLI/codemods · 1f registry/docs | 402 |
+| ``PROMPT_2_MAT.md`` | [Material system](prd/AURAGLASS_MATERIAL_SYSTEM_PRD.md) | 2a tokens · 2b material engine/tiers · 2c motion · 2d preferences/a11y · 2e bridge/compat | 374 |
+| ``PROMPT_3_CMP.md`` | [Core components](prd/AURAGLASS_CORE_COMPONENTS_PRD.md) | 3a foundation · 3b actions · 3c inputs · 3d pickers · 3e modal overlays · 3f anchored overlays · 3g core · 3h migration · 3i browser specs | 428 |
+| ``PROMPT_4_SURF.md`` | [Product surfaces](prd/AURAGLASS_PRODUCT_SURFACES_PRD.md) | 4a app shell/nav · 4b data/date/charts · 4c AI · 4d media/backdrops · 4e glue | 645 |
+| ``PROMPT_5_QUAL.md`` | [Quality & showcase](prd/AURAGLASS_QUALITY_SHOWCASE_PRD.md) | 5a contract helpers · 5b GitLab CI lanes · 5c scenes/pixel · 5d regression · 5e behaviour · 5f perf · 5g Storybook/Material Lab · 5h showcases | 309 |
 
 To run the whole program: start these five prompts at once, one agent each, each in its own worktree.
 
-**Current entry point for remaining work (since 2026-10-08):** the five streams merged code but only 12 of 584 REQs are verified done and no GitLab pipeline has ever run on `next` or `release/4.x`. All remaining work is now driven by the [Final Completion PRD (PRD-F, FIN)](prd/AURAGLASS_5_FINAL_COMPLETION_PRD.md) and its single prompt [`PROMPT_FINAL_COMPLETION.md`](prompts/PROMPT_FINAL_COMPLETION.md) (work packages FIN-A…FIN-H, tasks in [`tasks/FIN.json`](tasks/FIN.json)); give that one file to one agent. The five stream prompts above remain the reference for each REQ's original text.
+**Final-completion phase (2026-10-08, complete):** the five streams had merged code but only 12 of 584 REQs were verified done and no GitLab pipeline had run on `next` or `release/4.x`. The remaining work was then driven by the [Final Completion PRD (PRD-F, FIN)](prd/AURAGLASS_5_FINAL_COMPLETION_PRD.md) and its single prompt ``PROMPT_FINAL_COMPLETION.md`` (work packages FIN-A…FIN-H, tasks in ``tasks/FIN.json``). The five stream prompts above remain the reference for each REQ's original text.
 
-**Current entry point (since 2026-10-10):** [`PROMPT_FINAL_COMPLETION_V2.md`](prompts/PROMPT_FINAL_COMPLETION_V2.md) supersedes `PROMPT_FINAL_COMPLETION.md` for all remaining work (241 open PRs in one global merge order, no-PR tasks per FIN-A…FIN-H, owner/human actions, GA checklist); PRD-F stays the requirements source.
+**Final-completion phase (2026-10-10, complete):** ``PROMPT_FINAL_COMPLETION_V2.md`` superseded `PROMPT_FINAL_COMPLETION.md` for the remaining work (241 open PRs in one global merge order, no-PR tasks per FIN-A…FIN-H, owner/human actions, GA checklist); PRD-F stayed the requirements source. That work shipped as 5.0.0 GA on 2026-10-13.
 
 ### 5.7 Task ledger
 
-`tasks/<KEY>.json` holds each stream's tasks (`PLAT-NNN` … `QUAL-NNN`, with `lane`, `file`, `action`, `depends_on`, `contract_seams`, `reqs`, `branch`, `gate`, `source`). `node docs/auraglass-5/tools/build-tasklist.mjs` compiles them into [`AURAGLASS_5_IMPLEMENTATION_TASKLIST.md`](AURAGLASS_5_IMPLEMENTATION_TASKLIST.md) and `.csv` and fails the build on any problem:
+`tasks/<KEY>.json` holds each stream's tasks (`PLAT-NNN` … `QUAL-NNN`, with `lane`, `file`, `action`, `depends_on`, `contract_seams`, `reqs`, `branch`, `gate`, `source`). `node docs/auraglass-5/tools/build-tasklist.mjs` compiled them into ``AURAGLASS_5_IMPLEMENTATION_TASKLIST.md`` and `.csv` and failed the build on any problem (fragments and ledger now archived):
 
 - every field present and every id unique;
 - every `depends_on` entry is an id of the **same stream** (contract §7.2 rule 1); release ordering is a `gate` (G-07), never a dependency (the MAT, CMP and QUAL fragments also keep every edge inside one lane);
@@ -356,7 +356,7 @@ Export ceilings: root ≤160 value exports, about 250 across all subpaths, enfor
 
 ## 11. Visual quality bar and anti-patterns
 
-Source: [`AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md`](AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md) §3 (Liquid Glass principles P1–P14 adapted for the web), §4.1–§4.3, and [`research/apple-liquid-glass.md`](research/apple-liquid-glass.md).
+Source: [`AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md`](AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md) §3 (Liquid Glass principles P1–P14 adapted for the web), §4.1–§4.3, and ``research/apple-liquid-glass.md``.
 
 ### 11.1 The bar
 

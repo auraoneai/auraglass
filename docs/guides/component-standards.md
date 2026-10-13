@@ -288,6 +288,8 @@ export function HoverHelp() {
 
 ### Glass Utility Classes
 
+> **Removed in 5.0:** the `glass-*` utility classes below are 4.x globals. 5.0 ships layered component CSS in `aura-glass/styles.css` and `--ag-*` tokens instead; the old globals and `--glass-*` variables remain available only as escape hatches via `aura-glass/compat/globals.css` and `aura-glass/compat/tokens.css`. The listings below are kept as a 4.x → 5.0 mapping reference (spacing values still apply; set them with your own CSS or Tailwind).
+
 #### Core Glass Classes
 ```css
 .glass                    /* Base glass foundation */
@@ -694,7 +696,7 @@ export function ElevationChoice() {
 - [Elevation Guidelines](./elevation-guidelines.md)
 - [Design System Enforcement](./design-system-enforcement.md)
 - [Button Spacing Guide](./button-spacing.md)
-- Glass Utility Reference (`docs/glass-utilities.md` in the repository)
+- Glass Utility Reference (4.x; deleted in the 5.0 GA cleanup, 2026-10-13)
 - [Accessibility Guide](./accessibility.md)
 
 ---

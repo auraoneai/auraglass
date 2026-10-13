@@ -3,26 +3,25 @@
 4.x `GlassChat`, `GlassChatInput`, `GlassMessageList`, and
 `GlassTypingIndicator` move to `aura-glass/ai` as `Thread`, `Message`,
 `Composer`, and friends — a provider-agnostic surface with a real
-message-part model, streaming, tool calls, and citations (AI SDK v6
-devDeps; contracts in `src/contracts/ai`). `GlassVoiceInput` has no 5.0
-component; the `ai-voice-input` registry item lands in 5.1.
+message-part model, streaming, tool calls, and citations. `GlassVoiceInput`
+has no 5.0 component; install the `ai-voice-input` registry item instead.
 
 ## Import mapping
 
 | 4.x | 5.0 |
 | --- | --- |
-| `GlassChat` | `Thread` + `Message` (`aura-glass/ai`), via the `GlassChat` compat adapter |
+| `GlassChat` | `Thread` + `Composer` (`aura-glass/ai`), via the `GlassChat` compat adapter |
 | `GlassChatInput` | `Composer` (`aura-glass/ai`), via the `GlassChatInput` compat adapter |
-| `GlassMessageList` | `Message` + `StreamingText` (`aura-glass/ai`), via the `GlassMessageList` compat adapter |
-| `GlassTypingIndicator` | `Message` typing state (`aura-glass/ai`), via the `GlassTypingIndicator` compat adapter |
-| `GlassVoiceInput` | registry item `ai-voice-input` (5.1); no component successor |
+| `GlassMessageList` | `Thread` (`aura-glass/ai`), via the `GlassMessageList` compat adapter |
+| `GlassTypingIndicator` | a streaming-status message or `AgentSteps` (`aura-glass/ai`), via the `GlassTypingIndicator` compat adapter |
+| `GlassVoiceInput` | registry item `ai-voice-input`; no component successor |
 
 The `ai-chat` codemod only rewrites the four chat imports to
 `aura-glass/compat` and inserts
 `// TODO(aura-glass 5): migrate to aura-glass/ai Thread/Message/Composer, see <doc>` —
 it never touches JSX structure. The adapters keep the 4.x names working on
 top of the 5.0 components, warn once via `warnDeprecated(id)`, and retire at
-`6.0` (`AG_COMPAT_AI=1` silences the warning).
+`6.0` (`<AuraGlassProvider deprecations="silent">` silences the warnings).
 
 ## Message shape
 
@@ -36,11 +35,10 @@ each is named in the adapter's deprecation warning.
 
 ## Provider wiring
 
-`Thread`/`Composer` take a `chat` config `{ provider, model, transport }`.
-There is no hard-coded vendor call in `src/ai/**` — transport is injected
-and the shipped fixtures use a deterministic stub (no-network is a lint
-rule, not a convention). See `src/contracts/ai` for the message envelope
-(REQ-SURF-85..97).
+`Thread` takes `messages` (`AgMessage[]`); `Composer` takes `onSubmit`,
+`status` and `onStop`. The library never calls a model or the network —
+your app owns the transport (see Routing models through Kiro Prism for the
+reference route). The message envelope is the `AgMessage` /
+`AgMessageMetadata` types exported from `aura-glass/ai`.
 
-Codemod: `aura-glass-codemod ai-chat` — see the consumer-4x `surf/ai`
-fixture for an exact before/after.
+Codemod: `npx aura-glass-cli migrate 4to5 --transform ai-chat`.

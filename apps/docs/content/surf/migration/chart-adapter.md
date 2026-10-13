@@ -1,9 +1,14 @@
 # Chart adapter guide
 
-`aura-glass/charts` renders a spec (`{ data, encodings, scales?, marks? }`)
-through a renderer you supply. The default is the repo's 2-D renderer;
-this guide shows how to write an adapter for another engine — the tests in
-`tests/charts/adapters/` exercise the contract.
+> **Not in 5.0.x.** `aura-glass/charts` is a 5.1 preview and is absent from
+> the 5.0.x exports map; the renderer contract below is the planned shape,
+> not an exported API. The shipped 5.0 path is `ChartFrame`
+> (`aura-glass/data`) with an adapter component — see the ChartFrame
+> adapters guide.
+
+`aura-glass/charts` will render a spec (`{ data, encodings, scales?, marks? }`)
+through a renderer you supply. This guide shows how to write an adapter for
+another engine.
 
 ## The interface
 
@@ -87,6 +92,6 @@ export const myEngineRenderer: ChartRenderer = {
 };
 ```
 
-Register it by passing `renderer={myEngineRenderer}` to `<Chart>` or by
-wrapping in your app-level provider. Ship the adapter in your app or under
-`packages/` — not in `src/charts/**`, which stays engine-agnostic.
+Registration is part of the 5.1 preview surface and is not final. Until
+then, ship the adapter in your app and render your engine inside
+`ChartFrame` (`aura-glass/data`) as in the ChartFrame adapters guide.

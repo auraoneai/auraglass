@@ -2,13 +2,15 @@
 
 Experimental AuraGlass surfaces. **0.x — no stability guarantee.** Names, props
 and even whole residents may change or disappear in any minor.
+`aura-glass-labs@0.1.0` was published on npm on 2026-10-13 alongside
+AuraGlass 5.0 (`aura-glass@5.0.1` is current on `latest`).
 
 ## Admission (architecture §13.4)
 
 A resident is admitted only when all of these hold:
 
 1. It has a capability-ledger row with `form` containing `labs`, an `area`, and
-   an evidence basis (`research/competitors.md` pin or `exception:` reason).
+   an evidence basis (a research pin or `exception:` reason; the pre-5.0 research notes were deleted in the 5.0 GA cleanup).
 2. `auraglass/no-simulation` reports 0 violations over `packages/labs/src/**`.
 3. Imports resolve only to `react`, `react-dom`, peers, or public `aura-glass`
    entries — never `aura-glass/compat`, `aura-glass/src/**` or `aura-glass/dist/**`.

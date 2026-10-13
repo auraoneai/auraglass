@@ -4,7 +4,7 @@
 |---|---|
 | PRD id | **PRD-3** |
 | Key | **CMP** (path key `cmp`; tasks `CMP-NNN`; requirements `REQ-CMP-NN`; acceptance `AC-CMP-NN`; deprecation ids `DEP-C####`) |
-| Status | Draft |
+| Status | Shipped in AuraGlass 5.0.0 GA (2026-10-13; `aura-glass@5.0.1` is npm `latest`). Kept as spec record |
 | Contract | `docs/auraglass-5/AURAGLASS_5_CONTRACTS.md` **contract-v1.1** is binding. Where this PRD and the contract disagree, the contract wins (§1.4) and this PRD is corrected |
 | Baseline | `aura-glass` 4.1.0 (`15b6de6f7`; current `main` HEAD `e8d20a51a` adds only the GitLab mirror workflow, so all source evidence still holds) |
 | Branch / worktree | `next-cmp/<topic>` cut from `next`, worktree `../AuraGlass.wt/cmp/`. On `release/4.x` CMP uses `4x-cmp/<topic>` **only** for `fragments/deprecations/cmp.ts` and `tests/fixtures/consumer-4x/cases/cmp/**` (§2.4) |

@@ -42,6 +42,5 @@ carries the trailer `Multi-Family: <reason>`.
 On `release/4.x`, a changed default-mode cell (Chromium, light and dark, 1440×900 and
 390×844, tier and preferences forced; `data-ag-preview="v5"` cells excluded) passes only
 when the PR adds `docs/release/visual-fixes/<slug>.json` listing exactly those cells,
-the D-28 or §13.1 id and the composite artifact URL. On `next` before GA the visual
-class is informational; from 5.0.0 it applies on `main` to the default cells of QUAL's
-matrix.
+the D-28 or §13.1 id and the composite artifact URL. From 5.0.0 (GA 2026-10-13) the visual
+class applies on `main` to the default cells of QUAL's matrix (it was informational on `next` before GA).

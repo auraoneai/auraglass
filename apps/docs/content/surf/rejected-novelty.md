@@ -18,8 +18,8 @@ decision is auditable and reversible only by re-scoring with new evidence.
   demand links cleared the bar.
 - **Audio-reactive surfaces** — same rubric class; the idle discipline
   (no wake loops when hidden) is unfixable for continuous audio analysis.
-- **Spatial cursor multiplayer extras** — presence is a 5.1 registry item
-  (`presence-stack`); the full co-cursor suite stays rejected.
+- **Spatial cursor multiplayer extras** — presence ships as the 5.0
+  registry item `presence-stack`; the full co-cursor suite stays rejected.
 - **In-viewport video auto-play decorators** — rejected on
   reduced-motion alone; autoplay is a source-model flag, not a wrapper.
 

@@ -1,6 +1,24 @@
-# aura-glass 5.0.0-alpha.1 release notes
+# aura-glass 5.0.0 release notes
 
-## Breaking
+AuraGlass 5.0.0 shipped on 2026-10-13 and is the npm `latest` release
+(`aura-glass@5.0.1` after the same-day patch below). It is the liquid-glass
+design system for React 19: install with `npm install aura-glass`, import the
+single stylesheet once with `import 'aura-glass/styles.css'` (the material
+engine ships inside it), and migrate a 4.x app with
+`npx aura-glass-cli migrate 4to5`. Material tiers are
+`standard` / `enhanced` / `lightweight`, with forced-colors and solid rungs.
+All `aura-glass` versions before 5.0.0 are deprecated on npm; 4.1.0 remains
+installable on the `v4-lts` dist-tag. Companion packages:
+`aura-glass-registry@5.0.0`, `aura-glass-cli@0.1.0`, `aura-glass-mcp@0.1.0`,
+`aura-glass-labs@0.1.0`.
+
+## 5.0.1 patch (2026-10-13)
+
+- Fixed: the `tokens.css` MAT-003 registry is emitted as a proper `:root`
+  rule, so strict CSS parsers accept `aura-glass/styles.css`.
+- Corrected the README release banner.
+
+## Breaking (5.0.0)
 
 ### Dependency floors — handled by the `deps` codemod
 
@@ -42,7 +60,7 @@ build). Runtime warnings name the codemod that performs the change.
 ## Added
 
 - `aura-glass/compat` adapters for every deprecated component export.
-- `aura-glass/migrate` CLI (4to5 transforms; see the removal train).
+- `aura-glass-cli` package with `npx aura-glass-cli migrate 4to5` (the 4to5 codemod transforms).
 - cmp(lane 3b-A): Actions — Button (BU Button/Toggle switch, material+intent+size grammar, loading spinner, prominent dev-guard, pointerLight attr), IconButton (label+icon, capsule/fixed), Toolbar compound (BU Toolbar + SurfaceGroup root), ButtonGroup (server-safe role=group), ToggleGroup (BU ToggleGroup+Toggle, single/multi), SegmentedControl (BU RadioGroup+Radio, indicator part, >5-segments dev hint). Metas with §10.2 migration rows, parts-exact stories, controls families harness + story-contract pilot. (.changeset/cmp-a-actions.md)
 - CMP lane 3a (Foundation): foundation seam (defineMeta/parts/state/portal helpers), six primitives rewritten to 5.0 semantics (ref-as-prop, no forwardRef), Base UI pin gate, icons redesign (createIcon factory, PURE-annotated glyph modules, a11y contract), T2 leaf components (EmptyState/ErrorState/LoadingState, Steps, AvatarGroup, Chip), cmp lint rules (no-forward-ref, require-data-ag-part), foundation-pattern + selector-coverage verify scripts, ci fragment jobs, literals/size/perf/css fragments, type tests (meta-shape, change-details, no-legacy-onchange, prop-grammar). (.changeset/cmp-f-foundation.md)
 - cmp: Form (BU Form + Field errors/focus) + KeyValueEditor (./data entry) — CMP-048/049 (.changeset/cmp-form-kv-editor.md)
@@ -89,11 +107,12 @@ build). Runtime warnings name the codemod that performs the change.
 
 ## Fixed
 
-_Populated by the fix ledger at RC._
+See the 5.0.1 patch section above and the 5.0.0 / 5.0.1 entries in
+`CHANGELOG.md`.
 
 ## Visual bug fixes
 
-_Entries come from `docs/release/visual-fixes/*.json` records (change class C-I-VF)._
+Visual-fix records (change class C-I-VF) live in `docs/release/visual-fixes/`.
 
 ## Security
 

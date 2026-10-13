@@ -5,8 +5,8 @@ Liquid glass primitives should scale from low-power devices to GPU-accelerated s
 ## Guidelines
 
 - Prefer tokenized CSS glass surfaces for standard UI.
-- Use GPU, Houdini, or Three-backed effects only where the interaction needs them.
-- Gate expensive effects behind feature detection and quality tiers.
+- Use the shipped material tiers (`standard`, `enhanced`, `lightweight`) to trade fidelity for cost; the engine already falls back through its solid and forced-colors rungs. (`aura-glass/three` ships no effects in 5.0.)
+- Gate expensive effects behind feature detection and the material tiers.
 - Keep animation paths reduced-motion aware.
 - Avoid layout shifts when swapping between enhanced and fallback materials.
 

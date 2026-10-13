@@ -1,5 +1,7 @@
 # AuraGlass by AuraOne Elevation Guidelines
 
+> **5.0 note:** the `.glass-elev-*` classes and `--glass-elev-*` variables below were removed in 5.0. In 5.0, elevation follows the material layer (`Surface` `layer` + `variant` + `thickness`, resolved by the material engine in `aura-glass/styles.css`); the shadow values below remain the design reference. The old names are available only via `aura-glass/compat/globals.css` / `aura-glass/compat/tokens.css`.
+
 ## Overview
 
 This document defines the elevation system for the AuraGlass by AuraOne component library. Elevation creates visual hierarchy and depth through consistent shadow systems that help users understand the layered nature of interface elements.

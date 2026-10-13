@@ -4,7 +4,7 @@
 |---|---|
 | PRD id | PRD-2 |
 | Key | MAT (path key `mat`; task ids `MAT-NNN` in `tasks/MAT.json`; branches `next-mat/*`, `4x-mat/*`) |
-| Status | Draft, 2026-10-06 |
+| Status | Shipped in AuraGlass 5.0.0 GA (2026-10-13; `aura-glass@5.0.1` is npm `latest`). Drafted 2026-10-06; kept as spec record |
 | Binding contract | `docs/auraglass-5/AURAGLASS_5_CONTRACTS.md` `contract-v1.1` (frozen). Where this PRD and the contract disagree, the contract wins until this PRD is corrected (contract §1.4) |
 | Sources (consolidated) | Archived `archive/v1-19-prd/prd/AURAGLASS_DESIGN_SYSTEM_PRD.md` (DS, REQ-DS-01..44), `AURAGLASS_MATERIAL_ENGINE_PRD.md` (MAT, REQ-MAT-01..87 + 13a), `AURAGLASS_MOTION_PRD.md` (MOT, REQ-MOT-01..131), `AURAGLASS_ACCESSIBILITY_PRD.md` (A11Y, REQ-A11Y-01..50). Old → new REQ mapping: Appendix A |
 | Evidence | `AURAGLASS_CURRENT_STATE_AUTOPSY.md`, `autopsy/{tokens-theme,material-engine,motion,accessibility,runtime-remote}.md`, `component-inventory.json`, `AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md`, `AURAGLASS_MISSING_CAPABILITY_MAP.md` |

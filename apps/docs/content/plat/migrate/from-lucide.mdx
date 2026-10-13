@@ -63,20 +63,20 @@ export function HeaderActions() {
 
 ## CLI Assistance
 
-Use the migration command in report mode first:
+Use the migration command in report mode first (it reports until you pass `--write`):
 
 ```bash
-aura-glass migrate icons --from lucide --dry-run
-aura-glass migrate icons --from lucide --json
+npx aura-glass-cli migrate icons --from lucide
+npx aura-glass-cli migrate icons --from lucide --json
 ```
 
-Apply safe named-import rewrites with:
+Apply the import-source rewrites with:
 
 ```bash
-aura-glass migrate icons --from lucide --write
+npx aura-glass-cli migrate icons --from lucide --write
 ```
 
-The rewrite aliases AuraGlass icon names back to the existing local component names so JSX usage can remain stable during the first pass:
+The rewrite only changes the module specifier (`lucide-react` → `aura-glass/icons`); it does not rename the imported symbols. Rename them yourself — aliasing the AuraGlass icon names back to the existing local component names keeps JSX usage stable during the first pass:
 
 ```tsx
 import { SearchIcon as Search, CloseIcon as X } from 'aura-glass/icons';
@@ -95,10 +95,10 @@ After the app compiles, rename local JSX usages to the canonical `*Icon` names w
 | `AlertCircle` | `AlertCircleIcon` |
 | `AlertTriangle` | `AlertTriangleIcon` |
 | `Info` | `InfoIcon` |
-| `Loader2` | `LoaderIcon` |
-| `Plus` | `AddIcon` |
+| `Loader2` | `Loader2Icon` |
+| `Plus` | `PlusIcon` |
 | `Minus` | `MinusIcon` |
-| `Trash2` | `TrashIcon` |
+| `Trash2` | `Trash2Icon` |
 | `Download` | `DownloadIcon` |
 | `Upload` | `UploadIcon` |
 | `ChevronLeft` | `ChevronLeftIcon` |
@@ -107,8 +107,7 @@ After the app compiles, rename local JSX usages to the canonical `*Icon` names w
 | `ChevronDown` | `ChevronDownIcon` |
 | `Home` | `HomeIcon` |
 | `Menu` | `MenuIcon` |
-| `Sparkles` | `SparkIcon` |
-| `Bot` | `BotIcon` |
+| `Sparkles` | `SparklesIcon` |
 
 ## Accessibility
 
@@ -129,9 +128,8 @@ Use `title` only when the icon itself is meaningful content. Do not rely on hove
 Run these checks after migration:
 
 ```bash
-aura-glass audit imports
-aura-glass audit deps
-node scripts/ci/verify-no-core-ui-deps.js
+npx aura-glass-cli audit imports
+npx aura-glass-cli audit deps
 ```
 
 The release target remains zero production imports from `lucide-react` in AuraGlass core app chrome.

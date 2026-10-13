@@ -4,13 +4,36 @@
 
 Pre-4.1.1 ledger mismatches are recorded once in `docs/release/ledger-corrections.json` (regenerate with `node scripts/release/verify-release-ledger.mjs --regen`); history is not rewritten. Versions >= 4.1.1 must agree across CHANGELOG heading, git tag, GitLab Release and npm — the `verify-release-ledger` step runs in the tag pipeline and fails closed.
 
-## [5.0.0-alpha.1] - Unreleased
+## [5.0.2] - 2026-10-13
 
-First 5.0 pre-release. It is published from `next` to the npm `next` dist-tag
-by the tag pipeline (`plat:publish:npm`); `latest` stays on 4.x. It contains
-what has merged on `next` on the train date. It is not production-ready: the
-5.0 gates are listed per stop in `docs/release/5.0.0-gates.md`, and the
-alpha.1 stop only requires the change-class check and regenerated API reports.
+Patch release carrying the fully generated README: the claim counters on the
+npm page (component count, registry blocks, codemod transforms, packed
+tarball size) are now measured values from this release's own artifacts
+instead of `pending`. No runtime change from 5.0.1.
+
+## [5.0.1] - 2026-10-13
+
+Patch release. Fixes invalid CSS in `dist/tokens.css` (and therefore
+`dist/styles.css`): the MAT-003 privates registry was emitted as bare
+declarations inside the trailing forced-colors `@media` block, which strict
+CSS parsers (Lightning CSS / Turbopack) reject outright. It is now emitted as
+a proper `:root` rule. Also corrects the README release banner to the shipped
+dist-tag state (`latest` 5.0.x, `v4-lts` 4.1.0).
+
+## [5.0.0] - 2026-10-13
+
+AuraGlass 5.0 GA, published to the npm `latest` dist-tag. Everything in the
+alpha.1 train below, plus: the material engine now ships inside
+`aura-glass/styles.css` (the only sheet consumers load), the glass-off rungs
+(lightweight/solid) kill the scrim blur, menu hit-areas anchor to their
+hosts, and the css-a11y-pairing baseline is fully burned down (47 genuine
+`ag.a11y` sibling sheets). All pre-5.0 versions are deprecated on npm; 4.1.0
+remains available under `v4-lts`.
+
+## [5.0.0-alpha.1] - 2026-10-12
+
+First 5.0 pre-release train. Its contents shipped as 5.0.0 GA (above); the
+alpha.1 version itself was never published to npm.
 
 ### Breaking
 

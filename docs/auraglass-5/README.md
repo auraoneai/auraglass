@@ -1,12 +1,10 @@
 # AuraGlass 5.0 program documents
 
-Planning set for the AuraGlass 4.1.0 → 5.0 program (baseline `aura-glass` 4.1.0 at `15b6de6f7`). Start with the [master PRD](AURAGLASS_5_MASTER_PRD.md). Decisions live in the [target architecture](AURAGLASS_5_TARGET_ARCHITECTURE.md) (D-01..D-32). Ownership, seams, branches, CI/CD and the GA checklist live in the frozen [contract](AURAGLASS_5_CONTRACTS.md) (`contract-v1.1`). Precedence: Gurbaksh's live instructions → contract → architecture → the five PRDs → master PRD.
+Spec record of the shipped AuraGlass 4.1.0 → 5.0 program (baseline `aura-glass` 4.1.0 at `15b6de6f7`). AuraGlass 5.0.0 GA shipped 2026-10-13 on npm `latest`, followed the same day by the 5.0.1 patch (`aura-glass@5.0.1` is `latest`; all `aura-glass` <5.0.0 versions are deprecated on npm and 4.1.0 sits on the `v4-lts` dist-tag). Start with the [master PRD](AURAGLASS_5_MASTER_PRD.md). Decisions live in the [target architecture](AURAGLASS_5_TARGET_ARCHITECTURE.md) (D-01..D-32). Ownership, seams, branches, CI/CD and the GA checklist live in the frozen [contract](AURAGLASS_5_CONTRACTS.md) (`contract-v1.1`). Precedence: Gurbaksh's live instructions → contract → architecture → the five PRDs → master PRD.
 
-**Execution model (since 2026-10-06):** five PRDs that all start on day 0 and run concurrently. No PRD or task waits for another; every cross-stream need is a seam of the contract. The 4.x line (`release/4.x`) and 5.0 (`next`) run in parallel. CI/CD is **GitLab CI only** (`gitlab.com/chahal-foundation-group/github-auraoneai/auraglass`); GitHub stays the git source of truth and runs no Actions except the org-managed mirror (owner decision OD-8).
+**Execution model (2026-10-06, complete):** five PRDs that started on day 0 and ran concurrently. No PRD or task waited for another; every cross-stream need was a seam of the contract. The 4.x line (`release/4.x`) and 5.0 (`next`) ran in parallel. CI/CD is **GitLab CI only** (`gitlab.com/chahal-foundation-group/github-auraoneai/auraglass`); GitHub stays the git source of truth and runs no Actions except the org-managed mirror (owner decision OD-8).
 
-**Current entry point (since 2026-10-08):** remaining work runs from the [Final Completion PRD (PRD-F)](prd/AURAGLASS_5_FINAL_COMPLETION_PRD.md) and its one prompt [`prompts/PROMPT_FINAL_COMPLETION.md`](prompts/PROMPT_FINAL_COMPLETION.md) (FIN-A…FIN-H, [`tasks/FIN.json`](tasks/FIN.json)); see [master PRD §5.6](AURAGLASS_5_MASTER_PRD.md#56-prompt-index-5-prompts-one-per-prd).
-
-**Current entry point (since 2026-10-10):** [`prompts/PROMPT_FINAL_COMPLETION_V2.md`](prompts/PROMPT_FINAL_COMPLETION_V2.md) — one self-contained prompt with every task still open (all 241 open PRs in one global merge order, no-PR work per FIN-A…FIN-H, owner/human actions, GA checklist); it supersedes `PROMPT_FINAL_COMPLETION.md` for remaining work, and PRD-F stays the requirements source.
+**Program artifacts (archived 2026-10-13):** the execution prompts (`prompts/`, including `PROMPT_FINAL_COMPLETION_V2.md`), task fragments (`tasks/`) and ledger, subsystem autopsies (`autopsy/`), implementation audits, research and handover records did their job and are archived unchanged (plus an archive banner on Markdown files) under `the deleted pre-5.0 program records`. The [Final Completion PRD (PRD-F)](prd/AURAGLASS_5_FINAL_COMPLETION_PRD.md) stays here as part of the spec record. Do not execute the archived prompts or tasks for new work.
 
 ## Deliverables A–L
 
@@ -16,28 +14,28 @@ Letters follow the program brief.
 |---|---|---|
 | A | Executive assessment | [`AURAGLASS_CURRENT_STATE_AUTOPSY.md`](AURAGLASS_CURRENT_STATE_AUTOPSY.md) §A1 |
 | B | Current-state scorecard | [`AURAGLASS_CURRENT_STATE_AUTOPSY.md`](AURAGLASS_CURRENT_STATE_AUTOPSY.md) §A2 (condensed in [master PRD](AURAGLASS_5_MASTER_PRD.md) §2.1) |
-| C | Competitive gap analysis and visual benchmark | [`AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md`](AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md); research inputs in [`research/`](research/) (`apple-liquid-glass.md`, `competitors.md`, `translucent-a11y-perf.md`, `web-glass-techniques.md`) |
-| D | Technical autopsy (README claim validation, keep/mediocre/outdated/duplicated/fake, findings by severity, root causes, technical-debt register) | [`AURAGLASS_CURRENT_STATE_AUTOPSY.md`](AURAGLASS_CURRENT_STATE_AUTOPSY.md) §B1–B4 and §D; subsystem reports in [`autopsy/`](autopsy/) (14 verified reports plus `visual-quality.md`, `runtime-local.md`, `runtime-remote.md` and `remote-evidence/`) |
+| C | Competitive gap analysis and visual benchmark | [`AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md`](AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md); research inputs archived in `the deleted pre-5.0 program records` (`apple-liquid-glass.md`, `competitors.md`, `translucent-a11y-perf.md`, `web-glass-techniques.md`) |
+| D | Technical autopsy (README claim validation, keep/mediocre/outdated/duplicated/fake, findings by severity, root causes, technical-debt register) | [`AURAGLASS_CURRENT_STATE_AUTOPSY.md`](AURAGLASS_CURRENT_STATE_AUTOPSY.md) §B1–B4 and §D; subsystem reports archived in `the deleted pre-5.0 program records` (14 verified reports plus `visual-quality.md`, `runtime-local.md`, `runtime-remote.md` and `remote-evidence/`) |
 | E | Component inventory and disposition | [`component-inventory.json`](component-inventory.json), [`component-inventory.csv`](component-inventory.csv) (500 records = 496 components + 4 notes), merged by [`tools/merge-inventory.mjs`](tools/merge-inventory.mjs). The 5.0 destination of each record is generated by PLAT (`docs/inventory/component-dispositions.md`); the planning-time version is [`archive/v1-19-prd/prd/appendix/`](archive/v1-19-prd/prd/appendix/) |
 | F | Missing-capability map | [`AURAGLASS_MISSING_CAPABILITY_MAP.md`](AURAGLASS_MISSING_CAPABILITY_MAP.md); owned rows in SURF's capability ledger ([SURF PRD](prd/AURAGLASS_PRODUCT_SURFACES_PRD.md), contract row B20a) |
 | G | 5.0 target architecture | [`AURAGLASS_5_TARGET_ARCHITECTURE.md`](AURAGLASS_5_TARGET_ARCHITECTURE.md) (canonical, D-01..D-32; §16 now points to the five PRDs); competing proposals in [`architecture/`](architecture/) |
 | H | PRD suite: **5 PRDs + the frozen contract** | the five PRDs in [`prd/`](prd/) (table below), [`AURAGLASS_5_CONTRACTS.md`](AURAGLASS_5_CONTRACTS.md), and the umbrella [`AURAGLASS_5_MASTER_PRD.md`](AURAGLASS_5_MASTER_PRD.md) |
-| I | Agent execution prompts | 5 files in [`prompts/`](prompts/), one per PRD: `PROMPT_1_PLAT.md` … `PROMPT_5_QUAL.md`. Run all five at once, one agent each. Index: [master PRD §5.6](AURAGLASS_5_MASTER_PRD.md#56-prompt-index-5-prompts-one-per-prd) |
-| J | File-level task ledger | [`AURAGLASS_5_IMPLEMENTATION_TASKLIST.md`](AURAGLASS_5_IMPLEMENTATION_TASKLIST.md) and [`.csv`](AURAGLASS_5_IMPLEMENTATION_TASKLIST.csv) (2,158 tasks, 0 validation problems), generated by [`tools/build-tasklist.mjs`](tools/build-tasklist.mjs) from [`tasks/<KEY>.json`](tasks/). Edit the fragments, not the ledger |
+| I | Agent execution prompts | 5 files, one per PRD: `PROMPT_1_PLAT.md` … `PROMPT_5_QUAL.md`, archived in `the deleted pre-5.0 program records`. Historical record only; do not run them. Index: [master PRD §5.6](AURAGLASS_5_MASTER_PRD.md#56-prompt-index-5-prompts-one-per-prd) |
+| J | File-level task ledger | ``AURAGLASS_5_IMPLEMENTATION_TASKLIST.md`` and ``.csv`` (2,158 tasks, 0 validation problems), generated by [`tools/build-tasklist.mjs`](tools/build-tasklist.mjs) from the archived ``tasks/<KEY>.json`` fragments. Archived with the program; do not regenerate |
 | K | Migration strategy | [PLAT PRD](prd/AURAGLASS_PLATFORM_RELEASE_PRD.md) (change classes, deprecations, breaking-change register, codemod engine, compat composition, frozen 4.x fixture, rollback) with each stream's deprecation, codemod and compat content in its own PRD; summary in master PRD §7–§8 |
 | L | Certification plan | [QUAL PRD](prd/AURAGLASS_QUALITY_SHOWCASE_PRD.md) (lanes L1–L14, scenes, evidence, GA checklist runner); GA checklist in contract §6.2; summary in master PRD §9 and §12 |
 
 ## The five PRDs
 
-All five start on day 0. Each has its own task fragment, its own GitLab CI fragment `ci/<stream>.gitlab-ci.yml` and its own branch prefix `next-<stream>/*` (plus `4x-<stream>/*` where it has 4.x work).
+All five started on day 0. Each had its own task fragment, its own GitLab CI fragment `ci/<stream>.gitlab-ci.yml` and its own branch prefix `next-<stream>/*` (plus `4x-<stream>/*` where it had 4.x work). The index prompts and task fragments were deleted in the 5.0 GA cleanup (2026-10-13); the PRDs stay here.
 
-| Key | PRD | Absorbs (archived) | Index prompt | Lane prompts | Tasks |
+| Key | PRD | Absorbs (archived) | Index prompt (archived) | Lane prompts | Tasks (archived) |
 |---|---|---|---|---|---|
-| PLAT | [`AURAGLASS_PLATFORM_RELEASE_PRD.md`](prd/AURAGLASS_PLATFORM_RELEASE_PRD.md) | TRUST, REL, PKG, DX, FND removal/extraction | [`PROMPT_1_PLAT.md`](prompts/PROMPT_1_PLAT.md) | `PROMPT_1a`..`1f` (6) | [`tasks/PLAT.json`](tasks/PLAT.json) (402) |
-| MAT | [`AURAGLASS_MATERIAL_SYSTEM_PRD.md`](prd/AURAGLASS_MATERIAL_SYSTEM_PRD.md) | DS, MAT, MOT, A11Y | [`PROMPT_2_MAT.md`](prompts/PROMPT_2_MAT.md) | `PROMPT_2a`..`2e` (5) | [`tasks/MAT.json`](tasks/MAT.json) (374) |
-| CMP | [`AURAGLASS_CORE_COMPONENTS_PRD.md`](prd/AURAGLASS_CORE_COMPONENTS_PRD.md) | FND (foundation, primitives, core T2), CTL, OVL | [`PROMPT_3_CMP.md`](prompts/PROMPT_3_CMP.md) | `PROMPT_3a`..`3i` (9) | [`tasks/CMP.json`](tasks/CMP.json) (428) |
-| SURF | [`AURAGLASS_PRODUCT_SURFACES_PRD.md`](prd/AURAGLASS_PRODUCT_SURFACES_PRD.md) | NAV, DATA, AI, MED, EXP | [`PROMPT_4_SURF.md`](prompts/PROMPT_4_SURF.md) | `PROMPT_4a`..`4e` (5) | [`tasks/SURF.json`](tasks/SURF.json) (645) |
-| QUAL | [`AURAGLASS_QUALITY_SHOWCASE_PRD.md`](prd/AURAGLASS_QUALITY_SHOWCASE_PRD.md) | QA, SB, PERF | [`PROMPT_5_QUAL.md`](prompts/PROMPT_5_QUAL.md) | `PROMPT_5a`..`5h` (8) | [`tasks/QUAL.json`](tasks/QUAL.json) (309) |
+| PLAT | [`AURAGLASS_PLATFORM_RELEASE_PRD.md`](prd/AURAGLASS_PLATFORM_RELEASE_PRD.md) | TRUST, REL, PKG, DX, FND removal/extraction | ``PROMPT_1_PLAT.md`` | `PROMPT_1a`..`1f` (6) | ``tasks/PLAT.json`` (402) |
+| MAT | [`AURAGLASS_MATERIAL_SYSTEM_PRD.md`](prd/AURAGLASS_MATERIAL_SYSTEM_PRD.md) | DS, MAT, MOT, A11Y | ``PROMPT_2_MAT.md`` | `PROMPT_2a`..`2e` (5) | ``tasks/MAT.json`` (374) |
+| CMP | [`AURAGLASS_CORE_COMPONENTS_PRD.md`](prd/AURAGLASS_CORE_COMPONENTS_PRD.md) | FND (foundation, primitives, core T2), CTL, OVL | ``PROMPT_3_CMP.md`` | `PROMPT_3a`..`3i` (9) | ``tasks/CMP.json`` (428) |
+| SURF | [`AURAGLASS_PRODUCT_SURFACES_PRD.md`](prd/AURAGLASS_PRODUCT_SURFACES_PRD.md) | NAV, DATA, AI, MED, EXP | ``PROMPT_4_SURF.md`` | `PROMPT_4a`..`4e` (5) | ``tasks/SURF.json`` (645) |
+| QUAL | [`AURAGLASS_QUALITY_SHOWCASE_PRD.md`](prd/AURAGLASS_QUALITY_SHOWCASE_PRD.md) | QA, SB, PERF | ``PROMPT_5_QUAL.md`` | `PROMPT_5a`..`5h` (8) | ``tasks/QUAL.json`` (309) |
 
 ## Superseded: the 19-PRD set
 
@@ -51,20 +49,22 @@ The latest completeness and concurrency review of this set is [`prd/_completenes
 2. [`AURAGLASS_CURRENT_STATE_AUTOPSY.md`](AURAGLASS_CURRENT_STATE_AUTOPSY.md) §A: why 5.0 is a rebuild.
 3. [`AURAGLASS_5_TARGET_ARCHITECTURE.md`](AURAGLASS_5_TARGET_ARCHITECTURE.md) §1–§2: north star and decisions.
 4. [`AURAGLASS_5_CONTRACTS.md`](AURAGLASS_5_CONTRACTS.md) §1–§3 and the seams your stream consumes.
-5. The PRD you own, then its single prompt.
+5. The PRD for the area you are changing. Its execution prompt is archived (see the table above) and is historical context only.
 
 ## Tools (planning only; none is a stream deliverable)
 
-| Tool | Does |
+These planning tools stay in place as part of the spec record. Their inputs (`tasks/*.json`, `prompts/`, autopsy inventory shards) were deleted in the 5.0 GA cleanup (2026-10-13), so they no longer run against this directory as-is.
+
+| Tool | Did |
 |---|---|
-| [`tools/build-tasklist.mjs`](tools/build-tasklist.mjs) | compiles `tasks/*.json` into the ledger and validates ids, fields, same-stream `depends_on` and per-line single ownership against contract §3.2 |
-| [`tools/ownership-table.mjs`](tools/ownership-table.mjs) | planning copy of the contract §3.2 ownership table (C0 writes the machine form `contracts/ownership.json`) |
+| [`tools/build-tasklist.mjs`](tools/build-tasklist.mjs) | compiled the archived `tasks/*.json` into the ledger and validated ids, fields, same-stream `depends_on` and per-line single ownership against contract §3.2 |
+| [`tools/ownership-table.mjs`](tools/ownership-table.mjs) | planning copy of the contract §3.2 ownership table (C0 wrote the machine form `contracts/ownership.json`) |
 | [`tools/relocate-archived-paths.mjs`](tools/relocate-archived-paths.mjs) | re-keyed the archived DS/MAT/MOT/A11Y, FND/CTL/OVL and QA/SB/PERF tasks into `tasks/{MAT,CMP,QUAL}.json` (relocation rules R-01..R-13, GitLab CI rewrites) and wrote the task disposition file; refuses to overwrite without `--force` |
 | [`tools/merge-prompts.mjs`](tools/merge-prompts.mjs) | folded the per-lane prompts into one prompt per PRD (2026-10-07). `tools/build-stream-prompts.mjs` generated the old per-lane files and is superseded |
-| [`tools/merge-inventory.mjs`](tools/merge-inventory.mjs) | merges the component inventory |
+| [`tools/merge-inventory.mjs`](tools/merge-inventory.mjs) | merged the component inventory from the archived autopsy inventory shards |
 
 ## Maintenance
 
-- `AURAGLASS_5_IMPLEMENTATION_TASKLIST.{md,csv}` and the MAT/CMP/QUAL prompts are generated. Regenerate them (`node docs/auraglass-5/tools/build-tasklist.mjs`, `node docs/auraglass-5/tools/build-stream-prompts.mjs`); do not edit them by hand.
+- The generated ledger (`AURAGLASS_5_IMPLEMENTATION_TASKLIST.{md,csv}`) and the prompts are archived with the shipped program. Do not regenerate or hand-edit them; the shipped spec record here is the PRDs, architecture, contract and capability ledger.
 - Evidence is never committed here (D-32). Runtime and visual evidence are GitLab CI artifacts keyed to the SHA.
 - No screenshot was viewed while writing these documents. Visual statements are measured or inferred.

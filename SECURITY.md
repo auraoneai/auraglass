@@ -4,9 +4,9 @@
 
 | Version | Status |
 | --- | --- |
-| 5.x (latest minor) | Supported — fixes and security patches |
-| 4.x | LTS for 12 months after 5.0.0 GA — C-I + security fixes only (see `docs/release/lts-policy.md`) |
-| < 4.x | Not supported |
+| 5.x (latest minor; `aura-glass@5.0.1` on npm `latest`) | Supported — fixes and security patches |
+| 4.x (on the `v4-lts` npm dist-tag) | LTS for 12 months after 5.0.0 GA (2026-10-13) — C-I + security fixes only (see `docs/release/lts-policy.md`) |
+| < 4.x | Not supported. All `aura-glass` versions before 5.0.0 are deprecated on npm |
 
 ## Reporting a vulnerability
 

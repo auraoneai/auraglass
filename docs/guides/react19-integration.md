@@ -1,85 +1,51 @@
 # React 19 Integration Smoke Tests
 
-This guide explains how to run the React 19 + Next.js smoke tests that back the
-`npm run test:integration:next` command. The automation spins up two temporary
-Next.js apps from the freshly packed AuraGlass tarball so you can reproduce the
-same checks locally that CI uses.
+AuraGlass 5.0 (`aura-glass@5.0.1`) requires React 19 (`react` / `react-dom` `^19.0.0` peers) and Node `>=20.19`. There is no React 18 baseline in 5.0; React 18 apps stay on 4.x LTS (`aura-glass@v4-lts`, currently 4.1.0).
+
+This guide explains how to run the Next.js integration runner (`scripts/ci/run-next-integration.mjs`, also exercised by `npm run prepublish:verify`). The runner packs AuraGlass to a tarball, installs each Next canary, builds it, and — when a Chromium runtime is available — runs the Playwright RSC + first-load specs, so you can reproduce the same checks locally that CI uses.
 
 ## What the script covers
 
 | Scenario | Stack | Entry points exercised |
 | --- | --- | --- |
-| React 18 baseline | `next@14.2.x`, `react@18.2` | `import { GlassButton } from 'aura-glass'` |
-| React 19 + 3D | `next@15.1.x`, `react@19.x` | `import { GlassShatterEffects } from 'aura-glass/three'` |
+| Next 16 canary | `next16` canary app, `react@19.x` | `import { Button } from 'aura-glass'`, `import 'aura-glass/styles.css'` |
+| Next 15 canary | `next15` canary app, `react@19.x` | `import { Button } from 'aura-glass'`, `import 'aura-glass/styles.css'` |
 
-Each scenario boots `next dev`, uses Playwright to hit `/`, and fails if the log
-contains hook/registry errors (duplicate React instances, styled-components
-registry issues, etc.). Logs are copied to:
-
-- `reports/next-integration.log`
-- `reports/next-integration-react19.log`
+Each canary runs `next build` against the packed tarball. The build leg is hard-gating; the browser legs report as skipped when Playwright browsers are absent. Build time is checked as a delta against an empty Next app built in the same job (20 s budget).
 
 ## Prerequisites
 
 1. **npm** - The script shells out to `npm`, matching the repository release workflow.
-2. **Playwright Chromium deps** – On macOS/Linux CI runners ensure the system
-   packages required by Playwright’s Chromium build are installed (GitHub-hosted
-   runners already have them).
-3. **Node 18+** – Required for Next.js 15, Playwright, and AuraGlass builds.
+2. **Playwright Chromium deps** – Only needed for the browser legs; without them those legs are reported skipped.
+3. **Node >=20.19** – Required by AuraGlass 5.0 (`engines`) and the Next canaries.
 
 ## Running locally
 
 ```bash
 npm install
-npm run build # optional, see skip flag below
-npm run test:integration:next
-```
-
-### Useful flags
-
-| Flag | Purpose |
-| --- | --- |
-| `AURAGLASS_SKIP_BUILD=1` | Reuse existing `dist/` artifacts instead of rebuilding |
-| `SKIP_AURAGLASS_BUILD=1` | alias for `AURAGLASS_SKIP_BUILD=1` |
-| `AURAGLASS_ASSUME_BUILT=true` | alias for `AURAGLASS_SKIP_BUILD=1` |
-
-Example:
-
-```bash
-AURAGLASS_SKIP_BUILD=1 npm run test:integration:next
+node scripts/ci/run-next-integration.mjs
 ```
 
 ### What to expect
 
 1. AuraGlass is `npm pack`’d into a temp directory.
-2. Two Next.js apps (`next-app` and `next-app-react19`) are scaffolded and
-   pointed at the tarball via `file:` dependency.
-3. Each app installs dependencies via `npm install`.
-4. Playwright installs Chromium and runs the `tests/smoke.spec.ts`.
-5. Logs are copied into `reports/` for inspection. If the log contains any of:
-   - `Invalid hook call`
-   - `StyledComponentsRegistry was not detected`
-   - `Cannot read properties of null (reading 'useState')`
-
-   the script throws with a pointer to the log file.
+2. Each canary app (`next16`, `next15`) installs the tarball and its own pinned `next`/`react` versions.
+3. Each canary runs `next build`; an empty-app baseline is built alongside for the build-delta budget.
+4. When Chromium is available, Playwright runs the RSC + first-load specs; otherwise those legs report skipped.
 
 ## Troubleshooting
 
 | Symptom | Fix |
 | --- | --- |
-| `npm install` dependency failure | Review the generated temporary app log and peer dependency ranges. |
-| Playwright dependency errors | Run `npx playwright install --with-deps chromium` once outside the script to prime caches |
-| Port already in use | Set `PORT_4310/PORT_4311` env vars to change the dev server ports (requires updating `scripts/ci/run-next-integration.js`) |
-| Want to keep the temp apps | Set `AURAGLASS_NEXT_DEBUG=1` to stop the script from deleting temp dirs (edit script to respect this flag if desired) |
+| `npm install` dependency failure | Review the canary app log and peer dependency ranges (React 19 is required; React 18 fails peer resolution by design). |
+| Playwright dependency errors | Run `npx playwright install --with-deps chromium` once outside the script to prime caches, or let the browser legs skip. |
 
 ## CI usage
 
-The GitHub Actions pipeline calls the same npm script:
+CI runs the same runner as part of publish verification:
 
-```yaml
-- name: React 19 smoke
-  run: npm run test:integration:next
+```bash
+npm run prepublish:verify
 ```
 
-Ensure the job has npm and the Playwright Ubuntu dependencies available. The resulting logs are uploaded as job artifacts
-so you can compare them against `reports/next-integration-react19.log` in git.
+Ensure the job has npm and, for the browser legs, the Playwright Ubuntu dependencies available.

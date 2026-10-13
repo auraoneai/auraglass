@@ -84,7 +84,6 @@ export function Chat() {
 - `PRISM_API_KEY` never appears in this repo — not in fixtures, not in CI
   variables (OI-14). Test harnesses stub `fetch` in-process.
 - The AI SDK pins (`ai@5.0.29`, `@ai-sdk/react@2.0.29`,
-  `@ai-sdk/openai-compatible@1.0.29`) install into `.artifacts/` during the
-  `surf:test:ai-sdk` job — never into the library's `package.json`. The
-  additive `contract/ai-sdk-devdeps` PR lands them as devDependencies;
-  SURF-390 then moves the interim files to their final paths.
+  `@ai-sdk/openai-compatible@1.0.29`) are devDependencies of this repo,
+  used by the registry block and its tests — never dependencies of the
+  published `aura-glass` package. Your app installs its own copies.

@@ -4,7 +4,7 @@
 |---|---|
 | PRD id | **PRD-4** |
 | Key | **SURF** (path key `surf`; requirement prefix `REQ-SURF-NN`, acceptance prefix `AC-SURF-NN`, task ids `SURF-NNN` in `docs/auraglass-5/tasks/SURF.json`) |
-| Status | Draft |
+| Status | Shipped in AuraGlass 5.0.0 GA (2026-10-13; `aura-glass@5.0.1` is npm `latest`). Kept as spec record |
 | Contract | `docs/auraglass-5/AURAGLASS_5_CONTRACTS.md` **contract-v1.1** (frozen 2026-10-06). The contract wins over this PRD on any conflict (contract §1.4) |
 | Scope | Flagships **14** (`./date`) and **22–44**; the entries `./app-shell`, `./data`, `./date`, `./ai`, `./media`, `./backdrops`, `./three`, `./charts` (5.1); the root-exported SURF flagships (`Tabs`, `TabBar`, `Breadcrumbs`, `Pagination`, `CommandPalette`, `Command`, `SourceTransition`, `Timeline`, `ActivityFeed`); `Chip` and `KeyValueEditor` (moved from archived FND T2 into `./data` by the contract); `@auraglass/labs`; the SURF registry blocks and items (contract §3.3); the capability ledger |
 | Sources (archived, consolidated here) | `archive/v1-19-prd/prd/AURAGLASS_APP_SHELL_NAVIGATION_PRD.md` (NAV, 84 REQs), `AURAGLASS_DATA_PRD.md` (DATA, 60), `AURAGLASS_AI_PRD.md` (AI, 65), `AURAGLASS_MEDIA_BACKDROPS_PRD.md` (MED, 75), `AURAGLASS_COMPONENT_EXPANSION_PRD.md` (EXP, 40); plus archived `AURAGLASS_COMPONENT_REMEDIATION_PRD.md` §4.5 rows 3 (`Chip`) and 19 (`KeyValueEditor`) and archived DX tasks DX-079, DX-080, DX-085 (blocks `mobile-settings`, `support-inbox`, item `schema-viewer`, moved to SURF by contract §3.3). Evidence: `AURAGLASS_CURRENT_STATE_AUTOPSY.md`, `AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md`, `AURAGLASS_MISSING_CAPABILITY_MAP.md`, `autopsy/**`, `component-inventory.json` |

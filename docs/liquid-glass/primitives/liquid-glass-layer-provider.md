@@ -1,5 +1,5 @@
-# LiquidGlassLayerProvider
+# Environment and material tiers
 
-`LiquidGlassLayerProvider` coordinates layer depth, material variant, performance level, reduced motion, and nested glass policy.
+Layering in 5.0 is declared per surface, not through a provider: `Surface` (and every material-bearing component) takes `layer`, `variant`, and `thickness`, and the material engine in `aura-glass/styles.css` resolves the shipped tiers (`standard`, `enhanced`, `lightweight`) plus the solid and forced-colors fallback rungs. `Environment` from `aura-glass/material` declares the ambient backdrop behind a subtree. (The 4.x `LiquidGlassLayerProvider` name survives only as a deprecated adapter in `aura-glass/compat`.)
 
-Use it near app shells and complex surfaces. Direct nested Liquid Glass surfaces should be avoided unless wrapped in `LiquidGlassEffectGroup` or explicitly allowed for advanced cases.
+Use `Environment` near app shells and complex surfaces. Direct nested glass surfaces should be avoided unless wrapped in `SurfaceGroup` or explicitly allowed for advanced cases.

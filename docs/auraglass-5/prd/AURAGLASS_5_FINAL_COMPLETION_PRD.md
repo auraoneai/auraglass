@@ -4,10 +4,10 @@
 |---|---|
 | PRD id | **PRD-F** |
 | Key | **FIN** (requirement prefix `REQ-FIN-NN`, acceptance prefix `AC-FIN-NN`) |
-| Status | Draft for execution |
+| Status | Shipped. AuraGlass 5.0.0 GA shipped 2026-10-13 (`aura-glass@5.0.1` is npm `latest`); kept as spec record. Its execution prompts and task fragments are deleted in the 5.0 GA cleanup (2026-10-13) |
 | Supersedes | Nothing. This PRD **closes** PRD-1 PLAT, PRD-2 MAT, PRD-3 CMP, PRD-4 SURF and PRD-5 QUAL. Every requirement of those five PRDs stays binding with its original text; this PRD lists what is still open, why, and the work package that finishes it |
 | Date of verification | 2026-10-08 |
-| Refs verified | `next` @ `84a3b94f1` (5.0 line, read-only checkout `/tmp/ag-next`); `release/4.x` @ `645735fce` (4.x line, `/tmp/ag-4x`); `main` (frozen until GA) |
+| Refs verified | `next` @ `84a3b94f1` (5.0 line, read-only checkout `/tmp/ag-next`); `release/4.x` @ `645735fce` (4.x line, `/tmp/ag-4x`); `main` (frozen until GA at verification time; GA shipped 2026-10-13) |
 | Contract | `AURAGLASS_5_CONTRACTS.md` **contract-v1.1** (wins over this PRD; any change here that needs a contract edit is listed as a contract PR in §10 and Appendix C) |
 | Sources | `prd/AURAGLASS_{PLATFORM_RELEASE,MATERIAL_SYSTEM,CORE_COMPONENTS,PRODUCT_SURFACES,QUALITY_SHOWCASE}_PRD.md`; `tasks/<KEY>.json`; `prompts/PROMPT_N_<KEY>.md`; `implementation-audit/ag-audit-<KEY>.md` (superseded by this re-verification); GitHub issue **#16** (manual screen-reader + physical-device touch certification, the only open issue on 2026-10-08); open PRs #97 and #77 (stale stacked PRs whose heads are already merged, REQ-FIN-113); PR **#28** (`4x-mat/codemods-fragment` → `release/4.x`, closed without landing) |
 | Owner decisions | OD-1..OD-12 (`AURAGLASS_5_MASTER_PRD.md` §OD, contract §7.4) plus new decisions OD-13..OD-21 raised by this audit (§5.9) |

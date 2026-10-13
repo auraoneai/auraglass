@@ -33,11 +33,12 @@ cd my-app
 
 ## 2. Install AuraGlass
 
-Until 5.0.0 ships, the 5.0 pre-releases publish under the `next` dist-tag.
+AuraGlass 5.0 is the current release on the npm `latest` dist-tag
+(`aura-glass@5.0.1`).
 
 {step install}
 ```bash
-npm install aura-glass@next
+npm install aura-glass
 ```
 
 ## 3. Set up AuraGlass

@@ -1,15 +1,16 @@
 # AuraGlass by AuraOne
 
 <!-- AG-RELEASE-BANNER -->
-> **v5.0.0 is the current release.** It is published on the `latest` dist-tag;
-> `npm install aura-glass` installs 5.0.0. Migrating from 4.x:
-> `npx aura-glass-cli migrate 4to5`. The 4.x line is deprecated on npm and
-> remains available only under the `v4-lts` dist-tag for fixes + security —
+> **v5.0.2 is the current release** (the 5.0 GA shipped 2026-10-13).
+> It is published on the `latest` dist-tag; `npm install aura-glass`
+> installs 5.0.2. Migrating from 4.x: `npx aura-glass-cli migrate 4to5`.
+> All `aura-glass` versions below 5.0 are deprecated on npm; 4.1.0
+> remains available under the `v4-lts` dist-tag for fixes + security —
 > see `docs/release/lts-policy.md`.
 >
 > npm dist-tags today (checked by `verify-release-comms --dist-tags`):
 >
-> - `latest`: 5.0.0
+> - `latest`: 5.0.2
 > - `next`: none
 > - `v4-lts`: 4.1.0
 <!-- /AG-RELEASE-BANNER -->
@@ -53,7 +54,7 @@ with its own types and CSS.
 | `aura-glass/data`, `aura-glass/date` | `Table`, `TreeView`, `FilterBar`, `StatCard`, `ChartFrame`; `Calendar`, `DatePicker`, `DateRangePicker`, `TimePicker` |
 | `aura-glass/ai` | `Thread`, `Message`, `Composer`, `ToolCall`, `Reasoning`, `Citation`, `UsageMeter` for AI products |
 | `aura-glass/media`, `aura-glass/backdrops` | `MediaControls`, `NowPlayingBar`, `ImageViewer`, `CarouselRail`; `Backdrop` scenes behind glass |
-| `aura-glass/charts`, `aura-glass/three` | Chart frame over the renderer you choose; 3D scenes |
+| `aura-glass/three` | 3D scenes (the chart frame, `ChartFrame`, ships in `aura-glass/data`) |
 | `aura-glass/compat` | 4.x names kept working during migration, each with a deprecation warning |
 | `aura-glass/styles.css`, `aura-glass/tailwind.css` | The layered stylesheet; the Tailwind v4 bridge |
 

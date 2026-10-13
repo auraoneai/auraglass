@@ -11,9 +11,11 @@ env vars are stored in this repo; publishing uses OIDC provenance.
 - Provider GitLab CI/CD; namespace `chahal-foundation-group/github-auraoneai`;
   project `auraglass`; file `.gitlab-ci.yml`; environment `npm-publish`.
 - Status and date: the `aura-glass-labs` row of
-  `docs/release/trusted-publishers.md` (owner-filled). Until it is
-  `configured` the publish fails closed.
-- First publish: the name does not exist on npm yet. Owner decision OD-2
+  `docs/release/trusted-publishers.md` (owner-filled) still reads
+  `missing`. Until it is `configured` the CI publish fails closed.
+  `aura-glass-labs@0.1.0` shipped on npm on 2026-10-13 alongside AuraGlass
+  5.0; do not read that as the CI trusted-publishing path being live.
+- First publish: done (`0.1.0`, 2026-10-13); the name exists on npm. Owner decision OD-2
   (2026-10-12, `docs/release/decisions/npm-scope.md`): no `@auraglass` org;
   the package publishes unscoped as `aura-glass-labs` from `veeronecorp`
   (the name in `contracts/packages.json`) — never publish a second name.

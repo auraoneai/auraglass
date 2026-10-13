@@ -1,12 +1,12 @@
 # AuraGlass by AuraOne Storybook
 
-AuraGlass by AuraOne Storybook is the presentation, QA, and developer-discovery surface for the 3.1 release. It covers the certified component inventory while keeping generated audit coverage separate from curated public showroom examples.
+AuraGlass by AuraOne Storybook is the presentation, QA, and developer-discovery surface for AuraGlass 5.0 (5.0.0 shipped 2026-10-13; `aura-glass@5.0.1` is current on npm `latest`). It covers the certified component inventory while keeping generated audit coverage separate from curated public showroom examples.
 
 ## Run Locally
 
 ```bash
-npm run storybook
-npm run build-storybook
+npx storybook dev -p 6006
+npm run storybook:build
 ```
 
 Storybook runs at `http://localhost:6006`.
@@ -39,7 +39,7 @@ flagship number changes (`--check-story-sort` gates the build).
 
 Titles are `Flagships/<Group>/<Name>` or `Core/<Name>` with the 5.0 export name. The gates, all attributed to the
 owner of the story file and run against the expiring baseline `certification/baselines-gates/story-contract.json`
-(PRD-F §4.3 rule 3; it only shrinks and is empty at RC-1):
+(PRD-F §4.3 rule 3; it only shrinks and was emptied for the 5.0 release):
 
 - `scripts/storybook/lint-titles.mjs`: version segments, lowercase leaves, `Glass` prefixes, one component in two
   groups, leaf ≠ `ComponentMeta.name`, >12 non-matrix stories, oversize non-flagship titles, `{Default, Variants}`-only.

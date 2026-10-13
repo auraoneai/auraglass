@@ -12,10 +12,10 @@
 - Offer an adaptive color library enabling future personas to remain cohesive while addressing domain-specific needs.
 
 ## Quick Start
-1. **Generate CSS variables** – `npm run glass:generate-persona-css` compiles `[data-persona="<id>"]` custom properties into `src/styles/generated/persona-variables.css` (commit the output). CI should call `npm run glass:validate-persona-css` to ensure the CSS stays in sync with `src/theme/designMatrix.ts`.
-2. **Wrap with ThemeProvider** – Supply `initialPersona` (or controlled `persona`) on `ThemeProvider`. The provider stamps `<html data-persona="...">`, persists selections when `persistPersona` is true, and exposes runtime helpers via `usePersonaTheme()`.
-3. **Render PersonaPicker** – Import `PersonaPicker` from `@/components/theme/PersonaPicker` to give designers a ready-made persona switcher sourced directly from the design matrix.
-4. **Consume persona tokens** – Call `usePersonaTheme()` or read CSS variables to bind styling decisions to the active persona.
+1. **Import the stylesheet and provider** – Import `aura-glass/styles.css` once, then wrap the app in `AuraGlassProvider` from `aura-glass/theme` with the preset that matches the persona (`aura`, `graphite`, `daylight`, `midnight`).
+2. **Map the persona to a theme** – Use the preset as-is, or derive a custom theme with `createBrandTheme` / `createGlassTheme` from `aura-glass/theme`, using the persona's palette anchor below as the brand color.
+3. **Let users adjust preferences** – Render `GlassPreferencesPanel` from `aura-glass/theme` where a settings surface needs it; preferences stay user-owned.
+4. **Consume tokens** – Bind styling decisions to the `--ag-*` CSS variables emitted by the theme (the 4.x `--glass-*` names are available only through `aura-glass/compat/tokens.css`).
 
 ```tsx
 import { AuraGlassProvider } from "aura-glass/theme";
@@ -35,13 +35,12 @@ export const solarApex = createGlassTheme({ id: "solar-apex", preset: "daylight"
 ```
 
 ## System Overview
-- **Theme Provider Contract:** Wrap surfaces with `ThemeProvider`, set `initialPersona` or controlled `persona`, and opt-in to storage persistence via `persistPersona`. The provider syncs `html[data-persona]`, hydrates from local storage, and exposes persona metadata via `usePersonaTheme()`.
-- **Token Distribution:** Semantic tokens are defined per persona under the namespaces `background`, `text`, `border`, `accent`, `state`, `shadow`, `overlay`, and `gradient`, with chart palettes exposed via `chart.series.<persona>`.
-- **CSS Variable Layer:** `src/styles/generated/persona-variables.css` (generated) registers persona variables under `[data-persona="<persona>"]`. `src/styles/glass.css` consumes them with fallbacks so components inherit persona-aware backgrounds, shadows, and focus rings.
+- **Theme Provider Contract:** Wrap surfaces with `AuraGlassProvider` from `aura-glass/theme` and select the persona's preset (or a `createBrandTheme` / `createGlassTheme` theme). The 4.x `ThemeProvider` / `usePersonaTheme()` runtime was removed in 5.0.
+- **Token Distribution:** Persona values below are design anchors; in 5.0 code they land as `--ag-*` theme tokens (background, text, border, accent, state, shadow) via the presets and theme factories.
+- **CSS Variable Layer:** `aura-glass/styles.css` (with `aura-glass/tokens.css` for token-only consumers) emits the `--ag-*` variables components consume; there is no per-persona generated CSS file in 5.0.
 - **Glassmorphism Language:** Surfaces rely on blurred backdrops, spectral edge glows, and persona-specific shadow tokens. Depth is communicated through consistent spacing rhythms, corner radii, and layered panels.
-- **Navigation Shell:** `GlassAppShell`, `GlassHeader`, and `GlassSidebar` emit `data-persona` attributes, consume persona tokens, and provide slot-based hooks for layout-specific treatments (badges, CTA clusters, halo indicators). `PersonaPicker` ships as a first-class control wired to these tokens.
-- **Canonical Persona Data:** Runtime tokens are sourced from `src/theme/designMatrix.ts`. Update personas through that module to keep this guide, generated CSS, and ThemeProvider hooks aligned.
-- **Canonical Persona Data:** Runtime tokens are sourced from `src/theme/designMatrix.ts`. Update personas through that module to keep this guide, generated CSS, and ThemeProvider hooks aligned.
+- **Navigation Shell:** `AppShell`, `TopBar`, and `Sidebar` from `aura-glass/app-shell` consume theme tokens and provide slot-based hooks for layout-specific treatments (badges, CTA clusters, halo indicators). The 4.x `Glass*` shell names survive only in `aura-glass/compat`.
+- **Canonical Persona Data:** This guide is the persona record. In code, keep the mapping persona → preset/brand theme in your app's theme module so this guide and the shipped `--ag-*` tokens stay aligned.
 
 ## Global Design Elements
 - **Typography Framework:** Each persona defines a five-tier type ladder (Display, Headline, Metric, Body, Caption) that maps to CSS custom properties (`--font-<persona>-*`) and responsive scale adjustments; baseline grids snap to 4px increments to preserve rhythm across components.
@@ -154,9 +153,9 @@ export const solarApex = createGlassTheme({ id: "solar-apex", preset: "daylight"
 > **Note:** Values act as reference anchors. Final tokens should remain configurable via theme files to honour opacity contexts, dark/light variants, and WCAG checks.
 
 ## Visual Playground
-- Launch Storybook and use the **Persona** toolbar control (top-right) to flip between personas and inspect component deltas without leaving the gallery.
-- Embed `<PersonaPicker />` inside demo pages (e.g., `ComponentsPage.tsx`) to compare before/after treatments directly in the docs shell.
-- Generated CSS variables in `src/styles/generated/persona-variables.css` make it easy to diff background, text, and shadow tokens across personas when combined with browser devtools color previews.
+- Launch Storybook and flip between the 5.0 presets (`aura`, `graphite`, `daylight`, `midnight`) to inspect component deltas for each persona mapping without leaving the gallery.
+- Embed `GlassPreferencesPanel` from `aura-glass/theme` inside demo pages to compare before/after treatments directly in the docs shell.
+- The `--ag-*` variables in `aura-glass/tokens.css` make it easy to diff background, text, and shadow tokens across presets when combined with browser devtools color previews.
 
 ## VectorZero V2 Feature-to-Context Mapping
 
@@ -261,7 +260,7 @@ Following the completion of PRDV2 (docs/PRDV2.md, ✅ complete), this section ma
 - **State Management:** React Query for all data fetching, Zustand for UI state (filter preferences, panel collapse states)
 - **Routing:** Next.js 14 App Router with parallel routes for modals/drawers
 - **Authentication Context:** All components consume `AuthenticatedUser` from RBAC middleware
-- **Theming:** All components use `usePersonaTheme()` hook to access persona-specific tokens
+- **Theming:** All components consume the `--ag-*` tokens of the active `AuraGlassProvider` preset/theme (the 4.x `usePersonaTheme()` hook was removed in 5.0)
 - **Monitoring:** Components emit Prometheus metrics for interaction events (button clicks, form submissions, API calls)
 
 See `docs/PRDV2.md` for implementation specifications and `apps/dashboard-web/components/` for component source code.
@@ -324,7 +323,7 @@ PortalTheme {
 - **Feedback:** Toasts, modals, and command palettes inherit overlay tokens; focus rings rely on `focusRing` tokens for consistent keyboard accessibility.
 
 ## Layout Frameworks
-- **Shell Composition:** `GlassAppShell` orchestrates header, sidebar, and content panes. Persona-specific props drive navigation badge colors, halo accents, and glass backgrounds.
+- **Shell Composition:** `AppShell` from `aura-glass/app-shell` orchestrates header, sidebar, and content panes. Persona-specific props drive navigation badge colors, halo accents, and glass backgrounds.
 - **Panels & Widgets:** KPI cards and analytics panels consume `shadow.panel` and `gradient.hero`. Loading skeletons adopt persona overlay tokens (opacity 0.12–0.18).
 - **Forms & Modals:** Inputs use `border.focus`, `focusRing`, and `overlay.base`. Danger states map to `state.danger` while inline alerts use `gradient.alert`.
 - **Charts:** Chart components read `chart.series.<persona>` arrays, plus gradient stops for area fills. Text labels use `text.secondary` to maintain contrast.
@@ -347,7 +346,7 @@ PortalTheme {
 5. **Interaction Patterns:** Retain focus ring shape and motion timing from the base persona; only swap color values to align with the new palette.
 
 ## Component Archetypes & Guidelines
-- **Navigation & Shells:** `GlassAppShell`, headers, and sidebars should inherit persona glass treatments and typography while exposing microinteraction hooks for hover/active states. Maintain halo indicators for active sections and ensure breadcrumbs align with the base grid rhythm.
+- **Navigation & Shells:** `AppShell`, headers, and sidebars should inherit persona glass treatments and typography while exposing microinteraction hooks for hover/active states. Maintain halo indicators for active sections and ensure breadcrumbs align with the base grid rhythm.
 - **Data Visualization:** Charts consume `chart.series.<persona>` tokens and apply gradient fills that mirror edge lighting. Tooltips should adopt `overlay.strong` tokens with focusable close targets for accessibility.
 - **Cards & Panels:** All cards use persona panel radius, `shadow.panel`, and accent borders for key states; metric cards leverage the typography metric tier and provide hover/focus feedback defined in the microinteraction blueprint.
 - **Forms & Inputs:** Inputs reference `border.subtle`, focus styles rely on persona `focusRing`, and validation states map to `state.*` tokens. Async submissions trigger toast durations defined in the motion matrix.
@@ -361,7 +360,7 @@ PortalTheme {
 2. **Index Registration:** Update `dark-mode.ts` and `theme/index.ts` to register the theme, ensuring fallbacks for legacy consumers.
 3. **CSS Variables:** Append persona CSS variables to `globals.css` under `[data-persona="{id}"]`, covering colors, typography, focus, and motion modifiers.
 4. **Tailwind Extension:** Add persona namespace to Tailwind config with opacity-aware helpers and utility shortcuts (`bg-{persona}-surface`, `ring-{persona}`).
-5. **Shell Wiring:** Ensure route-level layouts wrap content with `<ThemeProvider persona="{id}" disableTransitionOnChange>`. Shell primitives propagate `data-persona` to root nodes.
+5. **Shell Wiring:** Ensure route-level layouts wrap content with `<AuraGlassProvider preset="{preset}">` from `aura-glass/theme`, using the preset mapped from the persona.
 6. **Component & Interaction Sweep:** Replace hard-coded colors in persona routes with semantic utilities, align typography usage to the persona ladder, wire glass treatments, and map microinteraction triggers to motion tokens. Update charts, modals, empty states, navigation rails, loaders, and notifications.
 7. **Testing & QA:** Run `npm run typecheck`, `npm run lint:check`, and persona-specific Playwright suites. Validate motion fallbacks (`prefers-reduced-motion`), focus visibility, and audio/haptic opt-ins while capturing visual baselines and accessibility audits.
 8. **Documentation:** Mirror updates in upgrade files and Storybook entries. Provide before/after references for stakeholders and external applications adopting the system.
@@ -370,7 +369,7 @@ PortalTheme {
 1. **Audit Current Experience:** Inventory existing layouts, tokens, and assets; map them to closest persona playbook.
 2. **Select Persona & Variant:** Choose a primary persona and optional adaptive palette; document rationale and target outcomes.
 3. **Token Integration:** Implement or update `PortalTheme` files, CSS variables, and Tailwind namespaces. Remove hard-coded colors and typography.
-4. **Shell Conversion:** Wrap application entry points with `ThemeProvider persona="{id}"`, update navigation shells, headers, and sidebars to emit `data-persona` attributes and glass treatments.
+4. **Shell Conversion:** Wrap application entry points with `AuraGlassProvider` (persona mapped to a preset or brand theme), and update navigation shells, headers, and sidebars to the `aura-glass/app-shell` surfaces and glass treatments.
 5. **Component Refactor:** Convert cards, tables, charts, forms, modals, and loaders to semantic utilities, applying typography ladders, spacing grids, and glass matrices.
 6. **Microinteraction Pass:** Map hover/focus/async triggers to persona motion tokens, ensuring `prefers-reduced-motion` fallbacks and ARIA live updates.
 7. **Quality Gates:** Run lint/typecheck/tests, perform accessibility audits (contrast, keyboard, screen reader), capture visual baselines, and validate responsive breakpoints.

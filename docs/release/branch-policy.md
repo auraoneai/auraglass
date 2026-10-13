@@ -1,5 +1,7 @@
 # Branch policy — AuraGlass 5.0
 
+**Status (2026-10-13):** 5.0.0 GA shipped from `main` (`next` merged into `main`; `aura-glass@5.0.1` is `latest`). Stable 5.x development and releases run on `main`; `release/4.x` continues as the 4.x LTS line (`v4-lts` = 4.1.0). The `next` rules below apply to prerelease work.
+
 Source of truth: GitHub `auraoneai/auraglass`. GitLab project `87152036`
 (`chahal-foundation-group/github-auraoneai/auraglass`) is the **one-way mirror**
 that runs CI; it never sees a merge request.

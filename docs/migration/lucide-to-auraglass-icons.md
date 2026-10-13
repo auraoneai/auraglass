@@ -1,6 +1,6 @@
 # Migrating From Lucide To AuraGlass Icons
 
-AuraGlass 3.3 keeps core app chrome on first-party icons. The goal is that product surfaces can use `aura-glass` without adding `lucide-react` for common controls, navigation, status, media, data, commerce, collaboration, or AI symbols.
+AuraGlass 5.0 (`aura-glass@5.0.1` on npm, React 19) keeps core app chrome on first-party icons. The goal is that product surfaces can use `aura-glass` without adding `lucide-react` for common controls, navigation, status, media, data, commerce, collaboration, or AI symbols.
 
 ## Install Shape
 
@@ -13,13 +13,13 @@ npm install aura-glass
 Then import icons from the public icon entrypoint:
 
 ```tsx
-import { GlassButton } from 'aura-glass';
+import { Button } from 'aura-glass';
 import { SearchIcon, SettingsIcon, SparkIcon } from 'aura-glass/icons';
 
 export function Toolbar() {
   return (
     <div>
-      <GlassButton leftIcon={<SparkIcon aria-hidden="true" />}>Generate</GlassButton>
+      <Button startIcon={<SparkIcon aria-hidden="true" />}>Generate</Button>
       <SearchIcon aria-hidden="true" />
       <SettingsIcon title="Settings" />
     </div>
@@ -66,14 +66,14 @@ export function HeaderActions() {
 Use the migration command in report mode first:
 
 ```bash
-aura-glass migrate icons --from lucide --dry-run
-aura-glass migrate icons --from lucide --json
+npx aura-glass-cli migrate icons --from lucide --dry-run
+npx aura-glass-cli migrate icons --from lucide --json
 ```
 
 Apply safe named-import rewrites with:
 
 ```bash
-aura-glass migrate icons --from lucide --write
+npx aura-glass-cli migrate icons --from lucide --write
 ```
 
 The rewrite aliases AuraGlass icon names back to the existing local component names so JSX usage can remain stable during the first pass:
@@ -96,9 +96,9 @@ After the app compiles, rename local JSX usages to the canonical `*Icon` names w
 | `AlertTriangle` | `AlertTriangleIcon` |
 | `Info` | `InfoIcon` |
 | `Loader2` | `LoaderIcon` |
-| `Plus` | `AddIcon` |
+| `Plus` | `PlusIcon` |
 | `Minus` | `MinusIcon` |
-| `Trash2` | `TrashIcon` |
+| `Trash2` | no first-party equivalent in 5.0; keep a custom icon via `createIcon` from `aura-glass/icons` |
 | `Download` | `DownloadIcon` |
 | `Upload` | `UploadIcon` |
 | `ChevronLeft` | `ChevronLeftIcon` |
@@ -108,7 +108,7 @@ After the app compiles, rename local JSX usages to the canonical `*Icon` names w
 | `Home` | `HomeIcon` |
 | `Menu` | `MenuIcon` |
 | `Sparkles` | `SparkIcon` |
-| `Bot` | `BotIcon` |
+| `Bot` | no first-party equivalent in 5.0; use `SparkIcon` for AI affordances or a custom icon via `createIcon` |
 
 ## Accessibility
 
@@ -127,9 +127,8 @@ Use `title` only when the icon itself is meaningful content. Do not rely on hove
 Run these checks after migration:
 
 ```bash
-aura-glass audit imports
-aura-glass audit deps
-node scripts/ci/verify-no-core-ui-deps.js
+npx aura-glass-cli audit imports
+npx aura-glass-cli audit deps
 ```
 
-The 3.3 release target remains zero production imports from `lucide-react` in AuraGlass core app chrome.
+The 5.0 target remains zero production imports from `lucide-react` in AuraGlass core app chrome.

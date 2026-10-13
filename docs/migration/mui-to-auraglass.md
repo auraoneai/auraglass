@@ -1,33 +1,33 @@
 # Migrating From MUI To AuraGlass
 
-AuraGlass 3.3 is not trying to clone all of MUI. The target is core app chrome for premium dashboards, AI products, SaaS admin surfaces, media workspaces, ecommerce panels, and collaboration hubs without adding `@mui/material` or `@mui/icons-material`.
+AuraGlass 5.0 (`aura-glass@5.0.1` on npm, React 19) is not trying to clone all of MUI. The target is core app chrome for premium dashboards, AI products, SaaS admin surfaces, media workspaces, ecommerce panels, and collaboration hubs without adding `@mui/material` or `@mui/icons-material`. Import the single stylesheet once (`import 'aura-glass/styles.css'`; the material engine ships inside it) and import components from the documented subpaths below. The 4.x `Glass*` names survive only as deprecated adapters in `aura-glass/compat`; new code uses the canonical 5.0 names.
 
 ## Replacement Map
 
 | MUI job | AuraGlass replacement |
 | --- | --- |
-| `Button` | `GlassButton` |
-| `IconButton` | `IconButton` and `GlassIcon` |
-| `Card` | `GlassCard` |
-| `AppBar` / `Toolbar` | `GlassHeader`, `GlassToolbar`, `GlassAppShell` |
-| `Drawer` | `GlassDrawer` |
-| `Dialog` | `GlassDialog` |
-| `Menu` | `GlassDropdownMenu`, `GlassMenubar` |
-| `Select` | `GlassSelect`, `GlassSelectCompound` |
-| `Tabs` | `GlassTabs`, `GlassTabBar` |
-| `Tooltip` | `GlassTooltip` |
-| `Popover` | `GlassPopover` |
-| `TextField` | `GlassInput`, `GlassTextarea`, `GlassForm` |
-| `Checkbox` | `GlassCheckbox`, `GlassCheckboxGroup` |
-| `RadioGroup` | `GlassRadioGroup` |
-| `Switch` | `GlassSwitch` |
-| `Alert` | `GlassAlert`, `GlassToast` |
-| `Chip` | `GlassChip` |
-| `Avatar` | `GlassAvatar` |
-| `Pagination` | `GlassPagination` |
-| `Skeleton` | `GlassLoadingSkeleton` |
-| table basics | `GlassDataTable`, `GlassDataGrid` |
-| date/calendar basics | `GlassCalendar`, `GlassDateRangePicker` |
+| `Button` | `Button` |
+| `IconButton` | `IconButton` and `Icon` |
+| `Card` | `Card` |
+| `AppBar` / `Toolbar` | `TopBar` and `AppShell` from `aura-glass/app-shell`; `Toolbar` |
+| `Drawer` | `Sheet`; `Sidebar` from `aura-glass/app-shell` |
+| `Dialog` | `Dialog` |
+| `Menu` | `Menu`, `Menubar` |
+| `Select` | `Select`, `Combobox` |
+| `Tabs` | `Tabs`, `TabBar` |
+| `Tooltip` | `Tooltip` |
+| `Popover` | `Popover` |
+| `TextField` | `TextField`, `Field`, `Form` |
+| `Checkbox` | `Checkbox`, `CheckboxGroup` |
+| `RadioGroup` | `RadioGroup` |
+| `Switch` | `Switch` |
+| `Alert` | `Alert`, `Toast` |
+| `Chip` | `Chip` from `aura-glass/data` |
+| `Avatar` | `Avatar` |
+| `Pagination` | `Pagination` |
+| `Skeleton` | `Skeleton` |
+| table basics | `Table` from `aura-glass/data` |
+| date/calendar basics | `Calendar`, `DateRangePicker` from `aura-glass/date` |
 
 ## Before And After
 
@@ -51,16 +51,17 @@ export function BillingHeader() {
 After:
 
 ```tsx
-import { GlassButton, GlassHeader, GlassToolbar } from 'aura-glass';
+import { Button, Toolbar } from 'aura-glass';
+import { TopBar } from 'aura-glass/app-shell';
 
 export function BillingHeader() {
   return (
-    <GlassHeader>
-      <GlassToolbar>
+    <TopBar.Root>
+      <Toolbar.Root aria-label="Billing">
         <h1>Billing</h1>
-        <GlassButton>Upgrade</GlassButton>
-      </GlassToolbar>
-    </GlassHeader>
+        <Button>Upgrade</Button>
+      </Toolbar.Root>
+    </TopBar.Root>
   );
 }
 ```
@@ -69,17 +70,17 @@ export function BillingHeader() {
 
 Move brand, density, contrast, and motion decisions into AuraGlass theme tokens instead of `createTheme` overrides. Keep domain-specific data and business state outside the theme layer.
 
-Use `docs/theme/theme-engine.md` as the current baseline for brand generation, density, contrast budgets, and SSR-safe runtime theming.
+Use `createBrandTheme` / `createGlassTheme` and the presets from `aura-glass/theme` as the current baseline for brand generation, density, contrast budgets, and SSR-safe runtime theming.
 
 ## CLI Audit
 
 MUI migration is report-first because layout and component semantics are contextual:
 
 ```bash
-aura-glass migrate mui --dry-run
-aura-glass migrate mui --json
-aura-glass audit deps
-aura-glass audit imports
+npx aura-glass-cli migrate mui --dry-run
+npx aura-glass-cli migrate mui --json
+npx aura-glass-cli audit deps
+npx aura-glass-cli audit imports
 ```
 
 ## Verification
@@ -87,8 +88,7 @@ aura-glass audit imports
 Run these checks after migration:
 
 ```bash
-aura-glass doctor
-node scripts/ci/verify-no-core-ui-deps.js
+npx aura-glass-cli doctor
 ```
 
-The 3.3 release target is that AuraGlass core app chrome does not require MUI/material.
+The 5.0 target is that AuraGlass core app chrome does not require MUI/material.

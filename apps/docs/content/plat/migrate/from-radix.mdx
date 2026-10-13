@@ -58,9 +58,9 @@ Exact component APIs can differ by surface. Prefer the AuraGlass public componen
 Radix migration is intentionally report-first because behavior such as focus trapping, outside dismissal, roving focus, and typeahead needs component-level review.
 
 ```bash
-aura-glass migrate radix --dry-run
-aura-glass migrate radix --json
-aura-glass audit imports
+npx aura-glass-cli migrate radix
+npx aura-glass-cli migrate radix --json
+npx aura-glass-cli audit imports
 ```
 
 The report lists Radix imports by file and suggests the closest AuraGlass replacement family.
@@ -83,9 +83,8 @@ Record final accessibility evidence in the release evidence directory under `rep
 Run these checks after migration:
 
 ```bash
-aura-glass audit imports
-aura-glass doctor
-node scripts/ci/verify-no-core-ui-deps.js
+npx aura-glass-cli audit imports
+npx aura-glass-cli doctor
 ```
 
 The release target remains zero production imports from `@radix-ui/*` in AuraGlass core app chrome.
