@@ -1,0 +1,1842 @@
+{
+ "AccessibilityProvider": {
+  "target": "AuraGlassProvider (highContrast→contrast=\"more\", reducedTransparency→transparency=\"tinted\", colorBlindness dropped)",
+  "dest": "removed"
+ },
+ "AdaptiveGlass": {
+  "target": "Surface",
+  "dest": "removed"
+ },
+ "AdaptiveGlassDensity": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "AIGlassThemeProvider": {
+  "target": "AuraGlassProvider",
+  "dest": "removed"
+ },
+ "AtmosphericBackground": {
+  "target": "Backdrop presets from aura-glass/backdrops",
+  "dest": "compat"
+ },
+ "AuraGlassClientBoundary": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "AuroraBackground": {
+  "target": "Backdrop preset=\"aurora\" from aura-glass/backdrops",
+  "dest": "compat"
+ },
+ "AuroraOrb": {
+  "target": "Backdrop preset=\"aurora\" from aura-glass/backdrops",
+  "dest": "compat"
+ },
+ "Box": {
+  "target": "Stack",
+  "dest": "compat"
+ },
+ "BrandColorIntegration": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "Button": {
+  "target": "Button",
+  "dest": "compat"
+ },
+ "ChartWidget": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "CircularProgress": {
+  "target": "Progress",
+  "dest": "compat"
+ },
+ "CollaborativeGlassWorkspace": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "CompactCookieNotice": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "ContentSection": {
+  "target": "Card",
+  "dest": "removed"
+ },
+ "ContrastGuard": {
+  "target": "build-time contrast matrix (§7.3)",
+  "dest": "removed"
+ },
+ "CookieConsent": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "createBrandGlassTheme": {
+  "target": "createBrandTheme",
+  "dest": "compat"
+ },
+ "createGlassTheme": {
+  "target": "createGlassTheme from aura-glass/theme",
+  "dest": "compat"
+ },
+ "createGlassThemeCssVars": {
+  "target": "createGlassTheme(...).vars",
+  "dest": "compat"
+ },
+ "DimensionalDashboardContainer": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "DimensionalGlass": {
+  "target": "Surface",
+  "dest": "removed"
+ },
+ "DisplayText": {
+  "target": "Heading",
+  "dest": "compat"
+ },
+ "DynamicAtmosphere": {
+  "target": "Backdrop presets from aura-glass/backdrops",
+  "dest": "compat"
+ },
+ "EnhancedGlassButton": {
+  "target": "Button",
+  "dest": "compat"
+ },
+ "EnhancedGlassTabs": {
+  "target": "Tabs",
+  "dest": "removed"
+ },
+ "EnvironmentalGlass": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "FeatureTile": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "FocusIndicator": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "FrostedGlass": {
+  "target": "Surface",
+  "dest": "removed"
+ },
+ "Glass360Viewer": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "Glass3DEngine": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassA11y": {
+  "target": "GlassPreferencesPanel",
+  "dest": "removed"
+ },
+ "GlassA11yAuditor": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassAccordion": {
+  "target": "Accordion",
+  "dest": "compat"
+ },
+ "GlassAccordionUI": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassAchievementDashboard": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassAchievementNotifications": {
+  "target": "useToast",
+  "dest": "removed"
+ },
+ "GlassAchievementSystem": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassActionBar": {
+  "target": "Toolbar",
+  "dest": "compat"
+ },
+ "GlassActionSheet": {
+  "target": "Sheet",
+  "dest": "compat"
+ },
+ "GlassActivityFeed": {
+  "target": "ActivityFeed from aura-glass",
+  "dest": "compat"
+ },
+ "GlassAdvanced": {
+  "target": "Surface",
+  "dest": "compat"
+ },
+ "GlassAdvancedAudioPlayer": {
+  "target": "the media-audio-player registry item",
+  "dest": "removed"
+ },
+ "GlassAdvancedDataViz": {
+  "target": "ChartFrame",
+  "dest": "removed"
+ },
+ "GlassAdvancedSearch": {
+  "target": "FilterBar",
+  "dest": "removed"
+ },
+ "GlassAdvancedVideoPlayer": {
+  "target": "the media-video-player registry item",
+  "dest": "removed"
+ },
+ "GlassAlert": {
+  "target": "Alert",
+  "dest": "compat"
+ },
+ "GlassAnimatedNumber": {
+  "target": "StatCard value from aura-glass/data",
+  "dest": "compat"
+ },
+ "GlassAppShell": {
+  "target": "AppShell",
+  "dest": "compat"
+ },
+ "GlassAreaChart": {
+  "target": "ChartFrame",
+  "dest": "removed"
+ },
+ "GlassARPreview": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassAuroraDisplay": {
+  "target": "Backdrop preset=\"aurora\"",
+  "dest": "removed"
+ },
+ "GlassAvatar": {
+  "target": "Avatar",
+  "dest": "compat"
+ },
+ "GlassAvatarGroup": {
+  "target": "AvatarGroup",
+  "dest": "compat"
+ },
+ "GlassBadge": {
+  "target": "Badge",
+  "dest": "compat"
+ },
+ "GlassBadgeLine": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassBarChart": {
+  "target": "ChartFrame",
+  "dest": "removed"
+ },
+ "GlassBiomeSimulator": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassBiometricAdaptation": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassBiometricDashboard": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassBottomNav": {
+  "target": "TabBar",
+  "dest": "compat"
+ },
+ "GlassBottomSheet": {
+  "target": "Sheet",
+  "dest": "compat"
+ },
+ "GlassBox": {
+  "target": "Surface",
+  "dest": "removed"
+ },
+ "GlassBreadcrumb": {
+  "target": "Breadcrumbs",
+  "dest": "compat"
+ },
+ "GlassBreadcrumbs": {
+  "target": "Breadcrumbs",
+  "dest": "compat"
+ },
+ "GlassButton": {
+  "target": "Button",
+  "dest": "compat"
+ },
+ "GlassCalendar": {
+  "target": "Calendar from aura-glass/date",
+  "dest": "compat"
+ },
+ "GlassCanvas": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassCanvasArea": {
+  "target": "AppShell.Main",
+  "dest": "removed"
+ },
+ "GlassCard": {
+  "target": "Card",
+  "dest": "compat"
+ },
+ "GlassCardLink": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassCarousel": {
+  "target": "CarouselRail from aura-glass/media (infinite to loop, autoPlay gated)",
+  "dest": "compat"
+ },
+ "GlassChartsDemo": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassChartWidget": {
+  "target": "ChartFrame",
+  "dest": "removed"
+ },
+ "GlassChat": {
+  "target": "Thread",
+  "dest": "compat"
+ },
+ "GlassChatInput": {
+  "target": "Composer",
+  "dest": "compat"
+ },
+ "GlassCheckbox": {
+  "target": "Checkbox",
+  "dest": "compat"
+ },
+ "GlassCheckboxGroup": {
+  "target": "CheckboxGroup",
+  "dest": "compat"
+ },
+ "GlassCheckboxUI": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassChip": {
+  "target": "Chip from aura-glass/data",
+  "dest": "compat"
+ },
+ "GlassCoachmarks": {
+  "target": "Tour",
+  "dest": "compat"
+ },
+ "GlassCodeEditor": {
+  "target": "registry:code-surface",
+  "dest": "registry"
+ },
+ "GlassCoherenceIndicator": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassCollaborationDashboard": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassCollaborationProvider": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassCollaborativeComments": {
+  "target": "registry:comment-thread",
+  "dest": "registry"
+ },
+ "GlassCollaborativeCursor": {
+  "target": "registry:presence-stack",
+  "dest": "registry"
+ },
+ "GlassColorPicker": {
+  "target": "ColorPicker",
+  "dest": "compat"
+ },
+ "GlassColorSchemeGenerator": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassColorTinting": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassColorWheel": {
+  "target": "ColorPicker",
+  "dest": "compat"
+ },
+ "GlassCombobox": {
+  "target": "Combobox",
+  "dest": "compat"
+ },
+ "GlassCommand": {
+  "target": "Command",
+  "dest": "compat"
+ },
+ "GlassCommandBar": {
+  "target": "Toolbar",
+  "dest": "compat"
+ },
+ "GlassCommandDock": {
+  "target": "CommandPalette",
+  "dest": "removed"
+ },
+ "GlassCommandPalette": {
+  "target": "CommandPalette",
+  "dest": "compat"
+ },
+ "GlassCommentThread": {
+  "target": "registry:comment-thread",
+  "dest": "registry"
+ },
+ "GlassComponentPalette": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassComponentPlayground": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassConnectionStatus": {
+  "target": "Badge",
+  "dest": "compat"
+ },
+ "GlassContainer": {
+  "target": "Container",
+  "dest": "compat"
+ },
+ "GlassContextAware": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassContextMenu": {
+  "target": "ContextMenu",
+  "dest": "compat"
+ },
+ "GlassContextualDashboard": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassContextualEngine": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassCore": {
+  "target": "Surface",
+  "dest": "compat"
+ },
+ "GlassDashboard": {
+  "target": "registry:data-workspace",
+  "dest": "registry"
+ },
+ "GlassDataChart": {
+  "target": "ChartFrame",
+  "dest": "removed"
+ },
+ "GlassDataGrid": {
+  "target": "Table from aura-glass/data",
+  "dest": "compat"
+ },
+ "GlassDataGridPro": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassDataTable": {
+  "target": "Table from aura-glass/data",
+  "dest": "compat"
+ },
+ "GlassDateField": {
+  "target": "DateField from aura-glass/date",
+  "dest": "compat"
+ },
+ "GlassDatePicker": {
+  "target": "DatePicker from aura-glass/date",
+  "dest": "compat"
+ },
+ "GlassDateRangePicker": {
+  "target": "DateRangePicker from aura-glass/date",
+  "dest": "compat"
+ },
+ "GlassDeepDreamGlass": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassDepthLayer": {
+  "target": "Surface layering (the 5.x nested-materials rule)",
+  "dest": "removed"
+ },
+ "GlassDetailView": {
+  "target": "registry:data-workspace",
+  "dest": "registry"
+ },
+ "GlassDialog": {
+  "target": "Dialog",
+  "dest": "compat"
+ },
+ "GlassDiffViewer": {
+  "target": "registry:diff-viewer",
+  "dest": "registry"
+ },
+ "GlassDismissableLayer": {
+  "target": "DismissableLayer",
+  "dest": "compat"
+ },
+ "GlassDivider": {
+  "target": "Separator",
+  "dest": "compat"
+ },
+ "GlassDragDropProvider": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassDraggable": {
+  "target": "./motion drag helper",
+  "dest": "removed"
+ },
+ "GlassDrawer": {
+  "target": "Sheet",
+  "dest": "compat"
+ },
+ "GlassDropdownMenu": {
+  "target": "Menu",
+  "dest": "compat"
+ },
+ "GlassDropdownMenuArrow": {
+  "target": "Menu.Arrow",
+  "dest": "compat"
+ },
+ "GlassDropdownMenuCheckboxItem": {
+  "target": "Menu.CheckboxItem",
+  "dest": "compat"
+ },
+ "GlassDropdownMenuContent": {
+  "target": "Menu.Popup",
+  "dest": "compat"
+ },
+ "GlassDropdownMenuGroup": {
+  "target": "Menu.Group",
+  "dest": "compat"
+ },
+ "GlassDropdownMenuItem": {
+  "target": "Menu.Item",
+  "dest": "compat"
+ },
+ "GlassDropdownMenuLabel": {
+  "target": "Menu.GroupLabel",
+  "dest": "compat"
+ },
+ "GlassDropdownMenuPortal": {
+  "target": "Menu.Portal",
+  "dest": "compat"
+ },
+ "GlassDropdownMenuRadioGroup": {
+  "target": "Menu.RadioGroup",
+  "dest": "compat"
+ },
+ "GlassDropdownMenuRadioItem": {
+  "target": "Menu.RadioItem",
+  "dest": "compat"
+ },
+ "GlassDropdownMenuSeparator": {
+  "target": "Menu.Separator",
+  "dest": "compat"
+ },
+ "GlassDropdownMenuSub": {
+  "target": "Menu.SubmenuRoot",
+  "dest": "compat"
+ },
+ "GlassDropdownMenuSubTrigger": {
+  "target": "Menu.SubmenuTrigger",
+  "dest": "compat"
+ },
+ "GlassDropdownMenuTrigger": {
+  "target": "Menu.Trigger",
+  "dest": "compat"
+ },
+ "GlassDynamicAtmosphere": {
+  "target": "Backdrop presets from aura-glass/backdrops",
+  "dest": "compat"
+ },
+ "GlassEcommerceProvider": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassEmptyState": {
+  "target": "EmptyState",
+  "dest": "compat"
+ },
+ "GlassEngine": {
+  "target": "Surface",
+  "dest": "removed"
+ },
+ "GlassEngineDemo": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassErrorState": {
+  "target": "ErrorState",
+  "dest": "compat"
+ },
+ "GlassEyeTracking": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassEyeTrackingCalibration": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassFab": {
+  "target": "IconButton",
+  "dest": "compat"
+ },
+ "GlassFacetSearch": {
+  "target": "FilterBar",
+  "dest": "removed"
+ },
+ "GlassFieldGroup": {
+  "target": "Fieldset",
+  "dest": "compat"
+ },
+ "GlassFileExplorer": {
+  "target": "TreeView from aura-glass/data",
+  "dest": "compat"
+ },
+ "GlassFileTree": {
+  "target": "TreeView from aura-glass/data",
+  "dest": "compat"
+ },
+ "GlassFileUpload": {
+  "target": "FileUpload",
+  "dest": "compat"
+ },
+ "GlassFilterBar": {
+  "target": "FilterBar from aura-glass/data",
+  "dest": "compat"
+ },
+ "GlassFilterPanel": {
+  "target": "FilterBar",
+  "dest": "removed"
+ },
+ "GlassFlex": {
+  "target": "Stack",
+  "dest": "compat"
+ },
+ "GlassFluidSimulation": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassFocusIndicators": {
+  "target": "owned focus ring (§6)",
+  "dest": "removed"
+ },
+ "GlassFocusRing": {
+  "target": "owned focus ring (§6)",
+  "dest": "removed"
+ },
+ "GlassFocusScope": {
+  "target": "FocusScope",
+  "dest": "compat"
+ },
+ "GlassFoldableSupport": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassForm": {
+  "target": "Form",
+  "dest": "compat"
+ },
+ "GlassFormBuilder": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassFormField": {
+  "target": "Field",
+  "dest": "compat"
+ },
+ "GlassFormStepper": {
+  "target": "Steps",
+  "dest": "removed"
+ },
+ "GlassFormTable": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassFormTemplate": {
+  "target": "registry:settings",
+  "dest": "registry"
+ },
+ "GlassFormWizardSteps": {
+  "target": "Steps",
+  "dest": "removed"
+ },
+ "GlassFractalLayout": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassGallery": {
+  "target": "ImageViewer",
+  "dest": "removed"
+ },
+ "GlassGANGenerator": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassGanttChart": {
+  "target": "Gantt",
+  "dest": "removed"
+ },
+ "GlassGazeResponsive": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassGazeVisualization": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassGenerativeArt": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassGoldenRatioGrid": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassGradientPicker": {
+  "target": "ColorPicker",
+  "dest": "compat"
+ },
+ "GlassGrid": {
+  "target": "Grid",
+  "dest": "compat"
+ },
+ "GlassHeader": {
+  "target": "TopBar",
+  "dest": "compat"
+ },
+ "GlassHeatmap": {
+  "target": "Chart (./charts, 5.1)",
+  "dest": "removed"
+ },
+ "GlassHighContrast": {
+  "target": "GlassPreferencesPanel (contrast preference)",
+  "dest": "removed"
+ },
+ "GlassHologram": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassHoverCard": {
+  "target": "Popover",
+  "dest": "compat"
+ },
+ "GlassIconButton": {
+  "target": "IconButton",
+  "dest": "compat"
+ },
+ "GlassImageProcessingProvider": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassImageViewer": {
+  "target": "ImageViewer from aura-glass/media (items need id + required alt)",
+  "dest": "compat"
+ },
+ "GlassInfiniteScroll": {
+  "target": "TanStack Virtual inside Table/Thread",
+  "dest": "removed"
+ },
+ "GlassInlineEdit": {
+  "target": "InlineEdit",
+  "dest": "compat"
+ },
+ "GlassInput": {
+  "target": "TextField",
+  "dest": "compat"
+ },
+ "GlassInspector": {
+  "target": "Inspector",
+  "dest": "compat"
+ },
+ "GlassInspectorPanel": {
+  "target": "AppShell.Inspector",
+  "dest": "removed"
+ },
+ "GlassIntelligentFormBuilder": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassIntelligentImageUploader": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassIntelligentSearch": {
+  "target": "SearchField",
+  "dest": "compat"
+ },
+ "GlassIslandLayout": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassJSONViewer": {
+  "target": "registry:code-surface",
+  "dest": "registry"
+ },
+ "GlassKanban": {
+  "target": "registry:kanban",
+  "dest": "registry"
+ },
+ "GlassKanbanBoard": {
+  "target": "registry:kanban",
+  "dest": "registry"
+ },
+ "GlassKeyValueEditor": {
+  "target": "KeyValueEditor from aura-glass/data",
+  "dest": "compat"
+ },
+ "GlassKPICard": {
+  "target": "StatCard from aura-glass/data",
+  "dest": "compat"
+ },
+ "GlassLabel": {
+  "target": "Label",
+  "dest": "compat"
+ },
+ "GlassLabelPrimitive": {
+  "target": "Label",
+  "dest": "compat"
+ },
+ "GlassLazyImage": {
+  "target": "native loading=\"lazy\" in ImageList/Avatar",
+  "dest": "removed"
+ },
+ "GlassLineChart": {
+  "target": "ChartFrame",
+  "dest": "removed"
+ },
+ "GlassLinkButton": {
+  "target": "Button",
+  "dest": "compat"
+ },
+ "GlassLiquidTransition": {
+  "target": "SourceTransition",
+  "dest": "removed"
+ },
+ "GlassListView": {
+  "target": "data-workspace block",
+  "dest": "removed"
+ },
+ "GlassLiveCursorPresence": {
+  "target": "registry:presence-stack",
+  "dest": "registry"
+ },
+ "GlassLiveFilter": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassLoadingSkeleton": {
+  "target": "Skeleton",
+  "dest": "compat"
+ },
+ "GlassLoadingState": {
+  "target": "LoadingState",
+  "dest": "compat"
+ },
+ "GlassMagneticButton": {
+  "target": "Button",
+  "dest": "compat"
+ },
+ "GlassMagneticCursor": {
+  "target": "magnetic() (aura-glass/motion)",
+  "dest": "removed"
+ },
+ "GlassMain": {
+  "target": "AppShell.Main",
+  "dest": "compat"
+ },
+ "GlassMasonry": {
+  "target": "Grid",
+  "dest": "compat"
+ },
+ "GlassMasonryGrid": {
+  "target": "Grid",
+  "dest": "compat"
+ },
+ "GlassMediaControls": {
+  "target": "MediaControls.Root from aura-glass/media",
+  "dest": "compat"
+ },
+ "GlassMediaProvider": {
+  "target": "useMediaElement from aura-glass/media",
+  "dest": "removed"
+ },
+ "GlassMentionList": {
+  "target": "Combobox",
+  "dest": "compat"
+ },
+ "GlassMenubar": {
+  "target": "Menubar",
+  "dest": "compat"
+ },
+ "GlassMenuPrimitive": {
+  "target": "Menu",
+  "dest": "removed"
+ },
+ "GlassMeshGradient": {
+  "target": "Backdrop preset=\"mesh\" from aura-glass/backdrops",
+  "dest": "compat"
+ },
+ "GlassMessageList": {
+  "target": "Thread",
+  "dest": "compat"
+ },
+ "GlassMetaDashboard": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassMetricCard": {
+  "target": "StatCard from aura-glass/data",
+  "dest": "compat"
+ },
+ "GlassMetricChip": {
+  "target": "Chip from aura-glass/data",
+  "dest": "compat"
+ },
+ "GlassMetricsGrid": {
+  "target": "StatCard",
+  "dest": "removed"
+ },
+ "GlassMindMap": {
+  "target": "labs:MindMap",
+  "dest": "labs"
+ },
+ "GlassMobileNav": {
+  "target": "Sidebar.Drawer",
+  "dest": "compat"
+ },
+ "GlassMobileShell": {
+  "target": "MobileShell",
+  "dest": "compat"
+ },
+ "GlassModal": {
+  "target": "Dialog",
+  "dest": "compat"
+ },
+ "GlassMoodRing": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassMorphingEngine": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassMotionController": {
+  "target": "./motion helpers + CSS motion tokens",
+  "dest": "removed"
+ },
+ "GlassMultiSelect": {
+  "target": "Combobox",
+  "dest": "compat"
+ },
+ "GlassMultiStepForm": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassMusicVisualizer": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassNavigation": {
+  "target": "Sidebar",
+  "dest": "removed"
+ },
+ "GlassNavigationMenu": {
+  "target": "Sidebar.Nav",
+  "dest": "compat"
+ },
+ "GlassNebulaClouds": {
+  "target": "Backdrop presets aurora/mesh",
+  "dest": "removed"
+ },
+ "GlassNeuroFeedback": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassNeuroMetricsDashboard": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassNotificationCenter": {
+  "target": "Popover",
+  "dest": "compat"
+ },
+ "GlassNotificationItem": {
+  "target": "Toast",
+  "dest": "compat"
+ },
+ "GlassNotificationProvider": {
+  "target": "Toast.Provider",
+  "dest": "compat"
+ },
+ "GlassOpacityEngine": {
+  "target": "Surface",
+  "dest": "removed"
+ },
+ "GlassOrbitalMenu": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassOrientationEffects": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassPage": {
+  "target": "Container",
+  "dest": "compat"
+ },
+ "GlassPageBuilder": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassPageHeader": {
+  "target": "AppShell.PageHeader",
+  "dest": "compat"
+ },
+ "GlassPageStructure": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassPageTabs": {
+  "target": "Tabs",
+  "dest": "compat"
+ },
+ "GlassPagination": {
+  "target": "Pagination",
+  "dest": "compat"
+ },
+ "GlassPanel": {
+  "target": "Surface",
+  "dest": "removed"
+ },
+ "GlassParallaxLayers": {
+  "target": "labs:ParallaxLayers",
+  "dest": "labs"
+ },
+ "GlassParticleField": {
+  "target": "labs:ParticleField",
+  "dest": "labs"
+ },
+ "GlassParticles": {
+  "target": "labs:ParticleField",
+  "dest": "labs"
+ },
+ "GlassPerformanceOptimization": {
+  "target": "tiers resolved pre-paint (D-09, D-10)",
+  "dest": "removed"
+ },
+ "GlassPhysicsEngine": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassPieChart": {
+  "target": "ChartFrame",
+  "dest": "removed"
+ },
+ "GlassPopover": {
+  "target": "Popover",
+  "dest": "compat"
+ },
+ "GlassPortal": {
+  "target": "Portal",
+  "dest": "compat"
+ },
+ "GlassPositioner": {
+  "target": "Popover.Positioner",
+  "dest": "compat"
+ },
+ "GlassPredictiveEngine": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassPresenceIndicator": {
+  "target": "registry:presence-stack",
+  "dest": "registry"
+ },
+ "GlassPrimitive": {
+  "target": "Surface",
+  "dest": "compat"
+ },
+ "GlassPrismComparison": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassProbabilityCloud": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassProductRecommendations": {
+  "target": "CarouselRail",
+  "dest": "removed"
+ },
+ "GlassProgress": {
+  "target": "Progress",
+  "dest": "compat"
+ },
+ "GlassProgressiveEnhancement": {
+  "target": "Surface (tiers via AuraGlassScript)",
+  "dest": "removed"
+ },
+ "GlassPropertyPanel": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassPullToRefresh": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassQuantumField": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassQuantumStates": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassQuantumTunnel": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassQueryBuilder": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassRadioGroup": {
+  "target": "RadioGroup",
+  "dest": "compat"
+ },
+ "GlassRating": {
+  "target": "Rating",
+  "dest": "compat"
+ },
+ "GlassReactionBar": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassReactionBubbles": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassReactions": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassResizablePanel": {
+  "target": "ResizablePanels",
+  "dest": "removed"
+ },
+ "GlassResponsiveNav": {
+  "target": "AppShell",
+  "dest": "removed"
+ },
+ "GlassRichTextEditor": {
+  "target": "registry:rich-text",
+  "dest": "registry"
+ },
+ "GlassSchemaViewer": {
+  "target": "registry:schema-viewer",
+  "dest": "registry"
+ },
+ "GlassScrollArea": {
+  "target": "ScrollArea",
+  "dest": "compat"
+ },
+ "GlassSearchField": {
+  "target": "SearchField",
+  "dest": "compat"
+ },
+ "GlassSearchInterface": {
+  "target": "SearchField",
+  "dest": "compat"
+ },
+ "GlassSegmentedControl": {
+  "target": "SegmentedControl",
+  "dest": "compat"
+ },
+ "GlassSelect": {
+  "target": "Select",
+  "dest": "compat"
+ },
+ "GlassSelectCompound": {
+  "target": "Select",
+  "dest": "compat"
+ },
+ "GlassSelectContent": {
+  "target": "Select.Popup",
+  "dest": "compat"
+ },
+ "GlassSelectGroup": {
+  "target": "Select.Group",
+  "dest": "compat"
+ },
+ "GlassSelectItem": {
+  "target": "Select.Item",
+  "dest": "compat"
+ },
+ "GlassSelectLabel": {
+  "target": "Select.GroupLabel",
+  "dest": "compat"
+ },
+ "GlassSelectRoot": {
+  "target": "Select.Root",
+  "dest": "compat"
+ },
+ "GlassSelectSeparator": {
+  "target": "Select.Separator",
+  "dest": "compat"
+ },
+ "GlassSelectTrigger": {
+  "target": "Select.Trigger",
+  "dest": "compat"
+ },
+ "GlassSelectValue": {
+  "target": "Select.Value",
+  "dest": "compat"
+ },
+ "GlassSelfHealingSystem": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassSeparator": {
+  "target": "Separator",
+  "dest": "compat"
+ },
+ "GlassSharedWhiteboard": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassSidebar": {
+  "target": "Sidebar",
+  "dest": "compat"
+ },
+ "GlassSidebarPanel": {
+  "target": "Sidebar",
+  "dest": "compat"
+ },
+ "GlassSidebarRail": {
+  "target": "Sidebar",
+  "dest": "compat"
+ },
+ "GlassSkeleton": {
+  "target": "Skeleton",
+  "dest": "compat"
+ },
+ "GlassSkeletonLoader": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassSlider": {
+  "target": "Slider",
+  "dest": "compat"
+ },
+ "GlassSlot": {
+  "target": "Slot",
+  "dest": "compat"
+ },
+ "GlassSmartShoppingCart": {
+  "target": "registry:commerce-cart",
+  "dest": "registry"
+ },
+ "GlassSocialFeed": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassSparkline": {
+  "target": "Sparkline from aura-glass/data",
+  "dest": "compat"
+ },
+ "GlassSpatialAudio": {
+  "target": "labs:useGlassSound",
+  "dest": "labs"
+ },
+ "GlassSplitPane": {
+  "target": "ResizablePanels",
+  "dest": "compat"
+ },
+ "GlassSpotlight": {
+  "target": "Tour",
+  "dest": "compat"
+ },
+ "GlassStack": {
+  "target": "Stack",
+  "dest": "compat"
+ },
+ "GlassStatCard": {
+  "target": "StatCard from aura-glass/data",
+  "dest": "compat"
+ },
+ "GlassStatusBar": {
+  "target": "StatusBar",
+  "dest": "compat"
+ },
+ "GlassStatusDot": {
+  "target": "Badge",
+  "dest": "compat"
+ },
+ "GlassStep": {
+  "target": "Steps",
+  "dest": "removed"
+ },
+ "GlassStepIcon": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassStepLabel": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassStepper": {
+  "target": "GlassStepper",
+  "dest": "compat"
+ },
+ "GlassStressResponsive": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassStyleTransfer": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassSuperpositionalMenu": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassSwitch": {
+  "target": "Switch",
+  "dest": "compat"
+ },
+ "GlassTabBar": {
+  "target": "TabBar",
+  "dest": "compat"
+ },
+ "GlassTabItem": {
+  "target": "Tabs.Tab",
+  "dest": "removed"
+ },
+ "GlassTabs": {
+  "target": "Tabs",
+  "dest": "compat"
+ },
+ "GlassTagInput": {
+  "target": "Combobox",
+  "dest": "compat"
+ },
+ "GlassTeamCursors": {
+  "target": "registry:presence-stack",
+  "dest": "registry"
+ },
+ "GlassTeamCursorsWithEffects": {
+  "target": "registry:presence-stack",
+  "dest": "registry"
+ },
+ "GlassTessellation": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassTextarea": {
+  "target": "TextField",
+  "dest": "compat"
+ },
+ "GlassTextureVariations": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassThemeDemo": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassThemeSwitcher": {
+  "target": "GlassPreferencesPanel",
+  "dest": "removed"
+ },
+ "GlassTimeField": {
+  "target": "TimeField from aura-glass/date",
+  "dest": "compat"
+ },
+ "GlassTimeline": {
+  "target": "Timeline from aura-glass",
+  "dest": "compat"
+ },
+ "GlassTimelineRail": {
+  "target": "Timeline",
+  "dest": "removed"
+ },
+ "GlassToast": {
+  "target": "useToast",
+  "dest": "compat"
+ },
+ "GlassToastProvider": {
+  "target": "Toast.Provider",
+  "dest": "compat"
+ },
+ "GlassToastViewport": {
+  "target": "Toast.Viewport",
+  "dest": "compat"
+ },
+ "GlassToggle": {
+  "target": "ToggleGroup",
+  "dest": "compat"
+ },
+ "GlassToolbar": {
+  "target": "Toolbar",
+  "dest": "compat"
+ },
+ "GlassTooltip": {
+  "target": "Tooltip",
+  "dest": "compat"
+ },
+ "GlassTopBar": {
+  "target": "TopBar",
+  "dest": "compat"
+ },
+ "GlassTransitions": {
+  "target": "CSS motion tokens or aura-glass/motion",
+  "dest": "removed"
+ },
+ "GlassTransitions.GlassModal": {
+  "target": "Dialog",
+  "dest": "removed"
+ },
+ "GlassTreeView": {
+  "target": "TreeView from aura-glass/data",
+  "dest": "compat"
+ },
+ "GlassTypingIndicator": {
+  "target": "AgentSteps",
+  "dest": "compat"
+ },
+ "GlassUserPresence": {
+  "target": "registry:presence-stack",
+  "dest": "registry"
+ },
+ "GlassValidationMessage": {
+  "target": "Field.Error",
+  "dest": "compat"
+ },
+ "GlassVideoPlayer": {
+  "target": "the media-video-player registry item",
+  "dest": "removed"
+ },
+ "GlassVirtualList": {
+  "target": "Table virtualization primitives",
+  "dest": "compat"
+ },
+ "GlassVirtualTable": {
+  "target": "Table with virtualize from aura-glass/data",
+  "dest": "compat"
+ },
+ "GlassVoiceWaveform": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassVortexPortal": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassWaveFunction": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassWeatherGlass": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassWebGLShader": {
+  "target": "cinematic lens (rebuilt)",
+  "dest": "removed"
+ },
+ "GlassWhiteboard": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassWipeSlider": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassWizard": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassWizardTemplate": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlassWorkflowShell": {
+  "target": "AppShell",
+  "dest": "removed"
+ },
+ "GlassWorkspace": {
+  "target": "AppShell",
+  "dest": "removed"
+ },
+ "GlassWorkspaceHeader": {
+  "target": "TopBar",
+  "dest": "removed"
+ },
+ "GlassWorkspacePanel": {
+  "target": "Card",
+  "dest": "compat"
+ },
+ "GlassWorkspaceTabs": {
+  "target": "Tabs",
+  "dest": "compat"
+ },
+ "GlobalCookieConsent": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "GlowingCard": {
+  "target": "Card",
+  "dest": "compat"
+ },
+ "HeatGlass": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "HoudiniGlassCard": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "HoudiniGlassProvider": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "HStack": {
+  "target": "Stack",
+  "dest": "removed"
+ },
+ "ImageList": {
+  "target": "ImageList",
+  "dest": "compat"
+ },
+ "ImageListItem": {
+  "target": "ImageList.Item",
+  "dest": "compat"
+ },
+ "ImageListItemBar": {
+  "target": "ImageList.ItemBar",
+  "dest": "compat"
+ },
+ "InstallCommand": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "IntelligentColorSystem": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "LabelRoot": {
+  "target": "Label",
+  "dest": "compat"
+ },
+ "LiquidGlassAdaptiveSheet": {
+  "target": "Sheet",
+  "dest": "compat"
+ },
+ "LiquidGlassBackdropSampler": {
+  "target": "Environment",
+  "dest": "removed"
+ },
+ "LiquidGlassBadgeCluster": {
+  "target": "Badge",
+  "dest": "compat"
+ },
+ "LiquidGlassBottomAccessory": {
+  "target": "TabBar accessory",
+  "dest": "compat"
+ },
+ "LiquidGlassButtonStyle": {
+  "target": "Button",
+  "dest": "compat"
+ },
+ "LiquidGlassCarouselRail": {
+  "target": "CarouselRail from aura-glass/media",
+  "dest": "compat"
+ },
+ "LiquidGlassCommandSurface": {
+  "target": "CommandPalette",
+  "dest": "compat"
+ },
+ "LiquidGlassConcentricFrame": {
+  "target": "ConcentricFrame",
+  "dest": "compat"
+ },
+ "LiquidGlassControlGroup": {
+  "target": "ButtonGroup",
+  "dest": "compat"
+ },
+ "LiquidGlassDestination": {
+  "target": "SourceTransition",
+  "dest": "compat"
+ },
+ "LiquidGlassEffectGroup": {
+  "target": "SurfaceGroup",
+  "dest": "compat"
+ },
+ "LiquidGlassGPU": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "LiquidGlassInsetSidebar": {
+  "target": "Sidebar",
+  "dest": "compat"
+ },
+ "LiquidGlassInspectorPanel": {
+  "target": "Inspector",
+  "dest": "compat"
+ },
+ "LiquidGlassLayerProvider": {
+  "target": "Surface",
+  "dest": "compat"
+ },
+ "LiquidGlassMapControls": {
+  "target": "Toolbar",
+  "dest": "compat"
+ },
+ "LiquidGlassMaterial": {
+  "target": "Surface",
+  "dest": "compat"
+ },
+ "LiquidGlassMediaControls": {
+  "target": "MediaControls.Root from aura-glass/media",
+  "dest": "compat"
+ },
+ "LiquidGlassNowPlayingBar": {
+  "target": "NowPlayingBar from aura-glass/media",
+  "dest": "compat"
+ },
+ "LiquidGlassPhotoInspector": {
+  "target": "ImageViewer + Inspector from aura-glass/media",
+  "dest": "compat"
+ },
+ "LiquidGlassPopoverMenu": {
+  "target": "Menu",
+  "dest": "compat"
+ },
+ "LiquidGlassScrollEdge": {
+  "target": "ScrollEdge",
+  "dest": "compat"
+ },
+ "LiquidGlassSearchField": {
+  "target": "SearchField",
+  "dest": "compat"
+ },
+ "LiquidGlassSearchTab": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "LiquidGlassSegmentedControl": {
+  "target": "SegmentedControl",
+  "dest": "compat"
+ },
+ "LiquidGlassShowcase": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "LiquidGlassSource": {
+  "target": "SourceTransition",
+  "dest": "compat"
+ },
+ "LiquidGlassTabBar": {
+  "target": "TabBar",
+  "dest": "compat"
+ },
+ "LiquidGlassToolbar": {
+  "target": "Toolbar",
+  "dest": "compat"
+ },
+ "LiquidGlassTransitionProvider": {
+  "target": "SourceTransition",
+  "dest": "compat"
+ },
+ "LivingEcosystemSimulator": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "LogoMark": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "MagneticButton": {
+  "target": "Button",
+  "dest": "compat"
+ },
+ "MobileGlassBottomSheet": {
+  "target": "Sheet",
+  "dest": "compat"
+ },
+ "MobileGlassNavigation": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "MolecularBondingInterface": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "MotionAwareGlass": {
+  "target": "Surface (motion is preference-driven in 5.x)",
+  "dest": "removed"
+ },
+ "MotionFramer": {
+  "target": "MotionProvider from aura-glass/motion",
+  "dest": "removed"
+ },
+ "MotionNative": {
+  "target": "MotionProvider from aura-glass/motion",
+  "dest": "removed"
+ },
+ "MultiDimensionalGestureRecognizer": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "MultiUserGlassEditor": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "NeuralWeightVisualization": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "NeuromorphicLearningNetwork": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "OptimizedGlass": {
+  "target": "Surface",
+  "dest": "compat"
+ },
+ "OptimizedGlassAdvanced": {
+  "target": "Surface",
+  "dest": "compat"
+ },
+ "OptimizedGlassContainer": {
+  "target": "Surface",
+  "dest": "removed"
+ },
+ "OptimizedGlassCore": {
+  "target": "Surface",
+  "dest": "removed"
+ },
+ "PageGlassContainer": {
+  "target": "Surface",
+  "dest": "removed"
+ },
+ "ParticleBackground": {
+  "target": "labs:ParticleField",
+  "dest": "labs"
+ },
+ "PersonaPicker": {
+  "target": "presets + createBrandTheme (no picker ships in 5.x)",
+  "dest": "removed"
+ },
+ "Positioner": {
+  "target": "Popover.Positioner",
+  "dest": "compat"
+ },
+ "QuantumEntanglementVisualizer": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "RippleButton": {
+  "target": "Button",
+  "dest": "compat"
+ },
+ "RovingFocusGroup": {
+  "target": "Base UI Toolbar/Tabs/Menu roving focus",
+  "dest": "removed"
+ },
+ "ShowcaseCard": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "SpatialComputingEngine": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "SpeedDial": {
+  "target": "Menu (Button trigger)",
+  "dest": "removed"
+ },
+ "SpeedDialAction": {
+  "target": "Menu.Item",
+  "dest": "removed"
+ },
+ "SpeedDialIcon": {
+  "target": "Icon",
+  "dest": "removed"
+ },
+ "StateIndicator": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "ToggleButton": {
+  "target": "ToggleGroup",
+  "dest": "compat"
+ },
+ "ToggleButtonGroup": {
+  "target": "ToggleGroup",
+  "dest": "compat"
+ },
+ "TouchOptimizedGlass": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "TouchRippleEffects": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "TreeItem": {
+  "target": "TreeView.Item",
+  "dest": "removed"
+ },
+ "TreeView": {
+  "target": "TreeView from aura-glass/data",
+  "dest": "compat"
+ },
+ "Typography": {
+  "target": "Text",
+  "dest": "compat"
+ },
+ "useNotifications": {
+  "target": "useToast",
+  "dest": "compat"
+ },
+ "useToast": {
+  "target": "useToast",
+  "dest": "compat"
+ },
+ "VisualFeedback": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "VoiceGlassControl": {
+  "target": "-",
+  "dest": "removed"
+ },
+ "VStack": {
+  "target": "Stack",
+  "dest": "removed"
+ },
+ "WidgetGlass": {
+  "target": "Card",
+  "dest": "compat"
+ },
+ "ZSpaceAppLayout": {
+  "target": "AppShell composition",
+  "dest": "compat"
+ }
+}
