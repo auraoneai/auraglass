@@ -291,16 +291,33 @@ async function backdropParity(page: Page, url: string): Promise<Check> {
     // The utility paints the filter on the element itself; the material
     // engine paints it on the surface ::before (its optics layer). Parity is
     // about the painted value, so each probe reads where its paint lives.
+    // The capability heuristic may resolve the lightweight rung on the runner
+    // (saveData / low-memory coarse pointers), which removes material
+    // backdrop filters by design (REQ-MAT-35); parity measures bridge-vs-
+    // ladder optics, so the rung is pinned out exactly as cert pins
+    // tier=standard (precedent: tiers.spec no-tier case removes the attr).
+    const tier = document.documentElement.getAttribute('data-ag-tier');
+    document.documentElement.removeAttribute('data-ag-tier');
     return {
+      tier,
       tailwind: bf(document.querySelector('[data-qs-probe="tailwind"]')),
       material: bf(document.querySelector('[data-qs-probe="material"][data-ag-variant="regular"]'), '::before'),
     };
   });
+  await twoRaf(page);
+  // The material value additionally carries brightness() (env scaling), so
+  // parity compares the blur/saturate components, not whole-string equality.
+  const parts = (v: string | null) => {
+    const m = /blur\(([\d.]+)px\)\s+saturate\(([\d.]+)\)/.exec(v ?? '');
+    return m ? { blur: Number(m[1]), saturate: Number(m[2]) } : null;
+  };
+  const tw = parts(r.tailwind);
+  const mt = parts(r.material);
   return {
     name: 'glass-regular parity',
-    pass: r.material !== null && r.material !== 'none' && r.tailwind === r.material,
+    pass: tw !== null && mt !== null && Math.abs(tw.blur - mt.blur) <= 0.5 && Math.abs(tw.saturate - mt.saturate) <= 0.01,
     // eslint-disable-next-line auraglass/no-optics-outside-material -- failure detail text naming the compared property
-    detail: `glass-regular backdrop-filter=${r.tailwind} vs [data-ag-variant=regular]=${r.material}`,
+    detail: `glass-regular backdrop-filter=${r.tailwind} vs [data-ag-variant=regular]=${r.material} (html tier was ${r.tier})`,
   };
 }
 
