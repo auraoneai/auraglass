@@ -73,26 +73,21 @@ describe('contrast matrix (MAT-049)', () => {
   });
 
   test('tampered matrix (one floor lowered 0.005) fails the floors check', () => {
-    // lower the floorAlpha of a cell that carries the max for its key
+    // lower the floorAlpha of every cell that carries the max for its key
+    // (the solved floor is shared by many cells of a key, so tamper them all)
     const entries = walkCells(DIST.cells);
-    // pick a key whose max is carried by exactly one cell (a strict unique carrier)
-    let pick: [string[], any] | null = null;
-    for (const e of entries) {
-      const [, , contrast, tr, , th, bd] = e[0];
-      const key = contrast === 'more' ? `more.${th}.${bd}` : `${tr}.${th}.${bd}`;
-      const siblings = entries.filter(([p]) => {
-        const [, , c2, t2, , th2, bd2] = p;
-        return (c2 === 'more' ? `more.${th2}.${bd2}` : `${t2}.${th2}.${bd2}`) === key;
-      });
-      const sorted = siblings.map(([, c]) => c.floorAlpha).sort((a, b) => b - a);
-      if (sorted[0] === e[1].floorAlpha && (sorted[1] ?? -1) < e[1].floorAlpha) { pick = e; break; }
-    }
-    expect(pick).not.toBeNull();
-    const [path, cell] = pick!;
+    const first = entries[0];
+    expect(first).toBeDefined();
+    const [path] = first!;
+    const [, , pc, ptr, , pth, pbd] = path as [string, string, string, string, string, string, string];
+    const pickKey = pc === 'more' ? `more.${pth}.${pbd}` : `${ptr}.${pth}.${pbd}`;
+    const keyOf = (p: string[]) => (p[2] === 'more' ? `more.${p[5]}.${p[6]}` : `${p[3]}.${p[5]}.${p[6]}`);
+    const carriers = entries.filter(([p]) => keyOf(p) === pickKey);
+    const peak = Math.max(...carriers.map(([, c]) => c.floorAlpha));
     const tampered = JSON.parse(JSON.stringify(DIST));
-    let node = tampered.cells;
-    for (const k of path) node = node[k];
-    node.floorAlpha = Math.round((cell.floorAlpha - 0.005) * 1000) / 1000;
+    for (const [p, c] of walkCells(tampered.cells))
+      if (keyOf(p) === pickKey && c.floorAlpha === peak)
+        c.floorAlpha = Math.round((peak - 0.005) * 1000) / 1000;
     // recompute max per key over the tampered tree
     const max: Record<string, number> = {};
     for (const [p, c] of walkCells(tampered.cells)) {

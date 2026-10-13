@@ -105,15 +105,15 @@
         "$description": "Per-thickness minimum effective alpha (floor) the solver guarantees in every cell; emitted to src/material/css/generated/floors.css.",
         "thin": {
           "$type": "number",
-          "$value": 0.6
+          "$value": 0.93
         },
         "regular": {
           "$type": "number",
-          "$value": 0.55
+          "$value": 0.88
         },
         "thick": {
           "$type": "number",
-          "$value": 0.5
+          "$value": 0.83
         }
       }
     }
