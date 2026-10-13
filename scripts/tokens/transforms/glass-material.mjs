@@ -7,7 +7,10 @@
    ambient+key, overlay reads thick), --_ag-rim-width, --_ag-grain-opacity, --_ag-tint-alpha.
    WebKit literals are emitted on ::before only for tiers standard/enhanced and the
    no-tier default — never for lightweight, never unprefixed, never var(); under
-   contrast=more they carry saturate(1) (REQ-MAT-32). */
+   contrast=more they carry saturate(1) (REQ-MAT-32). They also exclude the
+   shared-backdrop kills (group children, nested surfaces): the material.css
+   kill rules stop the var()-composed path, but a constant literal would outrank
+   them on WebKit's -webkit-backdrop-filter property (REQ-MAT-26/31). */
 
 import { colorToCss } from '../color.mjs';
 
@@ -135,6 +138,13 @@ export function buildLadders(records, resolved) {
   // per-cell constants.
   const LIGHTWEIGHT = ':is([data-ag-tier="lightweight"], [data-ag-tier="lightweight"] *)';
   const NOT_LIGHTWEIGHT = ':not([data-ag-tier="lightweight"], [data-ag-tier="lightweight"] *)';
+  // Shared-backdrop kills (material.css, REQ-MAT-26/31): a direct child of a
+  // group host, and a surface nested inside another surface without
+  // allow-nested, never paint their own filter. Mirrored here at zero added
+  // specificity (the FAIL_SAFE idiom) because the constant literals below
+  // would otherwise outrank the kill rules on -webkit-backdrop-filter.
+  const NOT_SHARED_BACKDROP = ':where(:not([data-ag-group] > *, [data-ag-surface] *:not([data-ag-allow-nested])))';
+  const NOT_KILLED = `${NOT_LIGHTWEIGHT}${NOT_SHARED_BACKDROP}`;
   const grainCap = (v, t) => `min(${cell(v, t).grain}, 0.02)`;
   const cellKeys = (v) => [
     ...THICKNESS.map((th) => [`[data-ag-surface][data-ag-variant="${v}"][data-ag-thickness="${th}"]`, th]),
@@ -165,14 +175,14 @@ export function buildLadders(records, resolved) {
   // except lightweight (declared on the surface or any ancestor).
   for (const variant of BLURRED) {
     for (const [sel, th] of cellKeys(variant)) {
-      out.push(`  ${sel}${NOT_LIGHTWEIGHT}::before {`);
+      out.push(`  ${sel}${NOT_KILLED}::before {`);
       out.push(`    -webkit-backdrop-filter: ${filterLiteral(spec, variant, th, cell(variant, th).blur.value)};`);
       out.push('  }');
     }
   }
   // the clear fail-safe filters like the regular cell (same selectors, later in source)
   for (const [sel, th] of clearKeys) {
-    out.push(`  ${sel}${FAIL_SAFE}${NOT_LIGHTWEIGHT}::before {`);
+    out.push(`  ${sel}${FAIL_SAFE}${NOT_KILLED}::before {`);
     out.push(`    -webkit-backdrop-filter: ${filterLiteral(spec, 'regular', th, cell('regular', th).blur.value)};`);
     out.push('  }');
   }
@@ -181,7 +191,7 @@ export function buildLadders(records, resolved) {
   // is declared; the OS mirror applies only where no [data-ag-contrast] is set.
   for (const variant of BLURRED) {
     for (const [sel, th] of cellKeys(variant)) {
-      out.push(`  ${sel}${NOT_LIGHTWEIGHT}${MORE_ATTR}::before {`);
+      out.push(`  ${sel}${NOT_KILLED}${MORE_ATTR}::before {`);
       out.push(`    -webkit-backdrop-filter: ${filterLiteral(spec, variant, th, cell(variant, th).blur.value, 1)};`);
       out.push('  }');
     }
@@ -189,7 +199,7 @@ export function buildLadders(records, resolved) {
   out.push('  @media (prefers-contrast: more) {');
   for (const variant of BLURRED) {
     for (const [sel, th] of cellKeys(variant)) {
-      out.push(`    ${sel}${NOT_LIGHTWEIGHT}${NO_CONTRAST_ATTR}::before {`);
+      out.push(`    ${sel}${NOT_KILLED}${NO_CONTRAST_ATTR}::before {`);
       out.push(`      -webkit-backdrop-filter: ${filterLiteral(spec, variant, th, cell(variant, th).blur.value, 1)};`);
       out.push('    }');
     }
@@ -229,18 +239,18 @@ export function buildLadders(records, resolved) {
   }
   for (const variant of BLURRED) {
     const sel = `[data-ag-surface][data-ag-variant="${variant}"][data-ag-thickness="thick"]`;
-    out.push(`    ${sel}${NOT_LIGHTWEIGHT}::before {`);
+    out.push(`    ${sel}${NOT_KILLED}::before {`);
     out.push(`      -webkit-backdrop-filter: ${filterLiteral(spec, variant, 'thick', 20)};`);
     out.push('    }');
   }
-  out.push(`    [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="thick"]${FAIL_SAFE}${NOT_LIGHTWEIGHT}::before {`);
+  out.push(`    [data-ag-surface][data-ag-variant="clear"][data-ag-thickness="thick"]${FAIL_SAFE}${NOT_KILLED}::before {`);
   out.push(`      -webkit-backdrop-filter: ${filterLiteral(spec, 'regular', 'thick', 20)};`);
   out.push('    }');
   // contrast=more thick rows keep the coarse 20px cap (same selectors as the
   // contrast=more rows above, later in source)
   for (const variant of BLURRED) {
     const sel = `[data-ag-surface][data-ag-variant="${variant}"][data-ag-thickness="thick"]`;
-    out.push(`    ${sel}${NOT_LIGHTWEIGHT}${MORE_ATTR}::before {`);
+    out.push(`    ${sel}${NOT_KILLED}${MORE_ATTR}::before {`);
     out.push(`      -webkit-backdrop-filter: ${filterLiteral(spec, variant, 'thick', 20, 1)};`);
     out.push('    }');
   }
@@ -248,7 +258,7 @@ export function buildLadders(records, resolved) {
   out.push('  @media (pointer: coarse) and (prefers-contrast: more) {');
   for (const variant of BLURRED) {
     const sel = `[data-ag-surface][data-ag-variant="${variant}"][data-ag-thickness="thick"]`;
-    out.push(`    ${sel}${NOT_LIGHTWEIGHT}${NO_CONTRAST_ATTR}::before {`);
+    out.push(`    ${sel}${NOT_KILLED}${NO_CONTRAST_ATTR}::before {`);
     out.push(`      -webkit-backdrop-filter: ${filterLiteral(spec, variant, 'thick', 20, 1)};`);
     out.push('    }');
   }
