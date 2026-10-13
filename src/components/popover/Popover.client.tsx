@@ -216,9 +216,9 @@ function PopoverPopup({ className, children, initialFocus, finalFocus, variant, 
     const setRefs: React.RefCallback<HTMLDivElement> = (node) => {
       setEl(node);
       animatingRef(node);
-      ctx.setRootElement?.(node);
       if (typeof ref === 'function') ref(node);
       else if (ref) ref.current = node;
+      ctx.setRootElement?.(node);
     };
     return (
       <Base.Popup

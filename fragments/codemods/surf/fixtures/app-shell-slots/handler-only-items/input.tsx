@@ -17,14 +17,8 @@ const navItems: NavigationItem[] = [
 export function ConsolePage() {
   return (
     <GlassAppShell
-      variant="default"
       header={<GlassHeader />}
       sidebar={<GlassSidebar items={navItems} />}
-      collapsible
-      sidebarWidth="md"
-      mobileOverlay
-      padding="lg"
-      maxWidth="2xl"
     >
       <h1>Console</h1>
     </GlassAppShell>

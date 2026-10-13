@@ -294,7 +294,8 @@ describe.each(SHOWCASES.map((s) => [s.id, s] as const))('%s', (_id, entry) => {
     cleanup();
     document.body.innerHTML = '';
     await mount(<Story />);
-    expect(normaliseIds(document.body.innerHTML)).toBe(first);
+    // Compare element-sized chunks so a mismatch reports the changing node, not two entire pages.
+    expect(normaliseIds(document.body.innerHTML).split('><')).toEqual(first.split('><'));
     expect(first.length).toBeGreaterThan(100);
   });
 

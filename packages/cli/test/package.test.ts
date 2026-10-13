@@ -2,6 +2,14 @@
 import { describe, expect, it } from '@jest/globals';
 import fs from 'node:fs';
 import path from 'node:path';
+import ts from 'typescript';
+
+/** Parse module references, not example imports preserved inside codemod strings. */
+function forbiddenImports(source: string): string[] {
+  return ts.preProcessFile(source, true, true).importedFiles
+    .map((ref) => ref.fileName)
+    .filter((name) => name === 'aura-glass' || name.startsWith('aura-glass/') || /(?:^|\/)certification\//.test(name));
+}
 const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'package.json'), 'utf8')) as Record<string, any>;
 describe('package', () => {
   it('name/version/bin/type/engines', () => {
@@ -27,6 +35,18 @@ describe('package', () => {
 });
 
 describe('tarball contents (REQ-PLAT-84)', () => {
+  it('detects real static and runtime imports without matching codemod examples', () => {
+    expect(forbiddenImports(`
+      import { Button } from 'aura-glass';
+      export { Dialog } from 'aura-glass/compat';
+      const x = require('aura-glass/material');
+      const y = import('../../certification/manifest.js');
+    `)).toEqual(['aura-glass', 'aura-glass/compat', 'aura-glass/material', '../../certification/manifest.js']);
+    expect(forbiddenImports(`
+      const example = "import { Button } from 'aura-glass'";
+      // from 'aura-glass/compat'; certification/examples are documentation
+    `)).toEqual([]);
+  });
   const hasDist = fs.existsSync(path.join(__dirname, '..', 'dist', 'bin.js'));
   (hasDist ? it : it.skip)('npm-pack installs ≤15 MB unpacked with no aura-glass bin or imports', async () => {
     const { execFileSync } = await import('node:child_process');
@@ -51,8 +71,8 @@ describe('tarball contents (REQ-PLAT-84)', () => {
     for (const f of walk(path.join(out, 'package', 'dist'))) {
       if (!/\.(js|mjs|cjs)$/.test(f)) continue;
       const text = fs.readFileSync(f, 'utf8');
-      expect(text).not.toMatch(/from\s+['"]aura-glass(\/|['"])/);
-      expect(text).not.toMatch(/certification\//);
+      expect({ file: path.relative(out, f), forbidden: forbiddenImports(text) })
+        .toEqual({ file: path.relative(out, f), forbidden: [] });
     }
   }, 120000);
 });

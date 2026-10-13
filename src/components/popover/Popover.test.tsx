@@ -26,6 +26,27 @@ const Demo = ({ trigger = {}, root = {} }: { trigger?: Record<string, unknown>; 
 );
 
 describe('Popover', () => {
+  it('updates the popup ref before notifying the root ref on attach and detach', async () => {
+    const popupRef = React.createRef<HTMLDivElement>();
+    const observations: Array<[HTMLElement | null, HTMLDivElement | null]> = [];
+    const rootRef = (node: HTMLElement | null) => { observations.push([node, popupRef.current]); };
+    const view = render(
+      <Popover.Root defaultOpen ref={rootRef}>
+        <Popover.Trigger>ref anchor</Popover.Trigger>
+        <PopoverPortal>
+          <PopoverPositioner>
+            <PopoverPopup ref={popupRef} aria-label="ref popup">Content</PopoverPopup>
+          </PopoverPositioner>
+        </PopoverPortal>
+      </Popover.Root>,
+    );
+    await screen.findByRole('dialog', { name: 'ref popup' });
+    expect(observations.some(([node]) => node !== null)).toBe(true);
+    view.unmount();
+    expect(observations.some(([node]) => node === null)).toBe(true);
+    for (const [node, popup] of observations) expect(popup).toBe(node);
+  });
+
   /* REQ-CMP-98: provider-free mounts (portal falls back to document.body). */
   it('trigger aria-controls === popup id; hover mode + non-interactive popup -> aria-describedby, no haspopup', async () => {
     render(

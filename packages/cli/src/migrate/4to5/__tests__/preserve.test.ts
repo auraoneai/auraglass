@@ -26,6 +26,53 @@ const PRESERVED: Array<[kind: string, text: string]> = [
 ];
 
 describe('preserve', () => {
+  it('preserves the full handler-only shell when layout props require manual migration', () => {
+    // Keep the original unsupported consumer case intact: the successful
+    // handler fixture separately covers slot and navigation conversion.
+    const src = `// @ts-nocheck — frozen 4.x consumer usage, codemod input (do not "fix").
+// Same shape as tests/fixtures/consumer-4x/cases/surf/app-shell/: the 4.x
+// handler-only navigation pattern the app-shell-slots transform rewrites.
+import { GlassAppShell, GlassSidebar, GlassHeader } from 'aura-glass';
+import type { NavigationItem } from 'aura-glass';
+
+const navItems: NavigationItem[] = [
+  { id: 'home', label: 'Home', icon: 'home', onClick: () => console.log('go /') },
+  { id: 'projects', label: 'Projects', onClick: () => console.log('go /projects') },
+  {
+    id: 'settings',
+    label: 'Settings',
+    children: [{ id: 'billing', label: 'Billing', onClick: () => console.log('go /billing') }],
+  },
+];
+
+export function ConsolePage() {
+  return (
+    <GlassAppShell
+      variant="default"
+      header={<GlassHeader />}
+      sidebar={<GlassSidebar items={navItems} />}
+      collapsible
+      sidebarWidth="md"
+      mobileOverlay
+      padding="lg"
+      maxWidth="2xl"
+    >
+      <h1>Console</h1>
+    </GlassAppShell>
+  );
+}
+`;
+    const r = run(src, ['app-shell-slots']);
+    expect(r.final).toBe(src);
+    expect(r.changes).toEqual([]);
+    expect(r.todos).toEqual([{
+      transform: 'app-shell-slots',
+      reason: 'Shell props or sidebar items contain state, dynamic or unsupported fields; preserve the original shell and migrate manually',
+      doc: 'docs/auraglass-5/migrate/5.md',
+    }]);
+    expect(run(r.final, ['app-shell-slots']).final).toBe(src);
+  });
+
   it('preserves non-aura code byte-for-byte', () => {
     const src = `// keep me\nimport React from 'react';\n\nexport const x = () => <div  className="a"   data-x="1" />;\n`;
     expect(run(src).final).toBe(src);
