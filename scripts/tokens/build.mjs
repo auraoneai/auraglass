@@ -293,10 +293,18 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
   const missingPrivates = [...usedPrivates].filter((n) => !emittedPrivates.has(n)).sort();
   if (missingPrivates.length) {
     const lines = ['', '  /* MAT-003 component privates registry — names declared with `initial` so',
-       '     var(--_ag-x, <fallback>) resolution is unchanged; component css/JS still owns values. */'];
+       '     var(--_ag-x, <fallback>) resolution is unchanged; component css/JS still owns values. */',
+       '  :root {'];
     for (const n of missingPrivates) lines.push(`    ${n}: initial;`);
-    // append inside the final @layer ag.tokens :root block
-    tokensCss = tokensCss.replace(/(  }\n}\n?)$/, `${lines.join('\n')}\n$1`);
+    lines.push('  }');
+    // Append as its own :root rule just before the @layer ag.tokens close.
+    // (The previous regex anchored on the file-final `}` pair, which silently
+    // became the trailing forced-colors block once emission order changed —
+    // landing bare declarations inside @media, invalid CSS strict parsers
+    // such as Lightning CSS reject.)
+    const trimmed = tokensCss.trimEnd();
+    if (!trimmed.endsWith('}')) throw new Error('tokensCss does not end with the ag.tokens layer close');
+    tokensCss = `${trimmed.slice(0, -1)}${lines.join('\n')}\n}\n`;
   }
   // REQ-MAT-03: the build writes exactly TOKEN_OUTPUTS (src/contracts/tokens.ts) — no
   // dist/css/* copies; dist/compat/tokens.css @imports ../tokens.css.

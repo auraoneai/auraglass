@@ -111,6 +111,20 @@ describe('emitted css (MAT-036)', () => {
     }
   });
 
+  test('no bare declarations: every declaration sits inside a style rule (strict parsers reject selectorless decls)', () => {
+    for (const f of FILES) {
+      const root = postcss.parse(readFileSync(join(ROOT, f), 'utf8'));
+      const bare: string[] = [];
+      root.walkDecls((d) => {
+        // Descriptor-style at-rules legally hold declarations directly:
+        // @property syntax/inherits/initial-value, Tailwind v4 @theme tokens.
+        if (d.parent?.type === 'atrule' && ['property', 'theme', 'utility', 'font-face', 'page', 'counter-style'].includes((d.parent as postcss.AtRule).name)) return;
+        if (d.parent?.type !== 'rule') bare.push(`${f}: ${d.prop} under ${d.parent?.type ?? 'root'}`);
+      });
+      expect(bare).toEqual([]);
+    }
+  });
+
   test('no style-dictionary / ajv imports in dist', () => {
     const walk = (d: string, out: string[] = []) => {
       for (const n of readdirSync(d)) {
