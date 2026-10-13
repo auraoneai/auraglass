@@ -4,8 +4,6 @@
 
 ```ts
 
-import { HTMLMotionProps } from 'framer-motion';
-import { MotionConfigProps } from 'framer-motion';
 import * as React_2 from 'react';
 
 // @public (undocumented)
