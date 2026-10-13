@@ -50,12 +50,12 @@ export function Progress({
   /** Ref to the rendered root element. */
   ref?: React.Ref<HTMLDivElement> | undefined }) {
   const labelEl = label ? (
-    <BaseProgress.Label data-ag-part="label" className="ag-progress-label">
+    <BaseProgress.Label data-ag-part="label">
       {label}
     </BaseProgress.Label>
   ) : null;
   const valueEl = showValue ? (
-    <BaseProgress.Value data-ag-part="value" className="ag-progress-value" />
+    <BaseProgress.Value data-ag-part="value" />
   ) : null;
   if (appearance === 'ring') {
     const radius = (size - thickness) / 2;
@@ -77,7 +77,6 @@ export function Progress({
         {labelEl}
         <svg
           {...SUNKEN} data-ag-part="track"
-          className="ag-progress-ring-track"
           width={size}
           height={size}
           viewBox={`0 0 ${size} ${size}`}

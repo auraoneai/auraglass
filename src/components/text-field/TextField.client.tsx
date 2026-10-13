@@ -105,7 +105,7 @@ export function TextField({
       validationMode={validationMode}
     >
       {label !== undefined && label !== null ? <Base.Label data-ag-part="label">{label}</Base.Label> : null}
-      <div data-ag-part="control-shell" className="ag-tf-shell" {...materialProps({ layer: 'content', content: 'content-sunken' })}>
+      <div data-ag-part="control-shell" {...materialProps({ layer: 'content', content: 'content-sunken' })}>
         {startAdornment !== undefined && startAdornment !== null ? (
           <span data-ag-part="adornment-start">{startAdornment}</span>
         ) : null}

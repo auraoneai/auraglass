@@ -151,7 +151,7 @@ function ToolbarRoot({
     >
       {inline}
       {collapsed ? (
-        <span data-ag-part="overflow" className="ag-toolbar-overflow">
+        <span data-ag-part="overflow">
           <Menu.Root>
             <Base.Button
               render={

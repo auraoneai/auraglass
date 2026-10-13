@@ -74,7 +74,7 @@ export function Alert({
       className={cn('ag-alert', className)}
     >
       {icon ? (
-        <span data-ag-part="icon" className="ag-alert-icon" aria-hidden="true">
+        <span data-ag-part="icon" aria-hidden="true">
           {icon}
         </span>
       ) : null}
@@ -85,7 +85,7 @@ export function Alert({
           </p>
         ) : null}
         {body ? (
-          <div data-ag-part="description" className="ag-alert-description">
+          <div data-ag-part="description">
             {body}
           </div>
         ) : null}

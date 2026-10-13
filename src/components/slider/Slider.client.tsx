@@ -158,15 +158,15 @@ function SliderValue({ className, ref }: SliderValueProps) {
    the default layout themselves. getAriaValueText is a Thumb prop; number
    formatting (`format`/`locale`) is configured on Slider.Root. */
 function SliderControl({ className, children, ref }: { className?: string; children?: React.ReactNode; ref?: React.Ref<HTMLDivElement> }) {
-  return <Base.Control data-ag-part="control" className={cn('ag-slider-control', className)} ref={ref}>{children}</Base.Control>;
+  return <Base.Control data-ag-part="control" className={cn(className)} ref={ref}>{children}</Base.Control>;
 }
 
 function SliderTrack({ className, children, ref }: { className?: string; children?: React.ReactNode; ref?: React.Ref<HTMLDivElement> }) {
-  return <Base.Track data-ag-part="track" {...TRACK_MATERIAL} className={cn('ag-slider-track', className)} ref={ref}>{children}</Base.Track>;
+  return <Base.Track data-ag-part="track" {...TRACK_MATERIAL} className={cn(className)} ref={ref}>{children}</Base.Track>;
 }
 
 function SliderRange({ className, ref }: { className?: string; ref?: React.Ref<HTMLDivElement> }) {
-  return <Base.Indicator data-ag-part="range" className={cn('ag-slider-range', className)} ref={ref} />;
+  return <Base.Indicator data-ag-part="range" className={cn(className)} ref={ref} />;
 }
 
 export interface SliderThumbPartProps {
@@ -181,7 +181,7 @@ function SliderThumb({ className, getAriaValueText, ...rest }: SliderThumbPartPr
     <Base.Thumb
       data-ag-part="thumb"
       render={renderThumb}
-      className={cn('ag-slider-thumb', className)}
+      className={cn(className)}
       {...(getAriaValueText !== undefined
         ? { getAriaValueText: (_formatted: string, value: number, index: number) => getAriaValueText(value, index) }
         : {})}

@@ -73,7 +73,7 @@ function AlertDialogRoot({ open, defaultOpen, onOpenChange, intent = 'neutral', 
 
 function AlertDialogTrigger({ children, className, ref, ...rest }: AlertDialogTriggerProps) {
   return (
-    <Base.Trigger data-ag-part="trigger" className={cn('ag-alert-dialog-trigger', className)} ref={ref} {...rest}>
+    <Base.Trigger data-ag-part="trigger" className={cn(className)} ref={ref} {...rest}>
       {children}
     </Base.Trigger>
   );

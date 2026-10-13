@@ -2,6 +2,7 @@
 
 /* CMP-314 Collapsible */
 @layer ag.components {
+  .ag-collapsible { display: block; }
   .ag-collapsible-trigger { cursor: pointer; }
   /* REQ-CMP-120 / REQ-CMP-18: the panel takes BU's measured
      --collapsible-panel-height; the motion is transform + opacity only

@@ -77,14 +77,14 @@ export function Meter({
       data-ag-intent={intentFor(value, { low, high, optimum })}
       className={cn('ag-meter', className)}
     >
-      <BaseMeter.Label data-ag-part="label" className="ag-meter-label">
+      <BaseMeter.Label data-ag-part="label">
         {label}
       </BaseMeter.Label>
       <BaseMeter.Track {...SUNKEN} data-ag-part="track" className="ag-meter-track">
         <BaseMeter.Indicator data-ag-part="indicator" className="ag-meter-indicator" />
       </BaseMeter.Track>
       {showValue ? (
-        <BaseMeter.Value data-ag-part="value" className="ag-meter-value" />
+        <BaseMeter.Value data-ag-part="value" />
       ) : null}
       {children}
     </BaseMeter.Root>

@@ -338,7 +338,7 @@ function ToastClose({ className, children, ref, ...rest }: ToastCloseProps & { r
 /* REQ-CMP-109: decorative intent icon — tinted by --_ag-toast-accent in css. */
 function ToastIcon({ className, children, ...rest }: ToastPartAttributes<React.HTMLAttributes<HTMLSpanElement>>) {
   return (
-    <span data-ag-part="icon" aria-hidden="true" className={cn('ag-toast-icon', className)} {...rest}>
+    <span data-ag-part="icon" aria-hidden="true" className={cn(className)} {...rest}>
       {children}
     </span>
   );
