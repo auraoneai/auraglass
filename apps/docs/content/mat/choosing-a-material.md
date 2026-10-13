@@ -5,7 +5,7 @@ say what the element is (its layer), and the material engine picks the blur,
 tint, rim and contrast floor for the current backdrop and preferences. There
 is no `blur`, `opacity` or `glassIntensity` prop.
 
-```tsx
+```tsx {fragment}
 import { Surface } from 'aura-glass/material';
 
 <Surface layer="chrome" thickness="thin">Toolbar</Surface>

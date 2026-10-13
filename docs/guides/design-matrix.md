@@ -1,5 +1,11 @@
 # Design Matrix
 
+> **5.0 note:** the 4.x persona runtime (`ThemeProvider`, `PersonaPicker`,
+> `usePersonaTheme`) was removed in 5.0. Personas survive as design intent;
+> in code they map to the 5.0 presets (`aura`, `graphite`, `daylight`,
+> `midnight`) selected on `AuraGlassProvider`, plus `createBrandTheme` /
+> `createGlassTheme` for custom themes. The samples below use the 5.0 API.
+
 ## Purpose
 - Provide a persona-aware design blueprint that unifies theming, glassmorphism, and interaction patterns across AuraOne applications.
 - Document reusable token schemas, layout primitives, and palette strategies so new products can inherit or extend the Midnight Slate, Meridian, Solar Apex, Ultrathink, and extended persona identities without bespoke overrides.
@@ -12,31 +18,20 @@
 4. **Consume persona tokens** – Call `usePersonaTheme()` or read CSS variables to bind styling decisions to the active persona.
 
 ```tsx
-import { ThemeProvider } from "aura-glass";
-import { PersonaPicker } from "aura-glass";
+import { AuraGlassProvider } from "aura-glass/theme";
 
 export function PersonaDemo({ children }: { children: React.ReactNode }) {
-  return (
-    <ThemeProvider initialPersona="midnight-slate">
-      <PersonaPicker orientation="horizontal" />
-      {children}
-    </ThemeProvider>
-  );
+  // The Midnight Slate persona maps to the `midnight` preset in 5.0.
+  return <AuraGlassProvider preset="midnight">{children}</AuraGlassProvider>;
 }
 ```
 
-```tsx
-import { usePersonaTheme } from "aura-glass";
+```ts
+import { createBrandTheme, createGlassTheme } from "aura-glass/theme";
 
-export function PersonaBadge() {
-  const { personaId, persona, setPersona, personas } = usePersonaTheme();
-
-  return (
-    <button onClick={() => setPersona(personas[0].meta.id)}>
-      Active persona: {persona.meta.name} ({personaId})
-    </button>
-  );
-}
+// A persona's palette anchor becomes a brand theme scoped by your own code.
+export const midnightSlate = createBrandTheme("oklch(62% 0.19 260)", { preset: "midnight" });
+export const solarApex = createGlassTheme({ id: "solar-apex", preset: "daylight", mode: "light" });
 ```
 
 ## System Overview

@@ -1,5 +1,12 @@
 # AuraGlass by AuraOne Component Standards
 
+> **5.0 note:** this guide was written for the 4.x `Glass*` components and
+> `glass-*` utility classes, both removed in 5.0. The standards below are
+> unchanged; every sample now uses the 5.0 API (`Surface`, `Button`,
+> `Card`, `TextField`, `Select`, `Dialog`, `Tooltip`, the app-shell
+> surfaces, and `--ag-*` tokens). Elevation levels (`level1`–`level5`) map
+> to the material engine's `layer` + `variant` + `thickness` axes.
+
 ## Overview
 
 This document defines proper usage patterns, standards, and best practices for all AuraGlass by AuraOne components. Following these standards ensures consistency, accessibility, and maintainability across the design system while maintaining our 100/100 design system score.
@@ -10,46 +17,55 @@ This document defines proper usage patterns, standards, and best practices for a
 Always use design tokens instead of hardcoded values:
 
 ```tsx
-// ❌ Bad: Hardcoded values
-<OptimizedGlass
-  style={{ 
-    backdropFilter: 'blur(16px)',
-    background: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: '12px'
-  }}
-/>
+import { Surface } from 'aura-glass/material';
 
-// ✅ Good: Token-based approach
-<OptimizedGlass
-  elevation="level2"
-  intensity="medium" 
-  className="glass-radius-lg"
-/>
+export function TokenFirst() {
+  return (
+    <>
+      {/* ❌ Bad: hardcoded optical values */}
+      <div style={{ backdropFilter: 'blur(16px)', background: 'rgba(255, 255, 255, 0.1)', borderRadius: '12px' }} />
+
+      {/* ✅ Good: pick a layer; the material engine resolves the tokens */}
+      <Surface layer="chrome" thickness="regular" />
+    </>
+  );
+}
 ```
 
 ### 2. Semantic Elevation System
 Use semantic elevation levels instead of arbitrary values:
 
 ```tsx
-// ❌ Bad: Numeric elevation
-<GlassCard elevation={2} />
+import { Card } from 'aura-glass';
 
-// ✅ Good: Semantic elevation
-<GlassCard elevation="level2" />
+export function Elevation() {
+  return (
+    <>
+      {/* ❌ Bad: raw shadows/blur numbers on a plain div */}
+      <div style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.2)' }} />
+
+      {/* ✅ Good: the card's material comes from variant × thickness */}
+      <Card variant="regular" thickness="regular" />
+    </>
+  );
+}
 ```
 
 ### 3. Accessibility First
 All interactive components must include proper accessibility attributes:
 
 ```tsx
-// ✅ Good: Complete accessibility
-<GlassButton
-  onClick={handleClick}
-  aria-label="Save changes"
-  className="glass-focus glass-touch-target"
->
-  Save
-</GlassButton>
+import { Button } from 'aura-glass';
+
+// ✅ Good: a real button with an accessible name (focus ring and touch
+// target are built into the component — no utility classes needed).
+export function SaveButton({ onSave }: { onSave: () => void }) {
+  return (
+    <Button onClick={onSave} aria-label="Save changes">
+      Save
+    </Button>
+  );
+}
 ```
 
 ## 🧱 Component Usage Patterns
@@ -58,187 +74,214 @@ All interactive components must include proper accessibility attributes:
 
 #### Standard Button Pattern
 ```tsx
-<GlassButton
-  variant="primary"          // primary | secondary | ghost | danger
-  size="md"                  // sm | md | lg
-  elevation="level2"         // Use semantic elevation
-  className="glass-focus"    // Required for accessibility
-  disabled={isDisabled}      // Proper disabled state
-  onClick={handleClick}
-  aria-label="Descriptive label"
->
-  Button Text
-</GlassButton>
+import { Button } from 'aura-glass';
+
+export function StandardButton({ isDisabled, onAction }: { isDisabled: boolean; onAction: () => void }) {
+  return (
+    <Button
+      variant="regular"        // regular | clear | identity (material axis)
+      size="md"                // sm | md | lg
+      disabled={isDisabled}    // proper disabled state
+      onClick={onAction}
+      aria-label="Descriptive label"
+    >
+      Button Text
+    </Button>
+  );
+}
 ```
 
-#### Magnetic Button Pattern
+#### Pointer-Light Button Pattern
 ```tsx
-<GlassMagneticButton
-  variant="primary"
-  magneticStrength={0.3}     // 0.1 - 1.0 range
-  enableHaptic={true}        // Enable haptic feedback
-  className="glass-focus glass-touch-target"
->
-  Magnetic Action
-</GlassMagneticButton>
+import { Button } from 'aura-glass';
+
+export function PointerLightButton() {
+  // Pointer-light is the 5.0 successor to the magnetic hover treatment;
+  // the material engine installs the highlight, the button just opts in.
+  return (
+    <Button variant="regular" pointerLight>
+      Magnetic Action
+    </Button>
+  );
+}
 ```
 
 ### Cards
 
 #### Standard Card Pattern
 ```tsx
-<GlassCard
-  elevation="level2"         // Cards typically use level2
-  className="glass-p-6 glass-radius-lg"
-  hoverable={true}           // Enable hover effects
-  clickable={false}         // Only if card is clickable
->
-  <GlassCard.Header>
-    <h3 className="glass-text-lg glass-font-semibold">Card Title</h3>
-  </GlassCard.Header>
-  <GlassCard.Content>
-    Card content goes here
-  </GlassCard.Content>
-</GlassCard>
+import { Card } from 'aura-glass';
+
+export function StandardCard() {
+  return (
+    <Card variant="regular" thickness="regular">
+      <Card.Header>
+        <Card.Title>Card Title</Card.Title>
+      </Card.Header>
+      <Card.Body>Card content goes here</Card.Body>
+    </Card>
+  );
+}
 ```
 
 #### Interactive Card Pattern
 ```tsx
-<GlassCard
-  elevation="level2"
-  className="glass-focus glass-cursor-pointer"
-  onClick={handleCardClick}
-  role="button"              // Required for clickable cards
-  tabIndex={0}               // Keyboard navigation
-  onKeyDown={handleKeyDown}  // Handle keyboard events
-  aria-label="Open item details"
->
-  Card content
-</GlassCard>
+import { Card } from 'aura-glass';
+
+export function InteractiveCard({ onOpen }: { onOpen: () => void }) {
+  // `interactive` + `render` makes the card itself the button, so role,
+  // focus and keyboard activation come from the rendered element.
+  return (
+    <Card interactive render={<button type="button" onClick={onOpen} aria-label="Open item details" />}>
+      Card content
+    </Card>
+  );
+}
 ```
 
 ### Form Elements
 
 #### Input Field Pattern
 ```tsx
-<GlassInput
-  label="Field Label"        // Always provide labels
-  placeholder="Enter value"
-  value={value}
-  onChange={handleChange}
-  required={isRequired}
-  error={errorMessage}       // Error state handling
-  helperText="Additional context"
-  className="glass-focus"    // Focus styles
-  aria-describedby="field-help"
-/>
+import { TextField } from 'aura-glass';
+
+export function NameField({
+  value, onValueChange, errorMessage,
+}: {
+  value: string;
+  onValueChange: (value: string) => void;
+  errorMessage?: string;
+}) {
+  return (
+    <TextField
+      label="Field Label"            // always provide labels
+      placeholder="Enter value"
+      value={value}
+      onValueChange={onValueChange}
+      required
+      error={errorMessage}           // error state handling
+      description="Additional context" // linked via aria-describedby for you
+    />
+  );
+}
 ```
 
 #### Select Pattern
 ```tsx
-<GlassSelect
-  label="Select Option"
-  value={selectedValue}
-  onChange={handleSelectChange}
-  options={options}
-  placeholder="Choose an option"
-  elevation="level3"         // Dropdowns use level3
-  className="glass-focus"
-  required={isRequired}
-/>
+import { Select } from 'aura-glass';
+
+const options = [
+  { value: 'one', label: 'Option one' },
+  { value: 'two', label: 'Option two' },
+];
+
+export function OptionSelect({
+  value, onValueChange,
+}: {
+  value: string | null;
+  onValueChange: (value: string | null) => void;
+}) {
+  return (
+    <Select.Root value={value} onValueChange={(next) => onValueChange(next as string | null)}>
+      <Select.Trigger placeholder="Choose an option" aria-label="Select Option">
+        <Select.Value />
+      </Select.Trigger>
+      <Select.Content>
+        {options.map((option) => (
+          <Select.Item key={option.value} value={option.value} label={option.label}>
+            {option.label}
+          </Select.Item>
+        ))}
+      </Select.Content>
+    </Select.Root>
+  );
+}
 ```
 
 ### Navigation
 
 #### Header Pattern
 ```tsx
-<GlassHeader
-  variant="floating"         // default | floating | sticky | transparent
-  size="md"                  // sm | md | lg
-  logo={<YourLogo />}
-  navigation={<NavItems />}
-  search={{
-    placeholder: "Search...",
-    suggestions: searchSuggestions,
-    onSearch: handleSearch
-  }}
-  userMenu={{
-    user: currentUser,
-    items: menuItems
-  }}
-  className="glass-z-50"     // Proper z-index for headers
-/>
+import { TopBar } from 'aura-glass/app-shell';
+
+export function Header({ logo, navigation, userMenu }: {
+  logo: React.ReactNode;
+  navigation: React.ReactNode;
+  userMenu: React.ReactNode;
+}) {
+  // The header is composition, not a config object: leading, center and
+  // trailing parts slot into the chrome-material TopBar.
+  return (
+    <TopBar.Root placement="overlay">
+      <TopBar.Leading>{logo}</TopBar.Leading>
+      <TopBar.Center>{navigation}</TopBar.Center>
+      <TopBar.Trailing>{userMenu}</TopBar.Trailing>
+    </TopBar.Root>
+  );
+}
 ```
 
 #### Sidebar Pattern
 ```tsx
-<GlassSidebar
-  variant="persistent"       // persistent | overlay | mini
-  width="280px"              // Standard sidebar width
-  elevation="level2"
-  collapsible={true}
-  className="glass-border-r"
->
-  <GlassSidebar.Header>
-    Navigation Header
-  </GlassSidebar.Header>
-  <GlassSidebar.Content>
-    <nav role="navigation">
-      Navigation items
-    </nav>
-  </GlassSidebar.Content>
-</GlassSidebar>
+import { Sidebar } from 'aura-glass/app-shell';
+
+export function AppSidebar() {
+  return (
+    <Sidebar.Root>
+      <Sidebar.Header>Navigation Header</Sidebar.Header>
+      <Sidebar.Content>
+        <Sidebar.Nav aria-label="Primary">Navigation items</Sidebar.Nav>
+      </Sidebar.Content>
+    </Sidebar.Root>
+  );
+}
 ```
 
 ### Modals & Overlays
 
 #### Modal Pattern
 ```tsx
-<GlassModal
-  open={isOpen}
-  onClose={handleClose}
-  elevation="level5"         // Top-level overlays use level5
-  backdrop="blur"            // Enable backdrop blur
-  closeOnBackdropClick={true}
-  aria-labelledby="modal-title"
-  className="glass-max-w-lg"
->
-  <GlassModal.Header>
-    <h2 id="modal-title">Modal Title</h2>
-    <GlassButton
-      variant="ghost" 
-      size="sm"
-      onClick={handleClose}
-      aria-label="Close modal"
-    >
-      ×
-    </GlassButton>
-  </GlassModal.Header>
-  <GlassModal.Content>
-    Modal content
-  </GlassModal.Content>
-  <GlassModal.Footer>
-    <GlassButton onClick={handleClose} variant="secondary">
-      Cancel
-    </GlassButton>
-    <GlassButton onClick={handleConfirm} variant="primary">
-      Confirm
-    </GlassButton>
-  </GlassModal.Footer>
-</GlassModal>
+import { Button, Dialog } from 'aura-glass';
+
+export function ConfirmDialog({
+  open, onOpenChange, onConfirm,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onConfirm: () => void;
+}) {
+  return (
+    <Dialog.Root open={open} onOpenChange={(next) => onOpenChange(next)}>
+      <Dialog.Content>
+        <Dialog.Header>
+          <Dialog.Title>Modal Title</Dialog.Title>
+          <Dialog.Close aria-label="Close modal">×</Dialog.Close>
+        </Dialog.Header>
+        <Dialog.Body>Modal content</Dialog.Body>
+        <Dialog.Footer>
+          <Dialog.Close>Cancel</Dialog.Close>
+          <Button onClick={onConfirm}>Confirm</Button>
+        </Dialog.Footer>
+      </Dialog.Content>
+    </Dialog.Root>
+  );
+}
 ```
 
 #### Tooltip Pattern
 ```tsx
-<GlassTooltip
-  content="Helpful tooltip text"
-  placement="top"            // top | bottom | left | right
-  elevation="level4"         // Tooltips use level4
-  delay={300}                // Show delay in ms
-  className="glass-max-w-xs"
->
-  <GlassButton>Hover me</GlassButton>
-</GlassTooltip>
+import { Button, Tooltip } from 'aura-glass';
+
+export function HoverHelp() {
+  return (
+    <Tooltip.Root delay={300}>
+      <Tooltip.Trigger>
+        <Button>Hover me</Button>
+      </Tooltip.Trigger>
+      <Tooltip.Content side="top">Helpful tooltip text</Tooltip.Content>
+    </Tooltip.Root>
+  );
+}
 ```
 
 ## 🎨 Styling Standards
@@ -300,14 +343,17 @@ All interactive components must include proper accessibility attributes:
 
 #### Button Sizes
 ```tsx
-// Small: 32px height, 12px padding
-<GlassButton size="sm">Small</GlassButton>
+import { Button } from 'aura-glass';
 
-// Medium: 40px height, 16px padding  
-<GlassButton size="md">Medium</GlassButton>
-
-// Large: 48px height, 20px padding
-<GlassButton size="lg">Large</GlassButton>
+export function ButtonSizes() {
+  return (
+    <>
+      <Button size="sm">Small</Button>
+      <Button size="md">Medium</Button>
+      <Button size="lg">Large</Button>
+    </>
+  );
+}
 ```
 
 #### Touch Targets
@@ -326,40 +372,50 @@ Ensure all interactive elements meet minimum touch target sizes:
 #### Interactive Elements
 All interactive elements must include:
 ```tsx
-// Required attributes
-className="glass-focus"           // Focus styles
-role="button"                     // Semantic role
-tabIndex={0}                      // Keyboard navigation
-aria-label="Descriptive label"   // Screen reader label
-onKeyDown={handleKeyDown}         // Keyboard handling
+import { Button } from 'aura-glass';
+
+// A native-semantics control gives you the role, focus ring, keyboard
+// activation and touch target; you supply the accessible name.
+export function RequiredAttributes({ onAction }: { onAction: () => void }) {
+  return (
+    <Button aria-label="Descriptive label" onClick={onAction}>
+      Act
+    </Button>
+  );
+}
 ```
 
 #### Form Elements
 ```tsx
-<GlassInput
-  id="field-id"                   // Unique ID
-  label="Field Label"             // Associated label
-  aria-describedby="field-help"   // Helper text reference
-  aria-invalid={hasError}         // Error state
-  required={isRequired}           // Required state
-/>
+import { TextField } from 'aura-glass';
+
+export function AccessibleField({ hasError, isRequired }: { hasError: boolean; isRequired: boolean }) {
+  // id generation, label association, description linkage and the invalid
+  // state are wired by the field; pass `error` and it renders Field.Error.
+  return (
+    <TextField
+      label="Field Label"
+      description="Helper text"
+      error={hasError ? 'This field has an error' : undefined}
+      required={isRequired}
+    />
+  );
+}
 ```
 
 #### Loading States
 ```tsx
-<GlassButton
-  disabled={isLoading}
-  aria-label={isLoading ? "Loading..." : "Submit form"}
->
-  {isLoading ? (
-    <>
-      <GlassSpinner size="sm" />
-      Loading...
-    </>
-  ) : (
-    "Submit"
-  )}
-</GlassButton>
+import { Button } from 'aura-glass';
+
+export function SubmitButton({ isLoading }: { isLoading: boolean }) {
+  // `loading` shows the spinner, sets aria-busy and suppresses activation
+  // while keeping the label mounted for assistive tech.
+  return (
+    <Button type="submit" loading={isLoading}>
+      Submit
+    </Button>
+  );
+}
 ```
 
 ### Focus Management
@@ -376,15 +432,20 @@ All interactive elements must have visible focus indicators:
 #### Focus Trapping
 For modals and dropdowns:
 ```tsx
-import { useFocusTrap } from 'aura-glass';
+import { Dialog } from 'aura-glass';
 
-function MyModal({ isOpen }) {
-  const focusTrapRef = useFocusTrap(isOpen);
-  
+// No hook needed: a modal Dialog traps focus, inerts the page and locks
+// scroll itself (`modal` defaults to true).
+export function MyModal({ isOpen, onOpenChange }: {
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
   return (
-    <GlassModal ref={focusTrapRef}>
-      Modal content
-    </GlassModal>
+    <Dialog.Root open={isOpen} onOpenChange={(next) => onOpenChange(next)}>
+      <Dialog.Content>
+        <Dialog.Title>Modal content</Dialog.Title>
+      </Dialog.Content>
+    </Dialog.Root>
   );
 }
 ```
@@ -435,73 +496,91 @@ When creating custom animations:
 
 #### Lazy Loading
 ```tsx
-// Use dynamic imports for large components
-const GlassChart = lazy(() => import('./GlassChart'));
+import * as React from 'react';
+import { Skeleton } from 'aura-glass';
 
-function MyDashboard() {
+// Use dynamic imports for large components (your chart module, in your app).
+declare const HeavyChart: React.ComponentType<{ data: readonly number[] }>;
+const LazyChart = React.lazy(async () => ({ default: HeavyChart }));
+
+export function MyDashboard({ chartData }: { chartData: readonly number[] }) {
   return (
-    <Suspense fallback={<GlassLoadingSkeleton />}>
-      <GlassChart data={chartData} />
-    </Suspense>
+    <React.Suspense fallback={<Skeleton />}>
+      <LazyChart data={chartData} />
+    </React.Suspense>
   );
 }
 ```
 
 #### Memoization
 ```tsx
-// Memoize expensive components
-const MemoizedGlassCard = memo(GlassCard);
+import * as React from 'react';
+import { Card } from 'aura-glass';
 
-// Use callback memoization
-const handleClick = useCallback(() => {
-  // Handle click
-}, [dependency]);
+// Memoize expensive components
+const MemoizedCard = React.memo(Card);
+
+export function MemoExample({ dependency, onAction }: { dependency: string; onAction: () => void }) {
+  // Use callback memoization so memoized children keep stable props.
+  const handleClick = React.useCallback(() => {
+    void dependency;
+    onAction();
+  }, [dependency, onAction]);
+  return <MemoizedCard onClick={handleClick} />;
+}
 ```
 
 #### Virtualization
 For large lists:
 ```tsx
-<GlassVirtualList
-  items={largeDataset}
-  itemHeight={60}
-  renderItem={({ item, index }) => (
-    <GlassCard key={item.id}>
-      {item.content}
-    </GlassCard>
-  )}
-/>
+import { Card } from 'aura-glass';
+
+interface RowItem {
+  id: string;
+  content: string;
+}
+
+// AuraGlass does not ship a virtualizer; window the rows yourself (or with
+// your app's virtualization library) and render cards for the window only.
+export function WindowedCards({ items, start, count }: {
+  items: readonly RowItem[];
+  start: number;
+  count: number;
+}) {
+  return (
+    <>
+      {items.slice(start, start + count).map((item) => (
+        <Card key={item.id}>{item.content}</Card>
+      ))}
+    </>
+  );
+}
 ```
 
 ## 🧪 Testing Standards
 
 ### Component Testing
 ```tsx
-import { render, screen, fireEvent } from '@testing-library/react';
-import { GlassButton } from 'aura-glass';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { describe, expect, it, jest } from '@jest/globals';
+import { Button } from 'aura-glass';
 
-describe('GlassButton', () => {
-  it('should be accessible', async () => {
-    render(
-      <GlassButton aria-label="Test button">
-        Click me
-      </GlassButton>
-    );
-    
+describe('Button', () => {
+  it('should be accessible', () => {
+    render(<Button aria-label="Test button">Click me</Button>);
+
     const button = screen.getByRole('button');
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveAccessibleName('Test button');
+    expect(button.getAttribute('aria-label')).toBe('Test button');
   });
 
-  it('should handle keyboard interaction', () => {
+  it('should handle keyboard interaction', async () => {
     const handleClick = jest.fn();
-    render(
-      <GlassButton onClick={handleClick}>
-        Click me
-      </GlassButton>
-    );
-    
+    render(<Button onClick={handleClick}>Click me</Button>);
+
     const button = screen.getByRole('button');
-    fireEvent.keyDown(button, { key: 'Enter' });
+    button.focus();
+    await userEvent.keyboard('{Enter}');
     expect(handleClick).toHaveBeenCalled();
   });
 });
@@ -509,13 +588,15 @@ describe('GlassButton', () => {
 
 ### Visual Testing
 ```tsx
+import { Button } from 'aura-glass';
+
 // Storybook visual regression tests
 export const AllVariants = () => (
-  <div className="glass-p-4 glass-space-y-4">
-    <GlassButton variant="primary">Primary</GlassButton>
-    <GlassButton variant="secondary">Secondary</GlassButton>
-    <GlassButton variant="ghost">Ghost</GlassButton>
-    <GlassButton variant="danger">Danger</GlassButton>
+  <div style={{ padding: 16, display: 'grid', gap: 16 }}>
+    <Button variant="regular">Regular</Button>
+    <Button variant="clear">Clear</Button>
+    <Button variant="identity">Identity</Button>
+    <Button intent="danger">Danger</Button>
   </div>
 );
 ```
@@ -556,43 +637,56 @@ When reviewing component implementations:
 
 #### Inline Styles
 ```tsx
-// Bad: Inline glass styles
-<div style={{ backdropFilter: 'blur(8px)' }} />
+import { Surface } from 'aura-glass/material';
 
-// Good: Use utilities or createGlassStyle()
-<div className="glass-blur-md" />
+// Bad: inline glass styles
+export const BadInline = () => <div style={{ backdropFilter: 'blur(8px)' }} />;
+
+// Good: let the material engine own the optics
+export const GoodSurface = () => <Surface layer="overlay" thickness="thin" />;
 ```
 
 #### Raw Colors
 ```tsx
-// Bad: Hardcoded colors
-<div style={{ color: '#ffffff' }} />
+// Bad: hardcoded colors
+export const BadColor = () => <div style={{ color: '#ffffff' }} />;
 
-// Good: Token-based colors
-<div className="glass-text-white" />
+// Good: token-based colors (`--ag-on-surface` follows the material)
+export const GoodColor = () => <div style={{ color: 'var(--ag-on-surface)' }} />;
 ```
 
 #### Missing Focus States
 ```tsx
-// Bad: No focus management
-<div onClick={handleClick}>Clickable div</div>
+import { Button } from 'aura-glass';
 
-// Good: Proper interactive element
-<button 
-  onClick={handleClick}
-  className="glass-focus"
->
-  Button text
-</button>
+export function FocusStates({ onAction }: { onAction: () => void }) {
+  return (
+    <>
+      {/* Bad: no focus management, no keyboard path */}
+      <div onClick={onAction}>Clickable div</div>
+
+      {/* Good: a proper interactive element */}
+      <Button onClick={onAction}>Button text</Button>
+    </>
+  );
+}
 ```
 
 #### Inconsistent Elevation
 ```tsx
-// Bad: Random elevation values
-<GlassCard elevation="level4" />  // Too high for a card
+import { Card } from 'aura-glass';
 
-// Good: Semantic elevation
-<GlassCard elevation="level2" />  // Appropriate for cards
+export function ElevationChoice() {
+  return (
+    <>
+      {/* Bad: thick overlay glass on a reading surface */}
+      <Card variant="regular" thickness="thick" />
+
+      {/* Good: content cards stay on the regular content material */}
+      <Card variant="regular" thickness="regular" />
+    </>
+  );
+}
 ```
 
 ## 📚 Related Resources

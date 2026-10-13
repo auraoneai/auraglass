@@ -51,7 +51,9 @@ sets `allowContinuous` and motion resolves to `full`. They pause when the
 element is offscreen or the document is hidden. Leave `allowContinuous` off
 unless the loop carries meaning.
 
-```tsx
+```tsx {fragment}
+import { AuraGlassProvider } from 'aura-glass/theme';
+
 <AuraGlassProvider allowContinuous={false}>…</AuraGlassProvider>
 ```
 
@@ -66,9 +68,13 @@ it.
 import { MotionProvider, toMotionTransition } from 'aura-glass/motion';
 import { motion } from 'motion/react';
 
-<MotionProvider>
-  <motion.div animate={{ opacity: 1 }} transition={toMotionTransition('spring-smooth')} />
-</MotionProvider>
+export function Demo() {
+  return (
+    <MotionProvider>
+      <motion.div animate={{ opacity: 1 }} transition={toMotionTransition('spring-smooth')} />
+    </MotionProvider>
+  );
+}
 ```
 
 `MotionProvider` maps the resolved preference onto the library's
@@ -84,11 +90,20 @@ state, not an empty object or `undefined`; otherwise it stays at the initial
 pose:
 
 ```tsx
-<motion.div
-  initial={reduced ? false : { opacity: 0, scale: 0.96 }}
-  animate={{ opacity: 1, scale: 1 }}
-  transition={reduced ? { duration: 0 } : toMotionTransition('spring-snappy')}
-/>
+'use client';
+import { toMotionTransition } from 'aura-glass/motion';
+import { motion, useReducedMotion } from 'motion/react';
+
+export function Entrance() {
+  const reduced = useReducedMotion();
+  return (
+    <motion.div
+      initial={reduced ? false : { opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={reduced ? { duration: 0 } : toMotionTransition('spring-snappy')}
+    />
+  );
+}
 ```
 
 The `auraglass/motion-*` lint rules flag the common mistakes.

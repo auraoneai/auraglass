@@ -6,28 +6,28 @@ AuraGlass is not trying to clone all of MUI. The target is core app chrome for p
 
 | MUI job | AuraGlass replacement |
 | --- | --- |
-| `Button` | `GlassButton` |
-| `IconButton` | `IconButton` and `GlassIcon` |
-| `Card` | `GlassCard` |
-| `AppBar` / `Toolbar` | `GlassHeader`, `GlassToolbar`, `GlassAppShell` |
-| `Drawer` | `GlassDrawer` |
-| `Dialog` | `GlassDialog` |
-| `Menu` | `GlassDropdownMenu`, `GlassMenubar` |
-| `Select` | `GlassSelect`, `GlassSelectCompound` |
-| `Tabs` | `GlassTabs`, `GlassTabBar` |
-| `Tooltip` | `GlassTooltip` |
-| `Popover` | `GlassPopover` |
-| `TextField` | `GlassInput`, `GlassTextarea`, `GlassForm` |
-| `Checkbox` | `GlassCheckbox`, `GlassCheckboxGroup` |
-| `RadioGroup` | `GlassRadioGroup` |
-| `Switch` | `GlassSwitch` |
-| `Alert` | `GlassAlert`, `GlassToast` |
-| `Chip` | `GlassChip` |
-| `Avatar` | `GlassAvatar` |
-| `Pagination` | `GlassPagination` |
-| `Skeleton` | `GlassLoadingSkeleton` |
-| table basics | `GlassDataTable`, `GlassDataGrid` |
-| date/calendar basics | `GlassCalendar`, `GlassDateRangePicker` |
+| `Button` | `Button` |
+| `IconButton` | `IconButton` (icons from `aura-glass/icons`) |
+| `Card` | `Card` |
+| `AppBar` / `Toolbar` | `TopBar`, `Toolbar`, `AppShell` (from `aura-glass/app-shell`) |
+| `Drawer` | `Sheet` |
+| `Dialog` | `Dialog` |
+| `Menu` | `Menu`, `Menubar` |
+| `Select` | `Select` |
+| `Tabs` | `Tabs`, `TabBar` |
+| `Tooltip` | `Tooltip` |
+| `Popover` | `Popover` |
+| `TextField` | `TextField` (`multiline` for textarea), `Form` |
+| `Checkbox` | `Checkbox` |
+| `RadioGroup` | `RadioGroup` |
+| `Switch` | `Switch` |
+| `Alert` | `Alert`, `Toast` |
+| `Chip` | `Chip` |
+| `Avatar` | `Avatar` |
+| `Pagination` | `Pagination` |
+| `Skeleton` | `Skeleton` |
+| table basics | the `aura-glass/data` table surface |
+| date/calendar basics | `Calendar`, `DateRangePicker` (from `aura-glass/date`) |
 
 ## Before And After
 
@@ -51,16 +51,17 @@ export function BillingHeader() {
 After:
 
 ```tsx
-import { GlassButton, GlassHeader, GlassToolbar } from 'aura-glass';
+import { Button } from 'aura-glass';
+import { TopBar } from 'aura-glass/app-shell';
 
 export function BillingHeader() {
   return (
-    <GlassHeader>
-      <GlassToolbar>
-        <h1>Billing</h1>
-        <GlassButton>Upgrade</GlassButton>
-      </GlassToolbar>
-    </GlassHeader>
+    <TopBar.Root>
+      <TopBar.Title>Billing</TopBar.Title>
+      <TopBar.Trailing>
+        <Button>Upgrade</Button>
+      </TopBar.Trailing>
+    </TopBar.Root>
   );
 }
 ```

@@ -8,11 +8,24 @@ this guide shows how to write an adapter for another engine — the tests in
 ## The interface
 
 ```ts
-interface ChartRenderer<Spec = ChartSpec> {
-  mount(el: HTMLElement, spec: Spec, opts?: RenderOptions): RenderHandle;
+/** The spec shape `aura-glass/charts` hands a renderer. */
+export interface ChartSpec {
+  data: readonly Record<string, unknown>[];
+  encodings: Record<string, string>;
+  scales?: Record<string, unknown>;
+  marks?: readonly string[];
 }
 
-interface RenderHandle {
+export interface RenderOptions {
+  width?: number;
+  height?: number;
+}
+
+export interface ChartRenderer<Spec = ChartSpec> {
+  mount(el: HTMLElement, spec: Spec, opts?: RenderOptions): RenderHandle<Spec>;
+}
+
+export interface RenderHandle<Spec = ChartSpec> {
   update(spec: Spec): void;   // incremental spec apply
   resize(w: number, h: number): void;
   destroy(): void;           // release all engine resources
@@ -34,6 +47,33 @@ interface RenderHandle {
 ## Example (sketch)
 
 ```ts
+// The renderer contract from "The interface" above, restated so this
+// sketch stands alone (in your app these live in one module).
+interface ChartSpec {
+  data: readonly Record<string, unknown>[];
+  encodings: Record<string, string>;
+  scales?: Record<string, unknown>;
+  marks?: readonly string[];
+}
+interface RenderHandle {
+  update(spec: ChartSpec): void;
+  resize(w: number, h: number): void;
+  destroy(): void;
+}
+interface ChartRenderer {
+  mount(el: HTMLElement, spec: ChartSpec, opts?: { width?: number; height?: number }): RenderHandle;
+}
+
+// Your engine and its AuraGlass-theme bridge (supplied by your app).
+interface MyChart {
+  setOption(option: unknown, opts?: { notMerge?: boolean }): void;
+  resize(size: { width: number; height: number }): void;
+  dispose(): void;
+}
+declare const MyEngine: { init(el: HTMLElement, theme: unknown): MyChart };
+declare function toMyTheme(): unknown;
+declare function toMyOption(spec: ChartSpec): unknown;
+
 export const myEngineRenderer: ChartRenderer = {
   mount(el, spec) {
     const chart = MyEngine.init(el, toMyTheme());

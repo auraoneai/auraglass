@@ -34,7 +34,9 @@ the same body from `auraGlassPrepaintScript`.
 `presets` holds the built-in themes, keyed by id: `aura` (the default),
 `graphite`, `daylight` and `midnight`. Select one with the provider:
 
-```tsx
+```tsx {fragment}
+import { AuraGlassProvider } from 'aura-glass/theme';
+
 <AuraGlassProvider preset="graphite">…</AuraGlassProvider>
 ```
 
@@ -42,7 +44,9 @@ the same body from `auraGlassPrepaintScript`.
 
 Pass one `oklch()` accent and the provider derives the full ramp:
 
-```tsx
+```tsx {fragment}
+import { AuraGlassProvider } from 'aura-glass/theme';
+
 <AuraGlassProvider brand="oklch(62% 0.19 260)">…</AuraGlassProvider>
 ```
 

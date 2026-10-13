@@ -104,7 +104,10 @@ Component as well:
 
 ```tsx
 import { ChartFrame } from 'aura-glass/data';
-import { ChartJsBars } from './ChartJsBars';
+
+// The client adapter from the chart.js section above (its own file in your
+// app, e.g. ./ChartJsBars with 'use client').
+declare const ChartJsBars: React.ComponentType;
 
 export function Revenue({ rows }: { rows: { label: string; value: number }[] }) {
   return (
