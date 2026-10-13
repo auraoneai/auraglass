@@ -4,15 +4,47 @@
 
 ```ts
 
-import { Control } from 'react-hook-form';
-import { FieldPath } from 'react-hook-form';
-import { FieldValues } from 'react-hook-form';
 import * as React_2 from 'react';
-import { UseControllerProps } from 'react-hook-form';
-import { UseControllerReturn } from 'react-hook-form';
+
+// @public
+export type FormControl = object;
 
 // @public (undocumented)
 export function FormField(input: FormFieldProps): React_2.JSX.Element;
+
+// @public
+export interface FormFieldBinding {
+    // (undocumented)
+    disabled?: boolean | undefined;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    onBlur: () => void;
+    // (undocumented)
+    onChange: (...event: unknown[]) => void;
+    // (undocumented)
+    ref: (instance: HTMLElement | null) => void;
+    // (undocumented)
+    value: unknown;
+}
+
+// @public
+export interface FormFieldController {
+    // (undocumented)
+    field: FormFieldBinding;
+    // (undocumented)
+    fieldState: FormFieldState;
+    // (undocumented)
+    formState: FormStateSnapshot;
+}
+
+// @public
+export interface FormFieldError {
+    // (undocumented)
+    message?: string | undefined;
+    // (undocumented)
+    type?: string | undefined;
+}
 
 // @public (undocumented)
 export interface FormFieldProps {
@@ -29,15 +61,79 @@ export interface FormFieldProps {
 }
 
 // @public
-export type FormFieldRules = UseControllerProps<FieldValues, FieldPath<FieldValues>>['rules'];
+export interface FormFieldRules {
+    deps?: string | string[] | undefined;
+    // (undocumented)
+    max?: FormValidationRule<number | string> | undefined;
+    // (undocumented)
+    maxLength?: FormValidationRule<number> | undefined;
+    // (undocumented)
+    min?: FormValidationRule<number | string> | undefined;
+    // (undocumented)
+    minLength?: FormValidationRule<number> | undefined;
+    // (undocumented)
+    pattern?: FormValidationRule<RegExp> | undefined;
+    // (undocumented)
+    required?: string | FormValidationRule<boolean> | undefined;
+    // (undocumented)
+    validate?: FormValidate | Record<string, FormValidate> | undefined;
+}
 
 // @public
-export function useFormField<Name extends string = string>(name: Name, control?: Control<FieldValues>, rules?: FormFieldRules): UseFormFieldResult<Name>;
+export interface FormFieldState {
+    // (undocumented)
+    error?: FormFieldError | undefined;
+    // (undocumented)
+    invalid: boolean;
+    // (undocumented)
+    isDirty: boolean;
+    // (undocumented)
+    isTouched: boolean;
+    // (undocumented)
+    isValidating: boolean;
+}
+
+// @public
+export interface FormStateSnapshot {
+    // (undocumented)
+    errors: Record<string, FormFieldError | undefined>;
+    // (undocumented)
+    isDirty: boolean;
+    // (undocumented)
+    isLoading: boolean;
+    // (undocumented)
+    isSubmitSuccessful: boolean;
+    // (undocumented)
+    isSubmitted: boolean;
+    // (undocumented)
+    isSubmitting: boolean;
+    // (undocumented)
+    isValid: boolean;
+    // (undocumented)
+    isValidating: boolean;
+    // (undocumented)
+    submitCount: number;
+}
+
+// @public
+export type FormValidate = (value: unknown, formValues: Record<string, unknown>) => FormValidateResult | Promise<FormValidateResult>;
+
+// @public (undocumented)
+export type FormValidateResult = string | string[] | boolean | undefined;
+
+// @public (undocumented)
+export type FormValidationRule<V> = V | {
+    value: V | undefined;
+    message: string;
+};
+
+// @public
+export function useFormField<Name extends string = string>(name: Name, control?: FormControl, rules?: FormFieldRules): UseFormFieldResult<Name>;
 
 // @public (undocumented)
 export interface UseFormFieldResult<Name extends string = string> {
     bindNative: (el: HTMLElement | null) => void;
-    controller: UseControllerReturn<FieldValues, FieldPath<FieldValues>>;
+    controller: FormFieldController;
     // (undocumented)
     error: string | undefined;
     invalid: boolean;
