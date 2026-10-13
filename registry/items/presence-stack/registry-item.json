@@ -36,6 +36,7 @@
       "client": false,
       "components": [
         "Avatar",
+        "AvatarGroup",
         "VisuallyHidden"
       ],
       "ga": true,
