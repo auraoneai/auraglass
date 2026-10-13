@@ -44,7 +44,7 @@ export function Badge({
     >
       {label ? <VisuallyHidden>{label}</VisuallyHidden> : null}
       {dot ? null : (
-        <span data-ag-part="label" className="ag-badge-label">
+        <span data-ag-part="label">
           {clamped !== undefined ? clamped : children}
         </span>
       )}

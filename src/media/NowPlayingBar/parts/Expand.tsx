@@ -16,7 +16,6 @@ export function Expand({ expandedId, expanded, onExpandedChange }: {
     <button
       type="button"
       data-ag-part="now-playing-expand"
-      className="ag-now-playing-expand"
       aria-expanded={!!expanded}
       aria-controls={expandedId}
       aria-label={expanded ? 'Collapse' : 'Expand'}

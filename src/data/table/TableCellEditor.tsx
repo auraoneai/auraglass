@@ -131,7 +131,6 @@ export default function TableCellEditor({ kind, initialValue, options, label, si
   return (
     <div
       ref={wrapper}
-      className="ag-table__editor"
       onKeyDown={onKeyDown}
       onBlur={onBlur}
       onClick={(e) => e.stopPropagation()}

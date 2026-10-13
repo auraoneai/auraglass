@@ -18,43 +18,13 @@
     "expires": "RC-1"
   },
   {
-    "file": "src/components/accordion/Accordion.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/alert-dialog/AlertDialog.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
     "file": "src/components/alert/Alert.tsx",
     "owner": "CMP",
     "reqFin": "REQ-FIN-70",
     "expires": "RC-1"
   },
   {
-    "file": "src/components/badge/Badge.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/breadcrumbs/Breadcrumbs.tsx",
-    "owner": "SURF",
-    "reqFin": "REQ-FIN-80",
-    "expires": "RC-1"
-  },
-  {
     "file": "src/components/checkbox/Checkbox.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/collapsible/Collapsible.client.tsx",
     "owner": "CMP",
     "reqFin": "REQ-FIN-70",
     "expires": "RC-1"
@@ -102,43 +72,7 @@
     "expires": "RC-1"
   },
   {
-    "file": "src/components/meter/Meter.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/number-field/NumberField.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
     "file": "src/components/popover/Popover.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/progress/Progress.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/search-field/SearchField.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/slider/Slider.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/steps/Steps.tsx",
     "owner": "CMP",
     "reqFin": "REQ-FIN-70",
     "expires": "RC-1"
@@ -147,12 +81,6 @@
     "file": "src/components/tab-bar/TabBar.tsx",
     "owner": "SURF",
     "reqFin": "REQ-FIN-80",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/text-field/TextField.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
     "expires": "RC-1"
   },
   {
@@ -235,18 +163,6 @@
   },
   {
     "file": "src/media/ImageViewer/parts/Caption.tsx",
-    "owner": "SURF",
-    "reqFin": "REQ-FIN-80",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/media/MediaScrubber/MediaSliderParts.tsx",
-    "owner": "SURF",
-    "reqFin": "REQ-FIN-80",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/media/NowPlayingBar/parts/Expand.tsx",
     "owner": "SURF",
     "reqFin": "REQ-FIN-80",
     "expires": "RC-1"

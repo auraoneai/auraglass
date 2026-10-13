@@ -83,7 +83,6 @@ export function NumberField({
           labelEl
         )}
         <Base.Group
-          className="ag-nf-shell"
           data-ag-part="group"
           {...materialProps({
             layer: 'content',

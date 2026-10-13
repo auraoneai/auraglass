@@ -53,7 +53,7 @@ function StepsItem({
         {status === 'error' ? <VisuallyHidden>error</VisuallyHidden> : null}
       </span>
       {description ? (
-        <span data-ag-part="description" className="ag-steps-description">
+        <span data-ag-part="description">
           {description}
         </span>
       ) : null}
