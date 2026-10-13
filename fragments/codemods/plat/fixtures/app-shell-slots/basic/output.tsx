@@ -3,7 +3,7 @@ export const p = <AppShell.Root>
       <TopBar.Root />
       <Sidebar.Root>
         <Sidebar.Nav aria-label="Main">
-          <Sidebar.Item render={<button type="button" onClick={() => go()} />}>
+          <Sidebar.Item render={<button type="button" onClick={() => run()} />}>
             Home
           </Sidebar.Item>
         </Sidebar.Nav>

@@ -2,5 +2,5 @@
 import { GlassIcon } from 'aura-glass';
 
 export function X() {
-  return <GlassIcon>x</GlassIcon>;
+  return <GlassIcon name={v}>x</GlassIcon>;
 }

@@ -3,5 +3,5 @@
 import { LiquidGlassTabBar } from 'aura-glass/compat';
 
 export function Example() {
-  return <LiquidGlassTabBar />;
+  return <LiquidGlassTabBar tabs={v} />;
 }

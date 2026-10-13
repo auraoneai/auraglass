@@ -2,5 +2,5 @@
 import { GlassEmptyState } from 'aura-glass';
 
 export function X() {
-  return <GlassEmptyState>x</GlassEmptyState>;
+  return <GlassEmptyState title={v}>x</GlassEmptyState>;
 }

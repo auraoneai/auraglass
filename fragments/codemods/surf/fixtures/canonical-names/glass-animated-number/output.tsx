@@ -3,5 +3,5 @@
 import { GlassAnimatedNumber } from 'aura-glass/compat';
 
 export function Example() {
-  return <GlassAnimatedNumber />;
+  return <GlassAnimatedNumber value={v} />;
 }

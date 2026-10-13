@@ -2,5 +2,5 @@
 import { GlassSidebar } from 'aura-glass';
 
 export function Example() {
-  return <GlassSidebar />;
+  return <GlassSidebar {...v} />;
 }

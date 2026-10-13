@@ -2,5 +2,5 @@
 import { GlassCommandBar } from 'aura-glass';
 
 export function X() {
-  return <GlassCommandBar commands={cmds} />;
+  return <GlassCommandBar {...v} />;
 }

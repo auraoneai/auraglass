@@ -2,5 +2,5 @@
 import { SearchField } from 'aura-glass';
 
 export function X() {
-  return <SearchField>x</SearchField>;
+  return <SearchField {...v}>x</SearchField>;
 }

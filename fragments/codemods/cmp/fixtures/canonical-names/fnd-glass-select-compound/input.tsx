@@ -2,5 +2,5 @@
 import { GlassSelectCompound } from 'aura-glass';
 
 export function X() {
-  return <GlassSelectCompound options={opts} value={v} />;
+  return <GlassSelectCompound {...v} />;
 }

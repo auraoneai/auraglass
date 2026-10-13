@@ -2,5 +2,5 @@
 import { GlassChat, GlassButton } from 'aura-glass';
 
 export function Support() {
-  return <GlassChat footer={<GlassButton>Send</GlassButton>} />;
+  return <><GlassChat messages={v} /><GlassButton>Send</GlassButton></>;
 }

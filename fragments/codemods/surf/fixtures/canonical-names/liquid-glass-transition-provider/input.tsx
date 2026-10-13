@@ -2,5 +2,5 @@
 import { LiquidGlassTransitionProvider } from 'aura-glass';
 
 export function Example() {
-  return <LiquidGlassTransitionProvider />;
+  return <LiquidGlassTransitionProvider >x</LiquidGlassTransitionProvider>;
 }

@@ -2,6 +2,6 @@
 // @ts-nocheck — frozen 4.x consumer usage, codemod input (do not "fix").
 import { GlassTabs } from 'aura-glass';
 
-export function Settings({ index, setIndex }) {
-  return <GlassTabs value={index} onValueChange={(event, i) => setIndex(i)} />;
+export function Settings({ index, setIndex }: any) {
+  return <GlassTabs value={index} onValueChange={(event: any, i: any) => setIndex(i)} />;
 }

@@ -2,5 +2,5 @@
 import { TabBar } from 'aura-glass';
 
 export function Example() {
-  return <TabBar />;
+  return <TabBar.Root />;
 }

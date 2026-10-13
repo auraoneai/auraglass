@@ -2,5 +2,5 @@
 import { GlassToggle } from 'aura-glass';
 
 export function X() {
-  return <GlassToggle checked={on} onChange={setOn} />;
+  return <GlassToggle {...v} />;
 }

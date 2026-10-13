@@ -2,5 +2,5 @@
 import { Tour } from 'aura-glass';
 
 export function X() {
-  return <Tour>x</Tour>;
+  return <Tour.Root {...v}>x</Tour.Root>;
 }

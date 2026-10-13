@@ -2,5 +2,5 @@
 import { Heading } from 'aura-glass';
 
 export function X() {
-  return <Heading>x</Heading>;
+  return <Heading level={v}>x</Heading>;
 }

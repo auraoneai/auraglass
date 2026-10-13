@@ -2,5 +2,5 @@
 import { MobileGlassBottomSheet } from 'aura-glass';
 
 export function X() {
-  return <MobileGlassBottomSheet>x</MobileGlassBottomSheet>;
+  return <MobileGlassBottomSheet {...v}>x</MobileGlassBottomSheet>;
 }

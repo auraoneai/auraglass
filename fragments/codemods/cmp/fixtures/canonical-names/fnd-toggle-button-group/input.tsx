@@ -2,5 +2,5 @@
 import { ToggleButtonGroup } from 'aura-glass';
 
 export function X() {
-  return <ToggleButtonGroup value={v} options={opts} onChange={setV} />;
+  return <ToggleButtonGroup {...v} />;
 }

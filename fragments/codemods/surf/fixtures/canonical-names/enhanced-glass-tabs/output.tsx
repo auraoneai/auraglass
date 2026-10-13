@@ -2,5 +2,5 @@
 import { Tabs } from 'aura-glass';
 
 export function Example() {
-  return <Tabs />;
+  return <Tabs.Root />;
 }

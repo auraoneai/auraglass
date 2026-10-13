@@ -2,5 +2,5 @@
 import { Sheet } from 'aura-glass';
 
 export function X() {
-  return <Sheet>x</Sheet>;
+  return <Sheet.Root {...v}>x</Sheet.Root>;
 }

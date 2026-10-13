@@ -2,5 +2,5 @@
 import { GlassImageViewer } from 'aura-glass';
 
 export function Example() {
-  return <GlassImageViewer />;
+  return <GlassImageViewer {...v} />;
 }

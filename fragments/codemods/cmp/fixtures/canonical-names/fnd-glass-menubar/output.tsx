@@ -2,5 +2,5 @@
 import { Menubar } from 'aura-glass';
 
 export function X() {
-  return <Menubar>{menus.map(m=><Menu.Root key={m.label}/>)}</Menubar>;
+  return <Menubar>{menus.map((m: any)=><Menu.Root key={m.label}/>)}</Menubar>;
 }

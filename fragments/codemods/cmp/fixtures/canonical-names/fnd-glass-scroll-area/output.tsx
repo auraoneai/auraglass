@@ -2,5 +2,5 @@
 import { ScrollArea } from 'aura-glass';
 
 export function X() {
-  return <ScrollArea>x</ScrollArea>;
+  return <ScrollArea.Root>x</ScrollArea.Root>;
 }

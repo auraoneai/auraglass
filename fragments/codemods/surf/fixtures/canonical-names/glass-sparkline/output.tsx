@@ -2,5 +2,5 @@
 import { Sparkline } from 'aura-glass/data';
 
 export function Example() {
-  return <Sparkline />;
+  return <Sparkline {...v} />;
 }

@@ -2,5 +2,5 @@
 import { LiquidGlassAdaptiveSheet } from 'aura-glass';
 
 export function X() {
-  return <LiquidGlassAdaptiveSheet open={open}>…</LiquidGlassAdaptiveSheet>;
+  return <LiquidGlassAdaptiveSheet open={o}>…</LiquidGlassAdaptiveSheet>;
 }

@@ -2,5 +2,5 @@
 import { SourceTransition } from 'aura-glass';
 
 export function Example() {
-  return <SourceTransition />;
+  return <SourceTransition.Root >x</SourceTransition.Root>;
 }

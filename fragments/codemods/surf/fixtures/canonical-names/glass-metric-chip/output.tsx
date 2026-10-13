@@ -2,5 +2,5 @@
 import { Chip } from 'aura-glass/data';
 
 export function Example() {
-  return <Chip />;
+  return <Chip {...v}>x</Chip>;
 }

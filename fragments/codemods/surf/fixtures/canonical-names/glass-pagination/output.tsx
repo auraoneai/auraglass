@@ -2,5 +2,5 @@
 import { Pagination } from 'aura-glass';
 
 export function Example() {
-  return <Pagination />;
+  return <Pagination.Root {...v} />;
 }

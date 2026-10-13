@@ -2,5 +2,5 @@
 import { Select } from 'aura-glass';
 
 export function X() {
-  return <Select items={opts} value={v} />;
+  return <Select.Root items={opts} value={v} />;
 }

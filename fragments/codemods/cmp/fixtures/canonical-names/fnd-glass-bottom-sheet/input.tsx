@@ -2,5 +2,5 @@
 import { GlassBottomSheet } from 'aura-glass';
 
 export function X() {
-  return <GlassBottomSheet open={open}>…</GlassBottomSheet>;
+  return <GlassBottomSheet {...v}>…</GlassBottomSheet>;
 }

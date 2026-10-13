@@ -2,5 +2,5 @@
 import { MediaControls } from 'aura-glass/media';
 
 export function Example() {
-  return <MediaControls />;
+  return <MediaControls.Root playing={v} />;
 }

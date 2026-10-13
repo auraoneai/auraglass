@@ -2,5 +2,5 @@
 import { GlassSearchInput } from 'aura-glass';
 
 export function X() {
-  return <GlassSearchInput>x</GlassSearchInput>;
+  return <GlassSearchInput {...v}>x</GlassSearchInput>;
 }

@@ -2,5 +2,5 @@
 import { Command } from 'aura-glass';
 
 export function Example() {
-  return <Command />;
+  return <Command.Root />;
 }

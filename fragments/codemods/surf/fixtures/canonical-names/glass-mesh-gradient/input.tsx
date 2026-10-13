@@ -2,5 +2,5 @@
 import { GlassMeshGradient } from 'aura-glass';
 
 export function Example() {
-  return <GlassMeshGradient />;
+  return <GlassMeshGradient {...v} />;
 }

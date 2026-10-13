@@ -2,5 +2,5 @@
 import { TabItem } from 'aura-glass';
 
 export function Example() {
-  return <TabItem />;
+  return <TabItem {...v} />;
 }

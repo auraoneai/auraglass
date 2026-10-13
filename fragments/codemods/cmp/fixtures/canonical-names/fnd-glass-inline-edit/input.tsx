@@ -2,5 +2,5 @@
 import { GlassInlineEdit } from 'aura-glass';
 
 export function X() {
-  return <GlassInlineEdit>x</GlassInlineEdit>;
+  return <GlassInlineEdit {...v}>x</GlassInlineEdit>;
 }

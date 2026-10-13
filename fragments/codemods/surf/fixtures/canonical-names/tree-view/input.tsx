@@ -2,5 +2,5 @@
 import { TreeView } from 'aura-glass';
 
 export function Example() {
-  return <TreeView />;
+  return <TreeView {...v} />;
 }

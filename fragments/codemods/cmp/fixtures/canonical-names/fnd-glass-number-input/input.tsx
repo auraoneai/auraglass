@@ -2,5 +2,5 @@
 import { GlassNumberInput } from 'aura-glass';
 
 export function X() {
-  return <GlassNumberInput>x</GlassNumberInput>;
+  return <GlassNumberInput {...v}>x</GlassNumberInput>;
 }

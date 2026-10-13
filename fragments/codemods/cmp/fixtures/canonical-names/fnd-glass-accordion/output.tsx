@@ -2,5 +2,5 @@
 import { Accordion } from 'aura-glass';
 
 export function X() {
-  return <Accordion>x</Accordion>;
+  return <Accordion.Root {...v}>x</Accordion.Root>;
 }
