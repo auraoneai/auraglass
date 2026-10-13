@@ -167,11 +167,26 @@ function visibleText(): string[] {
 /** Normalises React's per-mount ids («r1», :r1:, _r_1_) by first appearance so two client renders compare equal. */
 function normaliseIds(html: string): string {
   const seen = new Map<string, string>();
-  return html.replace(/«[^»]+»|:r[0-9a-z]+:|_r_[0-9a-z]+_/g, (m) => {
+  const ids = html.replace(/«[^»]+»|:r[0-9a-z]+:|_r_[0-9a-z]+_/g, (m) => {
     if (!seen.has(m)) seen.set(m, `id${seen.size}`);
     return seen.get(m)!;
   });
+  // SegmentedControl's view-transition name contains the same React useId
+  // with CSS-safe hyphens. Normalize only that generated property value.
+  const transitions = new Map<string, string>();
+  return ids.replace(/(view-transition-name:\s*)ag-segmented-indicator-r-([0-9a-z]+)-/g, (_m, prefix: string, id: string) => {
+    if (!transitions.has(id)) transitions.set(id, `ag-segmented-indicator-id${transitions.size}`);
+    return prefix + transitions.get(id)!;
+  });
 }
+
+it('normalizes generated transition IDs without hiding custom names or identity changes', () => {
+  const node = (id: string) => `<span style="view-transition-name: ag-segmented-indicator-r-${id}-;"></span>`;
+  expect(normaliseIds(node('kk'))).toBe(normaliseIds(node('n7')));
+  expect(normaliseIds(node('a') + node('a'))).not.toBe(normaliseIds(node('a') + node('b')));
+  const custom = '<span style="view-transition-name: customer-selection;"></span>';
+  expect(normaliseIds(custom)).toBe(custom);
+});
 
 /** Structural REQ-QUAL-59 invariants of the currently rendered document. */
 function expectStructure(entry: ShowcaseEntry): void {
