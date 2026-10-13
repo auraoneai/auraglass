@@ -133,7 +133,7 @@ function applyCode(source: string): TransformResult {
   });
 
   // 4. Token rewrites: ANIMATION.DURATION.x -> motionTokens.duration.y; ease bounce/elastic -> ease.standard + TODO.
-  let out = root.toSource({ quote: 'single', reuseWhitespace: true });
+  let out: string = root.toSource({ quote: 'single', reuseWhitespace: true });
   /* Removing the import a file-leading comment was attached to can drop it
      in reprint; restore a lost leading line comment verbatim. */
   const lead = source.split('\n')[0] ?? '';
@@ -150,7 +150,7 @@ function applyCode(source: string): TransformResult {
       const openIndent = /^(\s*)/.exec(lines[openAt]!)?.[1] ?? '';
       const inner = lines.slice(openAt + 1, closeAt).map((l) => {
         const m = /^(\s*)/.exec(l);
-        return m && m[1].startsWith(`${openIndent}  `) ? l.slice(2) : l;
+        return m && (m[1] ?? '').startsWith(`${openIndent}  `) ? l.slice(2) : l;
       });
       out = [...lines.slice(0, openAt), ...inner, ...lines.slice(closeAt + 1)].join('\n');
     }

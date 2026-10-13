@@ -5,7 +5,7 @@ import { TextField } from '../../../src/components/text-field';
 import { SearchField } from '../../../src/components/search-field';
 import { NumberField } from '../../../src/components/number-field';
 import { Checkbox, CheckboxGroup } from '../../../src/components/checkbox';
-import { RadioGroup, Radio } from '../../../src/components/radio-group';
+import { RadioGroup } from '../../../src/components/radio-group';
 import { Switch } from '../../../src/components/switch';
 import { Field, Fieldset } from '../../../src/components/field';
 import type { StoryAgParameters } from '../../../src/contracts/testing';
@@ -31,8 +31,8 @@ export const Default: Story = {
         <NumberField size="sm" label="Seats" defaultValue={2} min={0} max={20} />
         <SearchField size="sm" label="Search" defaultValue="x" />
         <RadioGroup.Root size="sm" defaultValue="m" aria-label="billing">
-          <Radio value="m">Monthly</Radio>
-          <Radio value="y">Yearly</Radio>
+          <RadioGroup.Item value="m">Monthly</RadioGroup.Item>
+          <RadioGroup.Item value="y">Yearly</RadioGroup.Item>
         </RadioGroup.Root>
         <CheckboxGroup defaultValue={['t']}>
           <Checkbox size="sm" value="t">Terms</Checkbox>

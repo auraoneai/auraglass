@@ -16,7 +16,13 @@ export async function readDensity(page: Page, rootSelector = 'body'): Promise<De
     const vh = window.innerHeight;
     let live = 0;
     let maxDepth = 0;
-    const els = scope.querySelectorAll('.ag-surface');
+    // The scope element itself counts when it is a surface (e.g. a
+    // SurfaceGroup host scoped by [data-ag-group]): its ::before is the
+    // group's one live backdrop filter (REQ-MAT-155).
+    const els = [
+      ...(scope.classList?.contains('ag-surface') ? [scope] : []),
+      ...scope.querySelectorAll('.ag-surface'),
+    ];
     for (const el of els) {
       const r = el.getBoundingClientRect();
       const visible = r.width > 0 && r.height > 0 && r.bottom > 0 && r.right > 0 && r.top < vh && r.left < vw;
