@@ -43,6 +43,10 @@
     color: var(--_ag-fg-disabled, currentColor);
     pointer-events: none;
   }
+  .ag-tab-bar__item-icon {
+    display: inline-flex;
+    align-items: center;
+  }
   .ag-tab-bar__item-badge {
     font-size: var(--_ag-text-xs, 0.75rem);
     padding-inline: var(--ag-space-1, 0.25rem);

@@ -12,54 +12,6 @@
     "expires": "RC-1"
   },
   {
-    "file": "src/compat/cmp/content/LiquidGlassBadgeCluster.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/alert/Alert.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/image-list/ImageList.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/key-value-editor/KeyValueEditor.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/menu/ContextMenu.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/menu/Menu.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/popover/Popover.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/tab-bar/TabBar.tsx",
-    "owner": "SURF",
-    "reqFin": "REQ-FIN-80",
-    "expires": "RC-1"
-  },
-  {
     "file": "src/components/timeline/ActivityFeed.tsx",
     "owner": "SURF",
     "reqFin": "REQ-FIN-80",
@@ -79,12 +31,6 @@
   },
   {
     "file": "src/components/toolbar/Toolbar.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/tooltip/Tooltip.client.tsx",
     "owner": "CMP",
     "reqFin": "REQ-FIN-70",
     "expires": "RC-1"

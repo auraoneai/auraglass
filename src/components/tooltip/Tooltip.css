@@ -4,6 +4,7 @@
    contain:layout/paint on popup; enter = 200ms opacity + 2px data-side
    translate, exit = opacity only; text-only (max-inline cap). */
 @layer ag.components {
+  .ag-tooltip-trigger { cursor: default; }
   .ag-tooltip-positioner { z-index: var(--ag-z-transient, 80); }
 
   .ag-tooltip-popup {
