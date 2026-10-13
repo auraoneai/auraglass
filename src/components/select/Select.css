@@ -180,29 +180,4 @@
       max-block-size: min(60dvh, 400px);
     }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .ag-select-popup,
-    .ag-select-popup[data-starting-style],
-    .ag-select-popup[data-ending-style] {
-      scale: 1;
-      transition-property: opacity;
-    }
-    .ag-select [data-ag-part='icon'] {
-      transition: none;
-    }
-  }
-  @media (forced-colors: active) {
-    .ag-select {
-      border: var(--ag-focus-width) solid ButtonText;
-      box-shadow: none;
-    }
-    .ag-select-popup {
-      border: var(--ag-focus-width) solid ButtonText;
-      background: Canvas;
-    }
-    .ag-select-item[data-highlighted] {
-      background: Highlight;
-      color: HighlightText;
-    }
-  }
 }
