@@ -1,0 +1,30 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* TabBar.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  @media (prefers-reduced-motion: reduce) {
+    [data-minimize-on-scroll] .ag-tab-bar__item-label,
+    [data-minimize-on-scroll]:not([data-accessory-placement='persist']) .ag-tab-bar__accessory {
+      animation: none;
+    }
+  }
+
+  /* REQ-SURF-189: forced colours — the current destination keeps a
+     non-colour cue (underline + outline) besides Highlight; focus is the
+     system ring. */
+  @media (forced-colors: active) {
+    .ag-tab-bar__item[aria-current] {
+      color: Highlight;
+      outline: 1px solid Highlight;
+      outline-offset: calc(-1 * var(--ag-focus-width, 2px));
+      text-decoration-line: underline;
+      text-decoration-thickness: var(--ag-focus-width, 2px);
+      text-underline-offset: var(--ag-space-1, 0.25rem);
+    }
+    .ag-tab-bar__item-badge {
+      border: 1px solid CanvasText;
+    }
+  }
+}

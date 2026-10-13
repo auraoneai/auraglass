@@ -57,11 +57,4 @@
   /* REQ-CMP-101: calm motion mode gets the same no-transform guarantee as
      the media-query path — data-ag-motion='calm' rides along, not replaces. */
   [data-ag-motion='calm'] .ag-tooltip-popup { transform: none; }
-  @media (prefers-reduced-motion: reduce) {
-    .ag-tooltip-popup { transition: opacity var(--ag-duration-small) linear; transform: none; }
-  }
-  @media (forced-colors: active) {
-    .ag-tooltip-popup { border: 1px solid CanvasText; }
-    .ag-tooltip-arrow { background: CanvasText; }
-  }
 }
