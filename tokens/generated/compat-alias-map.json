@@ -6865,7 +6865,7 @@
     "defined": false
   },
   "--glass-theme-text-tertiary": {
-    "successor": "--ag-on-surface-tertiary",
+    "successor": "--ag-on-surface-muted",
     "frozen": null,
     "defined": false
   },

@@ -43,7 +43,7 @@ describe('compat aliases (MAT-076)', () => {
       expect({ sel: rule.selector, layer }).toEqual({ sel: rule.selector, layer: 'ag.compat' });
     });
     // the @import precedes the layer block
-    expect(CSS.indexOf('@import')).toBeLessThan(CSS.indexOf('@layer ag.compat'));
+    expect(CSS.indexOf('@import')).toBeLessThan(CSS.indexOf('@layer ag.compat {'));
   });
 
   test('the only legacy-hook selector is the [data-theme=dark]/.dark mapping (REQ-MAT-13)', () => {

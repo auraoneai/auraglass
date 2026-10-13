@@ -1,7 +1,6 @@
 {
  "$comment": "MAT-075 compat successor table. Ordered: first match wins. 'to' is a var name with $N group refs; {'group':N,'map':{...}} looks the capture up in a table; null/'to' absent = frozen verbatim 4.x emission. 'shims' declares compat-emitted alias vars successors may point at.",
  "shims": {
-  "--ag-on-surface-tertiary": "var(--ag-on-surface-muted)",
   "--ag-color-on-surface": "var(--ag-on-surface)",
   "--ag-color-on-surface-muted": "var(--ag-on-surface-muted)"
  },
@@ -16,7 +15,7 @@
   },
   {
    "match": "^--glass-theme-text-tertiary$",
-   "to": "--ag-on-surface-tertiary"
+   "to": "--ag-on-surface-muted"
   },
   {
    "match": "^--glass-radius-(xs|sm|md|lg|xl|full)$",

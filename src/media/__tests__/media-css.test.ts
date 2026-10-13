@@ -67,7 +67,7 @@ describe('CarouselRail container (REQ-SURF-146)', () => {
   });
   it('numeric slidesPerView becomes one slide per view below 480 px of carousel width', () => {
     const narrow = rulesFor(
-      ".ag-carousel:not([data-ag-per-view='auto']) .ag-carousel-slide",
+      ".ag-carousel:not(.ag-carousel-auto) .ag-carousel-slide",
       (a) => a.name === 'container' && /^ag-carousel\s+\(max-width:\s*479\.98px\)$/.test(a.params),
     );
     expect(decl(narrow, 'inline-size')).toBe('100%');

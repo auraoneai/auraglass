@@ -13,6 +13,7 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { gzipSync } from 'node:zlib';
 import { ROOT, DIST } from './lib/graph.mjs';
+import { LAYER_ORDER as LAYER_ORDER_STATEMENT } from '../tokens/formats/_shared.mjs';
 
 const arg = (name) => { const i = process.argv.indexOf(name); return i === -1 ? null : process.argv[i + 1]; };
 const manifestPath = arg('--manifest') ?? join(DIST, 'tokens', 'manifest.json');
@@ -51,7 +52,8 @@ export function buildBridge(manifest) {
     if (!name) continue;
     themeVars.set(name, `  --${name}: var(${cssVar});`);
   }
-  const css = `@import './tokens.css';
+  const css = `${LAYER_ORDER_STATEMENT}
+@import './tokens.css';
 
 @theme inline {
 ${[...themeVars.values()].join('\n')}

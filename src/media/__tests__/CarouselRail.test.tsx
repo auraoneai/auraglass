@@ -141,8 +141,10 @@ describe('CarouselRail (REQ-SURF-146..150)', () => {
     it('numeric slidesPerView sets --_ag-slides-per-view; auto leaves it unset', () => {
       const { container } = render(<CarouselRail.Root label="P" slides={slides(4)} slidesPerView={2} />);
       expect(q(container, 'carousel').style.getPropertyValue('--_ag-slides-per-view')).toBe('2');
+      expect(q(container, 'carousel').classList.contains('ag-carousel-auto')).toBe(false);
       const { container: c2 } = render(<CarouselRail.Root label="P" slides={slides(4)} />);
       expect(q(c2, 'carousel').style.getPropertyValue('--_ag-slides-per-view')).toBe('');
+      expect(q(c2, 'carousel').classList.contains('ag-carousel-auto')).toBe(true);
     });
   });
 

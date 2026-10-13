@@ -54,6 +54,17 @@ describe('S-03 / S-12 public custom properties', () => {
     expect(PUBLIC_AG_VARS.has('--ag-color-canvas')).toBe(true);
   });
 
+  it('compat successors and emitted shims stay within the frozen public set', () => {
+    const aliases = JSON.parse(readFileSync(join(ROOT, 'tokens/generated/compat-alias-map.json'), 'utf8')) as
+      Record<string, { successor: string | null }>;
+    const { shims } = JSON.parse(readFileSync(join(ROOT, 'scripts/tokens/compat-successors.json'), 'utf8')) as
+      { shims: Record<string, string> };
+    // Include never-defined legacy names: their successor remains part of the
+    // migration contract even when the compiler emits no legacy declaration.
+    const names = [...Object.keys(shims), ...Object.values(aliases).flatMap(({ successor }) => successor ? [successor] : [])];
+    expect([...new Set(names)].filter((name) => !PUBLIC_AG_VARS.has(name))).toEqual([]);
+  });
+
   it('the token compiler emits the token CSS', () => {
     expect(defs.size).toBeGreaterThan(100);
     expect([...defs.values()].flat().some((f) => f.includes('dist/tokens.css'))).toBe(true);

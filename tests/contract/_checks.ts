@@ -101,7 +101,7 @@ export function topLevelLayerBlocks(css: string): { blocks: string[]; outside: s
     `@layer <declared> { … }` block whose name equals the file's fragments/css declaration. */
 export function checkLayerFile(file: string, css: string, declared: string | undefined, opts: { shipped?: boolean } = {}): Violation[] {
   const v: Violation[] = [];
-  const firstStatement = stripCssComments(css).trimStart().split(';')[0]!.trim().replace(/\s+/g, ' ');
+  const firstStatement = stripCssComments(css).trimStart().split(';')[0]!.trim().replace(/\s+/g, ' ').replace(/\s*,\s*/g, ', ');
   if (`${firstStatement};` !== LAYER_ORDER_STATEMENT) {
     v.push({ seam: 'S-04', file, detail: `does not start with LAYER_ORDER_STATEMENT (first statement: ${JSON.stringify(firstStatement.slice(0, 80))})` });
   }

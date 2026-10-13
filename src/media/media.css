@@ -379,9 +379,9 @@
     border-radius: var(--ag-radius-md, 0.75rem);
     overflow: hidden;
   }
-  .ag-carousel[data-ag-per-view='auto'] .ag-carousel-slide { inline-size: auto; }
+  .ag-carousel.ag-carousel-auto .ag-carousel-slide { inline-size: auto; }
   @container ag-carousel (max-width: 479.98px) {
-    .ag-carousel:not([data-ag-per-view='auto']) .ag-carousel-slide { inline-size: 100%; }
+    .ag-carousel:not(.ag-carousel-auto) .ag-carousel-slide { inline-size: 100%; }
   }
   .ag-carousel-nav {
     appearance: none;

@@ -229,7 +229,7 @@ function Root(props: CarouselRailRootProps): React.ReactElement {
     <CarouselRailContext.Provider value={ctx}>
       <section
         ref={rootRef as React.RefObject<HTMLElement>}
-        className={['ag-carousel', className].filter(Boolean).join(' ')}
+        className={['ag-carousel', slidesPerView === 'auto' && 'ag-carousel-auto', className].filter(Boolean).join(' ')}
         data-ag-part="carousel"
         data-state={autoplayActive ? 'playing' : 'stopped'}
         data-ag-backdrop={overMedia ? 'media' : undefined}

@@ -1,7 +1,7 @@
 /* Contract double for Combobox (S-30) on @base-ui/react. CONTRACT-owned; see §5.2. */
 import * as React from 'react';
 import { Combobox as Base } from '@base-ui/react';
-import { withPart, kebab } from './_part';
+import { withPart } from './_part';
 
 export const Combobox = {
   Root: withPart(Base.Root as React.ComponentType<Record<string, unknown>>, 'root'),
@@ -14,4 +14,6 @@ export const Combobox = {
   Chip: withPart(Base.Chip as React.ComponentType<Record<string, unknown>>, 'chip'),
   ChipRemove: withPart(Base.ChipRemove as React.ComponentType<Record<string, unknown>>, 'chip-remove'),
   Clear: withPart(Base.Clear as React.ComponentType<Record<string, unknown>>, 'clear'),
+  Group: withPart(Base.Group as React.ComponentType<Record<string, unknown>>, 'group'),
+  GroupLabel: withPart(Base.GroupLabel as React.ComponentType<Record<string, unknown>>, 'group-label'),
 };

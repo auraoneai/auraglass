@@ -21,6 +21,7 @@ describe('tailwind bridge (PLAT-280/281)', () => {
 
   it('content is only the sanctioned at-rules', () => {
     const css = readFileSync(out, 'utf8');
+    expect(css).toMatch(/^@layer ag\.compat, ag\.reset, ag\.tokens, ag\.material, ag\.components, ag\.a11y;\n/);
     expect(css).toContain("@import './tokens.css';");
     for (const bad of ['@tailwind', '@config', '@plugin', '@source']) expect(css).not.toContain(bad);
     const atRules = [...css.matchAll(/@(\w[\w-]*)\b/g)].map(m => m[1]);

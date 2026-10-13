@@ -32,6 +32,14 @@ describe('S-04 layer statement', () => {
     expect(LAYER_ORDER_STATEMENT).toBe(`@layer ${CSS_LAYERS.join(', ')};`);
   });
 
+  it('accepts minified layer separators while enforcing the exact layer order', () => {
+    const minified = LAYER_ORDER_STATEMENT.replace(/, /g, ',');
+    expect(checkLayerFile('dist/probe.css', minified, undefined, { shipped: true })).toEqual([]);
+    const reordered = minified.replace('ag.compat,ag.reset', 'ag.reset,ag.compat');
+    expect(checkLayerFile('dist/probe.css', reordered, undefined, { shipped: true }))
+      .toEqual([expect.objectContaining({ seam: 'S-04', detail: expect.stringContaining('does not start') })]);
+  });
+
   it('topLevelLayerBlocks parses nested rules', () => {
     expect(topLevelLayerBlocks('@layer ag.components { .a { color: red } @media (x) { .b { c: d } } }')).toEqual({ blocks: ['ag.components'], outside: '' });
     expect(topLevelLayerBlocks('.x { a: b } @layer ag.a11y { .y { c: d } }')).toEqual({ blocks: ['ag.a11y'], outside: '.x  ' });
