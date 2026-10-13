@@ -6,6 +6,7 @@
    at most one <style>. */
 import { afterEach, describe, expect, it, jest } from '@jest/globals';
 import * as React from 'react';
+import { createPortal } from 'react-dom';
 import { render, act } from '@testing-library/react';
 import { AuraGlassProvider } from '../AuraGlassProvider';
 import { DeprecationModeContext } from '../AuraGlassProvider';
@@ -90,6 +91,34 @@ describe('AuraGlassProvider', () => {
     for (const d of innerStyle.split(';').map((s) => s.trim()).filter(Boolean)) {
       expect(d.startsWith('--ag-glass-opacity')).toBe(true);
     }
+  });
+
+  it.each(['owned', 'adopted'] as const)('nested consumers portal into the %s outer root', (mode) => {
+    const foreign = mode === 'adopted' ? document.createElement('div') : null;
+    if (foreign) {
+      foreign.setAttribute('data-ag-portal-root', '');
+      foreign.innerHTML = '<div data-ag-layer-root="overlay"></div>';
+      document.body.appendChild(foreign);
+    }
+    function NestedPopup() {
+      const container = usePortalContainer('overlay');
+      return container ? createPortal(<div data-testid="nested-popup">Open popup</div>, container) : null;
+    }
+    const view = render(
+      <AuraGlassProvider storage={null}>
+        <AuraGlassProvider storage={null}>
+          <AuraGlassProvider storage={null}><NestedPopup /></AuraGlassProvider>
+        </AuraGlassProvider>
+      </AuraGlassProvider>,
+    );
+    const roots = document.querySelectorAll('[data-ag-portal-root]');
+    expect(roots).toHaveLength(1);
+    const root = roots[0]!;
+    if (foreign) expect(root).toBe(foreign);
+    const popup = view.getByTestId('nested-popup');
+    expect(popup.parentElement).toBe(root.querySelector('[data-ag-layer-root="overlay"]'));
+    view.unmount();
+    if (foreign) foreign.remove();
   });
 
   it('portalContainer override hosts the portal root', () => {

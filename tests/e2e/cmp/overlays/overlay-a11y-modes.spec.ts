@@ -39,7 +39,7 @@ const WIDGETS: Record<string, Widget> = {
   },
   Toast: {
     story: 'flagships-overlays-toast--playground',
-    surface: '.ag-toast[data-ag-part="root"]',
+    surface: '.ag-toast[data-ag-part="toast"]',
     open: async (page) => {
       await page.getByRole('button', { name: 'Info', exact: true }).click();
     },

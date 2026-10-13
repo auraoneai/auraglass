@@ -225,8 +225,10 @@ export function AuraGlassProvider(props: AuraGlassProviderProps): React.ReactEle
   }, [brand, preset, mounts]);
 
   const rootState = React.useMemo<PortalRootState>(
-    () => ({ root: adoptedRoot ?? portalRoot }),
-    [adoptedRoot, portalRoot],
+    // Forward the parent's pending or resolved state unchanged. A nested
+    // provider never mounts its own root, so its local portalRoot stays null.
+    () => parentPortal ?? ({ root: adoptedRoot ?? portalRoot }),
+    [parentPortal, adoptedRoot, portalRoot],
   );
 
   const needsOwnRoot = outermost && adoptedRoot === null;
