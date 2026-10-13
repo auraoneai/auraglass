@@ -90,18 +90,17 @@ describe('REQ-SURF-189 forced colours (static)', () => {
     expect(nonColourCue(r)).toBe(true);
   });
 
-  /* REQ-MAT-61: the ring's single owner is src/a11y/css/focus.css, so the
-     forced-colours focus rows live there, keyed on the SURF selectors. */
+  /* REQ-MAT-61: named SURF chrome renders data-ag-part and inherits the
+     shared focus rule. Untagged app-shell descendants use the fallback;
+     checking obsolete per-component selectors misses this actual coverage. */
   it.each([
-    '.ag-app-shell :is(a, button, [tabindex]):not([data-ag-focusable], .ag-focusable):focus-visible',
-    '.ag-sidebar__item:focus-visible',
-    '.ag-tab-bar__item:focus-visible',
-    '.ag-tabs__tab:focus-visible',
-    '.ag-breadcrumbs__link:focus-visible',
-    '.ag-pagination__link:focus-visible',
-    '.ag-media-btn:focus-visible',
+    ":where( [data-ag-focusable], .ag-focusable, [data-ag-part]:not(:is([data-ag-part='control-shell'], [data-ag-part='input-shell']) :is([data-ag-part='control'], [data-ag-part='input'])) ):focus-visible",
+    ":where([data-ag-part='control-shell'], [data-ag-part='input-shell']):focus-within",
+    ':where(.ag-app-shell) :where(:not([data-ag-focusable], .ag-focusable, [data-ag-part])):focus-visible',
   ])('src/a11y/css/focus.css: forced-colours focus (%s) is outline 2px solid Highlight', (selector) => {
-    expect(forcedRule('src/a11y/css/focus.css', selector)?.decls.get('outline')).toBe('2px solid Highlight');
+    const rule = forcedRule('src/a11y/css/focus.css', selector);
+    expect(rule?.decls.get('outline')).toBe('2px solid Highlight');
+    expect(rule?.decls.get('box-shadow')).toBe('none');
   });
 
   it('shell chrome paints on system colours', () => {
