@@ -26,13 +26,21 @@ import { fileURLToPath } from 'node:url';
 
 const sha512 = (f) => 'sha512-' + createHash('sha512').update(readFileSync(f)).digest('base64');
 
-// npm pack --json prints a JSON array; lifecycle-script output may precede it.
+// npm pack --json prints a JSON array (npm <= 11) or an object keyed by
+// package name (npm >= 12); lifecycle-script output may precede either.
+// Normalized to the array shape here (scripts/ci/lib/npm-pack.cjs is the
+// single-package twin of this logic).
 export function parsePackJson(stdout) {
-  const start = stdout.search(/^\[\s*$/m);
-  const text = start >= 0 ? stdout.slice(start) : stdout.trim();
-  const parsed = JSON.parse(text);
-  if (!Array.isArray(parsed) || !parsed.length) throw new Error('npm pack --json returned no entries');
-  return parsed;
+  const lines = String(stdout).split('\n');
+  const start = lines.findIndex((l) => {
+    const c = l.trimStart().charAt(0);
+    return c === '[' || c === '{';
+  });
+  if (start === -1) throw new Error('npm pack --json output contained no JSON payload');
+  const parsed = JSON.parse(lines.slice(start).join('\n'));
+  const entries = Array.isArray(parsed) ? parsed : Object.values(parsed ?? {});
+  if (!entries.length) throw new Error('npm pack --json returned no entries');
+  return entries;
 }
 
 export function publishedPackages(root) {
