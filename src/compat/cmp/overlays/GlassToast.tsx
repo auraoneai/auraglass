@@ -3,21 +3,25 @@
    props drop with a single warning; never throws. Mapping per §10.2/metas. */
 'use client';
 import * as React from 'react';
-import { warnDeprecated } from '../../../internal';
-import { Toast, useToast } from '../../../components/toast';
+import { cn, warnDeprecated } from '../../../internal';
+import { useToast } from '../../../components/toast';
 import type { ToastIntent } from '../../../components/toast';
+import { overlayMaterial } from '../../../components/overlays/_shared';
 import { __compatWrap as wrap } from './_shared';
 
 const DEP = 'DEP-C0115';
 
 export interface GlassToastProps {
   message?: React.ReactNode;
+  description?: React.ReactNode;
   title?: React.ReactNode;
   type?: 'info' | 'success' | 'warning' | 'error' | 'danger';
+  variant?: 'info' | 'success' | 'warning' | 'error' | 'danger';
   duration?: number;
   onClose?: () => void;
   id?: string;
   className?: string;
+  children?: React.ReactNode;
 }
 
 const TYPE_MAP: Record<string, ToastIntent> = {
@@ -29,14 +33,25 @@ export function toastType(t?: string): ToastIntent {
 }
 
 /** @deprecated since 4.3.0, removed in 6.0.0. Use {@link useToast}. */
-export function GlassToast({ message, title, type, duration, onClose, className }: GlassToastProps) {
+export function GlassToast({
+  message,
+  description,
+  title,
+  type,
+  variant,
+  duration,
+  onClose,
+  className,
+  children,
+}: GlassToastProps) {
   warnDeprecated(DEP);
   const api = useToast();
-  const intent = toastType(type);
+  const intent = toastType(type ?? variant);
+  const desc = description ?? message;
   React.useEffect(() => {
     const id = api.add({
       ...(title !== undefined ? { title } : {}),
-      ...(message !== undefined ? { description: message } : title !== undefined ? {} : { title: message }),
+      ...(desc !== undefined ? { description: desc } : title !== undefined ? {} : { title: desc }),
       intent,
       ...(duration !== undefined ? { timeout: duration } : {}),
     });
@@ -44,7 +59,34 @@ export function GlassToast({ message, title, type, duration, onClose, className 
     // mount-once semantics: one toast per adapter mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return null;
+  if (title === undefined && desc === undefined && children === undefined) {
+    return null;
+  }
+  return wrap(
+    'GlassToast',
+    <div
+      role="status"
+      data-ag-component="toast"
+      data-ag-part="toast"
+      data-ag-intent={intent}
+      {...overlayMaterial('toast')}
+      className={cn('ag-toast', className)}
+    >
+      <div data-ag-part="content" className="ag-toast-content">
+        {title !== undefined ? (
+          <div data-ag-part="title" className="ag-toast-title">
+            {title}
+          </div>
+        ) : null}
+        {desc !== undefined ? (
+          <div data-ag-part="description" className="ag-toast-description">
+            {desc}
+          </div>
+        ) : null}
+        {children}
+      </div>
+    </div>,
+  );
 }
 
 /** Programmatic form: GlassToast({message, type}) as a function call is

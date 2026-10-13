@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Menu } from '../../../components/menu';
-import { MenuPortal, MenuArrow, MenuCheckboxItemIndicator, MenuRadioItemIndicator } from '../../../components/menu/Menu.client';
+import { MenuPortal, MenuArrow } from '../../../components/menu/Menu.client';
 import type { OverlayOpenChangeDetails } from '../../../components/overlays/_shared';
 import { splitPlacement } from './GlassPopover';
 
@@ -80,7 +80,6 @@ export function GlassDropdownMenuCheckboxItem({ checked, onCheckedChange, onSele
       {...(onCheckedChange !== undefined ? { onCheckedChange: onCheckedChange as never } : {})}
       {...(onSelect !== undefined ? { onClick: onSelect as never } : {})}
     >
-      <MenuCheckboxItemIndicator />
       {children}
     </Menu.CheckboxItem>
   );
@@ -105,7 +104,6 @@ export function GlassDropdownMenuRadioItem({ children, ...rest }: Record<string,
   warnDeprecated('DEP-C0290'); // own symbol id (REQ-PLAT-30: once per symbol)
   return (
     <Menu.RadioItem value={(rest as { value?: string }).value ?? ''} {...(rest as object)}>
-      <MenuRadioItemIndicator />
       {children}
     </Menu.RadioItem>
   );
@@ -120,7 +118,11 @@ export function GlassDropdownMenuGroup(props: Record<string, unknown> & { childr
 /** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Menu.GroupLabel}. */
 export function GlassDropdownMenuLabel(props: Record<string, unknown> & { children?: React.ReactNode }) {
   warnDeprecated('DEP-C0291'); // own symbol id (REQ-PLAT-30: once per symbol)
-  return <Menu.GroupLabel {...(props as object)} />;
+  return (
+    <Menu.Group>
+      <Menu.GroupLabel {...(props as object)} />
+    </Menu.Group>
+  );
 }
 
 /** @deprecated since 4.3.0, removed in 6.0.0. Use {@link Menu.Separator}. */

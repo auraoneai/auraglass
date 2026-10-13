@@ -16,6 +16,7 @@ import type { SwitchProps } from './Switch.types';
  * root is the track; thumb is the transient part. */
 export function Switch({ size, onCheckedChange, children, className, ref, ...rest }: SwitchProps) {
   useControllableWarning('Switch', 'checked', rest.checked);
+  const labelId = React.useId();
   const rootRef = React.useRef<HTMLDivElement | null>(null);
   /* REQ-CMP-46: while the thumb moves it is glass (allowNested keeps its MAT
      optics inside the track surface) and carries data-ag-animating; at rest
@@ -44,7 +45,8 @@ export function Switch({ size, onCheckedChange, children, className, ref, ...res
     if (typeof ref === 'function') ref(el);
     else if (ref) ref.current = el;
   };
-  return (
+  const hasChildren = children !== undefined && children !== null && children !== false;
+  const rootNode = (
     <Base.Root
       data-ag-part="root"
       /* track material: content-sunken at rest (unchecked); the checked
@@ -57,6 +59,9 @@ export function Switch({ size, onCheckedChange, children, className, ref, ...res
       }}
       ref={setRefs}
       {...sizeAttrs(size)}
+      {...(hasChildren && rest['aria-label'] === undefined && rest['aria-labelledby'] === undefined
+        ? { 'aria-labelledby': labelId }
+        : {})}
       {...rest}
       render={stateRender<{ checked: boolean }>((s) => toDataState({ checked: s.checked }), undefined, 'span')}
     >
@@ -66,7 +71,15 @@ export function Switch({ size, onCheckedChange, children, className, ref, ...res
         data-ag-part="thumb"
         {...materialProps({ layer: 'transient', thickness: 'thin', allowNested: moving })}
       />
-      {children}
     </Base.Root>
+  );
+  if (!hasChildren) return rootNode;
+  return (
+    <label className="ag-switch-field" data-disabled={rest.disabled ? '' : undefined}>
+      {rootNode}
+      <span id={labelId} className="ag-switch-label">
+        {children}
+      </span>
+    </label>
   );
 }

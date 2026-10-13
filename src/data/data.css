@@ -7,4 +7,30 @@
    an @import inside @layer {} is invalid CSS and broke every story that loaded
    it ("Unable to preload CSS"). */
 @layer ag.components {
+  .ag-kv {
+    display: grid;
+    gap: var(--ag-space-2, 0.5rem);
+    min-inline-size: 0;
+  }
+  .ag-kv__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+    gap: var(--ag-space-2, 0.5rem);
+    align-items: start;
+    min-inline-size: 0;
+  }
+  .ag-kv__row > *,
+  .ag-kv__cell,
+  .ag-kv__key,
+  .ag-kv__value {
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    box-sizing: border-box;
+  }
+  .ag-kv__row input {
+    min-inline-size: 0;
+    inline-size: 100%;
+    max-inline-size: 100%;
+    box-sizing: border-box;
+  }
 }

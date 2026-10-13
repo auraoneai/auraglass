@@ -351,21 +351,25 @@
   /* CarouselRail */
   /* REQ-SURF-146: the carousel is its own inline-size container, so a numeric
      slidesPerView becomes 1 below 480 px of carousel width */
-  .ag-carousel { position: relative; container: ag-carousel / inline-size; --_ag-carousel-gap: var(--ag-space-3, 0.75rem); }
+  .ag-carousel { position: relative; inline-size: 100%; min-inline-size: 0; container: ag-carousel / inline-size; --_ag-carousel-gap: var(--ag-space-3, 0.75rem); }
   .ag-carousel-viewport {
     display: flex; gap: var(--_ag-carousel-gap); overflow-x: auto;
+    inline-size: 100%;
     scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
     scrollbar-width: none;
   }
   .ag-carousel-slide {
-    scroll-snap-align: start; flex: 0 0 auto;
+    scroll-snap-align: start;
+    flex: 0 0 calc((100% - (var(--_ag-slides-per-view, 1) - 1) * var(--_ag-carousel-gap)) / var(--_ag-slides-per-view, 1));
     inline-size: calc((100% - (var(--_ag-slides-per-view, 1) - 1) * var(--_ag-carousel-gap)) / var(--_ag-slides-per-view, 1));
+    min-inline-size: 0;
+    box-sizing: border-box;
     border-radius: var(--ag-radius-md, 0.75rem);
     overflow: hidden;
   }
-  .ag-carousel.ag-carousel-auto .ag-carousel-slide { inline-size: auto; }
+  .ag-carousel.ag-carousel-auto .ag-carousel-slide { flex: 0 0 100%; inline-size: 100%; }
   @container ag-carousel (max-width: 479.98px) {
-    .ag-carousel:not(.ag-carousel-auto) .ag-carousel-slide { inline-size: 100%; }
+    .ag-carousel:not(.ag-carousel-auto) .ag-carousel-slide { flex-basis: 100%; inline-size: 100%; }
   }
   .ag-carousel-nav {
     appearance: none;
@@ -376,8 +380,8 @@
   }
   .ag-carousel-nav[aria-disabled='true'] { cursor: default; }
   .ag-carousel-nav > svg { display: block; }
-  [data-ag-part='carousel-prev'] { inset-inline-start: var(--ag-space-2, 0.5rem); }
-  [data-ag-part='carousel-next'] { inset-inline-end: var(--ag-space-2, 0.5rem); }
+  [data-ag-part='carousel-prev'] { position: absolute; inset-inline-start: var(--ag-space-2, 0.5rem); inset-inline-end: auto; }
+  [data-ag-part='carousel-next'] { position: absolute; inset-inline-end: var(--ag-space-2, 0.5rem); inset-inline-start: auto; }
   @media (pointer: coarse) { .ag-carousel-nav { display: none; } }
   .ag-carousel-indicators { display: flex; justify-content: center; gap: var(--ag-space-2, 0.5rem); padding: var(--ag-space-3, 0.75rem) 0 0; }
   [data-ag-part='carousel-indicator'] {

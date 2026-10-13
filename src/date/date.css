@@ -5,9 +5,12 @@
     display: grid;
     gap: var(--ag-space-1, 0.25rem);
     font-size: var(--_ag-text-sm, 0.875rem);
+    min-inline-size: 0;
+    max-inline-size: 100%;
   }
   .ag-date-field__input, .ag-date-picker__group {
     display: inline-flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: var(--ag-space-1, 0.25rem);
     padding-block: calc(var(--ag-space-1, 0.25rem) * var(--ag-density, 1));
@@ -16,6 +19,9 @@
     border-radius: var(--_ag-radius-2, 0.5rem);
     background: var(--_ag-surface, Canvas);
     min-block-size: var(--_ag-touch-target, 44px);
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    box-sizing: border-box;
   }
   .ag-date-field__segment {
     padding-inline: var(--ag-space-1, 0.25rem);

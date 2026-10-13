@@ -8,8 +8,24 @@
     position: relative;
     display: inline-flex;
     align-items: center;
+    flex: none;
     gap: var(--ag-space-2);
     cursor: default;
+  }
+
+  .ag-switch-field {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ag-space-2);
+    cursor: default;
+    color: var(--ag-color-on-surface);
+  }
+
+  .ag-switch-label {
+    font-size: var(--ag-type-body-size);
+    line-height: var(--ag-type-body-leading);
+    color: var(--ag-color-on-surface);
+    user-select: none;
   }
 
   .ag-switch [data-ag-part='hit-area'] {
@@ -109,6 +125,10 @@
   [data-ag-motion='calm'] .ag-switch [data-ag-part='thumb'],
   [data-ag-motion='none'] .ag-switch [data-ag-part='thumb'] {
     transition: none;
+  }
+
+  .ag-switch-field[data-disabled] .ag-switch-label:not([data-ag-surface]) {
+    opacity: var(--ag-state-disabled-alpha);
   }
 
   .ag-switch[data-disabled] > :where([data-ag-part]:not([data-ag-surface])) {

@@ -15,8 +15,11 @@ export interface GlassNotification {
   id?: string;
   title?: React.ReactNode;
   message?: React.ReactNode;
+  description?: React.ReactNode;
+  time?: React.ReactNode;
   type?: 'info' | 'success' | 'warning' | 'error';
   read?: boolean;
+  unread?: boolean;
 }
 
 export interface GlassNotificationCenterProps {
@@ -29,24 +32,60 @@ export interface GlassNotificationCenterProps {
 /** @deprecated since 4.2.0, removed in 6.0.0. Use {@link Popover}. */
 export function GlassNotificationCenter({ notifications, onMarkAllRead, trigger, className }: GlassNotificationCenterProps) {
   warnDeprecated(DEP);
-  return wrap('GlassNotificationCenter', (
-    <Popover.Root>
-      <Popover.Trigger>{trigger ?? 'Notifications'}</Popover.Trigger>
-      <Popover.Content {...(className !== undefined ? { className } : {})}>
-    <ul data-compat="notification-list">
-      {notifications?.map((n, i) => (
-        <li key={n.id ?? i} data-notification-type={n.type ?? 'info'}>
-          {n.title}
-          {n.message}
-        </li>
-      ))}
-    </ul>
-    {onMarkAllRead !== undefined ? (
-      <button type="button" onClick={onMarkAllRead}>Mark all read</button>
-    ) : null}
-      </Popover.Content>
-    </Popover.Root>
-  ));
+  const hasNotifications = Boolean(notifications && notifications.length > 0);
+  const listContent = (
+    <div className="ag-notification-center-panel" data-ag-part="panel">
+      <ul
+        data-compat="notification-list"
+        className="ag-notification-list"
+        style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: 'var(--ag-space-2, 0.5rem)' }}
+      >
+        {notifications?.map((n, i) => {
+          const isUnread = n.unread ?? (n.read !== undefined ? !n.read : false);
+          const body = n.message ?? n.description;
+          return (
+            <li
+              key={n.id ?? i}
+              className="ag-notification-item"
+              data-notification-type={n.type ?? 'info'}
+              data-unread={isUnread ? '' : undefined}
+              data-read={!isUnread ? '' : undefined}
+              style={{ display: 'grid', gap: 'var(--ag-space-1, 0.25rem)' }}
+            >
+              <div
+                className="ag-notification-item-header"
+                style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 'var(--ag-space-2, 0.5rem)' }}
+              >
+                {n.title !== undefined ? <strong className="ag-notification-title">{n.title}</strong> : null}
+                {n.time !== undefined ? <span className="ag-notification-time">{n.time}</span> : null}
+              </div>
+              {body !== undefined ? <div className="ag-notification-message">{body}</div> : null}
+            </li>
+          );
+        })}
+      </ul>
+      {onMarkAllRead !== undefined ? (
+        <button type="button" onClick={onMarkAllRead}>Mark all read</button>
+      ) : null}
+    </div>
+  );
+  return wrap(
+    'GlassNotificationCenter',
+    <div
+      className={className ? `ag-notification-center ${className}` : 'ag-notification-center'}
+      style={{ display: 'grid', gap: 'var(--ag-space-2, 0.5rem)' }}
+    >
+      <Popover.Root>
+        <Popover.Trigger>{trigger ?? 'Notifications'}</Popover.Trigger>
+        {!hasNotifications ? (
+          <Popover.Content {...(className !== undefined ? { className } : {})}>
+            {listContent}
+          </Popover.Content>
+        ) : null}
+      </Popover.Root>
+      {hasNotifications ? listContent : null}
+    </div>,
+  );
 }
 
 export interface UseNotificationsCompatReturn {

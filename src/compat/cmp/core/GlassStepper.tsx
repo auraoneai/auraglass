@@ -19,17 +19,34 @@ export function GlassStepper({ steps, current = 0, children, className, ...rest 
   warnDeprecated(DEP);
   const items = steps ?? React.Children.toArray(children);
   return (
-    <ol {...rest} data-compat="GlassStepper" className={className ? `ag-steps ${className}` : 'ag-steps'}>
-      {items.map((s, i) => (
-        <li
-          key={i}
-          aria-current={i === current ? 'step' : undefined}
-          data-ag-part="item"
-          data-status={i === current ? 'current' : i < current ? 'complete' : 'upcoming'}
-        >
-          {s}
-        </li>
-      ))}
+    <ol
+      {...rest}
+      data-compat="GlassStepper"
+      className={className ? `ag-steps ag-steps-list ${className}` : 'ag-steps ag-steps-list'}
+    >
+      {items.map((s, i) => {
+        const status = i === current ? 'current' : i < current ? 'complete' : 'upcoming';
+        const labelNode =
+          typeof s === 'object' && s !== null && !React.isValidElement(s) && 'label' in s
+            ? (s as { label?: React.ReactNode }).label
+            : s;
+        return (
+          <li
+            key={i}
+            className="ag-steps-item"
+            aria-current={i === current ? 'step' : undefined}
+            data-ag-part="item"
+            data-status={status}
+            data-active={i === current ? '' : undefined}
+            data-completed={i < current ? '' : undefined}
+          >
+            <span data-ag-part="indicator" className="ag-steps-indicator" aria-hidden="true" />
+            <span data-ag-part="label" className="ag-steps-label">
+              {labelNode}
+            </span>
+          </li>
+        );
+      })}
     </ol>
   );
 }

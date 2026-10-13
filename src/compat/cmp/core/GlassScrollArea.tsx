@@ -9,7 +9,21 @@ import { __compatWrap as wrap } from '../overlays/_shared';
 const DEP = 'DEP-C0252';
 
 /** @deprecated since 4.3.0, removed in 6.0.0. Use {@link ScrollArea}. */
-export function GlassScrollArea(props: React.ComponentProps<typeof ScrollArea.Root>) {
+export function GlassScrollArea({ children, ...rest }: React.ComponentProps<typeof ScrollArea.Root>) {
   warnDeprecated(DEP);
-  return wrap('GlassScrollArea', <ScrollArea.Root {...props} />);
+  return wrap(
+    'GlassScrollArea',
+    <ScrollArea.Root {...rest}>
+      <ScrollArea.Viewport
+        className="ag-scroll-area-viewport"
+        aria-label={rest['aria-label'] ?? 'Scroll area'}
+        aria-labelledby={rest['aria-labelledby']}
+      >
+        {children}
+      </ScrollArea.Viewport>
+      <ScrollArea.Scrollbar>
+        <ScrollArea.Thumb />
+      </ScrollArea.Scrollbar>
+    </ScrollArea.Root>,
+  );
 }
