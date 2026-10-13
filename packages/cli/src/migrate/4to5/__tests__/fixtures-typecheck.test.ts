@@ -119,7 +119,8 @@ function attribute(out: string, files: { src: string; dest: string }[]): { faili
     if (!m) continue;
     // tsc prints paths relative to the project dir, possibly through the
     // tmpdir symlink (../../var/... vs /private/var/...): match the dest suffix.
-    const dest = m[1] ? files.find((f) => m[1] === f.dest || m[1].endsWith(`/${f.dest}`))?.dest : undefined;
+    const target = m[1];
+    const dest = target ? files.find((f) => target === f.dest || target.endsWith(`/${f.dest}`))?.dest : undefined;
     const owner = dest ? byDest.get(dest) : undefined;
     if (owner) failing.add(owner);
     else foreign.push(line);
@@ -160,7 +161,7 @@ describe('fixture typecheck baseline rows', () => {
     const dirs = new Set(cases.map((c) => caseDir(c.input)));
     const keys = new Set<string>();
     for (const row of baseline) {
-      const stream = row.file.startsWith('packages/cli/') ? 'cli' : row.file.split('/')[2];
+      const stream = row.file.startsWith('packages/cli/') ? 'cli' : (row.file.split('/')[2] ?? '');
       expect(row).toEqual({ file: row.file, side: row.side, owner: OWNER[stream], reqFin: 'REQ-FIN-40', expires: 'RC-1' });
       expect(['input', 'output']).toContain(row.side);
       expect([row.file, dirs.has(row.file)]).toEqual([row.file, true]);

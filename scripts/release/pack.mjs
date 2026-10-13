@@ -145,7 +145,13 @@ export function main(argv = process.argv.slice(2), { root = process.cwd() } = {}
     console.log(`pack: dist-maps.tgz (${maps.length} maps from dist-maps/)`);
   }
 
-  writeFileSync(join(plat, 'pack.env'), `AURAGLASS_TARBALL=${relative(root, rootTarball)}\n`);
+  // gen-claims (REQ-PLAT-104) reads TARBALL_MB + PACK_SHA from pack.env;
+  // both are measured here from the root tarball on disk and the pack SHA.
+  const tarballMb = Math.round((statSync(rootTarball).size / (1024 * 1024)) * 100) / 100;
+  writeFileSync(
+    join(plat, 'pack.env'),
+    `AURAGLASS_TARBALL=${relative(root, rootTarball)}\nTARBALL_MB=${tarballMb}\nPACK_SHA=${record.sha}\n`,
+  );
   return 0;
 }
 

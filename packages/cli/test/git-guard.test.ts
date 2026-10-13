@@ -28,7 +28,7 @@ describe('git-guard', () => {
     for (const opts of [{}, { allowDirty: true }]) {
       try {
         assertClean(dir, ['a.ts'], opts);
-        expect.unreachable();
+        throw new Error('expected to throw');
       } catch (e) {
         expect(e).toBeInstanceOf(CliError);
         expect((e as CliError).code).toBe(3);
@@ -50,7 +50,7 @@ describe('git-guard', () => {
     expect(() => assertClean(dir, ['b.ts'], {})).not.toThrow();
     try {
       assertClean(dir, ['a.ts'], {});
-      expect.unreachable();
+      throw new Error('expected to throw');
     } catch (e) {
       expect((e as CliError).code).toBe(3);
     }
@@ -67,7 +67,7 @@ describe('git-guard', () => {
     fs.writeFileSync(path.join(dir, 'new.ts'), 'x\n');
     try {
       assertClean(dir, ['new.ts'], {});
-      expect.unreachable();
+      throw new Error('expected to throw');
     } catch (e) {
       expect((e as CliError).code).toBe(3);
     }

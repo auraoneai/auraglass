@@ -76,6 +76,11 @@ describe('init (next app router)', () => {
     expect(layout).toContain('<Providers>');
     expect(layout.indexOf('{children}')).toBeGreaterThan(layout.indexOf('<Providers>'));
 
+    /* <html> carries suppressHydrationWarning: the prepaint script mutates
+       documentElement attributes before hydration (quickstart REQ-PLAT-103
+       console-errors gate) */
+    expect(layout).toMatch(/<html[^>]*suppressHydrationWarning/);
+
     /* second run: 'no changes' + byte-identical tree */
     const before = shaTree(dir);
     const code2 = await initCommand([], { cwd: dir, 'allow-no-git': true, 'no-install': true, silent: true });

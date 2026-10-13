@@ -279,7 +279,7 @@ const undefinedVarChecks = () => {
 
 const loadCssBaseline = () => {
   const rows = fs.existsSync(CSS_BASELINE) ? JSON.parse(fs.readFileSync(CSS_BASELINE, 'utf8')) : [];
-  return { rows, problems: rowProblems(rows, { gate: 'verify-a11y-css' }) };
+  return { rows, problems: rowProblems(rows, { gate: 'verify-a11y-css', version: process.env.AG_RELEASE_VERSION ?? '5.0.0-alpha.0' }) };
 };
 
 const main = () => {

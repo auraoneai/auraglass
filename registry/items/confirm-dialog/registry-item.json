@@ -11,5 +11,17 @@
       "type": "registry:item",
       "target": "components/confirm-dialog.tsx"
     }
-  ]
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "CMP",
+      "surface": "item",
+      "client": true,
+      "components": [
+        "AlertDialog"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
 }

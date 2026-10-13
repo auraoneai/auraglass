@@ -34,8 +34,9 @@ describe('cold start (REQ-PLAT-84)', () => {
       times.push(performance.now() - t0);
     }
     times.sort((a, b) => a - b);
-    const p95 = times[Math.ceil(times.length * 0.95) - 1];
-    console.log(`cold --version p95 ${p95.toFixed(1)}ms (min ${times[0].toFixed(1)})`);
+    const p95 = times[Math.ceil(times.length * 0.95) - 1] ?? 0;
+    const min = times[0] ?? 0;
+    console.log(`cold --version p95 ${p95.toFixed(1)}ms (min ${min.toFixed(1)})`);
     expect(p95).toBeLessThanOrEqual(300);
   }, 120000);
 });

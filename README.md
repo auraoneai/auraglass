@@ -25,10 +25,10 @@ you can override.
 [![npm version](https://img.shields.io/npm/v/aura-glass.svg)](https://www.npmjs.com/package/aura-glass)
 [![license](https://img.shields.io/npm/l/aura-glass)](./LICENSE)
 
-At this release: <!-- ag:claim id="component-count" -->pending<!-- /ag:claim --> ·
-<!-- ag:claim id="registry-block-count" -->pending<!-- /ag:claim --> in the registry ·
-<!-- ag:claim id="codemod-transform-count" -->pending<!-- /ag:claim --> in `migrate 4to5` ·
-packed tarball <!-- ag:claim id="tarball-mb" -->pending<!-- /ag:claim -->.
+At this release: <!-- ag:claim id="component-count" -->114 components<!-- /ag:claim --> ·
+<!-- ag:claim id="registry-block-count" -->15 blocks<!-- /ag:claim --> in the registry ·
+<!-- ag:claim id="codemod-transform-count" -->14 transforms<!-- /ag:claim --> in `migrate 4to5` ·
+packed tarball <!-- ag:claim id="tarball-mb" -->0.66 MB<!-- /ag:claim -->.
 Every number on this page is generated from the release pipeline's artifacts
 (`scripts/docs/gen-claims.mjs`); a value that has not been measured yet reads
 "pending".

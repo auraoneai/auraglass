@@ -70,6 +70,6 @@
     .ag-page-header, .ag-page-header__row, .ag-page-header__actions { color: CanvasText; }
     .ag-page-header__title { color: CanvasText; }
     .ag-top-bar__title, .ag-top-bar__center { color: CanvasText; }
-    .ag-skip-link:focus-visible { background: Canvas; color: LinkText; outline: 1px solid Highlight; }
+    .ag-skip-link:focus-visible { background: Canvas; color: LinkText; }
   }
 }

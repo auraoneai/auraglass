@@ -431,7 +431,7 @@
   [data-ag-surface][data-ag-contrast="more"][data-ag-interactive]:where(:hover) {
     --ag-specular: 0;
     --_ag-specular-lift: 0;
-    outline: 1px solid var(--_ag-border-strong, currentColor);
+    outline: 1px solid var(--_ag-border-strong);
     outline-offset: -1px;
   }
   [data-ag-contrast="more"] :where([data-ag-surface][data-selected],
@@ -440,7 +440,7 @@
   :where([data-ag-surface][data-ag-contrast="more"]):where([data-selected],
     [aria-selected="true"], [data-state="on"], [aria-pressed="true"], [data-drop-target]) {
     --_ag-rim-width: var(--_ag-state-selected-rim-width);
-    outline: 1px solid var(--_ag-border-strong, currentColor);
+    outline: 1px solid var(--_ag-border-strong);
     outline-offset: -1px;
   }
   /* press / loading / dragging under contrast=more: outline weight forms, no
@@ -450,18 +450,18 @@
   :where([data-ag-surface][data-ag-contrast="more"]):where([data-pressed], [data-ag-interactive]:active) {
     --_ag-press: 0;
     --_ag-specular-lift: 0;
-    outline: 2px solid var(--_ag-border-strong, currentColor);
+    outline: 2px solid var(--_ag-border-strong);
     outline-offset: -2px;
   }
   [data-ag-contrast="more"] :where([data-ag-surface][data-loading], [data-ag-surface][aria-busy="true"]),
   :where([data-ag-surface][data-ag-contrast="more"]):where([data-loading], [aria-busy="true"]) {
-    outline: 1px dashed var(--_ag-border-strong, currentColor);
+    outline: 1px dashed var(--_ag-border-strong);
     outline-offset: -1px;
   }
   [data-ag-contrast="more"] :where([data-ag-surface][data-dragging]),
   :where([data-ag-surface][data-ag-contrast="more"]):where([data-dragging]) {
     --ag-specular: 0;
-    outline: 2px solid var(--_ag-border-strong, currentColor);
+    outline: 2px solid var(--_ag-border-strong);
     outline-offset: -2px;
   }
 

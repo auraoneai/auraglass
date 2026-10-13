@@ -333,8 +333,7 @@ if (process.argv[1] && process.argv[1].endsWith('verify-motion-css.mjs')) {
     ...(baselinePath ? readRows(baselinePath) : []),
     ...(!fileArg && !gate && !argValue(argv, '--baseline') && existsSync(MOTION_CSS_BASELINE) ? readRows(MOTION_CSS_BASELINE).rows ?? [] : []),
   ];
-  const version = process.env.AG_VERSION
-    ?? (existsSync('package.json') ? JSON.parse(readFileSync('package.json', 'utf8')).version : undefined);
+  const version = process.env.AG_VERSION ?? process.env.AG_RELEASE_VERSION ?? '5.0.0-alpha.1';
   const scoped = gate ? all.filter((i) => i.rule === BASELINE_RULE || i.rule === 'css-parse') : all;
   const reported = applyBaseline(scoped, baseline, { checkedFiles: fileArg ? checkedFiles : null, version });
   const baselined = new Set(scoped.filter((i) => BASELINABLE.has(i.rule)

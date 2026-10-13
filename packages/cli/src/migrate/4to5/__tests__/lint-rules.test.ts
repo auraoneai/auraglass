@@ -5,6 +5,7 @@ import { describe, expect, it } from '@jest/globals';
 import fs from 'node:fs';
 import path from 'node:path';
 import { Linter } from 'eslint';
+// @ts-expect-error -- eslint.config.js is an untyped JS module
 import config from '../../../../eslint.config.js';
 
 const PKG = path.join(__dirname, '..', '..', '..', '..');

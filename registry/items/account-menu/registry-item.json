@@ -11,5 +11,18 @@
       "type": "registry:item",
       "target": "components/account-menu.tsx"
     }
-  ]
+  ],
+  "meta": {
+    "auraglass": {
+      "owner": "CMP",
+      "surface": "item",
+      "client": true,
+      "components": [
+        "Avatar",
+        "Menu"
+      ],
+      "ga": true,
+      "minVersion": "5.0.0"
+    }
+  }
 }

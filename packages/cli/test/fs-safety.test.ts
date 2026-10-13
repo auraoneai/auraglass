@@ -13,7 +13,7 @@ describe('fs-safety', () => {
     const dir = tmp();
     try {
       atomicWrite(dir, '../x.txt', 'evil');
-      expect.unreachable();
+      throw new Error('expected to throw');
     } catch (e) {
       expect(e).toBeInstanceOf(CliError);
       expect((e as CliError).code).toBe(3);
@@ -26,7 +26,7 @@ describe('fs-safety', () => {
     const outside = path.join(tmp(), 'abs.ts');
     try {
       ensureInsideCwd(dir, outside);
-      expect.unreachable();
+      throw new Error('expected to throw');
     } catch (e) {
       expect((e as CliError).code).toBe(3);
     }
@@ -38,7 +38,7 @@ describe('fs-safety', () => {
     fs.symlinkSync(os.tmpdir(), link);
     try {
       atomicWrite(dir, 'link/new/f.ts', 'evil');
-      expect.unreachable();
+      throw new Error('expected to throw');
     } catch (e) {
       expect((e as CliError).code).toBe(3);
     }
@@ -50,7 +50,7 @@ describe('fs-safety', () => {
     const dir = tmp();
     try {
       atomicWrite(dir, path.join('..', 'out-file'), 'evil');
-      expect.unreachable();
+      throw new Error('expected to throw');
     } catch (e) {
       expect((e as CliError).code).toBe(3);
     }

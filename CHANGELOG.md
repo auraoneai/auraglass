@@ -6,10 +6,13 @@ Pre-4.1.1 ledger mismatches are recorded once in `docs/release/ledger-correction
 
 ## [5.0.2] - 2026-10-13
 
-Patch release carrying the fully generated README: the claim counters on the
-npm page (component count, registry blocks, codemod transforms, packed
-tarball size) are now measured values from this release's own artifacts
-instead of `pending`. No runtime change from 5.0.1.
+Patch release carrying critical RSC, optical grain, and LightningCSS fixes alongside the measured release claim counters:
+
+- **RSC-safe `Surface` (`aura-glass/material`)**: `Surface` no longer creates a development `ref` callback on the server render path; dev geometry/nesting warnings now run through a tiny client leaf (`SurfaceWarnAnchor.client.tsx`), fixing `"Refs cannot be used in Server Components"` in Next.js App Router RSC pages.
+- **Translucent optical grain tile (`ag-grain-128.avif`)**: Re-encoded `src/material/assets/ag-grain-128.avif` via `avifenc` (`make-grain.mjs`) so its alpha channel (`alpha 2..14`) is preserved (`hasAlpha: true`), eliminating the opaque mid-gray noise veil that appeared when `ffmpeg`/`libaom` stripped alpha.
+- **LightningCSS / Turbopack / Vite `backdrop-filter` preservation**: Emits `-webkit-backdrop-filter` *before* standard `backdrop-filter` across `material.css`, `lens.css`, and `rungs.css` so LightningCSS deduplication retains standard `backdrop-filter` in consumer bundles.
+- **Next.js App Router `init` hydration safety (`aura-glass-cli@0.1.1`)**: `npx aura-glass-cli init` now adds `suppressHydrationWarning` to `<html>` in `app/layout.tsx` alongside `<AuraGlassScript />`.
+- **Measured README & `llms.txt` claim counters**: Replaces `pending` placeholders with measured values from this release's artifacts (`88 components`, `15 blocks`, `14 transforms`, `0.66 MB` packed tarball).
 
 ## [5.0.1] - 2026-10-13
 

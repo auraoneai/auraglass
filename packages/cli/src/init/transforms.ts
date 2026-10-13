@@ -62,7 +62,9 @@ export function Providers({ children }: { children: ReactNode }) {
  * AST-edit a Next App Router layout: ensure `import { AuraGlassScript } from
  * 'aura-glass/theme'` + `import { Providers } from './providers'`; insert
  * <AuraGlassScript /> as the first <head> child (create <head> when absent,
- * inside <html>); wrap {children} in <Providers>.
+ * inside <html>); wrap {children} in <Providers>; add suppressHydrationWarning
+ * to <html> (the prepaint script sets data-ag-* attributes on it before
+ * hydration, which React otherwise reports as a hydration mismatch).
  * Returns the transformed source or null when already migrated.
  */
 export function transformLayoutTsx(source: string): string | null {
@@ -120,6 +122,21 @@ export function transformLayoutTsx(source: string): string | null {
       });
     }
   }
+
+  /* suppressHydrationWarning on <html>: AuraGlassScript's prepaint sets
+     data-ag-engine/-transparency/-contrast/-motion/-scheme/-density (and the
+     --ag-glass-opacity style) on documentElement before React hydrates. */
+  root.find(j.JSXElement, { openingElement: { name: { name: 'html' } } }).forEach((p: any) => {
+    const attrs = p.node.openingElement.attributes ?? [];
+    const has = attrs.some(
+      (a: any) => a.type === 'JSXAttribute' && a.name?.name === 'suppressHydrationWarning',
+    );
+    if (!has) {
+      attrs.push(j.jsxAttribute(j.jsxIdentifier('suppressHydrationWarning')));
+      p.node.openingElement.attributes = attrs;
+      changed = true;
+    }
+  });
 
   /* wrap {children} inside <body> in <Providers> */
   const wrapped = (): boolean =>
