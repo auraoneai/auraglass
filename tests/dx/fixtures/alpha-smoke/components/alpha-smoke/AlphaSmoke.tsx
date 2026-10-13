@@ -5,8 +5,11 @@
    against the packed `aura-glass`: Surface (a chrome-layer header over a media
    backdrop, the material-presence subject), Button and Dialog. No
    'use client' directive: the page stays a Server Component in Next.js, so a
-   client-boundary mistake in the package surfaces as an error. */
-import { Button, Dialog, Environment, Surface } from 'aura-glass';
+   client-boundary mistake in the package surfaces as an error. The one
+   interactive compound (Dialog) sits behind SmokeDialog.client, the
+   documented client-island pattern for overlays. */
+import { Button, Environment, Surface } from 'aura-glass';
+import { SmokeDialog } from './SmokeDialog.client';
 
 /* A declared media backdrop with real luminance structure, so the chrome
    surface is glass over something (architecture §15.2 material presence). */
@@ -34,14 +37,7 @@ export function AlphaSmoke() {
           style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '12px 16px' }}
         >
           <strong>AuraGlass</strong>
-          <Dialog.Root>
-            <Dialog.Trigger>Open dialog</Dialog.Trigger>
-            <Dialog.Content>
-                <Dialog.Title>Alpha smoke</Dialog.Title>
-                <Dialog.Description>Surface, Button and Dialog from the packed aura-glass.</Dialog.Description>
-                <Dialog.Close>Close</Dialog.Close>
-              </Dialog.Content>
-          </Dialog.Root>
+          <SmokeDialog />
         </Surface>
         <Surface render={<main />} style={{ display: 'grid', gap: 12, padding: 24, maxWidth: 560 }}>
           <h1>Install to beautiful</h1>
