@@ -2,5 +2,5 @@
 import { GlassStepper } from 'aura-glass';
 
 export function X() {
-  return <GlassStepper value={n} onChange={setN} />;
+  return <GlassStepper {...v} />;
 }

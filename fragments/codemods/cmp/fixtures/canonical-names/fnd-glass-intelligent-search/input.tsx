@@ -2,5 +2,5 @@
 import { GlassIntelligentSearch } from 'aura-glass';
 
 export function X() {
-  return <GlassIntelligentSearch suggestions={s} />;
+  return <GlassIntelligentSearch {...v} />;
 }

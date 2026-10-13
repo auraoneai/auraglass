@@ -2,5 +2,5 @@
 import { GlassMediaControls } from 'aura-glass';
 
 export function Example() {
-  return <GlassMediaControls />;
+  return <GlassMediaControls playing={v} />;
 }

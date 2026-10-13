@@ -2,5 +2,5 @@
 import { ErrorState } from 'aura-glass';
 
 export function X() {
-  return <ErrorState>x</ErrorState>;
+  return <ErrorState title={v}>x</ErrorState>;
 }

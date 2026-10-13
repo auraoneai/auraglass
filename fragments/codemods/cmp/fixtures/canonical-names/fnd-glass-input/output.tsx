@@ -2,5 +2,5 @@
 import { TextField } from 'aura-glass';
 
 export function X() {
-  return <TextField label="Name" value={n} onChange={e=>setN(e.target.value)} />;
+  return <TextField {...v} />;
 }

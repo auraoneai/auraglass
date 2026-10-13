@@ -2,5 +2,5 @@
 import { LiquidGlassBadgeCluster } from 'aura-glass';
 
 export function X() {
-  return <LiquidGlassBadgeCluster>x</LiquidGlassBadgeCluster>;
+  return <LiquidGlassBadgeCluster {...v}>x</LiquidGlassBadgeCluster>;
 }

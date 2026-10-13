@@ -2,5 +2,5 @@
 import { GlassPagination } from 'aura-glass';
 
 export function Example() {
-  return <GlassPagination />;
+  return <GlassPagination {...v} />;
 }

@@ -2,5 +2,5 @@
 import { LiquidGlassMapControls } from 'aura-glass';
 
 export function X() {
-  return <LiquidGlassMapControls onZoomIn={zi} onZoomOut={zo} />;
+  return <LiquidGlassMapControls {...v} />;
 }

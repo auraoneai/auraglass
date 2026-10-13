@@ -2,5 +2,5 @@
 import { GlassKPICard } from 'aura-glass';
 
 export function Example() {
-  return <GlassKPICard />;
+  return <GlassKPICard {...v} />;
 }

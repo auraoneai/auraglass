@@ -2,5 +2,5 @@
 import { GlassDialog } from 'aura-glass';
 
 export function X() {
-  return <GlassDialog open={open} onClose={close}>…</GlassDialog>;
+  return <GlassDialog open={o} onClose={close}>…</GlassDialog>;
 }

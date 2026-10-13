@@ -2,5 +2,5 @@
 import { GlassDrawer } from 'aura-glass';
 
 export function X() {
-  return <GlassDrawer open={open} position="right">…</GlassDrawer>;
+  return <GlassDrawer open={o} position="right">…</GlassDrawer>;
 }

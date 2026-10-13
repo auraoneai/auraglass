@@ -2,5 +2,5 @@
 import { Sidebar } from 'aura-glass/app-shell';
 
 export function Example() {
-  return <Sidebar />;
+  return <Sidebar.Root {...v} />;
 }

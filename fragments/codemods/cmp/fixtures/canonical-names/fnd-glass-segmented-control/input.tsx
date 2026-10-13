@@ -2,5 +2,5 @@
 import { GlassSegmentedControl } from 'aura-glass';
 
 export function X() {
-  return <GlassSegmentedControl options={opts} value={v} onChange={setV} />;
+  return <GlassSegmentedControl {...v} />;
 }

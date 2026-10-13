@@ -2,5 +2,5 @@
 import { LiquidGlassNowPlayingBar } from 'aura-glass';
 
 export function Example() {
-  return <LiquidGlassNowPlayingBar />;
+  return <LiquidGlassNowPlayingBar {...v} />;
 }

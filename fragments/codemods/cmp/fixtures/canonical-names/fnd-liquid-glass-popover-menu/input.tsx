@@ -2,5 +2,5 @@
 import { LiquidGlassPopoverMenu } from 'aura-glass';
 
 export function X() {
-  return <LiquidGlassPopoverMenu trigger={<Btn/>} items={items} />;
+  return <LiquidGlassPopoverMenu {...v} />;
 }

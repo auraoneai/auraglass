@@ -2,5 +2,5 @@
 import { Inspector } from 'aura-glass/app-shell';
 
 export function Example() {
-  return <Inspector />;
+  return <Inspector.Root {...v} />;
 }

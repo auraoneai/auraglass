@@ -2,5 +2,5 @@
 import { Avatar } from 'aura-glass';
 
 export function X() {
-  return <Avatar>x</Avatar>;
+  return <Avatar.Root>x</Avatar.Root>;
 }

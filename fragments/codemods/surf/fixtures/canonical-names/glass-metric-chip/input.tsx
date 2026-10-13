@@ -2,5 +2,5 @@
 import { GlassMetricChip } from 'aura-glass';
 
 export function Example() {
-  return <GlassMetricChip />;
+  return <GlassMetricChip {...v}>x</GlassMetricChip>;
 }

@@ -2,5 +2,5 @@
 import { Menu } from 'aura-glass';
 
 export function X() {
-  return <Menu>x</Menu>;
+  return <Menu.Root>x</Menu.Root>;
 }

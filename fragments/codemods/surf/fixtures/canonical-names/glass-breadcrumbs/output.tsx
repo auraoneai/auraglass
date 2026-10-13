@@ -2,5 +2,5 @@
 import { Breadcrumbs } from 'aura-glass';
 
 export function Example() {
-  return <Breadcrumbs />;
+  return <Breadcrumbs.Root {...v} />;
 }

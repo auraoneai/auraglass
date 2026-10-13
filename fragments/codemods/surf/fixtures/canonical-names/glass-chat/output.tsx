@@ -3,5 +3,5 @@
 import { GlassChat } from 'aura-glass/compat';
 
 export function Example() {
-  return <GlassChat />;
+  return <GlassChat messages={v} />;
 }

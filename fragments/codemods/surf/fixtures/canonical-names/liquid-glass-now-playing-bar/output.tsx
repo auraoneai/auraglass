@@ -2,5 +2,5 @@
 import { NowPlayingBar } from 'aura-glass/media';
 
 export function Example() {
-  return <NowPlayingBar />;
+  return <NowPlayingBar.Root {...v} />;
 }

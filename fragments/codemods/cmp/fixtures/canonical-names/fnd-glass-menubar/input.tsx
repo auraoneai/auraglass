@@ -2,5 +2,5 @@
 import { GlassMenubar } from 'aura-glass';
 
 export function X() {
-  return <GlassMenubar menus={menus} />;
+  return <GlassMenubar {...v} />;
 }

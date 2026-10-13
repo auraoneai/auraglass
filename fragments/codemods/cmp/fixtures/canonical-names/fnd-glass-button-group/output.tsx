@@ -2,5 +2,5 @@
 import { ButtonGroup } from 'aura-glass';
 
 export function X() {
-  return <ButtonGroup>x</ButtonGroup>;
+  return <ButtonGroup {...v}>x</ButtonGroup>;
 }

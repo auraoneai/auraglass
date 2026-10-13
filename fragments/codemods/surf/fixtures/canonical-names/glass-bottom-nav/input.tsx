@@ -2,5 +2,5 @@
 import { GlassBottomNav } from 'aura-glass';
 
 export function Example() {
-  return <GlassBottomNav />;
+  return <GlassBottomNav {...v} />;
 }

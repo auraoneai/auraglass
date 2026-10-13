@@ -2,5 +2,5 @@
 import { GlassMetricCard } from 'aura-glass';
 
 export function Example() {
-  return <GlassMetricCard />;
+  return <GlassMetricCard {...v} />;
 }

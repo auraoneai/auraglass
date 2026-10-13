@@ -2,5 +2,5 @@
 import { GlassColorPicker } from 'aura-glass';
 
 export function X() {
-  return <GlassColorPicker>x</GlassColorPicker>;
+  return <GlassColorPicker {...v}>x</GlassColorPicker>;
 }

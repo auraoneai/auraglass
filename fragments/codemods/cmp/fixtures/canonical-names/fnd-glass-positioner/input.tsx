@@ -2,5 +2,5 @@
 import { GlassPositioner } from 'aura-glass';
 
 export function X() {
-  return <GlassPositioner anchor={a} placement="top"><Tip/></GlassPositioner>;
+  return <GlassPositioner {...v}><Tip/></GlassPositioner>;
 }

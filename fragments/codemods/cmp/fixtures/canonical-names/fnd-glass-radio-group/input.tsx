@@ -2,5 +2,5 @@
 import { GlassRadioGroup } from 'aura-glass';
 
 export function X() {
-  return <GlassRadioGroup options={opts} value={v} onChange={setV} />;
+  return <GlassRadioGroup {...v} />;
 }

@@ -2,5 +2,5 @@
 import { Sheet } from 'aura-glass';
 
 export function X() {
-  return <Sheet.Root open={open}><Sheet.Content side="start">…</Sheet.Content></Sheet.Root>;
+  return <Sheet.Root open={o}><Sheet.Content side="start">…</Sheet.Content></Sheet.Root>;
 }

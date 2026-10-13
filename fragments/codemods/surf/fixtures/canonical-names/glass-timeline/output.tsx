@@ -2,5 +2,5 @@
 import { Timeline } from 'aura-glass';
 
 export function Example() {
-  return <Timeline />;
+  return <Timeline items={v} />;
 }

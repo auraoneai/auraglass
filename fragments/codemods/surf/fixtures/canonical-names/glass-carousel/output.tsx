@@ -2,5 +2,5 @@
 import { CarouselRail } from 'aura-glass/media';
 
 export function Example() {
-  return <CarouselRail />;
+  return <CarouselRail.Root {...v} />;
 }

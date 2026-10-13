@@ -2,5 +2,5 @@
 import { GlassFilterBar } from 'aura-glass';
 
 export function Example() {
-  return <GlassFilterBar />;
+  return <GlassFilterBar {...v} />;
 }

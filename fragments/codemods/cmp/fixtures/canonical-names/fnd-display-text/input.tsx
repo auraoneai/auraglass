@@ -2,5 +2,5 @@
 import { DisplayText } from 'aura-glass';
 
 export function X() {
-  return <DisplayText>x</DisplayText>;
+  return <DisplayText {...v}>x</DisplayText>;
 }

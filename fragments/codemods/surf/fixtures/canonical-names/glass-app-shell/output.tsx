@@ -2,5 +2,5 @@
 import { AppShell } from 'aura-glass/app-shell';
 
 export function Example() {
-  return <AppShell />;
+  return <AppShell.Root />;
 }

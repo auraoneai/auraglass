@@ -2,5 +2,5 @@
 import { GlassFab } from 'aura-glass';
 
 export function X() {
-  return <GlassFab icon={<PlusIcon />} label="Add" />;
+  return <GlassFab {...v} />;
 }

@@ -2,5 +2,5 @@
 import { AtmosphericBackground } from 'aura-glass';
 
 export function Example() {
-  return <AtmosphericBackground />;
+  return <AtmosphericBackground {...v} />;
 }

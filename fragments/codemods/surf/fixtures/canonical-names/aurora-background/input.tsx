@@ -2,5 +2,5 @@
 import { AuroraBackground } from 'aura-glass';
 
 export function Example() {
-  return <AuroraBackground />;
+  return <AuroraBackground {...v} />;
 }

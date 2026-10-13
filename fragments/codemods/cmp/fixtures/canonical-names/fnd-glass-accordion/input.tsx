@@ -2,5 +2,5 @@
 import { GlassAccordion } from 'aura-glass';
 
 export function X() {
-  return <GlassAccordion>x</GlassAccordion>;
+  return <GlassAccordion {...v}>x</GlassAccordion>;
 }

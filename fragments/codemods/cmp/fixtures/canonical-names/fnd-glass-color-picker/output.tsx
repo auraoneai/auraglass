@@ -2,5 +2,5 @@
 import { ColorPicker } from 'aura-glass';
 
 export function X() {
-  return <ColorPicker>x</ColorPicker>;
+  return <ColorPicker.Root {...v}>x</ColorPicker.Root>;
 }

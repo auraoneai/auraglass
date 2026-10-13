@@ -2,5 +2,5 @@
 import { TopBar } from 'aura-glass/app-shell';
 
 export function Example() {
-  return <TopBar />;
+  return <TopBar.Root />;
 }

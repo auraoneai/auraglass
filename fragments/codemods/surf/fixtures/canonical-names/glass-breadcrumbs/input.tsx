@@ -2,5 +2,5 @@
 import { GlassBreadcrumbs } from 'aura-glass/app-shell';
 
 export function Example() {
-  return <GlassBreadcrumbs />;
+  return <GlassBreadcrumbs {...v} />;
 }

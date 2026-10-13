@@ -2,5 +2,5 @@
 import { GlassCoachmarks } from 'aura-glass';
 
 export function X() {
-  return <GlassCoachmarks>x</GlassCoachmarks>;
+  return <GlassCoachmarks {...v}>x</GlassCoachmarks>;
 }

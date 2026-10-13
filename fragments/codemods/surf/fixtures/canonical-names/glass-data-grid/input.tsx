@@ -2,5 +2,5 @@
 import { GlassDataGrid } from 'aura-glass';
 
 export function Example() {
-  return <GlassDataGrid />;
+  return <GlassDataGrid data={v} columns={v} />;
 }

@@ -91,6 +91,7 @@ function writeProject(
         'react/jsx-runtime': [nm('@types/react/jsx-runtime.d.ts')],
         'react-dom': [nm('@types/react-dom/index.d.ts')],
         'framer-motion': [nm('framer-motion')],
+        '@tanstack/react-table': [nm('@tanstack/react-table')],
       },
       types: ['node'], typeRoots: [nm('@types')],
     },
@@ -191,6 +192,11 @@ describe('fixture typecheck', () => {
       pathsMap = {
         'aura-glass': [path.join(REPO, 'src', 'index.ts')],
         'aura-glass/compat': [path.join(REPO, 'src', 'compat', 'index.ts')],
+        // ENTRIES whose public source is not src/<name>/index.ts (see
+        // src/contracts/entries.ts): the packed types resolve there, so
+        // src-mode must too, or the two modes disagree on the export surface.
+        'aura-glass/motion': [path.join(REPO, 'src', 'motion', 'public.ts')],
+        'aura-glass/theme': [path.join(REPO, 'src', 'theme', 'public.ts')],
         'aura-glass/*': [path.join(REPO, 'src', '*', 'index.ts'), path.join(REPO, 'src', '*.ts')],
       };
     }

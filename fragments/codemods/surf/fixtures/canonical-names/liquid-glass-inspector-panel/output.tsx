@@ -3,5 +3,5 @@
 import { LiquidGlassInspectorPanel } from 'aura-glass/compat';
 
 export function Example() {
-  return <LiquidGlassInspectorPanel />;
+  return <LiquidGlassInspectorPanel open={v} />;
 }

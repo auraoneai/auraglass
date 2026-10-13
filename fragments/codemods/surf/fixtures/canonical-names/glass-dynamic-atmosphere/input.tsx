@@ -2,5 +2,5 @@
 import { GlassDynamicAtmosphere } from 'aura-glass';
 
 export function Example() {
-  return <GlassDynamicAtmosphere />;
+  return <GlassDynamicAtmosphere {...v} />;
 }

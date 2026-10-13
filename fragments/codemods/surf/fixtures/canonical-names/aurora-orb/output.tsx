@@ -2,5 +2,5 @@
 import { Backdrop } from 'aura-glass/backdrops';
 
 export function Example() {
-  return <Backdrop />;
+  return <Backdrop {...v} />;
 }

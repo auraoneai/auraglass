@@ -2,5 +2,5 @@
 import { GlassToolbar } from 'aura-glass';
 
 export function X() {
-  return <GlassToolbar items={items} />;
+  return <GlassToolbar {...v} />;
 }
