@@ -131,6 +131,25 @@ export function wrapSnippet(s) {
   };
 }
 
+/* Packages a guide sample may import because the app it addresses
+   installed them (quickstart scaffolds, the React Router/Vitest guides).
+   Their declared surfaces live in scripts/docs/snippet-stubs/ and cover
+   exactly what the samples use; `aura-glass` itself always resolves to
+   the real packed/source types. */
+const USER_APP_STUBS = {
+  '@vitejs/plugin-react': 'vitejs-plugin-react.d.ts',
+  '@tailwindcss/vite': 'tailwindcss-vite.d.ts',
+  'react-router': 'react-router.d.ts',
+  vitest: 'vitest.d.ts',
+  'vitest/config': 'vitest-config.d.ts',
+  'lucide-react': 'lucide-react.d.ts',
+  '@mui/material': 'mui-material.d.ts',
+  '@radix-ui/react-dropdown-menu': 'radix-dropdown-menu.d.ts',
+  recharts: 'recharts.d.ts',
+  '@visx/scale': 'visx-scale.d.ts',
+  'chart.js': 'chart-js.d.ts',
+};
+
 /** Package version from the root package.json. */
 const rootVersion = (root) => JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).version;
 
@@ -182,10 +201,34 @@ export const COMPILER_OPTIONS = {
  * Runs the gate. Returns the report object; `report.failures` is the list of
  * snippets with at least one error diagnostic.
  */
+/* Quickstart/README fences address the post-`add` user app: they import
+   registry sources from ../components/aura/<id>. Materialize every authored
+   registry item's files[] there so those relative imports resolve to the
+   real block/item source this commit ships. */
+export function materializeRegistryApp(root, work) {
+  for (const kind of ['base', 'blocks', 'items']) {
+    const dir = join(root, 'registry', kind);
+    if (!existsSync(dir)) continue;
+    for (const id of readdirSync(dir).sort()) {
+      const itemFile = join(dir, id, 'registry-item.json');
+      if (!existsSync(itemFile)) continue;
+      const item = JSON.parse(readFileSync(itemFile, 'utf8'));
+      for (const f of item.files ?? []) {
+        const src = join(dir, id, f.path);
+        if (!existsSync(src)) continue;
+        const dest = join(work, 'components', 'aura', id, f.path);
+        mkdirSync(dirname(dest), { recursive: true });
+        writeFileSync(dest, readFileSync(src, 'utf8'));
+      }
+    }
+  }
+}
+
 export function compile({ root = ROOT_DEFAULT, tarball = null, requirePacked = false, snippets = collectSnippets(root) } = {}) {
   const t0 = Date.now();
   const work = join(root, '.artifacts', 'docs', 'snippets');
   mkdirSync(work, { recursive: true });
+  materializeRegistryApp(root, work);
 
   const tgz = tarball ? resolve(tarball) : join(root, packPath(root));
   let types;
@@ -201,6 +244,16 @@ export function compile({ root = ROOT_DEFAULT, tarball = null, requirePacked = f
     options.paths = sourcePaths(root);
     types = { mode: 'source', tarball: null };
   }
+  options.baseUrl = root;
+  options.paths = {
+    ...(options.paths ?? {}),
+    ...Object.fromEntries(
+      Object.entries(USER_APP_STUBS).map(([spec, file]) => [
+        spec,
+        [join(root, 'scripts/docs/snippet-stubs', file)],
+      ]),
+    ),
+  };
 
   const virtual = new Map();
   const meta = new Map();

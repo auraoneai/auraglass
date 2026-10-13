@@ -55,7 +55,9 @@ import 'aura-glass/styles.css';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import { AuraGlassProvider } from 'aura-glass/theme';
-import { routes } from './routes';
+
+// Your route table (usually `import { routes } from './routes'`).
+const routes = [{ path: '/', element: <main>Home</main> }];
 
 const router = createBrowserRouter(routes);
 

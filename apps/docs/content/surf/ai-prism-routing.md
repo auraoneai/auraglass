@@ -20,6 +20,14 @@ const prism = createOpenAICompatible({
   apiKey: process.env.PRISM_API_KEY, // server-only — never NEXT_PUBLIC_*
 });
 
+async function firstPrismModel(): Promise<string> {
+  const res = await fetch('https://prism.auraone.ai/v1/models', {
+    headers: { Authorization: `Bearer ${process.env.PRISM_API_KEY}` },
+  });
+  const { data } = (await res.json()) as { data: { id: string }[] };
+  return data[0].id;
+}
+
 export async function POST(req: Request) {
   const model = process.env.PRISM_MODEL ?? (await firstPrismModel());
   const { messages } = await req.json();
@@ -42,16 +50,17 @@ objects) before deploying more than one instance.
 
 ## Using with the Vercel AI SDK
 
-`useChat()` messages are already assignable to `AgMessage` — pass them through:
+Typed with `AgMessageMetadata`, `useChat()` messages are assignable to
+`AgMessage` with no cast — pass them through:
 
 ```tsx
 'use client';
 import { useChat } from '@ai-sdk/react';
-import { DefaultChatTransport } from 'ai';
-import { Thread, Composer } from 'aura-glass/ai';
+import { DefaultChatTransport, type UIMessage } from 'ai';
+import { Thread, Composer, type AgMessageMetadata } from 'aura-glass/ai';
 
 export function Chat() {
-  const { messages, sendMessage, stop, status } = useChat({
+  const { messages, sendMessage, stop, status } = useChat<UIMessage<AgMessageMetadata>>({
     transport: new DefaultChatTransport({ api: '/api/chat' }),
   });
   return (
