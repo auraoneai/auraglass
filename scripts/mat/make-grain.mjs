@@ -62,7 +62,15 @@ if (isMain) {
     process.exit(0);
   }
   let wrote = false;
+  // avifenc first: it preserves the alpha item this tile's whole purpose
+  // rides on. The ffmpeg/libaom and ImageMagick paths below have both been
+  // observed to silently strip alpha, shipping an opaque mid-gray slab that
+  // every surface then paints at full strength (5.0.0/5.0.1 regression).
   try {
+    execFileSync('avifenc', ['-q', '45', '--qalpha', '70', tmpPng, OUT]);
+    wrote = true;
+  } catch { /* fall through */ }
+  if (!wrote) try {
     execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', tmpPng, '-c:v', 'libaom-av1',
       '-frames:v', '1', '-pix_fmt', 'yuva420p', '-crf', '50', '-cpu-used', '8', OUT]);
     wrote = true;
