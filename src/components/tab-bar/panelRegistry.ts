@@ -34,7 +34,7 @@ export const PanelRegistryContext = /*#__PURE__*/ createContext<PanelRegistry | 
 
 /** REQ-SURF-51: true inside a Tabs.Root. A TabBar(semantics='tabs') outside
     one supplies its own Base UI Tabs root so its tabs still rove/select. */
-export const TabsRootPresenceContext = createContext(false);
+export const TabsRootPresenceContext = /*#__PURE__*/ createContext(false);
 
 /** The enclosing registry, or a stable one owned by the caller. */
 export function useOwnOrOuterPanelRegistry(): PanelRegistry {

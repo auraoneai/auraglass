@@ -1,13 +1,14 @@
 // SURF-149/253 — REQ-SURF-03 (REQ-FIN-80): every SURF css file under every
 // SURF css root is declared in fragments/css/surf.ts, starts with
 // LAYER_ORDER_STATEMENT, keeps all of its rules inside exactly one
-// `@layer ag.components {}` block, and has no !important / hex / physical
+// registered layer block (ag.components or ag.a11y), and has no !important / hex / physical
 // properties (logical-properties rule) / raw duration or rem literals outside
 // var() fallbacks.
 import { describe, expect, it } from '@jest/globals';
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { LAYER_ORDER_STATEMENT } from '../../../src/contracts/tokens';
+import surfCss from '../../../fragments/css/surf';
 
 const ROOT = process.cwd();
 const PHYSICAL = /(?<![a-z-])(?:left|right|top|bottom|margin-left|margin-right|margin-top|margin-bottom|padding-left|padding-right|padding-top|padding-bottom|border-left|border-right|border-top|border-bottom|inset-left|inset-right)\s*:/;
@@ -46,7 +47,7 @@ const stripVars = (s: string) => {
   return s;
 };
 
-const fragSrc = readFileSync(join(ROOT, 'fragments/css/surf.ts'), 'utf8');
+const registered = new Map(surfCss.map((row) => [row.file as string, row]));
 
 describe('SURF css discipline (SURF-149, REQ-SURF-03)', () => {
   const byRoot = new Map<string, string[]>();
@@ -58,7 +59,7 @@ describe('SURF css discipline (SURF-149, REQ-SURF-03)', () => {
     expect(empty).toEqual([]);
   });
   it('every SURF css file is declared in the fragment (0 orphans)', () => {
-    const orphans = files.filter((f) => !fragSrc.includes(`'${f}'`));
+    const orphans = files.filter((f) => !registered.has(f));
     expect(orphans).toEqual([]);
   });
   it('every file starts with LAYER_ORDER_STATEMENT (0 missing layer-order lines)', () => {
@@ -79,13 +80,17 @@ describe('SURF css discipline (SURF-149, REQ-SURF-03)', () => {
     }
     expect(bad).toEqual([]);
   });
-  it('every rule sits inside exactly one @layer ag.components block', () => {
+  it('every rule sits inside exactly one block of its registered layer', () => {
     const bad: string[] = [];
     for (const f of files) {
       const src = stripComments(readFileSync(join(ROOT, f), 'utf8')).slice(LAYER_ORDER_STATEMENT.length);
-      const open = src.indexOf('@layer ag.components {');
-      const blocks = src.match(/@layer\s+ag\.components\s*\{/g)?.length ?? 0;
-      if (blocks !== 1) { bad.push(`${f}: ${blocks} ag.components blocks`); continue; }
+      const layer = registered.get(f)?.layer;
+      const blocks = [...src.matchAll(/@layer\s+([\w.-]+)\s*\{/g)];
+      if (blocks.length !== 1 || blocks[0]?.[1] !== layer) {
+        bad.push(`${f}: expected one ${layer ?? 'registered'} block, found ${blocks.map((m) => m[1]).join(', ')}`);
+        continue;
+      }
+      const open = blocks[0]!.index!;
       /* Nothing but whitespace before the block, and the block's closing brace
          is the last non-whitespace character of the file. */
       if (src.slice(0, open).trim() !== '') bad.push(`${f}: content before the layer block`);
@@ -99,14 +104,16 @@ describe('SURF css discipline (SURF-149, REQ-SURF-03)', () => {
     }
     expect(bad).toEqual([]);
   });
-  it('no non-ag.components layers', () => {
+  it('only its registered component or accessibility layer is allowed', () => {
     const bad: string[] = [];
     for (const f of files) {
       const src = stripComments(readFileSync(join(ROOT, f), 'utf8'));
+      const expected = registered.get(f)?.layer;
+      if (expected !== 'ag.components' && expected !== 'ag.a11y') bad.push(`${f}: invalid registered layer ${expected}`);
       /* Layer BLOCKS end with '{'; the frozen order statement ends with ';'. */
       for (const m of src.matchAll(/@layer\s+([a-zA-Z0-9_.,\s-]+?)\s*\{/g)) {
         const names = m[1]!.trim();
-        if (names !== 'ag.components') bad.push(`${f}: @layer ${names} {`);
+        if (names !== expected) bad.push(`${f}: @layer ${names} {`);
       }
       /* Any other layer statement than the frozen one is a stray layer. */
       for (const m of src.matchAll(/@layer\s+[^;{]+;/g)) {

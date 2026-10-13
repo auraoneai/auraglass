@@ -66,23 +66,26 @@ function walk(dir, test, out = []) {
 /** True when `p` exists and its on-disk spelling equals `p` exactly. */
 export function existsExactCase(p) {
   try {
-    return realpathSync.native(p) === resolve(p) || caseWalk(p);
+    return realpathSync.native(p) === resolve(p) || Boolean(caseWalk(p));
   } catch {
     return false;
   }
 }
 /* realpath also resolves symlinks; fall back to a per-segment directory
    listing so a symlinked parent is not mistaken for a case mismatch. */
-function caseWalk(p) {
+function caseWalk(p, ignoreCase = false) {
   const abs = resolve(p);
   const parts = abs.split(sep);
   let cur = parts[0] || sep;
   for (const part of parts.slice(1)) {
     if (!part) continue;
-    if (!readdirSync(cur).includes(part)) return false;
-    cur = join(cur, part);
+    const names = readdirSync(cur).sort();
+    const name = names.includes(part) ? part
+      : ignoreCase ? names.find((entry) => entry.toLowerCase() === part.toLowerCase()) : undefined;
+    if (name === undefined) return null;
+    cur = join(cur, name);
   }
-  return true;
+  return cur;
 }
 
 /** Fenced code and inline code are not links. */
@@ -209,10 +212,15 @@ export function checkLinks({ root = ROOT_DEFAULT, outDir = null } = {}) {
 
   const fileTarget = (sourceAbs, file, line, href, path, frag) => {
     const target = path ? resolve(path) : sourceAbs;
-    if (!existsSync(target)) return fail(file, line, href, `target does not exist: ${toPosix(relative(root, target))}`), null;
     if (!existsExactCase(target)) {
-      let real = target; try { real = realpathSync.native(target); } catch { /* reported below */ }
-      return fail(file, line, href, `case mismatch: written ${toPosix(relative(root, target))}, on disk ${toPosix(relative(root, real))}`), null;
+      // Linux rejects wrong-case paths before realpath can identify their
+      // spelling. Walk directory entries on every OS for the same diagnostic,
+      // retaining symlink parent spellings rather than resolving their targets.
+      let real = null; try { real = caseWalk(target, true); } catch { /* missing parent */ }
+      if (real && real !== target && existsSync(real)) {
+        return fail(file, line, href, `case mismatch: written ${toPosix(relative(root, target))}, on disk ${toPosix(relative(root, real))}`), null;
+      }
+      return fail(file, line, href, `target does not exist: ${toPosix(relative(root, target))}`), null;
     }
     if (frag && statSync(target).isFile()) {
       if (MD.test(target)) {

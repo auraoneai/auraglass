@@ -5,8 +5,23 @@
 import { describe, expect, it } from '@jest/globals';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import cmpCss from '../../../fragments/css/cmp';
+import surfCss from '../../../fragments/css/surf';
+import type { CssFragment } from '../../../src/contracts/fragments';
 
-const read = (p: string) => readFileSync(join(process.cwd(), p), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+const cssFragments: readonly CssFragment[] = [...cmpCss, ...surfCss];
+const read = (file: string) => {
+  const base = cssFragments.find((fragment) => fragment.file === file);
+  // Inspect the shipped pair: an on-disk companion alone does not prove that
+  // its accessibility rules reach the same bundle as the component styles.
+  const companion = base && cssFragments.find((fragment) =>
+    fragment.file === file.replace(/\.css$/, '.a11y.css') &&
+    fragment.layer === 'ag.a11y' && fragment.bundle === base.bundle);
+  return [file, ...(companion ? [companion.file] : [])]
+    .map((path) => readFileSync(join(process.cwd(), path), 'utf8'))
+    .join('\n')
+    .replace(/\/\*[\s\S]*?\*\//g, '');
+};
 
 interface Rule { selectors: string[]; decls: Map<string, string>; media: string[] }
 

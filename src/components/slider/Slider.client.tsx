@@ -16,9 +16,9 @@ import type { SliderRootProps, SliderValueProps } from './Slider.types';
    keeps it opaque (no backdrop) at rest. Only while dragging does it carry
    data-ag-allow-nested, which re-enables its own transient glass. Component
    CSS never declares backdrop-filter (REQ-CMP-54). */
-const TRACK_MATERIAL = materialProps({ layer: 'content', content: 'content-sunken' });
-const THUMB_MATERIAL = materialProps({ layer: 'transient', thickness: 'thin' });
-const THUMB_MATERIAL_DRAGGING = materialProps({ layer: 'transient', thickness: 'thin', allowNested: true });
+const TRACK_MATERIAL = /*#__PURE__*/ materialProps({ layer: 'content', content: 'content-sunken' });
+const THUMB_MATERIAL = /*#__PURE__*/ materialProps({ layer: 'transient', thickness: 'thin' });
+const THUMB_MATERIAL_DRAGGING = /*#__PURE__*/ materialProps({ layer: 'transient', thickness: 'thin', allowNested: true });
 
 type ThumbRenderProps = React.HTMLAttributes<HTMLDivElement> & { ref?: React.Ref<HTMLDivElement> | undefined };
 const renderThumb = (props: ThumbRenderProps, state: { dragging: boolean }) => (

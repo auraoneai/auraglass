@@ -1,4 +1,4 @@
 [
-  "MediaControls compact: compose MediaControls.PlayButton + MediaControls.Scrubber",
+  "MediaControls.Root compact: compose MediaControls.PlayButton + MediaControls.Scrubber",
   "removed in 5.0 (apps/docs/content/surf/migration/ai.md)"
 ]

@@ -73,7 +73,7 @@ for (const f of files) {
   const after = snapGlobals();
   const module = `dist/${f.slice(DIST.length + 1).split('\\').join('/')}`;
   for (const [k, v] of after) {
-    if (!before.has(k) || before.get(k) !== v) observed.push({ api: `globalThis.${k} write`, module });
+    if (!before.has(k) || !Object.is(before.get(k), v)) observed.push({ api: `globalThis.${k} write`, module });
   }
 }
 process.stdout.write(`\n${JSON.stringify(observed)}\n`);

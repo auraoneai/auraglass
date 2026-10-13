@@ -58,6 +58,14 @@ describe('docs markdown renderer', () => {
     expect(renderMarkdown('---\ntitle: "From MUI"\n---\n\nBody\n', { Link: TestLink }).title).toBe('From MUI');
   });
 
+  it('omits generated provenance comments while preserving fenced examples and error lines', () => {
+    expect(html('<!-- @generated -->\n# Title\n\n<!-- multiline\nprovenance -->\nBody\n')).toBe('<h1 id="title">Title</h1><p>Body</p>');
+    expect(html('```html\n<!-- example -->\n```\n')).toContain('&lt;!-- example --&gt;');
+    expect(() => html('<!-- unfinished\n', 'comment.md')).toThrow('comment.md:1: unterminated HTML comment');
+    expect(() => html('<!-- generated -->\n<Example />\n', 'comment.md')).toThrow('comment.md:2: raw HTML/JSX blocks');
+    expect(() => html('<!-- generated --><Example />\n', 'comment.md')).toThrow('content after an HTML comment block');
+  });
+
   it('fails loudly with file:line on MDX ESM or raw JSX blocks instead of dropping them', () => {
     expect(() => html('# T\n\nimport { X } from "y";\n', 'a.mdx')).toThrow('a.mdx:3: MDX ESM (import/export) is not supported');
     expect(() => html('# T\n\n<Example name="x" />\n', 'b.mdx')).toThrow('b.mdx:3: raw HTML/JSX blocks are not supported');

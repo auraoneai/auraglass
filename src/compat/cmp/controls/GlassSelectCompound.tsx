@@ -22,6 +22,7 @@ function SelectRootMapped(props: Parameters<typeof Select.Root>[0]) {
     />
   );
 }
+/** @deprecated 4.x compatibility adapter; use Select.Root. */
 export function GlassSelectRoot(props: Parameters<typeof Select.Root>[0]) {
   warnDeprecated('DEP-C0311'); // own symbol id (REQ-PLAT-30: once per symbol)
   return <SelectRootMapped {...props} />;

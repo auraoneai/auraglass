@@ -22,11 +22,27 @@ import { springToLinear, springDurationMs, compileSpring } from './transforms/mo
 import { buildLadders, buildFloors } from './transforms/glass-material.mjs';
 import { solveContrastMatrix, matrixJson } from './transforms/contrast-solve.mjs';
 import { createHash } from 'node:crypto';
+import ts from 'typescript';
+import postcss from 'postcss';
 import { assertGuards } from './guards.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 
 export const AXIS_ORDER = ['scheme', 'contrast', 'transparency', 'density', 'preset'];
+
+/** Private references in executable source, excluding prose and wildcard prefixes. */
+export function sourcePrivateVars(source, file) {
+  let code;
+  if (file.endsWith('.css')) {
+    const root = postcss.parse(source);
+    root.walkComments((comment) => comment.remove());
+    code = root.toString();
+  } else {
+    const ast = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true);
+    code = ts.createPrinter({ removeComments: true }).printFile(ast);
+  }
+  return [...new Set(code.match(/--_ag-[a-z0-9-]+/g) ?? [])].filter((name) => !name.endsWith('-'));
+}
 
 // ---------- load ----------
 
@@ -263,7 +279,6 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
   // generated css. Emit a privates registry block inside @layer ag.tokens —
   // `initial` keeps the var guaranteed-invalid so var(--_ag-x, fb) fallbacks
   // behave exactly as when the name was undeclared.
-  const PRIVATE_RE = /--_ag-[a-z0-9-]+/g;
   const emittedPrivates = new Set(cells.map((c) => c.cssVar));
   const usedPrivates = new Set();
   const scanDir = (dir) => {
@@ -271,7 +286,7 @@ export async function runBuild({ tokenDir = join(ROOT, 'tokens'), outRoot = ROOT
       const p = join(dir, f);
       if (statSync(p).isDirectory()) { if (!p.includes('/generated/')) scanDir(p); }
       else if (/\.(css|ts|tsx|mts|mjs)$/.test(p) && !p.includes('/generated/'))
-        for (const m of readFileSync(p, 'utf8').matchAll(PRIVATE_RE)) usedPrivates.add(m[0]);
+        for (const name of sourcePrivateVars(readFileSync(p, 'utf8'), p)) usedPrivates.add(name);
     }
   };
   scanDir(join(ROOT ?? process.cwd(), 'src'));

@@ -30,7 +30,9 @@ export interface LiquidGlassMaterialCompatProps
 
 const SIZES: Record<string, Thickness> = { sm: 'thin', md: 'regular', lg: 'regular', xl: 'thick' };
 
-/** 4.x `LiquidGlassMaterial` — IOR/refraction primitive -> Surface. */
+/** 4.x `LiquidGlassMaterial` — IOR/refraction primitive -> Surface.
+ * @deprecated 4.x compatibility adapter; use Surface.
+ */
 export function LiquidGlassMaterial(props: LiquidGlassMaterialCompatProps): React.ReactElement {
   const { intent, elevation, thickness, size, variant, interactive, ref, ...rest } = props;
   const domProps = dropNoopProps(
@@ -64,7 +66,9 @@ export interface LiquidGlassEffectGroupCompatProps extends React.HTMLAttributes<
   [key: string]: unknown;
 }
 
-/** 4.x `LiquidGlassEffectGroup` (backdrop-shared group) -> SurfaceGroup. */
+/** 4.x `LiquidGlassEffectGroup` (backdrop-shared group) -> SurfaceGroup.
+ * @deprecated 4.x compatibility adapter; use SurfaceGroup.
+ */
 export function LiquidGlassEffectGroup(props: LiquidGlassEffectGroupCompatProps): React.ReactElement {
   const { spacing, ...rest } = props;
   const domProps = dropNoopProps('LiquidGlassEffectGroup', rest as Record<string, unknown>);
@@ -75,7 +79,9 @@ export function LiquidGlassEffectGroup(props: LiquidGlassEffectGroupCompatProps)
   return <SurfaceGroup {...gp} />;
 }
 
-/** 4.x `LiquidGlassLayerProvider` — layer context is gone in 5.0; renders a fragment. */
+/** 4.x `LiquidGlassLayerProvider` — layer context is gone in 5.0; renders a fragment.
+ * @deprecated Surface counts nested layers and needs no provider.
+ */
 export function LiquidGlassLayerProvider({ children, ...rest }: { children?: React.ReactNode; [key: string]: unknown }): React.ReactElement {
   dropNoopProps('LiquidGlassLayerProvider', rest as Record<string, unknown>);
   return <>{children}</>;
@@ -90,7 +96,9 @@ export interface LiquidGlassScrollEdgeCompatProps extends React.HTMLAttributes<H
 
 /** 4.x `LiquidGlassScrollEdge` -> ScrollEdge. The 4.x `edgeStyle` prop (a CSS
  *  object for the edge visual) collides with the 5.0 `edgeStyle` ('soft'|'hard')
- *  name — it drops with the warning; `styleMode` carries the 5.0 meaning. */
+ *  name — it drops with the warning; `styleMode` carries the 5.0 meaning.
+ * @deprecated 4.x compatibility adapter; use ScrollEdge.
+ */
 export function LiquidGlassScrollEdge(props: LiquidGlassScrollEdgeCompatProps): React.ReactElement {
   const { edge, styleMode, ...rest } = props;
   const domProps = dropNoopProps(
@@ -118,7 +126,9 @@ export interface LiquidGlassConcentricFrameCompatProps extends React.HTMLAttribu
 
 const RADIUS_TOKENS = new Set<RadiusToken>(['xs', 'sm', 'md', 'lg', 'xl', 'full']);
 
-/** 4.x `LiquidGlassConcentricFrame` -> ConcentricFrame. */
+/** 4.x `LiquidGlassConcentricFrame` -> ConcentricFrame.
+ * @deprecated 4.x compatibility adapter; use ConcentricFrame.
+ */
 export function LiquidGlassConcentricFrame(props: LiquidGlassConcentricFrameCompatProps): React.ReactElement {
   const { radius, inset, children, ...rest } = props;
   const domProps = dropNoopProps(

@@ -23,9 +23,15 @@ describe('codemod perf (spawned)', () => {
     }
     fs.writeFileSync(path.join(dir, 'package.json'), JSON.stringify({ dependencies: { 'aura-glass': '4.9.0' } }));
     const repo = path.resolve(__dirname, '..', '..');
+    execFileSync(process.execPath, [path.join(repo, 'packages/cli/scripts/gen-mappings.mjs')],
+      { cwd: repo, stdio: 'pipe', timeout: 120_000 });
     // The runner lives outside the migrated tree: inside it, the engine would also parse its own ~3 MB bundle,
     // which is not part of the 2000-file consumer tree the budget is about.
     const runnerDir = fs.mkdtempSync(path.join(os.tmpdir(), 'agperf-runner-'));
+    // Bundling relocates mappings.ts beside runner.mjs; give its default
+    // loader the same generated mapping assets shipped with the CLI.
+    fs.cpSync(path.join(repo, 'packages/cli/src/migrate/4to5/mappings'),
+      path.join(runnerDir, 'mappings'), { recursive: true });
     const src = path.join(runnerDir, 'runner.src.ts');
     const runner = path.join(runnerDir, 'runner.mjs');
     fs.writeFileSync(src, RUNNER.replace('%REPO%', repo.replace(/\\/g, '\\\\')));

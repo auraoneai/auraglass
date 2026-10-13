@@ -15,6 +15,7 @@ type Row = Record<string, unknown>;
 
 export type GlassDataTableProps<T extends Row = Row> = LegacyTableProps<T>;
 
+/** @deprecated 4.x compatibility adapter; use Table from aura-glass/data. */
 export function GlassDataTable<T extends Row = Row>(props: GlassDataTableProps<T>) {
   warnDeprecated('DEP-S0200');
   return <LegacyTable<T> {...props} />;

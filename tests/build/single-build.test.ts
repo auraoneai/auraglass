@@ -19,7 +19,8 @@ const hashDir = (dir: string, filter: (p: string) => boolean) => {
 describe('single build (PLAT-247)', () => {
   it('produces js, d.ts, css and the manifest-verified entries in one pass', () => {
     withBuildLock(() => {
-      execFileSync('npx', ['tsdown'], { cwd: ROOT, stdio: 'inherit' });
+      // Keep tokens:build outputs, as the canonical build's tsdown pass does.
+      execFileSync(join(ROOT, 'node_modules/.bin/tsdown'), ['--no-clean'], { cwd: ROOT, stdio: 'inherit' });
       execFileSync('node', ['scripts/build/post.mjs'], { cwd: ROOT, stdio: 'inherit' });
     });
     expect(walk(DIST).some(f => f.endsWith('.js'))).toBe(true);
@@ -33,10 +34,12 @@ describe('single build (PLAT-247)', () => {
     const second = join(ROOT, 'build', '.dist-second');
     rmSync(second, { recursive: true, force: true });
     try {
-      execFileSync('npx', ['tsdown', '--out-dir', second], { cwd: ROOT, stdio: 'inherit' });
-      execFileSync('npx', ['tsc', '-p', 'build/.tsconfig.emit.json', '--outDir', second], { cwd: ROOT, stdio: 'inherit' });
-      const { rewriteAll } = await import('../../scripts/build/rewrite-dts-aliases.mjs');
+      execFileSync(join(ROOT, 'node_modules/.bin/tsdown'), ['--out-dir', second], { cwd: ROOT, stdio: 'inherit' });
+      execFileSync(process.execPath, [join(ROOT, 'node_modules/typescript/bin/tsc'), '-p', 'build/.tsconfig.emit.json', '--outDir', second], { cwd: ROOT, stdio: 'inherit' });
+      const { relocateRuntimeDeclarations, rewriteAll } = await import('../../scripts/build/rewrite-dts-aliases.mjs');
       rewriteAll(second);
+      // Compare the same declaration layout produced by post.mjs.
+      relocateRuntimeDeclarations(second);
       expect(hashDir(second, p => p.endsWith('.js') || p.endsWith('.d.ts'))).toBe(first);
     } finally {
       rmSync(second, { recursive: true, force: true });

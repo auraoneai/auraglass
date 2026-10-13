@@ -26,6 +26,7 @@ export interface GlassChatProps {
   [legacy: string]: unknown;
 }
 
+/** @deprecated 4.x compatibility adapter; use Thread and Composer from aura-glass/ai. */
 export function GlassChat(props: GlassChatProps) {
   warnDeprecated('DEP-S0400');
   const { messages = [], currentUserId, title, onSend, onSendMessage, className } = props;

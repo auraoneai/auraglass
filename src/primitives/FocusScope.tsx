@@ -97,7 +97,6 @@ export function FocusScope({
     onKeyDown?.(event);
     if (event.defaultPrevented || (!trapped && !loop) || event.key !== 'Tab') return;
     const focusables = getFocusableElements(localRef.current);
-    if (focusables.length === 0) return;
     const first = focusables[0];
     const last = focusables[focusables.length - 1];
     if (first === undefined || last === undefined) return;

@@ -4,6 +4,7 @@
 import { describe, expect, it } from '@jest/globals';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import surfCss from '../../fragments/css/surf';
 
 const ROOT = process.cwd();
 const read = (f: string) => readFileSync(join(ROOT, f), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
@@ -23,8 +24,8 @@ const S03_COLOR = /var\(--ag-color-(?:canvas|on-surface|on-surface-muted|accent|
 describe('palettes (REQ-SURF-155)', () => {
   const css = read('src/backdrops/presets/palettes.css');
   it('is registered in the SURF css fragment for the backdrops bundle', () => {
-    expect(readFileSync(join(ROOT, 'fragments/css/surf.ts'), 'utf8'))
-      .toContain("{ file: 'src/backdrops/presets/palettes.css', layer: 'ag.components', bundle: 'backdrops.css' }");
+    expect(surfCss.filter((row) => row.file === 'src/backdrops/presets/palettes.css'))
+      .toEqual([{ file: 'src/backdrops/presets/palettes.css', layer: 'ag.components', bundle: 'backdrops.css', a11y: 'none' }]);
   });
   it.each(PALETTES)('[data-ag-palette=%s] sets the four hues from S-03 colours only', (id) => {
     const bodies = rulesFor(css, new RegExp(`\\[data-ag-palette='${id}'\\]`));

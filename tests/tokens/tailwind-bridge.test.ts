@@ -2,7 +2,7 @@
 import { describe, test, expect, beforeAll } from '@jest/globals';
 // MAT-069: Tailwind bridge — compile the fixture input.css with @tailwindcss/node
 // over glass-regular glass-thin content-sunken bg-accent/50 ag-dark:bg-canvas;
-// each @utility output byte-equals its attribute rule; bg-accent/50 emits
+// each utility preserves its material attribute scalars and paints standalone; bg-accent/50 emits
 // color-mix(in oklab, ...); ag-dark output is scoped by [data-ag-scheme=dark].
 import { readFileSync, writeFileSync, mkdtempSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
@@ -68,6 +68,12 @@ beforeAll(() => {
 }, 60_000);
 
 describe('tailwind bridge (MAT-069)', () => {
+  test('the packaged bridge matches the canonical generator', async () => {
+    const { buildBridge } = await import('../../scripts/build/gen-tailwind-bridge.mjs');
+    const manifest = JSON.parse(readFileSync(join(ROOT, 'dist/tokens/manifest.json'), 'utf8'));
+    expect(readFileSync(join(ROOT, 'dist/tailwind.css'), 'utf8')).toBe(buildBridge(manifest));
+  });
+
   test('compiler emitted rules for all candidates', () => {
     for (const klass of ['glass-regular', 'glass-thin', 'content-sunken'])
       expect(utilityDecls(builtCss, klass).length).toBeGreaterThan(0);
@@ -77,14 +83,16 @@ describe('tailwind bridge (MAT-069)', () => {
     const attr = attributeDecls('regular', 'regular');
     const util = utilityDecls(builtCss, 'glass-regular');
     expect(attr.length).toBeGreaterThan(0);
-    expect(util).toEqual(attr);
+    expect(util.filter((d) => d.startsWith('--_ag-'))).toEqual(attr);
+    expect(util.some((d) => d.startsWith('background:'))).toBe(true);
   });
 
   test('glass-thin decls byte-equal the attribute rule', () => {
     const attr = attributeDecls('regular', 'thin');
     const util = utilityDecls(builtCss, 'glass-thin');
     expect(attr.length).toBeGreaterThan(0);
-    expect(util).toEqual(attr);
+    expect(util.filter((d) => d.startsWith('--_ag-'))).toEqual(attr);
+    expect(util.some((d) => d.startsWith('background:'))).toBe(true);
   });
 
   test('content-sunken decls byte-equal the attribute rule', () => {
@@ -98,7 +106,8 @@ describe('tailwind bridge (MAT-069)', () => {
     });
     const util = utilityDecls(builtCss, 'content-sunken');
     expect(attr.length).toBeGreaterThan(0);
-    expect(util).toEqual(attr);
+    expect(util.filter((d) => d.startsWith('--_ag-'))).toEqual(attr);
+    expect(util.some((d) => d.startsWith('background:'))).toBe(true);
   });
 
   test('bg-accent/50 emits color-mix(in oklab, ...)', () => {
@@ -112,7 +121,7 @@ describe('tailwind bridge (MAT-069)', () => {
     root.walkRules((r) => {
       if (r.selector.includes('bg-canvas')) {
         found = true;
-        expect(r.selector).toContain('data-ag-scheme="dark"');
+        expect(r.selector).toMatch(/\[data-ag-scheme=(?:"dark"|dark)\]/);
       }
     });
     expect(found).toBe(true);

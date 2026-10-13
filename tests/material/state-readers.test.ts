@@ -99,8 +99,8 @@ describe('REQ-FIN-02 state readers (REQ-MAT-09)', () => {
 
 describe('REQ-FIN-02 selector identity (REQ-MAT-29)', () => {
   it('no .ag-surface class selector survives in src/material/css (AC-FIN-02)', () => {
-    expect(MATERIAL_CSS).not.toMatch(/\.ag-surface/);
-    expect(LENS_CSS).not.toMatch(/\.ag-surface/);
+    for (const sheet of [ast, lensAst])
+      sheet.walkRules((rule) => { expect(rule.selector).not.toMatch(/\.ag-surface(?:[^\w-]|$)/); });
   });
 
   it('the host baseline and pseudo-element baselines have zero specificity', () => {

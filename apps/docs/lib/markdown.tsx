@@ -130,6 +130,18 @@ class Renderer {
         );
         continue;
       }
+      // Generated documentation carries provenance in standalone HTML comments.
+      // Skip only complete comment blocks; executable HTML/JSX still fails below.
+      if (/^\s{0,3}<!--/.test(line)) {
+        let end = i;
+        while (end < lines.length && !at(end).includes('-->')) end++;
+        if (end === lines.length) this.fail(lineNo, 'unterminated HTML comment');
+        if (at(end).slice(at(end).indexOf('-->') + 3).trim()) {
+          this.fail(base + end, 'content after an HTML comment block is not supported');
+        }
+        i = end + 1;
+        continue;
+      }
       if (/^(import|export)\s/.test(line)) this.fail(lineNo, 'MDX ESM (import/export) is not supported by the docs renderer');
       if (/^\s{0,3}<[A-Za-z!/]/.test(line)) this.fail(lineNo, 'raw HTML/JSX blocks are not supported by the docs renderer');
       if ((m = match(HEADING, line))) {

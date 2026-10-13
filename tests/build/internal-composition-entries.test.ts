@@ -18,23 +18,32 @@ beforeAll(async () => {
   keep = g.buildableEntries().keep;
 });
 
-const EXPECTED: Array<{ source: string; name: string; story: string }> = [
-  { source: 'src/ai/sources/SourceList.tsx', name: 'SourceScope', story: 'src/ai/sources/Sources.stories.tsx' },
-  { source: 'src/components/combobox/Combobox.client.tsx', name: 'ComboboxLoading', story: 'stories/cmp/components/Combobox.stories.tsx' },
+const EXPECTED: Array<{ source: string; name: string; consumer: string }> = [
+  { source: 'src/ai/sources/SourceList.tsx', name: 'SourceScope', consumer: 'src/ai/sources/Sources.stories.tsx' },
+  { source: 'src/components/combobox/Combobox.client.tsx', name: 'ComboboxLoading', consumer: 'stories/cmp/components/Combobox.stories.tsx' },
+  { source: 'src/components/color-picker/colors.ts', name: 'hsvToHex', consumer: 'src/components/color-picker/ColorPicker.client.tsx' },
+  { source: 'src/components/control-shared/size.ts', name: 'DEFAULT_CONTROL_SIZE', consumer: 'src/components/combobox/Combobox.client.tsx' },
+  { source: 'src/data/filter-bar/filter-model.ts', name: 'emptyGroup', consumer: 'src/data/filter-bar/filter-model-ops.ts' },
+  { source: 'src/date/legacy-bridge.ts', name: 'toDateValue', consumer: 'src/compat/surf/date/shared.ts' },
+  { source: 'src/date/useContainerWidth.ts', name: 'SHEET_BELOW_PX', consumer: 'src/date/DatePicker.tsx' },
+  { source: 'src/motion/ticker.ts', name: 'scheduleFrame', consumer: 'src/ai/thread/useThreadScroll.ts' },
+  { source: 'src/motion/tokens.generated.ts', name: 'motionTokens', consumer: 'src/motion/adapter/springs.ts' },
+  { source: 'src/theme/color.ts', name: 'formatOklch', consumer: 'src/components/color-picker/colors.ts' },
+  { source: 'src/tokens/generated/presets.ts', name: 'PRESET_SCOPE', consumer: 'src/theme/presets.ts' },
 ];
 
 describe('internal composition entries (REQ-QUAL-56)', () => {
-  it('lists exactly the modules carrying story-consumed in-repo exports', () => {
+  it('lists exactly the modules carrying story- or cross-module-consumed in-repo exports', () => {
     expect(g.internalCompositionEntries(keep)).toEqual(
       EXPECTED.map(({ source }) => ({ source, internal: true })),
     );
   });
 
-  it('each listed module exports the in-repo name and a story imports it by relative path', () => {
-    for (const { source, name, story } of EXPECTED) {
+  it('each listed module exports an in-repo name referenced by its consumer', () => {
+    for (const { source, name, consumer } of EXPECTED) {
       const text = readFileSync(join(g.ROOT, source), 'utf8');
       expect(new RegExp(`export\\s+(?:(?:function|const|class)\\s+|\\{[^}]*\\b)${name}\\b`).test(text)).toBe(true);
-      expect(readFileSync(join(g.ROOT, story), 'utf8')).toContain(name);
+      expect(readFileSync(join(g.ROOT, consumer), 'utf8')).toContain(name);
     }
   });
 

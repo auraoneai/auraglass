@@ -1,6 +1,6 @@
 /* @jest-environment node */
 /* REQ-CMP-09: every CMP-owned component CSS file obeys the layer
-   contract — LAYER_ORDER_STATEMENT first, exactly one @layer ag.components
+   contract — LAYER_ORDER_STATEMENT first, exactly one registered @layer ag.components or ag.a11y
    block, no :root, no element selectors, only PUBLIC_CSS_VARS / MOTION_CSS_VARS,
    names the MAT token compiler emits (src/tokens/generated/manifest.ts, e.g.
    the --ag-comp-control-height-* comp tier, REQ-FIN-11) or --_ag-* private
@@ -11,6 +11,11 @@ import { join } from 'node:path';
 import { LAYER_ORDER_STATEMENT, PUBLIC_CSS_VARS } from '../../src/contracts/tokens';
 import { MOTION_CSS_VARS } from '../../src/contracts/motion';
 import { manifest } from '../../src/tokens/generated/manifest';
+import cmpCss from '../../fragments/css/cmp';
+import surfCss from '../../fragments/css/surf';
+import { checkLayerFile } from '../contract/_checks';
+
+const CSS_ROWS = [...cmpCss, ...surfCss];
 
 const PUBLIC = new Set([
   ...Object.values(PUBLIC_CSS_VARS).flatMap((v) => v as readonly string[]),
@@ -68,9 +73,13 @@ describe('css-contract (REQ-CMP-09)', () => {
     expect(text.startsWith(LAYER_ORDER_STATEMENT)).toBe(true);
   });
 
-  it.each(FILES.map((f) => [f]))('%s: exactly one @layer ag.components block', (f) => {
+  it.each(FILES.map((f) => [f]))('%s: exactly one registered component or accessibility layer block', (f) => {
     const text = readFileSync(f as string, 'utf8');
-    expect(text.match(/@layer\s+ag\.components\s*\{/g) ?? []).toHaveLength(1);
+    const rows = CSS_ROWS.filter((row) => row.file === f);
+    expect(rows).toHaveLength(1);
+    const expectedLayer = (f as string).endsWith('.a11y.css') ? 'ag.a11y' : 'ag.components';
+    expect(rows[0]!.layer).toBe(expectedLayer);
+    expect(checkLayerFile(f as string, text, expectedLayer)).toEqual([]);
   });
 
   it.each(FILES.map((f) => [f]))('%s: no :root selector', (f) => {

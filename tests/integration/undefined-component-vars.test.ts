@@ -143,6 +143,14 @@ describe('REQ-FIN-11 comp tokens and OD-19 app-shell move (fresh token build)', 
     });
   }, 120000);
 
+  it('private registry ignores prose and template prefixes but retains CSS and JS readers', async () => {
+    const { sourcePrivateVars } = await import('../../scripts/tokens/build.mjs');
+    expect(sourcePrivateVars('/* --_ag-prose --_ag-app-shell-* */ .x { --_ag-real: var(--_ag-input); }', 'fixture.css'))
+      .toEqual(['--_ag-real', '--_ag-input']);
+    expect(sourcePrivateVars('// --_ag-prose\nconst styles = { "--_ag-real": "var(--_ag-input)" }; const prefix = "--_ag-app-shell-";', 'fixture.ts'))
+      .toEqual(['--_ag-real', '--_ag-input']);
+  });
+
   // CMP PRD `size` row: compact 24/32/44, default 28/36/44, spacious 32/40/48 (sm/md/lg).
   const HEIGHTS: Record<string, [number, number, number]> = { compact: [24, 32, 44], default: [28, 36, 44], spacious: [32, 40, 48] };
   it.each(['sm', 'md', 'lg'].flatMap((s, i) => Object.entries(HEIGHTS).map(([d, v]) => [`--ag-comp-control-height-${s}-${d}`, `${v[i]}px`])))(
@@ -168,10 +176,11 @@ describe('REQ-FIN-11 comp tokens and OD-19 app-shell move (fresh token build)', 
     expect(src).not.toMatch(/"--ag-app-shell/);
     expect(JSON.parse(src).comp['app-shell']).toBeDefined();
     expect([...decls.keys()].filter((k) => k.startsWith('--_ag-app-shell-')).sort()).toEqual([
-      '--_ag-app-shell-gap',
+      '--_ag-app-shell-content-max', '--_ag-app-shell-gap', '--_ag-app-shell-insp',
       '--_ag-app-shell-inspector-width', '--_ag-app-shell-rail-width', '--_ag-app-shell-sidebar-width',
-      '--_ag-app-shell-tabbar-height', '--_ag-app-shell-topbar-height',
-    ]);
+      '--_ag-app-shell-mode', '--_ag-app-shell-rail', '--_ag-app-shell-side',
+      '--_ag-app-shell-tabbar', '--_ag-app-shell-tabbar-height', '--_ag-app-shell-top', '--_ag-app-shell-topbar-height',
+    ].sort());
     expect(tokensCss).not.toMatch(/--ag-app-shell/);
     for (const f of ['manifest.ts', 'tokens.ts', 'tokens.d.ts'])
       expect(readFileSync(join(ROOT, 'src/tokens/generated', f), 'utf8')).not.toMatch(/--ag-app-shell/);

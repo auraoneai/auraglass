@@ -66,20 +66,34 @@ describe('bare import drop (REQ-PLAT-70)', () => {
   it('rolldown: minified bare package-specifier import ≤ 64 B per entry', async () => {
     ensureBuilt();
     const app = consumerDir();
-    const { rolldown } = await import('rolldown');
-    const rows: { spec: string; bytes: number }[] = [];
-    for (const e of await entries(app)) {
-      const stub = join(app, `stub-${e.subpath.replace(/\W+/g, '_')}.mjs`);
-      writeFileSync(stub, `import ${JSON.stringify(e.spec)};\n`);
-      const b = await rolldown({
-        input: stub,
-        external: (id: string) => EXTERNALS.some((x) => (x.endsWith('/*') ? id.startsWith(x.slice(0, -1)) : id === x || id.startsWith(`${x}/`))),
-        treeshake: true, logLevel: 'silent',
-      });
-      const { output } = await b.generate({ format: 'esm', minify: true });
-      const code = output.map((o) => (o.type === 'chunk' ? o.code : '')).join('\n');
-      rows.push({ spec: e.spec, bytes: Buffer.byteLength(code) });
-    }
+    // Rolldown is ESM-only. Keep its native loader outside Jest's CJS
+    // transform while exercising the same packed-package imports and budget.
+    const runner = `
+      import { rolldown } from 'rolldown';
+      import { writeFileSync } from 'node:fs';
+      import { join } from 'node:path';
+      const { app, entries, externals } = JSON.parse(process.argv[1]);
+      const rows = [];
+      for (const e of entries) {
+        const stub = join(app, 'stub-' + e.subpath.replace(/[^a-zA-Z0-9_]/g, '_') + '.mjs');
+        writeFileSync(stub, 'import ' + JSON.stringify(e.spec) + ';\\n');
+        const b = await rolldown({
+          input: stub,
+          external: (id) => externals.some((x) => (x.endsWith('/*') ? id.startsWith(x.slice(0, -1)) : id === x || id.startsWith(x + '/'))),
+          treeshake: true, logLevel: 'silent',
+        });
+        try {
+          const { output } = await b.generate({ format: 'esm', minify: true });
+          const code = output.map((o) => o.type === 'chunk' ? o.code : '').join('\\n');
+          rows.push({ spec: e.spec, bytes: Buffer.byteLength(code) });
+        } finally { await b.close(); }
+      }
+      console.log(JSON.stringify(rows));
+    `;
+    const out = execFileSync(process.execPath, ['--input-type=module', '-e', runner,
+      JSON.stringify({ app, entries: await entries(app), externals: EXTERNALS })],
+    { cwd: ROOT, encoding: 'utf8', timeout: 170_000 });
+    const rows = JSON.parse(out.trim().split('\n').pop()!) as { spec: string; bytes: number }[];
     expect(rows.length).toBeGreaterThan(0);
     expect(rows.filter((r) => r.bytes > BARE_IMPORT_BYTES)).toEqual([]);
   }, 180_000);

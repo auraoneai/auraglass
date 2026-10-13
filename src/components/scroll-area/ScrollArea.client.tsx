@@ -10,7 +10,7 @@ import { materialProps } from '../../material/index';
 
 /* REQ-CMP-122: the thumb is a content-layer surface (content materials never
    carry a backdrop filter — no blur). */
-const THUMB_MATERIAL = materialProps({ layer: 'content' });
+const THUMB_MATERIAL = /*#__PURE__*/ materialProps({ layer: 'content' });
 
 /* REQ-CMP-01: AuraGlass-owned part props (no Base UI types in the d.ts). */
 interface ScrollAreaPartProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'className'> {

@@ -304,7 +304,7 @@
   "dest": "removed"
  },
  "GlassChat": {
-  "target": "Thread",
+  "target": "Thread + Composer from aura-glass/ai",
   "dest": "compat"
  },
  "GlassChatInput": {
@@ -936,7 +936,7 @@
   "dest": "removed"
  },
  "GlassMotionController": {
-  "target": "./motion helpers + CSS motion tokens",
+  "target": "MotionProvider",
   "dest": "removed"
  },
  "GlassMultiSelect": {
@@ -1080,7 +1080,7 @@
   "dest": "removed"
  },
  "GlassProductRecommendations": {
-  "target": "CarouselRail",
+  "target": "Card and CarouselRail",
   "dest": "removed"
  },
  "GlassProgress": {
@@ -1692,11 +1692,11 @@
   "dest": "removed"
  },
  "MotionFramer": {
-  "target": "MotionProvider from aura-glass/motion",
+  "target": "MotionProvider",
   "dest": "removed"
  },
  "MotionNative": {
-  "target": "MotionProvider from aura-glass/motion",
+  "target": "MotionProvider",
   "dest": "removed"
  },
  "MultiDimensionalGestureRecognizer": {

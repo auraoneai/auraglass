@@ -70,7 +70,7 @@ function useToolbarOverflow(enabled: boolean): [boolean, (el: HTMLDivElement | n
   const [el, setEl] = React.useState<HTMLDivElement | null>(null);
   const needed = React.useRef(0);
   const collapsedRef = React.useRef(false);
-  collapsedRef.current = collapsed;
+  React.useLayoutEffect(() => { collapsedRef.current = collapsed; }, [collapsed]);
   React.useLayoutEffect(() => {
     if (!enabled || !el || typeof ResizeObserver === 'undefined') {
       if (collapsedRef.current) setCollapsed(false);

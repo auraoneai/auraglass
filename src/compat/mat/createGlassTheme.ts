@@ -33,7 +33,9 @@ const MOTION_AXIS: Record<GlassMotionPolicy, GlassThemeTokens['motion']> = {
   none: { axis: 'none', allowContinuous: false },
 };
 
-/** 4.x-compatible createGlassTheme that still accepts `motionPolicy`. */
+/** 4.x-compatible createGlassTheme that still accepts `motionPolicy`.
+ * @deprecated 4.x compatibility adapter; use createGlassTheme from aura-glass/theme without motionPolicy.
+ */
 export const createGlassTheme = (options: CompatCreateGlassThemeOptions = {}): GlassTheme => {
   const { motionPolicy, ...rest } = options;
   const theme = createGlassTheme5(rest);

@@ -8,7 +8,7 @@ import { defaultPositionerProps } from '../overlays/_shared/positioning';
 import { overlayMaterial } from '../overlays/_shared/overlaySurface';
 import { materialProps } from '../../material';
 import { useCmpPortalContainer as usePortalContainer } from '../overlays/_shared/portalContainer';
-import { useOverlayLayer, useRoutedRootActions } from '../overlays/_shared/useOverlayLayer';
+import { useOverlayLayer } from '../overlays/_shared/useOverlayLayer';
 import { useOverlayAnimating } from '../overlays/_shared/useOverlayAnimating';
 import { useAnnouncer } from '../../theme';
 import { toChangeDetails } from '../../foundation';
@@ -186,19 +186,23 @@ function ComboboxRoot<Value = string>({
   const [popupElement, setPopupElement] = React.useState<HTMLElement | null>(null);
   /* REQ-CMP-12: Base UI Combobox has no imperative close, so the root drives
      BU's open state and the LayerStack's Escape closes through it. */
-  const routed = useRoutedRootActions(() => {
-    setHighlightSuppressed(false);
-    setInternalOpen(false);
-    emit(false, { reason: 'escape-key' });
-  });
-  const { emit } = useOverlayLayer({
+  const { emit, actionsRef } = useOverlayLayer({
     kind: 'combobox',
     modal: false,
     open: effectiveOpen,
     onOpenChange,
     element: popupElement,
-    actions: routed.actions,
   });
+  // Install the close path after the layer exposes its emitter; this avoids
+  // a circular render-time dependency while keeping Escape deduplication.
+  React.useLayoutEffect(() => {
+    actionsRef.current = { close: () => {
+      setHighlightSuppressed(false);
+      setInternalOpen(false);
+      emit(false, { reason: 'escape-key' });
+    } };
+    return () => { actionsRef.current = null; };
+  }, [actionsRef, emit]);
   const { open: _open, defaultOpen: _defaultOpen, ...baseRest } = restRec;
   const layerCtx = React.useMemo(() => ({ setPopupElement }), []);
 
@@ -635,7 +639,7 @@ function chipLabel(children: React.ReactNode, label?: string): string {
 
 /* REQ-CMP-69/74: the enclosing chip's label, so a standalone
    <Combobox.ChipRemove/> composed inside a Chip reads "Remove <label>". */
-const ChipLabelContext = React.createContext<string>('');
+const ChipLabelContext = /*#__PURE__*/ React.createContext<string>('');
 
 /* Item / Empty / Group / Chips / Chip / Loading                       */
 /* ------------------------------------------------------------------ */

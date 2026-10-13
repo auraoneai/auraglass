@@ -57,8 +57,8 @@ const DETACHED_SNAPSHOT = {
 
 /* The two inline materials (REQ-SURF-38): floating = chrome regular panel,
    docked = content-sunken column (content layer: never a backdrop filter). */
-const FLOATING_MATERIAL = materialProps({ layer: 'chrome', variant: 'regular' }) as unknown as Record<string, string>;
-const DOCKED_MATERIAL = materialProps({ layer: 'content', content: 'content-sunken' }) as unknown as Record<string, string>;
+const FLOATING_MATERIAL = /*#__PURE__*/ materialProps({ layer: 'chrome', variant: 'regular' }) as unknown as Record<string, string>;
+const DOCKED_MATERIAL = /*#__PURE__*/ materialProps({ layer: 'content', content: 'content-sunken' }) as unknown as Record<string, string>;
 const MATERIAL_KEYS = ['data-ag-layer', 'data-ag-variant', 'data-ag-content'] as const;
 
 /** Inline material for a mode: docked pins sunken; auto docks under a wide shell. */

@@ -12,6 +12,9 @@ const SOURCES = ['src/a11y/css/rungs.css'];
 const built = 'dist/styles.css';
 if (fs.existsSync(built)) SOURCES.push(built);
 
+// CSS2 pseudo-elements permit one or two colons; minifiers use :before.
+const isSurfaceBefore = (selector: string) => /\[data-ag-surface\]::?before$/.test(selector);
+
 const supportsBlocks = (css: string) => {
   const root = postcss.parse(css);
   const hits: Array<{ inLayer: boolean; selectors: string[]; decls: Array<[string, string]> }> = [];
@@ -34,6 +37,12 @@ const supportsBlocks = (css: string) => {
 };
 
 describe('@supports-not backdrop-filter fallback', () => {
+  it('recognizes equivalent minified before selectors without accepting other pseudo-elements', () => {
+    expect(isSurfaceBefore('[data-ag-surface]::before')).toBe(true);
+    expect(isSurfaceBefore('[data-ag-surface]:before')).toBe(true);
+    expect(isSurfaceBefore('[data-ag-surface]::after')).toBe(false);
+    expect(isSurfaceBefore('[data-ag-surface]')).toBe(false);
+  });
   for (const src of SOURCES) {
     it(`${src}: fallback keyed on [data-ag-surface] inside ag.a11y`, () => {
       const hits = supportsBlocks(fs.readFileSync(src, 'utf8'));
@@ -42,7 +51,7 @@ describe('@supports-not backdrop-filter fallback', () => {
       const inLayerRules = hits.filter((h) => h.inLayer);
       // host rule: some [data-ag-surface] selector disabling backdrop-filter
       const host = inLayerRules.find((r) => r.selectors.some((s) => /\[data-ag-surface\]$/.test(s)));
-      const before = inLayerRules.find((r) => r.selectors.some((s) => /\[data-ag-surface\]::before$/.test(s)));
+      const before = inLayerRules.find((r) => r.selectors.some((s) => isSurfaceBefore(s)));
       expect(host).toBeDefined();
       expect(before).toBeDefined();
       for (const rule of [host!, before!]) {

@@ -1,5 +1,6 @@
 // Declarations for build.mjs.
 export const AXIS_ORDER: string[];
+export function sourcePrivateVars(source: string, file: string): string[];
 export interface TokenRecord { name: string; type?: string; ext?: Record<string, unknown>; value: unknown; file: string; group?: string }
 export interface ResolvedCell { name?: string; cssVar?: string; axis?: string | null; axisValue?: string; renderType?: string; type?: string; value?: unknown; ext?: Record<string, unknown> }
 export function loadTokens(tokenDir: string): Map<string, TokenRecord>;

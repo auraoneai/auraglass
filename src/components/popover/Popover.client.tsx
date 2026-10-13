@@ -24,7 +24,8 @@ import type {
 } from './Popover.types';
 
 interface PopoverCtx {
-  rootRef?: React.Ref<HTMLElement> | undefined;
+  setRootElement?: ((element: HTMLElement | null) => void) | undefined;
+  setHoverTrigger?: ((element: HTMLElement | null) => void) | undefined;
   /** The hover-mode trigger element (null when the trigger is click-mode). */
   hoverTrigger: React.MutableRefObject<HTMLElement | null>;
   /** REQ-CMP-12: the root's close path for the popup's LayerStack Escape. */
@@ -71,9 +72,15 @@ function PopoverRoot({ open, defaultOpen, onOpenChange, modal, openOnHover = fal
   const hoverTrigger = React.useRef<HTMLElement | null>(null);
   const buActions = React.useRef<{ close: () => void; unmount: () => void } | null>(null);
   const routed = useRoutedRootActions(() => buActions.current?.close());
+  const setHoverTrigger = React.useCallback((element: HTMLElement | null) => { hoverTrigger.current = element; }, []);
+  const setRootElement = React.useCallback((element: HTMLElement | null) => {
+    if (typeof ref === 'function') ref(element);
+    else if (ref) ref.current = element;
+  }, [ref]);
   const ctxValue = React.useMemo<PopoverCtx>(() => ({
     open: current,
-    rootRef: ref,
+    setRootElement,
+    setHoverTrigger,
     hoverTrigger,
     actions: routed.actions,
     hover: { openOnHover, delay, closeDelay },
@@ -84,7 +91,7 @@ function PopoverRoot({ open, defaultOpen, onOpenChange, modal, openOnHover = fal
       thickness,
       prominent,
     },
-  }), [current, openOnHover, delay, closeDelay, variant, thickness, prominent, ref, routed.actions]);
+  }), [current, openOnHover, delay, closeDelay, variant, thickness, prominent, setRootElement, setHoverTrigger, routed.actions]);
   return (
     <PopoverCtx.Provider value={ctxValue}>
       <Base.Root
@@ -119,12 +126,12 @@ function PopoverTrigger({ openOnHover, delay, closeDelay, className, children, o
     /* REQ-CMP-16: no observer at rest — the trigger only publishes itself to
        the root; the popup applies the hover-mode aria wiring when it mounts
        (open) and removes it when it closes (PopoverPopup below). */
-    const { hoverTrigger } = React.useContext(PopoverCtx);
+    const { setHoverTrigger } = React.useContext(PopoverCtx);
     const setRefs = React.useCallback((node: HTMLElement | null) => {
-      hoverTrigger.current = node && hoverOn ? node : null;
+      setHoverTrigger?.(node && hoverOn ? node : null);
       if (typeof ref === 'function') ref(node);
       else if (ref) ref.current = node;
-    }, [hoverOn, hoverTrigger, ref]);
+    }, [hoverOn, setHoverTrigger, ref]);
     return (
       <Base.Trigger
         ref={setRefs as React.Ref<HTMLButtonElement>}
@@ -209,10 +216,9 @@ function PopoverPopup({ className, children, initialFocus, finalFocus, variant, 
     const setRefs: React.RefCallback<HTMLDivElement> = (node) => {
       setEl(node);
       animatingRef(node);
-      for (const targetRef of [ref, ctx.rootRef]) {
-        if (typeof targetRef === 'function') targetRef(node);
-        else if (targetRef) targetRef.current = node;
-      }
+      ctx.setRootElement?.(node);
+      if (typeof ref === 'function') ref(node);
+      else if (ref) ref.current = node;
     };
     return (
       <Base.Popup

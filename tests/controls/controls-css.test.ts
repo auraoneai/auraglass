@@ -3,6 +3,11 @@ import { describe, expect, it } from '@jest/globals';
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { CONTROL_FAMILIES } from './families';
 import { join } from 'node:path';
+import cmpCss from '../../fragments/css/cmp';
+import surfCss from '../../fragments/css/surf';
+import { checkLayerFile } from '../contract/_checks';
+
+const CSS_ROWS = [...cmpCss, ...surfCss];
 
 const CSS = readFileSync(join(process.cwd(), 'src/components/slider/Slider.css'), 'utf8');
 
@@ -136,14 +141,16 @@ describe('controls css gate', () => {
     const cssFiles = readdirSync(dir).filter((f) => f.endsWith('.css'));
     for (const file of cssFiles) {
       const src = readFileSync(join(dir, file), 'utf8');
-      if (!src.includes('@layer ag.components')) {
-        throw new Error(`${file}: missing @layer ag.components`);
-      }
-      if (LITERAL_RE.test(src)) throw new Error(`${file}: raw color literal`);
-      if (/!important/.test(src)) throw new Error(`${file}: !important`);
-      if (/transition:\s*all/.test(src)) throw new Error(`${file}: transition: all`);
-      if (/:root\b/.test(src)) throw new Error(`${file}: :root selector`);
+      const path = `src/components/${family}/${file}`;
+      const rows = CSS_ROWS.filter((row) => row.file === path);
+      expect(rows).toHaveLength(1);
+      const expectedLayer = file.endsWith('.a11y.css') ? 'ag.a11y' : 'ag.components';
+      expect(rows[0]!.layer).toBe(expectedLayer);
+      expect(checkLayerFile(path, src, expectedLayer)).toEqual([]);
       const noComments = src.replace(/\/\*[\s\S]*?\*\//g, '');
+      if (LITERAL_RE.test(noComments)) throw new Error(`${file}: raw color literal`);
+      if (/transition:\s*all/.test(noComments)) throw new Error(`${file}: transition: all`);
+      if (/:root\b/.test(noComments)) throw new Error(`${file}: :root selector`);
       if (/backdrop-filter/.test(noComments)) throw new Error(`${file}: backdrop-filter (REQ-CMP-54)`);
     }
   });
@@ -153,7 +160,18 @@ describe('controls css gate', () => {
 const postcss = require('postcss') as typeof import('postcss');
 type PRule = import('postcss').Rule;
 type PAtRule = import('postcss').AtRule;
-const parseCss = (rel: string) => postcss.parse(readFileSync(join(process.cwd(), rel), 'utf8'));
+const parseCss = (rel: string) => {
+  const paired = rel.replace(/\.css$/, '.a11y.css');
+  const files = [rel];
+  if (existsSync(join(process.cwd(), paired))) {
+    const rows = CSS_ROWS.filter((row) => row.file === paired);
+    if (rows.length !== 1 || rows[0]!.layer !== 'ag.a11y') {
+      throw new Error(`${paired}: accessibility sheet must be registered in ag.a11y`);
+    }
+    files.push(paired);
+  }
+  return postcss.parse(files.map((file) => readFileSync(join(process.cwd(), file), 'utf8')).join('\n'));
+};
 const atOf = (r: PRule): PAtRule | undefined => {
   const p = r.parent as PAtRule | undefined;
   return p?.type === 'atrule' && p.name !== 'layer' ? p : undefined;

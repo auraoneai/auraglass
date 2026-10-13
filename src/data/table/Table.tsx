@@ -42,7 +42,7 @@ import type { TableEditCommitVia, TableEditValue } from './TableCellEditor';
    lazily loaded feature module — bundlers with code splitting fetch it only
    for tables that can edit (preloaded once such a grid mounts). */
 const loadCellEditor = () => import('./TableCellEditor');
-const TableCellEditor = React.lazy(loadCellEditor);
+const TableCellEditor = /*#__PURE__*/ React.lazy(loadCellEditor);
 
 export interface TableHandle<TData = unknown> {
   getInstance: () => TanStackTable<TData>;

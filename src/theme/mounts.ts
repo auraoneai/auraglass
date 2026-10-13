@@ -64,8 +64,8 @@ export const gatedPointerLight = (doc: Document): (() => void) => {
 
 const brandCss = (brand: string): string => createBrandTheme(brand).cssText;
 
-/** The production implementation of every provider mount key. */
-export const PRODUCTION_MOUNTS: Required<ProviderMounts> = {
+/** Allocate registrations without installing any provider mounts. */
+const createProductionMounts = (): Required<ProviderMounts> => ({
   lensDefs: LensDefs,
   pointerLight: gatedPointerLight,
   // REQ-MAT-38: dev only. The NODE_ENV ternary is folded by the consumer's
@@ -77,7 +77,10 @@ export const PRODUCTION_MOUNTS: Required<ProviderMounts> = {
     : () => undefined,
   presetCss,
   brandCss,
-};
+});
+
+/** The production implementation of every provider mount key. */
+export const PRODUCTION_MOUNTS: Required<ProviderMounts> = /*#__PURE__*/ createProductionMounts();
 
 let ensured = false;
 

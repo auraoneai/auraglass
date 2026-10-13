@@ -130,63 +130,7 @@
       "expires": "RC-1"
     },
     {
-      "script": "tests/a11y/manual/scripts/surf/ai-composer.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/ai-message.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/ai-source-list.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/ai-thread.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/ai-tool-call.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/app-shell.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/breadcrumbs.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
       "script": "tests/a11y/manual/scripts/surf/calendar.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/carousel-rail.md",
       "owner": "FIN-H",
       "task": "H3-3",
       "reqFin": "REQ-FIN-110",
@@ -200,21 +144,7 @@
       "expires": "RC-1"
     },
     {
-      "script": "tests/a11y/manual/scripts/surf/command-palette.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
       "script": "tests/a11y/manual/scripts/surf/command.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/date-field.md",
       "owner": "FIN-H",
       "task": "H3-3",
       "reqFin": "REQ-FIN-110",
@@ -229,20 +159,6 @@
     },
     {
       "script": "tests/a11y/manual/scripts/surf/date-range-picker.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/filter-bar.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/media-controls.md",
       "owner": "FIN-H",
       "task": "H3-3",
       "reqFin": "REQ-FIN-110",
@@ -270,70 +186,7 @@
       "expires": "RC-1"
     },
     {
-      "script": "tests/a11y/manual/scripts/surf/pagination.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/resizable-panels.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
       "script": "tests/a11y/manual/scripts/surf/sidebar-drawer.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/sidebar.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/source-transition.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/sparkline.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/stat-card.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/tab-bar.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/table.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/tabs.md",
       "owner": "FIN-H",
       "task": "H3-3",
       "reqFin": "REQ-FIN-110",
@@ -348,27 +201,6 @@
     },
     {
       "script": "tests/a11y/manual/scripts/surf/time-picker.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/timeline.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/top-bar.md",
-      "owner": "FIN-H",
-      "task": "H3-3",
-      "reqFin": "REQ-FIN-110",
-      "expires": "RC-1"
-    },
-    {
-      "script": "tests/a11y/manual/scripts/surf/tree-view.md",
       "owner": "FIN-H",
       "task": "H3-3",
       "reqFin": "REQ-FIN-110",

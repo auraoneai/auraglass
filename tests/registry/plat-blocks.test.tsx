@@ -92,11 +92,17 @@ describe('PLAT registry blocks/items', () => {
   });
 });
 
-/* S-41: every story declares parameters.ag. */
-describe('stories carry parameters.ag (S-41)', () => {
+/* S-41: component-subject stories declare parameters.ag; fixture compositions
+   without a ComponentMeta subject follow the canonical story-contract policy. */
+describe('stories follow the parameters.ag subject contract (S-41)', () => {
   const fs = require('node:fs') as typeof import('node:fs');
   const path = require('node:path') as typeof import('node:path');
-  const roots = [path.join(__dirname, '..', '..', 'registry'), path.join(__dirname, '..', '..', 'stories'), path.join(__dirname, '..', '..', 'src')];
+  const root = path.join(__dirname, '..', '..');
+  const { parseStoryFile, loadMetas } = require('../../scripts/storybook/lib/story-static.mjs');
+  const { validateStoryContract } = require('../../scripts/storybook/lib/story-contract.mjs');
+  const metas = loadMetas(root);
+  const attributeRules = new Set(['ag-missing', 'ag-invalid', 'subject-unresolved']);
+  const roots = [path.join(root, 'registry'), path.join(root, 'stories'), path.join(root, 'src')];
   const stories: string[] = [];
   const walk = (d: string) => {
     if (!fs.existsSync(d)) return;
@@ -108,9 +114,11 @@ describe('stories carry parameters.ag (S-41)', () => {
   };
   roots.forEach(walk);
   it('finds stories', () => expect(stories.length).toBeGreaterThan(20));
-  it.each(stories.map((s) => [path.basename(s), s] as const))('%s has parameters.ag', (_n, s) => {
+  it.each(stories.map((s) => [path.basename(s), s] as const))('%s satisfies the subject attribute contract', (_n, s) => {
     const src = fs.readFileSync(s, 'utf8');
-    expect(src).toMatch(/parameters\s*[:=]/);
-    expect(src).toMatch(/ag\s*:/);
+    const parsed = parseStoryFile(path.relative(root, s), src);
+    const violations = validateStoryContract([parsed], metas, { references: [] })
+      .filter((v: { rule: string }) => attributeRules.has(v.rule));
+    expect(violations).toEqual([]);
   });
 });

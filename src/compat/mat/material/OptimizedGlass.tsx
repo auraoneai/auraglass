@@ -66,27 +66,37 @@ function adaptOptimizedGlass(id: CompatAdapter, props: OptimizedGlassCompatProps
   return surface;
 }
 
-/** 4.x `OptimizedGlass` (exported as `OptimizedGlassCore` internally). */
+/** 4.x `OptimizedGlass` (exported as `OptimizedGlassCore` internally).
+ * @deprecated 4.x compatibility adapter; use Surface.
+ */
 export function OptimizedGlass(props: OptimizedGlassCompatProps): React.ReactElement {
   return adaptOptimizedGlass('OptimizedGlass', props);
 }
 
-/** 4.x `GlassCore` — same prop surface, fewer defaults. */
+/** 4.x `GlassCore` — same prop surface, fewer defaults.
+ * @deprecated 4.x compatibility adapter; use Surface.
+ */
 export function GlassCore(props: OptimizedGlassCompatProps): React.ReactElement {
   return adaptOptimizedGlass('GlassCore', props);
 }
 
-/** 4.x `GlassPrimitive` — the GlassCore surface under its 4.x primitive name. */
+/** 4.x `GlassPrimitive` — the GlassCore surface under its 4.x primitive name.
+ * @deprecated 4.x compatibility adapter; use Surface.
+ */
 export function GlassPrimitive(props: OptimizedGlassCompatProps): React.ReactElement {
   return adaptOptimizedGlass('GlassPrimitive', props);
 }
 
-/** 4.x `OptimizedGlassAdvanced` — adds optical props; all map to the same drops. */
+/** 4.x `OptimizedGlassAdvanced` — adds optical props; all map to the same drops.
+ * @deprecated 4.x compatibility adapter; use Surface.
+ */
 export function OptimizedGlassAdvanced(props: OptimizedGlassCompatProps): React.ReactElement {
   return adaptOptimizedGlass('OptimizedGlassAdvanced', props);
 }
 
-/** 4.x `GlassAdvanced` — the OptimizedGlassAdvanced surface under its 4.x name. */
+/** 4.x `GlassAdvanced` — the OptimizedGlassAdvanced surface under its 4.x name.
+ * @deprecated 4.x compatibility adapter; use Surface.
+ */
 export function GlassAdvanced(props: OptimizedGlassCompatProps): React.ReactElement {
   return adaptOptimizedGlass('GlassAdvanced', props);
 }

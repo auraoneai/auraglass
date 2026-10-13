@@ -17,7 +17,7 @@ import { useControllableWarning } from '../../foundation/controllable';
    content-sunken group — optically inert surfaces (no fill, rim, blur or
    specular) that still carry data-ag-surface for the a11y rungs
    (forced-colors / contrast-more borders). Module-level: the role is static. */
-const STEPPER_MATERIAL = materialProps({ layer: 'chrome', variant: 'identity', interactive: true });
+const STEPPER_MATERIAL = /*#__PURE__*/ materialProps({ layer: 'chrome', variant: 'identity', interactive: true });
 
 export function NumberField({
   onValueChange,

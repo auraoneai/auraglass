@@ -12,6 +12,9 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { gzipSync } from 'node:zlib';
+import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
+import { cellScalars } from '../tokens/transforms/glass-material.mjs';
 import { ROOT, DIST } from './lib/graph.mjs';
 import { LAYER_ORDER as LAYER_ORDER_STATEMENT } from '../tokens/formats/_shared.mjs';
 
@@ -39,7 +42,9 @@ const twName = (t) => {
   return null;
 };
 
-export function buildBridge(manifest) {
+export function buildBridge(manifest, materialSpec) {
+  const spec = materialSpec ?? JSON.parse(readFileSync(join(ROOT, 'tokens/material/material.tokens.json'), 'utf8')).material.material.$value;
+  const scalars = (variant, thickness) => cellScalars(spec, variant, thickness).join('\n');
   const tokens = manifest.tokens ?? [];
   /* material-tier tokens are the runtime values and win name collisions with
      sys tokens (e.g. material.surface.on-surface -> --color-on-surface must
@@ -63,6 +68,7 @@ ${[...themeVars.values()].join('\n')}
    the public material vars, the backdrop blur ladder follows the standard tier
    (thin 12px, regular 20px, thick 32px). No self-@apply. */
 @utility glass-regular {
+${scalars('regular', 'regular')}
   background: var(--ag-surface-fill, oklch(0.99 0.004 250 / 0.85));
   border: 1px solid var(--ag-surface-rim, oklch(1 0 0 / 0.18));
   border-radius: var(--ag-surface-radius, var(--ag-radius-md));
@@ -71,6 +77,7 @@ ${[...themeVars.values()].join('\n')}
   backdrop-filter: blur(20px) saturate(1.6);
 }
 @utility glass-clear {
+${scalars('clear', 'regular')}
   background: transparent;
   border: 1px solid var(--ag-surface-rim, oklch(1 0 0 / 0.18));
   border-radius: var(--ag-surface-radius, var(--ag-radius-md));
@@ -78,6 +85,7 @@ ${[...themeVars.values()].join('\n')}
   backdrop-filter: blur(20px) saturate(1.6);
 }
 @utility glass-thin {
+${scalars('regular', 'thin')}
   background: var(--ag-surface-fill, oklch(0.99 0.004 250 / 0.85));
   border: 1px solid var(--ag-surface-rim, oklch(1 0 0 / 0.18));
   border-radius: var(--ag-surface-radius, var(--ag-radius-md));
@@ -86,6 +94,7 @@ ${[...themeVars.values()].join('\n')}
   backdrop-filter: blur(12px) saturate(1.6);
 }
 @utility glass-thick {
+${scalars('regular', 'thick')}
   background: var(--ag-surface-fill, oklch(0.99 0.004 250 / 0.85));
   border: 1px solid var(--ag-surface-rim, oklch(1 0 0 / 0.18));
   border-radius: var(--ag-surface-radius, var(--ag-radius-md));
@@ -94,19 +103,30 @@ ${[...themeVars.values()].join('\n')}
   backdrop-filter: blur(32px) saturate(1.6);
 }
 @utility content-raised {
+  --_ag-tint-alpha: ${spec.content.raised.regular.alpha};
   background: var(--ag-surface-fill, oklch(0.99 0.004 250 / 0.8));
   border: 1px solid var(--ag-surface-rim, oklch(1 0 0 / 0.18));
   border-radius: var(--ag-surface-radius, var(--ag-radius-md));
   box-shadow: var(--ag-shadow-regular, 0 4px 16px oklch(0 0 0 / 0.14));
 }
 
+@utility content-sunken {
+  --_ag-tint-alpha: ${spec.content.sunken.regular.alpha};
+  background: var(--ag-surface-fill, oklch(0.99 0.004 250 / 0.8));
+  border: 1px solid var(--ag-surface-rim, oklch(1 0 0 / 0.18));
+  border-radius: var(--ag-surface-radius, var(--ag-radius-md));
+  box-shadow: inset 0 1px 0 var(--ag-surface-rim, oklch(0 0 0 / 0.12));
+}
+
+@custom-variant ag-contrast-more (&:where([data-ag-contrast=more], [data-ag-contrast=more] *));
 @custom-variant ag-dark (&:where([data-ag-scheme=dark], [data-ag-scheme=dark] *));
-@custom-variant ag-tinted (&:where([data-tinted], [data-tinted] *));
+@custom-variant ag-tinted (&:where([data-ag-transparency=tinted], [data-ag-transparency=tinted] *, [data-tinted], [data-tinted] *));
 @custom-variant ag-solid (&:where([data-ag-transparency='solid'], [data-ag-transparency='solid'] *));
 `;
   return css;
 }
 
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
 if (!existsSync(manifestPath)) {
   console.log(`gen-tailwind-bridge: pending (no ${manifestPath} until tokens build lands)`);
   process.exit(0);
@@ -119,3 +139,5 @@ if (gz > 6 * 1024) { console.error(`gen-tailwind-bridge: tailwind.css minus toke
 mkdirSync(dirname(outPath), { recursive: true });
 writeFileSync(outPath, css);
 console.log(`gen-tailwind-bridge: wrote ${outPath} (${css.length}B, ${gz}B gz excl. tokens.css)`);
+
+}

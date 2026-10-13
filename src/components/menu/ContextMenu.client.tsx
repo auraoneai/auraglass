@@ -23,10 +23,10 @@ import type {
 /* REQ-CMP-12: `actions` is the root's close path for the LayerStack Escape. */
 interface Ctx {
   open: boolean;
-  opener: React.MutableRefObject<HTMLElement | null> | null;
+  setOpener?: ((element: HTMLElement | null) => void) | undefined;
   actions?: React.RefObject<OverlayRootActions | null>;
 }
-const Ctx = /*#__PURE__*/ React.createContext<Ctx>({ open: false, opener: null });
+const Ctx = /*#__PURE__*/ React.createContext<Ctx>({ open: false });
 
 /* REQ-CMP-105: focus restores on every close. BU returns focus itself for
    Escape/item activation; an outside press on a non-focusable spot leaves
@@ -49,7 +49,8 @@ function ContextMenuRoot({ open, defaultOpen, onOpenChange, loop = true, childre
   const opener = React.useRef<HTMLElement | null>(null);
   const buActions = React.useRef<{ close: () => void; unmount: () => void } | null>(null);
   const routed = useRoutedRootActions(() => buActions.current?.close());
-  const value = React.useMemo(() => ({ open: current, opener, actions: routed.actions }), [current, routed.actions]);
+  const setOpener = React.useCallback((element: HTMLElement | null) => { opener.current = element; }, []);
+  const value = React.useMemo(() => ({ open: current, setOpener, actions: routed.actions }), [current, setOpener, routed.actions]);
   return (
     <Ctx.Provider value={value}>
       <Base.Root
@@ -80,12 +81,12 @@ function ContextMenuTrigger({ className, children, onKeyDown, onPointerDown, onP
     const synth = (el: HTMLElement, x: number, y: number) => {
       el.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, cancelable: true, clientX: x, clientY: y }));
     };
-    const { opener } = React.useContext(Ctx);
+    const { setOpener } = React.useContext(Ctx);
     const { onContextMenuCapture } = rest;
     const recordOpener: React.MouseEventHandler<HTMLDivElement> = (e) => {
       onContextMenuCapture?.(e);
       const active = document.activeElement;
-      if (opener) opener.current = active instanceof HTMLElement && active !== document.body ? active : null;
+      setOpener?.(active instanceof HTMLElement && active !== document.body ? active : null);
     };
     const handleKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
       onKeyDown?.(e);
