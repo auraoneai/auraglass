@@ -22,6 +22,7 @@ const w2 = [
   { file: 'src/data/stat-card/stat-card.css', layer: 'ag.components', bundle: 'data.css' },
   { file: 'src/data/chart-frame/chart-frame.css', layer: 'ag.components', bundle: 'data.css' },
   { file: 'src/data/sparkline/sparkline.css', layer: 'ag.components', bundle: 'data.css' },
+  { file: 'src/data/sparkline/sparkline.a11y.css', layer: 'ag.a11y', bundle: 'data.css' },
   { file: 'src/data/tree-view/tree-view.css', layer: 'ag.components', bundle: 'data.css' },
   { file: 'src/date/date.css', layer: 'ag.components', bundle: 'date.css' },
   { file: 'src/components/timeline/timeline.css', layer: 'ag.components', bundle: 'styles.css' },

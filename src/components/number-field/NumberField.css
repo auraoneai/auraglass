@@ -116,15 +116,5 @@
     opacity: var(--ag-state-disabled-alpha);
   }
 
-  @media (forced-colors: active) {
-    .ag-number-field [data-ag-part='group'] {
-      border: calc(var(--ag-focus-width) / 2) solid ButtonText;
-      background: Field;
-      box-shadow: none;
-    }
-    .ag-number-field [data-ag-part='input'] {
-      background: Field;
-      color: FieldText;
-    }
-  }
+  
 }

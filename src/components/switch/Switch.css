@@ -117,24 +117,7 @@
 
   /* Focus ring: the shared REQ-CMP-19 rule in control-shared/controls.css. */
 
-  @media (prefers-reduced-motion: reduce) {
-    .ag-switch [data-ag-part='thumb'] {
-      transition: none;
-    }
-  }
+  
 
-  @media (forced-colors: active) {
-    .ag-switch[data-ag-part='root'] {
-      border: var(--ag-focus-width) solid ButtonText;
-      background: ButtonFace;
-      box-shadow: none;
-    }
-    .ag-switch[data-ag-part='root'][data-checked] {
-      background: Highlight;
-    }
-    .ag-switch [data-ag-part='thumb'] {
-      background: ButtonText;
-      box-shadow: none;
-    }
-  }
+  
 }

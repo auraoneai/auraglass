@@ -63,16 +63,5 @@
     color: color-mix(in oklab, var(--ag-color-on-surface) calc(var(--ag-state-disabled-alpha) * 100%), transparent);
   }
 
-  @media (forced-colors: active) {
-    .ag-toggle-group {
-      border: calc(var(--ag-focus-width) / 2) solid ButtonText;
-      background: ButtonFace;
-      box-shadow: none;
-    }
-    .ag-toggle-item[data-pressed] {
-      background: Highlight;
-      color: HighlightText;
-      box-shadow: none;
-    }
-  }
+  
 }
