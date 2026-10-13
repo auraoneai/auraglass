@@ -1,23 +1,30 @@
 /* MAT-136 — Surface. Emits materialProps() attributes; no `as`, no deleted
-   optical props (types.ts never-markers make them compile errors). Dev warnings
-   run from the ref callback — no 'use client' directive. REQ-MAT-24: `style`
-   is forwarded only when passed; refs are React 19 ref-as-prop (RefObject). */
+   optical props (types.ts never-markers make them compile errors). No
+   'use client' directive: Surface is a Server Component, so it never creates
+   a ref callback (a function ref in an RSC tree fails serialization); dev
+   warnings run from the SurfaceWarnAnchor client leaf instead (dev only).
+   REQ-MAT-24: `style` is forwarded only when passed; refs are React 19
+   ref-as-prop (RefObject). */
 import * as React from 'react';
 import { cn } from '../internal';
 import type { SurfaceProps } from './types';
 import { materialProps } from './materialProps';
-import { warnSurface } from './dev/warnings';
+import { SurfaceWarnAnchor } from './dev/SurfaceWarnAnchor.client';
 
-const noopRef = (_el: HTMLElement | null): void => undefined;
+const setRef = (r: React.Ref<HTMLElement> | undefined, node: HTMLElement | null): void => {
+  if (typeof r === 'function') { (r as (n: HTMLElement | null) => void)(node); return; }
+  if (r && typeof r === 'object') (r as React.RefObject<HTMLElement | null>).current = node;
+};
 
-const composeRef = (
+/** Compose the consumer ref with the render element's own ref. Only called
+    when at least one exists — both can only originate in client code. */
+const composeRefs = (
   a: React.Ref<HTMLElement> | undefined,
-  b: (el: HTMLElement | null) => void,
-): ((node: HTMLElement | null) => void) => (node) => {
-  b(node);
-  if (typeof a === 'function') return a(node) as void;
-  if (a && typeof a === 'object') (a as React.RefObject<HTMLElement | null>).current = node;
-  return undefined;
+  b: React.Ref<HTMLElement> | undefined,
+): React.Ref<HTMLElement> => {
+  if (!a) return b as React.Ref<HTMLElement>;
+  if (!b) return a;
+  return (node: HTMLElement | null) => { setRef(a, node); setRef(b, node); };
 };
 
 export function Surface({ render, className, style, ref, ...rest }: SurfaceProps) {
@@ -39,24 +46,26 @@ export function Surface({ render, className, style, ref, ...rest }: SurfaceProps
   const renderRef = render && React.isValidElement(render)
     ? (render.props as { ref?: React.Ref<HTMLElement> }).ref
     : undefined;
-  // consumer ref -> dev warnings, then the render element's own ref last
+  const consumerRef = ref as React.Ref<HTMLElement> | undefined;
   // REQ-MAT-38: the NODE_ENV ternary folds in a production consumer build, so
-  // the dev warnings module is unreferenced there and drops out of the bundle
-  const warnAndConsumerRef = composeRef(
-    ref as React.Ref<HTMLElement> | undefined,
-    process.env.NODE_ENV !== 'production' ? warnSurface : noopRef,
-  ) as (el: HTMLElement | null) => void;
-  const finalRef = composeRef(renderRef, warnAndConsumerRef);
+  // the dev anchor (and the warnings module behind it) drops out of the bundle
+  const devAnchor = process.env.NODE_ENV !== 'production'
+    ? React.createElement(SurfaceWarnAnchor, { key: 'ag-surface-warn-anchor' })
+    : null;
 
   const cls = cn('ag-surface', className);
+  const { children, ...domRest } = domProps as { children?: React.ReactNode } & Record<string, unknown>;
   const merged: Record<string, unknown> = {
     ...attrs,
-    ...domProps,          // consumer wins for non-data-ag-* attributes
+    ...domRest,          // consumer wins for non-data-ag-* attributes
     className: cls,
     // by reference — never merged or rewritten; the key is added only when the
     // consumer passed `style`, so cloneElement keeps a render element's own style
     ...(style !== undefined ? { style } : {}),
-    ref: finalRef,
+    // a ref key exists only when a consumer/render ref was actually passed
+    ...(consumerRef !== undefined || renderRef !== undefined
+      ? { ref: composeRefs(consumerRef, renderRef) }
+      : {}),
   };
   // data-ag-* attributes are authoritative: re-apply over any consumer spread
   for (const [k, v] of Object.entries(attrs)) {
@@ -65,10 +74,11 @@ export function Surface({ render, className, style, ref, ...rest }: SurfaceProps
 
   if (render && React.isValidElement(render)) {
     const rp = (render.props ?? {}) as Record<string, unknown>;
+    const baseChildren = children !== undefined ? children : (rp.children as React.ReactNode);
     return React.cloneElement(render, {
       ...merged,
       className: cn(cls, rp.className as string),
-    } as Record<string, unknown>);
+    } as Record<string, unknown>, baseChildren, devAnchor);
   }
-  return React.createElement('div', merged);
+  return React.createElement('div', merged, children, devAnchor);
 }

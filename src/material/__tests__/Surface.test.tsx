@@ -12,6 +12,24 @@ const THICKNESSES = ['thin', 'regular', 'thick'] as const;
 const LAYERS = ['chrome', 'overlay', 'transient', 'content'] as const;
 
 describe('Surface', () => {
+  it('RSC safety: with no consumer ref the returned element carries no ref and no function props', () => {
+    // Surface is a Server Component: a ref callback created here would fail
+    // RSC serialization in a consumer app ("Refs cannot be used in Server
+    // Components"). Dev warnings run from the client warn anchor instead.
+    const el = Surface({ layer: 'chrome', children: 'x' } as SurfaceProps) as React.ReactElement<Record<string, unknown>>;
+    expect(el.props.ref).toBeUndefined();
+    const fnProps = Object.entries(el.props).filter(([, v]) => typeof v === 'function').map(([k]) => k);
+    expect(fnProps).toEqual([]);
+    const viaRender = Surface({ layer: 'chrome', render: React.createElement('header'), children: 'x' } as unknown as SurfaceProps) as React.ReactElement<Record<string, unknown>>;
+    expect(viaRender.props.ref).toBeUndefined();
+  });
+
+  it('RSC safety: a consumer ref still reaches the host element', () => {
+    const ref = React.createRef<HTMLElement>();
+    const { container } = render(<Surface layer="chrome" ref={ref}>x</Surface>);
+    expect(ref.current).toBe(container.querySelector('.ag-surface'));
+  });
+
   it.each(
     VARIANTS.flatMap((variant) =>
       THICKNESSES.flatMap((thickness) =>
