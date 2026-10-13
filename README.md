@@ -1,16 +1,17 @@
 # AuraGlass by AuraOne
 
 <!-- AG-RELEASE-BANNER -->
-> **v5.0.0 is on the `next` train.** The 5.0 alpha/beta/RC releases publish from
-> `next` under the `next` dist-tag; `latest` stays on 4.x until GA. Migrating
-> from 4.x: `npx aura-glass-cli migrate 4to5`. 4.x remains in LTS (fixes +
-> security only) for 12 months after GA — see `docs/release/lts-policy.md`.
+> **v5.0.0 is the current release.** It is published on the `latest` dist-tag;
+> `npm install aura-glass` installs 5.0.0. Migrating from 4.x:
+> `npx aura-glass-cli migrate 4to5`. The 4.x line is deprecated on npm and
+> remains available only under the `v4-lts` dist-tag for fixes + security —
+> see `docs/release/lts-policy.md`.
 >
 > npm dist-tags today (checked by `verify-release-comms --dist-tags`):
 >
-> - `latest`: 4.1.0
+> - `latest`: 5.0.0
 > - `next`: none
-> - `v4-lts`: none
+> - `v4-lts`: 4.1.0
 <!-- /AG-RELEASE-BANNER -->
 
 <!-- README.md is generated from scripts/docs/readme.tmpl.md by scripts/docs/gen-readme.mjs. Edit the template, not README.md. -->
