@@ -24,11 +24,26 @@ test.describe('responsive', () => {
 
   test('390x844 modal <= 3 visible filters incl. scrim, scrim blur <= 12', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await gotoMaterialStory(page, 'material-lab-examples--nesting-and-groups');
-    const d = await readDensity(page);
-    expect(d.liveBackdropFilters).toBeLessThanOrEqual(3);
-    const scrimBlur = await computedVar(page, '[data-ag-layer="scrim"]', '--_ag-blur').catch(() => '');
-    if (scrimBlur) expect(parseFloat(scrimBlur)).toBeLessThanOrEqual(12);
+    // MAT-168's subject is the modal story (page chrome + scrim + open
+    // overlay sheet); the nesting story's four legitimately live surfaces
+    // are a different scene with a different budget (REQ-MAT-155).
+    await gotoMaterialStory(page, 'material-lab-examples--modal-scrim');
+    const d = await readDensity(page, '[data-modal-scene]');
+    // The scrim paints backdrop-filter on the element itself, not a surface
+    // ::before, so readDensity cannot see it; count it explicitly.
+    const scrim = await page.evaluate(() => {
+      const el = document.querySelector('[data-modal-scene] [data-ag-layer="scrim"]');
+      if (!el) return null;
+      const cs = getComputedStyle(el);
+      const bf = cs.backdropFilter || cs.getPropertyValue('-webkit-backdrop-filter') || '';
+      const m = /blur\(([\d.]+)px\)/.exec(bf);
+      return { found: true, blur: m ? parseFloat(m[1]!) : Number.NaN };
+    });
+    expect(scrim, 'modal scene has no [data-ag-layer="scrim"] sibling').not.toBeNull();
+    expect(Number.isFinite(scrim!.blur), 'scrim backdrop-filter has no resolvable blur').toBe(true);
+    expect(scrim!.blur).toBeLessThanOrEqual(12);
+    const total = d.liveBackdropFilters + (scrim!.blur > 0 ? 1 : 0);
+    expect(total).toBeLessThanOrEqual(3);
   });
 
   test('ScrollEdge height 16-32px, no overlap with focusables', async ({ page }) => {
@@ -44,7 +59,31 @@ test.describe('responsive', () => {
 
   test('concentric inner radius >= 0 at every density', async ({ page }) => {
     await gotoMaterialStory(page, 'material-lab-shape-concentricity--radius-rhythm');
-    const inner = await computedVar(page, '.ag-surface[data-ag-shape="concentric"]', '--ag-radius-inner');
-    expect(parseFloat(inner)).toBeGreaterThanOrEqual(0);
+    for (const density of ['compact', 'regular', 'spacious'] as const) {
+      await page.evaluate(
+        (d) => document.documentElement.setAttribute('data-ag-density', d), density);
+      const rows = await page.evaluate(() =>
+        // --ag-radius-inner is unregistered, so its computed value stays an
+        // unevaluated max()/calc() stream on some engines (WebKit); resolve
+        // it through a probe length instead. The +100px sentinel keeps a
+        // negative result observable instead of clamped away, and the
+        // painted border radius must agree with the resolved value.
+        [...document.querySelectorAll('.ag-surface[data-ag-shape="concentric"]')].map((el) => {
+          const probe = document.createElement('div');
+          probe.style.cssText = 'width: calc(var(--ag-radius-inner) + 100px); height: 0;';
+          el.appendChild(probe);
+          const inner = parseFloat(getComputedStyle(probe).width) - 100;
+          const painted = parseFloat(getComputedStyle(el).borderTopLeftRadius);
+          probe.remove();
+          return { inner, painted };
+        }));
+      expect(rows.length, `no concentric surfaces at density ${density}`).toBeGreaterThan(0);
+      for (const { inner, painted } of rows) {
+        expect(Number.isFinite(inner)).toBe(true);
+        expect(inner).toBeGreaterThanOrEqual(0);
+        expect(Number.isFinite(painted)).toBe(true);
+        expect(Math.abs(painted - inner)).toBeLessThanOrEqual(0.6);
+      }
+    }
   });
 });

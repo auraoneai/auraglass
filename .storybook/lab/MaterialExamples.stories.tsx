@@ -119,6 +119,31 @@ export const Tiers: Story = {
   ),
 };
 
+/* MAT-168 modal scene: page chrome under an open modal — the overlay owner
+   renders a [data-ag-layer="scrim"] sibling (REQ-MAT-31); the scene's live
+   backdrop filters are page chrome + scrim + overlay sheet. */
+export const ModalScrim: Story = {
+  render: () => (
+    <Environment backdrop="media">
+      <div data-modal-scene>
+        <Pad>
+          <Surface layer="chrome" style={{ padding: 16 }}>
+            page chrome under the modal
+          </Surface>
+        </Pad>
+        <div data-ag-layer="scrim" />
+        <Surface
+          layer="overlay"
+          data-open
+          style={{ position: 'fixed', inset: 'auto 16px 16px 16px', padding: 24 }}
+        >
+          modal sheet — open overlay over its scrim sibling (scrim blur ≤ 12px)
+        </Surface>
+      </div>
+    </Environment>
+  ),
+};
+
 export const NestingAndGroups: Story = {
   render: () => (
     <Environment backdrop="media">
