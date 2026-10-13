@@ -4,11 +4,27 @@
  * to unconditional animate=<nonempty>, and fold the gate into `initial`:
  *   empty-on-true  -> initial={c ? false : I}   (I = original initial)
  *   empty-on-false -> initial={c ? I : false}
- * Leaves `initial` absent when none existed. Text edits preserve formatting.
+ * The gate folds verbatim (negations kept). When no `initial` existed and the
+ * branch was empty on true, one is inserted (`c ? false : undefined`).
+ * Edits are source-text spans so surrounding formatting is preserved.
  */
 import { j, type FileUnit, type Transform, type TransformResult } from './shared.js';
 
-type Expr = { type?: string; properties?: unknown[]; name?: string; value?: unknown; operator?: string; argument?: unknown };
+interface Edit { start: number; end: number; text: string }
+
+/** Replace spans with text (sorted by offset desc; spans must not overlap). */
+function applyEdits(source: string, edits: Edit[]): string {
+  let out = source;
+  for (const e of [...edits].sort((a, b) => b.start - a.start)) {
+    out = out.slice(0, e.start) + e.text + out.slice(e.end);
+  }
+  return out;
+}
+
+type Expr = {
+  type?: string; properties?: unknown[]; name?: string; value?: unknown;
+  start?: number; end?: number;
+};
 
 function isEmpty(e: Expr | undefined): boolean {
   if (!e) return false;
@@ -22,62 +38,52 @@ function applyCode(source: string): TransformResult {
   const root = j(source);
   const changes: TransformResult['changes'] = [];
   const todos: TransformResult['todos'] = [];
+  const spans: Edit[] = [];
+  const slice = (e: Expr): string => source.slice(e.start!, e.end!);
 
   root.find(j.JSXOpeningElement).forEach((p: any) => {
     const attrs = (p.node.attributes ?? []) as Array<{
-      type?: string; name?: { name?: string };
-      value?: { type?: string; expression?: Expr };
+      type?: string; name?: { name?: string }; start?: number; end?: number;
+      value?: { type?: string; expression?: Expr; start?: number; end?: number };
     }>;
-    const animate = attrs.find((a: any) => a.name?.name === 'animate');
+    const animate = attrs.find((a) => a.name?.name === 'animate');
     const expr = animate?.value?.expression;
     if (!expr || expr.type !== 'ConditionalExpression') return;
+    if (animate?.value?.start === undefined || animate?.value?.end === undefined) return;
     const c = expr as unknown as { test: Expr; consequent: Expr; alternate: Expr };
-    const test = c.test;
-    // Determine which branch is empty (and normalize negated tests).
-    let emptyOnTrue: boolean;
-    let gate: Expr = test;
-    const testIsNegated = test.type === 'UnaryExpression' && test.operator === '!';
     const cEmpty = isEmpty(c.consequent);
     const aEmpty = isEmpty(c.alternate);
-    if (cEmpty && !aEmpty) {
-      emptyOnTrue = !testIsNegated;
-      if (testIsNegated) gate = test.argument as Expr;
-      const nonempty = c.alternate;
-      animate!.value!.expression = nonempty as never;
-    } else if (aEmpty && !cEmpty) {
-      emptyOnTrue = false;
-      if (testIsNegated) {
-        // !c ? X : {}  ->  c ? {} : X  i.e. empty-on-true under positive gate
-        emptyOnTrue = true;
-        gate = test.argument as Expr;
-        animate!.value!.expression = c.consequent as never;
-      } else {
-        animate!.value!.expression = c.consequent as never;
-      }
-    } else {
-      return; // neither branch empty — leave (dynamic, not our pattern)
-    }
-    const nameEl = (p.node.name as { name?: string }).name ?? 'element';
-    void nameEl;
+    if (cEmpty === aEmpty) return; // both or neither empty — not our pattern
+    const emptyOnTrue = cEmpty;
+    const nonempty = emptyOnTrue ? c.alternate : c.consequent;
+    if (nonempty.start === undefined || nonempty.end === undefined) return;
+    if (c.test.start === undefined || c.test.end === undefined) return;
+    const gateSrc = slice(c.test);
 
-    const initial = attrs.find((a: any) => a.name?.name === 'initial');
-    if (initial) {
-      const inner = initial.value?.expression;
-      const initExpr = (inner ?? j.literal(false)) as never;
-      const cond = j.conditionalExpression(
-        gate as never,
-        (emptyOnTrue ? j.literal(false) : initExpr) as never,
-        (emptyOnTrue ? initExpr : j.literal(false)) as never,
-      );
-      initial.value = { type: 'JSXExpressionContainer', expression: cond } as never;
+    spans.push({ start: animate.value.start, end: animate.value.end, text: `{${slice(nonempty)}}` });
+
+    const initial = attrs.find((a) => a.name?.name === 'initial');
+    if (initial?.value?.start !== undefined && initial?.value?.end !== undefined) {
+      const inner = initial.value.expression;
+      const initSrc = inner && inner.start !== undefined && inner.end !== undefined ? slice(inner) : 'false';
+      const text = emptyOnTrue ? `{${gateSrc} ? false : ${initSrc}}` : `{${gateSrc} ? ${initSrc} : false}`;
+      spans.push({ start: initial.value.start, end: initial.value.end, text });
+    } else if (!initial && emptyOnTrue && animate.start !== undefined) {
+      // Insert `initial={gate ? false : undefined}` before animate, keeping
+      // the attribute layout: newline + animate's own indentation when the
+      // tag is multiline, a single space when inline.
+      const lineStart = source.lastIndexOf('\n', animate.start) + 1;
+      const before = source.slice(lineStart, animate.start);
+      const multiline = /^\s*$/.test(before);
+      const text = multiline
+        ? `initial={${gateSrc} ? false : undefined}\n${before}`
+        : `initial={${gateSrc} ? false : undefined} `;
+      spans.push({ start: animate.start, end: animate.start, text });
     }
-    // Spec: "leaves initial absent if none existed" — nothing to add otherwise.
     changes.push({ transform: 'reduced-motion-initial', description: 'fold reduced-motion gate into initial' });
-    void todos;
   });
 
-  const out = changes.length ? root.toSource({ quote: 'single', reuseWhitespace: true }) : source;
-  return { source: out, changes, todos };
+  return { source: spans.length ? applyEdits(source, spans) : source, changes, todos };
 }
 
 export const reducedMotionInitial: Transform = {
