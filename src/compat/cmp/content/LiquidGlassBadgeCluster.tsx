@@ -9,7 +9,7 @@
    Dropped: materialVariant (5.0 Badge has no material). */
 'use client';
 import * as React from 'react';
-import { cn, warnDeprecated } from '../../../internal';
+import { warnDeprecated } from '../../../internal';
 import { Badge } from '../../../components/badge/Badge';
 
 const DEP = 'DEP-C0236';
@@ -53,7 +53,7 @@ export function LiquidGlassBadgeCluster({
       {...rest}
       ref={ref}
       data-selection-mode={selectionMode}
-      className={cn('ag-badge-cluster', className)}
+      className={className}
     >
       {visible.map((item) => (
         <Badge

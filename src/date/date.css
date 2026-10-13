@@ -48,6 +48,13 @@
   }
   .ag-calendar, .ag-range-calendar { display: grid; gap: var(--ag-space-2, 0.5rem); }
   .ag-calendar__header { display: flex; align-items: center; justify-content: space-between; }
+  .ag-calendar__heading {
+    margin: 0;
+    font-size: var(--_ag-text-sm, 0.875rem);
+    font-weight: var(--_ag-weight-medium, 500);
+  }
+  .ag-calendar__months { display: flex; flex-wrap: wrap; gap: var(--ag-space-4, 1rem); }
+  .ag-calendar__grid { border-collapse: separate; }
   .ag-calendar__nav {
     min-inline-size: var(--_ag-touch-target, 44px);
     min-block-size: var(--_ag-touch-target, 44px);

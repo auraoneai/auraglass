@@ -2,6 +2,7 @@
 
 /* CMP-319 ColorPicker */
 @layer ag.components {
+  .ag-color-picker { display: inline-block; }
   .ag-color-picker-trigger { display: inline-flex; align-items: center; gap: var(--ag-space-1); }
   .ag-color-picker-swatch { inline-size: 1em; block-size: 1em; border-radius: var(--ag-radius-sm); }
   .ag-color-picker-area { position: relative; inline-size: 200px; block-size: 140px; border-radius: var(--ag-radius-sm); cursor: crosshair; touch-action: none; }

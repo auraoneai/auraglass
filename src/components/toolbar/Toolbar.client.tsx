@@ -146,7 +146,7 @@ function ToolbarRoot({
       orientation={orientation}
       loopFocus={loop}
       data-ag-part="root"
-      className={cn('ag-toolbar', 'ag-surface', 'ag-toolbar-surface', className)}
+      className={cn('ag-toolbar', 'ag-surface', className)}
       ref={setRefs}
     >
       {inline}

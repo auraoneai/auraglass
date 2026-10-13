@@ -42,6 +42,9 @@
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
+  .ag-timeline__content { min-inline-size: 0; }
+  .ag-timeline__title { font-weight: var(--_ag-weight-medium, 500); }
+  .ag-timeline__meta { margin-block-start: var(--ag-space-1, 0.25rem); }
   .ag-timeline__description {
     margin: var(--ag-space-1, 0.25rem) 0 0;
     color: var(--_ag-fg-muted, inherit);

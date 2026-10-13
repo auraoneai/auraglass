@@ -106,6 +106,11 @@
     padding-block-start: var(--ag-scroll-padding-top, 0px);
     padding-block-end: var(--ag-scroll-padding-bottom, 0px);
   }
+  .ag-app-shell .ag-inspector__section-trigger {
+    display: flex;
+    inline-size: 100%;
+    align-items: center;
+  }
   .ag-app-shell [data-ag-slot='inspector'] {
     grid-area: insp;
     min-inline-size: 0;

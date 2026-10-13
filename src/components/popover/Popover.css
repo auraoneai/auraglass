@@ -4,6 +4,7 @@
    notch painted with the popup's --ag-surface-fill + rim (no second backdrop-filter).
    Enter/exit: opacity + scale(0.96) from --transform-origin; reduced-motion fades only. */
 @layer ag.components {
+  .ag-popover-trigger { cursor: default; }
   .ag-popover-positioner {
     /* BU sets left/top; keep it an inert positioning shell */
     z-index: var(--ag-z-overlay, 60);

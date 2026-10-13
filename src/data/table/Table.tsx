@@ -873,7 +873,6 @@ export function Table<TData>(props: TableProps<TData>) {
             <MenuTrigger
               render={<IconButton label={`${msgs.columnActions} ${label}`} icon={'\u2026'} />}
               data-ag-part="table-column-menu"
-              className="ag-table__col-menu"
             />
             <MenuContent>
               <MenuItem
@@ -1017,7 +1016,7 @@ export function Table<TData>(props: TableProps<TData>) {
           className="ag-table__table"
         >
           {caption !== undefined ? <caption>{caption}</caption> : null}
-          <thead data-ag-part="table-header" className={sticky ? 'ag-table__thead--sticky' : 'ag-table__thead'}>
+          <thead data-ag-part="table-header" className={sticky ? 'ag-table__thead--sticky' : undefined}>
             {table.getHeaderGroups().map((hg, i) => (
               <tr key={hg.id} {...(grid ? { role: 'row' } : {})} {...(virtualize ? { 'aria-rowindex': 1 + i } : {})}>
                 {hg.headers.map((h) => renderHeaderCell(i, h))}
