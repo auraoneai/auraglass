@@ -1,0 +1,67 @@
+{
+  "generatedBy": "scripts/surf/calibrate-media-tone.mjs --write --from <CI artifact media-tone-calibration.json>",
+  "source": {
+    "job": "https://github.com/auraoneai/auraglass/-/jobs/255074",
+    "sha": "45dd478b9b2f0b268ff8ea3e057f69388cbae177",
+    "engine": "chromium 153.0.8010.12",
+    "measuredAt": "2026-10-13T01:33:50.925Z"
+  },
+  "scenes": {
+    "photo": {
+      "mean": 0.5166,
+      "p10": 0.0229,
+      "p90": 0.9829,
+      "stdev": 0.4064,
+      "expect": "busy"
+    },
+    "saturated-abstract": {
+      "mean": 0.1649,
+      "p10": 0.0125,
+      "p90": 0.5392,
+      "stdev": 0.2019,
+      "expect": "dark"
+    },
+    "dense-text": {
+      "mean": 0.8327,
+      "p10": 0.6514,
+      "p90": 0.9131,
+      "stdev": 0.2414,
+      "expect": "light"
+    },
+    "dark-media": {
+      "mean": 0.0304,
+      "p10": 0.0024,
+      "p90": 0.0394,
+      "stdev": 0.0677,
+      "expect": "dark"
+    },
+    "flat-white": {
+      "mean": 1,
+      "p10": 1,
+      "p90": 1,
+      "stdev": 0,
+      "expect": "light"
+    },
+    "flat-black": {
+      "mean": 0,
+      "p10": 0,
+      "p90": 0,
+      "stdev": 0,
+      "expect": "dark"
+    },
+    "hf-pattern": {
+      "mean": 0.3824,
+      "p10": 0.0091,
+      "p90": 0.9139,
+      "stdev": 0.4156,
+      "expect": "busy"
+    },
+    "video-frame": {
+      "mean": 0.1129,
+      "p10": 0.0049,
+      "p90": 0.2438,
+      "stdev": 0.1811,
+      "expect": "dark"
+    }
+  }
+}
