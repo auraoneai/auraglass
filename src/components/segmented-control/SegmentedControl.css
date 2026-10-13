@@ -108,22 +108,8 @@
   [data-ag-motion='none'] .ag-segmented-control [data-ag-part='indicator'][data-ag-animating]:not([data-ag-vt]) {
     transition: none;
   }
-  @media (prefers-reduced-motion: reduce) {
-    .ag-segmented-control [data-ag-part='indicator'],
-    .ag-segmented-control [data-ag-part='indicator'][data-ag-animating]:not([data-ag-vt]) {
-      transition: none;
-    }
-  }
-  @media (forced-colors: active) {
-    .ag-segmented-control [data-ag-part='indicator'] {
-      background: Highlight;
-      box-shadow: none;
-    }
-    .ag-segmented-item[data-checked],
-    .ag-segmented-item[aria-checked='true'] {
-      color: HighlightText;
-    }
-  }
+
+
 
   /* REQ-CMP-41 */
   .ag-segmented-control[data-orientation='vertical'] {

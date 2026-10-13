@@ -46,11 +46,13 @@ const loadImpl = (): Prep => {
   return (globalThis as { __agP?: Prep }).__agP!;
 };
 
+// The emitted body's query strings (prepaint.ts): two-valued features in
+// the boolean context, which matches exactly their non-default value.
 const MQ: Record<keyof OsSignals, string> = {
-  forcedColors: '(forced-colors: active)',
+  forcedColors: '(forced-colors)',
   contrastMore: '(prefers-contrast: more)',
-  reducedTransparency: '(prefers-reduced-transparency: reduce)',
-  reducedMotion: '(prefers-reduced-motion: reduce)',
+  reducedTransparency: '(prefers-reduced-transparency)',
+  reducedMotion: '(prefers-reduced-motion)',
   schemeDark: '(prefers-color-scheme: dark)',
   coarsePointer: '(pointer: coarse)',
 };

@@ -2,5 +2,5 @@
 import { Combobox } from 'aura-glass';
 
 export function X() {
-  return <Combobox items={opts} value={v} onValueChange={setV} />;
+  return <Combobox.Root items={opts} value={v} onValueChange={setV} />;
 }

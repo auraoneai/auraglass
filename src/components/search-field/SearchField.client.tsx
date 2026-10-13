@@ -119,7 +119,7 @@ export function SearchField({
       aria-busy={loading ? true : undefined}
     >
       {label !== undefined && label !== null ? <Base.Label data-ag-part="label">{label}</Base.Label> : null}
-      <div data-ag-part="control-shell" className="ag-sf-shell" {...materialProps({ layer: 'chrome', thickness: 'thin', ...(variant !== undefined ? { variant } : {}), ...(refraction !== undefined ? { refraction } : {}) })}>
+      <div data-ag-part="control-shell" {...materialProps({ layer: 'chrome', thickness: 'thin', ...(variant !== undefined ? { variant } : {}), ...(refraction !== undefined ? { refraction } : {}) })}>
         <SearchGlyph />
         {startAdornment !== undefined && startAdornment !== null ? (
           <span data-ag-part="adornment-start">{startAdornment}</span>

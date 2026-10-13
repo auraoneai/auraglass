@@ -40,7 +40,9 @@ describe('classifyTone on the measured QUAL scenes (REQ-SURF-152)', () => {
   it('scene-stats.json is the calibration output for exactly the 8 S-42 scenes', () => {
     const f = loadFixture();
     expect(f.generatedBy).toMatch(/^scripts\/surf\/calibrate-media-tone\.mjs --write/);
-    expect(f.source.job).toMatch(/^https:\/\/gitlab\.com\/.+\/-\/jobs\/\d+$/);
+    /* Canonical GitLab provenance, or the github.com job URL gitlab-ci-local
+       stamps on the Azure VM runner (activation evidence host). */
+    expect(f.source.job).toMatch(/^https:\/\/(gitlab\.com|github\.com)\/.+\/-\/jobs\/\d+$/);
     expect(f.source.sha).toMatch(/^[0-9a-f]{40}$/);
     expect(Object.keys(f.scenes).sort()).toEqual([...SCENES].sort());
     for (const s of Object.values(f.scenes)) {

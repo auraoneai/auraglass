@@ -14,6 +14,7 @@
   .ag-alert[data-ag-intent='success'] { background-color: color-mix(in srgb, var(--ag-color-success, transparent) 12%, transparent); }
   .ag-alert[data-ag-intent='warning'] { background-color: color-mix(in srgb, var(--ag-color-warning, transparent) 12%, transparent); }
   .ag-alert[data-ag-intent='danger'] { background-color: color-mix(in srgb, var(--ag-color-danger, transparent) 12%, transparent); }
+  .ag-alert-body { flex: 1; min-inline-size: 0; }
   .ag-alert-title { margin: 0; font-weight: 600; }
   .ag-alert-actions { display: flex; gap: var(--ag-space-2); margin-inline-start: auto; }
   .ag-alert-action { cursor: pointer; }

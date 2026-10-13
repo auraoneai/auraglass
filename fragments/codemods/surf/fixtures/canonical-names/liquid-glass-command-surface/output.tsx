@@ -3,5 +3,5 @@
 import { LiquidGlassCommandSurface } from 'aura-glass/compat';
 
 export function Example() {
-  return <LiquidGlassCommandSurface />;
+  return <LiquidGlassCommandSurface open={v} items={v} />;
 }

@@ -65,7 +65,7 @@ describe('dry-run', () => {
     const reg = fs.mkdtempSync(path.join(os.tmpdir(), 'agreg-'));
     fs.writeFileSync(path.join(reg, 'button.json'), JSON.stringify({
       name: 'button', type: 'registry:component',
-      files: [{ path: 'components/button.tsx', content: "export const B=1;\n" }],
+      files: [{ path: 'components/button.tsx', type: 'registry:component', content: "export const B=1;\n" }],
     }));
     const cap = capture();
     try {

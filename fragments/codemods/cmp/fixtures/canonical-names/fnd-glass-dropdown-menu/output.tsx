@@ -2,5 +2,5 @@
 import { Menu } from 'aura-glass';
 
 export function X() {
-  return <Menu.Root><Menu.Trigger><Btn/></Menu.Trigger><Menu.Content>{items.map(i=><Menu.Item key={i.label}/>)}</Menu.Content></Menu.Root>;
+  return <Menu.Root><Menu.Trigger><Btn/></Menu.Trigger><Menu.Content>{items.map((i: any)=><Menu.Item key={i.label}/>)}</Menu.Content></Menu.Root>;
 }

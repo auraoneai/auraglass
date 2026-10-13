@@ -2,5 +2,5 @@
 import { SearchField } from 'aura-glass';
 
 export function X() {
-  return <SearchField value={q} onChange={e=>setQ(e.target.value)} />;
+  return <SearchField {...v} />;
 }

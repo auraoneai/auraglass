@@ -54,8 +54,11 @@ describe('material transform (MAT-041)', () => {
       r.selector.includes('data-ag-contrast') || (r.media ?? '').includes('prefers-contrast');
     const rows = all.filter((r) => !isMore(r));
     expect(rows).toHaveLength(15);
-    const base = rows.filter((r) => !r.coarse && !r.selector.includes(':where('));
-    const failSafe = rows.filter((r) => !r.coarse && r.selector.includes(':where('));
+    // fail-safe rows are the ones carrying the declared-backdrop condition;
+    // every literal row also carries a zero-specificity :where() exclusion
+    // (shared-backdrop kills), so ':where(' no longer discriminates them
+    const base = rows.filter((r) => !r.coarse && !r.selector.includes('[data-ag-backdrop='));
+    const failSafe = rows.filter((r) => !r.coarse && r.selector.includes('[data-ag-backdrop='));
     const coarse = rows.filter((r) => r.coarse);
     expect(base).toHaveLength(8);
     expect(failSafe).toHaveLength(4);
@@ -73,6 +76,10 @@ describe('material transform (MAT-041)', () => {
       // Formatting may wrap :not() arguments. Keep the descendant whitespace
       // before `*` mandatory while permitting whitespace around punctuation.
       expect(row.selector).toMatch(/:not\(\s*\[data-ag-tier="lightweight"\]\s*,\s*\[data-ag-tier="lightweight"\]\s+\*\s*\)/);
+      // shared-backdrop kills (REQ-MAT-26/31): group children and nested
+      // surfaces must not receive a constant literal either — on WebKit it
+      // would outrank the material.css kill rules
+      expect(row.selector).toMatch(/:where\(\s*:not\(\s*\[data-ag-group\]\s*>\s*\*\s*,\s*\[data-ag-surface\]\s+\*:not\(\[data-ag-allow-nested\]\)\s*\)\s*\)/);
       expect(row.selector).not.toContain('[data-ag-variant="identity"]');
       expect(row.value).not.toContain('var(');
       expect(row.value).toMatch(/^blur\([\d.]+px\) saturate\([\d.]+\) brightness\([\d.]+\)$/);
@@ -90,6 +97,7 @@ describe('material transform (MAT-041)', () => {
       expect(r.selector).toMatch(/::before$/);
       expect(r.selector).not.toContain('[data-ag-variant="identity"]');
       expect(r.selector).toMatch(/:not\(\s*\[data-ag-tier="lightweight"\]\s*,\s*\[data-ag-tier="lightweight"\]\s+\*\s*\)/);
+      expect(r.selector).toMatch(/:where\(\s*:not\(\s*\[data-ag-group\]\s*>\s*\*\s*,\s*\[data-ag-surface\]\s+\*:not\(\[data-ag-allow-nested\]\)\s*\)\s*\)/);
     }
     const norm = (sel: string) => sel.replace(/\s+/g, ' ');
     for (const b of base) {

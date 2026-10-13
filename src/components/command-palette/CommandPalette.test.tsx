@@ -26,12 +26,16 @@ describe('CommandPalette (SURF-087)', () => {
     spy.mockRestore();
   });
 
-  it('one keydown listener per mounted palette', () => {
+  it('registers no own document keydown listener (REQ-CMP-12 seam)', () => {
     const spy = jest.spyOn(document, 'addEventListener');
-    const { unmount } = render(<CommandPalette />);
+    const first = render(<CommandPalette />);
+    const second = render(<CommandPalette />);
     const keys = spy.mock.calls.filter(([type]) => type === 'keydown');
-    expect(keys).toHaveLength(1);
-    unmount();
+    // The hotkey rides the foundation useGlobalHotkey seam (the LayerStack's
+    // single per-document dispatcher); the component itself attaches none.
+    expect(keys).toHaveLength(0);
+    first.unmount();
+    second.unmount();
     spy.mockRestore();
   });
 

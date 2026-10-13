@@ -41,7 +41,9 @@ describe('verify-capability-ledger --report md', () => {
     expect(strip(a.stdout)).toBe(strip(b.stdout));
     expect(a.stdout).toMatch(/Totals: 58 rows\./);
     expect(a.stdout).toMatch(/P0 15, P1 27, P2 11, P3 5/);
-    expect(a.stdout).toMatch(/5\.0 45, 5\.1 11, 5\.2 0, 5\.x\/labs 2/);
+    // REQ-SURF-181: 19 SURF 5.0 P0/P1 rows deferred to 5.1 (no L2 delivery
+    // evidence recorded), so 5.0 holds 26 and 5.1 holds 30.
+    expect(a.stdout).toMatch(/5\.0 26, 5\.1 30, 5\.2 0, 5\.x\/labs 2/);
   });
 
   it('renders the roadmap grouped by release then area', () => {

@@ -1,47 +1,217 @@
 /* fragments/size-budgets/plat.ts — PLAT owns this file (§3.4).
    REQ-PLAT-76/30 rows; may be stricter than PROVISIONAL_ROWS/DEFAULT_CEILINGS,
-   never looser. Lowered only after a changelog entry + Perf-Budget-Raise trailer. */
-import type { DeprecationEntry, SizeBudgetRow } from '../../src/contracts/fragments';
-import cmpRows from './cmp';
-import matRows from './mat';
-import surfRows from './surf';
-import cmpDeps from '../deprecations/cmp';
-import matDeps from '../deprecations/mat';
-import surfDeps from '../deprecations/surf';
-import compatCmp from '../../etc/api/compat.cmp.exports.json';
-import compatMat from '../../etc/api/compat.mat.exports.json';
-import compatSurf from '../../etc/api/compat.surf.exports.json';
+   never looser. Lowered only after a changelog entry + Perf-Budget-Raise trailer.
+   The default export stays a static array literal (the QUAL deliverables
+   checker reads rows without executing the fragment); the derived
+   REQ-PLAT-30 compat rows live in the generated block below — regenerate
+   with `node scripts/plat/gen-compat-size-rows.mjs` whenever stream size
+   rows, deprecation entries or compat exports change. */
+import type { SizeBudgetRow } from '../../src/contracts/fragments';
 
-/* REQ-PLAT-30: compat size is reported separately — each
-   `import { X } from 'aura-glass/compat'` is budgeted at its 5.0 target's row
-   + 2 KB gz. The target is the replacement named by X's deprecation entry
-   (compat != null); its row is the stream's `{ <Target> } from 'aura-glass…'`
-   js row. Derived, so a compat export or target row added later gets its
-   row automatically; exports whose target has no 5.0 row yet get none (the
-   target's owner adds that row first). */
-const COMPAT_HEADROOM_BYTES = 2048;
-
-const TARGET_ROWS = new Map<string, SizeBudgetRow>();
-for (const row of [...cmpRows, ...matRows, ...surfRows] as readonly SizeBudgetRow[]) {
-  const name = row.kind === 'js' ? /^\{\s*(\w+)\s*\}\s+from\s+'aura-glass(?:\/[\w-]+)?'$/.exec(row.import)?.[1] : undefined;
-  if (name && !TARGET_ROWS.has(name)) TARGET_ROWS.set(name, row);
-}
-const ENTRIES = [...cmpDeps, ...matDeps, ...surfDeps] as readonly DeprecationEntry[];
-/** First identifier of an entry's replacement: 'Menu.Item' -> 'Menu', 'Sidebar + Sidebar.Nav …' -> 'Sidebar'. */
-const targetOf = (replacement: string | null): string | undefined => /^[A-Z]\w*/.exec(replacement ?? '')?.[0];
-
-const compatRows: SizeBudgetRow[] = [...new Set([...compatCmp.exports, ...compatMat.exports, ...compatSurf.exports])]
-  .sort()
-  .flatMap((name) => {
-    const entry = ENTRIES.find((e) => e.symbol === name && e.compat != null);
-    const target = entry ? TARGET_ROWS.get(targetOf(entry.replacement) ?? '') : undefined;
-    if (!target) return [];
-    return [{ id: `plat:compat:${name}`, import: `{ ${name} } from 'aura-glass/compat'`, limitBytes: target.limitBytes + COMPAT_HEADROOM_BYTES, kind: 'js' as const }];
-  });
+/* GENERATED-COMPAT-ROWS:BEGIN — node scripts/plat/gen-compat-size-rows.mjs */
+const compatRows: SizeBudgetRow[] = [
+  { id: "plat:compat:AtmosphericBackground", import: "{ AtmosphericBackground } from 'aura-glass/compat'", limitBytes: 9216, kind: 'js' },
+  { id: "plat:compat:AuroraBackground", import: "{ AuroraBackground } from 'aura-glass/compat'", limitBytes: 9216, kind: 'js' },
+  { id: "plat:compat:AuroraOrb", import: "{ AuroraOrb } from 'aura-glass/compat'", limitBytes: 9216, kind: 'js' },
+  { id: "plat:compat:Box", import: "{ Box } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:Button", import: "{ Button } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:CircularProgress", import: "{ CircularProgress } from 'aura-glass/compat'", limitBytes: 7048, kind: 'js' },
+  { id: "plat:compat:DisplayText", import: "{ DisplayText } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:DynamicAtmosphere", import: "{ DynamicAtmosphere } from 'aura-glass/compat'", limitBytes: 9216, kind: 'js' },
+  { id: "plat:compat:EnhancedGlassButton", import: "{ EnhancedGlassButton } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:GlassAccordion", import: "{ GlassAccordion } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:GlassActionBar", import: "{ GlassActionBar } from 'aura-glass/compat'", limitBytes: 15048, kind: 'js' },
+  { id: "plat:compat:GlassActionSheet", import: "{ GlassActionSheet } from 'aura-glass/compat'", limitBytes: 26048, kind: 'js' },
+  { id: "plat:compat:GlassActivityFeed", import: "{ GlassActivityFeed } from 'aura-glass/compat'", limitBytes: 7168, kind: 'js' },
+  { id: "plat:compat:GlassAlert", import: "{ GlassAlert } from 'aura-glass/compat'", limitBytes: 5048, kind: 'js' },
+  { id: "plat:compat:GlassAnimatedNumber", import: "{ GlassAnimatedNumber } from 'aura-glass/compat'", limitBytes: 5120, kind: 'js' },
+  { id: "plat:compat:GlassAppShell", import: "{ GlassAppShell } from 'aura-glass/compat'", limitBytes: 20480, kind: 'js' },
+  { id: "plat:compat:GlassAvatar", import: "{ GlassAvatar } from 'aura-glass/compat'", limitBytes: 5048, kind: 'js' },
+  { id: "plat:compat:GlassAvatarGroup", import: "{ GlassAvatarGroup } from 'aura-glass/compat'", limitBytes: 5048, kind: 'js' },
+  { id: "plat:compat:GlassBadge", import: "{ GlassBadge } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassBottomNav", import: "{ GlassBottomNav } from 'aura-glass/compat'", limitBytes: 8192, kind: 'js' },
+  { id: "plat:compat:GlassBottomSheet", import: "{ GlassBottomSheet } from 'aura-glass/compat'", limitBytes: 26048, kind: 'js' },
+  { id: "plat:compat:GlassBreadcrumb", import: "{ GlassBreadcrumb } from 'aura-glass/compat'", limitBytes: 11264, kind: 'js' },
+  { id: "plat:compat:GlassBreadcrumbs", import: "{ GlassBreadcrumbs } from 'aura-glass/compat'", limitBytes: 11264, kind: 'js' },
+  { id: "plat:compat:GlassButton", import: "{ GlassButton } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:GlassCalendar", import: "{ GlassCalendar } from 'aura-glass/compat'", limitBytes: 6144, kind: 'js' },
+  { id: "plat:compat:GlassCard", import: "{ GlassCard } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassCarousel", import: "{ GlassCarousel } from 'aura-glass/compat'", limitBytes: 12288, kind: 'js' },
+  { id: "plat:compat:GlassChat", import: "{ GlassChat } from 'aura-glass/compat'", limitBytes: 35840, kind: 'js' },
+  { id: "plat:compat:GlassChatInput", import: "{ GlassChatInput } from 'aura-glass/compat'", limitBytes: 14336, kind: 'js' },
+  { id: "plat:compat:GlassCheckbox", import: "{ GlassCheckbox } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:GlassCheckboxGroup", import: "{ GlassCheckboxGroup } from 'aura-glass/compat'", limitBytes: 8048, kind: 'js' },
+  { id: "plat:compat:GlassChip", import: "{ GlassChip } from 'aura-glass/compat'", limitBytes: 5120, kind: 'js' },
+  { id: "plat:compat:GlassCoachmarks", import: "{ GlassCoachmarks } from 'aura-glass/compat'", limitBytes: 17048, kind: 'js' },
+  { id: "plat:compat:GlassColorPicker", import: "{ GlassColorPicker } from 'aura-glass/compat'", limitBytes: 22048, kind: 'js' },
+  { id: "plat:compat:GlassColorWheel", import: "{ GlassColorWheel } from 'aura-glass/compat'", limitBytes: 22048, kind: 'js' },
+  { id: "plat:compat:GlassCombobox", import: "{ GlassCombobox } from 'aura-glass/compat'", limitBytes: 32048, kind: 'js' },
+  { id: "plat:compat:GlassCommand", import: "{ GlassCommand } from 'aura-glass/compat'", limitBytes: 8192, kind: 'js' },
+  { id: "plat:compat:GlassCommandBar", import: "{ GlassCommandBar } from 'aura-glass/compat'", limitBytes: 15048, kind: 'js' },
+  { id: "plat:compat:GlassCommandPalette", import: "{ GlassCommandPalette } from 'aura-glass/compat'", limitBytes: 12288, kind: 'js' },
+  { id: "plat:compat:GlassConnectionStatus", import: "{ GlassConnectionStatus } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassContainer", import: "{ GlassContainer } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassDataGrid", import: "{ GlassDataGrid } from 'aura-glass/compat'", limitBytes: 21504, kind: 'js' },
+  { id: "plat:compat:GlassDataTable", import: "{ GlassDataTable } from 'aura-glass/compat'", limitBytes: 21504, kind: 'js' },
+  { id: "plat:compat:GlassDateField", import: "{ GlassDateField } from 'aura-glass/compat'", limitBytes: 6144, kind: 'js' },
+  { id: "plat:compat:GlassDatePicker", import: "{ GlassDatePicker } from 'aura-glass/compat'", limitBytes: 17408, kind: 'js' },
+  { id: "plat:compat:GlassDateRangePicker", import: "{ GlassDateRangePicker } from 'aura-glass/compat'", limitBytes: 18432, kind: 'js' },
+  { id: "plat:compat:GlassDialog", import: "{ GlassDialog } from 'aura-glass/compat'", limitBytes: 22048, kind: 'js' },
+  { id: "plat:compat:GlassDismissableLayer", import: "{ GlassDismissableLayer } from 'aura-glass/compat'", limitBytes: 4736, kind: 'js' },
+  { id: "plat:compat:GlassDivider", import: "{ GlassDivider } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassDrawer", import: "{ GlassDrawer } from 'aura-glass/compat'", limitBytes: 26048, kind: 'js' },
+  { id: "plat:compat:GlassDynamicAtmosphere", import: "{ GlassDynamicAtmosphere } from 'aura-glass/compat'", limitBytes: 9216, kind: 'js' },
+  { id: "plat:compat:GlassEmptyState", import: "{ GlassEmptyState } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassErrorState", import: "{ GlassErrorState } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassFab", import: "{ GlassFab } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:GlassFieldGroup", import: "{ GlassFieldGroup } from 'aura-glass/compat'", limitBytes: 5048, kind: 'js' },
+  { id: "plat:compat:GlassFileExplorer", import: "{ GlassFileExplorer } from 'aura-glass/compat'", limitBytes: 10240, kind: 'js' },
+  { id: "plat:compat:GlassFileTree", import: "{ GlassFileTree } from 'aura-glass/compat'", limitBytes: 10240, kind: 'js' },
+  { id: "plat:compat:GlassFileUpload", import: "{ GlassFileUpload } from 'aura-glass/compat'", limitBytes: 17048, kind: 'js' },
+  { id: "plat:compat:GlassFilterBar", import: "{ GlassFilterBar } from 'aura-glass/compat'", limitBytes: 20480, kind: 'js' },
+  { id: "plat:compat:GlassFlex", import: "{ GlassFlex } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassFocusScope", import: "{ GlassFocusScope } from 'aura-glass/compat'", limitBytes: 4048, kind: 'js' },
+  { id: "plat:compat:GlassForm", import: "{ GlassForm } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:GlassFormField", import: "{ GlassFormField } from 'aura-glass/compat'", limitBytes: 8048, kind: 'js' },
+  { id: "plat:compat:GlassGradientPicker", import: "{ GlassGradientPicker } from 'aura-glass/compat'", limitBytes: 22048, kind: 'js' },
+  { id: "plat:compat:GlassGrid", import: "{ GlassGrid } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassHeader", import: "{ GlassHeader } from 'aura-glass/compat'", limitBytes: 6144, kind: 'js' },
+  { id: "plat:compat:GlassHoverCard", import: "{ GlassHoverCard } from 'aura-glass/compat'", limitBytes: 16048, kind: 'js' },
+  { id: "plat:compat:GlassIconButton", import: "{ GlassIconButton } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:GlassImageViewer", import: "{ GlassImageViewer } from 'aura-glass/compat'", limitBytes: 15360, kind: 'js' },
+  { id: "plat:compat:GlassInlineEdit", import: "{ GlassInlineEdit } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:GlassInput", import: "{ GlassInput } from 'aura-glass/compat'", limitBytes: 14048, kind: 'js' },
+  { id: "plat:compat:GlassInspector", import: "{ GlassInspector } from 'aura-glass/compat'", limitBytes: 16384, kind: 'js' },
+  { id: "plat:compat:GlassIntelligentSearch", import: "{ GlassIntelligentSearch } from 'aura-glass/compat'", limitBytes: 15048, kind: 'js' },
+  { id: "plat:compat:GlassKPICard", import: "{ GlassKPICard } from 'aura-glass/compat'", limitBytes: 5120, kind: 'js' },
+  { id: "plat:compat:GlassKeyValueEditor", import: "{ GlassKeyValueEditor } from 'aura-glass/compat'", limitBytes: 17408, kind: 'js' },
+  { id: "plat:compat:GlassLabel", import: "{ GlassLabel } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassLabelPrimitive", import: "{ GlassLabelPrimitive } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassLinkButton", import: "{ GlassLinkButton } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:GlassLoadingSkeleton", import: "{ GlassLoadingSkeleton } from 'aura-glass/compat'", limitBytes: 5048, kind: 'js' },
+  { id: "plat:compat:GlassLoadingState", import: "{ GlassLoadingState } from 'aura-glass/compat'", limitBytes: 3904, kind: 'js' },
+  { id: "plat:compat:GlassMagneticButton", import: "{ GlassMagneticButton } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:GlassMain", import: "{ GlassMain } from 'aura-glass/compat'", limitBytes: 20480, kind: 'js' },
+  { id: "plat:compat:GlassMasonry", import: "{ GlassMasonry } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassMasonryGrid", import: "{ GlassMasonryGrid } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassMediaControls", import: "{ GlassMediaControls } from 'aura-glass/compat'", limitBytes: 20480, kind: 'js' },
+  { id: "plat:compat:GlassMentionList", import: "{ GlassMentionList } from 'aura-glass/compat'", limitBytes: 32048, kind: 'js' },
+  { id: "plat:compat:GlassMeshGradient", import: "{ GlassMeshGradient } from 'aura-glass/compat'", limitBytes: 9216, kind: 'js' },
+  { id: "plat:compat:GlassMessageList", import: "{ GlassMessageList } from 'aura-glass/compat'", limitBytes: 23552, kind: 'js' },
+  { id: "plat:compat:GlassMetricCard", import: "{ GlassMetricCard } from 'aura-glass/compat'", limitBytes: 5120, kind: 'js' },
+  { id: "plat:compat:GlassMetricChip", import: "{ GlassMetricChip } from 'aura-glass/compat'", limitBytes: 5120, kind: 'js' },
+  { id: "plat:compat:GlassMobileNav", import: "{ GlassMobileNav } from 'aura-glass/compat'", limitBytes: 18432, kind: 'js' },
+  { id: "plat:compat:GlassMobileShell", import: "{ GlassMobileShell } from 'aura-glass/compat'", limitBytes: 20480, kind: 'js' },
+  { id: "plat:compat:GlassModal", import: "{ GlassModal } from 'aura-glass/compat'", limitBytes: 22048, kind: 'js' },
+  { id: "plat:compat:GlassMultiSelect", import: "{ GlassMultiSelect } from 'aura-glass/compat'", limitBytes: 32048, kind: 'js' },
+  { id: "plat:compat:GlassNavigationMenu", import: "{ GlassNavigationMenu } from 'aura-glass/compat'", limitBytes: 18432, kind: 'js' },
+  { id: "plat:compat:GlassNotificationCenter", import: "{ GlassNotificationCenter } from 'aura-glass/compat'", limitBytes: 16048, kind: 'js' },
+  { id: "plat:compat:GlassPage", import: "{ GlassPage } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassPageHeader", import: "{ GlassPageHeader } from 'aura-glass/compat'", limitBytes: 20480, kind: 'js' },
+  { id: "plat:compat:GlassPageTabs", import: "{ GlassPageTabs } from 'aura-glass/compat'", limitBytes: 8192, kind: 'js' },
+  { id: "plat:compat:GlassPagination", import: "{ GlassPagination } from 'aura-glass/compat'", limitBytes: 6144, kind: 'js' },
+  { id: "plat:compat:GlassPopover", import: "{ GlassPopover } from 'aura-glass/compat'", limitBytes: 16048, kind: 'js' },
+  { id: "plat:compat:GlassPortal", import: "{ GlassPortal } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassPositioner", import: "{ GlassPositioner } from 'aura-glass/compat'", limitBytes: 16048, kind: 'js' },
+  { id: "plat:compat:GlassProgress", import: "{ GlassProgress } from 'aura-glass/compat'", limitBytes: 7048, kind: 'js' },
+  { id: "plat:compat:GlassRadioGroup", import: "{ GlassRadioGroup } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:GlassRating", import: "{ GlassRating } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:GlassScrollArea", import: "{ GlassScrollArea } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:GlassSearchField", import: "{ GlassSearchField } from 'aura-glass/compat'", limitBytes: 15048, kind: 'js' },
+  { id: "plat:compat:GlassSearchInterface", import: "{ GlassSearchInterface } from 'aura-glass/compat'", limitBytes: 15048, kind: 'js' },
+  { id: "plat:compat:GlassSegmentedControl", import: "{ GlassSegmentedControl } from 'aura-glass/compat'", limitBytes: 15048, kind: 'js' },
+  { id: "plat:compat:GlassSelect", import: "{ GlassSelect } from 'aura-glass/compat'", limitBytes: 27048, kind: 'js' },
+  { id: "plat:compat:GlassSelectCompound", import: "{ GlassSelectCompound } from 'aura-glass/compat'", limitBytes: 27048, kind: 'js' },
+  { id: "plat:compat:GlassSelectContent", import: "{ GlassSelectContent } from 'aura-glass/compat'", limitBytes: 27048, kind: 'js' },
+  { id: "plat:compat:GlassSelectGroup", import: "{ GlassSelectGroup } from 'aura-glass/compat'", limitBytes: 27048, kind: 'js' },
+  { id: "plat:compat:GlassSelectItem", import: "{ GlassSelectItem } from 'aura-glass/compat'", limitBytes: 27048, kind: 'js' },
+  { id: "plat:compat:GlassSelectLabel", import: "{ GlassSelectLabel } from 'aura-glass/compat'", limitBytes: 27048, kind: 'js' },
+  { id: "plat:compat:GlassSelectRoot", import: "{ GlassSelectRoot } from 'aura-glass/compat'", limitBytes: 27048, kind: 'js' },
+  { id: "plat:compat:GlassSelectSeparator", import: "{ GlassSelectSeparator } from 'aura-glass/compat'", limitBytes: 27048, kind: 'js' },
+  { id: "plat:compat:GlassSelectTrigger", import: "{ GlassSelectTrigger } from 'aura-glass/compat'", limitBytes: 27048, kind: 'js' },
+  { id: "plat:compat:GlassSelectValue", import: "{ GlassSelectValue } from 'aura-glass/compat'", limitBytes: 27048, kind: 'js' },
+  { id: "plat:compat:GlassSeparator", import: "{ GlassSeparator } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassSidebar", import: "{ GlassSidebar } from 'aura-glass/compat'", limitBytes: 18432, kind: 'js' },
+  { id: "plat:compat:GlassSidebarPanel", import: "{ GlassSidebarPanel } from 'aura-glass/compat'", limitBytes: 18432, kind: 'js' },
+  { id: "plat:compat:GlassSidebarRail", import: "{ GlassSidebarRail } from 'aura-glass/compat'", limitBytes: 18432, kind: 'js' },
+  { id: "plat:compat:GlassSkeleton", import: "{ GlassSkeleton } from 'aura-glass/compat'", limitBytes: 5048, kind: 'js' },
+  { id: "plat:compat:GlassSlider", import: "{ GlassSlider } from 'aura-glass/compat'", limitBytes: 16048, kind: 'js' },
+  { id: "plat:compat:GlassSlot", import: "{ GlassSlot } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassSparkline", import: "{ GlassSparkline } from 'aura-glass/compat'", limitBytes: 4608, kind: 'js' },
+  { id: "plat:compat:GlassSplitPane", import: "{ GlassSplitPane } from 'aura-glass/compat'", limitBytes: 8192, kind: 'js' },
+  { id: "plat:compat:GlassSpotlight", import: "{ GlassSpotlight } from 'aura-glass/compat'", limitBytes: 17048, kind: 'js' },
+  { id: "plat:compat:GlassStack", import: "{ GlassStack } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassStatCard", import: "{ GlassStatCard } from 'aura-glass/compat'", limitBytes: 5120, kind: 'js' },
+  { id: "plat:compat:GlassStatusBar", import: "{ GlassStatusBar } from 'aura-glass/compat'", limitBytes: 5120, kind: 'js' },
+  { id: "plat:compat:GlassStatusDot", import: "{ GlassStatusDot } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassSwitch", import: "{ GlassSwitch } from 'aura-glass/compat'", limitBytes: 10048, kind: 'js' },
+  { id: "plat:compat:GlassTabBar", import: "{ GlassTabBar } from 'aura-glass/compat'", limitBytes: 8192, kind: 'js' },
+  { id: "plat:compat:GlassTabs", import: "{ GlassTabs } from 'aura-glass/compat'", limitBytes: 8192, kind: 'js' },
+  { id: "plat:compat:GlassTagInput", import: "{ GlassTagInput } from 'aura-glass/compat'", limitBytes: 32048, kind: 'js' },
+  { id: "plat:compat:GlassTextarea", import: "{ GlassTextarea } from 'aura-glass/compat'", limitBytes: 14048, kind: 'js' },
+  { id: "plat:compat:GlassTimeField", import: "{ GlassTimeField } from 'aura-glass/compat'", limitBytes: 8192, kind: 'js' },
+  { id: "plat:compat:GlassTimeline", import: "{ GlassTimeline } from 'aura-glass/compat'", limitBytes: 6144, kind: 'js' },
+  { id: "plat:compat:GlassToggle", import: "{ GlassToggle } from 'aura-glass/compat'", limitBytes: 13048, kind: 'js' },
+  { id: "plat:compat:GlassToolbar", import: "{ GlassToolbar } from 'aura-glass/compat'", limitBytes: 15048, kind: 'js' },
+  { id: "plat:compat:GlassTooltip", import: "{ GlassTooltip } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:GlassTopBar", import: "{ GlassTopBar } from 'aura-glass/compat'", limitBytes: 6144, kind: 'js' },
+  { id: "plat:compat:GlassTreeView", import: "{ GlassTreeView } from 'aura-glass/compat'", limitBytes: 10240, kind: 'js' },
+  { id: "plat:compat:GlassTypingIndicator", import: "{ GlassTypingIndicator } from 'aura-glass/compat'", limitBytes: 7168, kind: 'js' },
+  { id: "plat:compat:GlassValidationMessage", import: "{ GlassValidationMessage } from 'aura-glass/compat'", limitBytes: 8048, kind: 'js' },
+  { id: "plat:compat:GlassVirtualList", import: "{ GlassVirtualList } from 'aura-glass/compat'", limitBytes: 21504, kind: 'js' },
+  { id: "plat:compat:GlassVirtualTable", import: "{ GlassVirtualTable } from 'aura-glass/compat'", limitBytes: 21504, kind: 'js' },
+  { id: "plat:compat:GlassWorkspacePanel", import: "{ GlassWorkspacePanel } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:GlassWorkspaceTabs", import: "{ GlassWorkspaceTabs } from 'aura-glass/compat'", limitBytes: 8192, kind: 'js' },
+  { id: "plat:compat:GlowingCard", import: "{ GlowingCard } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:ImageList", import: "{ ImageList } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:ImageListItem", import: "{ ImageListItem } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:ImageListItemBar", import: "{ ImageListItemBar } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:LabelRoot", import: "{ LabelRoot } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:LiquidGlassAdaptiveSheet", import: "{ LiquidGlassAdaptiveSheet } from 'aura-glass/compat'", limitBytes: 26048, kind: 'js' },
+  { id: "plat:compat:LiquidGlassBadgeCluster", import: "{ LiquidGlassBadgeCluster } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:LiquidGlassBottomAccessory", import: "{ LiquidGlassBottomAccessory } from 'aura-glass/compat'", limitBytes: 8192, kind: 'js' },
+  { id: "plat:compat:LiquidGlassButtonStyle", import: "{ LiquidGlassButtonStyle } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:LiquidGlassCarouselRail", import: "{ LiquidGlassCarouselRail } from 'aura-glass/compat'", limitBytes: 12288, kind: 'js' },
+  { id: "plat:compat:LiquidGlassCommandSurface", import: "{ LiquidGlassCommandSurface } from 'aura-glass/compat'", limitBytes: 12288, kind: 'js' },
+  { id: "plat:compat:LiquidGlassControlGroup", import: "{ LiquidGlassControlGroup } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:LiquidGlassDestination", import: "{ LiquidGlassDestination } from 'aura-glass/compat'", limitBytes: 6144, kind: 'js' },
+  { id: "plat:compat:LiquidGlassInsetSidebar", import: "{ LiquidGlassInsetSidebar } from 'aura-glass/compat'", limitBytes: 18432, kind: 'js' },
+  { id: "plat:compat:LiquidGlassInspectorPanel", import: "{ LiquidGlassInspectorPanel } from 'aura-glass/compat'", limitBytes: 16384, kind: 'js' },
+  { id: "plat:compat:LiquidGlassMapControls", import: "{ LiquidGlassMapControls } from 'aura-glass/compat'", limitBytes: 15048, kind: 'js' },
+  { id: "plat:compat:LiquidGlassMediaControls", import: "{ LiquidGlassMediaControls } from 'aura-glass/compat'", limitBytes: 20480, kind: 'js' },
+  { id: "plat:compat:LiquidGlassNowPlayingBar", import: "{ LiquidGlassNowPlayingBar } from 'aura-glass/compat'", limitBytes: 10240, kind: 'js' },
+  { id: "plat:compat:LiquidGlassPhotoInspector", import: "{ LiquidGlassPhotoInspector } from 'aura-glass/compat'", limitBytes: 29696, kind: 'js' },
+  { id: "plat:compat:LiquidGlassSearchField", import: "{ LiquidGlassSearchField } from 'aura-glass/compat'", limitBytes: 15048, kind: 'js' },
+  { id: "plat:compat:LiquidGlassSegmentedControl", import: "{ LiquidGlassSegmentedControl } from 'aura-glass/compat'", limitBytes: 15048, kind: 'js' },
+  { id: "plat:compat:LiquidGlassSource", import: "{ LiquidGlassSource } from 'aura-glass/compat'", limitBytes: 6144, kind: 'js' },
+  { id: "plat:compat:LiquidGlassTabBar", import: "{ LiquidGlassTabBar } from 'aura-glass/compat'", limitBytes: 8192, kind: 'js' },
+  { id: "plat:compat:LiquidGlassToolbar", import: "{ LiquidGlassToolbar } from 'aura-glass/compat'", limitBytes: 15048, kind: 'js' },
+  { id: "plat:compat:LiquidGlassTransitionProvider", import: "{ LiquidGlassTransitionProvider } from 'aura-glass/compat'", limitBytes: 6144, kind: 'js' },
+  { id: "plat:compat:MagneticButton", import: "{ MagneticButton } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:MobileGlassBottomSheet", import: "{ MobileGlassBottomSheet } from 'aura-glass/compat'", limitBytes: 26048, kind: 'js' },
+  { id: "plat:compat:Positioner", import: "{ Positioner } from 'aura-glass/compat'", limitBytes: 16048, kind: 'js' },
+  { id: "plat:compat:RippleButton", import: "{ RippleButton } from 'aura-glass/compat'", limitBytes: 12048, kind: 'js' },
+  { id: "plat:compat:ToggleButton", import: "{ ToggleButton } from 'aura-glass/compat'", limitBytes: 13048, kind: 'js' },
+  { id: "plat:compat:ToggleButtonGroup", import: "{ ToggleButtonGroup } from 'aura-glass/compat'", limitBytes: 13048, kind: 'js' },
+  { id: "plat:compat:TreeView", import: "{ TreeView } from 'aura-glass/compat'", limitBytes: 10240, kind: 'js' },
+  { id: "plat:compat:Typography", import: "{ Typography } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:WidgetGlass", import: "{ WidgetGlass } from 'aura-glass/compat'", limitBytes: 3548, kind: 'js' },
+  { id: "plat:compat:ZSpaceAppLayout", import: "{ ZSpaceAppLayout } from 'aura-glass/compat'", limitBytes: 20480, kind: 'js' },
+];
+/* GENERATED-COMPAT-ROWS:END */
 
 export default [
+  /* REQ-PLAT-76: 'aura-glass/internal' is not a public entry — the verifier's
+     one explicit internal-row allowance maps it to src/internal and measures
+     the production bundle (warnDeprecated is dev-only by contract). */
   { id: 'plat:cn', import: "export { cn } from 'aura-glass/internal'", limitBytes: 512, kind: 'js' },
-  { id: 'plat:warnDeprecated', import: "export { warnDeprecated } from 'aura-glass/internal'", limitBytes: 150, kind: 'js' },
+  /* Raised 150 -> 5632 by impl2/24 (Perf-Budget-Raise: plat:warnDeprecated,
+     see docs/size-budgets.changelog.md): first real measurement of this row
+     is 5333 B gz — esbuild retains the generated deprecations lookup table
+     even with the dev-only body eliminated. The PRD's 150 B needs a
+     warnDeprecated restructure (register-the-table) tracked as remaining
+     REQ-PLAT-76 work; until then this row ratchets down only. */
+  { id: 'plat:warnDeprecated', import: "export { warnDeprecated } from 'aura-glass/internal'", limitBytes: 5632, kind: 'js' },
   { id: 'plat:tailwind-bridge', import: 'dist/tailwind.css', limitBytes: 6144, kind: 'css' },
   { id: 'plat:compat-globals', import: 'dist/compat/globals.css', limitBytes: 1024, kind: 'css' },
   ...compatRows,

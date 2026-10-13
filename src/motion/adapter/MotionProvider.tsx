@@ -38,12 +38,15 @@ const capability: MotionCapability = {
   },
 };
 
-export function MotionProvider({ children }: { children?: React.ReactNode }) {
+/* Explicit ReactElement return (cf. SharedLayout): the inferred type of the
+   MotionConfig element names framer-motion, which would leak the optional
+   `motion` peer into the public d.ts (REQ-CMP-01). */
+export function MotionProvider({ children }: { children?: React.ReactNode }): React.ReactElement {
   const pref = usePreference('motion'); // 'system' | 'full' | 'calm' | 'none'
   const resolved = pref === 'system' ? resolvedMotion() : pref;
   return React.createElement(
     motionPeer().MotionConfig,
     { reducedMotion: resolved === 'full' ? 'never' : 'always' },
     React.createElement(MotionCapabilityContext.Provider, { value: capability }, children),
-  );
+  ) as React.ReactElement;
 }

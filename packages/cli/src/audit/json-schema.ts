@@ -8,9 +8,12 @@
 type Schema = Record<string, unknown>;
 
 const SUPPORTED = new Set([
-  '$schema', '$id', '$defs', '$ref', 'title', 'description',
+  '$schema', '$id', '$defs', 'definitions', '$ref', 'title', 'description',
   'type', 'enum', 'const', 'required', 'properties', 'additionalProperties',
   'items', 'minItems', 'minimum', 'maximum', 'minLength', 'pattern',
+  /* REQ-PLAT-87: the vendored shadcn registry-item schema (draft-07) uses
+     composition + conditionals (font/base rules, file type/target rule). */
+  'allOf', 'anyOf', 'oneOf', 'not', 'if', 'then', 'else',
 ]);
 
 function typeOf(v: unknown): string {
@@ -34,7 +37,10 @@ function resolveRef(root: Schema, ref: string): Schema {
   return node as Schema;
 }
 
-function check(root: Schema, schema: Schema, value: unknown, at: string, errors: string[]): void {
+function check(root: Schema, schema: Schema | boolean, value: unknown, at: string, errors: string[]): void {
+  /* boolean schemas (draft-07): true accepts anything, false rejects. */
+  if (schema === true) return;
+  if (schema === false) { errors.push(`${at}: value not allowed here`); return; }
   for (const key of Object.keys(schema)) {
     if (!SUPPORTED.has(key)) throw new Error(`unsupported schema keyword "${key}" at ${at}`);
   }
@@ -81,10 +87,43 @@ function check(root: Schema, schema: Schema, value: unknown, at: string, errors:
       if (!(req in obj)) errors.push(`${at}: missing required "${req}"`);
     }
     for (const [k, v] of Object.entries(obj)) {
-      if (props[k]) check(root, props[k], v, `${at}.${k}`, errors);
+      if (k in props) check(root, props[k] as Schema | boolean, v, `${at}.${k}`, errors);
       else if (schema.additionalProperties === false) errors.push(`${at}: unexpected property "${k}"`);
+      else if (schema.additionalProperties && typeof schema.additionalProperties === 'object') {
+        check(root, schema.additionalProperties as Schema, v, `${at}.${k}`, errors);
+      }
     }
   }
+  /* Composition + conditionals (REQ-PLAT-87, draft-07 semantics): a branch
+     matches when checking it into a trial error list leaves that list empty. */
+  const trial = (sub: Schema | boolean): string[] => {
+    const errs: string[] = [];
+    check(root, sub, value, at, errs);
+    return errs;
+  };
+  if (Array.isArray(schema.allOf)) for (const sub of schema.allOf as Schema[]) check(root, sub, value, at, errors);
+  if (Array.isArray(schema.anyOf) && !(schema.anyOf as Schema[]).some((s) => trial(s).length === 0)) {
+    errors.push(`${at}: matches none of anyOf`);
+  }
+  if (Array.isArray(schema.oneOf)) {
+    const n = (schema.oneOf as Schema[]).filter((s) => trial(s).length === 0).length;
+    if (n !== 1) errors.push(`${at}: matches ${n} of oneOf (expected exactly 1)`);
+  }
+  if (schema.not !== undefined && trial(schema.not as Schema).length === 0) {
+    errors.push(`${at}: matches the "not" schema`);
+  }
+  if (schema.if !== undefined) {
+    const branch = trial(schema.if as Schema).length === 0 ? schema.then : schema.else;
+    if (branch !== undefined) check(root, branch as Schema | boolean, value, at, errors);
+  }
+}
+
+/** Validate `value` against the root schema itself (REQ-PLAT-87: the vendored
+ *  registry-item schema has no $defs entry point). Empty result = valid. */
+export function validateSchema(root: Schema, value: unknown): string[] {
+  const errors: string[] = [];
+  check(root, root, value, '$', errors);
+  return errors;
 }
 
 /** Validate `value` against `root.$defs[def]`; returns the list of errors (empty = valid). */

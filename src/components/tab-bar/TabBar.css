@@ -43,6 +43,10 @@
     color: var(--_ag-fg-disabled, currentColor);
     pointer-events: none;
   }
+  .ag-tab-bar__item-icon {
+    display: inline-flex;
+    align-items: center;
+  }
   .ag-tab-bar__item-badge {
     font-size: var(--_ag-text-xs, 0.75rem);
     padding-inline: var(--ag-space-1, 0.25rem);
@@ -102,22 +106,6 @@
       min-inline-size: var(--_ag-touch-target, 44px);
       min-block-size: var(--_ag-touch-target, 44px);
       justify-content: center;
-    }
-  }
-  /* REQ-SURF-189: forced colours — the current destination keeps a
-     non-colour cue (underline + outline) besides Highlight; focus is the
-     system ring. */
-  @media (forced-colors: active) {
-    .ag-tab-bar__item[aria-current] {
-      color: Highlight;
-      outline: 1px solid Highlight;
-      outline-offset: calc(-1 * var(--ag-focus-width, 2px));
-      text-decoration-line: underline;
-      text-decoration-thickness: var(--ag-focus-width, 2px);
-      text-underline-offset: var(--ag-space-1, 0.25rem);
-    }
-    .ag-tab-bar__item-badge {
-      border: 1px solid CanvasText;
     }
   }
 }

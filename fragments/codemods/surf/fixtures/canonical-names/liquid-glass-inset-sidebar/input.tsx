@@ -2,5 +2,5 @@
 import { LiquidGlassInsetSidebar } from 'aura-glass';
 
 export function Example() {
-  return <LiquidGlassInsetSidebar />;
+  return <LiquidGlassInsetSidebar items={v} />;
 }

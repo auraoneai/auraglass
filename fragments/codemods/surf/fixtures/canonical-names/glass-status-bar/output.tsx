@@ -2,5 +2,5 @@
 import { StatusBar } from 'aura-glass/app-shell';
 
 export function Example() {
-  return <StatusBar />;
+  return <StatusBar.Root />;
 }

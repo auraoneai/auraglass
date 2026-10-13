@@ -146,12 +146,12 @@ function ToolbarRoot({
       orientation={orientation}
       loopFocus={loop}
       data-ag-part="root"
-      className={cn('ag-toolbar', 'ag-surface', 'ag-toolbar-surface', className)}
+      className={cn('ag-toolbar', 'ag-surface', className)}
       ref={setRefs}
     >
       {inline}
       {collapsed ? (
-        <span data-ag-part="overflow" className="ag-toolbar-overflow">
+        <span data-ag-part="overflow">
           <Menu.Root>
             <Base.Button
               render={

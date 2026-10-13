@@ -1,12 +1,11 @@
 /* CMP-341 compat: GlassToastProvider (4.x) -> Toast.Provider (+Viewport position) (5.0).
    warnDeprecated fires at call time, once per page load per symbol; unmappable
    props drop with a single warning; never throws. Mapping per §10.2/metas. */
-'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { Toast } from '../../../components/toast';
 
-import { __compatToastList, __compatWrap as wrap } from './_shared';
+import { CompatToastList, __compatWrap as wrap } from './_shared';
 
 const DEP = 'DEP-C0116';
 
@@ -37,7 +36,7 @@ export function GlassToastProvider({ position, duration, limit, children }: Glas
       {...(duration !== undefined ? { timeout: duration } : {})}
     >
       {children}
-      <Toast.Viewport {...(pos !== undefined ? { position: pos } : {})}><__compatToastList /></Toast.Viewport>
+      <Toast.Viewport {...(pos !== undefined ? { position: pos } : {})}><CompatToastList /></Toast.Viewport>
     </Toast.Provider>
   ));
 }

@@ -2,5 +2,5 @@
 import { LiquidGlassMediaControls } from 'aura-glass';
 
 export function Example() {
-  return <LiquidGlassMediaControls />;
+  return <LiquidGlassMediaControls playing={v} />;
 }

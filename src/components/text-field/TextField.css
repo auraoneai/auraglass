@@ -150,17 +150,7 @@
     box-shadow: inset 0 0 0 var(--ag-target-min) var(--_ag-fill, var(--ag-color-canvas));
   }
 
-  @media (forced-colors: active) {
-    .ag-text-field [data-ag-part='control-shell'] {
-      border: var(--ag-focus-width) solid ButtonText;
-      background: Field;
-      box-shadow: none;
-    }
-    .ag-text-field [data-ag-part='control'] {
-      background: Field;
-      color: FieldText;
-    }
-  }
+
 
 /* REQ-CMP-62: avoid iOS input zoom on coarse pointers. The sized selector
    (0,3,0) comes after the sm text rule of equal specificity, so it wins for

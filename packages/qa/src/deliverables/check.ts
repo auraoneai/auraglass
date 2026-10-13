@@ -418,8 +418,14 @@ export function evaluate(inputs: Inputs, opts: { phase: Phase; baseline?: Baseli
       items.apg = worst(primary.map((m) => {
         const dir = m.owner.toLowerCase();
         const specs = inputs.apgSpecs[dir] ?? [];
-        const subjectRe = new RegExp(`subject:\\s*['"]${escapeRe(m.name)}['"]`);
-        const hit = specs.find((s) => norm((s.file.split('/').pop() as string).replace(/\.apg\.spec\.ts$/, '')) === norm(m.name) || subjectRe.test(s.content));
+        const subjectRe = new RegExp(`subject\\s*(?::|===)\\s*['"]${escapeRe(m.name)}['"]`);
+        // Specs also bind their subject by a `SUBJECT = 'Name'` const or by the
+        // story id they open (`surf-<kebab-name>--<story>`); both are real
+        // bindings the filename rule misses (splitter, breadcrumbs-overflow).
+        const subjectConstRe = new RegExp(`\\bSUBJECT\\s*=\\s*['"]${escapeRe(m.name)}['"]`);
+        const kebab = m.name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
+        const storyRe = new RegExp(`['"]surf-${escapeRe(kebab)}--`);
+        const hit = specs.find((s) => norm((s.file.split('/').pop() as string).replace(/\.apg\.spec\.ts$/, '')) === norm(m.name) || subjectRe.test(s.content) || subjectConstRe.test(s.content) || storyRe.test(s.content));
         return hit ? ok(`${m.name}: ${hit.file}`) : no(`${m.name}: no APG spec under tests/a11y/apg/${dir}/`);
       }));
       // size-budget

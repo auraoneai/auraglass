@@ -15,6 +15,7 @@ type Spec = {
   type?: string;
   imported?: { name?: string; value?: unknown };
   local?: { name?: string };
+  importKind?: string;
   importedName?: () => string | undefined;
 };
 
@@ -22,54 +23,138 @@ function specName(s: Spec): string | undefined {
   return (s.imported?.name ?? (s.imported?.value as string | undefined));
 }
 
-export function applyCode(source: string, ctx: TransformCtx): TransformResult {
-  const map: TransformCtx['mappings']['components'] = { ...ctx.mappings.components, ColumnDefinition: { to: 'TableColumnDef', toEntry: 'aura-glass/data', compatOnly: false } };
-  const root = j(source);
-  const changes: TransformResult['changes'] = [];
-  const todos: TransformResult['todos'] = [];
-  /** local name -> { tag: rename JSX/value refs to this } */
-  const jsxRenames = new Map<string, string>();
-  const moves = new Map<string, Array<{ imported: string; local: string; typeOnly?: boolean }>>();
+interface ColumnRow { from: string; to: string | null; values?: Record<string, unknown> | undefined; todo?: string | undefined }
 
-  // ColumnDefinition is a structural API migration, not just a type rename.
+/**
+ * ColumnDefinition column literals -> TableColumnDef shape (REQ-SURF-14),
+ * driven by the `<Base>.Column` prop rows. Textual span edits (not recast
+ * node grafts) so the golden byte shape — inline `meta: { align: 'start' }`,
+ * the `cell` wrapper around the untouched 4.x render fn — is preserved.
+ */
+function convertColumnDefinitions(
+  source: string,
+  rows: ColumnRow[],
+  changes: TransformResult['changes'],
+  todos: TransformResult['todos'],
+): string {
+  const scratch = j(source);
   const columnLocals = new Map<string, string>();
-  root.find(j.ImportDeclaration).forEach((p: any) => {
+  scratch.find(j.ImportDeclaration).forEach((p: any) => {
     if (!/^aura-glass(?:\/|$)/.test(String(p.node.source.value))) return;
     for (const spec of p.node.specifiers ?? []) {
-      if (spec.imported?.name === 'ColumnDefinition') {
+      const imp = spec.imported?.name ?? spec.imported?.value;
+      if (imp === 'ColumnDefinition') {
         const local = spec.local?.name ?? 'ColumnDefinition';
         columnLocals.set(local, local === 'ColumnDefinition' ? 'TableColumnDef' : local);
       }
     }
   });
-  if (columnLocals.size) {
-    root.find(j.VariableDeclarator).forEach((p: any) => {
-      const type = p.node.id.typeAnnotation?.typeAnnotation;
-      const element = type?.type === 'TSArrayType' ? type.elementType : undefined;
-      if (element?.type !== 'TSTypeReference' || !columnLocals.has(element.typeName.name) || p.node.init?.type !== 'ArrayExpression') return;
-      for (const column of p.node.init.elements) {
-        if (column?.type !== 'ObjectExpression') continue;
-        for (const prop of column.properties) {
-          const key = prop.key?.name;
-          const rename: Record<string, string> = { key: 'accessorKey', label: 'header', sortable: 'enableSorting', width: 'size' };
-          if (rename[key]) prop.key.name = rename[key];
-          else if (key === 'align' && ['left', 'right', 'center'].includes(prop.value?.value)) {
-            prop.key.name = 'meta';
-            const value = { left: 'start', right: 'end', center: 'center' }[prop.value.value as 'left' | 'right' | 'center'];
-            prop.value = j.objectExpression([j.property('init', j.identifier('align'), j.stringLiteral(value))]);
-          } else if (key === 'render') {
-            prop.key.name = 'cell';
-            const handler = j(prop.value).toSource({ quote: 'single' });
-            prop.value = j(`const cell = ({ getValue, row }) => (${handler})(getValue(), row.original);`).find(j.VariableDeclarator).nodes()[0].init;
+  if (!columnLocals.size) return source;
+  const rowByFrom = new Map(rows.map((r) => [r.from, r]));
+  const splices: Array<{ start: number; end: number; text: string }> = [];
+  const span = (n: unknown): { start: number; end: number } | null => {
+    const s = n as { start?: unknown; end?: unknown };
+    return typeof s?.start === 'number' && typeof s?.end === 'number' ? { start: s.start, end: s.end } : null;
+  };
+  const convertArray = (arr: { elements?: unknown[] }): void => {
+    for (const el of arr.elements ?? []) {
+      const obj = el as { type?: string; properties?: Array<{ type?: string; computed?: boolean; key?: any; value?: any }> };
+      if (obj?.type !== 'ObjectExpression') continue;
+      const props = (obj.properties ?? []).filter((pr: any) => pr.type === 'ObjectProperty' || pr.type === 'Property');
+      const hasMeta = props.some((pr: any) => (pr.key?.name ?? pr.key?.value) === 'meta');
+      for (const pr of props) {
+        const keyName = (pr.key?.name ?? pr.key?.value) as string | undefined;
+        if (!keyName || pr.computed) continue;
+        const row = rowByFrom.get(keyName);
+        if (!row || row.to === null) continue;
+        const ks = span(pr.key);
+        const ps = span(pr);
+        const vs = span(pr.value);
+        if (!ks || !ps || !vs) continue;
+        if (row.to.includes('.')) {
+          const [head, leaf] = row.to.split('.') as [string, string];
+          const lit = pr.value?.type === 'Literal' || pr.value?.type === 'StringLiteral' ? String(pr.value.value) : undefined;
+          const mapped = lit !== undefined ? row.values?.[lit] : undefined;
+          if (typeof mapped !== 'string' || hasMeta) {
+            todos.push({ transform: 'canonical-names', reason: `column ${keyName} needs a manual ${row.to} value`, doc: DOC });
+            continue;
           }
+          splices.push({ ...ps, text: `${head}: { ${leaf}: '${mapped}' }` });
+          changes.push({ transform: 'canonical-names', description: `column ${keyName} -> ${row.to}` });
+          continue;
         }
+        if (row.to === 'cell' && keyName !== 'cell') {
+          const orig = source.slice(vs.start, vs.end);
+          splices.push({ ...ps, text: `cell: ({ getValue, row }) => (${orig})(getValue(), row.original)` });
+          changes.push({ transform: 'canonical-names', description: `column ${keyName} -> cell wrapper` });
+          continue;
+        }
+        splices.push({ ...ks, text: row.to });
+        if (row.from === 'width' && typeof pr.value?.value === 'string' && row.todo) {
+          todos.push({ transform: 'canonical-names', reason: `column width: ${row.todo}`, doc: DOC });
+        }
+        changes.push({ transform: 'canonical-names', description: `column ${keyName} -> ${row.to}` });
       }
+    }
+  };
+  const referencesType = (node: unknown): boolean => {
+    let hit = false;
+    j.types.visit(node as never, {
+      visitTSTypeReference(p: any) {
+        if (columnLocals.has((p.node.typeName as { name?: string } | undefined)?.name ?? '')) hit = true;
+        this.traverse(p);
+        return undefined;
+      },
     });
-    root.find(j.TSTypeReference).forEach((p: any) => {
-      const target = columnLocals.get(p.node.typeName.name);
-      if (target) p.node.typeName.name = target;
-    });
-    changes.push({ transform: 'canonical-names', description: 'ColumnDefinition -> TableColumnDef column grammar' });
+    return hit;
+  };
+  scratch.find(j.VariableDeclarator).forEach((p: any) => {
+    const ann = (p.node.id as { typeAnnotation?: unknown })?.typeAnnotation;
+    const init = p.node.init as { type?: string } | undefined;
+    if (ann && init?.type === 'ArrayExpression' && referencesType(ann)) convertArray(init as never);
+  });
+  scratch.find(j.JSXAttribute).forEach((p: any) => {
+    if ((p.node.name as { name?: string })?.name !== 'columns') return;
+    const expr = (p.node.value as { expression?: { type?: string } } | undefined)?.expression;
+    if (expr?.type === 'ArrayExpression') convertArray(expr as never);
+  });
+  scratch.find(j.TSTypeReference).forEach((p: any) => {
+    const tn = p.node.typeName as { type?: string; name?: string };
+    const ts = span(tn);
+    const target = tn?.name ? columnLocals.get(tn.name) : undefined;
+    if (tn?.type === 'Identifier' && target && target !== tn.name && ts) {
+      splices.push({ ...ts, text: target });
+    }
+  });
+  let out = source;
+  for (const s of splices.sort((a, b) => b.start - a.start)) {
+    out = out.slice(0, s.start) + s.text + out.slice(s.end);
+  }
+  return out;
+}
+
+export function applyCode(source: string, ctx: TransformCtx): TransformResult {
+  const map = ctx.mappings.components;
+  let root = j(source);
+  const changes: TransformResult['changes'] = [];
+  const todos: TransformResult['todos'] = [];
+  /** local name -> { tag: rename JSX/value refs to this } */
+  const jsxRenames = new Map<string, string>();
+  const moves = new Map<string, Array<{ imported: string; local: string; isType?: boolean }>>();
+  // ColumnDefinition -> TableColumnDef is folded into canonical-names (SURF
+  // fragment, REQ-SURF-14): the key conversions come from the `<Base>.Column`
+  // prop rows in the compiled mappings; only the type name is a 5.0 literal.
+  const columnKey = Object.keys(map).find((k) => k.endsWith('.Column') && (map[k]?.props?.length ?? 0) > 0);
+  const columnRows = columnKey ? (map[columnKey]?.props ?? []) : [];
+  const columnBase = columnKey?.slice(0, -'.Column'.length);
+  const columnEntry = columnBase
+    ? Object.values(map).find((c) => c.to === columnBase)?.toEntry
+    : undefined;
+  if (columnRows.length && source.includes('ColumnDefinition')) {
+    // Textual span conversion first (byte-faithful), then reparse so the
+    // import-move pass below sees the TableColumnDef annotations.
+    source = convertColumnDefinitions(source, columnRows, changes, todos);
+    root = j(source);
   }
 
   const declarations = root.find(j.ImportDeclaration);
@@ -121,6 +206,13 @@ export function applyCode(source: string, ctx: TransformCtx): TransformResult {
       const imp = specName(s);
       if (!imp) { kept.push(s); continue; }
       const local: string = s.local?.name ?? imp;
+      if (imp === 'ColumnDefinition' && columnRows.length && columnEntry && !isCompat) {
+        const m = moves.get(columnEntry) ?? [];
+        m.push({ imported: 'TableColumnDef', local: local === imp ? 'TableColumnDef' : local, isType: s.importKind === 'type' || p.node.importKind === 'type' });
+        moves.set(columnEntry, m);
+        changes.push({ transform: 'canonical-names', description: `ColumnDefinition -> ${columnEntry} TableColumnDef` });
+        continue;
+      }
       const row = map[imp];
       if (!row?.to || isCompat || isNoop(imp, src)) {
         kept.push(s);
@@ -168,7 +260,7 @@ export function applyCode(source: string, ctx: TransformCtx): TransformResult {
         // Move to a different entry, preserving any `as` local name.
         const m = moves.get(entry) ?? [];
         const newLocal = (local === imp ? head : local) ?? head!;
-        m.push({ imported: head, local: newLocal, typeOnly: (s as Spec & { importKind?: string }).importKind === 'type' || p.node.importKind === 'type' });
+        m.push({ imported: head, local: newLocal, isType: s.importKind === 'type' || p.node.importKind === 'type' });
         moves.set(entry, m);
         if (local === imp) jsxRenames.set(imp, `${newLocal}${rest}`);
         else if (rest) jsxRenames.set(local, `${newLocal}${rest}`);
@@ -201,12 +293,14 @@ export function applyCode(source: string, ctx: TransformCtx): TransformResult {
   for (const [entry, rawSpecs] of moves) {
     const seen = new Set<string>();
     const specs = rawSpecs.filter((s) => {
-      const k = `${s.imported}|${s.local}`;
+      const k = `${s.imported}|${s.local}|${s.isType ? 'type' : ''}`;
       if (seen.has(k)) return false;
       seen.add(k);
       return true;
     });
-    const declText = `import { ${specs.map((s: any) => `${s.typeOnly ? 'type ' : ''}${s.local === s.imported ? s.imported : `${s.imported} as ${s.local}`}`).join(', ')} } from '${entry}';`;
+    const specText = (s: { imported: string; local: string; isType?: boolean }): string =>
+      `${s.isType ? 'type ' : ''}${s.local === s.imported ? s.imported : `${s.imported} as ${s.local}`}`;
+    const declText = `import { ${specs.map((s: any) => specText(s)).join(', ')} } from '${entry}';`;
     if (!out.includes(`from '${entry}'`)) {
       // Insert after the last import.
       const lines = out.split('\n');
@@ -219,13 +313,13 @@ export function applyCode(source: string, ctx: TransformCtx): TransformResult {
     } else {
       out = out.replace(new RegExp(`(import\\s*\\{[^}]*\\}\\s*from\\s*'${entry.replace(/[/.]/g, '\\$&')}')`), (m: any) => {
         const inner = m.match(/\{([^}]*)\}/)?.[1] ?? '';
-        const merged = `${inner.trim()}${inner.trim() ? ', ' : ''}${specs.map((s: any) => `${s.typeOnly ? 'type ' : ''}${s.local === s.imported ? s.imported : `${s.imported} as ${s.local}`}`).join(', ')}`;
+        const merged = `${inner.trim()}${inner.trim() ? ', ' : ''}${specs.map((s: any) => specText(s)).join(', ')}`;
         return m.replace(/\{[^}]*\}/, `{ ${merged} }`);
       });
     }
   }
   if (out.includes(MOVED_PLACEHOLDER)) {
-    out = out.split('\n').filter((l) => l.trim() !== `import '${MOVED_PLACEHOLDER}';`).join('\n');
+    out = out.split('\n').filter((l: string) => l.trim() !== `import '${MOVED_PLACEHOLDER}';`).join('\n');
   }
 
   // JSX tags + bare refs for unaliased renames.

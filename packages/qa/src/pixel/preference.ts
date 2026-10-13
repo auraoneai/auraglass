@@ -4,7 +4,8 @@
      reaches ≥ `preference.contrastMoreTarget`:1;
    - tinted lowers σ(interior) ÷ σ(scene under it) by ≥ `preference.tintedMinSigmaCut`;
    - solid and forced-colors leave 0 elements (incl. ::before) with computed backdrop-filter ≠ none inside the subject;
-   - a 0.000 delta between the mode and default fails `preference-noop`. */
+   - a 0.000 delta between the mode and default fails `preference-noop` (NOOP_MAX_SHARE: a changed share that
+     rounds to 0.000 at the REQ's three decimals — an exact-0 test would call re-render noise a response). */
 import { assertSameSize, channelDelta, forEachOffset, lumaStats, type Rect, type Rgba } from './raster';
 import type { GateResult } from './gate';
 import type { BackdropRect } from './density';
@@ -27,9 +28,14 @@ export function changedShare(a: Rgba, b: Rgba, regions: readonly Rect[], minDelt
   return { share: total ? changed / total : 0, changed, total, anyDelta: any };
 }
 
+/** REQ-QUAL-16 "a 0.000 delta": the largest changed share that still rounds to 0.000 at three decimals. */
+export const NOOP_MAX_SHARE = 0.0005;
+
 export function noop(mode: string, delta: { anyDelta: number; total: number }): GateResult {
-  return { gate: 'preference-noop', status: delta.total > 0 && delta.anyDelta === 0 ? 'fail' : 'pass', value: delta.anyDelta, limit: 0,
-    detail: delta.anyDelta === 0 ? `${mode}: 0.000 pixel delta vs default over ${delta.total} subject px` : `${mode}: ${delta.anyDelta} px differ from default` };
+  const share = delta.total > 0 ? delta.anyDelta / delta.total : 0;
+  const isNoop = delta.total > 0 && share < NOOP_MAX_SHARE;
+  return { gate: 'preference-noop', status: isNoop ? 'fail' : 'pass', value: share, limit: NOOP_MAX_SHARE,
+    detail: isNoop ? `${mode}: 0.000 pixel delta vs default over ${delta.total} subject px (${delta.anyDelta} px differ, share ${share.toFixed(3)})` : `${mode}: ${delta.anyDelta} px differ from default` };
 }
 
 export function contrastMoreGate(delta: { share: number }, worstDefault: number | null, worstMore: number | null, t: { contrastMoreMinShare: number; contrastMoreTarget: number }): GateResult[] {

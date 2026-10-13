@@ -47,5 +47,3 @@ function RadioItem({ children, className, ref, ...rest }: RadioItemProps) {
 }
 
 export const RadioGroup = { Root: RadioGroupRoot, Item: RadioItem };
-/** Radio is the flat alias of RadioGroup.Item (root export name per CMP-142). */
-export const Radio = RadioItem;

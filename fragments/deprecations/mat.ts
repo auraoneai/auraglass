@@ -2988,10 +2988,15 @@ const b = [
     doc: '#dep-m0981',
     compat: 'LiquidGlassLayerProvider',
   },
+  /* REQ-PLAT-80: deprecation entries for the removed/registry/labs names the
+     coverage baseline carried (replacements from component-dispositions.md). */
+  { id: 'DEP-M0982', kind: 'export', status: 'planned', entry: '.', symbol: 'GlassDraggable', since: '4.2.0', removeIn: '5.0.0', replacement: null, codemod: 'removed', automation: 'mostly', breaking: 'B3', message: 'GlassDraggable is removed in 5.0; no 5.0 successor (./motion drag helper).', doc: '#dep-m0982' },
+  { id: 'DEP-M0983', kind: 'export', status: 'planned', entry: '.', symbol: 'GlassPerformanceOptimization', since: '4.2.0', removeIn: '5.0.0', replacement: null, codemod: 'removed', automation: 'mostly', breaking: 'B3', message: 'GlassPerformanceOptimization is removed in 5.0; no 5.0 successor (tiers resolved pre-paint (D-09, D-10)).', doc: '#dep-m0983' },
   // REQ-PLAT-30: aura-glass/compat re-exports a 4.x-shaped createGlassTheme
   // (accepts the motionPolicy option, DEP-M0902) — its compat row.
+  // (Renumbered DEP-M0984 at impl2/22 integration: impl2/24 took M0982/M0983.)
   {
-    id: 'DEP-M0982',
+    id: 'DEP-M0984',
     kind: 'export',
     status: 'planned',
     entry: '.',
@@ -3004,7 +3009,7 @@ const b = [
     breaking: 'B6',
     message:
       "the 4.x createGlassTheme options (motionPolicy) are deprecated; use createGlassTheme from aura-glass/theme (codemod: motion-props).",
-    doc: '#dep-m0982',
+    doc: '#dep-m0984',
     compat: 'createGlassTheme',
   },
 ] as const;

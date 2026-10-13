@@ -10,6 +10,7 @@ export default defineMeta({
   // control/control-shell/label/root come from the CMP TextField inside deny-reason (S-33).
   parts: ['approval', 'approve', 'content', 'control', 'control-shell', 'deny', 'deny-reason', 'error-text', 'hit-area', 'icon', 'io', 'io-expand', 'io-pre', 'label', 'root', 'running-dots', 'state-icon', 'tool-call', 'tool-name', 'tool-state', 'trigger', 'waiting'],
   states: ['queued', 'running', 'needs-approval', 'succeeded', 'failed', 'denied'],
+  material: { layer: 'content', refractionEligible: false },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/',
   variants: {},
   budgetKb: 10,

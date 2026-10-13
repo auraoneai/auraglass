@@ -2,5 +2,5 @@
 import { StatCard } from 'aura-glass/data';
 
 export function Example() {
-  return <StatCard />;
+  return <StatCard {...v} />;
 }

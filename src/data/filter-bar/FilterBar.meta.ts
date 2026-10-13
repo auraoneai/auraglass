@@ -12,6 +12,7 @@ export default defineMeta({
   // editor and the collapsed sheet are CMP Popover / Sheet popups (portaled).
   parts: ['control', 'control-shell', 'detent-live', 'filter-add', 'filter-bar', 'filter-clear', 'filter-collapsed', 'filter-count', 'filter-more', 'filter-quick', 'filter-rule-chip', 'filter-rule-edit', 'filter-rule-remove', 'filter-rules', 'filter-search', 'hit-area', 'icon', 'item', 'label', 'popup', 'positioner', 'root'],
   states: ['empty', 'active'],
+  material: { layer: 'content', refractionEligible: false },
   variants: {},
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/',
   budgetKb: 18,

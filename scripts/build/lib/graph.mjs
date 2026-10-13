@@ -238,6 +238,59 @@ export function patternEntries(keep, root = ROOT) {
   return out;
 }
 
+/** In-repo composition modules (REQ-CMP-06 / REQ-SURF-124): shipped modules
+ *  that also export internal parts whose only consumers are in-repo stories
+ *  and compositions importing them by relative path (`SourceScope` for
+ *  Sources.stories, `ComboboxLoading` for the Combobox stories). No public
+ *  entry re-exports those parts, so unbundle tree-shaking drops them from
+ *  the module's dist twin — while its d.ts (tsc, per-file) still declares
+ *  them, and the dist-backed Storybook build (REQ-QUAL-56) redirects the
+ *  story's relative import to that twin and fails to bind the name. Listing
+ *  the module as a tsdown entry of its own preserves its full export
+ *  signature in the twin (the same mechanism as patternEntries); it stays
+ *  unnamed in the manifest and in package.json `exports`. */
+export const INTERNAL_COMPOSITION_MODULES = [
+  'src/ai/sources/SourceList.tsx',
+  'src/components/combobox/Combobox.client.tsx',
+  // Modules whose in-repo-only exports are imported cross-module inside src
+  // (color maths, control sizes, container breakpoints, the motion ticker,
+  // generated token tables): without entry status rolldown shakes those
+  // exports from the dist chunk while the d.ts still declares them, which
+  // breaks the dist-backed Storybook build (REQ-QUAL-56) at the first
+  // importing module it reaches.
+  'src/components/color-picker/colors.ts',
+  'src/components/control-shared/size.ts',
+  'src/data/filter-bar/filter-model.ts',
+  'src/date/legacy-bridge.ts',
+  'src/date/useContainerWidth.ts',
+  'src/motion/ticker.ts',
+  'src/motion/tokens.generated.ts',
+  'src/theme/color.ts',
+  'src/tokens/generated/presets.ts',
+];
+
+/** tsdown entries for INTERNAL_COMPOSITION_MODULES that a shipped (`keep`)
+ *  entry already reaches with a seed-free closure. Returns rows shaped
+ *  `{ source, internal: true }` — no subpath, so generate-exports and
+ *  verify-artifact (which iterate keep + patternEntries only) never see them. */
+export function internalCompositionEntries(keep, root = ROOT) {
+  const out = [];
+  const keepSources = new Set((keep ?? []).map((e) => e.source));
+  let reachableFiles = null; // union of the keep closures, computed on first candidate
+  for (const source of INTERNAL_COMPOSITION_MODULES) {
+    if (keepSources.has(source)) continue; // already an entry of its own
+    const file = join(root, source);
+    if (!existsSync(file)) continue;
+    if (closureSeedFiles(file, root).length) continue;
+    if (!reachableFiles) {
+      reachableFiles = new Set();
+      for (const e of keep ?? []) for (const f of importClosure(join(root, e.source), { within: join(root, 'src') })) reachableFiles.add(f);
+    }
+    if (reachableFiles.has(file)) out.push({ source, internal: true });
+  }
+  return out;
+}
+
 /** Entries whose src closure is seed-free (the pre-release filter of §5.2.3 / PLAT-242).
  *  pending rows carry seedFiles[] (the files whose line-1 header declares the seed)
  *  or a missing-source reason. */

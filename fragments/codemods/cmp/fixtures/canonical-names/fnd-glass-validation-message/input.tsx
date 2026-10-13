@@ -2,5 +2,5 @@
 import { GlassValidationMessage } from 'aura-glass';
 
 export function X() {
-  return <GlassValidationMessage message={err} />;
+  return <GlassValidationMessage {...v} />;
 }

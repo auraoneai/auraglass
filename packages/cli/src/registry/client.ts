@@ -2,7 +2,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { networkError } from '../cli/errors.js';
-import { registryItemSchema, type RegistryItem } from './schema.js';
+import { registryItemSchema, validateVendoredRegistryItem, type RegistryItem } from './schema.js';
 import { DOCS_BASE_URL } from '../meta.js';
 
 export function defaultRegistry(): string {
@@ -38,6 +38,12 @@ export async function fetchItem(name: string, registry?: string): Promise<Regist
     }
     if (!res.ok) throw networkError(`registry fetch ${res.status}: ${url}`);
     raw = await res.json();
+  }
+  /* REQ-PLAT-87: validate against the vendored shadcn v4 registry-item
+     schema first, then the zod meta.auraglass check. */
+  const vendoredErrors = validateVendoredRegistryItem(raw);
+  if (vendoredErrors.length) {
+    throw networkError(`registry item ${name} failed vendored registry-item schema validation: ${vendoredErrors.slice(0, 3).join('; ')}`);
   }
   const parsed = registryItemSchema.safeParse(raw);
   if (!parsed.success) throw networkError(`registry item ${name} failed schema validation: ${parsed.error.issues[0]?.message ?? 'invalid'}`);

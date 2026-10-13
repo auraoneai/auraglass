@@ -100,6 +100,15 @@ export default [
     remote: true,
     failClosed: true,
   },
+  // L5 — REQ-CMP-113: Card content layer + disabled-no-opacity (cmp:material-chromium)
+  {
+    lane: "L5",
+    kind: "playwright",
+    path: "tests/e2e/cmp/material/**/*.spec.ts",
+    scope: "pr",
+    remote: true,
+    failClosed: true,
+  },
   // L9 — motion spec
   {
     lane: "L9",

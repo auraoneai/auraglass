@@ -2,5 +2,5 @@
 import { LiquidGlassCarouselRail } from 'aura-glass';
 
 export function Example() {
-  return <LiquidGlassCarouselRail />;
+  return <LiquidGlassCarouselRail {...v} />;
 }

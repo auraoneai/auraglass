@@ -95,6 +95,12 @@ describe('child pipeline (shards.gitlab-ci.yml)', () => {
     expect(Object.keys(child)).toEqual(['stages', SHARD_JOB]);
     expect(job.parallel).toBe(22);
     expect(job.script).toEqual(l6.script);
+    // REQ-QUAL-13: the shard inherits the tesseract 5 install from qual:certify:l6, so ocr-contrast
+    // certifies in the release shards instead of staying `pending` for a missing binary.
+    expect(job.script).toEqual(expect.arrayContaining([
+      'command -v tesseract >/dev/null || (apt-get update -qq && apt-get install -y -qq --no-install-recommends tesseract-ocr tesseract-ocr-eng)',
+      'tesseract --version',
+    ]));
     expect(job.image).toBe('$AG_PLAYWRIGHT_IMAGE');
     expect(job.before_script).toEqual(l6.before_script);
     expect(job.tags).toEqual([TAG]);

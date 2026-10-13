@@ -2,5 +2,5 @@
 import { LiquidGlassSegmentedControl } from 'aura-glass';
 
 export function X() {
-  return <LiquidGlassSegmentedControl segments={opts} value={v} />;
+  return <LiquidGlassSegmentedControl {...v} />;
 }

@@ -44,6 +44,14 @@ function applyCode(source: string, ctx: TransformCtx | undefined): TransformResu
   const changes: TransformResult['changes'] = [];
   const todos: TransformResult['todos'] = [];
   const bound = auraBindings(root);
+  /* The 4.x magnetic-button component names (rename targets Button whose
+     4.x name carries Magnetic), read from compiled mappings (REQ-PLAT-90:
+     no hard-coded component literals in transforms). */
+  const magneticButtons = new Set(
+    Object.entries(ctx?.mappings.components ?? {})
+      .filter(([from, c]) => c.to === 'Button' && /Magnetic/.test(from))
+      .map(([from]) => from),
+  );
   const fiveNames = new Set(Object.values(ctx?.mappings.components ?? {})
     .map((c) => c.to?.split('.')[0]).filter((n): n is string => typeof n === 'string'));
   type JsxName = { type?: string; name?: string; object?: JsxName; property?: JsxName };
@@ -79,7 +87,11 @@ function applyCode(source: string, ctx: TransformCtx | undefined): TransformResu
         cuts.push(cutAttr(unit_source_placeholder, { start: at.start, end: at.end }));
       } else if (at.name.name === 'magnetic') {
         changes.push({ transform: 'motion-props', description: 'magnetic -> magnetic()' });
-        todos.push({ transform: 'motion-props', reason: 'magnetic prop is now aura-glass/motion magnetic() — attach it via render or ref', doc: DOC });
+        /* On the magnetic-button component the stage-2 rewrite owns the
+           guidance (in-place TODO); the generic marker must not duplicate it. */
+        if (!magneticButtons.has((p.node.name as { name?: string })?.name ?? '')) {
+          todos.push({ transform: 'motion-props', reason: 'magnetic prop is now aura-glass/motion magnetic() — attach it via render or ref', doc: DOC });
+        }
         cuts.push(cutAttr(unit_source_placeholder, { start: at.start, end: at.end }));
       }
     }
@@ -88,6 +100,36 @@ function applyCode(source: string, ctx: TransformCtx | undefined): TransformResu
   // 2. RippleButton -> Button (on the span-edited source).
   void root;
   let out = spliceSpans(source, cuts);
+  const placedTodos = new Set<TransformResult['todos'][number]>();
+  for (const mbName of magneticButtons) {
+    if (!new RegExp(`\\b${mbName}\\b`).test(out)) continue;
+    /* Magnetic-button component -> Button; `strength` has no prop
+       equivalent — magnetic() wires onto the element ref. */
+    const strength = new RegExp(`<${mbName}[^>]*\\bstrength=\\{([^}]*)\\}`).exec(out)?.[1]?.trim();
+    out = out.replace(new RegExp(`(<${mbName}[^>]*?)\\s+strength=\\{[^}]*\\}`, 'g'), '$1');
+    out = renameJsxTag(out, mbName, 'Button').source.replace(new RegExp(`\\b${mbName}\\b`, 'g'), 'Button');
+    out = out.replace(
+      /(import \{[^}]*\bButton\b[^}]*\} from "aura-glass";)/,
+      '$1\nimport { magnetic } from "aura-glass/motion";',
+    );
+    const todo: TransformResult['todos'][number] = {
+      transform: 'motion-props',
+      reason: `${mbName}: wire magnetic() onto the Button ref${strength ? ` (strength ${strength})` : ''}`,
+      doc: DOC,
+    };
+    todos.push(todo);
+    placedTodos.add(todo);
+    changes.push({ transform: 'motion-props', description: `${mbName} -> Button + magnetic() TODO` });
+    const lines = out.split('\n');
+    const at = lines.findIndex((l) => /<Button[\s>]/.test(l));
+    if (at >= 0) {
+      const indent = /^\s*/.exec(lines[at]!)?.[0] ?? '';
+      lines.splice(at, 0,
+        `${indent}// TODO(aura-glass 5): magnetic behaviour is now magnetic() from aura-glass/motion —`,
+        `${indent}// wire it onto the element ref${strength ? ` (strength ${strength})` : ''}, see ${DOC}`);
+      out = lines.join('\n');
+    }
+  }
   if (/\bRippleButton\b/.test(out)) {
     const tag = renameJsxTag(out, 'RippleButton', 'Button');
     if (tag.count) {
@@ -96,9 +138,9 @@ function applyCode(source: string, ctx: TransformCtx | undefined): TransformResu
     }
     out = out.replace(/\bRippleButton\b/g, 'Button');
   }
-  if (todos.length) {
-    const t = todos[0]!;
-    const marker = `// TODO(aura-glass 5): ${t.reason}, see ${t.doc}`;
+  const markerTodo = todos.find((t) => !placedTodos.has(t));
+  if (markerTodo) {
+    const marker = `// TODO(aura-glass 5): ${markerTodo.reason}, see ${markerTodo.doc}`;
     if (!out.includes(marker)) out = `${marker}\n${out}`;
   }
   return { source: out, changes, todos };
@@ -108,7 +150,7 @@ export const motionProps: Transform = {
   id: 'motion-props',
   run(unit: FileUnit, ctx?: TransformCtx): TransformResult {
     if (unit.kind !== 'code') return { source: unit.source, changes: [], todos: [] };
-    const has = [...REMOVED_PROPS, 'magnetic', 'RippleButton'].some((k) => unit.source.includes(k));
+    const has = [...REMOVED_PROPS, 'magnetic', 'RippleButton', 'MagneticButton'].some((k) => unit.source.includes(k));
     if (!has) return { source: unit.source, changes: [], todos: [] };
     return applyCode(unit.source, ctx);
   },

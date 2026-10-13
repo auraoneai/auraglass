@@ -2,6 +2,6 @@
 // @ts-nocheck — frozen 4.x consumer usage, codemod input (do not "fix").
 import { GlassDatePicker } from 'aura-glass';
 
-export function Due({ value, set }) {
+export function Due({ value, set }: any) {
   return <GlassDatePicker value={value} onValueChange={set} />;
 }

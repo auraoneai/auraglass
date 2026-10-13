@@ -1,5 +1,10 @@
 # Button Spacing Guide for Intelligence Pages
 
+> **5.0 note:** the 4.x `glass-*` utility classes below (`glass-mt-8`,
+> `glass-p-6`, ...) were removed in 5.0. The spacing values still apply;
+> set them with your own CSS (or Tailwind) and use the 5.0 `Surface` and
+> `Button` components, as in the React section at the end.
+
 This guide shows how to add proper padding to push down button sections on your trending intelligence and latest pages using AuraGlass glassmorphism styling.
 
 ## Key CSS Classes for Spacing
@@ -128,39 +133,47 @@ This guide shows how to add proper padding to push down button sections on your 
 
 If using React components:
 
-```jsx
-// Trending Intelligence Page
-<div className="glass-mt-8 glass-mb-6">
-  <OptimizedGlass
-    elevation="level1"
-    className="glass-p-6 glass-radius-xl"
-  >
-    <div className="flex flex-wrap items-center gap-4 justify-center">
-      <GlassButton>📈 Trending Stories</GlassButton>
-      <GlassButton>🔥 Hot Topics</GlassButton>
-      <GlassButton>⭐ Rising Entities</GlassButton>
-      <GlassButton>🌐 Story Clusters</GlassButton>
-    </div>
-  </OptimizedGlass>
-</div>
+```tsx
+import { Button } from 'aura-glass';
+import { Surface } from 'aura-glass/material';
 
-// Latest Page  
-<div className="glass-mt-8 glass-mb-6">
-  <OptimizedGlass
-    elevation="level1"
-    className="glass-p-6 glass-radius-xl"
-  >
-    <div className="flex flex-wrap items-center gap-3 justify-center">
-      <span className="glass-text-sm text-white/70">Filter by:</span>
-      <GlassButton variant="primary">All Categories</GlassButton>
-      <GlassButton>AI</GlassButton>
-      <GlassButton>MARKETS</GlassButton>
-      <GlassButton>CLIMATE</GlassButton>
-      <GlassButton>GEOPOLITICS</GlassButton>
-      <GlassButton>HEALTH</GlassButton>
+const sectionStyle = { marginTop: 32, marginBottom: 24 } as const;
+const groupStyle = {
+  display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', gap: 16, padding: 24,
+} as const;
+
+export function TrendingButtons() {
+  return (
+    <div style={sectionStyle}>
+      <Surface layer="content">
+        <div style={groupStyle}>
+          <Button>Trending Stories</Button>
+          <Button>Hot Topics</Button>
+          <Button>Rising Entities</Button>
+          <Button>Story Clusters</Button>
+        </div>
+      </Surface>
     </div>
-  </OptimizedGlass>
-</div>
+  );
+}
+
+export function LatestFilters() {
+  return (
+    <div style={sectionStyle}>
+      <Surface layer="content">
+        <div style={{ ...groupStyle, gap: 12 }}>
+          <span>Filter by:</span>
+          <Button pressed>All Categories</Button>
+          <Button>AI</Button>
+          <Button>MARKETS</Button>
+          <Button>CLIMATE</Button>
+          <Button>GEOPOLITICS</Button>
+          <Button>HEALTH</Button>
+        </div>
+      </Surface>
+    </div>
+  );
+}
 ```
 
 ## Visual Result

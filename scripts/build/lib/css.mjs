@@ -361,7 +361,11 @@ export function computeOwnership(fragments, { a11yBaseline = null } = {}) {
         if (!a11yByBundle.has(f.bundle)) a11yByBundle.set(f.bundle, new Set());
         a11yByBundle.get(f.bundle).add(p);
       }
-      if (f.layer === 'ag.components') {
+      // Pairing applies to component prefixes (REQ-PLAT-74: "each component
+      // prefix"), not to contextual first tokens ([data-ag-motion=...]
+      // ancestors, :where(...) groups), whose a11y behaviour is owned by the
+      // rung system, not by the component's bundle.
+      if (f.layer === 'ag.components' && ownedPrefix(p)) {
         if (!componentDecl.has(p)) componentDecl.set(p, []);
         componentDecl.get(p).push({ file: f.file, bundle: f.bundle, none: f.a11y === 'none' });
       }

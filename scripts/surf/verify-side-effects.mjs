@@ -17,7 +17,7 @@
 // Usage: node scripts/surf/verify-side-effects.mjs   (exit 0 pass, 1 fail)
 
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -45,8 +45,30 @@ export const SURF_DIST_PREFIXES = [
 ];
 export const SURF_DIST_FILES = ['dist/root/surf.js'];
 
-/** The SURF package entries (build/exports.manifest.json subpaths owned by SURF). */
-export const SURF_ENTRIES = ['app-shell', 'data', 'date', 'ai', 'media', 'backdrops', 'charts', 'three'];
+/** The SURF package entries that ship in this package version's dist/.
+ * Derived from src/contracts/entries.ts (the source of truth): owner SURF,
+ * a src/ source, and EntrySpec.ga not past the package version — the same
+ * static ga scan scripts/build/lib/graph.mjs (contractGaLines/gaGate) uses
+ * to drop e.g. './charts' (ga '5.1') from a 5.0.x build entirely. Throws
+ * when the contract yields no rows, so a reshape fails loudly. */
+export function surfEntries(root = ROOT) {
+  const file = join(root, 'src', 'contracts', 'entries.ts');
+  const version = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).version;
+  const [maj, min] = String(version).split('.').map(Number);
+  const entries = [];
+  const text = readFileSync(file, 'utf8');
+  const body = text.slice(text.indexOf('ENTRIES'));
+  for (const m of body.matchAll(/\{\s*subpath:\s*'([^']+)',\s*source:\s*'([^']+)'[^{}]*?\bowner:\s*'([^']+)'[^{}]*?\bga:\s*'([^']+)'/g)) {
+    const [, subpath, source, owner, ga] = m;
+    if (owner !== 'SURF' || !source.startsWith('src/')) continue;
+    const [gmaj, gmin] = ga.split('.').map(Number);
+    if (gmaj * 1000 + gmin > maj * 1000 + min) continue;
+    entries.push(subpath.replace(/^\.\//, ''));
+  }
+  if (!entries.length) throw new Error(`verify-side-effects(surf): no SURF entries with ga <= ${version} found in ${file}`);
+  return entries;
+}
+export const SURF_ENTRIES = surfEntries();
 
 export const isSurfModule = (module) =>
   typeof module === 'string' &&

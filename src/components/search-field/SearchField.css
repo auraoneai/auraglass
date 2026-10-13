@@ -97,17 +97,7 @@
     border: var(--ag-focus-width) solid var(--ag-color-on-surface-muted);
     border-block-start-color: transparent;
   }
-  @media (prefers-reduced-motion: no-preference) {
-    .ag-search-field [data-ag-part='spinner'] {
-      animation: none;
-    }
-    [data-ag-motion='full'] .ag-search-field [data-ag-part='spinner'] {
-      animation: ag-sf-spin var(--ag-duration-large) linear 240;
-    }
-    @keyframes ag-sf-spin {
-      to { transform: rotate(1turn); }
-    }
-  }
+
   .ag-search-field [data-ag-part='label'] {
     font-size: var(--ag-type-label-size);
     font-weight: var(--ag-type-label-weight);

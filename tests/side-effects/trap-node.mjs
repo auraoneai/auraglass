@@ -62,7 +62,18 @@ const visit = (dir) => {
 };
 if (existsSync(DIST)) visit(DIST);
 
+/* REQ-PLAT-70: globalThis property writes — snapshot the own-key set and
+   value identity around each dist import; any added key or replaced value is
+   a global write attributed to that module. (A Proxy over globalThis is not
+   possible in Node, so per-module diffing is the faithful trap.) */
+const snapGlobals = () => new Map(Object.getOwnPropertyNames(globalThis).map((k) => [k, globalThis[k]]));
 for (const f of files) {
+  const before = snapGlobals();
   try { await import(pathToFileURL(f).href); } catch { /* init errors are not side-effect signals */ }
+  const after = snapGlobals();
+  const module = `dist/${f.slice(DIST.length + 1).split('\\').join('/')}`;
+  for (const [k, v] of after) {
+    if (!before.has(k) || before.get(k) !== v) observed.push({ api: `globalThis.${k} write`, module });
+  }
 }
 process.stdout.write(`\n${JSON.stringify(observed)}\n`);

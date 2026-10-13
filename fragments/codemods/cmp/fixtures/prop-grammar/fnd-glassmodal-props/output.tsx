@@ -1,7 +1,7 @@
 // @ts-nocheck — codemod fixture: intentionally unbound identifiers/imports
 import { Dialog } from 'aura-glass';
 
-<Dialog.Root open={open} onOpenChange={(o, reason) => { if (!o) close(); /* closeOnEscape: false -> ignore reason 'escape-key' */ }}>
+<Dialog.Root open={o} onOpenChange={(o, reason) => { if (!o) close(); /* closeOnEscape: false -> ignore reason 'escape-key' */ }}>
   <Dialog.Content size="lg" dismissible={false}>
     <Dialog.Title>T</Dialog.Title>
     …

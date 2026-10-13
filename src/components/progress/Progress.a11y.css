@@ -1,0 +1,21 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Progress.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion rules so they win without !important (ag.a11y is last).
+   The indeterminate spin is already full-motion-only in the components
+   layer; the reduced-motion rule below is the belt to that brace. */
+@layer ag.a11y {
+  @media (prefers-reduced-motion: reduce) {
+    .ag-progress-ring-indeterminate { animation: none; }
+  }
+
+  @media (forced-colors: active) {
+    .ag-progress-track {
+      background: Canvas;
+      box-shadow: inset 0 0 0 1px CanvasText;
+    }
+    .ag-progress-indicator { background: Highlight; }
+    .ag-progress-ring-trace { stroke: GrayText; }
+    .ag-progress-ring-indicator { stroke: Highlight; }
+  }
+}

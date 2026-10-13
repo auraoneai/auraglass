@@ -9,6 +9,7 @@ export default defineMeta({
   rsc: 'server',
   parts: ['chart-description', 'chart-frame', 'chart-legend', 'chart-legend-item', 'chart-plot', 'chart-table', 'chart-table-toggle', 'chart-title', 'hit-area'],
   states: ['empty', 'loading'],
+  material: { layer: 'content', refractionEligible: false },
   variants: {},
   apg: 'https://www.w3.org/WAI/ARIA/apg/practices/grid-and-table-properties/',
   budgetKb: 11,

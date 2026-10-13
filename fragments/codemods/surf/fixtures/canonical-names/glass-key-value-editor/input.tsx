@@ -2,5 +2,5 @@
 import { GlassKeyValueEditor } from 'aura-glass';
 
 export function Example() {
-  return <GlassKeyValueEditor />;
+  return <GlassKeyValueEditor {...v} />;
 }

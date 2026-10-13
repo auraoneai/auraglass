@@ -6,7 +6,10 @@
    serializable props plus the caller's onLoadMore. Absorbs 4.x
    GlassActivityFeed and GlassInfiniteScroll use (`autoLoad`). */
 import * as React from 'react';
-import { Avatar } from '../avatar';
+/* The avatar part is imported directly, never as Avatar.Root: this is a
+   server module and a client-reference namespace object has no `.Root`
+   property under RSC (undefined element type at prerender). */
+import { AvatarRoot } from '../avatar';
 import { Timeline, type TimelineItem, type TimelineProps } from './Timeline';
 import { ActivityFeedInteractive } from './ActivityFeed.Interactive';
 
@@ -60,13 +63,12 @@ export function ActivityFeed({
     ...it,
     meta: it.actor !== undefined ? (
       <span data-ag-part="activity-actor" className="ag-activity__actor">
-        <Avatar.Root
+        <AvatarRoot
           {...(it.actor.avatarUrl !== undefined ? { src: it.actor.avatarUrl } : {})}
           alt=""
           name={it.actor.name}
           size="sm"
           aria-hidden="true"
-          className="ag-activity__avatar"
         />
         <span>{it.actor.name}</span>
       </span>

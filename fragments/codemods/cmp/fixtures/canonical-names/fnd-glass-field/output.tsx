@@ -2,5 +2,5 @@
 import { Field } from 'aura-glass';
 
 export function X() {
-  return <Field>x</Field>;
+  return <Field.Root>x</Field.Root>;
 }

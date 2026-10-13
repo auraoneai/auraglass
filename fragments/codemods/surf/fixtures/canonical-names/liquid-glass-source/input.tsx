@@ -2,5 +2,5 @@
 import { LiquidGlassSource } from 'aura-glass';
 
 export function Example() {
-  return <LiquidGlassSource />;
+  return <LiquidGlassSource id={v} />;
 }

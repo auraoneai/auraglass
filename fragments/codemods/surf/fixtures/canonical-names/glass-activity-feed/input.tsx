@@ -2,5 +2,5 @@
 import { GlassActivityFeed } from 'aura-glass';
 
 export function Example() {
-  return <GlassActivityFeed />;
+  return <GlassActivityFeed {...v} />;
 }

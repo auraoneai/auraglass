@@ -2,5 +2,5 @@
 import { AuroraOrb } from 'aura-glass';
 
 export function Example() {
-  return <AuroraOrb />;
+  return <AuroraOrb {...v} />;
 }

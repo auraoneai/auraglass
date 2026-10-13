@@ -23,7 +23,7 @@ export function __compatDetents(d: readonly CompatSheetDetent[] | undefined): nu
 
 /** Toast.Viewport does not auto-render manager toasts — compat viewports mount
    this child so a 4.x `position`-only prop keeps showing real toasts. */
-export function __compatToastList() {
+export function CompatToastList() {
   const t = useToast();
   return (
     <>

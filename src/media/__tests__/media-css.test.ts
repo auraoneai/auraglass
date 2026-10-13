@@ -26,7 +26,7 @@ const decl = (rules: Rule[], prop: string): string | undefined => {
   for (const r of rules) r.walkDecls(prop, (d: Declaration) => { v = d.value; });
   return v;
 };
-/** Resolves `var(--ag-space-n, …)` / calc(a + b) of space tokens to px. */
+/** Resolves `var(--ag-space-<step>, …)` / calc(a + b) of space tokens to px. */
 function px(value: string | undefined): number {
   if (!value) return Number.NaN;
   const terms = value.replace(/^calc\((.*)\)$/, '$1').split('+').map((t) => t.trim());

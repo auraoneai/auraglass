@@ -1,10 +1,14 @@
-/* src/charts/scale.ts (SURF-241..248, REQ-SURF-161): linear/band scales,
-   y-extent resolution and the three curve generators.
-   REQ-SURF-162 makes d3-scale/d3-shape the 5.1 optional peers imported only by
-   src/charts/**; that needs the 5.1 contract PR plus their devDependencies
-   (FIN-C, package.json). Until then these locals implement the same math:
-   curveLinear, curveStep and an exact Fritsch-Carlson monotone cubic (the
-   REQ-SURF-161 fallback), which never overshoots the data. */
+/* src/charts/scale.ts (SURF-241..248, REQ-SURF-161/-162): linear/band
+   scales, y-extent resolution and the line/area path generators, backed by
+   the 5.1 optional peers d3-scale ^4.0.2 and d3-shape ^3.2.0 — imported
+   only under src/charts/** and externalized in the build through
+   package.json peerDependencies (tsdown externals). Importing
+   aura-glass/charts without the peers fails at resolution; run
+   `npx aura-glass doctor` for the install hint (charts-peers check).
+   Curves: curveLinear, curveStep and curveMonotoneX (Steffen monotone
+   cubic in x, which never overshoots the data). */
+import { scaleBand, scaleLinear } from 'd3-scale';
+import { area, curveLinear, curveMonotoneX, curveStep, line } from 'd3-shape';
 
 export interface LinearScale {
   (v: number): number;
@@ -14,26 +18,27 @@ export interface LinearScale {
 }
 
 export function linearScale(domain: [number, number], range: [number, number]): LinearScale {
-  const f = (v: number) => range[0] + ((v - domain[0]) / (domain[1] - domain[0] || 1)) * (range[1] - range[0]);
-  f.domain = () => domain;
-  f.range = () => range;
-  f.ticks = (count = 5) => {
-    const [d0, d1] = domain;
-    const step = (d1 - d0) / Math.max(1, count - 1);
-    return Array.from({ length: count }, (_, i) => d0 + step * i);
-  };
+  const s = scaleLinear().domain(domain).range(range);
+  const f = ((v: number) => s(v)) as LinearScale;
+  f.domain = () => s.domain() as [number, number];
+  f.range = () => s.range() as [number, number];
+  f.ticks = (count = 5) => s.ticks(count);
   return f;
 }
 
 export function bandScale(keys: readonly string[], range: [number, number], padding = 0.2) {
-  const n = keys.length || 1;
-  const span = range[1] - range[0];
-  const band = span / n;
-  const inner = band * (1 - padding);
+  // paddingOuter = padding/2 centres each band in its step (step = span/n),
+  // so center(k) is the step centre: x(k) + bandwidth/2.
+  const s = scaleBand<string>()
+    .domain(keys.length ? [...keys] : [''])
+    .range(range)
+    .paddingInner(padding)
+    .paddingOuter(padding / 2);
+  const x = (k: string) => s(k) ?? s(keys[0] ?? '') ?? range[0];
   return {
-    bandwidth: () => inner,
-    x: (k: string) => range[0] + Math.max(0, keys.indexOf(k)) * band + (band - inner) / 2,
-    center: (k: string) => range[0] + Math.max(0, keys.indexOf(k)) * band + band / 2,
+    bandwidth: () => s.bandwidth(),
+    x,
+    center: (k: string) => x(k) + s.bandwidth() / 2,
     keys,
   };
 }
@@ -63,64 +68,25 @@ export function yExtent(values: readonly number[], yDomain: readonly [number, nu
 
 type Pt = readonly [number, number];
 
-/* Fritsch-Carlson monotone cubic Hermite tangents (Fritsch & Carlson 1980):
-   secant slopes, averaged interior tangents (0 at local extrema and flat
-   segments), then each segment's (alpha, beta) is pulled into the radius-3
-   circle. Every control point then lies between its segment's end values, so
-   the cubic stays inside the data extent. */
-function monotoneTangents(pts: readonly Pt[]): number[] {
-  const n = pts.length;
-  const s: number[] = [];
-  for (let i = 0; i < n - 1; i++) {
-    const dx = pts[i + 1]![0] - pts[i]![0];
-    s.push(dx === 0 ? 0 : (pts[i + 1]![1] - pts[i]![1]) / dx);
-  }
-  const t: number[] = new Array<number>(n).fill(0);
-  t[0] = s[0]!;
-  t[n - 1] = s[n - 2]!;
-  for (let i = 1; i < n - 1; i++) {
-    t[i] = s[i - 1]! * s[i]! <= 0 ? 0 : (s[i - 1]! + s[i]!) / 2;
-  }
-  for (let i = 0; i < n - 1; i++) {
-    if (s[i] === 0) {
-      t[i] = 0;
-      t[i + 1] = 0;
-      continue;
-    }
-    const a = t[i]! / s[i]!;
-    const b = t[i + 1]! / s[i]!;
-    const h = a * a + b * b;
-    if (h > 9) {
-      const tau = 3 / Math.sqrt(h);
-      t[i] = tau * a * s[i]!;
-      t[i + 1] = tau * b * s[i]!;
-    }
-  }
-  return t;
+export type ChartCurveName = 'linear' | 'monotone' | 'step';
+
+const CURVES = { linear: curveLinear, monotone: curveMonotoneX, step: curveStep } as const;
+
+/** d3-shape line generator with the named curve over [x, y] points. */
+export function linePath(pts: readonly Pt[], curve: ChartCurveName): string {
+  if (pts.length === 0) return '';
+  const gen = line<Pt>().x((p) => p[0]).y((p) => p[1]).curve(CURVES[curve]);
+  return gen(pts) ?? '';
 }
 
-/* Path generators with d3-shape curve semantics: linear (curveLinear
-   polyline), step (curveStep mid-point verticals), monotone (Fritsch-Carlson
-   monotone cubic in x, as cubic Bezier segments). */
-export function linePath(pts: readonly Pt[], curve: 'linear' | 'monotone' | 'step'): string {
-  if (pts.length === 0) return '';
-  if (pts.length === 1) return `M${pts[0]![0]},${pts[0]![1]}`;
-  if (curve === 'linear') return `M${pts[0]![0]},${pts[0]![1]} ${pts.slice(1).map((p) => `L${p[0]},${p[1]}`).join(' ')}`;
-  if (curve === 'step') {
-    let d = `M${pts[0]![0]},${pts[0]![1]}`;
-    for (let i = 1; i < pts.length; i++) {
-      const mid = (pts[i - 1]![0] + pts[i]![0]) / 2;
-      d += ` L${mid},${pts[i - 1]![1]} L${mid},${pts[i]![1]} L${pts[i]![0]},${pts[i]![1]}`;
-    }
-    return d;
-  }
-  const t = monotoneTangents(pts);
-  let d = `M${pts[0]![0]},${pts[0]![1]}`;
-  for (let i = 0; i < pts.length - 1; i++) {
-    const [x0, y0] = pts[i]!;
-    const [x1, y1] = pts[i + 1]!;
-    const dx = (x1 - x0) / 3;
-    d += ` C${x0 + dx},${y0 + t[i]! * dx} ${x1 - dx},${y1 - t[i + 1]! * dx} ${x1},${y1}`;
-  }
-  return d;
+/** d3-shape area generator between the `top` and `bot` point rows (paired
+    by index) with the named curve on the top edge. */
+export function areaPath(top: readonly Pt[], bot: readonly Pt[], curve: ChartCurveName): string {
+  if (top.length === 0 || bot.length === 0) return '';
+  const gen = area<Pt>()
+    .x((p) => p[0])
+    .y1((p) => p[1])
+    .y0((_p, i) => bot[Math.min(i, bot.length - 1)]![1])
+    .curve(CURVES[curve]);
+  return gen(top) ?? '';
 }

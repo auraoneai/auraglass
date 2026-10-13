@@ -2,5 +2,5 @@
 import { GlassToastProvider } from 'aura-glass';
 
 export function X() {
-  return <GlassToastProvider position="top" duration={4000}>{app}</GlassToastProvider>;
+  return <GlassToastProvider {...v}>{app}</GlassToastProvider>;
 }

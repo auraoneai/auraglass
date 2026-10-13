@@ -2,5 +2,5 @@
 import { GlassDataTable } from 'aura-glass';
 
 export function Example() {
-  return <GlassDataTable />;
+  return <GlassDataTable columns={v} data={v} />;
 }

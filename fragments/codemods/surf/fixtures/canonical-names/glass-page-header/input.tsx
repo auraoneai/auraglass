@@ -2,5 +2,5 @@
 import { GlassPageHeader } from 'aura-glass';
 
 export function Example() {
-  return <GlassPageHeader />;
+  return <GlassPageHeader {...v} />;
 }

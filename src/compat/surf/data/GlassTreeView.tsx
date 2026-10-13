@@ -8,7 +8,6 @@
    no 5.0 equivalent. The mapping lives in ./GlassTreeView.impl, loaded on
    first render (../lazyAdapter) so importing aura-glass/compat never
    evaluates react-aria-components. */
-'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import type { TreeViewBaseProps } from '../../../data/tree-view/TreeView';

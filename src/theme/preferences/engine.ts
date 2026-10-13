@@ -15,17 +15,19 @@ interface NavigatorLike {
   connection?: { saveData?: boolean } | null;
 }
 
-// A loop rather than brands.some(callback): the pre-paint script runs this on
-// every page load, and each callback is one more lazy compile (REQ-MAT-59 1 ms).
+// The brand alternation is the REQ-MAT-59 list (Chromium/Edge/Opera): every
+// Chromium-based browser also carries the 'Chromium' brand, so Brave/Vivaldi/
+// Arc/Samsung match `chrom` without being named. The regex tests the joined
+// brand names; brands present but unmatched means
+// 'unknown' with no UA fallback. UA tokens are matched in their canonical
+// casing ('AppleWebKit', 'Chrom*', 'Edg*', 'Gecko/…Firefox/').
 export const detectEngine = (nav: NavigatorLike): AgEngine => {
   const brands = nav.userAgentData?.brands;
   const ua = nav.userAgent ?? '';
-  if (brands?.length) {
-    for (const b of brands) if (/chrom|edg|opera|brave|vivaldi|arc|samsung/i.test(b.brand)) return 'chromium';
-    return 'unknown';
-  }
-  return /^(?!.*(Chrom|Edg)).*AppleWebKit/i.test(ua) ? 'webkit'
-    : /Gecko\/.*Firefox\//i.test(ua) ? 'gecko' : 'unknown';
+  return brands?.length
+    ? /chrom|edg|opera/i.test(brands.map((b) => b.brand).join()) ? 'chromium' : 'unknown'
+    : ua.includes('AppleWebKit') && !/Chrom|Edg/.test(ua) ? 'webkit'
+      : /Gecko\/.*Firefox\//.test(ua) ? 'gecko' : 'unknown';
 };
 
 export interface CapabilityInput {

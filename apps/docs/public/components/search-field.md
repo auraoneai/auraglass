@@ -26,7 +26,7 @@ Tier T1 · RSC client · APG searchbox
 | `id?` | `string` | — | Id of the input element; generated when omitted. |
 | `label?` | `ReactNode` | — | Visible label. |
 | `loading?` | `boolean` | — | Loading state: spinner part + aria-busy on the root. |
-| `maxLength?` | `number` | — | — |
+| `maxLength?` | `number` | — | Maximum number of characters allowed. |
 | `name?` | `string` | — | Form field name submitted with the value. |
 | `onClear?` | `(details: ChangeDetails) => void` | — | Called after the value is cleared via Escape or the clear button. |
 | `onValueChange?` | `(value: string, details: ChangeDetails) => void` | — | Called with the new value whenever it changes. |
@@ -39,8 +39,8 @@ Tier T1 · RSC client · APG searchbox
 | `showCount?` | `boolean` | — | Render the counter part (current/maxLength). |
 | `size?` | `ControlSize` | — | Control size. |
 | `startAdornment?` | `ReactNode` | — | Leading content inside the shell, after the search glyph (adornment-start part). |
-| `validate?` | `FieldValidate` | — | — |
-| `validationMode?` | `FieldValidationMode` | — | — |
+| `validate?` | `FieldValidate` | — | Custom validation function. |
+| `validationMode?` | `FieldValidationMode` | — | When validation runs. |
 | `value?` | `string` | — | Controlled value. Pair with `onValueChange`. |
 | `variant?` | `'regular' \| 'clear' \| 'identity'` | — | Material variant of the field. |
 

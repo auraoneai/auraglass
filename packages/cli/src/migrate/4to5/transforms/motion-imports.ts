@@ -73,20 +73,19 @@ function applyCode(source: string): TransformResult {
     const nm = t.type === 'JSXIdentifier' ? t.name : t.property?.name;
     return nm === 'ReducedMotionProvider' || hookLocals.has(`provider:${nm}`);
   };
-  let guard = 0;
-  for (;;) {
-    let did = false;
-    root.find(j.JSXElement).forEach((p: any) => {
-      if (!isReducedProvider(p.node.openingElement?.name)) return;
-      const kids = (p.node.children ?? []).filter((c: any) => (c as { type?: string }).type !== 'JSXText' || ((c as { value?: string }).value ?? '').trim() !== '');
-      j(p).replaceWith((kids.length === 1 ? kids[0]! : j.jsxFragment(j.jsxOpeningFragment(), j.jsxClosingFragment(), p.node.children ?? [])) as never);
-      did = true;
-      changes.push({ transform: 'motion-imports', description: 'unwrap ReducedMotionProvider' });
-    });
-    if (!did || guard++ > 20) break;
+  /* The unwrap itself is textual (after printing): an AST node swap
+     reprints the enclosing return and collapses its formatting. Here we
+     only record that a provider is present; tags are stripped line-wise
+     in step 4. */
+  let sawReducedProvider = false;
+  root.find(j.JSXElement).forEach((p: any) => {
+    if (isReducedProvider(p.node.openingElement?.name)) sawReducedProvider = true;
+  });
+  if (sawReducedProvider) {
+    changes.push({ transform: 'motion-imports', description: 'unwrap ReducedMotionProvider' });
   }
 
-  const pendingComments: string[] = [];
+{}
   // 3. <Motion preset="x"> -> <div> with TODO comment (verbatim spec wording).
   root.find(j.JSXElement).forEach((p: any) => {
     const n = p.node.openingElement?.name as { name?: string } | undefined;
@@ -94,21 +93,24 @@ function applyCode(source: string): TransformResult {
     const preset = (p.node.openingElement?.attributes ?? []).find((a: any) => (a as { name?: { name?: string } }).name?.name === 'preset') as { value?: { value?: unknown } } | undefined;
     const presetName = String(preset?.value?.value ?? '');
     const kids = (p.node.children ?? []).filter((c: any) => (c as { type?: string }).type !== 'JSXText' || ((c as { value?: string }).value ?? '').trim() !== '');
+    const keptAttrs = ((p.node.openingElement?.attributes ?? []) as Array<{ name?: { name?: string } }>)
+      .filter((a) => a.name?.name !== 'preset');
     const el = j.jsxElement(
-      j.jsxOpeningElement(j.jsxIdentifier('div'), [] as never),
+      j.jsxOpeningElement(j.jsxIdentifier('div'), keptAttrs as never, (p.node.openingElement?.selfClosing ?? false) as never),
       j.jsxClosingElement(j.jsxIdentifier('div')),
       kids as never,
     );
-    // Attach the spec TODO as leading // comments on the enclosing statement.
+    /* Spec TODO as leading comments on the enclosing statement (recast
+       prints them above `return`, and after `export` for declarations). */
     let stmt = p as unknown as { parent?: { node?: { type?: string } }; node?: { type?: string } } | null;
     while (stmt && !/^(ReturnStatement|ExpressionStatement|VariableDeclaration)$/.test(String(stmt.node?.type ?? ''))) {
       stmt = (stmt as { parent?: typeof stmt }).parent ?? null;
     }
     if (stmt?.node) {
       (stmt.node as { comments?: unknown[] }).comments = [
-        ...( ((stmt.node as { comments?: unknown[] }).comments) ?? []),
-        { type: 'CommentLine', value: ` TODO(aura-glass 5): Motion preset="${presetName}" has no 5.x equivalent — attach a` },
-        { type: 'CommentLine', value: ' Shared/motionTokens-driven transition, see docs/motion.md' },
+        ...(((stmt.node as { comments?: unknown[] }).comments) ?? []),
+        { type: 'CommentLine', value: ` TODO(aura-glass 5): Motion preset="${presetName}" has no 5.x equivalent — attach a`, leading: true },
+        { type: 'CommentLine', value: ' Shared/motionTokens-driven transition, see docs/motion.md', leading: true },
       ];
     }
     j(p).replaceWith(el as never);
@@ -131,27 +133,79 @@ function applyCode(source: string): TransformResult {
   });
 
   // 4. Token rewrites: ANIMATION.DURATION.x -> motionTokens.duration.y; ease bounce/elastic -> ease.standard + TODO.
-  let out = root.toSource({ quote: 'single', reuseWhitespace: true });
-  for (const c of pendingComments) {
-    out = out.replace(/^([ \t]*)return /m, `$1// ${c}\n$1// Shared/motionTokens-driven transition, see docs/motion.md\n$1return `);
+  let out: string = root.toSource({ quote: 'single', reuseWhitespace: true });
+  /* Removing the import a file-leading comment was attached to can drop it
+     in reprint; restore a lost leading line comment verbatim. */
+  const lead = source.split('\n')[0] ?? '';
+  if (lead.startsWith('//') && !out.startsWith(lead)) out = `${lead}\n${out}`;
+
+  if (sawReducedProvider) {
+    /* Strip the provider's two tag lines and dedent its children one level. */
+    for (let round = 0; round < 20; round += 1) {
+      const lines = out.split('\n');
+      const openAt = lines.findIndex((l) => /<ReducedMotionProvider[\s>]/.test(l));
+      if (openAt < 0) break;
+      const closeAt = lines.findIndex((l, i) => i > openAt && /<\/ReducedMotionProvider>/.test(l));
+      if (closeAt < 0) break;
+      const openIndent = /^(\s*)/.exec(lines[openAt]!)?.[1] ?? '';
+      const inner = lines.slice(openAt + 1, closeAt).map((l) => {
+        const m = /^(\s*)/.exec(l);
+        return m && (m[1] ?? '').startsWith(`${openIndent}  `) ? l.slice(2) : l;
+      });
+      out = [...lines.slice(0, openAt), ...inner, ...lines.slice(closeAt + 1)].join('\n');
+    }
   }
+
+  let tokenRewrites = 0;
   out = out.replace(/\bANIMATION\.DURATION\.(\w+)/g, (m: any, k: string) => {
     const to = DURATION_MAP[k];
     if (to) {
+      tokenRewrites += 1;
       changes.push({ transform: 'motion-imports', description: `ANIMATION.DURATION.${k} -> motionTokens.duration.${to}` });
       return `motionTokens.duration.${to}`;
     }
     todos.push({ transform: 'motion-imports', reason: `unmapped ANIMATION.DURATION.${k}`, doc: DOC });
     return m;
-  }).replace(/\b(ANIMATION\.EASE|easing)\.(bounce|elastic|spring|springy)\b/g, () => {
-    changes.push({ transform: 'motion-imports', description: 'bounce/elastic easing -> ease.standard' });
-    todos.push({ transform: 'motion-imports', reason: 'bounce/elastic easing has no 5.x equivalent — using ease.standard', doc: DOC });
-    return 'ease.standard';
-  }).replace(/\bANIMATION\.EASE\.(\w+)/g, (m: any, k: string) => {
-    if (EASE_TODOS.has(k)) return m;
-    changes.push({ transform: 'motion-imports', description: `ANIMATION.EASE.${k} -> ease.${k}` });
-    return `ease.${k}`;
   });
+
+  /* bounce/elastic easings: rewrite and leave the guidance as comment lines
+     directly above the line that used them. */
+  {
+    const lines = out.split('\n');
+    const next: string[] = [];
+    for (const line of lines) {
+      const names = [...line.matchAll(/\b(?:ANIMATION\.EAS(?:E|ING)|easing)\.(bounce|elastic|spring|springy)\b/g)].map((m) => m[1]!);
+      if (names.length) {
+        const indent = /^[ \t]*/.exec(line)?.[0] ?? '';
+        for (const name of [...new Set(names)]) {
+          next.push(`${indent}// TODO(aura-glass 5): ${name} easing has no 5.x token — mapped to ease.standard,`);
+          next.push(`${indent}// re-time against motionTokens, see ${DOC}`);
+          changes.push({ transform: 'motion-imports', description: `${name} easing -> motionTokens.ease.standard` });
+          todos.push({ transform: 'motion-imports', reason: `${name} easing has no 5.x equivalent — using ease.standard`, doc: DOC });
+        }
+        tokenRewrites += names.length;
+        next.push(line.replace(/\b(?:ANIMATION\.EAS(?:E|ING)|easing)\.(?:bounce|elastic|spring|springy)\b/g, 'motionTokens.ease.standard'));
+      } else {
+        next.push(line);
+      }
+    }
+    out = next.join('\n');
+  }
+  out = out.replace(/\bANIMATION\.EAS(?:E|ING)\.(\w+)/g, (m: any, k: string) => {
+    if (EASE_TODOS.has(k)) return m;
+    tokenRewrites += 1;
+    changes.push({ transform: 'motion-imports', description: `ANIMATION.EASING.${k} -> motionTokens.ease.${k}` });
+    return `motionTokens.ease.${k}`;
+  });
+
+  /* Token rewrites moved the values under motionTokens: retarget the import
+     when no ANIMATION.* reference remains. */
+  if (tokenRewrites > 0 && !/\bANIMATION\./.test(out)) {
+    out = out.replace(
+      /import \{ ANIMATION \} from (["'])aura-glass\/tokens\1;/,
+      (_m: string, q: string) => `import { motionTokens } from ${q}aura-glass/motion/tokens${q};`,
+    );
+  }
 
   return { source: out, changes, todos };
 }

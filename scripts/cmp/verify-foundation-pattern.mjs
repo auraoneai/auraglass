@@ -144,7 +144,12 @@ function checkNoSkip(file) {
 function checkImportant(file, hasMetaDir) {
   const r = rel(file);
   if (!r.endsWith('.css') || !hasMetaDir || isFixture(r)) return;
-  const text = fs.readFileSync(file, 'utf8');
+  /* Strip comments first (newlines preserved, so line numbers hold): the
+     a11y-pairing header template literally reads "win without !important",
+     which is prose about the rule, not a declaration. verify-css-files
+     already checks the comment-stripped body the same way. */
+  const text = fs.readFileSync(file, 'utf8')
+    .replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '));
   const re = /!important/g;
   let m;
   while ((m = re.exec(text))) {

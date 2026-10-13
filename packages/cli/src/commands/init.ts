@@ -105,7 +105,10 @@ function buildPlan(cwd: string, project: ProjectInfo): Plan {
     if (css) {
       const abs = path.join(cwd, css);
       const existing = fs.existsSync(abs) ? fs.readFileSync(abs, 'utf8') : null;
-      const merged = mergeGlobalsCss(existing);
+      /* REQ-PLAT-86: Vite imports aura-glass/styles.css exactly ONCE, from
+         src/main.tsx — the CSS merge adds only the layer statement (and the
+         tailwind.css import after an existing tailwindcss import). */
+      const merged = mergeGlobalsCss(existing, { stylesImport: false });
       if (merged !== existing) writes.push({ path: css, content: merged });
     }
   } else if (project.framework === 'next-pages') {
@@ -126,6 +129,12 @@ export async function initCommand(args: string[], flags: Record<string, string |
   const { writes, notes } = buildPlan(cwd, project);
   const install = installCommand(project.packageManager, ['aura-glass@^5.0.0']);
   const noInstall = Boolean(flags['no-install']);
+  /* Already declared (any spec — a registry range, or the file:/workspace:
+     tarball the registry render gate installs before running init): never
+     reinstall. `npm install aura-glass@^5.0.0` would clobber a local spec
+     and fails ETARGET while the 5.0.0 line is unpublished. */
+  const alreadyDeclared = project.hasAura;
+  const skipInstall = noInstall || alreadyDeclared;
 
   if (flags['dry-run']) {
     const diffs = writes.map((w) => {
@@ -133,7 +142,7 @@ export async function initCommand(args: string[], flags: Record<string, string |
       const before = fs.existsSync(abs) ? fs.readFileSync(abs, 'utf8') : '';
       return { path: w.path, diff: unifiedDiff(w.path, before, w.content) };
     });
-    if (out.json) printJson({ version: 1, project, diffs, install: noInstall ? null : install, notes });
+    if (out.json) printJson({ version: 1, project, diffs, install: skipInstall ? null : install, notes });
     else for (const d of diffs) { if (!out.silent) process.stdout.write(`${d.diff}\n`); }
     return EXIT.ok;
   }
@@ -151,14 +160,18 @@ export async function initCommand(args: string[], flags: Record<string, string |
   });
 
   for (const w of writes) writeProjectFile(cwd, w.path, w.content);
-  if (!noInstall) runInstall(cwd, install);
+  if (!skipInstall) runInstall(cwd, install);
 
-  if (out.json) printJson({ version: 1, written: writes.map((w) => w.path), project, install: noInstall ? null : install });
+  if (out.json) printJson({ version: 1, written: writes.map((w) => w.path), project, install: skipInstall ? null : install });
   else {
     status(out, 'pass', `initialized aura-glass (${project.framework})`);
     for (const w of writes) status(out, 'info', `wrote ${w.path}`);
     for (const n of notes) status(out, 'info', n);
-    status(out, 'info', noInstall ? `install: skipped (--no-install) — run: ${install}` : `install: ${install}`);
+    status(out, 'info', noInstall
+      ? `install: skipped (--no-install) — run: ${install}`
+      : alreadyDeclared
+        ? 'install: skipped (aura-glass already declared in package.json)'
+        : `install: ${install}`);
   }
   return EXIT.ok;
 }

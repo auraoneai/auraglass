@@ -302,7 +302,7 @@ const w4 = [
     symbol: 'GlassLazyImage',
     since: '4.2.0',
     removeIn: '5.0.0',
-    replacement: 'native img loading="lazy"',
+    replacement: null,
     codemod: 'removed',
     automation: 'mostly',
     breaking: 'B3',
@@ -414,12 +414,12 @@ const w4 = [
     symbol: 'ParticleBackground',
     since: '4.2.0',
     removeIn: '5.0.0',
-    replacement: 'the labs ParticleField (seeded PRNG)',
+    replacement: 'labs:ParticleField',
     codemod: 'removed',
     automation: 'mostly',
     breaking: 'B3',
     message:
-      'ParticleBackground is removed in 5.0; the labs ParticleField (seeded PRNG).',
+      'ParticleBackground is removed in 5.0; use labs:ParticleField (seeded PRNG).',
     doc: '#dep-s0624',
   },
   {
@@ -430,12 +430,12 @@ const w4 = [
     symbol: 'GlassParticles',
     since: '4.2.0',
     removeIn: '5.0.0',
-    replacement: 'the labs ParticleField (seeded PRNG)',
+    replacement: 'labs:ParticleField',
     codemod: 'removed',
     automation: 'mostly',
     breaking: 'B3',
     message:
-      'GlassParticles is removed in 5.0; the labs ParticleField (seeded PRNG).',
+      'GlassParticles is removed in 5.0; use labs:ParticleField (seeded PRNG).',
     doc: '#dep-s0625',
   },
   {
@@ -446,12 +446,12 @@ const w4 = [
     symbol: 'GlassParticleField',
     since: '4.2.0',
     removeIn: '5.0.0',
-    replacement: 'the labs ParticleField (seeded PRNG)',
+    replacement: 'labs:ParticleField',
     codemod: 'removed',
     automation: 'mostly',
     breaking: 'B3',
     message:
-      'GlassParticleField is removed in 5.0; the labs ParticleField (seeded PRNG).',
+      'GlassParticleField is removed in 5.0; use labs:ParticleField (seeded PRNG).',
     doc: '#dep-s0626',
   },
   {
@@ -554,11 +554,13 @@ const w4 = [
 // --- lane W4 end ---
 
 // --- lane SURF-34 begin ---
-// REQ-SURF-34: GlassNavigation / GlassTopBar / GlassHeader each have exactly one
-// row — DEP-S0029, DEP-S0003 and DEP-S0002 (removeIn 5.0.0 per REQ-SURF-12; the
+// REQ-SURF-34: the 4.x navigation/top-bar names TopBar absorbs (GlassNavigation,
+// GlassTopBar, GlassHeader) each have exactly one row — DEP-S0029, DEP-S0003 and
+// DEP-S0002 in the app-shell/W1 blocks (removeIn 5.0.0 per REQ-SURF-12; the
 // GlassTopBar/GlassHeader adapters warn with those ids). The duplicate rows
 // DEP-S0633..S0635 (removeIn 6.0.0, and a compat 'GlassNavigation' that no
-// adapter exports) are withdrawn; tests/deprecations/surf-symbols.test.ts guards it.
+// adapter exports) are withdrawn; tests/deprecations/surf-symbols.test.ts guards
+// it. Never re-add a second row for a symbol that already has one.
 const surf34: readonly DeprecationFragment[number][] = [];
 // --- lane SURF-34 end ---
 
@@ -1930,7 +1932,7 @@ const integratedReleaseRows = [
     symbol: 'GlassChat',
     since: '4.2.0',
     removeIn: '5.0.0',
-    replacement: 'Thread',
+    replacement: 'Thread + Composer from aura-glass/ai',
     codemod: 'ai-chat',
     automation: 'partial',
     breaking: 'B4',
@@ -2308,7 +2310,7 @@ const integratedReleaseRows = [
     automation: 'mostly',
     breaking: 'B3',
     message:
-      'GlassCommentThread is removed in 5.0; use registry:comment-thread (5.1), the single comment surface consolidated from the 4.x duplicates.',
+      'GlassCommentThread is removed in 5.0; use the comment-thread registry item (registry:comment-thread, 5.1), the single comment surface consolidated from the 4.x duplicates.',
     doc: '#dep-s0803',
   },
   {
@@ -2324,7 +2326,7 @@ const integratedReleaseRows = [
     automation: 'manual',
     breaking: 'B3',
     message:
-      'GlassSmartShoppingCart is removed in 5.0; use registry:commerce-cart (5.1), a controlled cart UI that holds no discounts, tax or currency logic.',
+      'GlassSmartShoppingCart is removed in 5.0; use the commerce-cart registry block (registry:commerce-cart, 5.1) — controlled cart UI that holds no discounts, tax or currency logic.',
     doc: '#dep-s0804',
   },
   {
@@ -2372,7 +2374,7 @@ const integratedReleaseRows = [
     automation: 'mostly',
     breaking: 'B3',
     message:
-      'GlassTeamCursors is removed in 5.0; use registry:presence-stack (5.1); it only drew three fake cursors with no data input.',
+      'GlassTeamCursors is removed in 5.0; use the presence-stack registry item (registry:presence-stack, 5.1) — it only drew three fake cursors with no data input.',
     doc: '#dep-s0807',
   },
   {
@@ -2388,7 +2390,7 @@ const integratedReleaseRows = [
     automation: 'mostly',
     breaking: 'B3',
     message:
-      'GlassTeamCursorsWithEffects is removed in 5.0; use registry:presence-stack (5.1); the effect variant layered static circles on fake cursors.',
+      'GlassTeamCursorsWithEffects is removed in 5.0; use the presence-stack registry item (registry:presence-stack, 5.1) — the effect variant layered static circles on fake cursors.',
     doc: '#dep-s0808',
   },
   {
@@ -2404,7 +2406,7 @@ const integratedReleaseRows = [
     automation: 'partial',
     breaking: 'B3',
     message:
-      'GlassCollaborativeComments is removed in 5.0; use registry:comment-thread (5.1); spatial pins become an anchored-popover primitive.',
+      'GlassCollaborativeComments is removed in 5.0; use the comment-thread registry item (registry:comment-thread, 5.1) — spatial pins become an anchored-popover primitive.',
     doc: '#dep-s0809',
   },
   {
@@ -2420,7 +2422,7 @@ const integratedReleaseRows = [
     automation: 'mostly',
     breaking: 'B3',
     message:
-      'GlassUserPresence is removed in 5.0; use registry:presence-stack (5.1); deterministic ids replace its random presence colours.',
+      'GlassUserPresence is removed in 5.0; use the presence-stack registry item (registry:presence-stack, 5.1) — deterministic ids replace its random presence colours.',
     doc: '#dep-s0810',
   },
   {
@@ -2436,7 +2438,7 @@ const integratedReleaseRows = [
     automation: 'mostly',
     breaking: 'B3',
     message:
-      'GlassPresenceIndicator is removed in 5.0; use registry:presence-stack (5.1).',
+      'GlassPresenceIndicator is removed in 5.0; use the presence-stack registry item (registry:presence-stack, 5.1).',
     doc: '#dep-s0811',
   },
   {
@@ -2452,7 +2454,7 @@ const integratedReleaseRows = [
     automation: 'partial',
     breaking: 'B3',
     message:
-      'GlassLiveCursorPresence is removed in 5.0; render live cursors from your own presence channel through registry:presence-stack (5.1).',
+      'GlassLiveCursorPresence is removed in 5.0; render live cursors from your own presence channel through the presence-stack registry item (registry:presence-stack, 5.1).',
     doc: '#dep-s0812',
   },
   {
@@ -2468,9 +2470,15 @@ const integratedReleaseRows = [
     automation: 'partial',
     breaking: 'B3',
     message:
-      'GlassCollaborativeCursor is removed in 5.0; render live cursors from your own presence channel through registry:presence-stack (5.1).',
+      'GlassCollaborativeCursor is removed in 5.0; render live cursors from your own presence channel through the presence-stack registry item (registry:presence-stack, 5.1).',
     doc: '#dep-s0813',
   },
+  /* REQ-PLAT-80: deprecation entries for the removed/registry/labs names the
+     coverage baseline carried (replacements from component-dispositions.md). */
+  { id: 'DEP-S0814', kind: 'export', status: 'planned', entry: '.', symbol: 'GlassMindMap', since: '4.2.0', removeIn: '5.0.0', replacement: 'labs:MindMap', codemod: 'removed', automation: 'mostly', breaking: 'B3', message: 'GlassMindMap is removed in 5.0; use labs:MindMap from aura-glass-labs.', doc: '#dep-s0814' },
+  { id: 'DEP-S0815', kind: 'export', status: 'planned', entry: '.', symbol: 'GlassParallaxLayers', since: '4.2.0', removeIn: '5.0.0', replacement: 'labs:ParallaxLayers', codemod: 'removed', automation: 'mostly', breaking: 'B3', message: 'GlassParallaxLayers is removed in 5.0; use labs:ParallaxLayers from aura-glass-labs.', doc: '#dep-s0815' },
+  { id: 'DEP-S0816', kind: 'export', status: 'planned', entry: '.', symbol: 'GlassSpatialAudio', since: '4.2.0', removeIn: '5.0.0', replacement: 'labs:useGlassSound', codemod: 'removed', automation: 'mostly', breaking: 'B3', message: 'GlassSpatialAudio is removed in 5.0; use labs:useGlassSound from aura-glass-labs.', doc: '#dep-s0816' },
+  { id: 'DEP-S0817', kind: 'export', status: 'planned', entry: '.', symbol: 'GlassTimelineRail', since: '4.2.0', removeIn: '5.0.0', replacement: 'Timeline', codemod: 'removed', automation: 'mostly', breaking: 'B3', message: 'GlassTimelineRail is removed in 5.0; use Timeline.', doc: '#dep-s0817' },
 ] as const;
 
 export default [...w4, ...surf34, ...surf47, ...integratedReleaseRows] satisfies DeprecationFragment;

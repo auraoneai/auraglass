@@ -69,7 +69,6 @@ function Thumb({ dragging, getAriaValueText, ...rest }: {
     <BaseSlider.Thumb
       {...transient}
       data-ag-part="thumb"
-      className="ag-media-scrubber-thumb"
       aria-label={rest['aria-label']}
       {...(getAriaValueText ? { getAriaValueText } : {})}
       {...(bindings.tabIndex !== undefined ? { tabIndex: bindings.tabIndex } : {})}

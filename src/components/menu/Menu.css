@@ -108,6 +108,10 @@
   }
   .ag-menu-item-label { grid-column: 2; }
   .ag-menu-item-indicator { grid-column: 1; display: inline-flex; }
+  /* Exported checkbox/radio item indicators occupy the same grid slot. */
+  .ag-menu-indicator { grid-column: 1; display: inline-flex; }
+  .ag-menu-group { display: block; }
+  .ag-menu-item-link { text-decoration: none; }
   .ag-menu-shortcut,
   .ag-menu-submenu-indicator { grid-column: 3; justify-self: end; }
   .ag-menu-shortcut {

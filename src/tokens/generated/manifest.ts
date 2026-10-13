@@ -333,7 +333,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 40
+     "count": 44
     }
    ],
    "value": "oklch(0.26 0.016 250)"
@@ -352,7 +352,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 21
+     "count": 24
     }
    ],
    "value": "oklch(0.34 0.019 250)"
@@ -574,7 +574,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 113
+     "count": 116
     }
    ],
    "value": "oklch(0.26 0.016 250)"
@@ -593,7 +593,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 54
+     "count": 57
     }
    ],
    "value": "oklch(0.34 0.019 250)"
@@ -912,7 +912,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 9
+     "count": 10
     }
    ],
    "value": "450ms"
@@ -1360,7 +1360,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 144
+     "count": 146
     }
    ],
    "value": "calc(4px * var(--_ag-density))"
@@ -1424,7 +1424,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 174
+     "count": 175
     }
    ],
    "value": "calc(8px * var(--_ag-density))"
@@ -1440,7 +1440,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 75
+     "count": 76
     }
    ],
    "value": "calc(12px * var(--_ag-density))"
@@ -1456,7 +1456,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 87
+     "count": 88
     }
    ],
    "value": "calc(16px * var(--_ag-density))"
@@ -1740,7 +1740,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 32
+     "count": 33
     }
    ],
    "value": "clamp(12px, calc(12px + (1) * ((100vw - 320px) / 1120)), 13px)"
@@ -1820,7 +1820,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 16
+     "count": 17
     }
    ],
    "value": "1.35"
@@ -1836,7 +1836,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 18
+     "count": 19
     }
    ],
    "value": "clamp(13px, calc(13px + (1) * ((100vw - 320px) / 1120)), 14px)"
@@ -1852,7 +1852,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 23
+     "count": 25
     }
    ],
    "value": "600"

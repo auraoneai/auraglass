@@ -1,0 +1,13 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Label (CMP-030): the standalone primitive carries the label typography
+   tokens; inside a Field the scoped [data-ag-part='label'] rule in
+   Field.css declares the same values and wins on specificity. */
+@layer ag.components {
+  .ag-label {
+    font-size: var(--ag-type-label-size);
+    font-weight: var(--ag-type-label-weight);
+    line-height: var(--ag-type-label-leading);
+    color: var(--ag-on-surface);
+  }
+}

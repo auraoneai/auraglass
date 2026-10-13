@@ -47,7 +47,7 @@ describe('token schema (MAT-006)', () => {
     /^tokens\/modes\/(scheme|contrast|transparency|density)\.tokens\.json$/,
     /^tokens\/presets\/[a-z0-9-]+\.tokens\.json$/,
     /^tokens\/contrast\/(busy-reference\.json|contrast-matrix\.tokens\.json)$/,
-    /^tokens\/legacy\/(4x-rendered\.tokens\.json|4x-primitives\.css|4x-reader-set\.json)$/,
+    /^tokens\/legacy\/(4x-rendered\.tokens\.json|4x-primitives\.css|4x-reader-set\.json|4x-glass-source\.json)$/,
     /^tokens\/comp\/(README\.md|[a-z0-9-]+\.tokens\.json)$/,
     /^tokens\/compat-alias-map\.json$/,
     /^tokens\/generated\/(compat-alias-map|opacity-floors|persona-preset-map)\.json$/,

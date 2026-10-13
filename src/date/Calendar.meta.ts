@@ -9,6 +9,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['calendar', 'calendar-grid', 'calendar-weekno-header', 'calendar-weekno'],
   states: ['selected', 'today', 'outside-month', 'unavailable', 'disabled'],
+  material: { layer: 'content', refractionEligible: false },
   variants: {},
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/',
   budgetKb: 4,

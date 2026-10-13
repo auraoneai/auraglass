@@ -9,6 +9,7 @@
     display: grid;
     gap: var(--ag-space-2);
   }
+  .ag-kv-editor-item { display: block; }
   .ag-kv-editor-row {
     display: grid;
     grid-template-columns: 1fr 1fr auto;

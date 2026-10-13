@@ -19,13 +19,15 @@ function repo() {
   git('config', 'user.email', 'fixture@example.invalid');
   git('config', 'user.name', 'fixture');
   git('config', 'commit.gpgsign', 'false');
-  for (const p of ['scripts/surf', 'docs/auraglass-5', 'src/contracts', 'src/ai/thread']) mkdirSync(join(dir, p), { recursive: true });
+  for (const p of ['scripts/surf', 'docs/auraglass-5', 'src/contracts', 'src/ai/thread', 'src/compat']) mkdirSync(join(dir, p), { recursive: true });
   copyFileSync(join(ROOT, 'scripts/surf/verify-capability-ledger.mjs'), join(dir, 'scripts/surf/verify-capability-ledger.mjs'));
   copyFileSync(join(ROOT, 'docs/auraglass-5/capability-ledger.json'), join(dir, 'docs/auraglass-5/capability-ledger.json'));
   copyFileSync(join(ROOT, 'docs/auraglass-5/capability-ledger.schema.json'), join(dir, 'docs/auraglass-5/capability-ledger.schema.json'));
   writeFileSync(join(dir, 'package.json'), JSON.stringify({ name: 'aura-glass', version: '5.0.0' }));
   // The ledger's stories[] ids are re-checked against CSF files in the repo.
-  for (const f of ['src/data/table/Table.stories.tsx', 'src/media/MediaScrubber.stories.tsx', 'src/media/ImageViewer.stories.tsx']) {
+  for (const f of ['src/data/table/Table.stories.tsx', 'src/data/filter-bar/FilterBar.stories.tsx',
+    'registry/items/query-builder/QueryBuilder.stories.tsx', 'src/media/MediaScrubber.stories.tsx',
+    'src/media/ImageViewer.stories.tsx', 'src/media/MediaControls.stories.tsx']) {
     mkdirSync(join(dir, f, '..'), { recursive: true });
     copyFileSync(join(ROOT, f), join(dir, f));
   }
@@ -33,8 +35,10 @@ function repo() {
     "export const ENTRIES = [",
     "  { subpath: '.', source: 'src/index.ts', owner: 'PLAT', ga: '5.0', exports: [] },",
     "  { subpath: './ai', source: 'src/ai/index.ts', owner: 'SURF', ga: '5.0', exports: ['Thread'] },",
+    "  { subpath: './compat', source: 'src/compat/index.ts', owner: 'PLAT', ga: '5.0', exports: ['@union of src/compat/<stream>/index.ts'] },",
     "];",
   ].join('\n'));
+  writeFileSync(join(dir, 'src/compat/index.ts'), 'export const GlassLegacy = 1;\n');
   writeFileSync(join(dir, 'src/index.ts'), "export const Command = 1;\nexport type Ignored = string;\n");
   writeFileSync(join(dir, 'src/ai/thread/Thread.tsx'), 'export function Thread() { return null; }\n');
   writeFileSync(join(dir, 'src/ai/index.ts'), "export * from './thread/Thread';\nexport { Message } from './message';\n");
@@ -69,6 +73,16 @@ describe('--diff derives export snapshots from the entry barrels', () => {
     const r = run(dir, base);
     expect(r.status).toBe(1);
     expect(r.stderr).toContain('export GhostPanel (./ai) added without a ledger row');
+  });
+  it('an added ./compat adapter needs no ledger row (REQ-PLAT-30 owns compat coverage)', () => {
+    const { dir, git, base } = repo();
+    writeFileSync(join(dir, 'src/compat/index.ts'), 'export const GlassLegacy = 1;\nexport const GlassNewAdapter = 1;\n');
+    git('commit', '-q', '-am', 'add GlassNewAdapter compat export');
+    const r = run(dir, base);
+    expect(`${r.stdout}${r.stderr}`).toContain('capability-ledger: ok');
+    expect(r.status).toBe(0);
+    const ev = JSON.parse(readFileSync(join(dir, '.artifacts/surf/ledger/diff.json'), 'utf8'));
+    expect(ev.exportsAdded).toEqual([]);
   });
   it('an added export that is a ledger name passes', () => {
     const { dir, git, base } = repo();

@@ -81,7 +81,6 @@ describe('verify-a11y-manual.mjs', () => {
   });
 
   it('the verifier and the aggregator read the contract schema (C-16)', async () => {
-    // @ts-ignore mjs module
     const v = await import('../../../../scripts/mat/verify-a11y-manual.mjs');
     expect(v.SCHEMA_PATH.replace(/\\/g, '/')).toMatch(/\/contracts\/schemas\/sr-record\.schema\.json$/);
     const agg = readFileSync('tests/a11y/manual/aggregate.mjs', 'utf8');

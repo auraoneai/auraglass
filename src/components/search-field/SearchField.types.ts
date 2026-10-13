@@ -28,10 +28,13 @@ export interface SearchFieldProps {
   startAdornment?: ReactNode;
   /** Trailing content inside the shell, before the clear button (adornment-end part). */
   endAdornment?: ReactNode;
+  /** Maximum number of characters allowed. */
   maxLength?: number;
   /** Render the counter part (current/maxLength). */
   showCount?: boolean;
+  /** Custom validation function. */
   validate?: import('../field/Field.types').FieldValidate;
+  /** When validation runs. */
   validationMode?: import('../field/Field.types').FieldValidationMode;
   /** Control size. */
   size?: ControlSize;

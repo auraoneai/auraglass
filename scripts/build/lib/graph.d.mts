@@ -25,4 +25,6 @@ export function seamReexportTarget(file: string): string | null;
 export function distChunkStem(name: string): string;
 export const PATTERN_EXPORTS: Record<string, { subpath: string; cond: { types: string; default: string }; sourceDir: string }>;
 export function patternEntries(keep: ManifestEntry[], root?: string): (ManifestEntry & { types: string; default: string; pattern: string })[];
+export const INTERNAL_COMPOSITION_MODULES: string[];
+export function internalCompositionEntries(keep: ManifestEntry[], root?: string): { source: string; internal: true }[];
 export function buildableEntries(root?: string): { keep: ManifestEntry[]; pending: PendingEntry[] };

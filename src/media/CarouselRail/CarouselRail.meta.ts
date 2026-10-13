@@ -9,6 +9,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['backdrop-content', 'backdrop-layer', 'carousel', 'carousel-autoplay-toggle', 'carousel-indicator', 'carousel-indicators', 'carousel-next', 'carousel-prev', 'carousel-slide', 'carousel-viewport', 'hit-area'],
   states: ['playing', 'stopped', 'offscreen'],
+  material: { layer: 'content', refractionEligible: false },
   variants: { indicators: ['tabs', 'buttons'] },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/carousel/',
   budgetKb: 10,  // §16 perf row: perf/media-playback + SURF-487 carousel lane; APG: tests/e2e/apg/carousel-rail.apg.spec.ts; fixtures: fragments/codemods/surf/fixtures/media-backdrops/carousel-autoplay/

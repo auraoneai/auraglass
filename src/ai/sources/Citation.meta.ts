@@ -9,6 +9,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['citation', 'citation-preview', 'citation-preview-host', 'citation-preview-kind', 'citation-preview-positioner', 'citation-preview-snippet', 'citation-preview-title'],
   states: [],
+  material: { layer: 'content', refractionEligible: false },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/link/',
   variants: {},
   budgetKb: 9,

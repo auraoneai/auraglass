@@ -2,5 +2,5 @@
 import { GlassInspector } from 'aura-glass';
 
 export function Example() {
-  return <GlassInspector />;
+  return <GlassInspector {...v} />;
 }

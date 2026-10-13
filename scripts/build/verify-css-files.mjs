@@ -49,7 +49,7 @@ if (!stmtMatch) { console.error('verify-css-files: could not read LAYER_ORDER_ST
 const LAYER_ORDER_STATEMENT = stmtMatch[1];
 
 /* fragment rows from fragments/css/<stream>.ts — simple object literals. */
-const ROW_RE = /\{\s*file:\s*'([^']+)'\s*,\s*layer:\s*'([^']+)'\s*,\s*bundle:\s*'([^']+)'(?:\s*,\s*order:\s*(\d+))?\s*\}/g;
+const ROW_RE = /\{\s*file:\s*'([^']+)'\s*,\s*layer:\s*'([^']+)'\s*,\s*bundle:\s*'([^']+)'(?:\s*,\s*order:\s*(\d+))?(?:\s*,\s*a11y:\s*'none')?\s*\}/g;
 function fragmentRows(rootDir = ROOT) {
   const dir = path.join(rootDir, 'fragments', 'css');
   const rows = [];

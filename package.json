@@ -130,8 +130,8 @@
     "prepack": "node scripts/release/gen-deprecations.mjs",
     "gen:deprecations": "node scripts/release/gen-deprecations.mjs",
     "prepublishOnly": "node scripts/ci/require-ci-publish.js && npm run prepublish:verify",
-    "artifact:publint": "publint",
-    "artifact:attw": "attw --pack .",
+    "artifact:publint": "publint --strict",
+    "artifact:attw": "attw --pack . --profile esm-only",
     "prestorybook:build": "npm run tokens:build",
     "storybook:build": "storybook build -o storybook-static && node --experimental-strip-types scripts/storybook/write-cert-manifest.mjs --dir storybook-static",
     "docs:build": "node scripts/docs/gen-llms.mjs && node scripts/docs/install-pack.mjs && node scripts/docs/prepare-docs-app.mjs && node scripts/release/gen-deprecations.mjs --docs && npm run build -w apps/docs && node scripts/docs/verify-docs-out.mjs",
@@ -167,6 +167,8 @@
     "@internationalized/date": "^3.12.4",
     "@react-three/drei": "^10.0.0",
     "@react-three/fiber": "^9.0.0",
+    "d3-scale": "^4.0.2",
+    "d3-shape": "^3.2.0",
     "motion": "^12.0.0",
     "react": "^19.0.0",
     "react-aria-components": "^1.21.1",
@@ -199,6 +201,12 @@
     },
     "tailwindcss": {
       "optional": true
+    },
+    "d3-scale": {
+      "optional": true
+    },
+    "d3-shape": {
+      "optional": true
     }
   },
   "devDependencies": {
@@ -222,6 +230,8 @@
     "@tailwindcss/node": "4.3.3",
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3",
+    "@types/d3-scale": "4.0.9",
+    "@types/d3-shape": "3.1.7",
     "@types/node": "26.6.4",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
@@ -229,6 +239,8 @@
     "ai": "5.0.29",
     "babel-jest": "30.5.2",
     "babel-plugin-react-compiler": "1.0.0",
+    "d3-scale": "4.0.2",
+    "d3-shape": "3.2.0",
     "esbuild": "0.28.2",
     "eslint": "9.39.5",
     "eslint-plugin-react-hooks": "7.1.1",

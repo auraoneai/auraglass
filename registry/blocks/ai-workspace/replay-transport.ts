@@ -105,7 +105,18 @@ export function createReplayTransport(
             controller.close();
             return;
           }
-          if (delayMs > 0) await new Promise((resolve) => setTimeout(resolve, delayMs));
+          if (delayMs > 0) {
+            // REQ-SURF-05: the pacing timer is cleared when the consumer aborts.
+            await new Promise<void>((resolve) => {
+              const t = setTimeout(resolve, delayMs);
+              abortSignal?.addEventListener('abort', () => { clearTimeout(t); resolve(); }, { once: true });
+            });
+            if (abortSignal?.aborted) {
+              controller.enqueue({ type: 'abort' });
+              controller.close();
+              return;
+            }
+          }
           controller.enqueue(chunks[i]!);
           i += 1;
         },

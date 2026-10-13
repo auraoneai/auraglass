@@ -102,6 +102,15 @@
     --_ag-refraction-scale: inherit;
     --ag-specular: inherit;
   }
+  /* Consumer styling hook (S-02 SURFACE_CLASS): Surface/SurfaceGroup add the
+     class alongside [data-ag-surface]; no material behavior keys on it. The
+     rule only restates the host positioning contract at zero specificity so
+     the hook resolves in the shipped bundle (REQ-PLAT-74) without changing
+     any cascade outcome. */
+  :where(.ag-surface) {
+    position: relative;
+    isolation: isolate;
+  }
   /* Layer 1 + 2 (MAT §4.3): backdrop optics, dim, grain, Fresnel band and
      sheen. Each optic is its own background layer, in this order:
        1. dim (clear over bright)

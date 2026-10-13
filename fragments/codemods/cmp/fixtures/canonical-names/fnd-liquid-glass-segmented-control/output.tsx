@@ -2,5 +2,5 @@
 import { SegmentedControl } from 'aura-glass';
 
 export function X() {
-  return <SegmentedControl.Root aria-label="Options" value={v}>{opts.map(renderOpt)}</SegmentedControl.Root>;
+  return <SegmentedControl.Root aria-label="Options" value={v} name={v}>{opts.map(renderOpt)}</SegmentedControl.Root>;
 }

@@ -12,6 +12,7 @@ export default defineMeta({
 
   material: { layer: 'overlay', refractionEligible: false },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/',
+  budgetKb: 10,
   variants: {},
-  migration: [{ from: 'GlassCommandPalette', props: { open: 'open', hotkey: 'hotkey' }, automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassCommandPalette', props: { open: 'open', hotkey: 'hotkey' }, selectors: { '.glass-command-palette': '[data-ag-part="command-palette"]' }, automation: 'mostly', compat: true }],
 });

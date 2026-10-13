@@ -304,13 +304,13 @@
   /* reduced motion: opacity only, no zoom transition */
   [data-ag-motion='calm'] .ag-image-viewer-stage img { transition: opacity var(--ag-duration-micro); }
   [data-ag-motion='none'] .ag-image-viewer-stage img { transition: none; }
-  .ag-image-viewer-toolbar, [data-ag-part='image-viewer-caption'] {
+  .ag-image-viewer-toolbar, .ag-image-viewer-caption {
     position: absolute; inset-inline-start: 50%; transform: translateX(-50%);
     display: flex; align-items: center; justify-content: center; gap: var(--ag-space-1, 0.25rem);
     padding: var(--ag-space-1, 0.25rem);
   }
   .ag-image-viewer-toolbar { inset-block-start: var(--ag-space-4, 1rem); }
-  [data-ag-part='image-viewer-caption'] {
+  .ag-image-viewer-caption {
     inset-block-end: var(--ag-space-4, 1rem);
     margin: 0;
     max-inline-size: min(calc(var(--ag-space-16, 4rem) * 10), calc(100% - 2 * var(--ag-space-6, 1.5rem)));

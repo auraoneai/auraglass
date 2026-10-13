@@ -2,5 +2,5 @@
 import { RadioGroup } from 'aura-glass';
 
 export function X() {
-  return <RadioGroup value={v} onValueChange={setV}>{opts.map(renderOpt)}</RadioGroup>;
+  return <RadioGroup.Root value={v} onValueChange={setV}>{opts.map(renderOpt)}</RadioGroup.Root>;
 }

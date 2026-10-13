@@ -1,0 +1,32 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Select.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  @media (prefers-reduced-motion: reduce) {
+    .ag-select-popup,
+    .ag-select-popup[data-starting-style],
+    .ag-select-popup[data-ending-style] {
+      scale: 1;
+      transition-property: opacity;
+    }
+    .ag-select [data-ag-part='icon'] {
+      transition: none;
+    }
+  }
+  @media (forced-colors: active) {
+    .ag-select {
+      border: var(--ag-focus-width) solid ButtonText;
+      box-shadow: none;
+    }
+    .ag-select-popup {
+      border: var(--ag-focus-width) solid ButtonText;
+      background: Canvas;
+    }
+    .ag-select-item[data-highlighted] {
+      background: Highlight;
+      color: HighlightText;
+    }
+  }
+}

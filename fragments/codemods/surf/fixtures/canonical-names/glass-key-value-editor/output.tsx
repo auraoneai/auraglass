@@ -2,5 +2,5 @@
 import { KeyValueEditor } from 'aura-glass/data';
 
 export function Example() {
-  return <KeyValueEditor />;
+  return <KeyValueEditor {...v} />;
 }

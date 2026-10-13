@@ -2,5 +2,5 @@
 import { GlassInput } from 'aura-glass';
 
 export function X() {
-  return <GlassInput value={name} onChange={(e) => setName(e.target.value)} errorText={err} />;
+  return <GlassInput value={name} onChange={(e: any) => setName(e.target.value)} errorText={err} />;
 }

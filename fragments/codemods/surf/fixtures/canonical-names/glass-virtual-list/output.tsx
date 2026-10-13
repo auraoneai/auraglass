@@ -3,5 +3,5 @@
 import { GlassVirtualList } from 'aura-glass/compat';
 
 export function Example() {
-  return <GlassVirtualList />;
+  return <GlassVirtualList items={v} height={v} />;
 }

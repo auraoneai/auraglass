@@ -6,6 +6,7 @@
    onSplitChange(percentage) ← onLayout(layout)[0]. The app-shell
    GlassSplitPane (ratio/direction grid) is REMOVE in PRD-4 §9 and gets no
    adapter. */
+'use client';
 import * as React from 'react';
 import { warnDeprecated } from '../../../internal';
 import { ResizablePanels } from '../../../app-shell/ResizablePanels';

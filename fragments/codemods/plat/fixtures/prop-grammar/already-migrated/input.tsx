@@ -1,2 +1,2 @@
 import { AuraGlassProvider } from 'aura-glass/theme';
-export const x = <AuraGlassProvider theme={t}><App/></AuraGlassProvider>;
+export const x = <AuraGlassProvider><App/></AuraGlassProvider>;

@@ -2,5 +2,5 @@
 import { ImageViewer } from 'aura-glass/media';
 
 export function Example() {
-  return <ImageViewer />;
+  return <ImageViewer.Root {...v} />;
 }

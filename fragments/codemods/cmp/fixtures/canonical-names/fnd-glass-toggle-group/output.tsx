@@ -2,5 +2,5 @@
 import { ToggleGroup } from 'aura-glass';
 
 export function X() {
-  return <ToggleGroup>x</ToggleGroup>;
+  return <ToggleGroup.Root>x</ToggleGroup.Root>;
 }

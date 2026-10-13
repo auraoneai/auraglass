@@ -2,5 +2,5 @@
 import { ToggleGroup } from 'aura-glass';
 
 export function X() {
-  return <ToggleGroup value={on?["on"]:[]} onValueChange={(v)=>setOn(v.includes("on"))}><ToggleGroup.Item value="on"/></ToggleGroup>;
+  return <ToggleGroup.Root value={on?["on"]:[]} onValueChange={(v: any) =>setOn(v.includes("on"))}><ToggleGroup.Item value="on"/></ToggleGroup.Root>;
 }

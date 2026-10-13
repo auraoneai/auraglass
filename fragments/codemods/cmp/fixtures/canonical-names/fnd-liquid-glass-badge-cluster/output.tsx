@@ -2,5 +2,5 @@
 import { Badge } from 'aura-glass';
 
 export function X() {
-  return <Badge>x</Badge>;
+  return <Badge {...v}>x</Badge>;
 }

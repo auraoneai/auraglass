@@ -12,6 +12,7 @@ export default defineMeta({
   // which no jsdom-rendered story reaches (S-31: meta.parts equals the rendered story parts).
   parts: ['control', 'hit-area', 'icon', 'label', 'media-captions', 'media-controls', 'media-fullscreen', 'media-mute', 'media-pip', 'media-play', 'media-rate', 'media-scrubber', 'media-spacer', 'media-time', 'media-volume', 'range', 'root', 'thumb', 'track'],
   states: ['playing', 'paused', 'waiting', 'ended', 'error'],
+  material: { layer: 'chrome', refractionEligible: false },
   variants: {},
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/',
   budgetKb: 18,

@@ -3,7 +3,7 @@
 export {
   resolveSubject, resolveSubjectName, filterSubjects, fetchSubjectIndex, parseSubjectIndex, loadSubjectUniverse,
   verifyManifestAgainstIndex, SubjectResolutionError, CROSS_CHECKED_KINDS,
-  type SubjectEntry, type SubjectOwner, type SubjectUniverse, type ResolvedSubject, type StorybookIndex, type StorybookIndexEntry,
+  type SubjectEntry, type SubjectOwner, type SubjectUniverse, type ResolvedSubject, type RegistryRecord, type StorybookIndex, type StorybookIndexEntry,
 } from './resolve/resolveSubject.ts';
 export { buildCertManifest, CertManifestError, CERT_MANIFEST_BASELINE, type CertManifestResult } from './resolve/certManifest.ts';
 export { loadComponentMetas, type MetaRecord } from './resolve/componentMetas.ts';

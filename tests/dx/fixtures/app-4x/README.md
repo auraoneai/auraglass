@@ -10,7 +10,7 @@ flagship recipe:
 - `app/recipes/<id>/page.tsx` — a client page rendering that recipe's export;
 - `components/recipes.ts` — the list of ids (`flagship-subset.json`).
 
-The spec then runs the packed `@auraglass/cli` (`migrate 4to5`), swaps in the
+The spec then runs the packed `aura-glass-cli` (`migrate 4to5`), swaps in the
 packed `aura-glass` 5 tarball, and requires `tsc --noEmit` exit 0, `next build`
 exit 0, 0 TODOs in the flagship files, a second migrate with 0 changes, each
 migrate within 15 s, and a smoke render in Chromium, WebKit and Firefox.

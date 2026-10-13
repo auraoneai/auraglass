@@ -2,5 +2,5 @@
 import { GlassActionSheet } from 'aura-glass';
 
 export function X() {
-  return <GlassActionSheet open={open} actions={actions} cancelText="Cancel" />;
+  return <GlassActionSheet {...v} />;
 }

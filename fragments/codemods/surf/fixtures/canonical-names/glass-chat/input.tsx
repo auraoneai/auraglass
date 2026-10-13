@@ -2,5 +2,5 @@
 import { GlassChat } from 'aura-glass';
 
 export function Example() {
-  return <GlassChat />;
+  return <GlassChat messages={v} />;
 }

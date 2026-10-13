@@ -9,6 +9,7 @@ export default defineMeta({
   rsc: 'client',
   parts: ['date-picker', 'date-input', 'date-picker-trigger', 'date-picker-popover', 'date-picker-value', 'positioner', 'calendar', 'calendar-grid'],
   states: ['open', 'invalid', 'disabled', 'required', 'readonly'],
+  material: { layer: 'content', refractionEligible: false },
   variants: { size: ['sm', 'md', 'lg'] },
   apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/examples/datepicker-dialog/',
   budgetKb: 15,

@@ -6,7 +6,7 @@
 import { StreamingText } from 'aura-glass/ai';
 ```
 
-Tier T2 · RSC client
+Tier T2 · RSC client · APG https://www.w3.org/WAI/ARIA/apg/patterns/feed/
 
 ## Props
 

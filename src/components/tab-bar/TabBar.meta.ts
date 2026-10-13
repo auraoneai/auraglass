@@ -14,5 +14,5 @@ export default defineMeta({
   parts: ['control', 'control-shell', 'edge-registrar', 'hit-area', 'icon', 'main', 'root', 'scroll-edge', 'tab-bar', 'tab-bar-accessory', 'tab-bar-item', 'tab-bar-item-badge', 'tab-bar-item-icon', 'tab-bar-item-label', 'tab-bar-item-wrap', 'tab-bar-search'],
   states: ['active', 'inactive'],
   variants: {},
-  migration: [{ from: 'GlassTabBar', props: { items: null, activeTab: 'value' }, automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassTabBar', props: { items: null, activeTab: 'value' }, selectors: { '.glass-tab-bar': '[data-ag-part="tab-bar"]' }, automation: 'mostly', compat: true }],
 });

@@ -2,5 +2,5 @@
 import { GlassSearchBar } from 'aura-glass';
 
 export function Example() {
-  return <GlassSearchBar />;
+  return <GlassSearchBar schema={v} />;
 }

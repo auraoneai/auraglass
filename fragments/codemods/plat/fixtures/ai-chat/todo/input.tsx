@@ -1,2 +1,2 @@
 import { GlassChat, GlassChatInput } from 'aura-glass';
-export const x = <GlassChat><GlassChatInput/></GlassChat>;
+export const x = <GlassChat messages={v}><GlassChatInput /></GlassChat>;

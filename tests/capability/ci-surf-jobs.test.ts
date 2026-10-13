@@ -32,8 +32,9 @@ function dryRun(root: string, area: string) {
 }
 
 // Every cell keeps the root ignore list and skips registry-only.test.ts, which
-// needs the packed tarball and runs in surf:test:registry-lint instead.
-const IGNORE = ['--testPathIgnorePatterns', '/node_modules/', '/legacy/', '/dist/', '/packages/', '/apps/', 'tests/capability/registry-only\\.test\\.ts$'];
+// needs the packed tarball and runs in surf:test:registry-lint instead, plus
+// the packed-entry suites, which run in surf:package:packed-entries.
+const IGNORE = ['--testPathIgnorePatterns', '/node_modules/', '/legacy/', '/dist/', '/packages/', '/apps/', 'tests/capability/registry-only\\.test\\.ts$', 'tests/data/exports/surf-entries\\.test\\.ts$', 'tests/data/exports/data-date-entries\\.test\\.ts$', 'tests/data/exports/surf-statics\\.test\\.ts$'];
 
 describe('surf:test:doubles runner', () => {
   it('runs the area preset while tests/<area>/jest.doubles.cjs exists', () => {
@@ -92,6 +93,19 @@ describe('surf:test:ai-sdk and surf:test:ledger', () => {
     expect(comment).toContain(`ai@${pkg.devDependencies?.ai ?? pkg.dependencies?.ai}`);
     expect(comment).toMatch(new RegExp(`AI SDK[\\s#]*v${aiMajor}\\b`));
     expect(comment).not.toMatch(/v6 devDeps/);
+  });
+
+  it('canary-rsc runs the RSC-leak gate on the built canary (REQ-SURF-07)', () => {
+    const body = jobBody('surf:test:canary-rsc');
+    expect(body).toContain('plat:build:dist');
+    expect(body).toContain('node scripts/surf/verify-canary-rsc.mjs');
+    expect(body).toContain('.artifacts/surf/canary-rsc/');
+  });
+
+  it('migrate-canary runs the L11 codemod canary on the packed tarball (REQ-SURF-15)', () => {
+    const body = jobBody('surf:package:migrate-canary');
+    expect(body).toContain('plat:package:pack');
+    expect(body).toContain('node scripts/surf/migrate-canary.mjs --out .artifacts/surf/migrate-canary');
   });
 
   it('ledger tees both verifier runs into .artifacts/surf/ledger/ under pipefail', () => {

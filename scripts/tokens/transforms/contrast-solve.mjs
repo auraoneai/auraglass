@@ -8,8 +8,11 @@
      on-surface >= 4.5 | muted >= 4.5 (3 only when sys.color.on-surface-muted carries
      ag.usage "large-only") | border >= 3 | focus >= 3 | disabled >= 3; under
      contrast=more every text pair (on-surface, muted) >= 7.
-   Transparency models (REQ-FIN-03): glass = canvas tint composited at the cell alpha;
-   tinted = the same glass composite, searched from the glass cell's solved alpha
+   Transparency models (REQ-FIN-03): glass = canvas tint composited at the cell alpha
+   — the alpha the CSS renders, since REQ-MAT-29 sets --_ag-alpha from
+   --_ag-tint-floor alone (the variant tint alpha never enters the rendered fill);
+   tinted = the same glass composite, searched from the raised authored floor
+   (one thickness row up) and never below the glass cell's solved alpha
    (tinted >= glass); solid = opaque — canvas at fallbackFill.alpha must meet every
    pair, and the solid floor is 1.
    'clear' over light/media adds a scrim.clear 0.35 underlay. Blur contributes nothing.
@@ -78,10 +81,17 @@ export function solveContrastMatrix(records, resolved, { throwOnUnmet = true } =
     alphaStep: rec_(records, resolved, 'contrast.matrix.targets.alphaStep'),
   };
   const floors = Object.fromEntries(axes.thickness.map((t) => [t, rec_(records, resolved, `contrast.matrix.floors.${t}`)]));
+  // tinted raises the row (Material PRD transparency table): a tinted cell's
+  // authored starting floor is the next higher authored floor across the
+  // thickness rows (the top row keeps its own) — the same one-row raise
+  // [data-expanded] uses at emission. The pairs are unchanged, so a tinted
+  // floorAlpha is still the minimum feasible alpha at or above its authored
+  // floor, and tinted >= glass (REQ-FIN-03) keeps holding.
+  const tintedFloors = Object.fromEntries(axes.thickness.map((t) => {
+    const higher = axes.thickness.map((u) => floors[u]).filter((v) => v > floors[t]);
+    return [t, higher.length ? Math.min(...higher) : floors[t]];
+  }));
   const spec = rec_(records, resolved, 'material.material');
-  // fill alpha per [variant][thickness]; raised/sunken are content adjustments (spec.content)
-  const tintAt = (variant, th) =>
-    (spec.variants[variant] ?? spec.content[variant])[th].alpha;
   const scrimClear = spec.scrim.clear;
   const fallbackAlpha = spec.fallbackFill?.alpha;
   if (typeof fallbackAlpha !== 'number' || fallbackAlpha <= 0 || fallbackAlpha > 1)
@@ -120,7 +130,6 @@ export function solveContrastMatrix(records, resolved, { throwOnUnmet = true } =
         for (const tr of axes.transparency) {
           for (const variant of axes.variants) {
             for (const th of axes.thickness) {
-              const tint = tintAt(variant, th);
               const floor = floors[th];
               for (const bd of axes.backdrop) {
                 const samples = COMPOSITES.map(hexToSrgb);
@@ -129,14 +138,15 @@ export function solveContrastMatrix(records, resolved, { throwOnUnmet = true } =
                   ? samples.map((s) => composite(SCRIM_BLACK, scrimClear, s))
                   : samples;
 
-                // glass/tinted: the canvas tint composited at the cell alpha; solid: opaque
-                // canvas at fallbackFill.alpha whatever the searched alpha (its floor is 1)
+                // glass/tinted: the canvas tint composited at the searched alpha itself
+                // (REQ-MAT-29: the rendered alpha IS the floor); solid: opaque canvas at
+                // fallbackFill.alpha whatever the searched alpha (its floor is 1)
                 const surfaceAt = (s, alpha) => (tr === 'solid'
                   ? composite(canvas, fallbackAlpha, s)
-                  : composite(canvas, Math.min(1, tint + alpha - floor), s));
+                  : composite(canvas, Math.min(1, alpha), s));
                 let floorAlpha = null, best = { margin: -Infinity, ratio: 0, pair: null, alpha: 1 };
                 const cellBase = [preset, scheme, contrast, variant, th, bd].join('/');
-                const startAlpha = tr === 'tinted' ? Math.max(floor, glassCellFloor[cellBase] ?? 0)
+                const startAlpha = tr === 'tinted' ? Math.max(tintedFloors[th], glassCellFloor[cellBase] ?? 0)
                   : tr === 'solid' ? 1 : floor;
                 for (let i = Math.round(startAlpha * 200); i <= 200; i++) {
                   const alpha = i / 200;

@@ -20,6 +20,7 @@ import { execFileSync } from 'node:child_process';
 import { makeOut, status, printJson } from '../cli/output.js';
 import { EXIT, CliError, usageError } from '../cli/errors.js';
 import { fetchItem } from '../registry/client.js';
+import { isEjectable } from '../registry/ejectable.js';
 import type { RegistryItem } from '../registry/schema.js';
 import { detectProject } from '../core/project-detect.js';
 import { readConfig } from '../core/config.js';
@@ -71,6 +72,51 @@ export function rewriteAliases(content: string, aliasPrefix: string, componentsD
     .replace(/(['"])@\/components\/ui\//g, `$1${componentsDir}/`)
     .replace(/(['"])@\/components\//g, `$1${componentsDir}/`)
     .replace(/(['"])@\//g, `$1${aliasPrefix}/`);
+}
+
+/* REQ-PLAT-87: resolve a configured alias (e.g. '@/components') through the
+   project's tsconfig/jsconfig `paths` for BOTH the filesystem write
+   directory and the import specifier kept in source. Returns the alias
+   specifier to write in imports and the cwd-relative directory to write to.
+   Without a matching paths entry, '@/x' keeps the legacy cwd-relative 'x'
+   fallback and non-alias values pass through unchanged. */
+export function resolveAlias(
+  alias: string,
+  tsconfigPaths: Record<string, string[]>,
+): { specifier: string; fsDir: string; aliasPrefix: string } {
+  const clean = alias.replace(/\/$/, '');
+  const patterns = Object.entries(tsconfigPaths)
+    .sort((a, b) => b[0].length - a[0].length);
+  for (const [pattern, targets] of patterns) {
+    const target = targets[0];
+    if (!target) continue;
+    const base = target.replace(/^\.\//, '').replace(/\/?\*$/, '').replace(/\/$/, '');
+    if (pattern.endsWith('/*')) {
+      const prefix = pattern.slice(0, -1); /* '@/” */
+      if (clean.startsWith(prefix)) {
+        const rest = clean.slice(prefix.length);
+        return {
+          specifier: clean,
+          fsDir: rest ? `${base}/${rest}` : base,
+          aliasPrefix: pattern.slice(0, -2),
+        };
+      }
+    } else if (clean === pattern) {
+      return { specifier: clean, fsDir: base, aliasPrefix: pattern.split('/')[0] ?? '@' };
+    }
+  }
+  if (clean.startsWith('@/')) return { specifier: clean, fsDir: clean.slice(2), aliasPrefix: '@' };
+  const star = patterns.find(([p]) => p.endsWith('/*'));
+  return { specifier: clean, fsDir: clean, aliasPrefix: star ? star[0].slice(0, -2) : '@' };
+}
+
+/** Map an item file `target` through paths when it is alias-prefixed. */
+export function resolveTarget(target: string, tsconfigPaths: Record<string, string[]>): string {
+  if (/^(?:@|~)[^/]*\//.test(target)) {
+    const dir = resolveAlias(path.dirname(target), tsconfigPaths).fsDir;
+    return path.join(dir, path.basename(target));
+  }
+  return target;
 }
 
 /** Merge cssVars scopes into an existing CSS document under ONE `@layer ag`
@@ -193,10 +239,14 @@ export async function addCommand(args: string[], flags: Record<string, string | 
   const config = readConfig(cwd);
   const cjAliases = (project.componentsJson?.aliases ?? {}) as Record<string, string>;
   const cfgAliases = (config?.aliases ?? {}) as Record<string, string>;
-  const componentsDir = String(
+  /* REQ-PLAT-87: the configured alias resolves through tsconfig/jsconfig
+     paths — imports keep the alias specifier, writes land in the mapped
+     directory (e.g. '@/components' + '@/*'->'src/*' writes src/components). */
+  const rawComponentsAlias = String(
     config?.components ?? cfgAliases.components ?? cjAliases.components ?? cjAliases.ui ?? 'components/aura',
-  ).replace(/^@\//, '').replace(/\/$/, '');
-  const aliasPrefix = '@';
+  );
+  const { specifier: componentsSpecifier, fsDir: componentsDir, aliasPrefix } =
+    resolveAlias(rawComponentsAlias, project.tsconfigPaths);
 
   if (sourceMode) {
     return addSource(cwd, name, out, flags, componentsDir);
@@ -213,8 +263,10 @@ export async function addCommand(args: string[], flags: Record<string, string | 
     for (const d of item.dependencies ?? []) deps.add(d);
     for (const f of item.files ?? []) {
       if (!f.path || f.content === undefined) continue;
-      let content = rewriteAliases(f.content, aliasPrefix, componentsDir);
-      const target = f.target ?? path.join(componentsDir, item.name, f.path);
+      let content = rewriteAliases(f.content, aliasPrefix, componentsSpecifier);
+      const target = f.target
+        ? resolveTarget(f.target, project.tsconfigPaths)
+        : path.join(componentsDir, item.name, f.path);
       if (/\.(tsx?|jsx?)$/.test(f.path) && metaClient && !content.startsWith("'use client'") && !content.startsWith('"use client"')) {
         content = `'use client';\n${content}`;
       }
@@ -284,6 +336,12 @@ async function addSource(
   const registry = typeof flags.registry === 'string' ? flags.registry : undefined;
   const srcName = `aura-glass-src/${slug}`;
   const item = await fetchItem(srcName, registry);
+  /* REQ-PLAT-87: ejectable = the flagship components + T2 core only. The
+     item's meta.auraglass.tier/flagship decides when present, else the
+     flagship+T2 slug list. Anything else exits 1 before any write. */
+  if (!isEjectable(slug, item.meta?.auraglass)) {
+    throw new CliError(`not ejectable: ${name} — only flagship and T2 core components can be ejected`, EXIT.validation);
+  }
   const exportsMap = installedAuraExports(cwd);
   if (!exportsMap) {
     throw new CliError('aura-glass is not installed — eject requires the package exports map', EXIT.validation);

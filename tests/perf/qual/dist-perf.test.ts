@@ -51,11 +51,13 @@ describe('static scan rules (one invalid and one valid case per rule)', () => {
     expect(new Set(cases.map((c) => c[0]))).toEqual(new Set(scanRules));
   });
 
-  test('MutationObserver is allowed only in primitives/DismissableLayer* and Base UI internals', () => {
+  test('MutationObserver is allowed only in primitives/DismissableLayer*, Base UI internals and REQ-MAT-38 dev modules', () => {
     const src = 'const mo = new MutationObserver(cb);';
     expect(rules(src, 'dist/primitives/DismissableLayer.js')).toEqual([]);
     expect(rules(src, 'dist/primitives/DismissableLayer.client.js')).toEqual([]);
     expect(rules(src, 'node_modules/@base-ui/react/esm/utils/useMutation.js')).toEqual([]);
+    // REQ-MAT-38: dev-only diagnostics strip from production consumer bundles (verify-dev-strip).
+    expect(rules(src, 'dist/material/dev/surfaceCounter.js')).toEqual([]);
     expect(rules(src, 'dist/primitives/FocusScope.js')).toEqual(['mutation-observer']);
   });
 

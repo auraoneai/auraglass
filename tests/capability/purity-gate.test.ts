@@ -72,6 +72,25 @@ describe('SURF purity gate (verify-surf-purity.mjs)', () => {
     }
   });
 
+  // REQ-SURF-05: the seven SURF src/components dirs are default scan
+  // targets — a banned pattern planted there must fail the no-args run
+  // (previously SURF_ROOTS excluded src/components entirely).
+  it.each([
+    ['src/components/timeline', "export const leak = () => fetch('/api');\n"],
+    ['src/components/tabs', 'export const tick = () => setTimeout(() => {}, 10);\n'],
+    ['src/components/breadcrumbs', "export const probe = () => { document.addEventListener('keydown', () => {}); };\n"],
+  ])('no-args run scans %s and fails on a planted fixture', (dir: string, body: string) => {
+    const probe = join(ROOT, dir, '__purity_probe__.ts');
+    try {
+      writeFileSync(probe, body);
+      const res = runGate();
+      expect(res.code).toBe(1);
+      expect(res.out).toContain('__purity_probe__');
+    } finally {
+      rmSync(probe, { force: true });
+    }
+  });
+
   it('no-args run reports a nonzero scanned-file count', () => {
     const res = runGate();
     expect(res.code).toBe(0);

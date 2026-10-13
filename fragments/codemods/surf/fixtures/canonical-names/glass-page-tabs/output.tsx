@@ -3,5 +3,5 @@
 import { GlassPageTabs } from 'aura-glass/compat';
 
 export function Example() {
-  return <GlassPageTabs />;
+  return <GlassPageTabs tabs={v} />;
 }

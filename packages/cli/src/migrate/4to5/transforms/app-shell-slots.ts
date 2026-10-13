@@ -1,9 +1,10 @@
 /**
  * app-shell-slots (SURF area): GlassAppShell header/sidebar/footer props ->
- * slot children; GlassSidebar/GlassSidebarRail `items` arrays -> nested
- * Sidebar.Item / Rail.Item children (handler-only items keep onSelect — no
- * href fabricated; `children` arrays -> Sidebar.Collapsible). Layout props
- * drop to css defaults. Emits the SURF golden shape verbatim.
+ * slot children of AppShell.Root; GlassSidebar/GlassSidebarRail `items`
+ * arrays -> Sidebar.Root with Sidebar.Nav/Sidebar.Item children (handler-only
+ * items -> render={<button type="button" onClick={…} />}, no fabricated href;
+ * `children` arrays -> Sidebar.Collapsible label=…). The rail variant sets
+ * defaultSidebar="rail" on AppShell.Root. Layout props drop to css defaults.
  */
 import { j, specNames, type FileUnit, type Transform, type TransformCtx, type TransformResult } from './shared.js';
 
@@ -63,14 +64,12 @@ function extractItems(node: unknown, bindings: Map<string, unknown>): { items: I
 function itemJsx(item: ItemNode, pad: string, parent: string): string {
   if (item.children?.length) {
     const kids = item.children.map((c: any) => itemJsx(c, `${pad}  `, parent)).join('\n');
-    const title = item.label ? ` label="${item.label}"` : '';
-    return `${pad}<${parent}.Collapsible${title}>\n${kids}\n${pad}</${parent}.Collapsible>`;
+    return `${pad}<${parent}.Collapsible label="${item.label ?? ''}">\n${kids}\n${pad}</${parent}.Collapsible>`;
   }
   const parts: string[] = [];
-
   if (item.icon) parts.push(`icon="${item.icon}"`);
-  if (item.onClickSrc) parts.push(`render={<button type="button" onClick={${item.onClickSrc}} />}`);
   if (item.href) parts.push(`href="${item.href}"`);
+  else if (item.onClickSrc) parts.push(`render={<button type="button" onClick={${item.onClickSrc}} />}`);
   const label = item.label ? `\n${pad}  ${item.label}\n${pad}` : '';
   return `${pad}<${parent}.Item${parts.length ? ' ' + parts.join(' ') : ''}>${label}</${parent}.Item>`;
 }
@@ -112,7 +111,7 @@ export const appShellSlots: Transform = {
         return;
       }
       const slots: string[] = [];
-      let rail = false;
+      let rootAttrs = '';
       for (const a of attrs) {
         const n = a.name?.name;
         const ex = a.value?.expression as { type?: string; openingElement?: { name?: { name?: string }; attributes?: unknown[] }; start?: number; end?: number } | undefined;
@@ -123,18 +122,17 @@ export const appShellSlots: Transform = {
           newImports.add('TopBar');
           changes.push({ transform: 'app-shell-slots', description: 'header prop -> TopBar slot' });
         } else if (n === 'sidebar') {
-          rail = elName !== undefined && elName === SIDEBAR_RAIL;
-          const parent = 'Sidebar';
-          newImports.add(parent);
+          if (elName !== undefined && elName === SIDEBAR_RAIL) rootAttrs = ' defaultSidebar="rail"';
+          newImports.add('Sidebar');
           const itemAttr = ((ex.openingElement?.attributes ?? []) as Array<{ name?: { name?: string }; value?: { expression?: unknown } }>)
             .find((x: any) => x.name?.name === 'items');
           const { items, bound } = extractItems(itemAttr?.value?.expression, bindings);
           if (items.some(item => item.unsupported)) { unsafe = true; return; }
           if (bound) usedBindings.add(bound);
           const nav = items.length
-            ? `\n        <${parent}.Nav aria-label="Main">\n${items.map((it: any) => itemJsx(it, '          ', parent)).join('\n')}\n        </${parent}.Nav>\n      `
+            ? `\n        <Sidebar.Nav aria-label="Main">\n${items.map((it: any) => itemJsx(it, '          ', 'Sidebar')).join('\n')}\n        </Sidebar.Nav>\n      `
             : '';
-          slots.push(`      <${parent}.Root>${nav}</${parent}.Root>`);
+          slots.push(`      <Sidebar.Root>${nav}</Sidebar.Root>`);
           changes.push({ transform: 'app-shell-slots', description: 'sidebar prop -> Sidebar items children' });
         } else if (n === 'footer') {
           const inner = j(ex as never).toSource({ quote: 'single' });
@@ -146,7 +144,7 @@ export const appShellSlots: Transform = {
         .map((c: any) => j(c as never).toSource({ quote: 'single' }).trim())
         .filter((s: any) => s.length > 0);
       const inner = children.join('\n');
-      const text = `<AppShell.Root${rail ? ' defaultSidebar="rail"' : ''}>\n${slots.join('\n')}\n      <AppShell.Main>\n        ${inner}\n      </AppShell.Main>\n    </AppShell.Root>`;
+      const text = `<AppShell.Root${rootAttrs}>\n${slots.join('\n')}\n      <AppShell.Main>\n        ${inner}\n      </AppShell.Main>\n    </AppShell.Root>`;
       const node = p.node as unknown as { start?: number; end?: number };
       if (typeof node.start === 'number' && typeof node.end === 'number') {
         splices.push({ start: node.start, end: node.end, text });
@@ -161,15 +159,15 @@ export const appShellSlots: Transform = {
       out = out.slice(0, s.start) + s.text + out.slice(s.end);
     }
     for (const b of usedBindings) {
-      const re = new RegExp(`const ${b}(?::[^=]*)?\\s*=\\s*\\[[\\s\\S]*?\\];\\n?`);
+      const re = new RegExp(`const ${b}\\s*(?::[^=]*)?=\\s*\\[[\\s\\S]*?\\];\\n?`);
       if (re.test(out)) {
         out = out.replace(re, '');
         changes.push({ transform: 'app-shell-slots', description: `drop items binding ${b}` });
       }
     }
     const order = ['AppShell', 'Sidebar', 'TopBar'];
-    const names = order.filter((n: any) => newImports.has(n)).join(', ');
-    const importBlock = names ? `import { ${names} } from 'aura-glass/app-shell';` : '';
+    const importedNames = order.filter((n: any) => newImports.has(n));
+    const importBlock = importedNames.length ? `import { ${importedNames.join(', ')} } from 'aura-glass/app-shell';` : '';
     if (!splices.length) return { source: unit.source, changes: [], todos: [] };
     let inserted = false;
     out = out.replace(/^import\s*\{[^}]*\}\s*from\s*['"]aura-glass['"];?\n?/gm, (m: any) => {

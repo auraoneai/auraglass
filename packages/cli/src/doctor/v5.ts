@@ -54,7 +54,11 @@ export function runV5(cwd: string): { findings: V5Finding[]; byCodemod: Record<s
       }
     });
   }
-  findings.sort((a, b) => a.path.localeCompare(b.path) || a.line - b.line || a.symbol.localeCompare(b.symbol));
+  // Multiple deprecation entries can match the same symbol and source line.
+  // Keep output stable even when fragment assembly changes their input order.
+  const cmp = (x: string | null, y: string | null) => (x ?? '').localeCompare(y ?? '');
+  findings.sort((a, b) => a.path.localeCompare(b.path) || a.line - b.line || a.symbol.localeCompare(b.symbol)
+    || cmp(a.entry, b.entry) || cmp(a.codemod, b.codemod) || cmp(a.automation, b.automation) || cmp(a.message, b.message));
   const byCodemod: Record<string, V5Finding[]> = {};
   for (const f of findings) {
     const key = f.codemod ?? 'manual';

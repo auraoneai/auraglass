@@ -50,24 +50,15 @@
     :where([data-ag-focus-inset]):focus-visible {
       outline-offset: calc(var(--ag-focus-width) * -1);
     }
-    /* REQ-SURF-189: the SURF chrome's system focus ring under forced colours,
-       including items that carry no part attribute (the ring stays here, its
-       single owner). */
-    .ag-app-shell :is(a, button, [tabindex]):not([data-ag-focusable], .ag-focusable):focus-visible,
-    .ag-sidebar__item:focus-visible,
-    .ag-panels__handle:focus-visible,
-    .ag-skip-link:focus-visible,
-    .ag-tab-bar__item:focus-visible,
-    .ag-tabs__tab:focus-visible,
-    .ag-breadcrumbs__link:focus-visible,
-    .ag-breadcrumbs__ellipsis:focus-visible,
-    .ag-pagination__link:focus-visible,
-    .ag-media-btn:focus-visible,
-    [data-ag-part='now-playing-expand']:focus-visible,
-    .ag-chart-frame__legend-item:focus-visible,
-    .ag-chart-frame__toggle:focus-visible,
-    [data-ag-part='message']:focus-visible,
-    [data-ag-part='step']:focus-visible {
+    /* REQ-SURF-189: the SURF chrome's system focus ring under forced colours
+       for focusable app-shell descendants that carry neither the opt-in nor a
+       part attribute (the ring stays here, its single owner). Every named
+       chrome part — sidebar items, panel handles, skip link, tab-bar and
+       tabs items, breadcrumb and pagination links, media buttons, chart
+       legend/toggle — renders with [data-ag-part], so the forced-colours
+       part selector above already rings it; :focus-visible only ever matches
+       a focusable element, so no element-name list is needed here. */
+    :where(.ag-app-shell) :where(:not([data-ag-focusable], .ag-focusable, [data-ag-part])):focus-visible {
       outline: 2px solid Highlight;
       box-shadow: none;
     }

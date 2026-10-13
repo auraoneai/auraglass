@@ -90,3 +90,22 @@ export const WithCaptions: Story = {
     </MediaControls.Root>
   ),
 };
+
+/* REQ-SURF-187 (X-41): the Captions part with real text tracks — selecting a
+   track marks it 'showing' through onCaptionsChange. */
+function CaptionsDemo() {
+  const [tracks, setTracks] = React.useState(TRACKS);
+  return (
+    <MediaControls.Root
+      playing={false} duration={372} currentTime={120}
+      textTracks={tracks}
+      onCaptionsChange={(id) => setTracks((ts) => ts.map((t) => ({ ...t, mode: t.id === id ? 'showing' : 'disabled' })))}
+    >
+      <MediaControls.PlayButton />
+      <MediaControls.Time />
+      <MediaControls.Spacer />
+      <MediaControls.Captions />
+    </MediaControls.Root>
+  );
+}
+export const Captions: Story = { render: () => <CaptionsDemo /> };

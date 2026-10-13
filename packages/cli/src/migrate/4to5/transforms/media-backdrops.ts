@@ -18,12 +18,27 @@ const TODO_ROWS_UNPREFIXED = ['AtmosphericBackground', 'DynamicAtmosphere'];
 const AURORA_MOTION: Record<string, string> = { none: 'static', subtle: 'static', full: 'drift' };
 
 /** 4.x Glass* names this transform handles, read from its spec (REQ-PLAT-90). */
-interface MediaNames { mesh: string; imageViewer: string; carousel: string; todoRows: Set<string> }
+interface MediaNames {
+  imageViewer: string;
+  carousel: string;
+  todoRows: Set<string>;
+  /** Mesh-gradient name + its `Backdrop preset="…"` successor (DEP-S0613). */
+  mesh?: { from: string; to: string; entry: string; preset: string } | undefined;
+}
 function mediaNames(m: CompiledMappings): MediaNames {
   const [imageViewer] = specNames(m, 'media-backdrops', /images -> items/);
   const [carousel] = specNames(m, 'media-backdrops', /infinite -> loop/);
   const mesh = specNames(m, 'media-backdrops', /-> TODO rows/);
-  return { mesh: specNames(m, 'media-backdrops', /colors\[\]/)[0]!, imageViewer: imageViewer!, carousel: carousel!, todoRows: new Set([...mesh, ...TODO_ROWS_UNPREFIXED]) };
+  const meshFrom = mesh[0];
+  const meshRow = meshFrom ? m.components[meshFrom] : undefined;
+  const meshDep = meshFrom
+    ? m.deprecations.find((e) => String((e as { symbol?: string }).symbol ?? '') === meshFrom)
+    : undefined;
+  const preset = /preset="([^"]+)"/.exec(String((meshDep as { replacement?: string } | undefined)?.replacement ?? ''))?.[1];
+  const meshInfo = meshFrom && meshRow?.to && meshRow.toEntry && preset
+    ? { from: meshFrom, to: meshRow.to, entry: meshRow.toEntry, preset }
+    : undefined;
+  return { imageViewer: imageViewer!, carousel: carousel!, todoRows: new Set([...mesh, ...TODO_ROWS_UNPREFIXED]), mesh: meshInfo };
 }
 
 function applyOtherComponents(source: string): string {
@@ -39,6 +54,9 @@ function applyCode(source: string, unitSource: string, N: MediaNames): Transform
   const todos: TransformResult['todos'] = [];
   const newImports = new Map<string, Set<string>>(); // entry -> names
   let imageViewerReplace: { start: number; end: number; text: string } | null = null;
+  const structuralReplaces: Array<{ find: string; text: string }> = [];
+  let meshTodoReason: string | undefined;
+  let meshRenamed = false;
 
   const tag = (n: unknown): string | undefined => {
     const t = n as { type?: string; name?: string };
@@ -63,15 +81,88 @@ function applyCode(source: string, unitSource: string, N: MediaNames): Transform
       return undefined;
     };
 
-    if (name === N.mesh) {
-      (open!.name as { name: string }).name = 'Backdrop';
-      if (p.node.closingElement) p.node.closingElement.name.name = 'Backdrop';
-      open.attributes = [j.jsxAttribute(j.jsxIdentifier('preset'), j.stringLiteral('mesh')), ...attrs.filter(a => a.name?.name !== 'colors')];
-      if (get('colors')) todos.push({ transform: 'media-backdrops', reason: `${N.mesh} colors[] has no 5.0 prop; mesh palettes come from S-03 colours`, doc: DOC });
-      newImports.set('aura-glass/backdrops', new Set(['Backdrop']));
-      changes.push({ transform: 'media-backdrops', description: `${N.mesh} -> Backdrop preset=mesh` });
+    /* Whole-element structural rewrites (children/props change shape, so a
+       rename is not enough). Replacement text is spliced after printing,
+       keyed by the element's verbatim source text. */
+    const elemStart = (p.node as { start?: number }).start;
+    const elemEnd = (p.node as { end?: number }).end;
+    const elemText = elemStart !== undefined && elemEnd !== undefined ? source.slice(elemStart, elemEnd) : undefined;
+    const attrText = (a: (typeof attrs)[number]): string => {
+      const at = a as unknown as { start?: number; end?: number };
+      return at.start !== undefined && at.end !== undefined ? source.slice(at.start, at.end) : '';
+    };
+    const baseIndentOf = (at: number): string => {
+      const ls = source.lastIndexOf('\n', at) + 1;
+      return /^[ \t]*/.exec(source.slice(ls, at))?.[0] ?? '';
+    };
+    if (elemText && (name === N.carousel || name === 'LiquidGlassCarouselRail')) {
+      const base = baseIndentOf(elemStart!);
+      const inner = `${base}  `;
+      const outAttrs: string[] = [];
+      let autoplay = false;
+      const intervalAttr = get('autoPlayInterval');
+      const intervalText = intervalAttr ? attrText(intervalAttr).replace(/^autoPlayInterval=/, '') : undefined;
+      for (const a of attrs) {
+        const an = a.name?.name;
+        if (!an) continue;
+        if (an === 'infinite') {
+          const v = lit(a);
+          if (v === 'false') continue;
+          outAttrs.push(a.value ? attrText(a).replace(/^infinite/, 'loop') : 'loop');
+        } else if (an === 'autoPlay') {
+          autoplay = true;
+          outAttrs.push(intervalText !== undefined ? `autoplay={{ interval: ${intervalText.replace(/^\{|\}$/g, '')} }}` : attrText(a).replace(/^autoPlay/, 'autoplay'));
+        } else if (an === 'autoPlayInterval') {
+          if (!get('autoPlay') && intervalText !== undefined) {
+            autoplay = true;
+            outAttrs.push(`autoplay={{ interval: ${intervalText.replace(/^\{|\}$/g, '')} }}`);
+          }
+        } else if (an === 'slidesToShow') outAttrs.push(attrText(a).replace(/^slidesToShow/, 'slidesPerView'));
+        else outAttrs.push(attrText(a));
+      }
+      const kids = ((p.node.children ?? []) as Array<{ type?: string; value?: string; start?: number; end?: number }>)
+        .filter((c) => c.type !== 'JSXText' || (c.value ?? '').trim() !== '');
+      const slides = kids.map((c, i) => `{ id: 's${i}', children: ${source.slice(c.start!, c.end!).trim()} }`).join(', ');
+      const text = [
+        '(',
+        ...(autoplay ? [`${inner}// TODO(aura-glass 5): autoplay rotates only under allowContinuous — add the provider if missing`] : []),
+        `${inner}<CarouselRail.Root${outAttrs.length ? ` ${outAttrs.join(' ')}` : ''}`,
+        `${inner}  slides={[${slides}]} />`,
+        `${base})`,
+      ].join('\n');
+      structuralReplaces.push({ find: elemText, text });
+      newImports.get('aura-glass/media')?.add('CarouselRail') ?? newImports.set('aura-glass/media', new Set(['CarouselRail']));
+      changes.push({ transform: 'media-backdrops', description: `${name} -> CarouselRail.Root + slides` });
+      if (autoplay) todos.push({ transform: 'media-backdrops', reason: 'autoplay only with an allowContinuous provider', doc: DOC });
       return;
     }
+    if (elemText && name === 'LiquidGlassMediaControls') {
+      const base = baseIndentOf(elemStart!);
+      const inner = `${base}  `;
+      const outAttrs: string[] = [];
+      for (const a of attrs) {
+        const an = a.name?.name;
+        if (!an || an === 'compact') continue;
+        outAttrs.push(an === 'onPlayPause' ? attrText(a).replace(/^onPlayPause/, 'onPlayingChange') : attrText(a));
+      }
+      const kids = ((p.node.children ?? []) as Array<{ type?: string; value?: string; start?: number; end?: number }>)
+        .filter((c) => c.type !== 'JSXText' || (c.value ?? '').trim() !== '');
+      const childLines = kids.length
+        ? kids.map((c) => `${inner}  ${source.slice(c.start!, c.end!).trim()}`)
+        : [`${inner}  <MediaControls.PlayButton />`, `${inner}  <MediaControls.Scrubber />`];
+      const text = [
+        '(',
+        `${inner}<MediaControls.Root${outAttrs.length ? ` ${outAttrs.join(' ')}` : ''}>`,
+        ...childLines,
+        `${inner}</MediaControls.Root>`,
+        `${base})`,
+      ].join('\n');
+      structuralReplaces.push({ find: elemText, text });
+      newImports.get('aura-glass/media')?.add('MediaControls') ?? newImports.set('aura-glass/media', new Set(['MediaControls']));
+      changes.push({ transform: 'media-backdrops', description: 'LiquidGlassMediaControls -> MediaControls.Root composition' });
+      return;
+    }
+
     if (name === 'AuroraBackground') {
       const m = lit(get('motion'));
       const mapped = m !== undefined ? AURORA_MOTION[m] : undefined;
@@ -163,6 +254,25 @@ function applyCode(source: string, unitSource: string, N: MediaNames): Transform
       newImports.get('aura-glass/media')?.add('MediaControls') ?? newImports.set('aura-glass/media', new Set(['MediaControls']));
       return;
     }
+    if (name === N.mesh?.from && N.mesh) {
+      // Mesh gradient -> Backdrop preset (DEP-S0613): the colors[] palette has
+      // no 5.0 prop, so it drops with a TODO; other attrs carry over.
+      const hadColors = !!get('colors');
+      (open!.name as { name: string }).name = N.mesh.to;
+      open!.attributes = [
+        { type: 'JSXAttribute', name: { type: 'JSXIdentifier', name: 'preset' }, value: { type: 'Literal', value: N.mesh.preset, extra: { raw: `"${N.mesh.preset}"` } } },
+        ...attrs.filter((a: any) => a.name?.name !== 'colors'),
+      ] as never;
+      const close = p.node.closingElement?.name as { name?: string } | undefined;
+      if (close) close.name = N.mesh.to;
+      meshRenamed = true;
+      changes.push({ transform: 'media-backdrops', description: `${name} -> Backdrop preset="${N.mesh.preset}"` });
+      if (hadColors) {
+        meshTodoReason = `${name} colors[] has no 5.0 prop; mesh palettes come from S-03 colours`;
+        todos.push({ transform: 'media-backdrops', reason: meshTodoReason, doc: DOC });
+      }
+      return;
+    }
     if (N.todoRows.has(name)) {
       todos.push({ transform: 'media-backdrops', reason: `${name} has no automatic 5.0 rewrite — migrate per the media guide`, doc: DOC });
     }
@@ -170,7 +280,29 @@ function applyCode(source: string, unitSource: string, N: MediaNames): Transform
 
   // Rewrite/insert imports: old component names get replaced in specifiers;
   // new entries are added as fresh import declarations.
-  const movedNames = new Set([N.mesh, 'AuroraBackground', N.imageViewer, N.carousel, 'LiquidGlassCarouselRail', 'LiquidGlassMediaControls']);
+  const movedNames = new Set(['AuroraBackground', N.imageViewer, N.carousel, 'LiquidGlassCarouselRail', 'LiquidGlassMediaControls']);
+  // Mesh: rewrite a sole-specifier import in place so the declaration (and
+  // any leading comments) stays put; fall back to move + insert otherwise.
+  if (meshRenamed && N.mesh) {
+    let inPlace = false;
+    root.find(j.ImportDeclaration).forEach((p: any) => {
+      if (inPlace) return;
+      const specs = (p.node.specifiers ?? []) as Array<any>;
+      if (specs.length !== 1) return;
+      const s = specs[0];
+      const imp = s?.type === 'ImportSpecifier' ? ((s.imported?.name ?? s.imported?.value) as string) : undefined;
+      if (imp === N.mesh!.from && ((s.local?.name as string | undefined) ?? imp) === imp) {
+        if (s.imported) s.imported.name = N.mesh!.to;
+        if (s.local) s.local.name = N.mesh!.to;
+        p.node.source = j.literal(N.mesh!.entry) as never;
+        inPlace = true;
+      }
+    });
+    if (!inPlace) {
+      movedNames.add(N.mesh.from);
+      newImports.get(N.mesh.entry)?.add(N.mesh.to) ?? newImports.set(N.mesh.entry, new Set([N.mesh.to]));
+    }
+  }
   root.find(j.ImportDeclaration).forEach((p: any) => {
     const src = String((p.node.source as { value?: unknown }).value ?? '');
     if (!/^(aura-glass|@auraglass\/)/.test(src)) return;
@@ -214,11 +346,23 @@ function applyCode(source: string, unitSource: string, N: MediaNames): Transform
       out = out.slice(0, i) + (imageViewerReplace as { text: string }).text + out.slice(end);
     }
   }
-  if (todos.some(t => t.reason.startsWith(`${N.mesh} colors`))) {
-    const marker = todoLine(`${N.mesh} colors[] has no 5.0 prop; mesh palettes come from S-03 colours`, DOC);
-    out = out.replace(/^(import .*backdrops.*)$/m, `${marker}\n$1`);
+  /* Structural rewrites (Carousel, MediaControls): the elements were never
+     AST-mutated, so their verbatim text is byte-identical in `out`. */
+  for (const r of structuralReplaces) {
+    const at = out.indexOf(r.find);
+    if (at >= 0) out = out.slice(0, at) + r.text + out.slice(at + r.find.length);
   }
-  // SURF goldens embed TODOs inline (items array, JSX comment) — no file-top markers.
+  // The mesh colors TODO sits directly above the rewritten import (SURF
+  // golden shape); other SURF TODOs embed inline, never as file-top markers.
+  if (meshTodoReason) {
+    const marker = todoLine(meshTodoReason, DOC);
+    if (!out.includes(marker)) {
+      const lines = out.split('\n');
+      const idx = lines.findIndex((l: string) => /^import[\s{]/.test(l));
+      lines.splice(idx >= 0 ? idx : 0, 0, marker);
+      out = lines.join('\n');
+    }
+  }
   return { source: out, changes, todos };
 }
 
@@ -227,7 +371,7 @@ export const mediaBackdrops: Transform = {
   run(unit: FileUnit, ctx: TransformCtx): TransformResult {
     if (unit.kind !== 'code') return { source: unit.source, changes: [], todos: [] };
     const N = mediaNames(ctx.mappings);
-    const handled = [N.mesh, 'AuroraBackground', N.imageViewer, N.carousel, 'LiquidGlassCarouselRail', 'LiquidGlassMediaControls', ...N.todoRows];
+    const handled = [...(N.mesh ? [N.mesh.from] : []), 'AuroraBackground', N.imageViewer, N.carousel, 'LiquidGlassCarouselRail', 'LiquidGlassMediaControls', ...N.todoRows];
     if (!handled.some((n) => unit.source.includes(n))) {
       return { source: unit.source, changes: [], todos: [] };
     }

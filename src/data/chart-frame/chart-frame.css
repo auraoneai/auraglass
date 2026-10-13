@@ -14,6 +14,7 @@
     container-type: inline-size;
   }
   .ag-chart-frame__caption { display: grid; gap: var(--ag-space-1, 0.25rem); }
+  .ag-chart-frame__description { color: var(--ag-on-surface-muted, var(--ag-color-on-surface-muted)); }
   .ag-chart-frame__legend {
     display: flex;
     flex-wrap: wrap;

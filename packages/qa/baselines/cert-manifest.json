@@ -32,30 +32,6 @@
     "subject": "audit-log"
   },
   {
-    "file": "registry/blocks/auth/AuthBlock.stories.tsx",
-    "owner": "PLAT",
-    "reqFin": "REQ-FIN-42",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "auth"
-  },
-  {
-    "file": "registry/blocks/commerce-cart/CommerceCart.stories.tsx",
-    "owner": "SURF",
-    "reqFin": "REQ-FIN-88",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "commerce-cart"
-  },
-  {
-    "file": "registry/blocks/commerce-checkout/CommerceCheckout.stories.tsx",
-    "owner": "SURF",
-    "reqFin": "REQ-FIN-88",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "commerce-checkout"
-  },
-  {
     "file": "registry/blocks/data-workspace/DataWorkspace.stories.tsx",
     "owner": "SURF",
     "reqFin": "REQ-FIN-88",
@@ -80,22 +56,6 @@
     "subject": "permissions-matrix"
   },
   {
-    "file": "registry/blocks/pricing/Pricing.stories.tsx",
-    "owner": "SURF",
-    "reqFin": "REQ-FIN-88",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "pricing"
-  },
-  {
-    "file": "registry/blocks/settings/SettingsPanel.stories.tsx",
-    "owner": "PLAT",
-    "reqFin": "REQ-FIN-42",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "settings"
-  },
-  {
     "file": "registry/blocks/support-inbox/SupportInbox.stories.tsx",
     "owner": "SURF",
     "reqFin": "REQ-FIN-88",
@@ -112,60 +72,12 @@
     "subject": "AppShellWorkspace"
   },
   {
-    "file": "registry/items/code-surface/CodeSurface.stories.tsx",
-    "owner": "PLAT",
-    "reqFin": "REQ-FIN-42",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "code-surface"
-  },
-  {
-    "file": "registry/items/comment-thread/CommentThread.stories.tsx",
-    "owner": "SURF",
-    "reqFin": "REQ-FIN-88",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "comment-thread"
-  },
-  {
-    "file": "registry/items/diff-viewer/DiffViewer.stories.tsx",
-    "owner": "PLAT",
-    "reqFin": "REQ-FIN-42",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "diff-viewer"
-  },
-  {
     "file": "registry/items/faceted-search/FacetedSearch.stories.tsx",
     "owner": "SURF",
     "reqFin": "REQ-FIN-88",
     "expires": "RC-1",
     "code": "invalid-ag",
     "subject": "faceted-search"
-  },
-  {
-    "file": "registry/items/gantt/GanttChart.stories.tsx",
-    "owner": "PLAT",
-    "reqFin": "REQ-FIN-42",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "gantt"
-  },
-  {
-    "file": "registry/items/kanban/KanbanBoard.stories.tsx",
-    "owner": "PLAT",
-    "reqFin": "REQ-FIN-42",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "kanban"
-  },
-  {
-    "file": "registry/items/presence-stack/PresenceStack.stories.tsx",
-    "owner": "SURF",
-    "reqFin": "REQ-FIN-88",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "presence-stack"
   },
   {
     "file": "registry/items/query-builder/QueryBuilder.stories.tsx",
@@ -176,36 +88,12 @@
     "subject": "query-builder"
   },
   {
-    "file": "registry/items/react-hook-form/RhfTextField.stories.tsx",
-    "owner": "PLAT",
-    "reqFin": "REQ-FIN-42",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "react-hook-form"
-  },
-  {
-    "file": "registry/items/rich-text/RichText.stories.tsx",
-    "owner": "PLAT",
-    "reqFin": "REQ-FIN-42",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "rich-text"
-  },
-  {
     "file": "registry/items/schema-viewer/SchemaViewer.stories.tsx",
     "owner": "SURF",
     "reqFin": "REQ-FIN-88",
     "expires": "RC-1",
     "code": "invalid-ag",
     "subject": "schema-viewer"
-  },
-  {
-    "file": "registry/items/transfer-list/TransferList.stories.tsx",
-    "owner": "PLAT",
-    "reqFin": "REQ-FIN-42",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "transfer-list"
   },
   {
     "file": "registry/items/tree-select/TreeSelect.stories.tsx",
@@ -280,22 +168,6 @@
     "subject": "A11yTargets"
   },
   {
-    "file": "src/data/chip/Chip.surf.stories.tsx",
-    "owner": "SURF",
-    "reqFin": "REQ-FIN-80",
-    "expires": "RC-1",
-    "code": "ambiguous-subject",
-    "subject": "Chip"
-  },
-  {
-    "file": "src/data/key-value-editor/KeyValueEditor.stories.tsx",
-    "owner": "SURF",
-    "reqFin": "REQ-FIN-80",
-    "expires": "RC-1",
-    "code": "ambiguous-subject",
-    "subject": "KeyValueEditor"
-  },
-  {
     "file": "src/data/virtual-list/VirtualList.stories.tsx",
     "owner": "SURF",
     "reqFin": "REQ-FIN-80",
@@ -305,14 +177,6 @@
   },
   {
     "file": "src/material/stories/Clear.stories.tsx",
-    "owner": "MAT",
-    "reqFin": "REQ-FIN-59",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "Surface"
-  },
-  {
-    "file": "src/material/stories/Material.Lab.stories.tsx",
     "owner": "MAT",
     "reqFin": "REQ-FIN-59",
     "expires": "RC-1",
@@ -344,35 +208,11 @@
     "subject": "ConcentricFrame"
   },
   {
-    "file": "src/media/MediaScrubber.stories.tsx",
-    "owner": "SURF",
-    "reqFin": "REQ-FIN-80",
-    "expires": "RC-1",
-    "code": "unresolved-subject",
-    "subject": "MediaScrubber"
-  },
-  {
     "file": "src/media/Waveform.stories.tsx",
     "owner": "SURF",
     "reqFin": "REQ-FIN-80",
     "expires": "RC-1",
     "code": "unresolved-subject",
     "subject": "Waveform"
-  },
-  {
-    "file": "stories/cmp/components/Chip.stories.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1",
-    "code": "ambiguous-subject",
-    "subject": "Chip"
-  },
-  {
-    "file": "stories/cmp/components/KeyValueEditor.stories.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1",
-    "code": "ambiguous-subject",
-    "subject": "KeyValueEditor"
   }
 ]

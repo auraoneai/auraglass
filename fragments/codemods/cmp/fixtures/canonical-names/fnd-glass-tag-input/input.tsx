@@ -2,5 +2,5 @@
 import { GlassTagInput } from 'aura-glass';
 
 export function X() {
-  return <GlassTagInput tags={tags} onChange={setTags} />;
+  return <GlassTagInput {...v} />;
 }

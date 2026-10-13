@@ -2,5 +2,5 @@
 import { IconButton } from 'aura-glass';
 
 export function X() {
-  return <IconButton aria-label="Add"><PlusIcon /></IconButton>;
+  return <IconButton {...v} />;
 }

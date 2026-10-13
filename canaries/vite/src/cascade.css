@@ -1,0 +1,8 @@
+/* REQ-PLAT-77 cascade proof stylesheet: the consumer layer order with the
+   library styles inside layer(ag). An UNLAYERED app rule (.app-btn) must
+   beat every layered library rule. Loaded by src/main.tsx at build time —
+   the spec never injects styles after the fact. */
+@layer theme, base, ag, components, utilities;
+@import 'aura-glass/styles.css' layer(ag);
+
+.app-btn { background: rgb(255 0 0); }

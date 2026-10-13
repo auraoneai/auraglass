@@ -2,5 +2,5 @@
 import { GlassNotificationCenter } from 'aura-glass';
 
 export function X() {
-  return <GlassNotificationCenter notifications={ns} />;
+  return <GlassNotificationCenter {...v} />;
 }

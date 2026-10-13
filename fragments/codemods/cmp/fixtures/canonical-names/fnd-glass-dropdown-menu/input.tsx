@@ -2,5 +2,5 @@
 import { GlassDropdownMenu } from 'aura-glass';
 
 export function X() {
-  return <GlassDropdownMenu trigger={<Btn/>} items={items} />;
+  return <GlassDropdownMenu {...v} />;
 }

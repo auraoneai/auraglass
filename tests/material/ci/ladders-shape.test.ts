@@ -347,6 +347,34 @@ describe('REQ-FIN-03 ladders.css cascade', () => {
           }
   });
 
+  it('no WebKit literal applies where the shared-backdrop kills apply (REQ-MAT-26/31)', () => {
+    // material.css kills the var()-composed filter for group children and
+    // nested surfaces; a constant literal would outrank those kills on
+    // -webkit-backdrop-filter, so the generator excludes the same contexts.
+    const KILLED: [string, Record<string, string>, Record<string, string>[]][] = [
+      ['direct child of a group', {}, [{ 'data-ag-group': '' }]],
+      ['group child with allow-nested (group kill has no exception)', { 'data-ag-allow-nested': '' }, [{ 'data-ag-group': '' }]],
+      ['nested inside a surface', {}, [{ 'data-ag-surface': '' }]],
+      ['deeply nested inside a surface', {}, [{ 'data-ag-surface': '' }, {}]],
+      ['grandchild of a group, nested in its child surface', {}, [{ 'data-ag-group': '' }, { 'data-ag-surface': '' }]],
+    ];
+    for (const [label, attrs, anc] of KILLED)
+      for (const coarse of [false, true])
+        for (const v of BLURRED)
+          for (const t of THICKNESSES) {
+            const el = surface({ ...attrs, 'data-ag-variant': v, 'data-ag-thickness': t }, anc);
+            const lit = winning(el, '-webkit-backdrop-filter', { pseudo: 'before', coarse });
+            expect([label, coarse, v, t, lit?.rule.selectors ?? null]).toEqual([label, coarse, v, t, null]);
+          }
+    // allow-nested keeps its optics: a nested surface opting in still gets the cell literal
+    for (const v of BLURRED)
+      for (const t of THICKNESSES) {
+        const el = surface({ 'data-ag-variant': v, 'data-ag-thickness': t, 'data-ag-allow-nested': '' }, [{ 'data-ag-surface': '' }]);
+        const lit = winning(el, '-webkit-backdrop-filter', { pseudo: 'before' })?.value;
+        expect([v, t, lit?.match(/^blur\(([\d.]+px)\)/)?.[1]]).toEqual([v, t, BLUR[t]]);
+      }
+  });
+
   it('a lightweight surface computes --_ag-blur 0px and grain <= 0.02 (MAT-35)', () => {
     for (const [label, attrs, anc] of LIGHTWEIGHT)
       for (const coarse of [false, true])

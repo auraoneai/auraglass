@@ -13,13 +13,13 @@ npm install aura-glass
 Then import icons from the public icon entrypoint:
 
 ```tsx
-import { GlassButton } from 'aura-glass';
+import { Button } from 'aura-glass';
 import { SearchIcon, SettingsIcon, SparkIcon } from 'aura-glass/icons';
 
 export function Toolbar() {
   return (
     <div>
-      <GlassButton leftIcon={<SparkIcon aria-hidden="true" />}>Generate</GlassButton>
+      <Button startIcon={<SparkIcon aria-hidden="true" />}>Generate</Button>
       <SearchIcon aria-hidden="true" />
       <SettingsIcon title="Settings" />
     </div>
@@ -114,7 +114,9 @@ After the app compiles, rename local JSX usages to the canonical `*Icon` names w
 
 Decorative icons should keep `aria-hidden="true"`. Icons that are the only visible label for an action need an accessible name on the button, not only on the icon:
 
-```tsx
+```tsx {fragment}
+import { SearchIcon } from 'aura-glass/icons';
+
 <button aria-label="Search">
   <SearchIcon aria-hidden="true" />
 </button>

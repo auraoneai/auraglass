@@ -3,10 +3,10 @@ import { GlassDataGrid, GlassTreeView, GlassFilterBar, GlassDatePicker, GlassSta
 
 export const View = () => (
   <section>
-    <GlassFilterBar />
-    <GlassDataGrid />
-    <GlassTreeView />
+    <GlassFilterBar {...v} />
+    <GlassDataGrid data={v} columns={v} />
+    <GlassTreeView {...v} />
     <GlassDatePicker />
-    <GlassStatCard />
+    <GlassStatCard {...v} />
   </section>
 );

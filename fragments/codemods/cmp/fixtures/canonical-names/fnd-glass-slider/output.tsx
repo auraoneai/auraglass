@@ -2,5 +2,5 @@
 import { Slider } from 'aura-glass';
 
 export function X() {
-  return <Slider value={[v]} onValueChange={(nv)=>setV(nv[0])} />;
+  return <Slider.Root value={[v]} onValueChange={(nv: any) =>setV(nv[0])} />;
 }

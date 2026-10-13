@@ -2,5 +2,5 @@
 import { GlassCarousel } from 'aura-glass';
 
 export function Example() {
-  return <GlassCarousel />;
+  return <GlassCarousel {...v} />;
 }

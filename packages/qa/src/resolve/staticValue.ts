@@ -58,6 +58,15 @@ export function evaluate(node: ts.Expression, sf: ts.SourceFile, consts = topLev
     throw new NonStaticExpression(sf.fileName, line + 1, n.getText(sf));
   };
   if (ts.isStringLiteral(n) || ts.isNoSubstitutionTemplateLiteral(n)) return n.text;
+  if (ts.isTemplateExpression(n)) {
+    let out = n.head.text;
+    for (const span of n.templateSpans) {
+      const v = evaluate(span.expression, sf, consts, seen);
+      if (typeof v !== 'string' && typeof v !== 'number' && typeof v !== 'boolean') return fail();
+      out += String(v) + span.literal.text;
+    }
+    return out;
+  }
   if (ts.isNumericLiteral(n)) return Number(n.text);
   if (n.kind === ts.SyntaxKind.TrueKeyword) return true;
   if (n.kind === ts.SyntaxKind.FalseKeyword) return false;

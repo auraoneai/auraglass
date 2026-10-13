@@ -2,5 +2,5 @@
 import { LiquidGlassPhotoInspector } from 'aura-glass';
 
 export function Example() {
-  return <LiquidGlassPhotoInspector />;
+  return <LiquidGlassPhotoInspector {...v} />;
 }

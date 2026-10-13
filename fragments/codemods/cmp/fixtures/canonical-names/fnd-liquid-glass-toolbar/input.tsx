@@ -2,5 +2,5 @@
 import { LiquidGlassToolbar } from 'aura-glass';
 
 export function X() {
-  return <LiquidGlassToolbar items={items} />;
+  return <LiquidGlassToolbar {...v} />;
 }

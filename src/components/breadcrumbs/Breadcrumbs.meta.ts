@@ -11,6 +11,7 @@ export default defineMeta({
   rsc: 'mixed',
   parts: ['breadcrumbs', 'current', 'ellipsis', 'glyph', 'hit-area', 'icon', 'item', 'label', 'link', 'list', 'popup', 'positioner', 'separator'],
   states: [],
+  material: { layer: 'content', refractionEligible: false },
   variants: {},
-  migration: [{ from: 'GlassBreadcrumbs', props: { items: null, separator: 'separator' }, automation: 'mostly', compat: true }],
+  migration: [{ from: 'GlassBreadcrumbs', props: { items: null, separator: 'separator' }, selectors: { '.glass-breadcrumbs': '[data-ag-part="breadcrumbs"]' }, automation: 'mostly', compat: true }],
 });

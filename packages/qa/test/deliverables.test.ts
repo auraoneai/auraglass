@@ -204,9 +204,11 @@ describe('the repository', () => {
   });
   it('every current offender is in the tool-written baseline, which expires at RC-1', () => {
     expect(baseline).not.toBeNull();
-    expect(baseline!.rows.length).toBeGreaterThan(0);
     expect(baseline!.rows.every((row) => row.expires === 'RC-1')).toBe(true);
     const r = evaluate(inputs, { phase: 'pre-rc', baseline });
+    // The baseline is legitimately empty once every offender is fixed
+    // (REQ-CMP-22 emptied it 2 -> 0); the offenders checks are the gate.
+    expect(baseline!.rows.length).toBeGreaterThanOrEqual(r.offenders.filter((o) => o.baselined).length);
     expect(r.offenders.filter((o) => !o.baselined)).toEqual([]);
     expect(r.ok).toBe(true);
   });
