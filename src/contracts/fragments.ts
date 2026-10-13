@@ -42,7 +42,7 @@ export const TODO_MARKER = '// TODO(aura-glass 5): <reason>, see <doc>' as const
 
 // ---- S-44 budgets (was SC-15) ----
 export interface SizeBudgetRow { id: string; import: string /* e.g. "{ Button } from 'aura-glass'" or 'aura-glass/data.css' */; limitBytes: number; kind: 'js' | 'css' }
-export const DEFAULT_CEILINGS = { subpathCssBytes: 8192, stylesCssBytes: 32768, tarballBytes: 2 * 1024 * 1024, nodeColdImportMs: 150 } as const;
+export const DEFAULT_CEILINGS = { subpathCssBytes: 8192, stylesCssBytes: 33792, tarballBytes: 2 * 1024 * 1024, nodeColdImportMs: 150 } as const;
 export const PROVISIONAL_ROWS = { Button: 10240, Dialog: 20480, Select: 25600, Table: 46080, AiThreadMessageComposer: 25600, MaterialJs: 3072, SingleIcon: 1024 } as const;
 export interface PerfBudgetRow {
   subject: string;                      // story id or component name

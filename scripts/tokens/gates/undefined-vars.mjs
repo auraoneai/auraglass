@@ -116,9 +116,14 @@ if (fragRoot) {
       }
       importClosure(abs, closure);
     }
-    // styles.css inlines the ag.material generated css (scripts/build/lib/css.mjs layerSupplements)
+    // styles.css inlines the full ag.material engine (scripts/build/lib/css.mjs
+    // layerSupplements): the generated cells plus the hand-authored sheets.
     if (name === 'styles.css' && existsSync(generatedDir)) {
       for (const n of readdirSync(generatedDir).sort()) if (n.endsWith('.css')) importClosure(join(generatedDir, n), closure);
+      for (const n of ['properties.css', 'material.css', 'lens.css']) {
+        const f = join(fragRoot, 'src/material/css', n);
+        if (existsSync(f)) importClosure(f, closure);
+      }
     }
     if (existsSync(tokensCss)) importClosure(tokensCss, closure);
     else findings.push({ entry: name, var: null, loc: 'dist/tokens.css', stream: streamOf('dist/tokens.css'), msg: 'token layer missing — run npm run tokens:build first' });

@@ -39,6 +39,23 @@ describe('css url() rebasing (REQ-SURF-160)', () => {
       .toThrow(/src\/backdrops\/assets\/nope\.avif does not exist/);
   });
 
+  it('the assembled dist/styles.css carries the full material engine with the grain tile rebased', async () => {
+    // styles.css is the only sheet consumers and the cert Storybook load and
+    // is documented as "the component and material CSS": the hand-authored
+    // engine (host paint, ::before optics, @property registry, scrim and
+    // ScrollEdge rules) must ship inside it, not only in dist/material.css.
+    const fragments = await collectCssFragments(ROOT);
+    const assets: Array<{ from: string; to: string }> = [];
+    const css = await assembleBundle('styles.css', fragments, ROOT, assets);
+    expect(css).toContain('@property --_ag-grain-opacity');
+    expect(css).toContain('backdrop-filter: blur(var(--_ag-blur))');
+    expect(css).toContain('[data-ag-layer="scrim"]');
+    expect(css).toContain('[data-ag-part="scroll-edge"]');
+    expect(css).toContain("url(./material/assets/ag-grain-128.avif)");
+    expect(css).not.toContain('../assets/ag-grain-128.avif');
+    expect(assets).toContainEqual({ from: 'src/material/assets/ag-grain-128.avif', to: 'dist/material/assets/ag-grain-128.avif' });
+  });
+
   it('the assembled dist/backdrops.css references only rebased, existing grain assets', async () => {
     const fragments = await collectCssFragments(ROOT);
     const assets: Array<{ from: string; to: string }> = [];

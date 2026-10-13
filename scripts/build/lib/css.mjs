@@ -275,14 +275,33 @@ export function containerCount(css) {
   return (stripComments(css).match(/@container\b/g) || []).length;
 }
 
+/** The MAT engine sources (fragments/css/mat.ts bundle order): assembled into
+    the standalone material.css bundle and inlined into styles.css. */
+const MATERIAL_ENGINE_FILES = [
+  'src/material/css/generated/properties.css',
+  'src/material/css/properties.css',
+  'src/material/css/generated/floors.css',
+  'src/material/css/generated/ladders.css',
+  'src/material/css/material.css',
+  'src/material/css/lens.css',
+];
+
 /** Non-fragment layer sources that exist on the tree right now (pending sources are skipped). */
 function layerSupplements(layer, root) {
   const out = [];
   // ag.compat content arrives via css fragments (PLAT's own fragment rows).
   if (layer === 'ag.tokens') { const f = join(root, 'dist/tokens.css'); if (existsSync(f)) out.push(f); }
   if (layer === 'ag.material') {
-    const dir = join(root, 'src/material/css/generated');
-    if (existsSync(dir)) for (const n of readdirSync(dir).sort()) if (n.endsWith('.css')) out.push(join(dir, n));
+    // styles.css is documented as "the component and material CSS" and is the
+    // only sheet consumers (and the cert Storybook) load, so the full MAT
+    // engine ships inside it — generated cells AND the hand-authored engine
+    // (properties/material/lens), in fragments/css/mat.ts bundle order. The
+    // standalone material.css bundle is assembled from the same sources for
+    // subpath consumers. Pending sources are skipped.
+    for (const rel of MATERIAL_ENGINE_FILES) {
+      const f = join(root, rel);
+      if (existsSync(f)) out.push(f);
+    }
   }
   return out;
 }
@@ -321,7 +340,16 @@ export async function assembleBundle(bundle, fragments, root = ROOT, assets = nu
       if (assets) assets.push(...rebased.assets);
       return `/* ${f.file} (${f.stream}) */\n${rebased.css.trim()}`;
     });
-    const supChunks = bundle === 'styles.css' ? layerSupplements(layer, root).map(f => readFileSync(f, 'utf8').trim()) : [];
+    const supChunks = bundle === 'styles.css' ? layerSupplements(layer, root).map(f => {
+      // supplements are concatenated into dist/<bundle> like fragments, so
+      // their relative url()s (e.g. the grain tile in material.css) rebase
+      // onto dist copies the same way (REQ-SURF-160).
+      const rel = relative(root, f).split('\\').join('/');
+      if (!rel.startsWith('src/')) return readFileSync(f, 'utf8').trim();
+      const rebased = rebaseCssUrls(readFileSync(f, 'utf8'), rel, bundle, root);
+      if (assets) assets.push(...rebased.assets);
+      return rebased.css.trim();
+    }) : [];
     const chunks = [...fragChunks, ...supChunks].filter(Boolean);
     if (!chunks.length) continue;
     // Supplementary token/material css may be raw (generated); emit it inside its layer.
@@ -371,6 +399,9 @@ export function computeOwnership(fragments, { a11yBaseline = null } = {}) {
       }
       if (!ownedPrefix(p)) continue;
       (selectors[p] ??= new Set()).add(f.bundle);
+      // The material engine files are inlined into styles.css as supplements
+      // (layerSupplements), so their prefixes are declared for styles.css too.
+      if (MATERIAL_ENGINE_FILES.includes(f.file)) selectors[p].add('styles.css');
     }
   }
   const out = {};
