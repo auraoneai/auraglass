@@ -1,0 +1,35 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Dialog.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  @media (prefers-reduced-motion: reduce) {
+    .ag-dialog-popup[data-starting-style],
+    .ag-dialog-popup[data-ending-style],
+    .ag-dialog-popup[data-open] {
+      transform: none;
+      transition: opacity var(--ag-duration-micro) var(--ag-ease-standard);
+    }
+  }
+  @media (forced-colors: active) {
+    .ag-dialog-popup {
+      border: 1px solid CanvasText;
+      background: Canvas;
+      color: CanvasText;
+      box-shadow: none;
+    }
+  }
+  /* Authored pairing (REQ-PLAT-74): popup text regions inherit the relocated
+     Canvas popup; Trigger/Close/Action are buttons; the Close hover-fill
+     transition (defined in Dialog.css) stops under reduced motion. */
+  @media (forced-colors: active) {
+    .ag-dialog-header, .ag-dialog-footer, .ag-dialog-body { background: Canvas; color: CanvasText; }
+    .ag-dialog-title, .ag-dialog-description { color: CanvasText; }
+    .ag-dialog-trigger, .ag-dialog-action { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+    .ag-dialog-close { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ag-dialog-close::after { transition: none; }
+  }
+}

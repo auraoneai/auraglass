@@ -1,0 +1,27 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Breadcrumbs.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  /* REQ-SURF-189: forced colours — links read as links, the current page
+     keeps a non-colour cue (underline) and focus is the system ring. */
+  @media (forced-colors: active) {
+    .ag-breadcrumbs__link {
+      color: LinkText;
+    }
+    .ag-breadcrumbs__current {
+      color: Highlight;
+      text-decoration-line: underline;
+      text-decoration-thickness: var(--ag-focus-width, 2px);
+      text-underline-offset: var(--ag-space-1, 0.25rem);
+    }
+  }
+  /* Authored pairing (REQ-PLAT-74): list ink and the separator glyph stay
+     visible; the ellipsis overflow trigger is a button. */
+  @media (forced-colors: active) {
+    .ag-breadcrumbs__list { color: CanvasText; }
+    .ag-breadcrumbs__separator { color: CanvasText; }
+    .ag-breadcrumbs__ellipsis { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+  }
+}

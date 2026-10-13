@@ -1,0 +1,81 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* date.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors rules for
+   date/time fields, calendar cells, and picker controls. */
+@layer ag.a11y {
+  @media (forced-colors: active) {
+    .ag-date-field,
+    .ag-time-field,
+    .ag-date-picker,
+    .ag-date-range-picker,
+    .ag-time-picker,
+    .ag-calendar,
+    .ag-range-calendar,
+    .ag-calendar__header,
+    .ag-calendar__months,
+    .ag-calendar__grid,
+    .ag-range-calendar__months,
+    .ag-date-range-picker__body,
+    .ag-date-range-picker__actions,
+    .ag-date-range-picker__presets,
+    .ag-time-picker__columns,
+    .ag-time-picker__column {
+      background: Canvas;
+      color: CanvasText;
+    }
+    .ag-calendar__heading,
+    .ag-calendar__weekday,
+    .ag-calendar__weekno,
+    .ag-calendar__weekno-header,
+    .ag-date-field__description,
+    .ag-date-field__error {
+      color: CanvasText;
+    }
+    .ag-date-field__input,
+    .ag-date-picker__group {
+      background: Canvas;
+      color: CanvasText;
+      border-color: CanvasText;
+    }
+    .ag-date-field__segment {
+      color: CanvasText;
+      background: Canvas;
+    }
+    .ag-date-field__segment[data-focused] {
+      background: Highlight;
+      color: HighlightText;
+    }
+    .ag-date-picker__trigger,
+    .ag-calendar__nav {
+      color: ButtonText;
+      background: ButtonFace;
+      border: 1px solid ButtonText;
+    }
+    .ag-date-picker__popover {
+      background: Canvas;
+      color: CanvasText;
+      border-color: CanvasText;
+    }
+    .ag-calendar__cell {
+      background: Canvas;
+      color: CanvasText;
+    }
+    .ag-calendar__cell[data-selected] {
+      background: Highlight;
+      color: HighlightText;
+    }
+    .ag-calendar__cell[data-disabled] {
+      color: GrayText;
+      opacity: 1;
+    }
+    .ag-calendar__cell[data-outside-month] {
+      color: GrayText;
+    }
+    .ag-date-range-picker__preset,
+    .ag-time-picker__option {
+      background: ButtonFace;
+      color: ButtonText;
+      border: 1px solid ButtonText;
+    }
+  }
+}

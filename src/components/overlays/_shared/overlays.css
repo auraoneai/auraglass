@@ -61,27 +61,9 @@
     will-change: transform, opacity;
   }
 
-  /* Overlay parts (popup, close, handle, action) take the shared REQ-CMP-19
-     two-tone ring from control-shared/controls.css. */
-
-  @media (forced-colors: active) {
-    .ag-scrim {
-      background: color-mix(in srgb, Canvas 60%, transparent);
-    }
-    [data-ag-part='popup'] {
-      background: Canvas;
-      color: CanvasText;
-      border: 1px solid CanvasText;
-    }
-  }
   /* --_ag-surface-rim is a colour; it was used as the border width */
   [data-ag-transparency='solid'] [data-ag-part='popup'] {
     border: 1px solid var(--_ag-surface-rim, var(--ag-color-border, currentColor));
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .ag-scrim {
-      transition-duration: var(--ag-duration-micro);
-    }
-  }
 }

@@ -1,0 +1,31 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* overlays.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  /* Overlay parts (popup, close, handle, action) take the shared REQ-CMP-19
+     two-tone ring from control-shared/controls.css. */
+
+  @media (forced-colors: active) {
+    .ag-scrim {
+      background: color-mix(in srgb, Canvas 60%, transparent);
+    }
+    [data-ag-part='popup'] {
+      background: Canvas;
+      color: CanvasText;
+      border: 1px solid CanvasText;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ag-scrim {
+      transition-duration: var(--ag-duration-micro);
+    }
+  }
+  /* Authored pairing (REQ-PLAT-74): the full-viewport container is an inert
+     positioning shell — it must stay transparent so it never paints over
+     the page in forced colours. */
+  @media (forced-colors: active) {
+    .ag-overlay-container { background: transparent; }
+  }
+}

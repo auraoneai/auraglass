@@ -1,0 +1,34 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* RadioGroup.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors
+   ring/dot, selected choice-card rim and disabled text in system
+   colours (the shared indicator box also lives in Checkbox.a11y.css). */
+@layer ag.a11y {
+  @media (forced-colors: active) {
+    .ag-radio-group {
+      color: CanvasText;
+      background: Canvas;
+    }
+    .ag-radio-item { color: CanvasText; }
+    .ag-radio-item [data-ag-part='indicator'] {
+      border: var(--ag-focus-width) solid ButtonText;
+      background: ButtonFace;
+      box-shadow: none;
+    }
+    .ag-radio-item[data-checked] [data-ag-part='indicator']::after {
+      background: Highlight;
+    }
+    .ag-radio-item[data-disabled] { color: GrayText; }
+    .ag-radio-item[data-disabled] [data-ag-part='indicator'] {
+      border-color: GrayText;
+    }
+    .ag-radio-group--cards .ag-radio-item {
+      border: calc(var(--ag-focus-width) / 2) solid ButtonText;
+      background: ButtonFace;
+      color: ButtonText;
+    }
+    .ag-radio-group--cards .ag-radio-item[data-checked] {
+      border: var(--ag-focus-width) solid Highlight;
+    }
+  }
+}

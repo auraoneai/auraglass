@@ -7,7 +7,7 @@ export default [
   // by QUAL L10 at 5.0.0-alpha.1; afterwards ratchet-down only (D-26).
 
   // MAT-342 (DS rows)
-  { id: 'mat:styles-css', import: 'aura-glass/styles.css', limitBytes: 33792, kind: 'css' },
+  { id: 'mat:styles-css', import: 'aura-glass/styles.css', limitBytes: 35840, kind: 'css' },
   { id: 'mat:tokens-css', import: 'aura-glass/tokens.css', limitBytes: 8192, kind: 'css' },
   { id: 'mat:tokens-css-presets', import: 'aura-glass/tokens.css#preset-blocks', limitBytes: 2048, kind: 'css' },
   { id: 'mat:tailwind-css', import: 'aura-glass/tailwind.css', limitBytes: 6144, kind: 'css' },

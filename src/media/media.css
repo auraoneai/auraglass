@@ -257,19 +257,6 @@
   }
   [data-ag-motion='calm'] .ag-waveform [data-ag-part='waveform-level'],
   [data-ag-motion='none'] .ag-waveform [data-ag-part='waveform-level'] { transition: none; }
-  @media (forced-colors: active) {
-    .ag-waveform { forced-color-adjust: none; }
-    .ag-waveform [data-ag-part='waveform-remaining'] { fill: GrayText; }
-    .ag-waveform [data-ag-part='waveform-played'],
-    .ag-waveform [data-ag-part='waveform-level'] { fill: CanvasText; }
-    /* REQ-SURF-189: scrubber/volume sliders read CanvasText (track) and
-       Highlight (played range, thumb); buffered/chapter marks stay visible. */
-    .ag-media-scrubber .ag-slider [data-ag-part='track'] { background: Canvas; border: 1px solid CanvasText; }
-    .ag-media-scrubber .ag-slider [data-ag-part='range'] { background: Highlight; }
-    .ag-media-scrubber .ag-slider [data-ag-part='thumb'] { background: Highlight; border: 1px solid CanvasText; }
-    [data-ag-part='media-scrubber-buffered'],
-    [data-ag-part='media-scrubber-chapter'] { background: CanvasText; }
-  }
 /* --- end lane W4 controls --- */
 
 /* --- lane W4: image-viewer + carousel --- */
@@ -343,9 +330,6 @@
       max-block-size: 50dvh; overflow-y: auto;
     }
     .ag-image-viewer[data-ag-inspector='open'] .ag-image-viewer-stage { margin-inline-end: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .ag-image-viewer-stage img { transition: opacity var(--ag-duration-micro); }
   }
   /* Trigger: the thumbnail itself is the button — no UA chrome around it. */
   [data-ag-part='image-viewer-trigger'] {

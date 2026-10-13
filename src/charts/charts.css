@@ -19,12 +19,4 @@
   }
   .ag-chart__tooltip ul { list-style: none; margin: 0; padding: 0; }
   .ag-chart__tooltip-swatch { display: inline-block; inline-size: 0.75em; block-size: 0.75em; border-radius: var(--ag-radius-full); margin-inline-end: 0.35em; }
-  /* REQ-SURF-189: forced colours — tooltip swatches keep the series fill
-     and gain a CanvasText border. */
-  @media (forced-colors: active) {
-    .ag-chart__tooltip-swatch {
-      forced-color-adjust: none;
-      border: 1px solid CanvasText;
-    }
-  }
 }

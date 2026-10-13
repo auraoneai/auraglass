@@ -1,0 +1,43 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* FileUpload.css — @layer ag.a11y (REQ-PLAT-74 pairing): the dropzone and
+   remove buttons are border/background-only affordances and the active drag
+   state is border-style alone; give them system colours in forced-colors. */
+@layer ag.a11y {
+  @media (forced-colors: active) {
+    .ag-file-upload {
+      color: CanvasText;
+    }
+    .ag-file-upload-dropzone {
+      border: var(--ag-focus-width) dashed ButtonText;
+      background: ButtonFace;
+      color: ButtonText;
+    }
+    .ag-file-upload-dropzone[data-state='active'] {
+      border-style: solid;
+      border-color: Highlight;
+      outline: var(--ag-focus-width) solid Highlight;
+    }
+    .ag-file-upload-input {
+      color: CanvasText;
+    }
+    .ag-file-upload-list {
+      color: CanvasText;
+    }
+    .ag-file-upload-item {
+      color: CanvasText;
+    }
+    .ag-file-upload-name {
+      color: CanvasText;
+    }
+    .ag-file-upload-size {
+      color: CanvasText;
+      opacity: 1;
+    }
+    .ag-file-upload-remove {
+      border: calc(var(--ag-focus-width) / 2) solid ButtonText;
+      background: ButtonFace;
+      color: ButtonText;
+    }
+  }
+}

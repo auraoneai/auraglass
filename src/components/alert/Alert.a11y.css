@@ -1,0 +1,32 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Alert.css — @layer ag.a11y (REQ-PLAT-74 pairing): intent is a coloured
+   rim and tint wash alone; under forced colors give the alert a real system
+   border and canvas surface so it stays delineated from the page. */
+@layer ag.a11y {
+  @media (forced-colors: active) {
+    .ag-alert {
+      background: Canvas;
+      color: CanvasText;
+      border: var(--ag-focus-width) solid CanvasText;
+    }
+    .ag-alert-body {
+      color: CanvasText;
+    }
+    .ag-alert-title {
+      color: CanvasText;
+    }
+    .ag-alert-actions {
+      color: CanvasText;
+    }
+    .ag-alert-action {
+      background: ButtonFace;
+      color: ButtonText;
+      border: var(--ag-focus-width) solid ButtonText;
+    }
+    .ag-alert-action:disabled {
+      color: GrayText;
+      border-color: GrayText;
+    }
+  }
+}

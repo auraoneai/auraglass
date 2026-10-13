@@ -1,0 +1,109 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Menu.css — @layer ag.a11y (REQ-PLAT-74 pairing): highlight/open state is
+   a translucent background fill alone and the popup enters with scale+fade;
+   map states to system colours and drop the scale under reduced motion. */
+@layer ag.a11y {
+  @media (prefers-reduced-motion: reduce) {
+    .ag-menu-popup,
+    .ag-menu-popup[data-starting-style],
+    .ag-menu-popup[data-ending-style] {
+      transform: none;
+      transition-property: opacity;
+    }
+    .ag-contextmenu-popup,
+    .ag-contextmenu-popup[data-starting-style],
+    .ag-contextmenu-popup[data-ending-style] {
+      transform: none;
+      transition-property: opacity;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .ag-menu-positioner {
+      color: CanvasText;
+    }
+    .ag-menu-popup {
+      background: Canvas;
+      color: CanvasText;
+      border: var(--ag-focus-width) solid CanvasText;
+    }
+    .ag-contextmenu-popup {
+      background: Canvas;
+      color: CanvasText;
+      border: var(--ag-focus-width) solid CanvasText;
+    }
+    .ag-menu-item {
+      color: CanvasText;
+      background: Canvas;
+    }
+    .ag-menu-item[data-highlighted] {
+      background: Highlight;
+      color: HighlightText;
+    }
+    .ag-menu-item[data-disabled] {
+      color: GrayText;
+    }
+    .ag-menu-submenu-trigger {
+      color: CanvasText;
+      background: Canvas;
+    }
+    .ag-menu-submenu-trigger[data-highlighted],
+    .ag-menu-submenu-trigger[data-popup-open] {
+      background: Highlight;
+      color: HighlightText;
+    }
+    .ag-menu-submenu-trigger[data-disabled] {
+      color: GrayText;
+    }
+    .ag-menu-checkbox-item {
+      color: CanvasText;
+    }
+    .ag-menu-radio-item {
+      color: CanvasText;
+    }
+    .ag-menu-item-label {
+      color: inherit;
+    }
+    .ag-menu-item-indicator {
+      color: inherit;
+    }
+    .ag-menu-indicator {
+      color: inherit;
+    }
+    .ag-menu-group {
+      color: CanvasText;
+    }
+    .ag-menu-item-link {
+      color: LinkText;
+    }
+    .ag-menu-shortcut {
+      color: inherit;
+      opacity: 1;
+    }
+    .ag-menu-submenu-indicator {
+      color: inherit;
+    }
+    .ag-menu-group-label {
+      color: CanvasText;
+    }
+    .ag-menu-separator {
+      background: CanvasText;
+    }
+    .ag-menu-arrow {
+      background: Canvas;
+      forced-color-adjust: none;
+    }
+    .ag-menubar {
+      background: Canvas;
+      color: CanvasText;
+      border: calc(var(--ag-focus-width) / 2) solid CanvasText;
+    }
+    .ag-menu-trigger {
+      color: ButtonText;
+    }
+    .ag-contextmenu-trigger {
+      color: CanvasText;
+    }
+  }
+}

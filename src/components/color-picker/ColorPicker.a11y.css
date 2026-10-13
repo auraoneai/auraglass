@@ -1,0 +1,59 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* ColorPicker.css — @layer ag.a11y (REQ-PLAT-74 pairing): the swatch, area
+   and channel tracks are painted colour indicators that must survive forced
+   colors verbatim; the surrounding controls map to system colours. */
+@layer ag.a11y {
+  @media (forced-colors: active) {
+    .ag-color-picker {
+      background: Canvas;
+      color: CanvasText;
+    }
+    .ag-color-picker-trigger {
+      background: ButtonFace;
+      color: ButtonText;
+      border: var(--ag-focus-width) solid ButtonText;
+    }
+    .ag-color-picker-trigger:disabled {
+      color: GrayText;
+      border-color: GrayText;
+    }
+    .ag-color-picker-swatch {
+      forced-color-adjust: none;
+      outline: var(--ag-focus-width) solid CanvasText;
+    }
+    .ag-color-picker-area {
+      forced-color-adjust: none;
+      outline: var(--ag-focus-width) solid CanvasText;
+    }
+    .ag-color-picker-area-thumb {
+      border-color: CanvasText;
+      outline: var(--ag-focus-width) solid Canvas;
+    }
+    .ag-color-picker-hue {
+      color: CanvasText;
+    }
+    .ag-color-picker-hue [data-ag-part="track"] {
+      forced-color-adjust: none;
+      outline: var(--ag-focus-width) solid CanvasText;
+    }
+    .ag-color-picker-channel {
+      forced-color-adjust: none;
+    }
+    .ag-color-picker-alpha {
+      forced-color-adjust: none;
+    }
+    .ag-color-picker-input {
+      color: CanvasText;
+    }
+    .ag-color-picker-input-field {
+      background: Canvas;
+      color: CanvasText;
+      border: var(--ag-focus-width) solid CanvasText;
+    }
+    .ag-color-picker-input-field:disabled {
+      color: GrayText;
+      border-color: GrayText;
+    }
+  }
+}

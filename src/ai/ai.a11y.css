@@ -1,0 +1,45 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* ai.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  @media (prefers-reduced-motion: reduce) {
+    [data-ag-part="streaming-text"] [data-ag-part="caret"] { animation: none; opacity: 1; }
+    [data-ag-part="step"][data-state="running"] [data-ag-part="step-icon"]::after { animation: none; }
+  }
+  /* REQ-SURF-189: forced colours — the caret and the running/typing atoms
+     paint in CanvasText (a currentColor fill would be forced to the canvas)
+     and focus is the system ring. */
+  @media (forced-colors: active) {
+    [data-ag-part="streaming-text"] [data-ag-part="caret"],
+    [data-ag-part="step"][data-state="running"] [data-ag-part="step-icon"]::after,
+    [data-ag-part="typing-indicator"] [data-ag-part="typing-dot"] {
+      background: CanvasText;
+    }
+  }
+  /* Authored pairing (REQ-PLAT-74): thread/composer surfaces and the
+     running atoms keep system colours; hover-revealed message actions stay
+     visible (opacity is colour-independent, so force them shown). */
+  @media (forced-colors: active) {
+    .ag-visually-hidden { color: CanvasText; }
+    .ag-thread-viewport { background: Canvas; color: CanvasText; }
+    [data-ag-part="thread"], [data-ag-part="log"] { background: Canvas; color: CanvasText; }
+    [data-ag-part="message"], [data-ag-part="text-part"] { color: CanvasText; }
+    [data-ag-part="message"] [data-ag-part="actions"] { opacity: 1; }
+    [data-ag-part="composer"] { background: Canvas; color: CanvasText; border: 1px solid CanvasText; }
+    [data-ag-part="composer"][data-dragging="true"] { outline-color: Highlight; }
+    [data-ag-part="citation-preview"] { background: Canvas; color: CanvasText; border: 1px solid CanvasText; }
+    [data-ag-part="citation"] { color: LinkText; }
+    [data-ag-part="jump-to-latest"] { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+    [data-ag-part="attachments"], [data-ag-part="attachment"] { color: CanvasText; }
+    [data-ag-part="tool-call"] { color: CanvasText; }
+    [data-ag-part="running-dots"] { color: CanvasText; }
+    [data-ag-part="bottom-sentinel"] { background: Canvas; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-ag-part="running-dots"]::after { animation: none; }
+    [data-ag-part="typing-indicator"] [data-ag-part="typing-dot"] { animation: none; opacity: 1; }
+    [data-ag-part="attachments"] { scroll-behavior: auto; }
+  }
+}

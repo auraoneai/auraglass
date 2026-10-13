@@ -1,0 +1,26 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Pagination.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  /* REQ-SURF-189: forced colours — the current page keeps a non-colour cue
+     (outline + underline) besides Highlight; focus is the system ring. */
+  @media (forced-colors: active) {
+    .ag-pagination__link[aria-current='page'] {
+      color: Highlight;
+      outline: 1px solid Highlight;
+      text-decoration-line: underline;
+    }
+  }
+  /* Authored pairing (REQ-PLAT-74): list/status ink in system colours;
+     disabled links are opacity-only in Pagination.css, so they read
+     GrayText instead. */
+  @media (forced-colors: active) {
+    [data-ag-part='pagination'] { color: CanvasText; }
+    .ag-pagination__list { color: CanvasText; }
+    .ag-pagination__status { color: CanvasText; }
+    .ag-pagination__link { color: LinkText; }
+    .ag-pagination__link[aria-disabled='true'] { color: GrayText; }
+  }
+}

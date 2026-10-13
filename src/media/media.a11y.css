@@ -1,0 +1,68 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* media.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  @media (forced-colors: active) {
+    .ag-waveform { forced-color-adjust: none; }
+    .ag-waveform [data-ag-part='waveform-remaining'] { fill: GrayText; }
+    .ag-waveform [data-ag-part='waveform-played'],
+    .ag-waveform [data-ag-part='waveform-level'] { fill: CanvasText; }
+    /* REQ-SURF-189: scrubber/volume sliders read CanvasText (track) and
+       Highlight (played range, thumb); buffered/chapter marks stay visible. */
+    .ag-media-scrubber .ag-slider [data-ag-part='track'] { background: Canvas; border: 1px solid CanvasText; }
+    .ag-media-scrubber .ag-slider [data-ag-part='range'] { background: Highlight; }
+    .ag-media-scrubber .ag-slider [data-ag-part='thumb'] { background: Highlight; border: 1px solid CanvasText; }
+    [data-ag-part='media-scrubber-buffered'],
+    [data-ag-part='media-scrubber-chapter'] { background: CanvasText; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ag-image-viewer-stage img { transition: opacity var(--ag-duration-micro); }
+  }
+  /* Authored pairing (REQ-PLAT-74): glyph/transport buttons read as buttons,
+     progress and carousel-indicator state (colour-only in media.css) moves
+     to Highlight/CanvasText, chrome text is CanvasText, and the transitions
+     media.css defines stop under reduced motion. */
+  @media (forced-colors: active) {
+    .ag-media-controls-frame { background: Canvas; color: CanvasText; }
+    [data-ag-part='media-controls'] { background: Canvas; color: CanvasText; border: 1px solid CanvasText; }
+    .ag-media-btn { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+    .ag-media-btn[aria-disabled='true'] { color: GrayText; border-color: GrayText; }
+    [data-ag-part='media-play'], [data-ag-part='media-mute'], [data-ag-part='media-fullscreen'],
+    [data-ag-part='media-pip'], [data-ag-part='media-rate'], [data-ag-part='media-captions'],
+    [data-ag-part='media-more'] { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+    [data-ag-part='media-volume'], [data-ag-part='media-time'] { color: CanvasText; }
+    .ag-media-time, .ag-media-captions-glyph { color: CanvasText; }
+    .ag-media-spacer { background: Canvas; }
+    .ag-media-volume, .ag-media-scrubber-control { color: CanvasText; }
+    .ag-media-scrubber-track { background: Canvas; border: 1px solid CanvasText; }
+    [data-ag-part='media-scrubber-tooltip'] { background: Canvas; color: CanvasText; border: 1px solid CanvasText; }
+    .ag-now-playing { background: Canvas; color: CanvasText; border-block-start: 1px solid CanvasText; }
+    .ag-now-playing-artwork { border: 1px solid CanvasText; }
+    .ag-now-playing-title, .ag-now-playing-subtitle { color: CanvasText; }
+    .ag-now-playing-actions { color: CanvasText; }
+    [data-ag-part='now-playing-play'], [data-ag-part='now-playing-prev'], [data-ag-part='now-playing-next'],
+    [data-ag-part='now-playing-expand'] { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+    .ag-now-playing-progress { background: Canvas; border: 1px solid CanvasText; }
+    [data-ag-part='now-playing-progress-fill'] { background: Highlight; }
+    .ag-image-viewer-scrim { background: color-mix(in srgb, Canvas 60%, transparent); }
+    .ag-image-viewer { background: Canvas; color: CanvasText; }
+    .ag-image-viewer-toolbar, .ag-image-viewer-caption, .ag-image-viewer-inspector { background: Canvas; color: CanvasText; border: 1px solid CanvasText; }
+    [data-ag-part='image-viewer-counter'] { background: Canvas; color: CanvasText; }
+    [data-ag-part='image-viewer-prev'], [data-ag-part='image-viewer-next'], [data-ag-part='image-viewer-close'] { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+    [data-ag-part='image-viewer-trigger'] { color: ButtonText; border: 1px solid ButtonText; }
+    .ag-carousel, .ag-carousel-viewport, .ag-carousel-slide { color: CanvasText; }
+    .ag-carousel-nav { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+    .ag-carousel-nav[aria-disabled='true'] { color: GrayText; border-color: GrayText; }
+    [data-ag-part='carousel-prev'], [data-ag-part='carousel-next'], [data-ag-part='carousel-autoplay-toggle'] { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+    .ag-carousel-indicators { color: CanvasText; }
+    [data-ag-part='carousel-indicator'] { background: Canvas; border: 1px solid CanvasText; }
+    [data-ag-part='carousel-indicator'][aria-selected='true'], [data-ag-part='carousel-indicator'][aria-current='true'] { background: Highlight; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ag-media-btn { transition: none; }
+    .ag-waveform [data-ag-part='waveform-level'] { transition: none; }
+    [data-ag-part='carousel-indicator'] { transition: none; }
+  }
+}

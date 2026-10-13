@@ -1,0 +1,48 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Toast.css — @layer ag.a11y (REQ-PLAT-74 pairing): reduced motion
+   stills the enter/exit and timeout animations Toast.css defines;
+   forced-colors borders the card, keeps intent as a Highlight rim and
+   paints the action/close controls as system buttons. */
+@layer ag.a11y {
+  @media (prefers-reduced-motion: reduce) {
+    .ag-toast { animation: none; }
+    .ag-toast-progress-bar { animation: none; }
+  }
+
+  @media (forced-colors: active) {
+    .ag-toast-viewport { color: CanvasText; }
+    .ag-toast-stack { color: CanvasText; }
+    .ag-toast {
+      color: CanvasText;
+      background: Canvas;
+      border: calc(var(--ag-focus-width) / 2) solid CanvasText;
+      border-inline-start: var(--ag-focus-width) solid Highlight;
+    }
+    .ag-toast-content { color: CanvasText; }
+    .ag-toast-title { color: CanvasText; }
+    .ag-toast-description { color: CanvasText; }
+    .ag-toast-history {
+      color: CanvasText;
+      background: Canvas;
+    }
+    .ag-toast-history-title { color: CanvasText; }
+    .ag-toast-history-desc { color: CanvasText; }
+    .ag-toast-history-time { color: CanvasText; }
+    .ag-toast-action {
+      color: ButtonText;
+      background: ButtonFace;
+      border: var(--ag-focus-width) solid ButtonText;
+    }
+    .ag-toast-close {
+      color: ButtonText;
+      background: ButtonFace;
+      border: calc(var(--ag-focus-width) / 2) solid ButtonText;
+    }
+    .ag-toast-progress {
+      background: Canvas;
+      outline: calc(var(--ag-focus-width) / 2) solid CanvasText;
+    }
+    .ag-toast-progress-bar { background: Highlight; }
+  }
+}

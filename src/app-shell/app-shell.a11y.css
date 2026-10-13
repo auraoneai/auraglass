@@ -1,0 +1,75 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* app-shell.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  @media (forced-colors: active) {
+    .ag-top-bar {
+      border-block-end: 1px solid CanvasText;
+    }
+  }
+  /* REQ-SURF-189: forced colours. MAT drops every backdrop and paints each
+     [data-ag-surface] in Canvas/CanvasText (material.css); the shell puts
+     its own chrome on system colours, gives the current nav item a
+     non-colour cue (the box-shadow indicators above are forced to none); the
+     system focus ring is src/a11y/css/focus.css (REQ-MAT-61). */
+  @media (forced-colors: active) {
+    .ag-app-shell,
+    .ag-app-shell :is(.ag-top-bar, .ag-sidebar, .ag-inspector, .ag-status-bar) {
+      background-color: Canvas;
+      color: CanvasText;
+    }
+    .ag-sidebar__item[aria-current='page'],
+    .ag-app-shell .ag-tab-bar__item[aria-current='page'] {
+      color: Highlight;
+      outline: 1px solid Highlight;
+      outline-offset: calc(-1 * var(--ag-focus-width, 2px));
+      text-decoration-line: underline;
+      text-decoration-thickness: var(--ag-focus-width, 2px);
+      text-underline-offset: var(--ag-space-1, 0.25rem);
+    }
+    .ag-app-shell .ag-tabs__indicator {
+      background-color: Highlight;
+    }
+    .ag-panels__handle,
+    .ag-panels__grip {
+      background-color: CanvasText;
+    }
+  }
+  @media (prefers-contrast: more) {
+    .ag-top-bar:not(:where([data-ag-contrast='standard'], [data-ag-contrast='standard'] *)) {
+      border-block-end: var(--ag-focus-width, 2px) solid var(--ag-color-on-surface);
+    }
+    .ag-sidebar:not(:where([data-ag-contrast='standard'], [data-ag-contrast='standard'] *)) {
+      border-inline-end: var(--ag-focus-width, 2px) solid var(--ag-color-on-surface);
+    }
+    .ag-app-shell[data-ag-sidebar-side='end'] .ag-sidebar:not(:where([data-ag-contrast='standard'], [data-ag-contrast='standard'] *)) {
+      border-inline-end: 0;
+      border-inline-start: var(--ag-focus-width, 2px) solid var(--ag-color-on-surface);
+    }
+    :is(.ag-sidebar__item, .ag-sidebar__group-label, .ag-top-bar__title, .ag-top-bar__center):not(:where([data-ag-contrast='standard'] *)) {
+      color: var(--ag-color-on-surface);
+    }
+    .ag-sidebar__item[aria-current='page']:not(:where([data-ag-contrast='standard'] *)),
+    .ag-app-shell .ag-sidebar__item[aria-current='page']:not(:where([data-ag-contrast='standard'] *)) {
+      box-shadow: inset calc(var(--ag-focus-width) * 2) 0 0 var(--ag-color-accent);
+      text-decoration-line: underline;
+      text-decoration-thickness: var(--ag-focus-width, 2px);
+      text-underline-offset: var(--ag-space-1, 0.25rem);
+    }
+  }
+  /* Authored pairing (REQ-PLAT-74): shell regions and page-header text read
+     in system colours; the skip link is a link, panel handles stay visible. */
+  @media (forced-colors: active) {
+    .ag-app-shell__frame { background: Canvas; color: CanvasText; }
+    .ag-app-shell__auto-grid { background: Canvas; color: CanvasText; }
+    .ag-inspector { background: Canvas; color: CanvasText; border-inline-start: 1px solid CanvasText; }
+    .ag-inspector__content, .ag-inspector__field { color: CanvasText; }
+    .ag-panels { background: Canvas; color: CanvasText; }
+    .ag-page-header, .ag-page-header__row, .ag-page-header__actions { color: CanvasText; }
+    .ag-page-header__title { color: CanvasText; }
+    .ag-top-bar__title, .ag-top-bar__center { color: CanvasText; }
+    .ag-skip-link:focus-visible { background: Canvas; color: LinkText; outline: 1px solid Highlight; }
+  }
+}

@@ -207,20 +207,4 @@
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .ag-dialog-popup[data-starting-style],
-    .ag-dialog-popup[data-ending-style],
-    .ag-dialog-popup[data-open] {
-      transform: none;
-      transition: opacity var(--ag-duration-micro) var(--ag-ease-standard);
-    }
-  }
-  @media (forced-colors: active) {
-    .ag-dialog-popup {
-      border: 1px solid CanvasText;
-      background: Canvas;
-      color: CanvasText;
-      box-shadow: none;
-    }
-  }
 }

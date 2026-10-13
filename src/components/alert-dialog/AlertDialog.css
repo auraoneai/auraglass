@@ -110,20 +110,4 @@
     /* Action is last in DOM order — column (not column-reverse) keeps the
        primary action at the bottom of the stack. */
   }
-  @media (prefers-reduced-motion: reduce) {
-    .ag-alert-dialog-popup[data-starting-style],
-    .ag-alert-dialog-popup[data-ending-style],
-    .ag-alert-dialog-popup[data-open] {
-      transform: none;
-      transition: opacity var(--ag-duration-micro) var(--ag-ease-standard);
-    }
-  }
-  @media (forced-colors: active) {
-    .ag-alert-dialog-popup {
-      border: 1px solid CanvasText;
-      background: Canvas;
-      color: CanvasText;
-      box-shadow: none;
-    }
-  }
 }

@@ -1,0 +1,30 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Steps.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors keeps
+   the numbered/check/cross indicator legible, marks the current and
+   complete steps with Highlight and upcoming steps with GrayText. */
+@layer ag.a11y {
+  @media (forced-colors: active) {
+    .ag-steps {
+      color: CanvasText;
+      background: Canvas;
+    }
+    .ag-steps-list { color: CanvasText; }
+    .ag-steps-indicator::before {
+      border-color: CanvasText;
+      color: CanvasText;
+      background: Canvas;
+    }
+    .ag-steps-item[data-status='current'] { color: CanvasText; }
+    .ag-steps-item[data-status='current'] .ag-steps-indicator::before {
+      border-color: Highlight;
+      color: Highlight;
+    }
+    .ag-steps-item[data-status='complete'] .ag-steps-indicator::before {
+      border-color: Highlight;
+      background: Highlight;
+      color: HighlightText;
+    }
+    .ag-steps-item[data-status='upcoming'] { color: GrayText; }
+  }
+}

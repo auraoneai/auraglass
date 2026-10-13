@@ -35,9 +35,6 @@
   }
   .ag-backdrop[data-ag-offscreen] .ag-backdrop-layer,
   .ag-backdrop[data-backdrop-hidden] .ag-backdrop-layer { animation-play-state: paused; }
-  @media (prefers-reduced-motion: reduce) {
-    .ag-backdrop .ag-backdrop-layer { animation: none; }
-  }
   @keyframes ag-backdrop-drift {
     from { transform: translate3d(0, 0, 0); }
     to { transform: translate3d(-2%, 1.5%, 0); }
@@ -55,10 +52,4 @@
   [data-ag-part='backdrop-pause']:focus-visible,
   [data-ag-part='backdrop-pause']:hover,
   .ag-backdrop:hover > [data-ag-part='backdrop-pause'] { opacity: 1; }
-  /* Forced colors: decorative layers off; root falls back to Canvas. */
-  @media (forced-colors: active) {
-    .ag-backdrop { background: Canvas; }
-    .ag-backdrop .ag-backdrop-layer { display: none; }
-    [data-ag-part='backdrop-pause'] { forced-color-adjust: auto; opacity: 1; }
-  }
 /* --- lane W4 end --- */ }

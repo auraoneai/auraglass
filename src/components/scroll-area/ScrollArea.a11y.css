@@ -1,0 +1,26 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* ScrollArea.css — @layer ag.a11y (REQ-PLAT-74 pairing): the custom
+   thumb is a painted, draggable indicator, so forced-colors paints it
+   at full strength in Highlight inside a CanvasText track. */
+@layer ag.a11y {
+  @media (forced-colors: active) {
+    .ag-scroll-area {
+      color: CanvasText;
+      background: Canvas;
+      outline: calc(var(--ag-focus-width) / 2) solid CanvasText;
+    }
+    .ag-scroll-area-viewport {
+      color: CanvasText;
+      background: Canvas;
+    }
+    .ag-scroll-area-scrollbar {
+      background: Canvas;
+      border: calc(var(--ag-focus-width) / 2) solid CanvasText;
+    }
+    .ag-scroll-area-thumb {
+      background: Highlight;
+      opacity: 1;
+    }
+  }
+}

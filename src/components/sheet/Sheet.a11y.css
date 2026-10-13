@@ -1,0 +1,35 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Sheet.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  @media (prefers-reduced-motion: reduce) {
+    .ag-sheet-popup[data-starting-style],
+    .ag-sheet-popup[data-ending-style],
+    .ag-sheet-popup:not([data-dragging]) {
+      transform: none;
+      transition: opacity var(--ag-duration-micro) var(--ag-ease-standard);
+    }
+  }
+  @media (forced-colors: active) {
+    .ag-sheet-popup {
+      border: 1px solid CanvasText;
+      background: Canvas;
+      color: CanvasText;
+      box-shadow: none;
+    }
+  }
+  /* Authored pairing (REQ-PLAT-74): popup text regions inherit the relocated
+     Canvas popup; the drag-handle bar is a painted indicator (solid
+     CanvasText, no opacity dimming); action rows and buttons read as buttons. */
+  @media (forced-colors: active) {
+    .ag-sheet-header, .ag-sheet-footer, .ag-sheet-body { background: Canvas; color: CanvasText; }
+    .ag-sheet-title, .ag-sheet-description { color: CanvasText; }
+    .ag-sheet-trigger, .ag-sheet-close { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+    .ag-sheet-handle { color: ButtonText; }
+    .ag-sheet-handle-bar { background: CanvasText; opacity: 1; }
+    .ag-sheet-action { background: ButtonFace; color: ButtonText; border-block-end-color: CanvasText; }
+    .ag-vh { color: CanvasText; }
+  }
+}

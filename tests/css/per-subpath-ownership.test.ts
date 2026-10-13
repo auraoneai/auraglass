@@ -69,16 +69,15 @@ describe('a11y pairing is explicit (REQ-PLAT-74)', () => {
     expect(own.a11y['.ag-x']).toBe('baselined');
   });
 
-  it('the repo fragments pass with the expiring baseline, and every baseline row is still needed', async () => {
+  it('the repo fragments pass with the pairing baseline burned down to empty (5.0.0 GA)', async () => {
     const rows = JSON.parse(readFileSync(join(ROOT, CSS_A11Y_PAIRING_BASELINE), 'utf8')) as Array<{ file: string; owner: string; reqFin: string; expires: string }>;
+    // The RC-1 expiring baseline reached its terminus at 5.0.0: every row was
+    // burned down by genuinely pairing its file (sibling ag.a11y rules) or by
+    // a justified a11y: 'none' on its fragment. No row may come back.
+    expect(rows).toEqual([]);
     const fragments = await collectCssFragments(ROOT, { validate: false });
-    const own = computeOwnership(fragments, { a11yBaseline: new Map(rows.map((r) => [r.file, r])) }) as { a11y: Record<string, string> };
+    const own = computeOwnership(fragments) as { a11y: Record<string, string> };
     expect(Object.keys(own.a11y).length).toBeGreaterThan(0);
-    const components = new Set(fragments.filter((f) => f.layer === 'ag.components' && f.a11y !== 'none').map((f) => f.file));
-    // a row for a file that now declares a11y: 'none' (or no longer ships) must be deleted (burn-down only)
-    expect(rows.filter((r) => !components.has(r.file)).map((r) => r.file)).toEqual([]);
-    for (const r of rows) expect({ file: r.file, reqFin: r.reqFin, expires: r.expires }).toEqual({ file: r.file, reqFin: 'REQ-FIN-38', expires: 'RC-1' });
-    // without the baseline the same fragments fail: the rows are load-bearing
-    expect(() => computeOwnership(fragments)).toThrow(/a11y pairing/);
+    expect(Object.values(own.a11y)).not.toContain('baselined');
   });
 });

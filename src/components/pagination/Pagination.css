@@ -47,13 +47,4 @@
       display: none;
     }
   }
-  /* REQ-SURF-189: forced colours — the current page keeps a non-colour cue
-     (outline + underline) besides Highlight; focus is the system ring. */
-  @media (forced-colors: active) {
-    .ag-pagination__link[aria-current='page'] {
-      color: Highlight;
-      outline: 1px solid Highlight;
-      text-decoration-line: underline;
-    }
-  }
 }

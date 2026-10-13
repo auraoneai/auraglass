@@ -1,0 +1,33 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* ImageList.css — @layer ag.a11y (REQ-PLAT-74 pairing): the item bar is
+   thin chrome painted over the image; forced-colors strips that backdrop,
+   so the bar and its text/action take an opaque Canvas/CanvasText surface. */
+@layer ag.a11y {
+  @media (forced-colors: active) {
+    .ag-image-list {
+      color: CanvasText;
+    }
+    .ag-image-list-masonry {
+      color: CanvasText;
+    }
+    .ag-image-list-item {
+      border: calc(var(--ag-focus-width) / 2) solid CanvasText;
+    }
+    .ag-image-list-bar {
+      background: Canvas;
+      color: CanvasText;
+      border-block-start: calc(var(--ag-focus-width) / 2) solid CanvasText;
+    }
+    .ag-image-list-img {
+      forced-color-adjust: none;
+    }
+    .ag-image-list-bar-text {
+      color: CanvasText;
+    }
+    .ag-image-list-bar-action {
+      color: ButtonText;
+      background: ButtonFace;
+    }
+  }
+}

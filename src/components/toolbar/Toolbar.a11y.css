@@ -1,0 +1,27 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Toolbar.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors
+   borders the bar as a system surface, keeps the painted separator
+   hairline alive and paints links and hover in system colours. */
+@layer ag.a11y {
+  @media (forced-colors: active) {
+    .ag-toolbar {
+      color: ButtonText;
+      background: ButtonFace;
+      border: var(--ag-focus-width) solid ButtonText;
+    }
+    .ag-toolbar-group {
+      color: ButtonText;
+      background: ButtonFace;
+    }
+    .ag-toolbar-separator {
+      forced-color-adjust: none;
+      background: ButtonText;
+    }
+    .ag-toolbar-link { color: LinkText; }
+    .ag-toolbar-link:hover {
+      color: HighlightText;
+      background: Highlight;
+    }
+  }
+}

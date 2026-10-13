@@ -1,0 +1,22 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Popover.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  @media (prefers-reduced-motion: reduce) {
+    .ag-popover-popup { transition: opacity var(--ag-duration-small) linear; transform: none; }
+  }
+  @media (forced-colors: active) {
+    .ag-popover-popup { border: 1px solid CanvasText; }
+    .ag-popover-arrow::before { background: CanvasText; }
+    .ag-popover-arrow::after { background: Canvas; }
+  }
+  /* Authored pairing (REQ-PLAT-74): the positioner is an inert shell (stays
+     transparent), popup text is CanvasText, Trigger/Close are buttons. */
+  @media (forced-colors: active) {
+    .ag-popover-positioner { background: transparent; }
+    .ag-popover-title, .ag-popover-description { color: CanvasText; }
+    .ag-popover-trigger, .ag-popover-close { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; }
+  }
+}

@@ -1,0 +1,29 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* backdrops.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  @media (prefers-reduced-motion: reduce) {
+    .ag-backdrop .ag-backdrop-layer { animation: none; }
+  }
+  /* Forced colors: decorative layers off; root falls back to Canvas. */
+  @media (forced-colors: active) {
+    .ag-backdrop { background: Canvas; }
+    .ag-backdrop .ag-backdrop-layer { display: none; }
+    [data-ag-part='backdrop-pause'] { forced-color-adjust: auto; opacity: 1; }
+  }
+  /* Authored pairing (REQ-PLAT-74): the fixed variant falls back to Canvas
+     like the root, content ink is CanvasText, and the pause toggle's opacity
+     transition (defined in backdrops.css) is dropped under reduced motion. */
+  @media (forced-colors: active) {
+    .ag-backdrop--fixed { background: Canvas; }
+    .ag-backdrop-layer { display: none; }
+    .ag-backdrop-content { color: CanvasText; }
+    [data-ag-part='backdrop-pause'] { background: ButtonFace; color: ButtonText; border-color: ButtonText; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ag-backdrop-layer { animation: none; }
+    [data-ag-part='backdrop-pause'] { transition: none; }
+  }
+}

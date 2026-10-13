@@ -274,22 +274,6 @@
     .ag-sheet-popup[data-side='left'] .ag-sheet-handle,
     .ag-sheet-popup[data-side='right'] .ag-sheet-handle { display: none; }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .ag-sheet-popup[data-starting-style],
-    .ag-sheet-popup[data-ending-style],
-    .ag-sheet-popup:not([data-dragging]) {
-      transform: none;
-      transition: opacity var(--ag-duration-micro) var(--ag-ease-standard);
-    }
-  }
-  @media (forced-colors: active) {
-    .ag-sheet-popup {
-      border: 1px solid CanvasText;
-      background: Canvas;
-      color: CanvasText;
-      box-shadow: none;
-    }
-  }
 
   .ag-vh {
     position: absolute;

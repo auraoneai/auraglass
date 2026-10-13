@@ -1,0 +1,33 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* chart-frame.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  /* REQ-SURF-189: forced colours — legend swatches keep their series fill
+     (it is the only key to the marks) and gain a CanvasText border; a
+     hidden series is struck through, not only dimmed; focus is the system
+     ring. */
+  @media (forced-colors: active) {
+    .ag-chart-frame__swatch {
+      forced-color-adjust: none;
+      border: 1px solid CanvasText;
+    }
+    .ag-chart-frame__legend-item[aria-pressed='false'] {
+      text-decoration-line: line-through;
+    }
+  }
+  /* Authored pairing (REQ-PLAT-74): frame text and the data table in system
+     colours; the table Toggle is accent-colour-only, so it reads as a link;
+     disabled legend items are GrayText, not only dimmed/not-allowed. */
+  @media (forced-colors: active) {
+    .ag-chart-frame { background: Canvas; color: CanvasText; }
+    .ag-chart-frame__caption, .ag-chart-frame__description { color: CanvasText; }
+    .ag-chart-frame__legend { color: CanvasText; }
+    .ag-chart-frame__legend-item[aria-disabled='true'] { color: GrayText; }
+    .ag-chart-frame__plot, .ag-chart-frame__placeholder { background: Canvas; color: CanvasText; }
+    .ag-chart-frame__toggle { color: LinkText; text-decoration-line: underline; }
+    .ag-chart-frame__table { color: CanvasText; }
+    .ag-chart-frame__table th, .ag-chart-frame__table td { border-block-end-color: CanvasText; }
+  }
+}

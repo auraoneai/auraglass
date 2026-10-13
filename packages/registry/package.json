@@ -1,6 +1,6 @@
 {
   "name": "aura-glass-registry",
-  "version": "5.0.0-alpha.0",
+  "version": "5.0.0",
   "description": "AuraGlass 5.0 shadcn-format registry data — r/*.json items plus index.json. Data-only; built by scripts/registry/build.mjs.",
   "type": "module",
   "license": "MIT",

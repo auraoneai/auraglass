@@ -1,0 +1,24 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* charts.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  /* REQ-SURF-189: forced colours — tooltip swatches keep the series fill
+     and gain a CanvasText border. */
+  @media (forced-colors: active) {
+    .ag-chart__tooltip-swatch {
+      forced-color-adjust: none;
+      border: 1px solid CanvasText;
+    }
+  }
+  /* Authored pairing (REQ-PLAT-74): grid lines, cursor and tooltip — data
+     ink that is colour-only in charts.css — take system colours. */
+  @media (forced-colors: active) {
+    .ag-chart__plot-inner { background: Canvas; color: CanvasText; }
+    .ag-chart__svg { background: Canvas; color: CanvasText; }
+    .ag-chart__grid-line { stroke: GrayText; }
+    .ag-chart__cursor { stroke: Highlight; }
+    .ag-chart__tooltip { background: Canvas; color: CanvasText; border-color: CanvasText; }
+  }
+}

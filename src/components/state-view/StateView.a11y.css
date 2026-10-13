@@ -1,0 +1,20 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* StateView.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  @media (prefers-reduced-motion: reduce) {
+    .ag-state-view-spinner {
+      animation: none;
+    }
+  }
+  /* Authored pairing (REQ-PLAT-74): empty/loading/error text and icon are
+     muted-ink only in StateView.css, so they take full CanvasText. */
+  @media (forced-colors: active) {
+    .ag-state-view { background: Canvas; color: CanvasText; }
+    .ag-state-view-icon { color: CanvasText; }
+    .ag-state-view-title, .ag-state-view-description { color: CanvasText; }
+    .ag-state-view-actions { color: CanvasText; }
+  }
+}

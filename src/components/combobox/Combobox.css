@@ -250,31 +250,6 @@
       max-inline-size: calc(100cqi - 16px);
     }
   }
-  @media (prefers-reduced-motion: reduce) {
-    .ag-combobox-popup,
-    .ag-combobox-popup[data-starting-style],
-    .ag-combobox-popup[data-ending-style] {
-      scale: 1;
-      transition-property: opacity;
-    }
-    .ag-combobox [data-ag-part='loading'] .ag-combobox-spin {
-      animation: none;
-    }
-  }
-  @media (forced-colors: active) {
-    .ag-combobox {
-      border: var(--ag-focus-width) solid ButtonText;
-      box-shadow: none;
-    }
-    .ag-combobox-popup {
-      border: var(--ag-focus-width) solid ButtonText;
-      background: Canvas;
-    }
-    .ag-combobox-item[data-highlighted] {
-      background: Highlight;
-      color: HighlightText;
-    }
-  }
   /* Empty state: status node stays mounted; hidden by clip (not display:none)
      so the live region announces when it appears (REQ-CMP-71). */
   [data-ag-part="empty"].ag-combobox-empty {

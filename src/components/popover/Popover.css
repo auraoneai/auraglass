@@ -103,12 +103,4 @@
     margin-block-start: var(--ag-space-2);
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .ag-popover-popup { transition: opacity var(--ag-duration-small) linear; transform: none; }
-  }
-  @media (forced-colors: active) {
-    .ag-popover-popup { border: 1px solid CanvasText; }
-    .ag-popover-arrow::before { background: CanvasText; }
-    .ag-popover-arrow::after { background: Canvas; }
-  }
 }

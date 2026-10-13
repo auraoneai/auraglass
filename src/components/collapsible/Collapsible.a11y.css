@@ -1,0 +1,37 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Collapsible.css — @layer ag.a11y (REQ-PLAT-74 pairing): the panel opens
+   with a scale + fade transition and the trigger is a bare pointer surface;
+   drop the motion under reduced motion and map the trigger to system
+   button colours under forced colors. */
+@layer ag.a11y {
+  @media (prefers-reduced-motion: reduce) {
+    .ag-collapsible-content {
+      transition: none;
+    }
+    .ag-collapsible-content[data-starting-style],
+    .ag-collapsible-content[data-ending-style] {
+      transform: none;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .ag-collapsible {
+      background: Canvas;
+      color: CanvasText;
+    }
+    .ag-collapsible-trigger {
+      background: ButtonFace;
+      color: ButtonText;
+      border: var(--ag-focus-width) solid ButtonText;
+    }
+    .ag-collapsible-trigger:disabled {
+      color: GrayText;
+      border-color: GrayText;
+    }
+    .ag-collapsible-content {
+      background: Canvas;
+      color: CanvasText;
+    }
+  }
+}

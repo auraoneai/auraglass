@@ -1,0 +1,34 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Card.css — @layer ag.a11y (REQ-PLAT-74 pairing): the interactive card is
+   a pointer surface delineated only by its material; under forced colors
+   give cards a system border and canvas text throughout. */
+@layer ag.a11y {
+  @media (forced-colors: active) {
+    .ag-card {
+      background: Canvas;
+      color: CanvasText;
+      border: var(--ag-focus-width) solid CanvasText;
+    }
+    .ag-card-interactive {
+      background: ButtonFace;
+      color: ButtonText;
+      border: var(--ag-focus-width) solid ButtonText;
+    }
+    .ag-card-header {
+      color: CanvasText;
+    }
+    .ag-card-title {
+      color: CanvasText;
+    }
+    .ag-card-description {
+      color: CanvasText;
+    }
+    .ag-card-body {
+      color: CanvasText;
+    }
+    .ag-card-footer {
+      color: CanvasText;
+    }
+  }
+}

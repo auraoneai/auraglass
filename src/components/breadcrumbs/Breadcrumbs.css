@@ -57,17 +57,4 @@
     display: inline-block;
     vertical-align: bottom;
   }
-  /* REQ-SURF-189: forced colours — links read as links, the current page
-     keeps a non-colour cue (underline) and focus is the system ring. */
-  @media (forced-colors: active) {
-    .ag-breadcrumbs__link {
-      color: LinkText;
-    }
-    .ag-breadcrumbs__current {
-      color: Highlight;
-      text-decoration-line: underline;
-      text-decoration-thickness: var(--ag-focus-width, 2px);
-      text-underline-offset: var(--ag-space-1, 0.25rem);
-    }
-  }
 }

@@ -1,0 +1,44 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Combobox.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  @media (prefers-reduced-motion: reduce) {
+    .ag-combobox-popup,
+    .ag-combobox-popup[data-starting-style],
+    .ag-combobox-popup[data-ending-style] {
+      scale: 1;
+      transition-property: opacity;
+    }
+    .ag-combobox [data-ag-part='loading'] .ag-combobox-spin {
+      animation: none;
+    }
+  }
+  @media (forced-colors: active) {
+    .ag-combobox {
+      border: var(--ag-focus-width) solid ButtonText;
+      box-shadow: none;
+    }
+    .ag-combobox-popup {
+      border: var(--ag-focus-width) solid ButtonText;
+      background: Canvas;
+    }
+    .ag-combobox-item[data-highlighted] {
+      background: Highlight;
+      color: HighlightText;
+    }
+  }
+  /* Authored pairing (REQ-PLAT-74): selected-value chips are tint-only in
+     Combobox.css, so they become bordered ButtonFace tokens; the input
+     shell's own transition stops under reduced motion. */
+  @media (forced-colors: active) {
+    .ag-combobox-chips { color: CanvasText; }
+    .ag-combobox-chip { background: ButtonFace; color: ButtonText; border: 1px solid ButtonText; box-shadow: none; }
+    [data-ag-part="list"] { background: Canvas; color: CanvasText; }
+    [data-ag-part="empty"] { color: CanvasText; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ag-combobox { transition: none; }
+  }
+}

@@ -1542,7 +1542,7 @@ export const manifest = {
    "public": true,
    "consumers": [
     {
-     "count": 75
+     "count": 119
     }
    ],
    "value": "2px"

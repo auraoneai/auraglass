@@ -1,0 +1,32 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Accordion.css — @layer ag.a11y (REQ-PLAT-74 pairing): the trigger is a
+   bare button and item separation is a hairline border alone; map both to
+   system colours under forced colors. */
+@layer ag.a11y {
+  @media (forced-colors: active) {
+    .ag-accordion {
+      background: Canvas;
+      color: CanvasText;
+    }
+    .ag-accordion-item {
+      border-block-end-color: CanvasText;
+    }
+    .ag-accordion-header {
+      color: CanvasText;
+    }
+    .ag-accordion-trigger {
+      background: ButtonFace;
+      color: ButtonText;
+      border: var(--ag-focus-width) solid ButtonText;
+    }
+    .ag-accordion-trigger:disabled {
+      color: GrayText;
+      border-color: GrayText;
+    }
+    .ag-accordion-content {
+      background: Canvas;
+      color: CanvasText;
+    }
+  }
+}

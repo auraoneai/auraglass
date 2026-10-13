@@ -1,0 +1,47 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* timeline.css — @layer ag.a11y (REQ-PLAT-74 pairing): intent is shown
+   by the marker's border colour (backed by its icon and hidden label),
+   so forced-colors keeps the marker visible and muted text readable. */
+@layer ag.a11y {
+  @media (forced-colors: active) {
+    .ag-timeline__container {
+      color: CanvasText;
+      background: Canvas;
+    }
+    .ag-timeline {
+      color: CanvasText;
+      background: Canvas;
+    }
+    .ag-timeline__item { color: CanvasText; }
+    .ag-timeline__marker {
+      border-color: CanvasText;
+      color: CanvasText;
+      background: Canvas;
+    }
+    .ag-timeline__item[data-ag-intent='success'] .ag-timeline__marker,
+    .ag-timeline__item[data-ag-intent='danger'] .ag-timeline__marker,
+    .ag-timeline__item[data-ag-intent='warning'] .ag-timeline__marker,
+    .ag-timeline__item[data-ag-intent='info'] .ag-timeline__marker {
+      border-color: Highlight;
+      color: Highlight;
+    }
+    .ag-timeline__row { color: CanvasText; }
+    .ag-timeline__time { color: CanvasText; }
+    .ag-timeline__content { color: CanvasText; }
+    .ag-timeline__title { color: CanvasText; }
+    .ag-timeline__meta { color: CanvasText; }
+    .ag-timeline__description { color: CanvasText; }
+    .ag-activity-feed {
+      color: CanvasText;
+      background: Canvas;
+    }
+    .ag-activity__heading { color: CanvasText; }
+    .ag-activity__actor { color: CanvasText; }
+    .ag-activity__load-more {
+      color: ButtonText;
+      background: ButtonFace;
+      border: var(--ag-focus-width) solid ButtonText;
+    }
+  }
+}
