@@ -37,7 +37,7 @@ const MenuCtx = /*#__PURE__*/ React.createContext<MenuCtx>({ open: false });
    instance split anyway). Our Menubar wraps children in this provider. */
 const MenubarCtx = /*#__PURE__*/ React.createContext(false);
 
-function MenuRoot({ open, defaultOpen, onOpenChange, loop = true, orientation, children }: MenuRootProps) {
+function MenuRoot({ open, defaultOpen, onOpenChange, loop = true, orientation, modal = false, children }: MenuRootProps) {
   useControllableWarning('Menu', 'open', open);
   const [internal, setInternal] = React.useState(Boolean(defaultOpen));
   const controlled = open !== undefined;
@@ -52,6 +52,7 @@ function MenuRoot({ open, defaultOpen, onOpenChange, loop = true, orientation, c
         defaultOpen={defaultOpen}
         loopFocus={loop}
         orientation={orientation}
+        modal={modal}
         actionsRef={buActions as React.RefObject<{ close: () => void; unmount: () => void } | null>}
         onOpenChange={(o, details) => {
           if (!controlled) setInternal(o);

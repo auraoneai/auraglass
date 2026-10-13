@@ -152,7 +152,12 @@ function TabsList({ activateOnFocus, children, render, ...rest }: TabsListProps)
     return () => el.removeEventListener('scroll', update);
   }, []);
 
+  const mountedRef = React.useRef(false);
   React.useLayoutEffect(() => {
+    if (!mountedRef.current) {
+      mountedRef.current = true;
+      return;
+    }
     const el = listRef.current;
     if (!el || active === null) return;
     const tab = el.querySelector<HTMLElement>('[role="tab"][data-state="active"]');

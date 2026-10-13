@@ -16,6 +16,8 @@ export interface MenuRootProps {
   loop?: boolean | undefined;
   /** Arrow-key axis of the menu. */
   orientation?: 'horizontal' | 'vertical' | undefined;
+  /** Whether the menu blocks interaction with the rest of the page (default false). */
+  modal?: boolean | undefined;
   /** Content rendered inside the component. */
   children?: React.ReactNode;
 }
