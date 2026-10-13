@@ -1,3 +1,4 @@
+/// <reference path="../types/picomatch.d.ts" />
 /* QUAL. Path → owning stream from contracts/ownership.json (5x line, first matching row wins,
    unmatched paths are PLAT's Z01 row) — the same resolution scripts/ci/verify-ownership.mjs uses.
    Used to attribute expiring-baseline rows and pre-existing failures to their owner. */
