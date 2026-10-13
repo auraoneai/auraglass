@@ -22,6 +22,7 @@ function moduleDir(): string {
 }
 function vendoredSchemaPath(): string | null {
   for (const cand of [
+    path.join(HERE, 'schema', 'registry-item.json'),
     path.join(HERE, '..', '..', 'schema', 'registry-item.json'),
     path.join(HERE, '..', 'schema', 'registry-item.json'),
     path.join(process.cwd(), 'schema', 'registry-item.json'),
