@@ -100,6 +100,9 @@ describe('stories follow the parameters.ag subject contract (S-41)', () => {
   const root = path.join(__dirname, '..', '..');
   const { parseStoryFile, loadMetas } = require('../../scripts/storybook/lib/story-static.mjs');
   const { validateStoryContract } = require('../../scripts/storybook/lib/story-contract.mjs');
+  const { compare, loadBaseline, packageVersion } = require('../../scripts/storybook/lib/baseline.mjs');
+  const baseline = loadBaseline(root);
+  const version = packageVersion(root);
   const metas = loadMetas(root);
   const attributeRules = new Set(['ag-missing', 'ag-invalid', 'subject-unresolved']);
   const roots = [path.join(root, 'registry'), path.join(root, 'stories'), path.join(root, 'src')];
@@ -116,9 +119,17 @@ describe('stories follow the parameters.ag subject contract (S-41)', () => {
   it('finds stories', () => expect(stories.length).toBeGreaterThan(20));
   it.each(stories.map((s) => [path.basename(s), s] as const))('%s satisfies the subject attribute contract', (_n, s) => {
     const src = fs.readFileSync(s, 'utf8');
-    const parsed = parseStoryFile(path.relative(root, s), src);
+    const file = path.relative(root, s);
+    const parsed = parseStoryFile(file, src);
     const violations = validateStoryContract([parsed], metas, { references: [] })
       .filter((v: { rule: string }) => attributeRules.has(v.rule));
-    expect(violations).toEqual([]);
+    // Use the same existing, shrinking RC-1 baseline as the canonical story
+    // gate; do not turn this former presence-only check into a second,
+    // conflicting schema policy. New, stale, and expired rows still fail.
+    const scoped = { ...baseline, rows: baseline.rows.filter((r: { rule: string; key: string; file?: string }) =>
+      attributeRules.has(r.rule) && (r.file === file || r.key === file || r.key.startsWith(`${file}|`))) };
+    const result = compare(violations, scoped, { checks: ['story-contract'], version });
+    expect({ introduced: result.introduced, stale: result.stale, expired: result.expiredRows })
+      .toEqual({ introduced: [], stale: [], expired: [] });
   });
 });
