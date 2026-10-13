@@ -48,20 +48,11 @@
     {
       "id": "shadcn-app",
       "status": "info",
-      "message": "shadcn app detected — registry add handles @/ aliases"
+      "message": "shadcn app detected \u2014 registry add handles @/ aliases"
     }
   ],
   "v5": {
     "findings": [
-      {
-        "path": "src/App.tsx",
-        "line": 1,
-        "symbol": "GlassDataGrid",
-        "entry": ".",
-        "automation": "needsReview",
-        "codemod": "canonical-names",
-        "message": "GlassDataGrid is removed in 5.0; use Table from aura-glass/data."
-      },
       {
         "path": "src/App.tsx",
         "line": 2,
@@ -70,28 +61,10 @@
         "automation": "automatic",
         "codemod": "canonical-names",
         "message": "'GlassCard' is renamed to 'Card' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names)."
-      },
-      {
-        "path": "src/App.tsx",
-        "line": 3,
-        "symbol": "GlassDataGrid",
-        "entry": ".",
-        "automation": "needsReview",
-        "codemod": "canonical-names",
-        "message": "GlassDataGrid is removed in 5.0; use Table from aura-glass/data."
       }
     ],
     "byCodemod": {
       "canonical-names": [
-        {
-          "path": "src/App.tsx",
-          "line": 1,
-          "symbol": "GlassDataGrid",
-          "entry": ".",
-          "automation": "needsReview",
-          "codemod": "canonical-names",
-          "message": "GlassDataGrid is removed in 5.0; use Table from aura-glass/data."
-        },
         {
           "path": "src/App.tsx",
           "line": 2,
@@ -100,15 +73,6 @@
           "automation": "automatic",
           "codemod": "canonical-names",
           "message": "'GlassCard' is renamed to 'Card' in aura-glass 5.0; run `aura-glass migrate 5` (canonical-names)."
-        },
-        {
-          "path": "src/App.tsx",
-          "line": 3,
-          "symbol": "GlassDataGrid",
-          "entry": ".",
-          "automation": "needsReview",
-          "codemod": "canonical-names",
-          "message": "GlassDataGrid is removed in 5.0; use Table from aura-glass/data."
         }
       ]
     }

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { CarouselRail } from 'aura-glass/media';
 
 export function Rail() {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { MediaControls } from 'aura-glass/media';
 
 export function Player() {

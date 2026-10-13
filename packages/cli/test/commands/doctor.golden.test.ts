@@ -65,6 +65,10 @@ describe('doctor golden', () => {
     expect(summary.automatic + summary.needsReview + summary.manual).toBe(findings.length);
     expect(findings.every((f) => ['automatic', 'needsReview', 'manual'].includes(f.automation))).toBe(true);
     expect(Object.keys(byCodemod).length).toBeGreaterThan(0);
+    // DEP-S0201 remains planned; doctor advertises actionable, active migrations.
+    expect(findings.some((f) => f.symbol === 'GlassDataGrid')).toBe(false);
+    // Active compatibility aliases remain actionable before their 6.0 removal.
+    expect(findings.some((f) => f.symbol === 'GlassCard')).toBe(true);
   });
 
   it('2,000-file perf case completes under 30 s', () => {
