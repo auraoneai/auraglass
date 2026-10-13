@@ -85,7 +85,20 @@ export function resolveTypesSource({ root = ROOT, tarball = null, requirePacked 
     const pkgDir = join(tmp, 'node_modules', pkgJson.name);
     mkdirSync(dirname(pkgDir), { recursive: true });
     renameSync(join(tmp, 'package'), pkgDir);
-    const entries = exportTypes(pkgJson.exports).map((e) => ({ subpath: e.subpath, file: join(pkgDir, e.file) }));
+    /* Pattern rows (./icons/* -> ./dist/icons/*.d.ts) expand against the
+       packed tree: every concrete .d.ts is an entry; an empty expansion
+       keeps the pattern row so the missing check below reports it. */
+    const entries = exportTypes(pkgJson.exports).flatMap((e) => {
+      if (!e.file.includes('*')) return [{ subpath: e.subpath, file: join(pkgDir, e.file) }];
+      const [pre, post] = e.file.split('*');
+      const dir = join(pkgDir, dirname(pre));
+      const base = pre.slice(pre.lastIndexOf('/') + 1);
+      const found = existsSync(dir)
+        ? readdirSync(dir).filter((n) => n.startsWith(base) && n.endsWith(post)).sort()
+        : [];
+      if (!found.length) return [{ subpath: e.subpath, file: join(pkgDir, e.file) }];
+      return found.map((n) => ({ subpath: e.subpath, file: join(dir, n) }));
+    });
     const missing = entries.filter((e) => !existsSync(e.file));
     if (missing.length) throw new Error(`packed types missing in ${tgz}: ${missing.map((e) => e.subpath).join(', ')}`);
     const own = pkgDir + sep;
