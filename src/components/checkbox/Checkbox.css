@@ -3,6 +3,12 @@
 /* Checkbox / RadioGroup shared box visuals (CMP-122/416): sunken box + rim,
    opaque accent when checked, contrast-color icon. No backdrop-filter. */
 @layer ag.components {
+  /* Group stack (mirrors .ag-radio-group's vertical layout). */
+  .ag-checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ag-space-3);
+  }
   .ag-checkbox {
     position: relative;
     display: inline-flex;

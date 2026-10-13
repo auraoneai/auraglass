@@ -124,7 +124,7 @@ function Content(props: React.ComponentProps<typeof Popover.Content>) {
   const { children, ...rest } = props;
   return (
     <PopoverPortal>
-      <PopoverPositioner {...rest} className={cn('ag-color-picker-content', rest.className)}>
+      <PopoverPositioner {...rest} className={rest.className}>
         <PopoverPopup>{children}</PopoverPopup>
       </PopoverPositioner>
     </PopoverPortal>

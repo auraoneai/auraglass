@@ -2,6 +2,7 @@
 import type { CssFragment } from '../../src/contracts/fragments';
 export default [
   { file: 'src/primitives/VisuallyHidden.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/primitives/Label.css', layer: 'ag.components', bundle: 'styles.css', a11y: 'none' },
   { file: 'src/components/state-view/StateView.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/steps/Steps.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/avatar/AvatarGroup.css', layer: 'ag.components', bundle: 'styles.css' },
@@ -38,7 +39,7 @@ export default [
   { file: 'src/components/search-field/SearchField.a11y.css', layer: 'ag.a11y', bundle: 'styles.css' },
   { file: 'src/components/alert/Alert.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/field/Field.css', layer: 'ag.components', bundle: 'styles.css' },
-  { file: 'src/components/checkbox/Checkbox.css', layer: 'ag.components', bundle: 'styles.css' },
+  { file: 'src/components/checkbox/Checkbox.css', layer: 'ag.components', bundle: 'styles.css', a11y: 'none' },
   { file: 'src/components/checkbox/Checkbox.a11y.css', layer: 'ag.a11y', bundle: 'styles.css' },
   { file: 'src/components/grid/Grid.css', layer: 'ag.components', bundle: 'styles.css' },
   { file: 'src/components/control-shared/controls.css', layer: 'ag.components', bundle: 'styles.css' },

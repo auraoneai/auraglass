@@ -24,31 +24,7 @@
     "expires": "RC-1"
   },
   {
-    "file": "src/components/checkbox/Checkbox.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/color-picker/ColorPicker.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/file-upload/FileUpload.client.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
     "file": "src/components/image-list/ImageList.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/components/inline-edit/InlineEdit.client.tsx",
     "owner": "CMP",
     "reqFin": "REQ-FIN-70",
     "expires": "RC-1"
@@ -159,12 +135,6 @@
     "file": "src/media/Waveform/WaveformLevel.tsx",
     "owner": "SURF",
     "reqFin": "REQ-FIN-80",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/primitives/Label.tsx",
-    "owner": "CMP",
-    "reqFin": "REQ-FIN-70",
     "expires": "RC-1"
   }
 ]

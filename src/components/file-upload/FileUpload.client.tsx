@@ -198,7 +198,7 @@ export function FileUpload({
         type="button"
         {...SUNKEN}
         data-ag-part="dropzone"
-        className={cn('ag-file-upload-dropzone', dragging ? 'ag-file-upload-dragging' : undefined)}
+        className="ag-file-upload-dropzone"
         data-state={dragging ? 'active' : 'idle'}
         disabled={disabled}
         aria-describedby={rejections.length > 0 ? errorId : undefined}
@@ -207,7 +207,7 @@ export function FileUpload({
         {children ?? 'Choose files or drop them here'}
       </button>
       {rejections.length > 0 ? (
-        <Field.Error id={errorId} match data-ag-part="errors" className="ag-file-upload-errors">
+        <Field.Error id={errorId} match>
           {rejections.map((r) => `${r.file.name}: ${r.reason}`).join('; ')}
         </Field.Error>
       ) : null}
