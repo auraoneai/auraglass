@@ -90,10 +90,11 @@
   .ag-number-field [data-ag-part='decrement'][data-disabled] {
     cursor: default;
   }
-  /* REQ-CMP-13 / REQ-MAT-31: the steppers are surfaces — a disabled stepper
-     dims its glyph, never its own box (the hit-area extender never dims). */
-  .ag-number-field [data-ag-part='increment'][data-disabled] > :where(:not([data-ag-part='hit-area'])),
-  .ag-number-field [data-ag-part='decrement'][data-disabled] > :where(:not([data-ag-part='hit-area'])) {
+  /* REQ-CMP-13 / REQ-MAT-31 / REQ-CMP-77: the steppers are surfaces — a
+     disabled stepper dims its glyph (every child; the transparent hit-area
+     dimming is a visual no-op, as on Button), never its own box. */
+  .ag-number-field [data-ag-part='increment'][data-disabled] > :where(*),
+  .ag-number-field [data-ag-part='decrement'][data-disabled] > :where(*) {
     opacity: var(--ag-state-disabled-alpha);
   }
   /* Increment/decrement/input focus ring: the shared REQ-CMP-19 rule in control-shared/controls.css. */
