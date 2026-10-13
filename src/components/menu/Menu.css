@@ -48,6 +48,9 @@
 
   .ag-menu-item,
   .ag-menu-submenu-trigger {
+    /* anchors the [data-ag-part="hit-area"] span (targets.css centres it on
+       its containing block; unpositioned it would centre on the popup) */
+    position: relative;
     display: grid;
     grid-template-columns: 1.25em 1fr auto;
     align-items: center;
@@ -169,6 +172,10 @@
     padding: var(--ag-space-1);
     border-radius: var(--ag-radius-md);
     font-family: var(--ag-font-sans);
+  }
+  .ag-menu-trigger {
+    /* anchors its [data-ag-part="hit-area"] span (see .ag-menu-item) */
+    position: relative;
   }
   .ag-menubar .ag-menu-trigger {
     appearance: none;

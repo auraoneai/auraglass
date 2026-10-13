@@ -577,6 +577,18 @@
     background-size: 100% 100%, 100% 100%, 100% 100%;
     background-repeat: no-repeat;
   }
+  /* The scrim owns its blur on the element itself, not on a surface ::before,
+     so the glass-off rungs must kill it explicitly (REQ-CMP-84: under solid,
+     no live backdrop-filter anywhere in the scene; lightweight likewise).
+     The dim background stays — only the filter dies. */
+  [data-ag-tier="lightweight"] [data-ag-layer="scrim"],
+  [data-ag-layer="scrim"][data-ag-tier="lightweight"],
+  [data-ag-transparency="solid"] [data-ag-layer="scrim"],
+  [data-ag-layer="scrim"][data-ag-transparency="solid"] {
+    --_ag-scrim-blur: 0px;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
     [data-ag-surface] {
       --_ag-fill: oklch(from var(--ag-color-canvas) l c h / 0.9);
