@@ -103,7 +103,7 @@ export const Tour = {
       <div {...rest} ref={ref} data-ag-part="root" className={cn('ag-tour', className)}>
         <Popover.Root open={isOpen} onOpenChange={handleOpenChange}>
           <PopoverPortal>
-            <PopoverPositioner anchor={anchor ?? undefined} sideOffset={8} collisionPadding={8} className="ag-tour-positioner">
+            <PopoverPositioner anchor={anchor ?? undefined} sideOffset={8} collisionPadding={8}>
               <PopoverPopup aria-labelledby={titleId}>
                 <FocusScope autoFocus={false} restoreFocus={false}>
                 <TourStep

@@ -35,7 +35,7 @@ export function WaveformLevel(props: WaveformLevelProps): React.ReactElement {
       role="img"
       aria-label={label}
       viewBox={`0 0 ${width} ${height}`}
-      className={['ag-waveform', 'ag-waveform-level', className].filter(Boolean).join(' ')}
+      className={['ag-waveform', className].filter(Boolean).join(' ')}
       data-ag-part="waveform"
       preserveAspectRatio="none"
       width="100%"

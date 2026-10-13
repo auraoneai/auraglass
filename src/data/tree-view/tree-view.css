@@ -29,6 +29,22 @@
     gap: var(--ag-space-2, 0.5rem);
     padding-inline-start: calc(var(--_ag-tree-level, 0) * var(--_ag-tree-indent));
   }
+  .ag-tree__icon { flex: none; align-self: center; }
+  /* Loading ring: the Button spinner recipe (static by default; a finite
+     spin only under explicit full motion, never a loop). */
+  .ag-tree__spinner {
+    inline-size: 1em;
+    block-size: 1em;
+    flex: none;
+    align-self: center;
+    border-radius: var(--ag-radius-full);
+    border: 2px solid var(--_ag-border, currentColor);
+    border-block-start-color: var(--_ag-accent, Highlight);
+    animation: none;
+  }
+  [data-ag-motion='full'] .ag-tree__spinner {
+    animation: ag-spin var(--ag-duration-large) linear 240;
+  }
   .ag-tree__chevron-glyph--open { rotate: 90deg; }
   .ag-tree__chevron-glyph:dir(rtl):not(.ag-tree__chevron-glyph--open) { scale: -1 1; }
   /* REQ-SURF-83: virtualized tree = its own scroll container filling the

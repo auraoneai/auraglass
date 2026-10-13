@@ -86,7 +86,7 @@ export function ChartPlot<TRow>({ ctx, type, stacked, orientation, curve, yDomai
     : <Donut ctx={ctx} w={w} h={h} xKey={xKey} />;
 
   return (
-    <div className="ag-chart__plot-inner" style={{ position: 'relative' }}>
+    <div className="ag-chart__plot-inner">
       <span id={labelId} hidden>{title}</span>
       <svg
         data-ag-part="chart-plot-svg"
@@ -105,7 +105,7 @@ export function ChartPlot<TRow>({ ctx, type, stacked, orientation, curve, yDomai
         className="ag-chart__svg"
       >
         {grid === true && type !== 'donut' ? (
-          <g data-ag-part="chart-grid" className="ag-chart__grid" aria-hidden="true">
+          <g data-ag-part="chart-grid" aria-hidden="true">
             {[0.25, 0.5, 0.75].map((f) => (
               <line key={f} x1={0} x2={w} y1={h * f} y2={h * f} className="ag-chart__grid-line" />
             ))}

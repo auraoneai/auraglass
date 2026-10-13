@@ -3,6 +3,7 @@
 @layer ag.components {
   /* REQ-SURF-193: the svg carries data-ag-focusable; the MAT ring
      (src/a11y/css/focus.css) paints on :focus-visible. */
+  .ag-chart__plot-inner { position: relative; }
   .ag-chart__svg { display: block; }
   .ag-chart__grid-line { stroke: var(--_ag-border, currentColor); stroke-opacity: 0.25; stroke-dasharray: 3 4; }
   .ag-chart__cursor { stroke: var(--_ag-accent, Highlight); stroke-width: 1; }

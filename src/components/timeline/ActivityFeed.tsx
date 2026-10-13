@@ -69,7 +69,6 @@ export function ActivityFeed({
           name={it.actor.name}
           size="sm"
           aria-hidden="true"
-          className="ag-activity__avatar"
         />
         <span>{it.actor.name}</span>
       </span>

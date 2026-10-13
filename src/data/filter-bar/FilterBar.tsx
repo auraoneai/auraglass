@@ -327,7 +327,6 @@ function RuleChip({
           <PopoverPortal>
             <PopoverPositioner anchor={chipEl} side="bottom" align="start">
               <PopoverPopup
-                className="ag-filter-bar__editor"
                 aria-label={fill(msgs.editFilter, { field: fieldLabel })}
                 initialFocus={firstFieldRef}
                 finalFocus={triggerRef}
@@ -521,7 +520,7 @@ export function FilterBar({
             }}
           >
             {quickFilters.map((q) => (
-              <ToggleGroup.Item key={q.id} value={q.id} className="ag-filter-bar__quick-toggle">
+              <ToggleGroup.Item key={q.id} value={q.id}>
                 {q.label}
               </ToggleGroup.Item>
             ))}
