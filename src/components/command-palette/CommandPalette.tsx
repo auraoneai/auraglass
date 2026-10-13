@@ -14,9 +14,9 @@
    - Chrome: overlay/thick Surface material on the popup and a clear scrim
      (--ag-scrim-clear); the input takes initial focus; focus returns to the
      opener on close.
-   - hotkey='mod+k' by default (false disables): one document keydown listener
-     per mounted palette. The foundation seam that replaces it
-     (useGlobalHotkey, #326) is not on `next` yet. */
+   - hotkey='mod+k' by default (false disables): rides the foundation
+     useGlobalHotkey seam (the LayerStack's single per-document keydown
+     dispatcher), never an own document listener (REQ-CMP-12). */
 
 import * as React from 'react';
 import { Dialog as BaseDialog } from '../../foundation/base-ui/dialog';
@@ -24,6 +24,7 @@ import { useLayer, usePortalContainer } from '../../theme';
 import { materialProps } from '../../material/materialProps';
 import { Command } from './Command';
 import { toChangeDetails } from '../../foundation';
+import { useGlobalHotkey } from '../../foundation/useGlobalHotkey';
 import { composeRefs } from '../../primitives/Slot';
 /* S-30 ChangeDetails from the public contract module, so the emitted d.ts never
    names the private foundation seam (REQ-CMP-01). */
@@ -77,18 +78,13 @@ export function CommandPalette({
   const isOpenRef = React.useRef(isOpen);
   isOpenRef.current = isOpen;
 
-  // One document listener per mounted palette; toggles on the hotkey.
-  React.useEffect(() => {
-    if (hotkey === false) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (hotkeyMatches(e, hotkey)) {
-        e.preventDefault();
-        setOpen(!isOpenRef.current, { event: e, reason: 'hotkey' });
-      }
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [hotkey, setOpen]);
+  // Toggles on the hotkey via the foundation seam (LayerStack dispatcher).
+  useGlobalHotkey((e) => {
+    if (hotkey !== false && hotkeyMatches(e, hotkey)) {
+      e.preventDefault();
+      setOpen(!isOpenRef.current, { event: e, reason: 'hotkey' });
+    }
+  }, hotkey !== false);
 
   const container = usePortalContainer('overlay');
   const [popup, setPopup] = React.useState<HTMLElement | null>(null);
