@@ -186,13 +186,17 @@ function Root(props: CarouselRailRootProps): React.ReactElement {
         if (i < 0) continue;
         if (!(e.isIntersecting && e.intersectionRatio >= 0.6)) { visible.delete(i); continue; }
         visible.add(i);
-        const pending = pendingRef.current;
-        if (pending !== null) {
-          if (i === pending) pendingRef.current = null;
-          continue;
-        }
-        if (i !== indexRef.current) setIndexRef.current(i);
       }
+      // Observer delivery order is not slide order. Apply the complete batch
+      // before choosing the first visible slide, especially when auto-sized
+      // cards or multiple slides are visible together.
+      const pending = pendingRef.current;
+      if (pending !== null) {
+        if (visible.has(pending)) pendingRef.current = null;
+        return;
+      }
+      const first = Math.min(...visible);
+      if (Number.isFinite(first) && first !== indexRef.current) setIndexRef.current(first);
     }, { root: vp, threshold: 0.6 });
     els.forEach((s) => io.observe(s));
     // a user gesture always wins over an in-flight programmatic scroll

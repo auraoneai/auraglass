@@ -235,6 +235,20 @@ describe('CarouselRail (REQ-SURF-146..150)', () => {
       expect(onIndexChange).toHaveBeenLastCalledWith(0);
       expect(container.querySelectorAll('[role="tab"]')[0]!.getAttribute('aria-selected')).toBe('true');
     });
+    it('a batch of visible auto-width slides selects the first, independent of delivery order', () => {
+      const onIndexChange = jest.fn();
+      const { container } = render(<CarouselRail.Root label="P" slides={slides(4)} onIndexChange={onIndexChange} />);
+      const els = qa(container, 'carousel-slide');
+      const io = viewportIO(q(container, 'carousel-viewport'));
+      io.fire([show(els[2]!), show(els[0]!), show(els[1]!)]);
+      expect(onIndexChange).not.toHaveBeenCalled();
+      expect(q(container, 'carousel-prev').getAttribute('aria-disabled')).toBe('true');
+      // Entries for still-visible slides need not be repeated in the next batch.
+      io.fire([hide(els[0]!), show(els[3]!)]);
+      expect(onIndexChange.mock.calls.map((call) => call[0])).toEqual([1]);
+      io.fire([hide(els[1]!)]);
+      expect(onIndexChange.mock.calls.map((call) => call[0])).toEqual([1, 2]);
+    });
     it('slides passed during a programmatic scroll do not hijack the index', () => {
       const onIndexChange = jest.fn();
       const { container } = render(<CarouselRail.Root label="P" slides={slides(4)} onIndexChange={onIndexChange} />);

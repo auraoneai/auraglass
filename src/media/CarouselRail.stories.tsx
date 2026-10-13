@@ -31,8 +31,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Tabs: Story = { render: () => <Observed label="Highlights" /> };
-export const Buttons: Story = { render: () => <Observed label="Highlights" indicatorsAs="buttons" /> };
+// APG navigation/swipe subjects show one slide at a time; auto-sized cards
+// remain covered by the other stories and can all fit without scrolling.
+export const Tabs: Story = { render: () => <Observed label="Highlights" slidesPerView={1} /> };
+export const Buttons: Story = { render: () => <Observed label="Highlights" slidesPerView={1} indicatorsAs="buttons" /> };
 export const Loop: Story = { render: () => <CarouselRail.Root label="Looping" slides={SLIDES} loop /> };
 export const PerView: Story = { render: () => <CarouselRail.Root label="Two up" slides={SLIDES} slidesPerView={2} /> };
 /** Autoplay prop without the continuous gate: never rotates; the toggle offers Start. */
