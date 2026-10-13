@@ -3,7 +3,8 @@
    app before the run step (not a quickstart step): an element styled only
    with the Tailwind bridge utility `glass-regular` next to a Surface carrying
    [data-ag-variant="regular"]; the spec asserts both compute the same
-   backdrop-filter. */
+   backdrop-filter. The Surface uses layer=chrome: content surfaces never
+   carry a backdrop filter (D-08), so parity is measured on a glass layer. */
 import { Environment, Surface } from 'aura-glass';
 
 export default function QuickstartParity() {
@@ -13,7 +14,7 @@ export default function QuickstartParity() {
         <div data-qs-probe="tailwind" className="glass-regular" style={{ padding: 16 }}>
           glass-regular
         </div>
-        <Surface data-qs-probe="material" layer="content" variant="regular" style={{ padding: 16 }}>
+        <Surface data-qs-probe="material" layer="chrome" variant="regular" style={{ padding: 16 }}>
           data-ag-variant=regular
         </Surface>
       </div>
