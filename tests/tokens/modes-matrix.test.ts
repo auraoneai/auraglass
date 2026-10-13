@@ -79,6 +79,39 @@ describe('mode matrix (MAT-035)', () => {
     }
   });
 
+  test('tinted raises the glass row by one thickness row', () => {
+    // Material PRD transparency table: "tinted raises the row". Tinted cells
+    // solve from the authored floor one thickness row up (REQ-FIN-03 still
+    // models tinted >= glass), so the emitted tinted row is at least the
+    // glass row raised to the next higher thickness row at the same
+    // backdrop (the top row keeps its own value) — derived here from the
+    // emitted glass rows, never from generator internals.
+    const norm = (s: string) => s.replace(/\s+/g, ' ').replace(/\(\s+/g, '(').replace(/\s+\)/g, ')').trim();
+    const rows = new Map<string, number>();
+    postcss.parse(floors).walkRules((r) => {
+      r.walkDecls('--_ag-tint-floor', (d) => void rows.set(norm(r.selector),
+        Number(/^calc\(\s*(\d+(?:\.\d+)?)\s*\+\s*var\(--_ag-floor-lift,\s*0\)\s*\)$/.exec(d.value.trim())?.[1] ?? Number.NaN)));
+    });
+    const on = (attr: string, v: string) => `:is([data-ag-${attr}="${v}"], [data-ag-${attr}="${v}"] *)`;
+    const floorAt = (cond: string, th: string, b: string) =>
+      rows.get(`[data-ag-surface][data-ag-thickness="${th}"]${cond}${on('backdrop', b)}`) ?? null;
+    const TH = ['thin', 'regular', 'thick'];
+    for (const b of ['light', 'dark', 'media']) {
+      const glassRows = TH.map((th) => floorAt('', th, b));
+      for (const [i, th] of TH.entries()) {
+        const glass = glassRows[i];
+        const tinted = floorAt(on('transparency', 'tinted'), th, b);
+        expect([th, b, glass]).not.toContain(null);
+        expect(tinted).not.toBeNull();
+        const higher = glassRows.filter((v): v is number => v !== null && v > glass!);
+        const raised = higher.length ? Math.min(...higher) : glass!;
+        expect(tinted!).toBeGreaterThanOrEqual(raised);
+        expect(tinted!).toBeGreaterThanOrEqual(glass!);
+        if (higher.length) expect(tinted!).toBeGreaterThan(glass!);
+      }
+    }
+  });
+
   test('zero prefers-contrast: high', () => {
     expect(css).not.toContain('prefers-contrast: high');
     expect(floors).not.toContain('prefers-contrast: high');
