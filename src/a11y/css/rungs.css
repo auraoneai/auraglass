@@ -21,8 +21,8 @@
   :where([data-ag-transparency="solid"]) [data-ag-surface],
   :where([data-ag-transparency="solid"]) [data-ag-surface]::before {
     --_ag-tint-floor: calc(var(--_ag-tint-floor-solid) + var(--_ag-floor-lift, 0));
-    backdrop-filter: none;
     -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
   :where([data-ag-transparency="solid"]) [data-ag-surface] {
     background: var(--_ag-fallback-fill);
@@ -61,15 +61,15 @@
     :where(:not([data-ag-transparency])) [data-ag-surface],
     :where([data-ag-transparency="glass"]) [data-ag-surface],
     :where([data-ag-transparency="tinted"]) [data-ag-surface] {
-      backdrop-filter: none;
       -webkit-backdrop-filter: none;
+      backdrop-filter: none;
       --_ag-tint-floor: calc(var(--_ag-tint-floor-tinted) + var(--_ag-floor-lift, 0));
     }
     :where(:not([data-ag-transparency])) [data-ag-surface]::before,
     :where([data-ag-transparency="glass"]) [data-ag-surface]::before,
     :where([data-ag-transparency="tinted"]) [data-ag-surface]::before {
-      backdrop-filter: none;
       -webkit-backdrop-filter: none;
+      backdrop-filter: none;
     }
     :where(:not([data-ag-transparency])) [data-ag-surface],
     :where([data-ag-transparency="glass"]) [data-ag-surface],
@@ -83,8 +83,8 @@
     [data-ag-surface],
     [data-ag-surface]::before,
     [data-ag-surface]::after {
-      backdrop-filter: none;
       -webkit-backdrop-filter: none;
+      backdrop-filter: none;
       filter: none;
       background-image: none;
       box-shadow: none;
@@ -96,8 +96,8 @@
     }
     [data-ag-layer="scrim"] {
       background: transparent;
-      backdrop-filter: none;
       -webkit-backdrop-filter: none;
+      backdrop-filter: none;
     }
   }
 

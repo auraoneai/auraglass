@@ -120,8 +120,8 @@
     pointer-events: none;
     /* (1) backdrop optics, fixed order blur() saturate() brightness();
        the value is constant — the depth cross-fade only moves opacity */
-    backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(calc(var(--_ag-brightness) * var(--_ag-env-brightness)));
     -webkit-backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(calc(var(--_ag-brightness) * var(--_ag-env-brightness)));
+    backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(calc(var(--_ag-brightness) * var(--_ag-env-brightness)));
     background-image:
       linear-gradient(oklch(from var(--ag-scrim-media) l c h / var(--_ag-dim)) 0 0),
       url(../assets/ag-grain-128.avif),
@@ -245,8 +245,8 @@
     --ag-specular: 0;
   }
   [data-ag-surface][data-ag-variant="identity"]::before {
-    backdrop-filter: none;
     -webkit-backdrop-filter: none;
+    backdrop-filter: none;
     background-image: none;
   }
   [data-ag-surface][data-ag-variant="identity"]::after { content: none; }
@@ -263,8 +263,8 @@
   /* ---- content layer materials (D-08): never a backdrop filter ---- */
   [data-ag-surface][data-ag-layer="content"]:not(:where([data-ag-variant]))::before,
   [data-ag-surface][data-ag-layer="content"][data-ag-content]::before {
-    backdrop-filter: none;
     -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
   [data-ag-surface][data-ag-layer="content"]:not(:where([data-ag-variant])) {
     /* opaque content-raised fill (MaterialSpec.content), rim + grain + shadow */
@@ -285,8 +285,8 @@
      a grouped surface share the parent's backdrop, never their own ---- */
   :where([data-ag-surface]) [data-ag-surface]:not(:where([data-ag-allow-nested]))::before,
   :where([data-ag-group]) > [data-ag-surface]::before {
-    backdrop-filter: none;
     -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
   :where([data-ag-surface]) [data-ag-surface]:not(:where([data-ag-allow-nested])) {
     --_ag-fill: var(--_ag-inner-fill);
@@ -297,8 +297,8 @@
      every later rung reset (lightweight, solid, reduced transparency, forced
      colours, @supports not) still removes the filter. */
   :where([data-ag-group]) > [data-ag-surface]:where([data-ag-layer="transient"][data-ag-allow-nested][data-ag-animating])::before {
-    backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(calc(var(--_ag-brightness) * var(--_ag-env-brightness)));
     -webkit-backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(calc(var(--_ag-brightness) * var(--_ag-env-brightness)));
+    backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(calc(var(--_ag-brightness) * var(--_ag-env-brightness)));
   }
   /* portaled overlays are not DOM descendants of their trigger surface, so
      they keep optics — no extra rule needed; allowNested keeps optics. */
@@ -365,8 +365,8 @@
     /* environment scrim ink at the scrim.modal alpha (REQ-MAT-31) */
     background: oklch(from var(--ag-scrim-media) l c h / var(--_ag-scrim-modal));
     --_ag-scrim-blur: 12px;
-    backdrop-filter: blur(var(--_ag-scrim-blur));
     -webkit-backdrop-filter: blur(var(--_ag-scrim-blur));
+    backdrop-filter: blur(var(--_ag-scrim-blur));
   }
   [data-ag-layer="scrim"][data-ag-overlay-depth]:not([data-overlay-top]) {
     --_ag-scrim-blur: 0px;
@@ -563,8 +563,8 @@
   [data-ag-surface][data-ag-tier="lightweight"]::before,
   [data-ag-surface][data-ag-transparency="solid"]::before,
   [data-ag-transparency="solid"] [data-ag-surface]::before {
-    backdrop-filter: none;
     -webkit-backdrop-filter: none;
+    backdrop-filter: none;
     /* grain layer removed; Fresnel band and sheen kept */
     background-image:
       linear-gradient(oklch(from var(--ag-scrim-media) l c h / var(--_ag-dim)) 0 0),
@@ -586,8 +586,8 @@
   [data-ag-transparency="solid"] [data-ag-layer="scrim"],
   [data-ag-layer="scrim"][data-ag-transparency="solid"] {
     --_ag-scrim-blur: 0px;
-    backdrop-filter: none;
     -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
     [data-ag-surface] {
@@ -595,8 +595,8 @@
       --_ag-alpha: 1;
     }
     [data-ag-surface]::before {
-      backdrop-filter: none;
       -webkit-backdrop-filter: none;
+      backdrop-filter: none;
     }
   }
   @media (forced-colors: active) {
@@ -608,8 +608,8 @@
       color: CanvasText;
     }
     [data-ag-surface]::before {
-      backdrop-filter: none;
       -webkit-backdrop-filter: none;
+      backdrop-filter: none;
       background-image: none;
     }
     [data-ag-surface]::after { content: none; }
@@ -627,8 +627,8 @@
       --_ag-alpha: 1;
     }
     [data-ag-surface]:not([data-ag-transparency]):not([data-ag-transparency] *)::before {
-      backdrop-filter: none;
       -webkit-backdrop-filter: none;
+      backdrop-filter: none;
     }
   }
 

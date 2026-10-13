@@ -41,32 +41,32 @@
   [data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-transparency="tinted"] [data-ag-surface][data-ag-refraction]::before,
   [data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-transparency="tinted"][data-ag-refraction]::before,
   [data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-motion="none"] [data-ag-surface][data-ag-refraction]::before {
-    backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
     -webkit-backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
+    backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
   }
   [data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-tier="lightweight"] [data-ag-surface][data-ag-refraction]::before,
   [data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-tier="lightweight"][data-ag-refraction]::before,
   [data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-transparency="solid"] [data-ag-surface][data-ag-refraction]::before,
   [data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-transparency="solid"][data-ag-refraction]::before {
-    backdrop-filter: none;
     -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
   @media (prefers-reduced-transparency: reduce) {
     [data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]):not([data-ag-transparency]) [data-ag-surface][data-ag-refraction]::before {
-      backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
       -webkit-backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
+      backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
     }
   }
   @media (prefers-contrast: more) {
     [data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction]::before {
-      backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
       -webkit-backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
+      backdrop-filter: blur(var(--_ag-blur)) saturate(var(--_ag-saturation)) brightness(var(--_ag-brightness));
     }
   }
   @media (forced-colors: active) {
     [data-ag-tier="enhanced"][data-ag-engine="chromium"]:has(svg[data-ag-lens-ready]) [data-ag-surface][data-ag-refraction]::before {
-      backdrop-filter: none;
       -webkit-backdrop-filter: none;
+      backdrop-filter: none;
     }
   }
 }
