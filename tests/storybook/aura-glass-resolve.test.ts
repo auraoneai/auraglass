@@ -20,6 +20,7 @@ put('package.json', JSON.stringify({ name: 'aura-glass', exports: {
   './theme': { types: './dist/theme/public.d.ts', default: './dist/theme/public.js' },
   './charts': { types: './dist/charts/index.d.ts', default: './dist/charts/index.js' },
   './styles.css': './dist/styles.css',
+  './media.css': './dist/media.css',
   './icons/*': { default: './dist/icons/*.js' },
   './icons/special/*': { default: './dist/special/*.js' },
 } }));
@@ -27,7 +28,7 @@ put('build/exports.manifest.json', JSON.stringify({ version: 1, entries: [
   { subpath: '.', source: 'src/index.ts', default: 'dist/index.js' },
   { subpath: './theme', source: 'src/theme/public.ts', default: 'dist/theme/public.js' },
 ] }));
-for (const f of ['src/icons/Arrow.tsx', 'registry/items/button.tsx', 'src/index.ts', 'src/theme/public.ts', 'src/theme/index.ts', 'src/theme/AuraGlassProvider.tsx', 'src/root/mat.ts', 'src/theme/x.css']) put(f);
+for (const f of ['src/media/media.css', 'src/icons/Arrow.tsx', 'registry/items/button.tsx', 'src/index.ts', 'src/theme/public.ts', 'src/theme/index.ts', 'src/theme/AuraGlassProvider.tsx', 'src/root/mat.ts', 'src/theme/x.css']) put(f);
 for (const f of ['dist/icons/Arrow.js', 'dist/special/Arrow.js', 'dist/index.js', 'dist/theme/public.js', 'dist/theme/AuraGlassProvider.js', 'dist/styles.css']) put(f);
 
 type Ctx = { error(msg: string): never; resolve(source: string, importer?: string): Promise<{ id: string; external?: boolean } | null> };
@@ -55,6 +56,15 @@ describe('aura-glass resolution (REQ-QUAL-56)', () => {
     await expect(resolveId('aura-glass', join(root, 'showcase/a.tsx'))).resolves.toBe(join(root, 'dist/index.js'));
     await expect(resolveId('aura-glass/theme', join(root, 'showcase/a.tsx'))).resolves.toBe(join(root, 'dist/theme/public.js'));
     await expect(resolveId('aura-glass/styles.css', undefined)).resolves.toBe(join(root, 'dist/styles.css'));
+  });
+
+  it('media story CSS uses source in dev but requires and resolves the shipped sheet in dist mode', async () => {
+    const dev = harness(auraGlassResolve({ root, mode: 'source' }));
+    const built = harness(auraGlassResolve({ root, mode: 'dist' }));
+    await expect(dev('aura-glass/media.css')).resolves.toBe(join(root, 'src/media/media.css'));
+    await expect(built('aura-glass/media.css')).rejects.toThrow(/dist\/media\.css, which is not built/);
+    put('dist/media.css');
+    await expect(built('aura-glass/media.css')).resolves.toBe(join(root, 'dist/media.css'));
   });
 
   it('dist mode rejects a non-export subpath and an export that was not built', async () => {

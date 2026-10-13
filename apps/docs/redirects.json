@@ -24,17 +24,17 @@
     },
     {
       "from": "/components/01-consciousness-interface/glass-achievement-system",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0122",
       "status": 301
     },
     {
       "from": "/components/01-consciousness-interface/glass-biometric-adaptation",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0125",
       "status": 301
     },
     {
       "from": "/components/01-consciousness-interface/glass-eye-tracking",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0146",
       "status": 301
     },
     {
@@ -44,7 +44,7 @@
     },
     {
       "from": "/components/01-consciousness-interface/glass-spatial-audio",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-s0816",
       "status": 301
     },
     {
@@ -64,7 +64,7 @@
     },
     {
       "from": "/components/02-advanced-effects/glass-parallax-layers",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-s0815",
       "status": 301
     },
     {
@@ -124,12 +124,12 @@
     },
     {
       "from": "/components/05-layout/glass-fractal-layout",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0152",
       "status": 301
     },
     {
       "from": "/components/05-layout/glass-golden-ratio-grid",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0155",
       "status": 301
     },
     {
@@ -139,7 +139,7 @@
     },
     {
       "from": "/components/05-layout/glass-island-layout",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0160",
       "status": 301
     },
     {
@@ -154,7 +154,7 @@
     },
     {
       "from": "/components/05-layout/glass-orbital-menu",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0170",
       "status": 301
     },
     {
@@ -179,7 +179,7 @@
     },
     {
       "from": "/components/05-layout/glass-tessellation",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0196",
       "status": 301
     },
     {
@@ -284,7 +284,7 @@
     },
     {
       "from": "/components/06-navigation/glass-step-icon",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0192",
       "status": 301
     },
     {
@@ -409,7 +409,7 @@
     },
     {
       "from": "/components/08-interactive/glass-card-link",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0128",
       "status": 301
     },
     {
@@ -439,12 +439,12 @@
     },
     {
       "from": "/components/08-interactive/glass-code-editor",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0130",
       "status": 301
     },
     {
       "from": "/components/08-interactive/glass-color-scheme-generator",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0134",
       "status": 301
     },
     {
@@ -484,7 +484,7 @@
     },
     {
       "from": "/components/08-interactive/glass-component-playground",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0137",
       "status": 301
     },
     {
@@ -494,7 +494,7 @@
     },
     {
       "from": "/components/08-interactive/glass-draggable",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-m0982",
       "status": 301
     },
     {
@@ -534,7 +534,7 @@
     },
     {
       "from": "/components/08-interactive/glass-image-processing-provider",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0157",
       "status": 301
     },
     {
@@ -554,7 +554,7 @@
     },
     {
       "from": "/components/08-interactive/glass-intelligent-image-uploader",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0159",
       "status": 301
     },
     {
@@ -564,7 +564,7 @@
     },
     {
       "from": "/components/08-interactive/glass-kanban",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0162",
       "status": 301
     },
     {
@@ -594,7 +594,7 @@
     },
     {
       "from": "/components/08-interactive/glass-mind-map",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-s0814",
       "status": 301
     },
     {
@@ -609,12 +609,12 @@
     },
     {
       "from": "/components/08-interactive/glass-pull-to-refresh",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0178",
       "status": 301
     },
     {
       "from": "/components/08-interactive/glass-query-builder",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0182",
       "status": 301
     },
     {
@@ -624,12 +624,12 @@
     },
     {
       "from": "/components/08-interactive/glass-reaction-bar",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0183",
       "status": 301
     },
     {
       "from": "/components/08-interactive/glass-rich-text-editor",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0186",
       "status": 301
     },
     {
@@ -659,7 +659,7 @@
     },
     {
       "from": "/components/08-interactive/glass-theme-demo",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0198",
       "status": 301
     },
     {
@@ -699,7 +699,7 @@
     },
     {
       "from": "/components/08-interactive/glass-whiteboard",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0202",
       "status": 301
     },
     {
@@ -744,7 +744,7 @@
     },
     {
       "from": "/components/09-form/glass-form-builder",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0150",
       "status": 301
     },
     {
@@ -789,7 +789,7 @@
     },
     {
       "from": "/components/09-form/glass-multi-step-form",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0167",
       "status": 301
     },
     {
@@ -814,7 +814,7 @@
     },
     {
       "from": "/components/09-form/glass-step-label",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0193",
       "status": 301
     },
     {
@@ -849,7 +849,7 @@
     },
     {
       "from": "/components/09-form/glass-wizard",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0204",
       "status": 301
     },
     {
@@ -879,7 +879,7 @@
     },
     {
       "from": "/components/10-data-display/glass-badge-line",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0123",
       "status": 301
     },
     {
@@ -914,7 +914,7 @@
     },
     {
       "from": "/components/10-data-display/glass-diff-viewer",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0143",
       "status": 301
     },
     {
@@ -939,7 +939,7 @@
     },
     {
       "from": "/components/10-data-display/glass-kanban-board",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0163",
       "status": 301
     },
     {
@@ -969,12 +969,12 @@
     },
     {
       "from": "/components/10-data-display/glass-schema-viewer",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0187",
       "status": 301
     },
     {
       "from": "/components/10-data-display/glass-skeleton-loader",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0190",
       "status": 301
     },
     {
@@ -1079,7 +1079,7 @@
     },
     {
       "from": "/components/12-dashboard/dimensional-dashboard-container",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0115",
       "status": 301
     },
     {
@@ -1169,7 +1169,7 @@
     },
     {
       "from": "/components/16-surfaces-backgrounds/glass-biome-simulator",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0124",
       "status": 301
     },
     {
@@ -1184,7 +1184,7 @@
     },
     {
       "from": "/components/16-surfaces-backgrounds/glass-weather-glass",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0201",
       "status": 301
     },
     {
@@ -1219,7 +1219,7 @@
     },
     {
       "from": "/components/17-utilities/compact-cookie-notice",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0113",
       "status": 301
     },
     {
@@ -1229,7 +1229,7 @@
     },
     {
       "from": "/components/17-utilities/cookie-consent",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0114",
       "status": 301
     },
     {
@@ -1239,12 +1239,12 @@
     },
     {
       "from": "/components/17-utilities/glass-accordion-ui",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0120",
       "status": 301
     },
     {
       "from": "/components/17-utilities/glass-checkbox-ui",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0129",
       "status": 301
     },
     {
@@ -1254,7 +1254,7 @@
     },
     {
       "from": "/components/17-utilities/global-cookie-consent",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0206",
       "status": 301
     },
     {
@@ -1294,7 +1294,7 @@
     },
     {
       "from": "/components/17-utilities/state-indicator",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0220",
       "status": 301
     },
     {
@@ -1319,37 +1319,37 @@
     },
     {
       "from": "/components/17-utilities/visual-feedback",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0222",
       "status": 301
     },
     {
       "from": "/components/18-templates/chart-widget",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0111",
       "status": 301
     },
     {
       "from": "/components/18-templates/glass-canvas",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0127",
       "status": 301
     },
     {
       "from": "/components/18-templates/glass-component-palette",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0136",
       "status": 301
     },
     {
       "from": "/components/18-templates/glass-dashboard",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0141",
       "status": 301
     },
     {
       "from": "/components/18-templates/glass-detail-view",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0142",
       "status": 301
     },
     {
       "from": "/components/18-templates/glass-drag-drop-provider",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0144",
       "status": 301
     },
     {
@@ -1359,7 +1359,7 @@
     },
     {
       "from": "/components/18-templates/glass-form-template",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0151",
       "status": 301
     },
     {
@@ -1374,12 +1374,12 @@
     },
     {
       "from": "/components/18-templates/glass-page-builder",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0172",
       "status": 301
     },
     {
       "from": "/components/18-templates/glass-page-structure",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0173",
       "status": 301
     },
     {
@@ -1389,7 +1389,7 @@
     },
     {
       "from": "/components/18-templates/glass-property-panel",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0177",
       "status": 301
     },
     {
@@ -1399,7 +1399,7 @@
     },
     {
       "from": "/components/18-templates/glass-wizard-template",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0205",
       "status": 301
     },
     {
@@ -1429,7 +1429,7 @@
     },
     {
       "from": "/components/19-website-demo/glass-prism-comparison",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0175",
       "status": 301
     },
     {
@@ -1439,7 +1439,7 @@
     },
     {
       "from": "/components/19-website-demo/glass-wipe-slider",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0203",
       "status": 301
     },
     {
@@ -1584,12 +1584,12 @@
     },
     {
       "from": "/components/27-revolutionary-enhancements/glass-context-aware",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0138",
       "status": 301
     },
     {
       "from": "/components/27-revolutionary-enhancements/glass-foldable-support",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0149",
       "status": 301
     },
     {
@@ -1599,17 +1599,17 @@
     },
     {
       "from": "/components/27-revolutionary-enhancements/glass-morphing-engine",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0166",
       "status": 301
     },
     {
       "from": "/components/27-revolutionary-enhancements/glass-orientation-effects",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0171",
       "status": 301
     },
     {
       "from": "/components/27-revolutionary-enhancements/glass-physics-engine",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0174",
       "status": 301
     },
     {
@@ -1619,7 +1619,7 @@
     },
     {
       "from": "/components/27-revolutionary-enhancements/glass-reactions",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0185",
       "status": 301
     },
     {
@@ -1639,7 +1639,7 @@
     },
     {
       "from": "/components/27-revolutionary-enhancements/spatial-computing-engine",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0219",
       "status": 301
     },
     {
@@ -1654,12 +1654,12 @@
     },
     {
       "from": "/components/28-next-wave-systems/glass-collaboration-dashboard",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0132",
       "status": 301
     },
     {
       "from": "/components/28-next-wave-systems/glass-collaboration-provider",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0133",
       "status": 301
     },
     {
@@ -1674,7 +1674,7 @@
     },
     {
       "from": "/components/28-next-wave-systems/glass-contextual-engine",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0140",
       "status": 301
     },
     {
@@ -1684,7 +1684,7 @@
     },
     {
       "from": "/components/28-next-wave-systems/glass-mood-ring",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0165",
       "status": 301
     },
     {
@@ -1709,17 +1709,17 @@
     },
     {
       "from": "/components/28-next-wave-systems/glass-quantum-states",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0180",
       "status": 301
     },
     {
       "from": "/components/28-next-wave-systems/glass-reaction-bubbles",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0184",
       "status": 301
     },
     {
       "from": "/components/28-next-wave-systems/glass-self-healing-system",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0188",
       "status": 301
     },
     {
@@ -1729,12 +1729,12 @@
     },
     {
       "from": "/components/28-next-wave-systems/glass-shared-whiteboard",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0189",
       "status": 301
     },
     {
       "from": "/components/28-next-wave-systems/glass-social-feed",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0191",
       "status": 301
     },
     {
@@ -1774,7 +1774,7 @@
     },
     {
       "from": "/components/29-ai-components/glass-intelligent-form-builder",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0158",
       "status": 301
     },
     {
@@ -1804,7 +1804,7 @@
     },
     {
       "from": "/components/30-genesis-revolutionary/collaborative-glass-workspace",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0112",
       "status": 301
     },
     {
@@ -1839,7 +1839,7 @@
     },
     {
       "from": "/components/30-genesis-revolutionary/voice-glass-control",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0223",
       "status": 301
     },
     {
@@ -1859,12 +1859,12 @@
     },
     {
       "from": "/components/31-ar-effects/glass-fluid-simulation",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0148",
       "status": 301
     },
     {
       "from": "/components/31-ar-effects/glass-hologram",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0156",
       "status": 301
     },
     {
@@ -1879,12 +1879,12 @@
     },
     {
       "from": "/components/31-ar-effects/glass-vortex-portal",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0199",
       "status": 301
     },
     {
       "from": "/components/31-ar-effects/glass360-viewer",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0118",
       "status": 301
     },
     {
@@ -1904,7 +1904,7 @@
     },
     {
       "from": "/components/32-new-genesis-components/brand-color-integration",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0110",
       "status": 301
     },
     {
@@ -1924,7 +1924,7 @@
     },
     {
       "from": "/components/32-new-genesis-components/glass-performance-optimization",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-m0983",
       "status": 301
     },
     {
@@ -1939,7 +1939,7 @@
     },
     {
       "from": "/components/32-new-genesis-components/intelligent-color-system",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0208",
       "status": 301
     },
     {
@@ -1949,32 +1949,32 @@
     },
     {
       "from": "/components/33-quantum-ui/glass-coherence-indicator",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0131",
       "status": 301
     },
     {
       "from": "/components/33-quantum-ui/glass-probability-cloud",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0176",
       "status": 301
     },
     {
       "from": "/components/33-quantum-ui/glass-quantum-field",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0179",
       "status": 301
     },
     {
       "from": "/components/33-quantum-ui/glass-quantum-tunnel",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0181",
       "status": 301
     },
     {
       "from": "/components/33-quantum-ui/glass-superpositional-menu",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0195",
       "status": 301
     },
     {
       "from": "/components/33-quantum-ui/glass-wave-function",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0200",
       "status": 301
     },
     {
@@ -2094,7 +2094,7 @@
     },
     {
       "from": "/components/35-liquid-glass/search/liquid-glass-search-tab",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0209",
       "status": 301
     },
     {
@@ -2144,17 +2144,17 @@
     },
     {
       "from": "/components/marketing/feature-tile",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0117",
       "status": 301
     },
     {
       "from": "/components/marketing/install-command",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0207",
       "status": 301
     },
     {
       "from": "/components/marketing/logo-mark",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0212",
       "status": 301
     },
     {
@@ -2164,7 +2164,7 @@
     },
     {
       "from": "/components/marketing/showcase-card",
-      "to": "/components/",
+      "to": "/plat/migrate/5#dep-p0218",
       "status": 301
     },
     {

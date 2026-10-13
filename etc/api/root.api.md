@@ -212,14 +212,14 @@ export function AvatarGroup(input: AvatarGroupProps & {
 }): React_2.JSX.Element;
 
 // @public (undocumented)
-export interface AvatarGroupProps extends React_2.HTMLAttributes<HTMLDivElement> {
+export interface AvatarGroupProps extends Omit<React_2.HTMLAttributes<HTMLDivElement>, 'onChange'> {
     children?: React_2.ReactNode;
     max?: number;
     size?: 'sm' | 'md' | 'lg';
 }
 
 // @public (undocumented)
-export interface AvatarRootProps extends Omit<React_2.HTMLAttributes<HTMLSpanElement>, 'prefix'> {
+export interface AvatarRootProps extends Omit<React_2.HTMLAttributes<HTMLSpanElement>, 'prefix' | 'onChange'> {
     alt?: string;
     delay?: number;
     name?: string;
@@ -1266,7 +1266,6 @@ export interface SearchFieldProps {
     id?: string;
     label?: ReactNode;
     loading?: boolean;
-    // (undocumented)
     maxLength?: number;
     name?: string;
     onClear?: (details: ChangeDetails) => void;
@@ -1280,9 +1279,7 @@ export interface SearchFieldProps {
     showCount?: boolean;
     size?: ControlSize;
     startAdornment?: ReactNode;
-    // (undocumented)
     validate?: FieldValidate;
-    // (undocumented)
     validationMode?: FieldValidationMode;
     value?: string;
     variant?: 'regular' | 'clear' | 'identity';

@@ -2,6 +2,9 @@
 // APG, autoplay (L9) and blur-budget specs drive (REQ-SURF-147..150).
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+// Consumers load the media subpath sheet alongside the root styles. Cert
+// mode deliberately loads only the root sheet through the global loader.
+import 'aura-glass/media.css';
 import { CarouselRail, type CarouselRailRootProps } from './CarouselRail/CarouselRail';
 import { AuraGlassProvider } from '../theme';
 import { Backdrop } from '../backdrops';

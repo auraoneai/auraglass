@@ -84,7 +84,7 @@ export interface CreateBrandGlassThemeOptions extends CreateBrandThemeOptions {
     name?: string;
 }
 
-// @public
+// @public @deprecated
 export const createGlassTheme: (options?: CompatCreateGlassThemeOptions) => GlassTheme;
 
 // @public @deprecated (undocumented)
@@ -174,7 +174,7 @@ export interface GlassActionSheetProps {
 // @public @deprecated
 export function GlassActivityFeed(props: GlassActivityFeedProps): React_2.JSX.Element;
 
-// @public
+// @public @deprecated
 export function GlassAdvanced(props: OptimizedGlassCompatProps): React_2.ReactElement;
 
 // Warning: (ae-forgotten-export) The symbol "Alert" needs to be exported by the entry point index.d.ts
@@ -307,7 +307,7 @@ export function GlassCarousel(props: GlassCarouselProps): React_2.JSX.Element;
 
 // Warning: (ae-forgotten-export) The symbol "GlassChatProps" needs to be exported by the entry point index.d.ts
 //
-// @public (undocumented)
+// @public @deprecated (undocumented)
 export function GlassChat(props: GlassChatProps): React_2.JSX.Element;
 
 // Warning: (ae-forgotten-export) The symbol "GlassChatInputProps" needs to be exported by the entry point index.d.ts
@@ -513,7 +513,7 @@ export interface GlassContextMenuProps {
     onOpenChange?: (open: boolean) => void;
 }
 
-// @public
+// @public @deprecated
 export function GlassCore(props: OptimizedGlassCompatProps): React_2.ReactElement;
 
 // Warning: (ae-forgotten-export) The symbol "Row_3" needs to be exported by the entry point index.d.ts
@@ -525,7 +525,7 @@ export function GlassDataGrid<T extends Row_3 = Row_3>(props: GlassDataGridProps
 // Warning: (ae-forgotten-export) The symbol "Row" needs to be exported by the entry point index.d.ts
 // Warning: (ae-forgotten-export) The symbol "GlassDataTableProps" needs to be exported by the entry point index.d.ts
 //
-// @public (undocumented)
+// @public @deprecated (undocumented)
 export function GlassDataTable<T extends Row = Row>(props: GlassDataTableProps<T>): React_2.JSX.Element;
 
 // Warning: (ae-forgotten-export) The symbol "GlassDateFieldProps" needs to be exported by the entry point index.d.ts
@@ -1452,7 +1452,7 @@ export function GlassPortal(props: React_2.ComponentProps<typeof Portal>): React
 // @public @deprecated
 export function GlassPositioner(props: PositionerProps): React_2.JSX.Element;
 
-// @public
+// @public @deprecated
 export function GlassPrimitive(props: OptimizedGlassCompatProps): React_2.ReactElement;
 
 // Warning: (ae-forgotten-export) The symbol "Progress" needs to be exported by the entry point index.d.ts
@@ -1681,7 +1681,7 @@ export interface GlassSelectProps {
     value?: string;
 }
 
-// @public (undocumented)
+// @public @deprecated (undocumented)
 export function GlassSelectRoot(props: Parameters<typeof Select.Root>[0]): React_2.JSX.Element;
 
 // @public @deprecated (undocumented)
@@ -2215,7 +2215,7 @@ export function LiquidGlassCarouselRail(props: LiquidGlassCarouselRailProps): Re
 // @public @deprecated
 export function LiquidGlassCommandSurface(props: LiquidGlassCommandSurfaceProps): React_2.JSX.Element;
 
-// @public
+// @public @deprecated
 export function LiquidGlassConcentricFrame(props: LiquidGlassConcentricFrameCompatProps): React_2.ReactElement;
 
 // @public (undocumented)
@@ -2258,7 +2258,7 @@ export interface LiquidGlassControlGroupProps {
 // @public @deprecated
 export function LiquidGlassDestination(props: LiquidGlassDestinationProps): React_2.JSX.Element | null;
 
-// @public
+// @public @deprecated
 export function LiquidGlassEffectGroup(props: LiquidGlassEffectGroupCompatProps): React_2.ReactElement;
 
 // @public (undocumented)
@@ -2285,7 +2285,7 @@ export function LiquidGlassInsetSidebar(props: LiquidGlassInsetSidebarProps): Re
 // @public @deprecated
 export function LiquidGlassInspectorPanel(props: LiquidGlassInspectorPanelProps): React_2.JSX.Element | null;
 
-// @public
+// @public @deprecated
 export function LiquidGlassLayerProvider(input: {
     children?: React_2.ReactNode;
     [key: string]: unknown;
@@ -2308,7 +2308,7 @@ export interface LiquidGlassMapControlsProps {
     onZoomOut?: () => void;
 }
 
-// @public
+// @public @deprecated
 export function LiquidGlassMaterial(props: LiquidGlassMaterialCompatProps): React_2.ReactElement;
 
 // @public (undocumented)
@@ -2367,7 +2367,7 @@ export interface LiquidGlassPopoverMenuProps {
     trigger?: React_2.ReactNode;
 }
 
-// @public
+// @public @deprecated
 export function LiquidGlassScrollEdge(props: LiquidGlassScrollEdgeCompatProps): React_2.ReactElement;
 
 // @public (undocumented)
@@ -2551,10 +2551,10 @@ export interface MobileGlassBottomSheetProps {
     snap?: number | readonly number[];
 }
 
-// @public
+// @public @deprecated
 export function OptimizedGlass(props: OptimizedGlassCompatProps): React_2.ReactElement;
 
-// @public
+// @public @deprecated
 export function OptimizedGlassAdvanced(props: OptimizedGlassCompatProps): React_2.ReactElement;
 
 // Warning: (ae-forgotten-export) The symbol "SurfaceProps" needs to be exported by the entry point index.d.ts
@@ -2706,8 +2706,8 @@ export function ZSpaceAppLayout(props: ZSpaceAppLayoutProps): React_2.JSX.Elemen
 
 // Warnings were encountered during analysis:
 //
-// dist/compat/cmp/controls/GlassSelectCompound.d.ts:35:5 - (ae-forgotten-export) The symbol "GlassSelectScrollUp" needs to be exported by the entry point index.d.ts
-// dist/compat/cmp/controls/GlassSelectCompound.d.ts:36:5 - (ae-forgotten-export) The symbol "GlassSelectScrollDown" needs to be exported by the entry point index.d.ts
+// dist/compat/cmp/controls/GlassSelectCompound.d.ts:36:5 - (ae-forgotten-export) The symbol "GlassSelectScrollUp" needs to be exported by the entry point index.d.ts
+// dist/compat/cmp/controls/GlassSelectCompound.d.ts:37:5 - (ae-forgotten-export) The symbol "GlassSelectScrollDown" needs to be exported by the entry point index.d.ts
 // dist/compat/cmp/overlays/GlassDropdownMenu.d.ts:66:5 - (ae-forgotten-export) The symbol "GlassDropdownMenuRoot" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)

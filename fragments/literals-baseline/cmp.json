@@ -1612,6 +1612,15 @@
       "shadow": 0,
       "spring": 0
     },
+    "src/components/button/Button.a11y.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
     "src/components/button/Button.client.tsx": {
       "blur": 0,
       "color": 0,
@@ -1703,6 +1712,15 @@
       "spring": 0
     },
     "src/components/card/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/checkbox/Checkbox.a11y.css": {
       "blur": 0,
       "color": 0,
       "duration": 0,
@@ -2845,6 +2863,15 @@
       "shadow": 0,
       "spring": 0
     },
+    "src/components/number-field/NumberField.a11y.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
     "src/components/number-field/NumberField.client.tsx": {
       "blur": 0,
       "color": 0,
@@ -3196,6 +3223,15 @@
       "shadow": 0,
       "spring": 0
     },
+    "src/components/progress/Progress.a11y.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
     "src/components/progress/Progress.client.tsx": {
       "blur": 0,
       "color": 0,
@@ -3385,6 +3421,15 @@
       "shadow": 0,
       "spring": 0
     },
+    "src/components/search-field/SearchField.a11y.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
     "src/components/search-field/SearchField.client.tsx": {
       "blur": 0,
       "color": 0,
@@ -3448,6 +3493,15 @@
       "shadow": 0,
       "spring": 0
     },
+    "src/components/segmented-control/SegmentedControl.a11y.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
     "src/components/segmented-control/SegmentedControl.client.tsx": {
       "blur": 0,
       "color": 0,
@@ -3503,6 +3557,15 @@
       "spring": 0
     },
     "src/components/select/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/select/Select.a11y.css": {
       "blur": 0,
       "color": 0,
       "duration": 0,
@@ -3691,6 +3754,15 @@
       "shadow": 0,
       "spring": 0
     },
+    "src/components/skeleton/Skeleton.a11y.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
     "src/components/skeleton/Skeleton.css": {
       "blur": 0,
       "color": 0,
@@ -3728,6 +3800,15 @@
       "spring": 0
     },
     "src/components/slider/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/slider/Slider.a11y.css": {
       "blur": 0,
       "color": 0,
       "duration": 0,
@@ -3943,6 +4024,15 @@
       "shadow": 0,
       "spring": 0
     },
+    "src/components/switch/Switch.a11y.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
     "src/components/switch/Switch.client.tsx": {
       "blur": 0,
       "color": 0,
@@ -3998,6 +4088,15 @@
       "spring": 0
     },
     "src/components/text-field/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/text-field/TextField.a11y.css": {
       "blur": 0,
       "color": 0,
       "duration": 0,
@@ -4159,6 +4258,15 @@
       "shadow": 0,
       "spring": 0
     },
+    "src/components/toggle-group/ToggleGroup.a11y.css": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
     "src/components/toggle-group/ToggleGroup.client.tsx": {
       "blur": 0,
       "color": 0,
@@ -4250,6 +4358,15 @@
       "spring": 0
     },
     "src/components/tooltip/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/components/tooltip/Tooltip.a11y.css": {
       "blur": 0,
       "color": 0,
       "duration": 0,
@@ -6320,6 +6437,15 @@
       "spring": 0
     },
     "src/primitives/index.ts": {
+      "blur": 0,
+      "color": 0,
+      "duration": 0,
+      "easing": 0,
+      "radius": 0,
+      "shadow": 0,
+      "spring": 0
+    },
+    "src/primitives/Label.css": {
       "blur": 0,
       "color": 0,
       "duration": 0,

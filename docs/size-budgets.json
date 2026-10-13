@@ -1,29 +1,29 @@
 {
-  "generatedAt": "2026-10-08T02:27:42.799Z",
+  "generatedAt": "2026-10-13T10:26:42.853Z",
   "rows": [
     {
       "id": "plat:cn",
       "import": "export { cn } from 'aura-glass/internal'",
       "limitBytes": 512,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 82
     },
     {
       "id": "plat:warnDeprecated",
       "import": "export { warnDeprecated } from 'aura-glass/internal'",
-      "limitBytes": 150,
+      "limitBytes": 5632,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 5376
     },
     {
       "id": "plat:tailwind-bridge",
       "import": "dist/tailwind.css",
       "limitBytes": 6144,
       "kind": "css",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 987
     },
     {
       "id": "plat:compat-globals",
@@ -31,79 +31,1575 @@
       "limitBytes": 1024,
       "kind": "css",
       "status": "pass",
-      "measuredBytes": 144
+      "measuredBytes": 276
+    },
+    {
+      "id": "plat:compat:AtmosphericBackground",
+      "import": "{ AtmosphericBackground } from 'aura-glass/compat'",
+      "limitBytes": 9216,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6971
+    },
+    {
+      "id": "plat:compat:AuroraBackground",
+      "import": "{ AuroraBackground } from 'aura-glass/compat'",
+      "limitBytes": 9216,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 7028
+    },
+    {
+      "id": "plat:compat:AuroraOrb",
+      "import": "{ AuroraOrb } from 'aura-glass/compat'",
+      "limitBytes": 9216,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 7000
+    },
+    {
+      "id": "plat:compat:Box",
+      "import": "{ Box } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 752
+    },
+    {
+      "id": "plat:compat:Button",
+      "import": "{ Button } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2751
+    },
+    {
+      "id": "plat:compat:CircularProgress",
+      "import": "{ CircularProgress } from 'aura-glass/compat'",
+      "limitBytes": 7048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1294
+    },
+    {
+      "id": "plat:compat:DisplayText",
+      "import": "{ DisplayText } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 672
+    },
+    {
+      "id": "plat:compat:DynamicAtmosphere",
+      "import": "{ DynamicAtmosphere } from 'aura-glass/compat'",
+      "limitBytes": 9216,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6970
+    },
+    {
+      "id": "plat:compat:EnhancedGlassButton",
+      "import": "{ EnhancedGlassButton } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2821
+    },
+    {
+      "id": "plat:compat:GlassAccordion",
+      "import": "{ GlassAccordion } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1872
+    },
+    {
+      "id": "plat:compat:GlassActionBar",
+      "import": "{ GlassActionBar } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9333
+    },
+    {
+      "id": "plat:compat:GlassActionSheet",
+      "import": "{ GlassActionSheet } from 'aura-glass/compat'",
+      "limitBytes": 26048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10848
+    },
+    {
+      "id": "plat:compat:GlassActivityFeed",
+      "import": "{ GlassActivityFeed } from 'aura-glass/compat'",
+      "limitBytes": 7168,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4652
+    },
+    {
+      "id": "plat:compat:GlassAlert",
+      "import": "{ GlassAlert } from 'aura-glass/compat'",
+      "limitBytes": 5048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1008
+    },
+    {
+      "id": "plat:compat:GlassAnimatedNumber",
+      "import": "{ GlassAnimatedNumber } from 'aura-glass/compat'",
+      "limitBytes": 5120,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 307
+    },
+    {
+      "id": "plat:compat:GlassAppShell",
+      "import": "{ GlassAppShell } from 'aura-glass/compat'",
+      "limitBytes": 20480,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 18174
+    },
+    {
+      "id": "plat:compat:GlassAvatar",
+      "import": "{ GlassAvatar } from 'aura-glass/compat'",
+      "limitBytes": 5048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 732
+    },
+    {
+      "id": "plat:compat:GlassAvatarGroup",
+      "import": "{ GlassAvatarGroup } from 'aura-glass/compat'",
+      "limitBytes": 5048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 601
+    },
+    {
+      "id": "plat:compat:GlassBadge",
+      "import": "{ GlassBadge } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 866
+    },
+    {
+      "id": "plat:compat:GlassBottomNav",
+      "import": "{ GlassBottomNav } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6368
+    },
+    {
+      "id": "plat:compat:GlassBottomSheet",
+      "import": "{ GlassBottomSheet } from 'aura-glass/compat'",
+      "limitBytes": 26048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10874
+    },
+    {
+      "id": "plat:compat:GlassBreadcrumb",
+      "import": "{ GlassBreadcrumb } from 'aura-glass/compat'",
+      "limitBytes": 11264,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9436
+    },
+    {
+      "id": "plat:compat:GlassBreadcrumbs",
+      "import": "{ GlassBreadcrumbs } from 'aura-glass/compat'",
+      "limitBytes": 11264,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9410
+    },
+    {
+      "id": "plat:compat:GlassButton",
+      "import": "{ GlassButton } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2753
+    },
+    {
+      "id": "plat:compat:GlassCalendar",
+      "import": "{ GlassCalendar } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3066
+    },
+    {
+      "id": "plat:compat:GlassCard",
+      "import": "{ GlassCard } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1246
+    },
+    {
+      "id": "plat:compat:GlassCarousel",
+      "import": "{ GlassCarousel } from 'aura-glass/compat'",
+      "limitBytes": 12288,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 7997
+    },
+    {
+      "id": "plat:compat:GlassChat",
+      "import": "{ GlassChat } from 'aura-glass/compat'",
+      "limitBytes": 35840,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 28109
+    },
+    {
+      "id": "plat:compat:GlassChatInput",
+      "import": "{ GlassChatInput } from 'aura-glass/compat'",
+      "limitBytes": 14336,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 12048
+    },
+    {
+      "id": "plat:compat:GlassCheckbox",
+      "import": "{ GlassCheckbox } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1607
+    },
+    {
+      "id": "plat:compat:GlassCheckboxGroup",
+      "import": "{ GlassCheckboxGroup } from 'aura-glass/compat'",
+      "limitBytes": 8048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1626
+    },
+    {
+      "id": "plat:compat:GlassChip",
+      "import": "{ GlassChip } from 'aura-glass/compat'",
+      "limitBytes": 5120,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1152
+    },
+    {
+      "id": "plat:compat:GlassCoachmarks",
+      "import": "{ GlassCoachmarks } from 'aura-glass/compat'",
+      "limitBytes": 17048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9047
+    },
+    {
+      "id": "plat:compat:GlassColorPicker",
+      "import": "{ GlassColorPicker } from 'aura-glass/compat'",
+      "limitBytes": 22048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 12067
+    },
+    {
+      "id": "plat:compat:GlassColorWheel",
+      "import": "{ GlassColorWheel } from 'aura-glass/compat'",
+      "limitBytes": 22048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 12070
+    },
+    {
+      "id": "plat:compat:GlassCombobox",
+      "import": "{ GlassCombobox } from 'aura-glass/compat'",
+      "limitBytes": 32048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10695
+    },
+    {
+      "id": "plat:compat:GlassCommand",
+      "import": "{ GlassCommand } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 5831
+    },
+    {
+      "id": "plat:compat:GlassCommandBar",
+      "import": "{ GlassCommandBar } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9352
+    },
+    {
+      "id": "plat:compat:GlassCommandPalette",
+      "import": "{ GlassCommandPalette } from 'aura-glass/compat'",
+      "limitBytes": 12288,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9219
+    },
+    {
+      "id": "plat:compat:GlassConnectionStatus",
+      "import": "{ GlassConnectionStatus } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1340
+    },
+    {
+      "id": "plat:compat:GlassContainer",
+      "import": "{ GlassContainer } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 537
+    },
+    {
+      "id": "plat:compat:GlassDataGrid",
+      "import": "{ GlassDataGrid } from 'aura-glass/compat'",
+      "limitBytes": 21504,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 18840
+    },
+    {
+      "id": "plat:compat:GlassDataTable",
+      "import": "{ GlassDataTable } from 'aura-glass/compat'",
+      "limitBytes": 21504,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 18822
+    },
+    {
+      "id": "plat:compat:GlassDateField",
+      "import": "{ GlassDateField } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2082
+    },
+    {
+      "id": "plat:compat:GlassDatePicker",
+      "import": "{ GlassDatePicker } from 'aura-glass/compat'",
+      "limitBytes": 17408,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 16311
+    },
+    {
+      "id": "plat:compat:GlassDateRangePicker",
+      "import": "{ GlassDateRangePicker } from 'aura-glass/compat'",
+      "limitBytes": 18432,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 17037
+    },
+    {
+      "id": "plat:compat:GlassDialog",
+      "import": "{ GlassDialog } from 'aura-glass/compat'",
+      "limitBytes": 22048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 8194
+    },
+    {
+      "id": "plat:compat:GlassDismissableLayer",
+      "import": "{ GlassDismissableLayer } from 'aura-glass/compat'",
+      "limitBytes": 4736,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2680
+    },
+    {
+      "id": "plat:compat:GlassDivider",
+      "import": "{ GlassDivider } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 438
+    },
+    {
+      "id": "plat:compat:GlassDrawer",
+      "import": "{ GlassDrawer } from 'aura-glass/compat'",
+      "limitBytes": 26048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10973
+    },
+    {
+      "id": "plat:compat:GlassDynamicAtmosphere",
+      "import": "{ GlassDynamicAtmosphere } from 'aura-glass/compat'",
+      "limitBytes": 9216,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6973
+    },
+    {
+      "id": "plat:compat:GlassEmptyState",
+      "import": "{ GlassEmptyState } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 524
+    },
+    {
+      "id": "plat:compat:GlassErrorState",
+      "import": "{ GlassErrorState } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 537
+    },
+    {
+      "id": "plat:compat:GlassFab",
+      "import": "{ GlassFab } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2530
+    },
+    {
+      "id": "plat:compat:GlassFieldGroup",
+      "import": "{ GlassFieldGroup } from 'aura-glass/compat'",
+      "limitBytes": 5048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 367
+    },
+    {
+      "id": "plat:compat:GlassFileExplorer",
+      "import": "{ GlassFileExplorer } from 'aura-glass/compat'",
+      "limitBytes": 10240,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3849
+    },
+    {
+      "id": "plat:compat:GlassFileTree",
+      "import": "{ GlassFileTree } from 'aura-glass/compat'",
+      "limitBytes": 10240,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3754
+    },
+    {
+      "id": "plat:compat:GlassFileUpload",
+      "import": "{ GlassFileUpload } from 'aura-glass/compat'",
+      "limitBytes": 17048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3166
+    },
+    {
+      "id": "plat:compat:GlassFilterBar",
+      "import": "{ GlassFilterBar } from 'aura-glass/compat'",
+      "limitBytes": 20480,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 18783
+    },
+    {
+      "id": "plat:compat:GlassFlex",
+      "import": "{ GlassFlex } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1052
+    },
+    {
+      "id": "plat:compat:GlassFocusScope",
+      "import": "{ GlassFocusScope } from 'aura-glass/compat'",
+      "limitBytes": 4048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 999
+    },
+    {
+      "id": "plat:compat:GlassForm",
+      "import": "{ GlassForm } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 444
+    },
+    {
+      "id": "plat:compat:GlassFormField",
+      "import": "{ GlassFormField } from 'aura-glass/compat'",
+      "limitBytes": 8048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 516
+    },
+    {
+      "id": "plat:compat:GlassGradientPicker",
+      "import": "{ GlassGradientPicker } from 'aura-glass/compat'",
+      "limitBytes": 22048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 12071
+    },
+    {
+      "id": "plat:compat:GlassGrid",
+      "import": "{ GlassGrid } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1094
+    },
+    {
+      "id": "plat:compat:GlassHeader",
+      "import": "{ GlassHeader } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2261
+    },
+    {
+      "id": "plat:compat:GlassHoverCard",
+      "import": "{ GlassHoverCard } from 'aura-glass/compat'",
+      "limitBytes": 16048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 7949
+    },
+    {
+      "id": "plat:compat:GlassIconButton",
+      "import": "{ GlassIconButton } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2630
+    },
+    {
+      "id": "plat:compat:GlassImageViewer",
+      "import": "{ GlassImageViewer } from 'aura-glass/compat'",
+      "limitBytes": 15360,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 13466
+    },
+    {
+      "id": "plat:compat:GlassInlineEdit",
+      "import": "{ GlassInlineEdit } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1248
+    },
+    {
+      "id": "plat:compat:GlassInput",
+      "import": "{ GlassInput } from 'aura-glass/compat'",
+      "limitBytes": 14048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2527
+    },
+    {
+      "id": "plat:compat:GlassInspector",
+      "import": "{ GlassInspector } from 'aura-glass/compat'",
+      "limitBytes": 16384,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 13989
+    },
+    {
+      "id": "plat:compat:GlassIntelligentSearch",
+      "import": "{ GlassIntelligentSearch } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4261
+    },
+    {
+      "id": "plat:compat:GlassKPICard",
+      "import": "{ GlassKPICard } from 'aura-glass/compat'",
+      "limitBytes": 5120,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2141
+    },
+    {
+      "id": "plat:compat:GlassKeyValueEditor",
+      "import": "{ GlassKeyValueEditor } from 'aura-glass/compat'",
+      "limitBytes": 17408,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3363
+    },
+    {
+      "id": "plat:compat:GlassLabel",
+      "import": "{ GlassLabel } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 768
+    },
+    {
+      "id": "plat:compat:GlassLabelPrimitive",
+      "import": "{ GlassLabelPrimitive } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 775
+    },
+    {
+      "id": "plat:compat:GlassLinkButton",
+      "import": "{ GlassLinkButton } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2391
+    },
+    {
+      "id": "plat:compat:GlassLoadingSkeleton",
+      "import": "{ GlassLoadingSkeleton } from 'aura-glass/compat'",
+      "limitBytes": 5048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 853
+    },
+    {
+      "id": "plat:compat:GlassLoadingState",
+      "import": "{ GlassLoadingState } from 'aura-glass/compat'",
+      "limitBytes": 3904,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1905
+    },
+    {
+      "id": "plat:compat:GlassMagneticButton",
+      "import": "{ GlassMagneticButton } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 11578
+    },
+    {
+      "id": "plat:compat:GlassMain",
+      "import": "{ GlassMain } from 'aura-glass/compat'",
+      "limitBytes": 20480,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 17322
+    },
+    {
+      "id": "plat:compat:GlassMasonry",
+      "import": "{ GlassMasonry } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 735
+    },
+    {
+      "id": "plat:compat:GlassMasonryGrid",
+      "import": "{ GlassMasonryGrid } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1085
+    },
+    {
+      "id": "plat:compat:GlassMediaControls",
+      "import": "{ GlassMediaControls } from 'aura-glass/compat'",
+      "limitBytes": 20480,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 15785
+    },
+    {
+      "id": "plat:compat:GlassMentionList",
+      "import": "{ GlassMentionList } from 'aura-glass/compat'",
+      "limitBytes": 32048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10661
+    },
+    {
+      "id": "plat:compat:GlassMeshGradient",
+      "import": "{ GlassMeshGradient } from 'aura-glass/compat'",
+      "limitBytes": 9216,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6978
+    },
+    {
+      "id": "plat:compat:GlassMessageList",
+      "import": "{ GlassMessageList } from 'aura-glass/compat'",
+      "limitBytes": 23552,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 22223
+    },
+    {
+      "id": "plat:compat:GlassMetricCard",
+      "import": "{ GlassMetricCard } from 'aura-glass/compat'",
+      "limitBytes": 5120,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2142
+    },
+    {
+      "id": "plat:compat:GlassMetricChip",
+      "import": "{ GlassMetricChip } from 'aura-glass/compat'",
+      "limitBytes": 5120,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1108
+    },
+    {
+      "id": "plat:compat:GlassMobileNav",
+      "import": "{ GlassMobileNav } from 'aura-glass/compat'",
+      "limitBytes": 18432,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 16120
+    },
+    {
+      "id": "plat:compat:GlassMobileShell",
+      "import": "{ GlassMobileShell } from 'aura-glass/compat'",
+      "limitBytes": 20480,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 17896
+    },
+    {
+      "id": "plat:compat:GlassModal",
+      "import": "{ GlassModal } from 'aura-glass/compat'",
+      "limitBytes": 22048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 13138
+    },
+    {
+      "id": "plat:compat:GlassMultiSelect",
+      "import": "{ GlassMultiSelect } from 'aura-glass/compat'",
+      "limitBytes": 32048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10702
+    },
+    {
+      "id": "plat:compat:GlassNavigationMenu",
+      "import": "{ GlassNavigationMenu } from 'aura-glass/compat'",
+      "limitBytes": 18432,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 16056
+    },
+    {
+      "id": "plat:compat:GlassNotificationCenter",
+      "import": "{ GlassNotificationCenter } from 'aura-glass/compat'",
+      "limitBytes": 16048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 7915
+    },
+    {
+      "id": "plat:compat:GlassPage",
+      "import": "{ GlassPage } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 662
+    },
+    {
+      "id": "plat:compat:GlassPageHeader",
+      "import": "{ GlassPageHeader } from 'aura-glass/compat'",
+      "limitBytes": 20480,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 17359
+    },
+    {
+      "id": "plat:compat:GlassPageTabs",
+      "import": "{ GlassPageTabs } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4451
+    },
+    {
+      "id": "plat:compat:GlassPagination",
+      "import": "{ GlassPagination } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2794
+    },
+    {
+      "id": "plat:compat:GlassPopover",
+      "import": "{ GlassPopover } from 'aura-glass/compat'",
+      "limitBytes": 16048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 8001
+    },
+    {
+      "id": "plat:compat:GlassPortal",
+      "import": "{ GlassPortal } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 465
+    },
+    {
+      "id": "plat:compat:GlassPositioner",
+      "import": "{ GlassPositioner } from 'aura-glass/compat'",
+      "limitBytes": 16048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 633
+    },
+    {
+      "id": "plat:compat:GlassProgress",
+      "import": "{ GlassProgress } from 'aura-glass/compat'",
+      "limitBytes": 7048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1220
+    },
+    {
+      "id": "plat:compat:GlassRadioGroup",
+      "import": "{ GlassRadioGroup } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1550
+    },
+    {
+      "id": "plat:compat:GlassRating",
+      "import": "{ GlassRating } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1247
+    },
+    {
+      "id": "plat:compat:GlassScrollArea",
+      "import": "{ GlassScrollArea } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1067
+    },
+    {
+      "id": "plat:compat:GlassSearchField",
+      "import": "{ GlassSearchField } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4251
+    },
+    {
+      "id": "plat:compat:GlassSearchInterface",
+      "import": "{ GlassSearchInterface } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4258
+    },
+    {
+      "id": "plat:compat:GlassSegmentedControl",
+      "import": "{ GlassSegmentedControl } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 5234
+    },
+    {
+      "id": "plat:compat:GlassSelect",
+      "import": "{ GlassSelect } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 7025
+    },
+    {
+      "id": "plat:compat:GlassSelectCompound",
+      "import": "{ GlassSelectCompound } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 7088
+    },
+    {
+      "id": "plat:compat:GlassSelectContent",
+      "import": "{ GlassSelectContent } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6770
+    },
+    {
+      "id": "plat:compat:GlassSelectGroup",
+      "import": "{ GlassSelectGroup } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6770
+    },
+    {
+      "id": "plat:compat:GlassSelectItem",
+      "import": "{ GlassSelectItem } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6770
+    },
+    {
+      "id": "plat:compat:GlassSelectLabel",
+      "import": "{ GlassSelectLabel } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6770
+    },
+    {
+      "id": "plat:compat:GlassSelectRoot",
+      "import": "{ GlassSelectRoot } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6806
+    },
+    {
+      "id": "plat:compat:GlassSelectSeparator",
+      "import": "{ GlassSelectSeparator } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6770
+    },
+    {
+      "id": "plat:compat:GlassSelectTrigger",
+      "import": "{ GlassSelectTrigger } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6921
+    },
+    {
+      "id": "plat:compat:GlassSelectValue",
+      "import": "{ GlassSelectValue } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6818
+    },
+    {
+      "id": "plat:compat:GlassSeparator",
+      "import": "{ GlassSeparator } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 437
+    },
+    {
+      "id": "plat:compat:GlassSidebar",
+      "import": "{ GlassSidebar } from 'aura-glass/compat'",
+      "limitBytes": 18432,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 16131
+    },
+    {
+      "id": "plat:compat:GlassSidebarPanel",
+      "import": "{ GlassSidebarPanel } from 'aura-glass/compat'",
+      "limitBytes": 18432,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 15745
+    },
+    {
+      "id": "plat:compat:GlassSidebarRail",
+      "import": "{ GlassSidebarRail } from 'aura-glass/compat'",
+      "limitBytes": 18432,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 16057
+    },
+    {
+      "id": "plat:compat:GlassSkeleton",
+      "import": "{ GlassSkeleton } from 'aura-glass/compat'",
+      "limitBytes": 5048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 847
+    },
+    {
+      "id": "plat:compat:GlassSlider",
+      "import": "{ GlassSlider } from 'aura-glass/compat'",
+      "limitBytes": 16048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2986
+    },
+    {
+      "id": "plat:compat:GlassSlot",
+      "import": "{ GlassSlot } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 579
+    },
+    {
+      "id": "plat:compat:GlassSparkline",
+      "import": "{ GlassSparkline } from 'aura-glass/compat'",
+      "limitBytes": 4608,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1220
+    },
+    {
+      "id": "plat:compat:GlassSplitPane",
+      "import": "{ GlassSplitPane } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4971
+    },
+    {
+      "id": "plat:compat:GlassSpotlight",
+      "import": "{ GlassSpotlight } from 'aura-glass/compat'",
+      "limitBytes": 17048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9044
+    },
+    {
+      "id": "plat:compat:GlassStack",
+      "import": "{ GlassStack } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 760
+    },
+    {
+      "id": "plat:compat:GlassStatCard",
+      "import": "{ GlassStatCard } from 'aura-glass/compat'",
+      "limitBytes": 5120,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2140
+    },
+    {
+      "id": "plat:compat:GlassStatusBar",
+      "import": "{ GlassStatusBar } from 'aura-glass/compat'",
+      "limitBytes": 5120,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2492
+    },
+    {
+      "id": "plat:compat:GlassStatusDot",
+      "import": "{ GlassStatusDot } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 928
+    },
+    {
+      "id": "plat:compat:GlassSwitch",
+      "import": "{ GlassSwitch } from 'aura-glass/compat'",
+      "limitBytes": 10048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1989
+    },
+    {
+      "id": "plat:compat:GlassTabBar",
+      "import": "{ GlassTabBar } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6346
+    },
+    {
+      "id": "plat:compat:GlassTabs",
+      "import": "{ GlassTabs } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4406
+    },
+    {
+      "id": "plat:compat:GlassTagInput",
+      "import": "{ GlassTagInput } from 'aura-glass/compat'",
+      "limitBytes": 32048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10675
+    },
+    {
+      "id": "plat:compat:GlassTextarea",
+      "import": "{ GlassTextarea } from 'aura-glass/compat'",
+      "limitBytes": 14048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2445
+    },
+    {
+      "id": "plat:compat:GlassTimeField",
+      "import": "{ GlassTimeField } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2077
+    },
+    {
+      "id": "plat:compat:GlassTimeline",
+      "import": "{ GlassTimeline } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1143
+    },
+    {
+      "id": "plat:compat:GlassToggle",
+      "import": "{ GlassToggle } from 'aura-glass/compat'",
+      "limitBytes": 13048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1506
+    },
+    {
+      "id": "plat:compat:GlassToolbar",
+      "import": "{ GlassToolbar } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9324
+    },
+    {
+      "id": "plat:compat:GlassTooltip",
+      "import": "{ GlassTooltip } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6236
+    },
+    {
+      "id": "plat:compat:GlassTopBar",
+      "import": "{ GlassTopBar } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2049
+    },
+    {
+      "id": "plat:compat:GlassTreeView",
+      "import": "{ GlassTreeView } from 'aura-glass/compat'",
+      "limitBytes": 10240,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3770
+    },
+    {
+      "id": "plat:compat:GlassTypingIndicator",
+      "import": "{ GlassTypingIndicator } from 'aura-glass/compat'",
+      "limitBytes": 7168,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 366
+    },
+    {
+      "id": "plat:compat:GlassValidationMessage",
+      "import": "{ GlassValidationMessage } from 'aura-glass/compat'",
+      "limitBytes": 8048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 461
+    },
+    {
+      "id": "plat:compat:GlassVirtualList",
+      "import": "{ GlassVirtualList } from 'aura-glass/compat'",
+      "limitBytes": 21504,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1792
+    },
+    {
+      "id": "plat:compat:GlassVirtualTable",
+      "import": "{ GlassVirtualTable } from 'aura-glass/compat'",
+      "limitBytes": 21504,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 18864
+    },
+    {
+      "id": "plat:compat:GlassWorkspacePanel",
+      "import": "{ GlassWorkspacePanel } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1256
+    },
+    {
+      "id": "plat:compat:GlassWorkspaceTabs",
+      "import": "{ GlassWorkspaceTabs } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4306
+    },
+    {
+      "id": "plat:compat:GlowingCard",
+      "import": "{ GlowingCard } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1249
+    },
+    {
+      "id": "plat:compat:ImageList",
+      "import": "{ ImageList } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1470
+    },
+    {
+      "id": "plat:compat:ImageListItem",
+      "import": "{ ImageListItem } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1473
+    },
+    {
+      "id": "plat:compat:ImageListItemBar",
+      "import": "{ ImageListItemBar } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1473
+    },
+    {
+      "id": "plat:compat:LabelRoot",
+      "import": "{ LabelRoot } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 770
+    },
+    {
+      "id": "plat:compat:LiquidGlassAdaptiveSheet",
+      "import": "{ LiquidGlassAdaptiveSheet } from 'aura-glass/compat'",
+      "limitBytes": 26048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10834
+    },
+    {
+      "id": "plat:compat:LiquidGlassBadgeCluster",
+      "import": "{ LiquidGlassBadgeCluster } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1074
+    },
+    {
+      "id": "plat:compat:LiquidGlassBottomAccessory",
+      "import": "{ LiquidGlassBottomAccessory } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6082
+    },
+    {
+      "id": "plat:compat:LiquidGlassButtonStyle",
+      "import": "{ LiquidGlassButtonStyle } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 101
+    },
+    {
+      "id": "plat:compat:LiquidGlassCarouselRail",
+      "import": "{ LiquidGlassCarouselRail } from 'aura-glass/compat'",
+      "limitBytes": 12288,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 7905
+    },
+    {
+      "id": "plat:compat:LiquidGlassCommandSurface",
+      "import": "{ LiquidGlassCommandSurface } from 'aura-glass/compat'",
+      "limitBytes": 12288,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9136
+    },
+    {
+      "id": "plat:compat:LiquidGlassControlGroup",
+      "import": "{ LiquidGlassControlGroup } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 465
+    },
+    {
+      "id": "plat:compat:LiquidGlassDestination",
+      "import": "{ LiquidGlassDestination } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3369
+    },
+    {
+      "id": "plat:compat:LiquidGlassInsetSidebar",
+      "import": "{ LiquidGlassInsetSidebar } from 'aura-glass/compat'",
+      "limitBytes": 18432,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 16095
+    },
+    {
+      "id": "plat:compat:LiquidGlassInspectorPanel",
+      "import": "{ LiquidGlassInspectorPanel } from 'aura-glass/compat'",
+      "limitBytes": 16384,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 14101
+    },
+    {
+      "id": "plat:compat:LiquidGlassMapControls",
+      "import": "{ LiquidGlassMapControls } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9250
+    },
+    {
+      "id": "plat:compat:LiquidGlassMediaControls",
+      "import": "{ LiquidGlassMediaControls } from 'aura-glass/compat'",
+      "limitBytes": 20480,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 15787
+    },
+    {
+      "id": "plat:compat:LiquidGlassNowPlayingBar",
+      "import": "{ LiquidGlassNowPlayingBar } from 'aura-glass/compat'",
+      "limitBytes": 10240,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 5175
+    },
+    {
+      "id": "plat:compat:LiquidGlassPhotoInspector",
+      "import": "{ LiquidGlassPhotoInspector } from 'aura-glass/compat'",
+      "limitBytes": 29696,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 14033
+    },
+    {
+      "id": "plat:compat:LiquidGlassSearchField",
+      "import": "{ LiquidGlassSearchField } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4255
+    },
+    {
+      "id": "plat:compat:LiquidGlassSegmentedControl",
+      "import": "{ LiquidGlassSegmentedControl } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 5240
+    },
+    {
+      "id": "plat:compat:LiquidGlassSource",
+      "import": "{ LiquidGlassSource } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3372
+    },
+    {
+      "id": "plat:compat:LiquidGlassTabBar",
+      "import": "{ LiquidGlassTabBar } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6460
+    },
+    {
+      "id": "plat:compat:LiquidGlassToolbar",
+      "import": "{ LiquidGlassToolbar } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9351
+    },
+    {
+      "id": "plat:compat:LiquidGlassTransitionProvider",
+      "import": "{ LiquidGlassTransitionProvider } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3217
+    },
+    {
+      "id": "plat:compat:MagneticButton",
+      "import": "{ MagneticButton } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 11575
+    },
+    {
+      "id": "plat:compat:MobileGlassBottomSheet",
+      "import": "{ MobileGlassBottomSheet } from 'aura-glass/compat'",
+      "limitBytes": 26048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10843
+    },
+    {
+      "id": "plat:compat:Positioner",
+      "import": "{ Positioner } from 'aura-glass/compat'",
+      "limitBytes": 16048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 630
+    },
+    {
+      "id": "plat:compat:RippleButton",
+      "import": "{ RippleButton } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2797
+    },
+    {
+      "id": "plat:compat:ToggleButton",
+      "import": "{ ToggleButton } from 'aura-glass/compat'",
+      "limitBytes": 13048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2361
+    },
+    {
+      "id": "plat:compat:ToggleButtonGroup",
+      "import": "{ ToggleButtonGroup } from 'aura-glass/compat'",
+      "limitBytes": 13048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1502
+    },
+    {
+      "id": "plat:compat:TreeView",
+      "import": "{ TreeView } from 'aura-glass/compat'",
+      "limitBytes": 10240,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3913
+    },
+    {
+      "id": "plat:compat:Typography",
+      "import": "{ Typography } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 798
+    },
+    {
+      "id": "plat:compat:WidgetGlass",
+      "import": "{ WidgetGlass } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1251
+    },
+    {
+      "id": "plat:compat:ZSpaceAppLayout",
+      "import": "{ ZSpaceAppLayout } from 'aura-glass/compat'",
+      "limitBytes": 20480,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 18157
     },
     {
       "id": "mat:styles-css",
       "import": "aura-glass/styles.css",
       "limitBytes": 32768,
       "kind": "css",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 29634
     },
     {
       "id": "mat:tokens-css",
       "import": "aura-glass/tokens.css",
       "limitBytes": 8192,
       "kind": "css",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 7485
     },
     {
       "id": "mat:tokens-css-presets",
       "import": "aura-glass/tokens.css#preset-blocks",
       "limitBytes": 2048,
       "kind": "css",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 620
     },
     {
       "id": "mat:tailwind-css",
       "import": "aura-glass/tailwind.css",
       "limitBytes": 6144,
       "kind": "css",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 987
     },
     {
       "id": "mat:compat-tokens-css",
       "import": "aura-glass/compat/tokens.css",
       "limitBytes": 8192,
       "kind": "css",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 3202
     },
     {
       "id": "mat:tokens-js",
       "import": "aura-glass/tokens",
       "limitBytes": 2048,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1090
     },
     {
       "id": "mat:theme-fns-js",
       "import": "{ createGlassTheme, createBrandTheme } from 'aura-glass/theme'",
-      "limitBytes": 3072,
+      "limitBytes": 4224,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 4038
     },
     {
       "id": "mat:material-js",
       "import": "aura-glass/material",
       "limitBytes": 3072,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1454
     },
     {
       "id": "mat:material-css",
       "import": "aura-glass/material.css",
       "limitBytes": 8192,
       "kind": "css",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 5584
     },
     {
       "id": "mat:grain-avif",
@@ -126,8 +1622,8 @@
       "import": "{ LensDefs } from 'aura-glass/material'",
       "limitBytes": 30720,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 20
     },
     {
       "id": "mat:motion-css",
@@ -142,384 +1638,360 @@
       "import": "{ viewTransition, pointerLight, ticker, capability } from 'aura-glass/motion'",
       "limitBytes": 2048,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 20
     },
     {
       "id": "mat:button-total",
       "import": "{ Button } from 'aura-glass'",
       "limitBytes": 10240,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 2093
     },
     {
       "id": "mat:button-motion-share",
       "import": "{ Button } from 'aura-glass' (motion share)",
       "limitBytes": 512,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 0
     },
     {
       "id": "mat:dialog-total",
       "import": "{ Dialog } from 'aura-glass'",
       "limitBytes": 20480,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 7215
     },
     {
       "id": "mat:dialog-motion-share",
       "import": "{ Dialog } from 'aura-glass' (motion share)",
       "limitBytes": 1024,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 0
     },
     {
       "id": "mat:motion-entry-js",
       "import": "aura-glass/motion",
       "limitBytes": 4096,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 3548
     },
     {
       "id": "mat:provider-usepreference-js",
       "import": "{ AuraGlassProvider, usePreference } from 'aura-glass'",
-      "limitBytes": 4096,
+      "limitBytes": 37440,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 35219
     },
     {
       "id": "Card",
       "import": "{ Card } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1041
     },
     {
       "id": "Badge",
       "import": "{ Badge } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 686
     },
     {
       "id": "Separator",
       "import": "{ Separator } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 244
     },
     {
       "id": "Kbd",
       "import": "{ Kbd } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 666
     },
     {
       "id": "Text",
       "import": "{ Text } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 581
     },
     {
       "id": "Heading",
       "import": "{ Heading } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 538
     },
     {
       "id": "Stack",
       "import": "{ Stack } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 573
     },
     {
       "id": "Grid",
       "import": "{ Grid } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 551
     },
     {
       "id": "Container",
       "import": "{ Container } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 358
     },
     {
       "id": "DescriptionList",
       "import": "{ DescriptionList } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 405
     },
     {
       "id": "EmptyState",
       "import": "{ EmptyState } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 343
     },
     {
       "id": "ErrorState",
       "import": "{ ErrorState } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 355
     },
     {
       "id": "LoadingState",
       "import": "{ LoadingState } from 'aura-glass'",
-      "limitBytes": 1500,
+      "limitBytes": 1856,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1711
     },
     {
       "id": "Steps",
       "import": "{ Steps } from 'aura-glass'",
       "limitBytes": 1500,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 20
     },
     {
       "id": "Button",
       "import": "{ Button } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 2093
     },
     {
       "id": "IconButton",
       "import": "{ IconButton } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 2234
     },
     {
       "id": "ButtonGroup",
       "import": "{ ButtonGroup } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 280
     },
     {
       "id": "Toolbar",
       "import": "{ Toolbar } from 'aura-glass'",
       "limitBytes": 13000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 8861
     },
     {
       "id": "ToggleGroup",
       "import": "{ ToggleGroup } from 'aura-glass'",
       "limitBytes": 11000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1279
     },
     {
       "id": "SegmentedControl",
       "import": "{ SegmentedControl } from 'aura-glass'",
       "limitBytes": 13000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 4965
     },
     {
       "id": "AvatarGroup",
       "import": "{ AvatarGroup } from 'aura-glass'",
       "limitBytes": 3000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 419
     },
     {
       "id": "Alert",
       "import": "{ Alert } from 'aura-glass'",
       "limitBytes": 3000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 802
     },
     {
       "id": "Skeleton",
       "import": "{ Skeleton } from 'aura-glass'",
       "limitBytes": 3000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 646
     },
     {
       "id": "Link",
       "import": "{ Link } from 'aura-glass'",
       "limitBytes": 3000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 728
     },
     {
       "id": "Avatar",
       "import": "{ Avatar } from 'aura-glass'",
       "limitBytes": 3000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
-    },
-    {
-      "id": "Chip",
-      "import": "{ Chip } from 'aura-glass/data'",
-      "limitBytes": 3000,
-      "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 546
     },
     {
       "id": "Progress",
       "import": "{ Progress } from 'aura-glass'",
       "limitBytes": 5000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
-    },
-    {
-      "id": "ProgressRing",
-      "import": "{ ProgressRing } from 'aura-glass'",
-      "limitBytes": 5000,
-      "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1024
     },
     {
       "id": "Meter",
       "import": "{ Meter } from 'aura-glass'",
       "limitBytes": 5000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 821
     },
     {
       "id": "Collapsible",
       "import": "{ Collapsible } from 'aura-glass'",
       "limitBytes": 5000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 838
     },
     {
       "id": "Accordion",
       "import": "{ Accordion } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1655
     },
     {
       "id": "ScrollArea",
       "import": "{ ScrollArea } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 858
     },
     {
       "id": "Rating",
       "import": "{ Rating } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1057
     },
     {
       "id": "InlineEdit",
       "import": "{ InlineEdit } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1042
     },
     {
       "id": "Form",
       "import": "{ Form } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 252
     },
     {
       "id": "Tour",
       "import": "{ Tour } from 'aura-glass'",
       "limitBytes": 15000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 8675
     },
     {
       "id": "FileUpload",
       "import": "{ FileUpload } from 'aura-glass'",
       "limitBytes": 15000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
-    },
-    {
-      "id": "KeyValueEditor",
-      "import": "{ KeyValueEditor } from 'aura-glass/data'",
-      "limitBytes": 15000,
-      "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 2919
     },
     {
       "id": "ColorPicker",
       "import": "{ ColorPicker } from 'aura-glass'",
       "limitBytes": 20000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 11685
     },
     {
       "id": "icon-glyph-each",
       "import": "{ CheckIcon } from 'aura-glass/icons'",
       "limitBytes": 1000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 604
     },
     {
       "id": "aura-glass/primitives",
       "import": "'aura-glass/primitives'",
-      "limitBytes": 4000,
+      "limitBytes": 4096,
       "kind": "js",
       "status": "pass",
-      "measuredBytes": 50
+      "measuredBytes": 4093
     },
     {
       "id": "VisuallyHidden.css",
@@ -638,80 +2110,112 @@
       "import": "{ Switch } from 'aura-glass'",
       "limitBytes": 8000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1692
     },
     {
       "id": "Slider",
       "import": "{ Slider } from 'aura-glass'",
       "limitBytes": 14000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 2718
+    },
+    {
+      "id": "Checkbox",
+      "import": "{ Checkbox } from 'aura-glass'",
+      "limitBytes": 10000,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1318
     },
     {
       "id": "Checkbox+CheckboxGroup",
       "import": "{ Checkbox, CheckboxGroup } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1392
     },
     {
       "id": "RadioGroup",
       "import": "{ RadioGroup } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1252
     },
     {
       "id": "TextField",
       "import": "{ TextField } from 'aura-glass'",
       "limitBytes": 12000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 2122
     },
     {
       "id": "SearchField",
       "import": "{ SearchField } from 'aura-glass'",
       "limitBytes": 13000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 3862
     },
     {
       "id": "Select",
       "import": "{ Select } from 'aura-glass'",
       "limitBytes": 25000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 6479
     },
     {
       "id": "Combobox",
       "import": "{ Combobox } from 'aura-glass'",
       "limitBytes": 30000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 10221
     },
     {
       "id": "NumberField",
       "import": "{ NumberField } from 'aura-glass'",
       "limitBytes": 14000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1817
+    },
+    {
+      "id": "Field",
+      "import": "{ Field } from 'aura-glass'",
+      "limitBytes": 6000,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 354
+    },
+    {
+      "id": "Fieldset",
+      "import": "{ Fieldset } from 'aura-glass'",
+      "limitBytes": 3000,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 262
+    },
+    {
+      "id": "ImageList",
+      "import": "{ ImageList } from 'aura-glass'",
+      "limitBytes": 10000,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1340
     },
     {
       "id": "controls-all-families",
       "import": "{ Button, IconButton, ButtonGroup, Toolbar, ToggleGroup, SegmentedControl, Switch, Slider, Checkbox, CheckboxGroup, RadioGroup, TextField, SearchField, Select, Combobox, NumberField, Field, Fieldset } from 'aura-glass'",
       "limitBytes": 60000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 22568
     },
     {
       "id": "aura-glass/forms",
@@ -719,7 +2223,71 @@
       "limitBytes": 4000,
       "kind": "js",
       "status": "pass",
-      "measuredBytes": 45
+      "measuredBytes": 1201
+    },
+    {
+      "id": "CheckboxGroup",
+      "import": "{ CheckboxGroup } from 'aura-glass'",
+      "limitBytes": 6000,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 720
+    },
+    {
+      "id": "DismissableLayer",
+      "import": "{ DismissableLayer } from 'aura-glass/primitives'",
+      "limitBytes": 2688,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2519
+    },
+    {
+      "id": "FocusScope",
+      "import": "{ FocusScope } from 'aura-glass/primitives'",
+      "limitBytes": 2000,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 877
+    },
+    {
+      "id": "Icon",
+      "import": "{ Icon } from 'aura-glass'",
+      "limitBytes": 1728,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1593
+    },
+    {
+      "id": "Label",
+      "import": "{ Label } from 'aura-glass'",
+      "limitBytes": 1500,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 20
+    },
+    {
+      "id": "Portal",
+      "import": "{ Portal } from 'aura-glass/primitives'",
+      "limitBytes": 1500,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 327
+    },
+    {
+      "id": "VisuallyHidden",
+      "import": "{ VisuallyHidden } from 'aura-glass/primitives'",
+      "limitBytes": 4000,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 484
+    },
+    {
+      "id": "Slot",
+      "import": "{ Slot } from 'aura-glass/primitives'",
+      "limitBytes": 1500,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 453
     },
     {
       "id": "controls.css",
@@ -806,56 +2374,56 @@
       "import": "{ Dialog } from 'aura-glass'",
       "limitBytes": 20000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 7215
     },
     {
       "id": "AlertDialog",
       "import": "{ AlertDialog } from 'aura-glass'",
       "limitBytes": 20000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 6960
     },
     {
       "id": "Sheet",
       "import": "{ Sheet } from 'aura-glass'",
       "limitBytes": 24000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 10236
     },
     {
       "id": "Popover",
       "import": "{ Popover } from 'aura-glass'",
       "limitBytes": 14000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 7381
     },
     {
       "id": "Tooltip",
       "import": "{ Tooltip } from 'aura-glass'",
       "limitBytes": 10000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 5722
     },
     {
       "id": "Menu",
       "import": "{ Menu, ContextMenu, Menubar } from 'aura-glass'",
       "limitBytes": 22000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 7140
     },
     {
       "id": "Toast",
       "import": "{ Toast, useToast } from 'aura-glass'",
       "limitBytes": 14000,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 6864
     },
     {
       "id": "Dialog.css",
@@ -890,364 +2458,2041 @@
       "measuredBytes": null
     },
     {
+      "id": "cmp-css-total",
+      "import": "aura-glass/styles.css | cmp",
+      "limitBytes": 19000,
+      "kind": "css",
+      "status": "pending",
+      "measuredBytes": null
+    },
+    {
+      "id": "overlays-css-total",
+      "import": "aura-glass/styles.css | cmp-overlays",
+      "limitBytes": 6000,
+      "kind": "css",
+      "status": "pending",
+      "measuredBytes": null
+    },
+    {
+      "id": "core-css-total",
+      "import": "aura-glass/styles.css | cmp-core",
+      "limitBytes": 6000,
+      "kind": "css",
+      "status": "pending",
+      "measuredBytes": null
+    },
+    {
       "id": "SB-SURF-W1-APPSHELL-CSS",
       "import": "aura-glass/app-shell.css",
       "limitBytes": 8192,
       "kind": "css",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 3133
     },
     {
       "id": "SB-SURF-W1-APPSHELL-ISLAND",
       "import": "{ AppShellSidebarToggle } from 'aura-glass/app-shell'",
       "limitBytes": 4096,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 20
     },
     {
-      "id": "SB-SURF-W1-SIDEBAR-DRAWER",
-      "import": "{ SidebarDrawer } from 'aura-glass/app-shell'",
-      "limitBytes": 6144,
+      "id": "SidebarDrawer",
+      "import": "import { Sidebar } from 'aura-glass/app-shell'; export const SidebarDrawer = Sidebar.Drawer;",
+      "limitBytes": 16384,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 14999
     },
     {
-      "id": "SB-SURF-W1-BREADCRUMBS",
+      "id": "Breadcrumbs",
       "import": "{ Breadcrumbs } from 'aura-glass'",
-      "limitBytes": 5120,
+      "limitBytes": 9216,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 8878
     },
     {
-      "id": "SB-SURF-W1-PAGINATION",
+      "id": "Pagination",
       "import": "{ Pagination } from 'aura-glass'",
       "limitBytes": 4096,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 2429
     },
     {
-      "id": "SB-SURF-W1-TABS",
+      "id": "Tabs",
       "import": "{ Tabs } from 'aura-glass'",
       "limitBytes": 6144,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 4052
     },
     {
-      "id": "SB-SURF-W1-TABBAR",
+      "id": "TabBar",
       "import": "{ TabBar } from 'aura-glass'",
-      "limitBytes": 5120,
+      "limitBytes": 6144,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 5668
     },
     {
-      "id": "SB-SURF-W1-COMMAND",
+      "id": "Command",
       "import": "{ Command } from 'aura-glass'",
       "limitBytes": 6144,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 5030
     },
     {
-      "id": "SB-SURF-W1-SOURCETRANSITION",
+      "id": "SourceTransition",
       "import": "{ SourceTransition } from 'aura-glass'",
-      "limitBytes": 3072,
+      "limitBytes": 4096,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 3129
     },
     {
       "id": "SB-SURF-W2-DATA-CSS",
       "import": "aura-glass/data.css",
       "limitBytes": 8192,
       "kind": "css",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 3474
     },
     {
       "id": "SB-SURF-W2-DATE-CSS",
       "import": "aura-glass/date.css",
       "limitBytes": 4096,
       "kind": "css",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1114
     },
     {
-      "id": "SB-SURF-W2-TABLE",
+      "id": "Table",
       "import": "{ Table } from 'aura-glass/data'",
-      "limitBytes": 14336,
+      "limitBytes": 19456,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 18139
     },
     {
-      "id": "SB-SURF-W2-TREEVIEW",
+      "id": "SB-SURF-W2-USEGRIDKEYBOARD",
+      "import": "{ useGridKeyboard } from './dist/data/table/useGridKeyboard.js'",
+      "limitBytes": 2560,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 470
+    },
+    {
+      "id": "TreeView",
       "import": "{ TreeView } from 'aura-glass/data'",
       "limitBytes": 8192,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 2869
     },
     {
-      "id": "SB-SURF-W2-FILTERBAR",
+      "id": "FilterBar",
       "import": "{ FilterBar } from 'aura-glass/data'",
-      "limitBytes": 8192,
+      "limitBytes": 18432,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 18337
     },
     {
-      "id": "SB-SURF-W2-CHIP",
+      "id": "Chip",
       "import": "{ Chip } from 'aura-glass/data'",
       "limitBytes": 3072,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 954
     },
     {
-      "id": "SB-SURF-W2-KVE",
+      "id": "KeyValueEditor",
       "import": "{ KeyValueEditor } from 'aura-glass/data'",
       "limitBytes": 15360,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 3245
     },
     {
-      "id": "SB-SURF-W2-STATCARD",
+      "id": "StatCard",
       "import": "{ StatCard } from 'aura-glass/data'",
       "limitBytes": 3072,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1856
     },
     {
-      "id": "SB-SURF-W2-SPARKLINE",
+      "id": "Sparkline",
       "import": "{ Sparkline } from 'aura-glass/data'",
       "limitBytes": 2560,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1111
     },
     {
-      "id": "SB-SURF-W2-CHARTFRAME",
+      "id": "ChartFrame",
       "import": "{ ChartFrame } from 'aura-glass/data'",
-      "limitBytes": 5120,
+      "limitBytes": 11264,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 11138
     },
     {
-      "id": "SB-SURF-W2-DATEPICKER",
+      "id": "DatePicker",
       "import": "{ DatePicker } from 'aura-glass/date'",
-      "limitBytes": 8192,
+      "limitBytes": 15360,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 15037
     },
     {
-      "id": "SB-SURF-W2-DATEFIELD",
+      "id": "DateField",
       "import": "{ DateField } from 'aura-glass/date'",
       "limitBytes": 4096,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1125
     },
     {
-      "id": "SB-SURF-W2-TIMEPICKER",
+      "id": "TimePicker",
       "import": "{ TimePicker } from 'aura-glass/date'",
-      "limitBytes": 6144,
+      "limitBytes": 14336,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 14158
     },
     {
-      "id": "SB-SURF-W2-TIMELINE",
+      "id": "Timeline",
       "import": "{ Timeline } from 'aura-glass'",
       "limitBytes": 4096,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 952
     },
     {
-      "id": "SB-SURF-W2-ACTIVITYFEED",
+      "id": "ActivityFeed",
       "import": "{ ActivityFeed } from 'aura-glass'",
-      "limitBytes": 4096,
+      "limitBytes": 5120,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 4204
     },
     {
-      "id": "SB-SURF-W2-CHART-51",
+      "id": "Chart",
       "import": "{ Chart } from 'aura-glass/charts'",
       "limitBytes": 15360,
       "kind": "js",
       "status": "pending",
-      "measuredBytes": null
+      "measuredBytes": null,
+      "error": "Error: Build failed with 1 error:\n<stdin>:1:22: ERROR: Could not resolve \"/srv/ag-consolidation-20261013/repo/dist/charts/index.js\""
     },
     {
       "id": "SB-SURF-W3-AI-CSS",
       "import": "aura-glass/ai.css",
       "limitBytes": 6144,
       "kind": "css",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1480
     },
     {
-      "id": "SB-SURF-W3-THREAD",
+      "id": "Thread",
       "import": "{ Thread } from 'aura-glass/ai'",
-      "limitBytes": 18432,
+      "limitBytes": 21504,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 21394
     },
     {
-      "id": "SB-SURF-W3-MESSAGE",
+      "id": "Message",
       "import": "{ Message } from 'aura-glass/ai'",
-      "limitBytes": 10240,
+      "limitBytes": 19456,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 17943
     },
     {
-      "id": "SB-SURF-W3-STREAMINGTEXT",
+      "id": "StreamingText",
       "import": "{ StreamingText } from 'aura-glass/ai'",
-      "limitBytes": 2048,
+      "limitBytes": 6144,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 5795
     },
     {
-      "id": "SB-SURF-W3-COMPOSER",
+      "id": "Composer",
       "import": "{ Composer } from 'aura-glass/ai'",
       "limitBytes": 12288,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 11599
     },
     {
-      "id": "SB-SURF-W3-TOOLCALL",
+      "id": "ToolCall",
       "import": "{ ToolCall } from 'aura-glass/ai'",
-      "limitBytes": 8192,
+      "limitBytes": 10240,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 9746
     },
     {
       "id": "SB-SURF-W3-SOURCES",
       "import": "{ SourceList, Citation } from 'aura-glass/ai'",
       "limitBytes": 9216,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 5382
     },
     {
-      "id": "SB-SURF-W3-REASONING",
+      "id": "Reasoning",
       "import": "{ Reasoning } from 'aura-glass/ai'",
       "limitBytes": 4096,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 589
     },
     {
-      "id": "SB-SURF-W3-AGENTSTEPS",
+      "id": "AgentSteps",
       "import": "{ AgentSteps } from 'aura-glass/ai'",
       "limitBytes": 5120,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 964
     },
     {
-      "id": "SB-SURF-W3-USAGEMETER",
+      "id": "UsageMeter",
       "import": "{ UsageMeter } from 'aura-glass/ai'",
       "limitBytes": 4096,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1355
     },
     {
-      "id": "SB-SURF-W3-ERRORSTATE",
+      "id": "ProviderErrorState",
       "import": "{ ProviderErrorState } from 'aura-glass/ai'",
       "limitBytes": 5120,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 4170
     },
     {
       "id": "SB-SURF-W4-MEDIA-CSS",
       "import": "aura-glass/media.css",
       "limitBytes": 6144,
       "kind": "css",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 3039
     },
     {
       "id": "SB-SURF-W4-BACKDROPS-CSS",
       "import": "aura-glass/backdrops.css",
       "limitBytes": 3072,
       "kind": "css",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 1658
     },
     {
       "id": "SB-SURF-W4-MEDIA-CORE",
       "import": "{ useMediaElement, MediaControls } from 'aura-glass/media'",
-      "limitBytes": 14336,
+      "limitBytes": 18432,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 18214
     },
     {
       "id": "SB-SURF-W4-USEMEDIAELEMENT",
       "import": "{ useMediaElement } from 'aura-glass/media'",
-      "limitBytes": 2560,
+      "limitBytes": 4096,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 3813
     },
     {
       "id": "SB-SURF-W4-WAVEFORM",
       "import": "{ Waveform } from 'aura-glass/media'",
       "limitBytes": 2048,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 20
     },
     {
-      "id": "SB-SURF-W4-IMAGEVIEWER",
+      "id": "ImageViewer",
       "import": "{ ImageViewer } from 'aura-glass/media'",
-      "limitBytes": 10240,
+      "limitBytes": 13312,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 12860
     },
     {
-      "id": "SB-SURF-W4-CAROUSELRAIL",
+      "id": "CarouselRail",
       "import": "{ CarouselRail } from 'aura-glass/media'",
       "limitBytes": 10240,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 7529
     },
     {
-      "id": "SB-SURF-W4-NOWPLAYING",
+      "id": "NowPlayingBar",
       "import": "{ NowPlayingBar } from 'aura-glass/media'",
       "limitBytes": 8192,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 4816
     },
     {
-      "id": "SB-SURF-W4-BACKDROP",
+      "id": "Backdrop",
       "import": "{ Backdrop } from 'aura-glass/backdrops'",
+      "limitBytes": 7168,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6669
+    },
+    {
+      "id": "Citation",
+      "import": "{ Citation } from 'aura-glass/ai'",
+      "limitBytes": 9216,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2916
+    },
+    {
+      "id": "SourceList",
+      "import": "{ SourceList } from 'aura-glass/ai'",
+      "limitBytes": 9216,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2849
+    },
+    {
+      "id": "RangeCalendar",
+      "import": "{ RangeCalendar } from 'aura-glass/date'",
+      "limitBytes": 4096,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2370
+    },
+    {
+      "id": "Calendar",
+      "import": "{ Calendar } from 'aura-glass/date'",
+      "limitBytes": 4096,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2236
+    },
+    {
+      "id": "DateRangePicker",
+      "import": "{ DateRangePicker } from 'aura-glass/date'",
+      "limitBytes": 16384,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 15660
+    },
+    {
+      "id": "TimeField",
+      "import": "{ TimeField } from 'aura-glass/date'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1176
+    },
+    {
+      "id": "MediaControls",
+      "import": "{ MediaControls } from 'aura-glass/media'",
+      "limitBytes": 18432,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 15260
+    },
+    {
+      "id": "AppShell",
+      "import": "{ AppShell } from 'aura-glass/app-shell'",
+      "limitBytes": 18432,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 16636
+    },
+    {
+      "id": "Sidebar",
+      "import": "{ Sidebar } from 'aura-glass/app-shell'",
+      "limitBytes": 16384,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 14989
+    },
+    {
+      "id": "TopBar",
+      "import": "{ TopBar } from 'aura-glass/app-shell'",
+      "limitBytes": 4096,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1678
+    },
+    {
+      "id": "StatusBar",
+      "import": "{ StatusBar } from 'aura-glass/app-shell'",
       "limitBytes": 3072,
       "kind": "js",
-      "status": "pending",
-      "measuredBytes": null
+      "status": "pass",
+      "measuredBytes": 2155
+    },
+    {
+      "id": "Inspector",
+      "import": "{ Inspector } from 'aura-glass/app-shell'",
+      "limitBytes": 14336,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 13278
+    },
+    {
+      "id": "MobileShell",
+      "import": "{ MobileShell } from 'aura-glass/app-shell'",
+      "limitBytes": 18432,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 17188
+    },
+    {
+      "id": "ResizablePanels",
+      "import": "{ ResizablePanels } from 'aura-glass/app-shell'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4492
+    },
+    {
+      "id": "MediaScrubber",
+      "import": "{ MediaScrubber } from 'aura-glass/media'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4154
+    },
+    {
+      "id": "CommandPalette",
+      "import": "{ CommandPalette } from 'aura-glass'",
+      "limitBytes": 10240,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 8432
+    },
+    {
+      "id": "plat:compat:GlassToast",
+      "import": "export { GlassToast } from 'aura-glass/compat'",
+      "limitBytes": 16048,
+      "kind": "js",
+      "compatOf": "Toast",
+      "status": "pass",
+      "measuredBytes": 1031
+    }
+  ],
+  "compatRows": [
+    {
+      "id": "plat:compat:AtmosphericBackground",
+      "import": "{ AtmosphericBackground } from 'aura-glass/compat'",
+      "limitBytes": 9216,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6971
+    },
+    {
+      "id": "plat:compat:AuroraBackground",
+      "import": "{ AuroraBackground } from 'aura-glass/compat'",
+      "limitBytes": 9216,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 7028
+    },
+    {
+      "id": "plat:compat:AuroraOrb",
+      "import": "{ AuroraOrb } from 'aura-glass/compat'",
+      "limitBytes": 9216,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 7000
+    },
+    {
+      "id": "plat:compat:Box",
+      "import": "{ Box } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 752
+    },
+    {
+      "id": "plat:compat:Button",
+      "import": "{ Button } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2751
+    },
+    {
+      "id": "plat:compat:CircularProgress",
+      "import": "{ CircularProgress } from 'aura-glass/compat'",
+      "limitBytes": 7048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1294
+    },
+    {
+      "id": "plat:compat:DisplayText",
+      "import": "{ DisplayText } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 672
+    },
+    {
+      "id": "plat:compat:DynamicAtmosphere",
+      "import": "{ DynamicAtmosphere } from 'aura-glass/compat'",
+      "limitBytes": 9216,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6970
+    },
+    {
+      "id": "plat:compat:EnhancedGlassButton",
+      "import": "{ EnhancedGlassButton } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2821
+    },
+    {
+      "id": "plat:compat:GlassAccordion",
+      "import": "{ GlassAccordion } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1872
+    },
+    {
+      "id": "plat:compat:GlassActionBar",
+      "import": "{ GlassActionBar } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9333
+    },
+    {
+      "id": "plat:compat:GlassActionSheet",
+      "import": "{ GlassActionSheet } from 'aura-glass/compat'",
+      "limitBytes": 26048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10848
+    },
+    {
+      "id": "plat:compat:GlassActivityFeed",
+      "import": "{ GlassActivityFeed } from 'aura-glass/compat'",
+      "limitBytes": 7168,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4652
+    },
+    {
+      "id": "plat:compat:GlassAlert",
+      "import": "{ GlassAlert } from 'aura-glass/compat'",
+      "limitBytes": 5048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1008
+    },
+    {
+      "id": "plat:compat:GlassAnimatedNumber",
+      "import": "{ GlassAnimatedNumber } from 'aura-glass/compat'",
+      "limitBytes": 5120,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 307
+    },
+    {
+      "id": "plat:compat:GlassAppShell",
+      "import": "{ GlassAppShell } from 'aura-glass/compat'",
+      "limitBytes": 20480,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 18174
+    },
+    {
+      "id": "plat:compat:GlassAvatar",
+      "import": "{ GlassAvatar } from 'aura-glass/compat'",
+      "limitBytes": 5048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 732
+    },
+    {
+      "id": "plat:compat:GlassAvatarGroup",
+      "import": "{ GlassAvatarGroup } from 'aura-glass/compat'",
+      "limitBytes": 5048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 601
+    },
+    {
+      "id": "plat:compat:GlassBadge",
+      "import": "{ GlassBadge } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 866
+    },
+    {
+      "id": "plat:compat:GlassBottomNav",
+      "import": "{ GlassBottomNav } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6368
+    },
+    {
+      "id": "plat:compat:GlassBottomSheet",
+      "import": "{ GlassBottomSheet } from 'aura-glass/compat'",
+      "limitBytes": 26048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10874
+    },
+    {
+      "id": "plat:compat:GlassBreadcrumb",
+      "import": "{ GlassBreadcrumb } from 'aura-glass/compat'",
+      "limitBytes": 11264,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9436
+    },
+    {
+      "id": "plat:compat:GlassBreadcrumbs",
+      "import": "{ GlassBreadcrumbs } from 'aura-glass/compat'",
+      "limitBytes": 11264,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9410
+    },
+    {
+      "id": "plat:compat:GlassButton",
+      "import": "{ GlassButton } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2753
+    },
+    {
+      "id": "plat:compat:GlassCalendar",
+      "import": "{ GlassCalendar } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3066
+    },
+    {
+      "id": "plat:compat:GlassCard",
+      "import": "{ GlassCard } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1246
+    },
+    {
+      "id": "plat:compat:GlassCarousel",
+      "import": "{ GlassCarousel } from 'aura-glass/compat'",
+      "limitBytes": 12288,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 7997
+    },
+    {
+      "id": "plat:compat:GlassChat",
+      "import": "{ GlassChat } from 'aura-glass/compat'",
+      "limitBytes": 35840,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 28109
+    },
+    {
+      "id": "plat:compat:GlassChatInput",
+      "import": "{ GlassChatInput } from 'aura-glass/compat'",
+      "limitBytes": 14336,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 12048
+    },
+    {
+      "id": "plat:compat:GlassCheckbox",
+      "import": "{ GlassCheckbox } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1607
+    },
+    {
+      "id": "plat:compat:GlassCheckboxGroup",
+      "import": "{ GlassCheckboxGroup } from 'aura-glass/compat'",
+      "limitBytes": 8048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1626
+    },
+    {
+      "id": "plat:compat:GlassChip",
+      "import": "{ GlassChip } from 'aura-glass/compat'",
+      "limitBytes": 5120,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1152
+    },
+    {
+      "id": "plat:compat:GlassCoachmarks",
+      "import": "{ GlassCoachmarks } from 'aura-glass/compat'",
+      "limitBytes": 17048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9047
+    },
+    {
+      "id": "plat:compat:GlassColorPicker",
+      "import": "{ GlassColorPicker } from 'aura-glass/compat'",
+      "limitBytes": 22048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 12067
+    },
+    {
+      "id": "plat:compat:GlassColorWheel",
+      "import": "{ GlassColorWheel } from 'aura-glass/compat'",
+      "limitBytes": 22048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 12070
+    },
+    {
+      "id": "plat:compat:GlassCombobox",
+      "import": "{ GlassCombobox } from 'aura-glass/compat'",
+      "limitBytes": 32048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10695
+    },
+    {
+      "id": "plat:compat:GlassCommand",
+      "import": "{ GlassCommand } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 5831
+    },
+    {
+      "id": "plat:compat:GlassCommandBar",
+      "import": "{ GlassCommandBar } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9352
+    },
+    {
+      "id": "plat:compat:GlassCommandPalette",
+      "import": "{ GlassCommandPalette } from 'aura-glass/compat'",
+      "limitBytes": 12288,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9219
+    },
+    {
+      "id": "plat:compat:GlassConnectionStatus",
+      "import": "{ GlassConnectionStatus } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1340
+    },
+    {
+      "id": "plat:compat:GlassContainer",
+      "import": "{ GlassContainer } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 537
+    },
+    {
+      "id": "plat:compat:GlassDataGrid",
+      "import": "{ GlassDataGrid } from 'aura-glass/compat'",
+      "limitBytes": 21504,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 18840
+    },
+    {
+      "id": "plat:compat:GlassDataTable",
+      "import": "{ GlassDataTable } from 'aura-glass/compat'",
+      "limitBytes": 21504,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 18822
+    },
+    {
+      "id": "plat:compat:GlassDateField",
+      "import": "{ GlassDateField } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2082
+    },
+    {
+      "id": "plat:compat:GlassDatePicker",
+      "import": "{ GlassDatePicker } from 'aura-glass/compat'",
+      "limitBytes": 17408,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 16311
+    },
+    {
+      "id": "plat:compat:GlassDateRangePicker",
+      "import": "{ GlassDateRangePicker } from 'aura-glass/compat'",
+      "limitBytes": 18432,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 17037
+    },
+    {
+      "id": "plat:compat:GlassDialog",
+      "import": "{ GlassDialog } from 'aura-glass/compat'",
+      "limitBytes": 22048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 8194
+    },
+    {
+      "id": "plat:compat:GlassDismissableLayer",
+      "import": "{ GlassDismissableLayer } from 'aura-glass/compat'",
+      "limitBytes": 4736,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2680
+    },
+    {
+      "id": "plat:compat:GlassDivider",
+      "import": "{ GlassDivider } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 438
+    },
+    {
+      "id": "plat:compat:GlassDrawer",
+      "import": "{ GlassDrawer } from 'aura-glass/compat'",
+      "limitBytes": 26048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10973
+    },
+    {
+      "id": "plat:compat:GlassDynamicAtmosphere",
+      "import": "{ GlassDynamicAtmosphere } from 'aura-glass/compat'",
+      "limitBytes": 9216,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6973
+    },
+    {
+      "id": "plat:compat:GlassEmptyState",
+      "import": "{ GlassEmptyState } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 524
+    },
+    {
+      "id": "plat:compat:GlassErrorState",
+      "import": "{ GlassErrorState } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 537
+    },
+    {
+      "id": "plat:compat:GlassFab",
+      "import": "{ GlassFab } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2530
+    },
+    {
+      "id": "plat:compat:GlassFieldGroup",
+      "import": "{ GlassFieldGroup } from 'aura-glass/compat'",
+      "limitBytes": 5048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 367
+    },
+    {
+      "id": "plat:compat:GlassFileExplorer",
+      "import": "{ GlassFileExplorer } from 'aura-glass/compat'",
+      "limitBytes": 10240,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3849
+    },
+    {
+      "id": "plat:compat:GlassFileTree",
+      "import": "{ GlassFileTree } from 'aura-glass/compat'",
+      "limitBytes": 10240,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3754
+    },
+    {
+      "id": "plat:compat:GlassFileUpload",
+      "import": "{ GlassFileUpload } from 'aura-glass/compat'",
+      "limitBytes": 17048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3166
+    },
+    {
+      "id": "plat:compat:GlassFilterBar",
+      "import": "{ GlassFilterBar } from 'aura-glass/compat'",
+      "limitBytes": 20480,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 18783
+    },
+    {
+      "id": "plat:compat:GlassFlex",
+      "import": "{ GlassFlex } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1052
+    },
+    {
+      "id": "plat:compat:GlassFocusScope",
+      "import": "{ GlassFocusScope } from 'aura-glass/compat'",
+      "limitBytes": 4048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 999
+    },
+    {
+      "id": "plat:compat:GlassForm",
+      "import": "{ GlassForm } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 444
+    },
+    {
+      "id": "plat:compat:GlassFormField",
+      "import": "{ GlassFormField } from 'aura-glass/compat'",
+      "limitBytes": 8048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 516
+    },
+    {
+      "id": "plat:compat:GlassGradientPicker",
+      "import": "{ GlassGradientPicker } from 'aura-glass/compat'",
+      "limitBytes": 22048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 12071
+    },
+    {
+      "id": "plat:compat:GlassGrid",
+      "import": "{ GlassGrid } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1094
+    },
+    {
+      "id": "plat:compat:GlassHeader",
+      "import": "{ GlassHeader } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2261
+    },
+    {
+      "id": "plat:compat:GlassHoverCard",
+      "import": "{ GlassHoverCard } from 'aura-glass/compat'",
+      "limitBytes": 16048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 7949
+    },
+    {
+      "id": "plat:compat:GlassIconButton",
+      "import": "{ GlassIconButton } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2630
+    },
+    {
+      "id": "plat:compat:GlassImageViewer",
+      "import": "{ GlassImageViewer } from 'aura-glass/compat'",
+      "limitBytes": 15360,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 13466
+    },
+    {
+      "id": "plat:compat:GlassInlineEdit",
+      "import": "{ GlassInlineEdit } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1248
+    },
+    {
+      "id": "plat:compat:GlassInput",
+      "import": "{ GlassInput } from 'aura-glass/compat'",
+      "limitBytes": 14048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2527
+    },
+    {
+      "id": "plat:compat:GlassInspector",
+      "import": "{ GlassInspector } from 'aura-glass/compat'",
+      "limitBytes": 16384,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 13989
+    },
+    {
+      "id": "plat:compat:GlassIntelligentSearch",
+      "import": "{ GlassIntelligentSearch } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4261
+    },
+    {
+      "id": "plat:compat:GlassKPICard",
+      "import": "{ GlassKPICard } from 'aura-glass/compat'",
+      "limitBytes": 5120,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2141
+    },
+    {
+      "id": "plat:compat:GlassKeyValueEditor",
+      "import": "{ GlassKeyValueEditor } from 'aura-glass/compat'",
+      "limitBytes": 17408,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3363
+    },
+    {
+      "id": "plat:compat:GlassLabel",
+      "import": "{ GlassLabel } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 768
+    },
+    {
+      "id": "plat:compat:GlassLabelPrimitive",
+      "import": "{ GlassLabelPrimitive } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 775
+    },
+    {
+      "id": "plat:compat:GlassLinkButton",
+      "import": "{ GlassLinkButton } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2391
+    },
+    {
+      "id": "plat:compat:GlassLoadingSkeleton",
+      "import": "{ GlassLoadingSkeleton } from 'aura-glass/compat'",
+      "limitBytes": 5048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 853
+    },
+    {
+      "id": "plat:compat:GlassLoadingState",
+      "import": "{ GlassLoadingState } from 'aura-glass/compat'",
+      "limitBytes": 3904,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1905
+    },
+    {
+      "id": "plat:compat:GlassMagneticButton",
+      "import": "{ GlassMagneticButton } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 11578
+    },
+    {
+      "id": "plat:compat:GlassMain",
+      "import": "{ GlassMain } from 'aura-glass/compat'",
+      "limitBytes": 20480,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 17322
+    },
+    {
+      "id": "plat:compat:GlassMasonry",
+      "import": "{ GlassMasonry } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 735
+    },
+    {
+      "id": "plat:compat:GlassMasonryGrid",
+      "import": "{ GlassMasonryGrid } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1085
+    },
+    {
+      "id": "plat:compat:GlassMediaControls",
+      "import": "{ GlassMediaControls } from 'aura-glass/compat'",
+      "limitBytes": 20480,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 15785
+    },
+    {
+      "id": "plat:compat:GlassMentionList",
+      "import": "{ GlassMentionList } from 'aura-glass/compat'",
+      "limitBytes": 32048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10661
+    },
+    {
+      "id": "plat:compat:GlassMeshGradient",
+      "import": "{ GlassMeshGradient } from 'aura-glass/compat'",
+      "limitBytes": 9216,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6978
+    },
+    {
+      "id": "plat:compat:GlassMessageList",
+      "import": "{ GlassMessageList } from 'aura-glass/compat'",
+      "limitBytes": 23552,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 22223
+    },
+    {
+      "id": "plat:compat:GlassMetricCard",
+      "import": "{ GlassMetricCard } from 'aura-glass/compat'",
+      "limitBytes": 5120,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2142
+    },
+    {
+      "id": "plat:compat:GlassMetricChip",
+      "import": "{ GlassMetricChip } from 'aura-glass/compat'",
+      "limitBytes": 5120,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1108
+    },
+    {
+      "id": "plat:compat:GlassMobileNav",
+      "import": "{ GlassMobileNav } from 'aura-glass/compat'",
+      "limitBytes": 18432,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 16120
+    },
+    {
+      "id": "plat:compat:GlassMobileShell",
+      "import": "{ GlassMobileShell } from 'aura-glass/compat'",
+      "limitBytes": 20480,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 17896
+    },
+    {
+      "id": "plat:compat:GlassModal",
+      "import": "{ GlassModal } from 'aura-glass/compat'",
+      "limitBytes": 22048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 13138
+    },
+    {
+      "id": "plat:compat:GlassMultiSelect",
+      "import": "{ GlassMultiSelect } from 'aura-glass/compat'",
+      "limitBytes": 32048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10702
+    },
+    {
+      "id": "plat:compat:GlassNavigationMenu",
+      "import": "{ GlassNavigationMenu } from 'aura-glass/compat'",
+      "limitBytes": 18432,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 16056
+    },
+    {
+      "id": "plat:compat:GlassNotificationCenter",
+      "import": "{ GlassNotificationCenter } from 'aura-glass/compat'",
+      "limitBytes": 16048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 7915
+    },
+    {
+      "id": "plat:compat:GlassPage",
+      "import": "{ GlassPage } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 662
+    },
+    {
+      "id": "plat:compat:GlassPageHeader",
+      "import": "{ GlassPageHeader } from 'aura-glass/compat'",
+      "limitBytes": 20480,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 17359
+    },
+    {
+      "id": "plat:compat:GlassPageTabs",
+      "import": "{ GlassPageTabs } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4451
+    },
+    {
+      "id": "plat:compat:GlassPagination",
+      "import": "{ GlassPagination } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2794
+    },
+    {
+      "id": "plat:compat:GlassPopover",
+      "import": "{ GlassPopover } from 'aura-glass/compat'",
+      "limitBytes": 16048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 8001
+    },
+    {
+      "id": "plat:compat:GlassPortal",
+      "import": "{ GlassPortal } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 465
+    },
+    {
+      "id": "plat:compat:GlassPositioner",
+      "import": "{ GlassPositioner } from 'aura-glass/compat'",
+      "limitBytes": 16048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 633
+    },
+    {
+      "id": "plat:compat:GlassProgress",
+      "import": "{ GlassProgress } from 'aura-glass/compat'",
+      "limitBytes": 7048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1220
+    },
+    {
+      "id": "plat:compat:GlassRadioGroup",
+      "import": "{ GlassRadioGroup } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1550
+    },
+    {
+      "id": "plat:compat:GlassRating",
+      "import": "{ GlassRating } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1247
+    },
+    {
+      "id": "plat:compat:GlassScrollArea",
+      "import": "{ GlassScrollArea } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1067
+    },
+    {
+      "id": "plat:compat:GlassSearchField",
+      "import": "{ GlassSearchField } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4251
+    },
+    {
+      "id": "plat:compat:GlassSearchInterface",
+      "import": "{ GlassSearchInterface } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4258
+    },
+    {
+      "id": "plat:compat:GlassSegmentedControl",
+      "import": "{ GlassSegmentedControl } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 5234
+    },
+    {
+      "id": "plat:compat:GlassSelect",
+      "import": "{ GlassSelect } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 7025
+    },
+    {
+      "id": "plat:compat:GlassSelectCompound",
+      "import": "{ GlassSelectCompound } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 7088
+    },
+    {
+      "id": "plat:compat:GlassSelectContent",
+      "import": "{ GlassSelectContent } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6770
+    },
+    {
+      "id": "plat:compat:GlassSelectGroup",
+      "import": "{ GlassSelectGroup } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6770
+    },
+    {
+      "id": "plat:compat:GlassSelectItem",
+      "import": "{ GlassSelectItem } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6770
+    },
+    {
+      "id": "plat:compat:GlassSelectLabel",
+      "import": "{ GlassSelectLabel } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6770
+    },
+    {
+      "id": "plat:compat:GlassSelectRoot",
+      "import": "{ GlassSelectRoot } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6806
+    },
+    {
+      "id": "plat:compat:GlassSelectSeparator",
+      "import": "{ GlassSelectSeparator } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6770
+    },
+    {
+      "id": "plat:compat:GlassSelectTrigger",
+      "import": "{ GlassSelectTrigger } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6921
+    },
+    {
+      "id": "plat:compat:GlassSelectValue",
+      "import": "{ GlassSelectValue } from 'aura-glass/compat'",
+      "limitBytes": 27048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6818
+    },
+    {
+      "id": "plat:compat:GlassSeparator",
+      "import": "{ GlassSeparator } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 437
+    },
+    {
+      "id": "plat:compat:GlassSidebar",
+      "import": "{ GlassSidebar } from 'aura-glass/compat'",
+      "limitBytes": 18432,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 16131
+    },
+    {
+      "id": "plat:compat:GlassSidebarPanel",
+      "import": "{ GlassSidebarPanel } from 'aura-glass/compat'",
+      "limitBytes": 18432,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 15745
+    },
+    {
+      "id": "plat:compat:GlassSidebarRail",
+      "import": "{ GlassSidebarRail } from 'aura-glass/compat'",
+      "limitBytes": 18432,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 16057
+    },
+    {
+      "id": "plat:compat:GlassSkeleton",
+      "import": "{ GlassSkeleton } from 'aura-glass/compat'",
+      "limitBytes": 5048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 847
+    },
+    {
+      "id": "plat:compat:GlassSlider",
+      "import": "{ GlassSlider } from 'aura-glass/compat'",
+      "limitBytes": 16048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2986
+    },
+    {
+      "id": "plat:compat:GlassSlot",
+      "import": "{ GlassSlot } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 579
+    },
+    {
+      "id": "plat:compat:GlassSparkline",
+      "import": "{ GlassSparkline } from 'aura-glass/compat'",
+      "limitBytes": 4608,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1220
+    },
+    {
+      "id": "plat:compat:GlassSplitPane",
+      "import": "{ GlassSplitPane } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4971
+    },
+    {
+      "id": "plat:compat:GlassSpotlight",
+      "import": "{ GlassSpotlight } from 'aura-glass/compat'",
+      "limitBytes": 17048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9044
+    },
+    {
+      "id": "plat:compat:GlassStack",
+      "import": "{ GlassStack } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 760
+    },
+    {
+      "id": "plat:compat:GlassStatCard",
+      "import": "{ GlassStatCard } from 'aura-glass/compat'",
+      "limitBytes": 5120,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2140
+    },
+    {
+      "id": "plat:compat:GlassStatusBar",
+      "import": "{ GlassStatusBar } from 'aura-glass/compat'",
+      "limitBytes": 5120,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2492
+    },
+    {
+      "id": "plat:compat:GlassStatusDot",
+      "import": "{ GlassStatusDot } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 928
+    },
+    {
+      "id": "plat:compat:GlassSwitch",
+      "import": "{ GlassSwitch } from 'aura-glass/compat'",
+      "limitBytes": 10048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1989
+    },
+    {
+      "id": "plat:compat:GlassTabBar",
+      "import": "{ GlassTabBar } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6346
+    },
+    {
+      "id": "plat:compat:GlassTabs",
+      "import": "{ GlassTabs } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4406
+    },
+    {
+      "id": "plat:compat:GlassTagInput",
+      "import": "{ GlassTagInput } from 'aura-glass/compat'",
+      "limitBytes": 32048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10675
+    },
+    {
+      "id": "plat:compat:GlassTextarea",
+      "import": "{ GlassTextarea } from 'aura-glass/compat'",
+      "limitBytes": 14048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2445
+    },
+    {
+      "id": "plat:compat:GlassTimeField",
+      "import": "{ GlassTimeField } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2077
+    },
+    {
+      "id": "plat:compat:GlassTimeline",
+      "import": "{ GlassTimeline } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1143
+    },
+    {
+      "id": "plat:compat:GlassToggle",
+      "import": "{ GlassToggle } from 'aura-glass/compat'",
+      "limitBytes": 13048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1506
+    },
+    {
+      "id": "plat:compat:GlassToolbar",
+      "import": "{ GlassToolbar } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9324
+    },
+    {
+      "id": "plat:compat:GlassTooltip",
+      "import": "{ GlassTooltip } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6236
+    },
+    {
+      "id": "plat:compat:GlassTopBar",
+      "import": "{ GlassTopBar } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2049
+    },
+    {
+      "id": "plat:compat:GlassTreeView",
+      "import": "{ GlassTreeView } from 'aura-glass/compat'",
+      "limitBytes": 10240,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3770
+    },
+    {
+      "id": "plat:compat:GlassTypingIndicator",
+      "import": "{ GlassTypingIndicator } from 'aura-glass/compat'",
+      "limitBytes": 7168,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 366
+    },
+    {
+      "id": "plat:compat:GlassValidationMessage",
+      "import": "{ GlassValidationMessage } from 'aura-glass/compat'",
+      "limitBytes": 8048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 461
+    },
+    {
+      "id": "plat:compat:GlassVirtualList",
+      "import": "{ GlassVirtualList } from 'aura-glass/compat'",
+      "limitBytes": 21504,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1792
+    },
+    {
+      "id": "plat:compat:GlassVirtualTable",
+      "import": "{ GlassVirtualTable } from 'aura-glass/compat'",
+      "limitBytes": 21504,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 18864
+    },
+    {
+      "id": "plat:compat:GlassWorkspacePanel",
+      "import": "{ GlassWorkspacePanel } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1256
+    },
+    {
+      "id": "plat:compat:GlassWorkspaceTabs",
+      "import": "{ GlassWorkspaceTabs } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4306
+    },
+    {
+      "id": "plat:compat:GlowingCard",
+      "import": "{ GlowingCard } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1249
+    },
+    {
+      "id": "plat:compat:ImageList",
+      "import": "{ ImageList } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1470
+    },
+    {
+      "id": "plat:compat:ImageListItem",
+      "import": "{ ImageListItem } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1473
+    },
+    {
+      "id": "plat:compat:ImageListItemBar",
+      "import": "{ ImageListItemBar } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1473
+    },
+    {
+      "id": "plat:compat:LabelRoot",
+      "import": "{ LabelRoot } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 770
+    },
+    {
+      "id": "plat:compat:LiquidGlassAdaptiveSheet",
+      "import": "{ LiquidGlassAdaptiveSheet } from 'aura-glass/compat'",
+      "limitBytes": 26048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10834
+    },
+    {
+      "id": "plat:compat:LiquidGlassBadgeCluster",
+      "import": "{ LiquidGlassBadgeCluster } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1074
+    },
+    {
+      "id": "plat:compat:LiquidGlassBottomAccessory",
+      "import": "{ LiquidGlassBottomAccessory } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6082
+    },
+    {
+      "id": "plat:compat:LiquidGlassButtonStyle",
+      "import": "{ LiquidGlassButtonStyle } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 101
+    },
+    {
+      "id": "plat:compat:LiquidGlassCarouselRail",
+      "import": "{ LiquidGlassCarouselRail } from 'aura-glass/compat'",
+      "limitBytes": 12288,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 7905
+    },
+    {
+      "id": "plat:compat:LiquidGlassCommandSurface",
+      "import": "{ LiquidGlassCommandSurface } from 'aura-glass/compat'",
+      "limitBytes": 12288,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9136
+    },
+    {
+      "id": "plat:compat:LiquidGlassControlGroup",
+      "import": "{ LiquidGlassControlGroup } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 465
+    },
+    {
+      "id": "plat:compat:LiquidGlassDestination",
+      "import": "{ LiquidGlassDestination } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3369
+    },
+    {
+      "id": "plat:compat:LiquidGlassInsetSidebar",
+      "import": "{ LiquidGlassInsetSidebar } from 'aura-glass/compat'",
+      "limitBytes": 18432,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 16095
+    },
+    {
+      "id": "plat:compat:LiquidGlassInspectorPanel",
+      "import": "{ LiquidGlassInspectorPanel } from 'aura-glass/compat'",
+      "limitBytes": 16384,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 14101
+    },
+    {
+      "id": "plat:compat:LiquidGlassMapControls",
+      "import": "{ LiquidGlassMapControls } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9250
+    },
+    {
+      "id": "plat:compat:LiquidGlassMediaControls",
+      "import": "{ LiquidGlassMediaControls } from 'aura-glass/compat'",
+      "limitBytes": 20480,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 15787
+    },
+    {
+      "id": "plat:compat:LiquidGlassNowPlayingBar",
+      "import": "{ LiquidGlassNowPlayingBar } from 'aura-glass/compat'",
+      "limitBytes": 10240,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 5175
+    },
+    {
+      "id": "plat:compat:LiquidGlassPhotoInspector",
+      "import": "{ LiquidGlassPhotoInspector } from 'aura-glass/compat'",
+      "limitBytes": 29696,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 14033
+    },
+    {
+      "id": "plat:compat:LiquidGlassSearchField",
+      "import": "{ LiquidGlassSearchField } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 4255
+    },
+    {
+      "id": "plat:compat:LiquidGlassSegmentedControl",
+      "import": "{ LiquidGlassSegmentedControl } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 5240
+    },
+    {
+      "id": "plat:compat:LiquidGlassSource",
+      "import": "{ LiquidGlassSource } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3372
+    },
+    {
+      "id": "plat:compat:LiquidGlassTabBar",
+      "import": "{ LiquidGlassTabBar } from 'aura-glass/compat'",
+      "limitBytes": 8192,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 6460
+    },
+    {
+      "id": "plat:compat:LiquidGlassToolbar",
+      "import": "{ LiquidGlassToolbar } from 'aura-glass/compat'",
+      "limitBytes": 15048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 9351
+    },
+    {
+      "id": "plat:compat:LiquidGlassTransitionProvider",
+      "import": "{ LiquidGlassTransitionProvider } from 'aura-glass/compat'",
+      "limitBytes": 6144,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3217
+    },
+    {
+      "id": "plat:compat:MagneticButton",
+      "import": "{ MagneticButton } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 11575
+    },
+    {
+      "id": "plat:compat:MobileGlassBottomSheet",
+      "import": "{ MobileGlassBottomSheet } from 'aura-glass/compat'",
+      "limitBytes": 26048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 10843
+    },
+    {
+      "id": "plat:compat:Positioner",
+      "import": "{ Positioner } from 'aura-glass/compat'",
+      "limitBytes": 16048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 630
+    },
+    {
+      "id": "plat:compat:RippleButton",
+      "import": "{ RippleButton } from 'aura-glass/compat'",
+      "limitBytes": 12048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2797
+    },
+    {
+      "id": "plat:compat:ToggleButton",
+      "import": "{ ToggleButton } from 'aura-glass/compat'",
+      "limitBytes": 13048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 2361
+    },
+    {
+      "id": "plat:compat:ToggleButtonGroup",
+      "import": "{ ToggleButtonGroup } from 'aura-glass/compat'",
+      "limitBytes": 13048,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1502
+    },
+    {
+      "id": "plat:compat:TreeView",
+      "import": "{ TreeView } from 'aura-glass/compat'",
+      "limitBytes": 10240,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 3913
+    },
+    {
+      "id": "plat:compat:Typography",
+      "import": "{ Typography } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 798
+    },
+    {
+      "id": "plat:compat:WidgetGlass",
+      "import": "{ WidgetGlass } from 'aura-glass/compat'",
+      "limitBytes": 3548,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 1251
+    },
+    {
+      "id": "plat:compat:ZSpaceAppLayout",
+      "import": "{ ZSpaceAppLayout } from 'aura-glass/compat'",
+      "limitBytes": 20480,
+      "kind": "js",
+      "status": "pass",
+      "measuredBytes": 18157
+    },
+    {
+      "id": "plat:compat:GlassToast",
+      "import": "export { GlassToast } from 'aura-glass/compat'",
+      "limitBytes": 16048,
+      "kind": "js",
+      "compatOf": "Toast",
+      "status": "pass",
+      "measuredBytes": 1031
     }
   ],
   "ceilings": {
@@ -1258,6 +4503,6 @@
   },
   "measured": {
     "tarballPackedBytes": null,
-    "stylesCssGzBytes": 16758
+    "stylesCssGzBytes": 29634
   }
 }

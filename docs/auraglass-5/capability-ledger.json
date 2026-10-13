@@ -338,7 +338,7 @@
         "root": 2,
         "subpath": 0
       },
-      "budgetKb": 6,
+      "budgetKb": 10,
       "status": "deferred",
       "artifacts": [],
       "demand": [],
@@ -605,7 +605,7 @@
         "root": 0,
         "subpath": 3
       },
-      "budgetKb": 8,
+      "budgetKb": 16,
       "status": "deferred",
       "artifacts": [],
       "demand": [],
@@ -648,7 +648,7 @@
         "root": 0,
         "subpath": 1
       },
-      "budgetKb": 6,
+      "budgetKb": 14,
       "status": "deferred",
       "artifacts": [],
       "demand": [],
@@ -1161,7 +1161,7 @@
         "root": 0,
         "subpath": 1
       },
-      "budgetKb": 5,
+      "budgetKb": 11,
       "status": "deferred",
       "artifacts": [],
       "demand": [],
@@ -1343,7 +1343,7 @@
         "root": 0,
         "subpath": 3
       },
-      "budgetKb": 18,
+      "budgetKb": 21,
       "status": "deferred",
       "artifacts": [],
       "demand": [],
@@ -1437,7 +1437,7 @@
         "root": 0,
         "subpath": 3
       },
-      "budgetKb": 8,
+      "budgetKb": 10,
       "status": "deferred",
       "artifacts": [],
       "demand": [],
@@ -1604,7 +1604,7 @@
         "root": 0,
         "subpath": 1
       },
-      "budgetKb": 3,
+      "budgetKb": 4,
       "status": "deferred",
       "artifacts": [],
       "demand": [],
@@ -1648,7 +1648,7 @@
         "root": 0,
         "subpath": 1
       },
-      "budgetKb": null,
+      "budgetKb": 6,
       "status": "planned",
       "artifacts": [],
       "demand": [],
@@ -1695,7 +1695,7 @@
         "root": 0,
         "subpath": 1
       },
-      "budgetKb": 10,
+      "budgetKb": 13,
       "status": "deferred",
       "artifacts": [],
       "demand": [],
@@ -1905,7 +1905,7 @@
         "root": 0,
         "subpath": 1
       },
-      "budgetKb": null,
+      "budgetKb": 6,
       "status": "deferred",
       "artifacts": [],
       "demand": [],
@@ -1948,7 +1948,7 @@
         "root": 0,
         "subpath": 1
       },
-      "budgetKb": null,
+      "budgetKb": 14,
       "status": "deferred",
       "artifacts": [],
       "demand": [],

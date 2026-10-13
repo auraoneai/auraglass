@@ -76,6 +76,11 @@ export function sourceTarget(root: string, key: string): string | null {
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf8')) as { entries?: Array<{ subpath: string; source?: string }> };
   const entry = manifest.entries?.find((e) => e.subpath === key);
   if (entry?.source) return toPosix(entry.source);
+  // The carousel story imports its public domain sheet just like a consumer.
+  // Dev already loads self-layered source CSS and must not require a dist build.
+  if (key === './media.css' && distTarget(root, key) === 'dist/media.css') {
+    return 'src/media/media.css';
+  }
   // Pattern exports are not expanded into manifest rows. Resolve only the
   // source twin of an actual exported runtime target, never an arbitrary subpath.
   const target = distTarget(root, key);
