@@ -174,12 +174,15 @@ describe('plat:test:cli and plat:audit:backdrop wiring (B3-7)', () => {
   });
   it('type-checks the packed d.ts with tsc -p tests/types/plat after the workspace suites (REQ-FIN-41)', () => {
     const ws = cliRows.indexOf('npm test -w packages/cli -w packages/registry -w packages/mcp -w packages/labs');
-    const tsc = cliRows.indexOf('npx tsc -p tests/types/plat');
+    // REQ-PLAT-93 (impl2/21) superseded the bare tsc row with plat:test:types:dx
+    // (extract the packed d.ts, then `tsc -p tests/types/plat`, then the
+    // language-service completions); the tsconfig presence guard stays.
+    const tsc = cliRows.indexOf('npm run -s plat:test:types:dx');
     expect(tsc).toBeGreaterThan(ws);
-    expect(cliRows[tsc - 1]).toMatch(/^test -f tests\/types\/plat\/tsconfig\.json \|\| \{ echo "PENDING: [^"]*"; exit 1; \}$/);
+    expect(cliRows[tsc - 2]).toMatch(/^test -f tests\/types\/plat\/tsconfig\.json \|\| \{ echo "PENDING: [^"]*"; exit 1; \}$/);
   });
   it('keeps the codemod canary step on 5x (REQ-PLAT-92)', () => {
-    expect(cliRows).toContain('npx playwright test tests/dx/codemod-canary.spec.ts');
+    expect(cliRows).toContain('npx playwright test -c playwright.dx.config.ts tests/dx/codemod-canary.spec.ts');
   });
 
   it('plat:audit:backdrop is a manual job on the Playwright image', () => {
@@ -645,7 +648,7 @@ describe('REQ-FIN-31 wiring: glass-quality, dist-maps producer, release ledger',
       'node scripts/release/gen-deprecations.mjs --docs', // PLAT-29 (guide first)
       'node scripts/release/verify-breaking-register.mjs', // PLAT-29
       'node scripts/build/api-report.mjs --all --check', // PLAT-22
-      'node scripts/release/verify-deprecations.mjs --line "$AG_LINE"', // PLAT-25
+      'node scripts/release/verify-deprecations.mjs --line "$AG_LINE" ${CI_COMMIT_TAG:+--require-snapshots}', // PLAT-25
     ];
     it('runs every change-control/deprecation check, in order, inside the 5x branch', () => {
       const at = CMDS.map((c) => rows.indexOf(c));
