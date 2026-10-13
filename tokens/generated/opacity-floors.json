@@ -631,6 +631,26 @@
       "clear": {
        "regular": {
         "dark": {
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
+         "pair": "focus"
+        },
+        "light": {
+         "apcaLc": 110.6,
+         "floorAlpha": 0.93,
+         "minRatio": 8.409,
+         "pair": "focus"
+        },
+        "media": {
+         "apcaLc": 110.6,
+         "floorAlpha": 0.93,
+         "minRatio": 8.409,
+         "pair": "focus"
+        }
+       },
+       "thick": {
+        "dark": {
          "apcaLc": 96.9,
          "floorAlpha": 0.88,
          "minRatio": 6.693,
@@ -646,26 +666,6 @@
          "apcaLc": 110.1,
          "floorAlpha": 0.88,
          "minRatio": 7.718,
-         "pair": "focus"
-        }
-       },
-       "thick": {
-        "dark": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
-         "pair": "focus"
-        },
-        "light": {
-         "apcaLc": 98,
-         "floorAlpha": 0.83,
-         "minRatio": 7.007,
-         "pair": "focus"
-        },
-        "media": {
-         "apcaLc": 98,
-         "floorAlpha": 0.83,
-         "minRatio": 7.007,
          "pair": "focus"
         }
        },
@@ -693,41 +693,41 @@
       "identity": {
        "regular": {
         "dark": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         }
        },
@@ -755,41 +755,41 @@
       "raised": {
        "regular": {
         "dark": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         }
        },
@@ -817,41 +817,41 @@
       "regular": {
        "regular": {
         "dark": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         }
        },
@@ -879,41 +879,41 @@
       "sunken": {
        "regular": {
         "dark": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         }
        },
@@ -1569,6 +1569,26 @@
       "clear": {
        "regular": {
         "dark": {
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
+         "pair": "focus"
+        },
+        "light": {
+         "apcaLc": 110.6,
+         "floorAlpha": 0.93,
+         "minRatio": 8.409,
+         "pair": "focus"
+        },
+        "media": {
+         "apcaLc": 110.6,
+         "floorAlpha": 0.93,
+         "minRatio": 8.409,
+         "pair": "focus"
+        }
+       },
+       "thick": {
+        "dark": {
          "apcaLc": 96.9,
          "floorAlpha": 0.88,
          "minRatio": 6.693,
@@ -1584,26 +1604,6 @@
          "apcaLc": 110.1,
          "floorAlpha": 0.88,
          "minRatio": 7.718,
-         "pair": "focus"
-        }
-       },
-       "thick": {
-        "dark": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
-         "pair": "focus"
-        },
-        "light": {
-         "apcaLc": 98,
-         "floorAlpha": 0.83,
-         "minRatio": 7.007,
-         "pair": "focus"
-        },
-        "media": {
-         "apcaLc": 98,
-         "floorAlpha": 0.83,
-         "minRatio": 7.007,
          "pair": "focus"
         }
        },
@@ -1631,41 +1631,41 @@
       "identity": {
        "regular": {
         "dark": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         }
        },
@@ -1693,41 +1693,41 @@
       "raised": {
        "regular": {
         "dark": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         }
        },
@@ -1755,41 +1755,41 @@
       "regular": {
        "regular": {
         "dark": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         }
        },
@@ -1817,41 +1817,41 @@
       "sunken": {
        "regular": {
         "dark": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 96.9,
-         "floorAlpha": 0.88,
-         "minRatio": 6.693,
+         "apcaLc": 110.2,
+         "floorAlpha": 0.93,
+         "minRatio": 7.828,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 92.7,
-         "floorAlpha": 0.83,
-         "minRatio": 5.618,
+         "apcaLc": 96.9,
+         "floorAlpha": 0.88,
+         "minRatio": 6.693,
          "pair": "focus"
         }
        },
@@ -2509,6 +2509,26 @@
       "clear": {
        "regular": {
         "dark": {
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
+         "pair": "border"
+        },
+        "light": {
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
+         "pair": "border"
+        },
+        "media": {
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
+         "pair": "border"
+        }
+       },
+       "thick": {
+        "dark": {
          "apcaLc": 100.9,
          "floorAlpha": 0.88,
          "minRatio": 3.734,
@@ -2524,26 +2544,6 @@
          "apcaLc": 94.9,
          "floorAlpha": 0.88,
          "minRatio": 3.734,
-         "pair": "border"
-        }
-       },
-       "thick": {
-        "dark": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
-         "pair": "border"
-        },
-        "light": {
-         "apcaLc": 92.5,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
-         "pair": "border"
-        },
-        "media": {
-         "apcaLc": 92.5,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
          "pair": "border"
         }
        },
@@ -2571,41 +2571,41 @@
       "identity": {
        "regular": {
         "dark": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         }
        },
@@ -2633,41 +2633,41 @@
       "raised": {
        "regular": {
         "dark": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         }
        },
@@ -2695,41 +2695,41 @@
       "regular": {
        "regular": {
         "dark": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         }
        },
@@ -2757,41 +2757,41 @@
       "sunken": {
        "regular": {
         "dark": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         }
        },
@@ -3447,6 +3447,26 @@
       "clear": {
        "regular": {
         "dark": {
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
+         "pair": "border"
+        },
+        "light": {
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
+         "pair": "border"
+        },
+        "media": {
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
+         "pair": "border"
+        }
+       },
+       "thick": {
+        "dark": {
          "apcaLc": 100.9,
          "floorAlpha": 0.88,
          "minRatio": 3.734,
@@ -3462,26 +3482,6 @@
          "apcaLc": 94.9,
          "floorAlpha": 0.88,
          "minRatio": 3.734,
-         "pair": "border"
-        }
-       },
-       "thick": {
-        "dark": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
-         "pair": "border"
-        },
-        "light": {
-         "apcaLc": 92.5,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
-         "pair": "border"
-        },
-        "media": {
-         "apcaLc": 92.5,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
          "pair": "border"
         }
        },
@@ -3509,41 +3509,41 @@
       "identity": {
        "regular": {
         "dark": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         }
        },
@@ -3571,41 +3571,41 @@
       "raised": {
        "regular": {
         "dark": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         }
        },
@@ -3633,41 +3633,41 @@
       "regular": {
        "regular": {
         "dark": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         }
        },
@@ -3695,41 +3695,41 @@
       "sunken": {
        "regular": {
         "dark": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 100.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.734,
+         "apcaLc": 100.8,
+         "floorAlpha": 0.93,
+         "minRatio": 4.199,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 101,
-         "floorAlpha": 0.83,
-         "minRatio": 3.303,
+         "apcaLc": 100.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.734,
          "pair": "border"
         }
        },
@@ -4389,6 +4389,26 @@
       "clear": {
        "regular": {
         "dark": {
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
+         "pair": "focus"
+        },
+        "light": {
+         "apcaLc": 98,
+         "floorAlpha": 0.93,
+         "minRatio": 6.997,
+         "pair": "focus"
+        },
+        "media": {
+         "apcaLc": 98,
+         "floorAlpha": 0.93,
+         "minRatio": 6.997,
+         "pair": "focus"
+        }
+       },
+       "thick": {
+        "dark": {
          "apcaLc": 91.9,
          "floorAlpha": 0.88,
          "minRatio": 5.427,
@@ -4404,26 +4424,6 @@
          "apcaLc": 95.7,
          "floorAlpha": 0.88,
          "minRatio": 6.373,
-         "pair": "focus"
-        }
-       },
-       "thick": {
-        "dark": {
-         "apcaLc": 90.7,
-         "floorAlpha": 0.865,
-         "minRatio": 5.155,
-         "pair": "focus"
-        },
-        "light": {
-         "apcaLc": 93.4,
-         "floorAlpha": 0.83,
-         "minRatio": 5.777,
-         "pair": "focus"
-        },
-        "media": {
-         "apcaLc": 93.4,
-         "floorAlpha": 0.83,
-         "minRatio": 5.777,
          "pair": "focus"
         }
        },
@@ -4451,41 +4451,41 @@
       "identity": {
        "regular": {
         "dark": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 90.7,
-         "floorAlpha": 0.865,
-         "minRatio": 5.155,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 90.7,
-         "floorAlpha": 0.865,
-         "minRatio": 5.155,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 90.7,
-         "floorAlpha": 0.865,
-         "minRatio": 5.155,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         }
        },
@@ -4513,41 +4513,41 @@
       "raised": {
        "regular": {
         "dark": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 90.7,
-         "floorAlpha": 0.865,
-         "minRatio": 5.155,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 90.7,
-         "floorAlpha": 0.865,
-         "minRatio": 5.155,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 90.7,
-         "floorAlpha": 0.865,
-         "minRatio": 5.155,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         }
        },
@@ -4575,41 +4575,41 @@
       "regular": {
        "regular": {
         "dark": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 90.7,
-         "floorAlpha": 0.865,
-         "minRatio": 5.155,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 90.7,
-         "floorAlpha": 0.865,
-         "minRatio": 5.155,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 90.7,
-         "floorAlpha": 0.865,
-         "minRatio": 5.155,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         }
        },
@@ -4637,41 +4637,41 @@
       "sunken": {
        "regular": {
         "dark": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 90.7,
-         "floorAlpha": 0.865,
-         "minRatio": 5.155,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 90.7,
-         "floorAlpha": 0.865,
-         "minRatio": 5.155,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 90.7,
-         "floorAlpha": 0.865,
-         "minRatio": 5.155,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         }
        },
@@ -5327,6 +5327,26 @@
       "clear": {
        "regular": {
         "dark": {
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
+         "pair": "focus"
+        },
+        "light": {
+         "apcaLc": 98,
+         "floorAlpha": 0.93,
+         "minRatio": 6.997,
+         "pair": "focus"
+        },
+        "media": {
+         "apcaLc": 98,
+         "floorAlpha": 0.93,
+         "minRatio": 6.997,
+         "pair": "focus"
+        }
+       },
+       "thick": {
+        "dark": {
          "apcaLc": 91.9,
          "floorAlpha": 0.88,
          "minRatio": 5.427,
@@ -5342,26 +5362,6 @@
          "apcaLc": 95.7,
          "floorAlpha": 0.88,
          "minRatio": 6.373,
-         "pair": "focus"
-        }
-       },
-       "thick": {
-        "dark": {
-         "apcaLc": 87.8,
-         "floorAlpha": 0.83,
-         "minRatio": 4.566,
-         "pair": "focus"
-        },
-        "light": {
-         "apcaLc": 93.4,
-         "floorAlpha": 0.83,
-         "minRatio": 5.777,
-         "pair": "focus"
-        },
-        "media": {
-         "apcaLc": 93.4,
-         "floorAlpha": 0.83,
-         "minRatio": 5.777,
          "pair": "focus"
         }
        },
@@ -5389,41 +5389,41 @@
       "identity": {
        "regular": {
         "dark": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 87.8,
-         "floorAlpha": 0.83,
-         "minRatio": 4.566,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 87.8,
-         "floorAlpha": 0.83,
-         "minRatio": 4.566,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 87.8,
-         "floorAlpha": 0.83,
-         "minRatio": 4.566,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         }
        },
@@ -5451,41 +5451,41 @@
       "raised": {
        "regular": {
         "dark": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 87.8,
-         "floorAlpha": 0.83,
-         "minRatio": 4.566,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 87.8,
-         "floorAlpha": 0.83,
-         "minRatio": 4.566,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 87.8,
-         "floorAlpha": 0.83,
-         "minRatio": 4.566,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         }
        },
@@ -5513,41 +5513,41 @@
       "regular": {
        "regular": {
         "dark": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 87.8,
-         "floorAlpha": 0.83,
-         "minRatio": 4.566,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 87.8,
-         "floorAlpha": 0.83,
-         "minRatio": 4.566,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 87.8,
-         "floorAlpha": 0.83,
-         "minRatio": 4.566,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         }
        },
@@ -5575,41 +5575,41 @@
       "sunken": {
        "regular": {
         "dark": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 91.9,
-         "floorAlpha": 0.88,
-         "minRatio": 5.427,
+         "apcaLc": 95.8,
+         "floorAlpha": 0.93,
+         "minRatio": 6.407,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 87.8,
-         "floorAlpha": 0.83,
-         "minRatio": 4.566,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 87.8,
-         "floorAlpha": 0.83,
-         "minRatio": 4.566,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 87.8,
-         "floorAlpha": 0.83,
-         "minRatio": 4.566,
+         "apcaLc": 91.9,
+         "floorAlpha": 0.88,
+         "minRatio": 5.427,
          "pair": "focus"
         }
        },
@@ -6268,40 +6268,40 @@
        "regular": {
         "dark": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 95.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 95.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 93.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 95.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 93.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 95.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         }
        },
@@ -6330,40 +6330,40 @@
        "regular": {
         "dark": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "light": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "media": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         }
        },
@@ -6392,40 +6392,40 @@
        "regular": {
         "dark": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "light": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "media": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         }
        },
@@ -6454,40 +6454,40 @@
        "regular": {
         "dark": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "light": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "media": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         }
        },
@@ -6516,40 +6516,40 @@
        "regular": {
         "dark": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "light": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "media": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         }
        },
@@ -7206,40 +7206,40 @@
        "regular": {
         "dark": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 95.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 95.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 93.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 95.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 93.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 95.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         }
        },
@@ -7268,40 +7268,40 @@
        "regular": {
         "dark": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "light": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "media": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         }
        },
@@ -7330,40 +7330,40 @@
        "regular": {
         "dark": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "light": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "media": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         }
        },
@@ -7392,40 +7392,40 @@
        "regular": {
         "dark": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "light": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "media": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         }
        },
@@ -7454,40 +7454,40 @@
        "regular": {
         "dark": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "light": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         },
         "media": {
          "apcaLc": 101.7,
-         "floorAlpha": 0.88,
-         "minRatio": 3.786,
+         "floorAlpha": 0.93,
+         "minRatio": 4.258,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 101.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.348,
+         "apcaLc": 101.7,
+         "floorAlpha": 0.88,
+         "minRatio": 3.786,
          "pair": "border"
         }
        },
@@ -8147,6 +8147,26 @@
       "clear": {
        "regular": {
         "dark": {
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
+         "pair": "focus"
+        },
+        "light": {
+         "apcaLc": 110,
+         "floorAlpha": 0.93,
+         "minRatio": 7.621,
+         "pair": "focus"
+        },
+        "media": {
+         "apcaLc": 110,
+         "floorAlpha": 0.93,
+         "minRatio": 7.621,
+         "pair": "focus"
+        }
+       },
+       "thick": {
+        "dark": {
          "apcaLc": 94.1,
          "floorAlpha": 0.88,
          "minRatio": 5.959,
@@ -8162,26 +8182,6 @@
          "apcaLc": 97.8,
          "floorAlpha": 0.88,
          "minRatio": 6.953,
-         "pair": "focus"
-        }
-       },
-       "thick": {
-        "dark": {
-         "apcaLc": 90.8,
-         "floorAlpha": 0.84,
-         "minRatio": 5.182,
-         "pair": "focus"
-        },
-        "light": {
-         "apcaLc": 95.4,
-         "floorAlpha": 0.83,
-         "minRatio": 6.299,
-         "pair": "focus"
-        },
-        "media": {
-         "apcaLc": 95.4,
-         "floorAlpha": 0.83,
-         "minRatio": 6.299,
          "pair": "focus"
         }
        },
@@ -8209,41 +8209,41 @@
       "identity": {
        "regular": {
         "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 90.8,
-         "floorAlpha": 0.84,
-         "minRatio": 5.182,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 90.8,
-         "floorAlpha": 0.84,
-         "minRatio": 5.182,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 90.8,
-         "floorAlpha": 0.84,
-         "minRatio": 5.182,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         }
        },
@@ -8271,41 +8271,41 @@
       "raised": {
        "regular": {
         "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 90.8,
-         "floorAlpha": 0.84,
-         "minRatio": 5.182,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 90.8,
-         "floorAlpha": 0.84,
-         "minRatio": 5.182,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 90.8,
-         "floorAlpha": 0.84,
-         "minRatio": 5.182,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         }
        },
@@ -8333,41 +8333,41 @@
       "regular": {
        "regular": {
         "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 90.8,
-         "floorAlpha": 0.84,
-         "minRatio": 5.182,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 90.8,
-         "floorAlpha": 0.84,
-         "minRatio": 5.182,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 90.8,
-         "floorAlpha": 0.84,
-         "minRatio": 5.182,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         }
        },
@@ -8395,41 +8395,41 @@
       "sunken": {
        "regular": {
         "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 90.8,
-         "floorAlpha": 0.84,
-         "minRatio": 5.182,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 90.8,
-         "floorAlpha": 0.84,
-         "minRatio": 5.182,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 90.8,
-         "floorAlpha": 0.84,
-         "minRatio": 5.182,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         }
        },
@@ -9085,6 +9085,26 @@
       "clear": {
        "regular": {
         "dark": {
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
+         "pair": "focus"
+        },
+        "light": {
+         "apcaLc": 110,
+         "floorAlpha": 0.93,
+         "minRatio": 7.621,
+         "pair": "focus"
+        },
+        "media": {
+         "apcaLc": 110,
+         "floorAlpha": 0.93,
+         "minRatio": 7.621,
+         "pair": "focus"
+        }
+       },
+       "thick": {
+        "dark": {
          "apcaLc": 94.1,
          "floorAlpha": 0.88,
          "minRatio": 5.959,
@@ -9100,26 +9120,6 @@
          "apcaLc": 97.8,
          "floorAlpha": 0.88,
          "minRatio": 6.953,
-         "pair": "focus"
-        }
-       },
-       "thick": {
-        "dark": {
-         "apcaLc": 90,
-         "floorAlpha": 0.83,
-         "minRatio": 5.001,
-         "pair": "focus"
-        },
-        "light": {
-         "apcaLc": 95.4,
-         "floorAlpha": 0.83,
-         "minRatio": 6.299,
-         "pair": "focus"
-        },
-        "media": {
-         "apcaLc": 95.4,
-         "floorAlpha": 0.83,
-         "minRatio": 6.299,
          "pair": "focus"
         }
        },
@@ -9147,41 +9147,41 @@
       "identity": {
        "regular": {
         "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 90,
-         "floorAlpha": 0.83,
-         "minRatio": 5.001,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 90,
-         "floorAlpha": 0.83,
-         "minRatio": 5.001,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 90,
-         "floorAlpha": 0.83,
-         "minRatio": 5.001,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         }
        },
@@ -9209,41 +9209,41 @@
       "raised": {
        "regular": {
         "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 90,
-         "floorAlpha": 0.83,
-         "minRatio": 5.001,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 90,
-         "floorAlpha": 0.83,
-         "minRatio": 5.001,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 90,
-         "floorAlpha": 0.83,
-         "minRatio": 5.001,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         }
        },
@@ -9271,41 +9271,41 @@
       "regular": {
        "regular": {
         "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 90,
-         "floorAlpha": 0.83,
-         "minRatio": 5.001,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 90,
-         "floorAlpha": 0.83,
-         "minRatio": 5.001,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 90,
-         "floorAlpha": 0.83,
-         "minRatio": 5.001,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         }
        },
@@ -9333,41 +9333,41 @@
       "sunken": {
        "regular": {
         "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.88,
-         "minRatio": 5.959,
+         "apcaLc": 98.1,
+         "floorAlpha": 0.93,
+         "minRatio": 7.021,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 90,
-         "floorAlpha": 0.83,
-         "minRatio": 5.001,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 90,
-         "floorAlpha": 0.83,
-         "minRatio": 5.001,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 90,
-         "floorAlpha": 0.83,
-         "minRatio": 5.001,
+         "apcaLc": 94.1,
+         "floorAlpha": 0.88,
+         "minRatio": 5.959,
          "pair": "focus"
         }
        },
@@ -10025,6 +10025,26 @@
       "clear": {
        "regular": {
         "dark": {
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
+         "pair": "border"
+        },
+        "light": {
+         "apcaLc": 93.8,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
+         "pair": "border"
+        },
+        "media": {
+         "apcaLc": 93.8,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
+         "pair": "border"
+        }
+       },
+       "thick": {
+        "dark": {
          "apcaLc": 97.6,
          "floorAlpha": 0.88,
          "minRatio": 3.528,
@@ -10040,26 +10060,6 @@
          "apcaLc": 91.6,
          "floorAlpha": 0.88,
          "minRatio": 3.528,
-         "pair": "border"
-        }
-       },
-       "thick": {
-        "dark": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
-         "pair": "border"
-        },
-        "light": {
-         "apcaLc": 89.4,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
-         "pair": "border"
-        },
-        "media": {
-         "apcaLc": 89.4,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
          "pair": "border"
         }
        },
@@ -10087,41 +10087,41 @@
       "identity": {
        "regular": {
         "dark": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         }
        },
@@ -10149,41 +10149,41 @@
       "raised": {
        "regular": {
         "dark": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         }
        },
@@ -10211,41 +10211,41 @@
       "regular": {
        "regular": {
         "dark": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         }
        },
@@ -10273,41 +10273,41 @@
       "sunken": {
        "regular": {
         "dark": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         }
        },
@@ -10963,6 +10963,26 @@
       "clear": {
        "regular": {
         "dark": {
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
+         "pair": "border"
+        },
+        "light": {
+         "apcaLc": 93.8,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
+         "pair": "border"
+        },
+        "media": {
+         "apcaLc": 93.8,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
+         "pair": "border"
+        }
+       },
+       "thick": {
+        "dark": {
          "apcaLc": 97.6,
          "floorAlpha": 0.88,
          "minRatio": 3.528,
@@ -10978,26 +10998,6 @@
          "apcaLc": 91.6,
          "floorAlpha": 0.88,
          "minRatio": 3.528,
-         "pair": "border"
-        }
-       },
-       "thick": {
-        "dark": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
-         "pair": "border"
-        },
-        "light": {
-         "apcaLc": 89.4,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
-         "pair": "border"
-        },
-        "media": {
-         "apcaLc": 89.4,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
          "pair": "border"
         }
        },
@@ -11025,41 +11025,41 @@
       "identity": {
        "regular": {
         "dark": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         }
        },
@@ -11087,41 +11087,41 @@
       "raised": {
        "regular": {
         "dark": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         }
        },
@@ -11149,41 +11149,41 @@
       "regular": {
        "regular": {
         "dark": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         }
        },
@@ -11211,41 +11211,41 @@
       "sunken": {
        "regular": {
         "dark": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 97.6,
-         "floorAlpha": 0.88,
-         "minRatio": 3.528,
+         "apcaLc": 97.3,
+         "floorAlpha": 0.93,
+         "minRatio": 3.965,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 97.9,
-         "floorAlpha": 0.83,
-         "minRatio": 3.123,
+         "apcaLc": 97.6,
+         "floorAlpha": 0.88,
+         "minRatio": 3.528,
          "pair": "border"
         }
        },
@@ -11905,6 +11905,26 @@
       "clear": {
        "regular": {
         "dark": {
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
+         "pair": "focus"
+        },
+        "light": {
+         "apcaLc": 110.8,
+         "floorAlpha": 0.93,
+         "minRatio": 8.779,
+         "pair": "focus"
+        },
+        "media": {
+         "apcaLc": 110.8,
+         "floorAlpha": 0.93,
+         "minRatio": 8.779,
+         "pair": "focus"
+        }
+       },
+       "thick": {
+        "dark": {
          "apcaLc": 98.2,
          "floorAlpha": 0.88,
          "minRatio": 7.076,
@@ -11920,26 +11940,6 @@
          "apcaLc": 110.4,
          "floorAlpha": 0.88,
          "minRatio": 8.097,
-         "pair": "focus"
-        }
-       },
-       "thick": {
-        "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
-         "pair": "focus"
-        },
-        "light": {
-         "apcaLc": 109.8,
-         "floorAlpha": 0.83,
-         "minRatio": 7.371,
-         "pair": "focus"
-        },
-        "media": {
-         "apcaLc": 109.8,
-         "floorAlpha": 0.83,
-         "minRatio": 7.371,
          "pair": "focus"
         }
        },
@@ -11967,41 +11967,41 @@
       "identity": {
        "regular": {
         "dark": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         }
        },
@@ -12029,41 +12029,41 @@
       "raised": {
        "regular": {
         "dark": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         }
        },
@@ -12091,41 +12091,41 @@
       "regular": {
        "regular": {
         "dark": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         }
        },
@@ -12153,41 +12153,41 @@
       "sunken": {
        "regular": {
         "dark": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         }
        },
@@ -12843,6 +12843,26 @@
       "clear": {
        "regular": {
         "dark": {
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
+         "pair": "focus"
+        },
+        "light": {
+         "apcaLc": 110.8,
+         "floorAlpha": 0.93,
+         "minRatio": 8.779,
+         "pair": "focus"
+        },
+        "media": {
+         "apcaLc": 110.8,
+         "floorAlpha": 0.93,
+         "minRatio": 8.779,
+         "pair": "focus"
+        }
+       },
+       "thick": {
+        "dark": {
          "apcaLc": 98.2,
          "floorAlpha": 0.88,
          "minRatio": 7.076,
@@ -12858,26 +12878,6 @@
          "apcaLc": 110.4,
          "floorAlpha": 0.88,
          "minRatio": 8.097,
-         "pair": "focus"
-        }
-       },
-       "thick": {
-        "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
-         "pair": "focus"
-        },
-        "light": {
-         "apcaLc": 109.8,
-         "floorAlpha": 0.83,
-         "minRatio": 7.371,
-         "pair": "focus"
-        },
-        "media": {
-         "apcaLc": 109.8,
-         "floorAlpha": 0.83,
-         "minRatio": 7.371,
          "pair": "focus"
         }
        },
@@ -12905,41 +12905,41 @@
       "identity": {
        "regular": {
         "dark": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         }
        },
@@ -12967,41 +12967,41 @@
       "raised": {
        "regular": {
         "dark": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         }
        },
@@ -13029,41 +13029,41 @@
       "regular": {
        "regular": {
         "dark": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         }
        },
@@ -13091,41 +13091,41 @@
       "sunken": {
        "regular": {
         "dark": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 98.2,
-         "floorAlpha": 0.88,
-         "minRatio": 7.076,
+         "apcaLc": 110.5,
+         "floorAlpha": 0.93,
+         "minRatio": 8.225,
          "pair": "focus"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         },
         "light": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         },
         "media": {
-         "apcaLc": 94.1,
-         "floorAlpha": 0.83,
-         "minRatio": 5.95,
+         "apcaLc": 98.2,
+         "floorAlpha": 0.88,
+         "minRatio": 7.076,
          "pair": "focus"
         }
        },
@@ -13783,6 +13783,26 @@
       "clear": {
        "regular": {
         "dark": {
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
+         "pair": "border"
+        },
+        "light": {
+         "apcaLc": 92,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
+         "pair": "border"
+        },
+        "media": {
+         "apcaLc": 92,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
+         "pair": "border"
+        }
+       },
+       "thick": {
+        "dark": {
          "apcaLc": 95.9,
          "floorAlpha": 0.88,
          "minRatio": 3.425,
@@ -13798,26 +13818,6 @@
          "apcaLc": 89.9,
          "floorAlpha": 0.88,
          "minRatio": 3.425,
-         "pair": "border"
-        }
-       },
-       "thick": {
-        "dark": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
-         "pair": "border"
-        },
-        "light": {
-         "apcaLc": 87.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
-         "pair": "border"
-        },
-        "media": {
-         "apcaLc": 87.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
          "pair": "border"
         }
        },
@@ -13845,41 +13845,41 @@
       "identity": {
        "regular": {
         "dark": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         }
        },
@@ -13907,41 +13907,41 @@
       "raised": {
        "regular": {
         "dark": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         }
        },
@@ -13969,41 +13969,41 @@
       "regular": {
        "regular": {
         "dark": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         }
        },
@@ -14031,41 +14031,41 @@
       "sunken": {
        "regular": {
         "dark": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         }
        },
@@ -14721,6 +14721,26 @@
       "clear": {
        "regular": {
         "dark": {
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
+         "pair": "border"
+        },
+        "light": {
+         "apcaLc": 92,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
+         "pair": "border"
+        },
+        "media": {
+         "apcaLc": 92,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
+         "pair": "border"
+        }
+       },
+       "thick": {
+        "dark": {
          "apcaLc": 95.9,
          "floorAlpha": 0.88,
          "minRatio": 3.425,
@@ -14736,26 +14756,6 @@
          "apcaLc": 89.9,
          "floorAlpha": 0.88,
          "minRatio": 3.425,
-         "pair": "border"
-        }
-       },
-       "thick": {
-        "dark": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
-         "pair": "border"
-        },
-        "light": {
-         "apcaLc": 87.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
-         "pair": "border"
-        },
-        "media": {
-         "apcaLc": 87.8,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
          "pair": "border"
         }
        },
@@ -14783,41 +14783,41 @@
       "identity": {
        "regular": {
         "dark": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         }
        },
@@ -14845,41 +14845,41 @@
       "raised": {
        "regular": {
         "dark": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         }
        },
@@ -14907,41 +14907,41 @@
       "regular": {
        "regular": {
         "dark": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         }
        },
@@ -14969,41 +14969,41 @@
       "sunken": {
        "regular": {
         "dark": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 95.9,
-         "floorAlpha": 0.88,
-         "minRatio": 3.425,
+         "apcaLc": 95.5,
+         "floorAlpha": 0.93,
+         "minRatio": 3.848,
          "pair": "border"
         }
        },
        "thick": {
         "dark": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         },
         "light": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         },
         "media": {
-         "apcaLc": 96.3,
-         "floorAlpha": 0.83,
-         "minRatio": 3.033,
+         "apcaLc": 95.9,
+         "floorAlpha": 0.88,
+         "minRatio": 3.425,
          "pair": "border"
         }
        },
