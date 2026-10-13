@@ -1932,7 +1932,7 @@ const integratedReleaseRows = [
     symbol: 'GlassChat',
     since: '4.2.0',
     removeIn: '5.0.0',
-    replacement: 'Thread',
+    replacement: 'Thread + Composer from aura-glass/ai',
     codemod: 'ai-chat',
     automation: 'partial',
     breaking: 'B4',

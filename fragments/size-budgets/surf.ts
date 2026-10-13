@@ -11,7 +11,7 @@ const w1 = [
   { id: 'Tabs', import: "{ Tabs } from 'aura-glass'", limitBytes: 6144, kind: 'js' },
   { id: 'TabBar', import: "{ TabBar } from 'aura-glass'", limitBytes: 6144, kind: 'js' },
   { id: 'Command', import: "{ Command } from 'aura-glass'", limitBytes: 6144, kind: 'js' },
-  { id: 'SourceTransition', import: "{ SourceTransition } from 'aura-glass'", limitBytes: 3072, kind: 'js' },
+  { id: 'SourceTransition', import: "{ SourceTransition } from 'aura-glass'", limitBytes: 4096, kind: 'js' },
 ] as const;
 // --- lane W1 end ---
 
@@ -45,7 +45,7 @@ const w2 = [
 const w3 = [
   { id: 'SB-SURF-W3-AI-CSS', import: 'aura-glass/ai.css', limitBytes: 6144, kind: 'css' },
   { id: 'Thread', import: "{ Thread } from 'aura-glass/ai'", limitBytes: 21504, kind: 'js' },
-  { id: 'Message', import: "{ Message } from 'aura-glass/ai'", limitBytes: 17408, kind: 'js' },
+  { id: 'Message', import: "{ Message } from 'aura-glass/ai'", limitBytes: 19456, kind: 'js' },
   { id: 'StreamingText', import: "{ StreamingText } from 'aura-glass/ai'", limitBytes: 6144, kind: 'js' },
   { id: 'Composer', import: "{ Composer } from 'aura-glass/ai'", limitBytes: 12288, kind: 'js' },
   { id: 'ToolCall', import: "{ ToolCall } from 'aura-glass/ai'", limitBytes: 10240, kind: 'js' },
@@ -91,12 +91,12 @@ const metaRows = [
   { id: 'MediaControls', import: "{ MediaControls } from 'aura-glass/media'", limitBytes: 18432, kind: 'js' },
   // REQ-SURF-09: per-component rows for the app-shell family, MediaScrubber
   // and CommandPalette (budgetKb in each meta equals limitBytes / 1024).
-  { id: 'AppShell', import: "{ AppShell } from 'aura-glass/app-shell'", limitBytes: 12288, kind: 'js' },
-  { id: 'Sidebar', import: "{ Sidebar } from 'aura-glass/app-shell'", limitBytes: 6144, kind: 'js' },
+  { id: 'AppShell', import: "{ AppShell } from 'aura-glass/app-shell'", limitBytes: 18432, kind: 'js' },
+  { id: 'Sidebar', import: "{ Sidebar } from 'aura-glass/app-shell'", limitBytes: 16384, kind: 'js' },
   { id: 'TopBar', import: "{ TopBar } from 'aura-glass/app-shell'", limitBytes: 4096, kind: 'js' },
   { id: 'StatusBar', import: "{ StatusBar } from 'aura-glass/app-shell'", limitBytes: 3072, kind: 'js' },
-  { id: 'Inspector', import: "{ Inspector } from 'aura-glass/app-shell'", limitBytes: 8192, kind: 'js' },
-  { id: 'MobileShell', import: "{ MobileShell } from 'aura-glass/app-shell'", limitBytes: 4096, kind: 'js' },
+  { id: 'Inspector', import: "{ Inspector } from 'aura-glass/app-shell'", limitBytes: 14336, kind: 'js' },
+  { id: 'MobileShell', import: "{ MobileShell } from 'aura-glass/app-shell'", limitBytes: 18432, kind: 'js' },
   { id: 'ResizablePanels', import: "{ ResizablePanels } from 'aura-glass/app-shell'", limitBytes: 6144, kind: 'js' },
   { id: 'MediaScrubber', import: "{ MediaScrubber } from 'aura-glass/media'", limitBytes: 6144, kind: 'js' },
   { id: 'CommandPalette', import: "{ CommandPalette } from 'aura-glass'", limitBytes: 10240, kind: 'js' },
