@@ -77,7 +77,7 @@ describe('bare import drop (REQ-PLAT-70)', () => {
         treeshake: true, logLevel: 'silent',
       });
       const { output } = await b.generate({ format: 'esm', minify: true });
-      const code = output.map((o: { code?: string }) => o.code ?? '').join('\n');
+      const code = output.map((o) => (o.type === 'chunk' ? o.code : '')).join('\n');
       rows.push({ spec: e.spec, bytes: Buffer.byteLength(code) });
     }
     expect(rows.length).toBeGreaterThan(0);
