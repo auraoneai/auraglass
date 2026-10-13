@@ -14,6 +14,7 @@ import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { DIST, ROOT, ensureBuilt, walk } from '../build/helpers';
 import { styleRules } from '../../scripts/build/lib/css.mjs';
+import { SURFACE_CLASS } from '../../src/contracts/material';
 
 const BASELINE = 'scripts/integration/baselines/class-coverage.json';
 const EXPIRY_LIB = 'scripts/integration/lib/baseline-expiry.mjs';
@@ -50,7 +51,10 @@ const offenders = () => {
   const shipped = shippedClasses();
   const byFile = new Map<string, string[]>();
   for (const [token, files] of classLiterals()) {
-    if (shipped.has(token)) continue;
+    // S-02 explicitly reserves this class for consumer styling; REQ-FIN-02
+    // forbids material rules from depending on it. Its attribute-driven
+    // behavior is covered by tests/material/state-readers.test.ts.
+    if (token === SURFACE_CLASS || shipped.has(token)) continue;
     for (const f of files) (byFile.get(f) ?? byFile.set(f, []).get(f)!).push(token);
   }
   return byFile;

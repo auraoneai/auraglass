@@ -41,7 +41,7 @@ import type {
   SelectSeparatorProps,
 } from './Select.types';
 
-const SelectRootCtx = /*#__PURE__*/ React.createContext<{ rootRef?: React.Ref<HTMLElement> | undefined }>({});
+const SelectRootCtx = /*#__PURE__*/ React.createContext<{ setRootElement?: ((element: HTMLElement | null) => void) | undefined }>({});
 const SelectSizeContext = /*#__PURE__*/ React.createContext<ControlSize>(DEFAULT_CONTROL_SIZE);
 /* REQ-CMP-12: the popup registers with the LayerStack through
    useOverlayLayer — the positioner element is published here for the entry. */
@@ -72,6 +72,10 @@ function SelectRoot<Value = string>({
 }: SelectRootProps<Value>) {
   useControllableWarning('Select', 'value', rest.value);
   const scopeRef = React.useRef<HTMLSpanElement | null>(null);
+  const setRootElement = React.useCallback((element: HTMLElement | null) => {
+    if (typeof ref === 'function') ref(element);
+    else if (ref) ref.current = element;
+  }, [ref]);
   const [resetNonce, setResetNonce] = React.useState(0);
   const restRec = rest as Record<string, unknown>;
   const [internalOpen, setInternalOpen] = React.useState(restRec.defaultOpen === true);
@@ -112,7 +116,7 @@ function SelectRoot<Value = string>({
   }, [form]);
   return (
     <SelectSizeContext.Provider value={size}>
-      <SelectRootCtx.Provider value={{ rootRef: ref }}>
+      <SelectRootCtx.Provider value={{ setRootElement }}>
       <span ref={scopeRef} hidden />
       <SelectLayerContext.Provider value={layerCtx}>
       <Base.Root
@@ -173,7 +177,7 @@ function SelectValue({ children, className }: SelectValueProps) {
 }
 
 function SelectContent({ children, className }: SelectContentProps) {
-  const { rootRef } = React.useContext(SelectRootCtx);
+  const { setRootElement } = React.useContext(SelectRootCtx);
   const container = usePortalContainer('overlay');
   const size = React.useContext(SelectSizeContext);
   const { setPopupElement } = React.useContext(SelectLayerContext);
@@ -185,10 +189,8 @@ function SelectContent({ children, className }: SelectContentProps) {
     animatingCleanup.current?.();
     const cleanup = animatingRef(node);
     animatingCleanup.current = typeof cleanup === 'function' ? cleanup : undefined;
-    const target = rootRef as React.Ref<HTMLDivElement> | undefined;
-    if (typeof target === 'function') target(node);
-    else if (target) (target as React.MutableRefObject<HTMLDivElement | null>).current = node;
-  }, [rootRef, animatingRef]);
+    setRootElement?.(node);
+  }, [setRootElement, animatingRef]);
   return (
     <Base.Portal container={container}>
       <Base.Positioner

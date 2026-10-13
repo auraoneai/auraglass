@@ -34,7 +34,8 @@ describe('verify-capability-ledger negative fixtures', () => {
 
   it('real ledger exits 0', () => {
     const r = run([]);
-    expect({ status: r.status, stderr: r.stderr }).toMatchObject({ status: 0 });
+    if (r.status !== 0) throw new Error(`ledger exited ${r.status}: ${r.stdout}${r.stderr}`);
+    expect(r.status).toBe(0);
   });
 
   it('re-admitted GlassHologram cites X-R04', () => {
@@ -52,7 +53,8 @@ describe('verify-capability-ledger negative fixtures', () => {
     const clean = run([
       '--exports', join(FX, 'exports-before.json'), join(FX, 'exports-after-clean.json'),
     ]);
-    expect({ status: clean.status, stderr: clean.stderr }).toMatchObject({ status: 0 });
+    if (clean.status !== 0) throw new Error(`ledger export check exited ${clean.status}: ${clean.stdout}${clean.stderr}`);
+    expect(clean.status).toBe(0);
   });
 
   it('promotion with 9 demand links exits 1; with 10 exits 0', () => {
