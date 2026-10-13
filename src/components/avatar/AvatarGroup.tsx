@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { cn } from '../../internal/index';
 
-export interface AvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface AvatarGroupProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   /** Maximum items rendered before the overflow '+N' item. */
   max?: number;
   /** Size of every avatar in the group. */

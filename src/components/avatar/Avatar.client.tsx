@@ -7,7 +7,7 @@ import * as React from 'react';
 import { Avatar as BaseAvatar } from '@base-ui/react/avatar';
 import { cn } from '../../internal/index';
 
-export interface AvatarRootProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'prefix'> {
+export interface AvatarRootProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'prefix' | 'onChange'> {
   /** Image URL; initials are shown until it loads or when it fails. */
   src?: string;
   /** Required whenever `src` is set (dev-warned otherwise). */
@@ -74,14 +74,14 @@ function Root({
 /* REQ-CMP-01: AuraGlass-owned part props (no Base UI types in the d.ts). */
 export type AvatarImageLoadingStatus = 'idle' | 'loading' | 'loaded' | 'error';
 
-export interface AvatarImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'className'> {
+export interface AvatarImageProps extends Omit<React.ImgHTMLAttributes<HTMLImageElement>, 'className' | 'onChange'> {
   onLoadingStatusChange?: (status: AvatarImageLoadingStatus) => void;
   keepMounted?: boolean;
   className?: string;
   ref?: React.Ref<HTMLImageElement> | undefined;
 }
 
-export interface AvatarFallbackProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'className'> {
+export interface AvatarFallbackProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'className' | 'onChange'> {
   /** ms before the fallback appears while the image loads. */
   delay?: number | undefined;
   className?: string;
