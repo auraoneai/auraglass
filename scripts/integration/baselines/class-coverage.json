@@ -150,18 +150,6 @@
     "expires": "RC-1"
   },
   {
-    "file": "src/material/Surface.tsx",
-    "owner": "MAT",
-    "reqFin": "REQ-FIN-02",
-    "expires": "RC-1"
-  },
-  {
-    "file": "src/material/SurfaceGroup.tsx",
-    "owner": "MAT",
-    "reqFin": "REQ-FIN-02",
-    "expires": "RC-1"
-  },
-  {
     "file": "src/media/ImageViewer/parts/Caption.tsx",
     "owner": "SURF",
     "reqFin": "REQ-FIN-80",
