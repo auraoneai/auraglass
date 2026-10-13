@@ -203,10 +203,14 @@ describe('REQ-QUAL-18 containment, right edge, targets, focus', () => {
 });
 
 describe('REQ-QUAL-16 preference deltas', () => {
-  it('a 0.000 delta is preference-noop; any change is not', () => {
+  it('a 0.000 delta is preference-noop; a delta above the 0.000 share is not', () => {
     const a = scene(); const b = cloneRaster(a);
     expect(noop('contrast-more', changedShare(a, b, [SUBJECT], 10)).status).toBe('fail');
+    // 1 of 6 000 subject px is a 0.000 share (re-render noise), still noop
     fillRect(b, { x: 60, y: 30, w: 1, h: 1 }, [0, 0, 0]);
+    expect(noop('contrast-more', changedShare(a, b, [SUBJECT], 10)).status).toBe('fail');
+    // 4 of 6 000 px = 0.0007 share, above the 0.000 rounding bound
+    fillRect(b, { x: 60, y: 30, w: 2, h: 2 }, [0, 0, 0]);
     expect(noop('contrast-more', changedShare(a, b, [SUBJECT], 10)).status).toBe('pass');
   });
   it('contrast-more: ≥0.5 % surface pixels changed and worst OCR raised passes; unchanged OCR below 7:1 fails', () => {

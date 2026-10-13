@@ -7,11 +7,11 @@
      contrast     = max(prefers-contrast:more, app, user), less/custom -> standard
      motion       = min(osCeiling, app, user)           reduced-motion -> at most calm
      forced colours => solid + more, absolute.
-   resolvePaint is the single source: the per-axis resolvers and
-   resolvePreferences are defined through it. It is one function body with no
-   helper calls or callbacks because every function the pre-paint script
-   reaches costs a lazy compile on each page load, which dominated its
-   execution budget. */
+   resolvePaintCore is the single source: resolvePaint, the per-axis
+   resolvers and resolvePreferences are defined through it. It is one
+   function body with no helper calls or callbacks because every function
+   the pre-paint script reaches costs a lazy compile on each page load,
+   which dominated its execution budget. */
 import type { Transparency, DomTier } from '../../contracts/material';
 import type { MotionPreference } from '../../contracts/motion';
 import type { Contrast, Density, Scheme } from '../../contracts/preferences';
@@ -48,51 +48,90 @@ export interface PaintResult {
   allowContinuous: boolean;
 }
 
-/** Single-pass resolution over every axis — the lean body the pre-paint script
-   bundles (resolvePreferences wraps it with floors/reasons for the store). */
+/** Axis keys in PaintTuple order. The pre-paint bundle (REQ-MAT-59) reads
+   app/user fields and writes data-ag-* attributes through this one list, so
+   each key string ships once instead of once per access. */
+export const PAINT_KEYS = [
+  'transparency', 'contrast', 'motion', 'scheme', 'density', 'glassOpacity', 'tier', 'allowContinuous',
+] as const;
+const [kTransparency, kContrast, kMotion, , , kGlassOpacity, kTier, kAllowContinuous] = PAINT_KEYS;
+
+/** resolvePaint as a positional tuple (PAINT_KEYS order) — the lean body the
+   pre-paint script bundles. Signals arrive positionally (OsSignals order,
+   then CapabilitySignals order) so no signal-object keys ship either. With
+   `unknownEngine` given (pre-paint only) the tier slot applies the
+   REQ-MAT-59 write rule: '' omits a signal-default 'standard' (written only
+   for a persisted/app value or a heuristic 'lightweight'), and an unknown
+   engine caps 'enhanced' at 'standard'. */
+export type PaintTuple = [Transparency, Contrast, MotionPreference, Scheme, Density, number, DomTier | '', boolean];
+
+export const resolvePaintCore = (
+  forcedColors: boolean, contrastMore: boolean, reducedTransparency: boolean,
+  reducedMotion: boolean, schemeDark: boolean, coarsePointer: boolean,
+  backdropFilter: boolean, saveData: boolean | undefined, deviceMemory: number | null | undefined,
+  app: PreferenceInput, user: PreferenceInput,
+  unknownEngine?: boolean,
+): PaintTuple => {
+  // user, else app, else 0 (NaN / non-numbers fall through); clamped to [0, 1]
+  let glassOpacity = 0;
+  for (const v of [app[kGlassOpacity], user[kGlassOpacity]]) if (typeof v == 'number' && v === v) glassOpacity = v;
+  glassOpacity = glassOpacity < 0 ? 0 : glassOpacity > 1 ? 1 : glassOpacity;
+  const more = forcedColors || contrastMore || app[kContrast] === 'more' || user[kContrast] === 'more';
+  // indexOf: 'system' / unset / unknown rank -1, which never wins the max; for
+  // the motion min, (i + 3) % 3 maps -1 to 2 (full: no ceiling).
+  const motion = MOTION[Math.min(
+    reducedMotion ? 1 : 2,
+    (MOTION.indexOf(app[kMotion]!) + 3) % 3,
+    (MOTION.indexOf(user[kMotion]!) + 3) % 3,
+  )] as MotionPreference;
+  // Default axis values index their ladders (SCHEMES[0]=light, DENSITIES[0]=
+  // regular, TIERS[0]=standard, TIERS[2]=lightweight, MOTION[2]=full) so the
+  // bundled body ships each value name once (REQ-MAT-59).
+  const t: PaintTuple = [
+    // forced colours floor at solid; contrast more (OS or setting) floors at tinted
+    TRANSPARENCY[Math.max(
+      forcedColors ? 2 : more || reducedTransparency ? 1 : 0,
+      backdropFilter ? 0 : 2,
+      TRANSPARENCY.indexOf(app[kTransparency]!),
+      TRANSPARENCY.indexOf(user[kTransparency]!),
+      glassOpacity >= 0.7 ? 1 : 0,
+    )] as Transparency,
+    more ? 'more' : TIERS[0] as Contrast,
+    motion,
+    SCHEMES[schemeDark ? 1 : 0] as Scheme,
+    DENSITIES[0] as Density,
+    glassOpacity,
+    TIERS[saveData || (deviceMemory != null && deviceMemory <= 2 && coarsePointer) ? 2 : 0] as DomTier,
+    (user[kAllowContinuous] ?? app[kAllowContinuous] ?? false) && motion === MOTION[2],
+  ];
+  // scheme / density / tier: a valid user value, else a valid app value, else
+  // the signal-derived default above (app first, so a valid user value wins).
+  for (const [i, list] of [[3, SCHEMES], [4, DENSITIES], [6, TIERS]] as const) {
+    for (const v of [app[PAINT_KEYS[i]], user[PAINT_KEYS[i]]]) if (list.includes(v as string)) (t as unknown[])[i] = v;
+  }
+  if (unknownEngine !== undefined) {
+    if (t[6] === TIERS[0] && app[kTier] !== TIERS[0] && user[kTier] !== TIERS[0]) t[6] = '';
+    else if (unknownEngine && t[6] === TIERS[1]) t[6] = TIERS[0] as DomTier;
+  }
+  return t;
+};
+
+/** Single-pass resolution over every axis (resolvePreferences wraps it with
+   floors/reasons for the store); object view of resolvePaintCore. */
 export const resolvePaint = (
   os: OsSignals,
   cap: CapabilitySignals,
   app: PreferenceInput = {},
   user: PreferenceInput = {},
 ): PaintResult => {
-  // user, else app, else 0 (NaN / non-numbers fall through); clamped to [0, 1]
-  let glassOpacity = 0;
-  for (const v of [app.glassOpacity, user.glassOpacity]) if (typeof v == 'number' && v === v) glassOpacity = v;
-  glassOpacity = Math.min(1, Math.max(0, glassOpacity));
-  const contrast: Contrast =
-    os.forcedColors || os.contrastMore || app.contrast === 'more' || user.contrast === 'more' ? 'more' : 'standard';
-  // indexOf: 'system' / unset / unknown rank -1, which never wins the max; for
-  // the motion min, (i + 3) % 3 maps -1 to 2 (full: no ceiling).
-  const motion = MOTION[Math.min(
-    os.reducedMotion ? 1 : 2,
-    (MOTION.indexOf(app.motion!) + 3) % 3,
-    (MOTION.indexOf(user.motion!) + 3) % 3,
-  )] as MotionPreference;
-  const r: PaintResult = {
-    // forced colours floor at solid; contrast more (OS or setting) floors at tinted
-    transparency: TRANSPARENCY[Math.max(
-      os.forcedColors ? 2 : contrast === 'more' || os.reducedTransparency ? 1 : 0,
-      cap.backdropFilter ? 0 : 2,
-      TRANSPARENCY.indexOf(app.transparency!),
-      TRANSPARENCY.indexOf(user.transparency!),
-      glassOpacity >= 0.7 ? 1 : 0,
-    )] as Transparency,
-    contrast,
-    motion,
-    scheme: os.schemeDark ? 'dark' : 'light',
-    density: 'regular',
-    glassOpacity,
-    tier: cap.saveData || (cap.deviceMemory !== null && cap.deviceMemory <= 2 && os.coarsePointer)
-      ? 'lightweight' : 'standard',
-    allowContinuous: (user.allowContinuous ?? app.allowContinuous ?? false) && motion === 'full',
+  const t = resolvePaintCore(
+    os.forcedColors, os.contrastMore, os.reducedTransparency, os.reducedMotion, os.schemeDark, os.coarsePointer,
+    cap.backdropFilter, cap.saveData, cap.deviceMemory, app, user,
+  );
+  return {
+    transparency: t[0], contrast: t[1], motion: t[2], scheme: t[3], density: t[4],
+    glassOpacity: t[5], tier: t[6] as DomTier, allowContinuous: t[7],
   };
-  // scheme / density / tier: a valid user value, else a valid app value, else
-  // the signal-derived default above (app first, so a valid user value wins).
-  for (const [k, list] of [['scheme', SCHEMES], ['density', DENSITIES], ['tier', TIERS]] as const) {
-    for (const v of [app[k], user[k]]) if (list.includes(v!)) (r as unknown as Record<string, unknown>)[k] = v;
-  }
-  return r;
 };
 
 /* Per-axis views of resolvePaint (one level per argument). */
