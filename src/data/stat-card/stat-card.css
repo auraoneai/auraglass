@@ -55,8 +55,4 @@
       }
     }
   }
-  /* Forced colors: system text colour, never the intent palette. */
-  @media (forced-colors: active) {
-    .ag-stat-card__delta[data-ag-intent] { color: CanvasText; }
-  }
 }

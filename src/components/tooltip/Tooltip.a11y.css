@@ -1,0 +1,14 @@
+@layer ag.compat, ag.reset, ag.tokens, ag.material, ag.components, ag.a11y;
+
+/* Tooltip.css — @layer ag.a11y (REQ-PLAT-74 pairing): forced-colors /
+   reduced-motion / contrast rules relocated from the components layer so
+   they win without !important (ag.a11y is last). */
+@layer ag.a11y {
+  @media (prefers-reduced-motion: reduce) {
+    .ag-tooltip-popup { transition: opacity var(--ag-duration-small) linear; transform: none; }
+  }
+  @media (forced-colors: active) {
+    .ag-tooltip-popup { border: 1px solid CanvasText; }
+    .ag-tooltip-arrow { background: CanvasText; }
+  }
+}
