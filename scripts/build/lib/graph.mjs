@@ -252,6 +252,21 @@ export function patternEntries(keep, root = ROOT) {
 export const INTERNAL_COMPOSITION_MODULES = [
   'src/ai/sources/SourceList.tsx',
   'src/components/combobox/Combobox.client.tsx',
+  // Modules whose in-repo-only exports are imported cross-module inside src
+  // (color maths, control sizes, container breakpoints, the motion ticker,
+  // generated token tables): without entry status rolldown shakes those
+  // exports from the dist chunk while the d.ts still declares them, which
+  // breaks the dist-backed Storybook build (REQ-QUAL-56) at the first
+  // importing module it reaches.
+  'src/components/color-picker/colors.ts',
+  'src/components/control-shared/size.ts',
+  'src/data/filter-bar/filter-model.ts',
+  'src/date/legacy-bridge.ts',
+  'src/date/useContainerWidth.ts',
+  'src/motion/ticker.ts',
+  'src/motion/tokens.generated.ts',
+  'src/theme/color.ts',
+  'src/tokens/generated/presets.ts',
 ];
 
 /** tsdown entries for INTERNAL_COMPOSITION_MODULES that a shipped (`keep`)
