@@ -1,10 +1,11 @@
 /* marks/{Line,Area,Bar,Donut} — pure svg generators over the plot context;
    server-safe (no directive, no hooks), rendered by the ChartPlot island. */
 import * as React from 'react';
-import { bandScale, linearScale, yExtent } from '../scale';
+import { yExtent } from '../scale';
 import { val, type MarkProps } from './types';
 
-export function Bar<TRow>({ ctx, xKey, w, h, stacked, orientation, yDomain }: MarkProps<TRow>) {
+export function Bar<TRow>({ ctx, scales, xKey, w, h, stacked, orientation, yDomain }: MarkProps<TRow>) {
+  const { bandScale, linearScale } = scales;
   const keys = ctx.data.map((d) => String(ctx.formatX((d as Record<string, unknown>)[xKey])));
   const horizontal = orientation === 'horizontal';
   const bandAxis = bandScale(keys, [0, horizontal ? h : w]);

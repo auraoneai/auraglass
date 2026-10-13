@@ -1,10 +1,11 @@
 /* marks/{Line,Area,Bar,Donut} — pure svg generators over the plot context;
    server-safe (no directive, no hooks), rendered by the ChartPlot island. */
 import * as React from 'react';
-import { areaPath, bandScale, linearScale, yExtent } from '../scale';
+import { yExtent } from '../scale';
 import { val, type MarkProps } from './types';
 
-export function Area<TRow>({ ctx, xKey, w, h, curve = 'linear', stacked, yDomain }: MarkProps<TRow>) {
+export function Area<TRow>({ ctx, scales, xKey, w, h, curve = 'linear', stacked, yDomain }: MarkProps<TRow>) {
+  const { areaPath, bandScale, linearScale } = scales;
   const keys = ctx.data.map((d) => String(ctx.formatX((d as Record<string, unknown>)[xKey])));
   const xs = bandScale(keys, [0, w]);
   const stacks = ctx.data.map((d) => {

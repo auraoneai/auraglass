@@ -35,3 +35,32 @@ export const Keyboard: Story = { render: () => <Chart {...BASE} type="bar" toolt
 export const Announce: Story = { render: () => <Chart {...BASE} data={DATA.slice(0, 2)} type="line" tooltip /> };
 /* REQ-FIN-87: horizontal grid lines behind the marks. */
 export const Grid: Story = { render: () => <Chart {...BASE} type="line" grid /> };
+
+/* Crosshair state: the focus cursor and tooltip parts render only for an
+   active datum, so this story moves the keyboard cursor on mount (the
+   d3 peer load suspends the plot first; observe until the svg lands). */
+function CrosshairChart() {
+  const ref = React.useRef<HTMLDivElement>(null);
+  React.useEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const fire = () => {
+      const svg = root.querySelector('[data-ag-part="chart-plot-svg"]');
+      if (!svg) return false;
+      svg.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+      return true;
+    };
+    if (fire()) return;
+    const mo = new MutationObserver(() => {
+      if (fire()) mo.disconnect();
+    });
+    mo.observe(root, { childList: true, subtree: true });
+    return () => mo.disconnect();
+  }, []);
+  return (
+    <div ref={ref}>
+      <Chart {...BASE} type="line" tooltip />
+    </div>
+  );
+}
+export const Crosshair: Story = { render: () => <CrosshairChart /> };

@@ -1,9 +1,12 @@
 /* Shared mark props + value reader for marks/{Line,Area,Bar,Donut}. */
 import type { ChartContext } from '../../data/chart-frame/types';
+import type { ChartScales } from '../scale';
 import type { ChartCurve } from '../types';
 
 export interface MarkProps<TRow> {
   ctx: ChartContext<TRow>;
+  /** d3-backed scale factories, loaded by ChartPlot (see ../scale). */
+  scales: ChartScales;
   xKey: string;
   w: number;
   h: number;
