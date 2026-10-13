@@ -67,10 +67,10 @@ describe('AuraGlassScript', () => {
   });
 
   it('minified budget: emitted body within the enforced ceiling; REQ-MAT-59 budget is 1536 B', () => {
-    // The ceiling (PREPAINT_LIMIT) only ever goes down; raising the 1536 B
-    // REQ-MAT-59 budget is an owner-approved contract change (D.3-35).
+    // The ceiling (PREPAINT_LIMIT) only ever goes down (shrink the body to
+    // the 1536 B REQ-MAT-59 budget, never raise the budget).
     expect(Buffer.byteLength(PREPAINT_IMPL, 'utf8')).toBeLessThanOrEqual(PREPAINT_LIMIT);
-    expect(PREPAINT_LIMIT).toBeLessThanOrEqual(2304);
+    expect(PREPAINT_LIMIT).toBeLessThanOrEqual(1984);
     expect(PREPAINT_BYTES).toBe(Buffer.byteLength(PREPAINT_IMPL, 'utf8'));
     expect(PREPAINT_SPEC_LIMIT).toBe(1536);
   });
@@ -123,13 +123,13 @@ describe('emitted script fixtures', () => {
 
   it('OS reduced transparency floor -> tinted', () => {
     impl(fakeWindow({
-      media: { '(prefers-reduced-transparency: reduce)': true },
+      media: { '(prefers-reduced-transparency)': true },
     }), doc, {});
     expect(doc.documentElement.getAttribute('data-ag-transparency')).toBe('tinted');
   });
 
   it('forced colors -> solid + more', () => {
-    impl(fakeWindow({ media: { '(forced-colors: active)': true } }), doc, {});
+    impl(fakeWindow({ media: { '(forced-colors)': true } }), doc, {});
     expect(doc.documentElement.getAttribute('data-ag-transparency')).toBe('solid');
     expect(doc.documentElement.getAttribute('data-ag-contrast')).toBe('more');
   });
@@ -208,7 +208,7 @@ describe('emitted script fixtures', () => {
 
   it('reduced motion suppresses continuous', () => {
     impl(fakeWindow({
-      media: { '(prefers-reduced-motion: reduce)': true },
+      media: { '(prefers-reduced-motion)': true },
       storage: { 'ag:prefs:v1': JSON.stringify({ allowContinuous: true }) },
     }), doc, {});
     expect(doc.documentElement.getAttribute('data-ag-continuous')).toBeNull();
@@ -275,17 +275,18 @@ describe('emitted script fixtures', () => {
 /* REQ-FIN-12 / MAT-59: the pre-paint write site gates data-ag-continuous on
    motion === 'full' itself, so a resolver result that pairs allowContinuous
    with a reduced motion axis never reaches <html> (no-flash parity with
-   store.ts). resolvePaint is replaced here to isolate the write site. */
+   store.ts). resolvePaintCore is replaced here to isolate the write site;
+   its tuple is PAINT_KEYS-ordered (tier '' = omit, as the old write rule). */
 describe('prepaint write site: continuous gate', () => {
   type Prepaint = typeof import('../preferences/prepaint').auraGlassPrepaint;
   const run = (paint: { allowContinuous: boolean; motion: 'full' | 'calm' | 'none' }) => {
     let prepaint: Prepaint | undefined;
     jest.isolateModules(() => {
       jest.doMock('../preferences/resolve', () => ({
-        resolvePaint: () => ({
-          transparency: 'glass', contrast: 'standard', scheme: 'light', density: 'regular',
-          glassOpacity: 0, tier: 'standard', ...paint,
-        }),
+        ...(jest.requireActual('../preferences/resolve') as Record<string, unknown>),
+        resolvePaintCore: () => [
+          'glass', 'standard', paint.motion, 'light', 'regular', 0, '', paint.allowContinuous,
+        ],
       }));
       prepaint = (jest.requireActual('../preferences/prepaint') as { auraGlassPrepaint: Prepaint })
         .auraGlassPrepaint;
