@@ -251,6 +251,7 @@
       'top'
       'main';
     grid-template-columns: minmax(0, 1fr);
+    grid-auto-columns: 0px;
     grid-template-rows: auto auto minmax(0, 1fr);
   }
   .ag-app-shell:is([data-ag-layout='mobile'], [data-ag-layout='compact']) [data-ag-slot='tabbar'] {
@@ -272,12 +273,14 @@
   }
   .ag-app-shell:is([data-ag-layout='mobile'], [data-ag-layout='compact']) [data-ag-slot='status'] {
     display: none;
+    grid-area: auto;
   }
   /* SURF-30/31: compact has no inline sidebar or inspector (the drawer and
      Inspector.Sheet take over). */
   .ag-app-shell:is([data-ag-layout='mobile'], [data-ag-layout='compact']) [data-ag-slot='sidebar'],
   .ag-app-shell:is([data-ag-layout='mobile'], [data-ag-layout='compact']) [data-ag-slot='inspector'] {
     display: none;
+    grid-area: auto;
   }
   .ag-app-shell:is([data-ag-layout='mobile'], [data-ag-layout='compact']):has([data-ag-slot='tabbar']) {
     --ag-scroll-padding-bottom: calc(
@@ -672,6 +675,7 @@
         'main'
         'tabbar';
       grid-template-columns: minmax(0, 1fr);
+      grid-auto-columns: 0px;
       grid-template-rows: auto auto minmax(0, 1fr) auto;
     }
     .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='tabbar'] {
@@ -684,10 +688,12 @@
     }
     .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='status'] {
       display: none;
+      grid-area: auto;
     }
     .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='sidebar'],
     .ag-app-shell[data-ag-layout='auto'] [data-ag-slot='inspector'] {
       display: none;
+      grid-area: auto;
     }
     .ag-app-shell .ag-page-header__actions {
       flex-basis: 100%;
