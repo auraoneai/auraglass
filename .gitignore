@@ -197,6 +197,9 @@ tests/visual/**/*.spec.ts-snapshots/
 !/apps/docs/public/
 /apps/docs/public/*
 !/apps/docs/public/components/
+# Brand og/twitter images referenced by app/layout.tsx metadata; regenerated
+# by store-assets/brand/render.mjs (2026-10-18).
+!/apps/docs/public/brand/
 /public/
 /dist-maps.tgz
 /storybook-static/
