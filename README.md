@@ -152,3 +152,34 @@ that imports it.
 - Upgrading from 4.x: `npx aura-glass-cli migrate 4to5` and the [LTS policy](./docs/release/lts-policy.md)
 - [Changelog](./CHANGELOG.md) · [Contributing](./CONTRIBUTING.md) · [Security](./SECURITY.md)
 - [License](./LICENSE)
+
+## SEO pass — 2026-10-20 (docs site)
+
+`apps/docs` completed the portfolio-standard SEO pass. Nothing deployed; all
+absolute URLs derive from `PUBLIC_DOCS_URL` (GitLab Pages placeholder
+`https://auraglass-48859d.gitlab.io/` until OD-12 lands the custom domain —
+`scripts/docs/paths.mjs` is the single switch).
+
+- `apps/docs/app/robots.ts` — explicit Allow groups for 14 named AI crawlers
+  (GPTBot, OAI-SearchBot, ChatGPT-User, ClaudeBot, Claude-Web, anthropic-ai,
+  PerplexityBot, Perplexity-User, Google-Extended, Applebot-Extended,
+  Amazonbot, Meta-ExternalAgent, cohere-ai, CCBot) plus `*`; every group
+  disallows the one real non-page route, `/nav.json` (site chrome JSON).
+  Absolute sitemap reference.
+- `apps/docs/app/sitemap.ts` — exact route bijection: `/` plus every
+  `buildSite` route (184 URLs at pass time) with a build-time drift guard
+  against the committed lastmod table. Trailing-slash URLs match
+  `trailingSlash: true` and the per-page canonicals.
+- `scripts/docs/gen-sitemap-lastmod.mjs` (`npm run docs:sitemap`, `--check`
+  drift guard `docs:sitemap:check`) — git-derived per-route lastmod into
+  `apps/docs/lib/seo/route-lastmod.json`; the check also fails if the route
+  set drifts or the robots policy regresses.
+- Per-page metadata — every page now carries a unique title, an honest
+  derived description (markdown first-paragraph or the page's own fields),
+  a trailing-slash canonical, and OG title/description/url; brand renders
+  (og-1200x630 / twitter-1200x600) inherit from the root layout with
+  `metadataBase` resolving them absolute. Home uses the frozen line
+  "AuraGlass — a liquid-glass design system for React 19".
+- `llms.txt.tmpl` / `llms.txt` — sitemap + robots facts and the
+  placeholder-domain swap-note appended to the Optional section
+  (generated files stay in sync via `npm run docs:llms`).

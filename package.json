@@ -145,6 +145,8 @@
     "prepublish:verify": "npm run build && npm run pack:verify && node scripts/ci/run-next-integration.mjs && node scripts/ci/run-vite-integration.mjs",
     "docs:llms": "node scripts/docs/gen-llms.mjs",
     "docs:llms:check": "node scripts/docs/gen-llms.mjs --check",
+    "docs:sitemap": "node scripts/docs/gen-sitemap-lastmod.mjs",
+    "docs:sitemap:check": "node scripts/docs/gen-sitemap-lastmod.mjs --check",
     "version:packages": "changeset version && node scripts/release/release-notes.mjs",
     "release-notes": "node scripts/release/release-notes.mjs",
     "plat:package:pack": "npm run build --workspace=aura-glass-cli && npm pack --ignore-scripts --workspace=aura-glass-cli",

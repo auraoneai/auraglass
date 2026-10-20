@@ -40,4 +40,8 @@ npm dist-tags today (checked by `verify-release-comms --dist-tags`):
 ## Optional
 
 - [Full reference (components and guides)]({{base}}llms-full.txt)
+- [Sitemap]({{base}}sitemap.xml) — one URL per docs page (exact route bijection with the site's page table)
 - [Docs]({{base}})
+- robots.txt at {{base}}robots.txt: all content is public; /nav.json (site chrome JSON) is disallowed, and the named AI crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Applebot-Extended, CCBot and others) are explicitly allowed.
+
+Domain note: every absolute URL in this file and in the site's canonical/sitemap uses {{base}} — the GitLab Pages placeholder. When owner decision OD-12 lands the custom domain, scripts/docs/paths.mjs is the single switch; `npm run docs:llms` and `npm run docs:sitemap` regenerate every URL. No per-file edits.
