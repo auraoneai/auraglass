@@ -728,15 +728,15 @@
 # A18 owner=plat
 /docs/auraglass-5/prompts/*PLAT*.md @gchahal1982
 # A18 owner=qual
-/docs/auraglass-5/AURAGLASS_QUALITY_SHOWCASE_PRD.md @gchahal1982
+/docs/auraglass-5/auraglass-quality-showcase-prd.md @gchahal1982
 # A18 owner=surf
-/docs/auraglass-5/AURAGLASS_PRODUCT_SURFACES_PRD.md @gchahal1982
+/docs/auraglass-5/auraglass-product-surfaces-prd.md @gchahal1982
 # A18 owner=cmp
-/docs/auraglass-5/AURAGLASS_CORE_COMPONENTS_PRD.md @gchahal1982
+/docs/auraglass-5/auraglass-core-components-prd.md @gchahal1982
 # A18 owner=mat
-/docs/auraglass-5/AURAGLASS_MATERIAL_SYSTEM_PRD.md @gchahal1982
+/docs/auraglass-5/auraglass-material-system-prd.md @gchahal1982
 # A18 owner=plat
-/docs/auraglass-5/AURAGLASS_PLATFORM_RELEASE_PRD.md @gchahal1982
+/docs/auraglass-5/auraglass-platform-release-prd.md @gchahal1982
 # A17 owner=qual
 /apps/docs/content/qual/** @gchahal1982
 # A16 owner=qual
@@ -830,4 +830,4 @@
 # A02 owner=contract
 /src/contracts/** @gchahal1982
 # A01 owner=contract
-/docs/auraglass-5/AURAGLASS_5_CONTRACTS.md @gchahal1982
+/docs/auraglass-5/auraglass-5-contracts.md @gchahal1982

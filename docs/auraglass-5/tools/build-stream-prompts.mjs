@@ -11,7 +11,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
 const STREAMS = {
   MAT: {
-    n: 2, prd: 'AURAGLASS_MATERIAL_SYSTEM_PRD.md', title: 'Material System', prdId: 'PRD-2',
+    n: 2, prd: 'auraglass-material-system-prd.md', title: 'Material System', prdId: 'PRD-2',
     scope: 'MAT owns the token tree and compiler, the material engine (`Surface`, `SurfaceGroup`, `Environment`, `ScrollEdge`, `ConcentricFrame`, tiers, lens maps), the motion system (CSS motion tokens, frame ticker, View Transitions, pointer light, optional `./motion` adapter), the preference model, provider, pre-paint script, portal root, LayerStack, announcer and the accessibility rungs, and the `release/4.x` bridge content of row group H (4.2 experimental `aura-glass/material`, 4.3 `data-ag-preview="v5"` CSS, `compat/tokens.css` alias map). It provides seams S-01..S-06, S-10..S-13 and S-20..S-26 to every other stream.',
     lanes: [
       ['2a-T', 'T', 'TOKENS', 'Tokens and compiler'],
@@ -22,7 +22,7 @@ const STREAMS = {
     ],
   },
   CMP: {
-    n: 3, prd: 'AURAGLASS_CORE_COMPONENTS_PRD.md', title: 'Core Components', prdId: 'PRD-3',
+    n: 3, prd: 'auraglass-core-components-prd.md', title: 'Core Components', prdId: 'PRD-3',
     scope: 'CMP owns the Base UI wrapping pattern (`src/foundation/**`), the six KEEP primitives (`./primitives`), `./icons`, `./forms`, flagships 1-13 (controls) and 15-21 (overlays), the T0 layout/type set and the T2 core, their compat adapters (`src/compat/cmp/**`), deprecation and codemod fragments, the registry block `overlay-flows` and the items `account-menu` and `confirm-dialog`. It provides seams S-30..S-34 to every other stream.',
     lanes: [
       ['3a-F', 'F', 'FOUNDATION', 'Foundation and platform glue'],
@@ -37,7 +37,7 @@ const STREAMS = {
     ],
   },
   QUAL: {
-    n: 5, prd: 'AURAGLASS_QUALITY_SHOWCASE_PRD.md', title: 'Quality, Certification and Showcase', prdId: 'PRD-5',
+    n: 5, prd: 'auraglass-quality-showcase-prd.md', title: 'Quality, Certification and Showcase', prdId: 'PRD-5',
     scope: 'QUAL owns the certification system (8 licensed scenes, lanes L1-L14, the lane runner and `ci/qual.gitlab-ci.yml` lane jobs, pixel/OCR gates, regression baselines, evidence and the `ReleaseVerdict`), the performance harness and budgets runtime half, Storybook (`.storybook/**`, story contract, docs blocks), the Material Lab, the showcases and the GA checklist runner. It provides seams S-40..S-43, S-44 (runtime half), S-48, S-51 and S-55. Its lanes run continuously on whatever has merged, including 4.x code today.',
     lanes: [
       ['5a-Q1', 'Q1', 'CONTRACT_HELPERS', 'Contract conformance and test helpers'],
@@ -90,7 +90,7 @@ const COMMON = (S) => {
 - **CI/CD is GitLab CI only.** No GitHub Actions workflow is used, added or edited by ${S}. Never reference \`publish-npm.yml\`, \`GITHUB_WORKFLOW_REF\`, \`gh run\` or \`actions/*\`; use \`CI_PIPELINE_SOURCE\`, \`CI_COMMIT_BRANCH\`, \`CI_COMMIT_TAG\`, \`id_tokens\`, \`glab\`. ${S}'s own jobs live only in \`ci/${l}.gitlab-ci.yml\` and \`ci/${l}/**\` (names \`${l}:<stage>:<name>\`, each \`extends\` a root template \`.ag-node\`/\`.ag-playwright\`/\`.ag-gpu\`/\`.ag-aws-remote\`, rules on \`$AG_SCOPE\`/\`$AG_LINE\`, no \`merge_request_event\`, cross-stream \`needs\` only to \`CI_JOBS\` names with \`optional: true\`, evidence under \`.artifacts/${l}/\` with \`expire_in\`, no credentials, \`allow_failure: true\` until the job's first green run on \`next\`, then ${S} flips it). Lane-level checks register in \`fragments/lanes/${l}.ts\` and run inside QUAL's \`qual:certify:l*\` jobs. Storybook, Material Lab and docs deploy through PLAT's GitLab Pages job. Because the mirror is one-way, no MR is opened on GitLab: pipelines run on mirrored branch and tag pushes, and the merge rule on GitHub is "the GitLab pipeline for the PR head SHA is \`success\`" (\`node scripts/ci/gitlab-status.mjs --sha <sha>\`; paste the pipeline URL into the PR). Owner decision **OD-8** (replace the org-managed \`mirror-to-gitlab\` GitHub Action with GitLab pull mirroring) is the user's; never touch \`.github/workflows/mirror-to-gitlab.yml\`.
 - **Remote-first (machine policy).** Local runs are limited to \`npm test -- <paths>\`, \`npm run typecheck\`, \`node_modules/.bin/eslint <paths>\` and plain node scripts. Every Playwright, APG, visual, perf, canary and Storybook run happens on GitLab SaaS runners (\`.ag-playwright\`, image \`mcr.microsoft.com/playwright\`) or, for GPU and real-device cells, \`.ag-gpu\` / the gated AWS remote runner (\`.ag-aws-remote\`, \`auraone-remote-run\`). Never start a local browser for certification and never use local Docker.
 - **No fake completion.** Prohibited: mock, placeholder or simulated product behaviour; \`test.skip\`, \`test.fixme\`, \`it.todo\`, \`xit\`, commented-out assertions; lowering any threshold, budget, contrast floor or timeout; updating snapshots or visual baselines to make a test pass; a jsdom assertion standing in for a layout, contrast, blur, motion or frame-time measurement; closing a requirement with a seed, double (\`double-pass\`), stub or committed report; shipping anything from \`contracts/stubs/**\` or \`tests/contract-doubles/**\`. A task that cannot be finished is reported \`BLOCKED\` with the exact command output.
-- **Contract first.** \`docs/auraglass-5/AURAGLASS_5_CONTRACTS.md\` (\`contract-v1.1\`) wins over the PRD and over this prompt. Read-only for ${S}: \`src/contracts/**\`, \`contracts/**\`, \`tests/contract-doubles/**\`, \`src/index.ts\`, \`src/compat/index.ts\`, \`package.json\`, \`package-lock.json\`, \`.gitlab-ci.yml\`, \`eslint.config.js\`, \`jest.config.js\`, \`playwright.config.ts\`, \`legacy/**\` and every path whose first matching row in contract §3.2 is another stream. A missing seam name is an additive contract PR on a \`contract/<topic>\` branch, never an edit of another stream's path and never a wait.
+- **Contract first.** \`docs/auraglass-5/auraglass-5-contracts.md\` (\`contract-v1.1\`) wins over the PRD and over this prompt. Read-only for ${S}: \`src/contracts/**\`, \`contracts/**\`, \`tests/contract-doubles/**\`, \`src/index.ts\`, \`src/compat/index.ts\`, \`package.json\`, \`package-lock.json\`, \`.gitlab-ci.yml\`, \`eslint.config.js\`, \`jest.config.js\`, \`playwright.config.ts\`, \`legacy/**\` and every path whose first matching row in contract §3.2 is another stream. A missing seam name is an additive contract PR on a \`contract/<topic>\` branch, never an edit of another stream's path and never a wait.
 - **Evidence.** Measured on GitLab job artifacts (\`.artifacts/**\`, \`expire_in\`), never committed reports. Visual quality is judged by the L14 human review through QUAL; nothing is committed under \`reports/\`.
 - **LLM features.** The library makes no model calls. Any AI route in a block or example goes through Kiro Prism (\`https://prism.auraone.ai/v1\`), tested against a mocked Prism.`;
 };
@@ -116,7 +116,7 @@ function build(key) {
     const out = [
       `# PROMPT-${cfg.n}${L.id[1]} (${key} lane ${L.label}): ${L.title}`,
       '',
-      `Stream index: \`docs/auraglass-5/prompts/PROMPT_${cfg.n}_${key}.md\` (its "Common rules" are binding here). Source PRD: \`docs/auraglass-5/prd/${cfg.prd}\` (${cfg.prdId}, key ${key}) §20 lane **${L.label}**. Frozen contract: \`docs/auraglass-5/AURAGLASS_5_CONTRACTS.md\` (\`contract-v1.1\`, wins on any conflict). Tasks: \`docs/auraglass-5/tasks/${key}.json\`, field \`lane = "${L.id}"\` (${L.tasks.length} tasks: ${key}-${range(L.tasks.map((t) => t.id))}).`,
+      `Stream index: \`docs/auraglass-5/prompts/PROMPT_${cfg.n}_${key}.md\` (its "Common rules" are binding here). Source PRD: \`docs/auraglass-5/prd/${cfg.prd}\` (${cfg.prdId}, key ${key}) §20 lane **${L.label}**. Frozen contract: \`docs/auraglass-5/auraglass-5-contracts.md\` (\`contract-v1.1\`, wins on any conflict). Tasks: \`docs/auraglass-5/tasks/${key}.json\`, field \`lane = "${L.id}"\` (${L.tasks.length} tasks: ${key}-${range(L.tasks.map((t) => t.id))}).`,
       '',
       `This lane starts on **day 0**, runs at the same time as every other ${key} lane and every other stream, and waits for nothing: its \`depends_on\` edges stay inside this lane, and everything it needs from elsewhere is a frozen contract seam that exists at C0 as a type, seed, double, stub or verbatim file.`,
       '',
@@ -177,7 +177,7 @@ function build(key) {
   const idx = [
     `# PROMPT-${cfg.n} (${key}): ${cfg.title} — stream index`,
     '',
-    `Source PRD: \`docs/auraglass-5/prd/${cfg.prd}\` (${cfg.prdId}, key **${key}**). Binding contract: \`docs/auraglass-5/AURAGLASS_5_CONTRACTS.md\` **contract-v1.1** (frozen 2026-10-06; wins over the PRD on any conflict, contract §1.4). Architecture decisions D-01..D-32 in \`docs/auraglass-5/AURAGLASS_5_TARGET_ARCHITECTURE.md\` stay valid. Task fragment: \`docs/auraglass-5/tasks/${key}.json\` (${key}-001..${key}-${String(tasks.length).padStart(3, '0')}, ${tasks.length} tasks, field \`lane\` selects the prompt). Archived sources are kept in each task's \`source\` field; where every archived task went is in \`archive/v1-19-prd/task-disposition.json\`.`,
+    `Source PRD: \`docs/auraglass-5/prd/${cfg.prd}\` (${cfg.prdId}, key **${key}**). Binding contract: \`docs/auraglass-5/auraglass-5-contracts.md\` **contract-v1.1** (frozen 2026-10-06; wins over the PRD on any conflict, contract §1.4). Architecture decisions D-01..D-32 in \`docs/auraglass-5/auraglass-5-target-architecture.md\` stay valid. Task fragment: \`docs/auraglass-5/tasks/${key}.json\` (${key}-001..${key}-${String(tasks.length).padStart(3, '0')}, ${tasks.length} tasks, field \`lane\` selects the prompt). Archived sources are kept in each task's \`source\` field; where every archived task went is in \`archive/v1-19-prd/task-disposition.json\`.`,
     '',
     cfg.scope,
     '',

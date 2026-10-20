@@ -35,4 +35,4 @@ warning for exactly one labs minor, then is removed.
 Published by PLAT's `plat:publish:npm` tag job only (contract §4.13.7). The tag
 pipeline fails when the labs admission lane is not `pass`. Build (tsdown, one
 `dist/<resident>/` entry per export), pack and trusted-publisher details:
-[`PUBLISHING.md`](./PUBLISHING.md).
+[`publishing.md`](./publishing.md).

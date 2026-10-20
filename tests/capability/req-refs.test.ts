@@ -8,11 +8,11 @@ import { join } from 'node:path';
 const ROOT = join(__dirname, '../..');
 const PRD = join(ROOT, 'docs/auraglass-5/prd');
 const OWNER_FILE: Record<string, string> = {
-  PLAT: 'AURAGLASS_PLATFORM_RELEASE_PRD.md',
-  MAT: 'AURAGLASS_MATERIAL_SYSTEM_PRD.md',
-  CMP: 'AURAGLASS_CORE_COMPONENTS_PRD.md',
-  SURF: 'AURAGLASS_PRODUCT_SURFACES_PRD.md',
-  QUAL: 'AURAGLASS_QUALITY_SHOWCASE_PRD.md',
+  PLAT: 'auraglass-platform-release-prd.md',
+  MAT: 'auraglass-material-system-prd.md',
+  CMP: 'auraglass-core-components-prd.md',
+  SURF: 'auraglass-product-surfaces-prd.md',
+  QUAL: 'auraglass-quality-showcase-prd.md',
 };
 const GAP_WHITELIST = new Set([
   'REQ-SURF-10', 'REQ-SURF-23', 'REQ-SURF-26', 'REQ-SURF-27', 'REQ-SURF-28',

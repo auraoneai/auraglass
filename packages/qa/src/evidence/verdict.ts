@@ -33,7 +33,7 @@ type Check =
   | { kind: 'l14' }
   | { kind: 'external'; owner: string; localGuard?: 'legacy-reports' };
 
-/** contract §6.2, one row per GA item; certification/RELEASE_CHECKLIST.md is the prose of this table (test-checked). */
+/** contract §6.2, one row per GA item; certification/release-checklist.md is the prose of this table (test-checked). */
 export const CHECKLIST: ReadonlyArray<{ id: GaItem; item: string; verifiedBy: string; check: Check }> = [
   { id: 'G-01', item: 'Every lane L1–L12 is pass for every GA subject; no pending, double-pass or pre-existing remains; the evidence verifies (REQ-QUAL-61)', verifiedBy: 'qual:certify:release (lane manifest + evidence verifier)', check: { kind: 'all-lanes' } },
   { id: 'G-02', item: 'Zero @ag-contract-seed markers in src/; zero data-ag-seed, story-only or banned attributes in dist/; the tarball has no contracts/, tests/, fragments/ or stubs', verifiedBy: 'L1, L2', check: { kind: 'lanes', lanes: ['L1', 'L2'] } },

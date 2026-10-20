@@ -36,5 +36,5 @@ Everything derives from committed repo sources (nothing invented):
   twitter images into `apps/docs/public/brand/` (root layout metadata
   references them; see `apps/docs/app/layout.tsx`).
 
-Evidence sheet: `EVIDENCE-2026-10-18.md` (before/after, sizes, hashes,
+Evidence sheet: `evidence-2026-10-18.md` (before/after, sizes, hashes,
 verification).

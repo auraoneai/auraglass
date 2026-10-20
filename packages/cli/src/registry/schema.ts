@@ -1,6 +1,6 @@
 /** Vendored shadcn v4 registry-item schema + `meta.auraglass` extension (PLAT-306).
  *  REQ-PLAT-87: runtime validation is BOTH the vendored draft-07 schema
- *  (schema/registry-item.json, sha-pinned in schema/SOURCE.md) via the
+ *  (schema/registry-item.json, sha-pinned in schema/source.md) via the
  *  dependency-free validator, AND the zod schema below for meta.auraglass. */
 import fs from 'node:fs';
 import { createRequire } from 'node:module';

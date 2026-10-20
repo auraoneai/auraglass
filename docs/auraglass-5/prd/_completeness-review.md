@@ -6,7 +6,7 @@ Reviewed 2026-10-07 against `contract-v1.1`. Scope: everything under `docs/aurag
 
 | Check | Result | How verified |
 |---|---|---|
-| Exactly 5 PRDs + contract | PASS | `prd/` holds PLAT, MAT, CMP, SURF, QUAL; `AURAGLASS_5_CONTRACTS.md` present |
+| Exactly 5 PRDs + contract | PASS | `prd/` holds PLAT, MAT, CMP, SURF, QUAL; `auraglass-5-contracts.md` present |
 | 22 sections per PRD | PASS | each PRD has `## 1.`..`## 22.` (Problem … Open items) plus Appendix A |
 | No PRD/stream waits for another | PASS after fixes | `rg` for after/once/until/wait/blocked/prerequisite/wave/depends on PRD over PRDs, prompts, tasks, master, contract; 30 hits rewritten (below). Remaining "until X merges" text reports `pending`, which is the contract's non-blocking state |
 | Prompt prerequisites = contract only | PASS after fixes | 13 hand-written lane prompts already said "None except the frozen contract"; added `## Prerequisites` to the 25 generated prompts (generator change) and to `PROMPT_1_PLAT.md` and `PROMPT_4_SURF.md`. 38/38 now carry it |
@@ -31,7 +31,7 @@ Docs and tools:
 
 - `tools/build-stream-prompts.mjs`: emits a `## Prerequisites` section (contract only) in every MAT/CMP/QUAL index and lane prompt.
 - `prompts/PROMPT_1_PLAT.md`, `prompts/PROMPT_4_SURF.md`: same section added.
-- `AURAGLASS_5_MASTER_PRD.md` §5: legend stating that two-digit `PRD-00`..`PRD-21`, `SC-NN` and old group keys inside task provenance are archived ids, not dependencies, and that the archived 19-file numbering differs from the architecture §16 numbering.
+- `auraglass-5-master-prd.md` §5: legend stating that two-digit `PRD-00`..`PRD-21`, `SC-NN` and old group keys inside task provenance are archived ids, not dependencies, and that the archived 19-file numbering differs from the architecture §16 numbering.
 
 ## Remaining gaps (not fixed)
 

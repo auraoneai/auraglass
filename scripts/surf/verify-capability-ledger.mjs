@@ -51,11 +51,11 @@ const TOTAL_CEILING = 250;
 
 const STREAMS = ['PLAT', 'MAT', 'CMP', 'SURF', 'QUAL'];
 const OWNER_FILE = {
-  PLAT: 'AURAGLASS_PLATFORM_RELEASE_PRD.md',
-  MAT: 'AURAGLASS_MATERIAL_SYSTEM_PRD.md',
-  CMP: 'AURAGLASS_CORE_COMPONENTS_PRD.md',
-  SURF: 'AURAGLASS_PRODUCT_SURFACES_PRD.md',
-  QUAL: 'AURAGLASS_QUALITY_SHOWCASE_PRD.md',
+  PLAT: 'auraglass-platform-release-prd.md',
+  MAT: 'auraglass-material-system-prd.md',
+  CMP: 'auraglass-core-components-prd.md',
+  SURF: 'auraglass-product-surfaces-prd.md',
+  QUAL: 'auraglass-quality-showcase-prd.md',
 };
 // REQ-SURF-186 gap rows: owner file has no requirement for these yet — a
 // 'planned' row may cite one of these ledger-side REQ-SURF ids instead.

@@ -24,7 +24,7 @@ const force = process.argv.includes('--force');
 const GROUPS = { DS: 'MAT', MAT: 'MAT', MOT: 'MAT', A11Y: 'MAT', FND: 'CMP', CTL: 'CMP', OVL: 'CMP', QA: 'QUAL', SB: 'QUAL', PERF: 'QUAL' };
 const OTHER_GROUPS = { TRUST: 'PLAT', REL: 'PLAT', PKG: 'PLAT', DX: 'PLAT', NAV: 'SURF', DATA: 'SURF', AI: 'SURF', MED: 'SURF', EXP: 'SURF' };
 const PRD_ID = { PLAT: 'PRD-1', MAT: 'PRD-2', CMP: 'PRD-3', SURF: 'PRD-4', QUAL: 'PRD-5' };
-const PRD_FILE = { MAT: 'AURAGLASS_MATERIAL_SYSTEM_PRD.md', CMP: 'AURAGLASS_CORE_COMPONENTS_PRD.md', QUAL: 'AURAGLASS_QUALITY_SHOWCASE_PRD.md' };
+const PRD_FILE = { MAT: 'auraglass-material-system-prd.md', CMP: 'auraglass-core-components-prd.md', QUAL: 'auraglass-quality-showcase-prd.md' };
 const TARGETS = ['MAT', 'CMP', 'QUAL'];
 const head = new Set(execFileSync('git', ['ls-files', '--', 'src', 'tests', 'scripts', '.storybook', 'docs/*.md', 'docs/*/*.md', 'canaries', 'certification', 'stories'], { cwd: repo, encoding: 'utf8', maxBuffer: 1 << 28 }).split('\n'));
 const headDirs = new Set([...head].flatMap((f) => f.split('/').slice(0, -1).map((_, i, a) => a.slice(0, i + 1).join('/') + '/')));
@@ -68,7 +68,7 @@ const LANES = {
     lane('5g-Q7', ['.storybook/**', 'tsconfig.storybook.json', 'scripts/storybook/**', 'stories/qual/**', 'tests/storybook/**', 'scripts/qual/lint-stories*', 'tests/lint/qual/story-rules*', 'tests/e2e/qual/storybook/**', 'vitest.storybook.config.ts']),
     lane('5f-Q6', ['tests/perf/**', 'packages/qa/src/perf/**', 'scripts/qual/{verify-css-perf,verify-dist-perf}*', 'scripts/qual/stylelint-perf/**', 'lint/rules/qual/**', 'tests/lint/qual/{perf,layer,raf,no-global}*', 'fragments/perf-budgets/qual.ts', 'certification/calibration.json', 'docs/certification/real-device-matrix.md', 'tests/{e2e,visual}/qual/perf/**']),
     lane('5e-Q5', ['certification/lanes/{behaviour,ssr-hydration,overlay-stacking,motion,canaries}.spec.ts', 'certification/ratchets.json', 'scripts/qual/lint-tests*', 'tests/lint/qual/no-vacuous*']),
-    lane('5d-Q4', ['certification/baselines/**', 'certification/lanes/regression.spec.ts', 'packages/qa/src/evidence/**', 'certification/{exemptions,console-allowlist,quarantine}.json', 'certification/RELEASE_CHECKLIST.md', 'certification/review/**']),
+    lane('5d-Q4', ['certification/baselines/**', 'certification/lanes/regression.spec.ts', 'packages/qa/src/evidence/**', 'certification/{exemptions,console-allowlist,quarantine}.json', 'certification/release-checklist.md', 'certification/review/**']),
     lane('5c-Q3', ['certification/scenes/**', 'packages/qa/src/{pixel,ocr,inspect}/**', 'packages/qa/fixtures/**', 'certification/lanes/{environment-visual,preference-modes,console,engine,known-failures}.spec.ts', 'certification/thresholds.json']),
     lane('5b-Q2', ['certification/**', 'ci/qual*', 'ci/qual/**', 'packages/qa/src/{resolve,inventory,matrix}/**', 'fragments/**', 'jest*', 'playwright*', '__mocks__/**']),
   ],
@@ -342,7 +342,7 @@ const consumed = new Map();
 for (const k of ['PLAT', 'SURF']) for (const t of JSON.parse(readFileSync(join(root, 'tasks', `${k}.json`), 'utf8'))) for (const s of String(t.source ?? '').match(/[A-Z][A-Z0-9]*-\d{3}/g) ?? []) consumed.set(s, [...(consumed.get(s) ?? []), t.id]);
 
 const disposition = {};
-for (const g of Object.keys(OTHER_GROUPS)) for (const t of archived[g]) disposition[t.id] = consumed.has(t.id) ? `carried by ${consumed.get(t.id).join(', ')}` : `not carried: consolidated or dropped by the ${OTHER_GROUPS[g]} re-key (see ${OTHER_GROUPS[g] === 'PLAT' ? 'AURAGLASS_PLATFORM_RELEASE_PRD' : 'AURAGLASS_PRODUCT_SURFACES_PRD'} Appendix A)`;
+for (const g of Object.keys(OTHER_GROUPS)) for (const t of archived[g]) disposition[t.id] = consumed.has(t.id) ? `carried by ${consumed.get(t.id).join(', ')}` : `not carried: consolidated or dropped by the ${OTHER_GROUPS[g]} re-key (see ${OTHER_GROUPS[g] === 'PLAT' ? 'auraglass-platform-release-prd' : 'auraglass-product-surfaces-prd'} Appendix A)`;
 const drafts = [];
 for (const g of Object.keys(GROUPS)) {
   for (const t of archived[g]) {

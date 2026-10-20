@@ -32,12 +32,12 @@ const FORBIDDEN_CONTENT = [
 // Explicit list of contract/PRD files describing the migration (allowed to
 // name the old system), per REQ-FIN-21.
 const MIGRATION_DOCS = new Set([
-  'docs/auraglass-5/AURAGLASS_5_CONTRACTS.md',
+  'docs/auraglass-5/auraglass-5-contracts.md',
   'docs/auraglass-5/AURAGLASS_5_IMPLEMENTATION_TASKLIST.csv',
   'docs/auraglass-5/AURAGLASS_5_IMPLEMENTATION_TASKLIST.md',
-  'docs/auraglass-5/AURAGLASS_5_MASTER_PRD.md',
-  'docs/auraglass-5/AURAGLASS_CURRENT_STATE_AUTOPSY.md',
-  'docs/auraglass-5/prd/AURAGLASS_PLATFORM_RELEASE_PRD.md',
+  'docs/auraglass-5/auraglass-5-master-prd.md',
+  'docs/auraglass-5/auraglass-current-state-autopsy.md',
+  'docs/auraglass-5/prd/auraglass-platform-release-prd.md',
   'docs/auraglass-5/prd/_completeness-review.md',
   'docs/auraglass-5/prompts/PROMPT_2_MAT.md',
   'docs/auraglass-5/prompts/PROMPT_3_CMP.md',
@@ -53,14 +53,14 @@ const MIGRATION_DOCS = new Set([
   'docs/auraglass-5/autopsy/inventory/shard-27.json',
   'docs/auraglass-5/autopsy/qa-certification.md',
   'docs/auraglass-5/component-inventory.json',
-  'docs/auraglass-5/prd/AURAGLASS_QUALITY_SHOWCASE_PRD.md',
+  'docs/auraglass-5/prd/auraglass-quality-showcase-prd.md',
   'docs/auraglass-5/tasks/SURF.json',
   // Final-completion (FIN) planning docs and audit ledgers quote the REQ-FIN-21
   // token set and the pre-migration GHA findings they close.
   'docs/auraglass-5/implementation-audit/ag-audit-PLAT.md',
   'docs/auraglass-5/implementation-audit/fin-full-ledger.json',
   'docs/auraglass-5/implementation-audit/fin-open-ledger.json',
-  'docs/auraglass-5/prd/AURAGLASS_5_FINAL_COMPLETION_PRD.md',
+  'docs/auraglass-5/prd/auraglass-5-final-completion-prd.md',
   'docs/auraglass-5/prompts/PROMPT_FINAL_COMPLETION.md',
   'docs/auraglass-5/prompts/PROMPT_FINAL_COMPLETION_V2.md',
   'docs/auraglass-5/tasks/FIN.json',

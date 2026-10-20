@@ -13,7 +13,7 @@
     "dist",
     "schema",
     "audit",
-    "PUBLISHING.md"
+    "publishing.md"
   ],
   "sideEffects": false,
   "scripts": {

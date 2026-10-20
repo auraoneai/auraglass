@@ -152,8 +152,8 @@ describe('aura-glass-labs publishing (REQ-PLAT-12 / -15 labs clauses)', () => {
     expect(() => execFileSync(process.execPath, [guard], { env, stdio: 'pipe' })).toThrow();
   });
 
-  it('PUBLISHING.md records the trusted publisher fields and names no npm token variable', () => {
-    const t = readFileSync(join(LABS, 'PUBLISHING.md'), 'utf8');
+  it('publishing.md records the trusted publisher fields and names no npm token variable', () => {
+    const t = readFileSync(join(LABS, 'publishing.md'), 'utf8');
     for (const field of ['chahal-foundation-group/github-auraoneai', '`auraglass`', '`.gitlab-ci.yml`', '`npm-publish`',
       'docs/release/trusted-publishers.md', 'scripts/ci/require-ci-publish.js', 'plat:publish:npm', 'aura-glass-labs']) {
       expect({ field, present: t.includes(field) }).toEqual({ field, present: true });

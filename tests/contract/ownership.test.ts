@@ -24,7 +24,7 @@ describe('contract:ownership.json', () => {
   });
 
   it('holds the fixed contract rows', () => {
-    expect(ownerOf('docs/auraglass-5/AURAGLASS_5_CONTRACTS.md')?.owner).toBe('CONTRACT');
+    expect(ownerOf('docs/auraglass-5/auraglass-5-contracts.md')?.owner).toBe('CONTRACT');
     expect(ownerOf('src/contracts/material.ts')?.owner).toBe('CONTRACT');
     expect(ownerOf('.gitlab-ci.yml')?.owner).toBe('PLAT');
     expect(ownerOf('ci/mat.gitlab-ci.yml')?.owner).toBe('MAT');

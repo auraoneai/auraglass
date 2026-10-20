@@ -62,8 +62,8 @@ describe('ReleaseVerdict shape (S-55)', () => {
     expect(v.ga).toBe(false);
     expect(verdictProblems({ ...v, ga: true })).toContain('ga is true while an item is not pass');
   });
-  it('CHECKLIST mirrors certification/RELEASE_CHECKLIST.md (one row per item, same ids)', () => {
-    const md = readFileSync(join(REPO, 'certification/RELEASE_CHECKLIST.md'), 'utf8');
+  it('CHECKLIST mirrors certification/release-checklist.md (one row per item, same ids)', () => {
+    const md = readFileSync(join(REPO, 'certification/release-checklist.md'), 'utf8');
     const rows = [...md.matchAll(/^\| (G-\d{2}) \|/gm)].map((m) => m[1]);
     expect(rows).toEqual(CHECKLIST.map((c) => c.id));
     expect(CHECKLIST.map((c) => c.id)).toEqual([...GA_ITEMS]);

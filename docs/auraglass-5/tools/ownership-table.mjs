@@ -1,4 +1,4 @@
-// Planning copy of the ordered file-ownership table in AURAGLASS_5_CONTRACTS.md §3.2
+// Planning copy of the ordered file-ownership table in auraglass-5-contracts.md §3.2
 // (first match wins, picomatch syntax, dot: true). The C0 machine form is
 // contracts/ownership.json; this module exists so the planning tools in this directory
 // (build-tasklist.mjs, relocate-archived-paths.mjs) can check task fragments today.
@@ -18,7 +18,7 @@ const D02_KINDS_DIRECT = '{a11y/apg,a11y/manual/scripts,perf/browser,visual,e2e,
 
 /** @type {[string, string | string[], string][]} [row, globs, owner] */
 const ROWS = [
-  ['A01', 'docs/auraglass-5/AURAGLASS_5_CONTRACTS.md', 'CONTRACT'],
+  ['A01', 'docs/auraglass-5/auraglass-5-contracts.md', 'CONTRACT'],
   ['A02', 'src/contracts/**', 'CONTRACT'],
   ['A03', 'contracts/**', 'CONTRACT'],
   ['A04', 'tests/contract-doubles/**', 'CONTRACT'],
@@ -33,11 +33,11 @@ const ROWS = [
   ...STREAMS.map((s) => ['A15', `lint/rules/${s}/**`, S(s)]),
   ...STREAMS.map((s) => ['A16', `stories/${s}/**`, S(s)]),
   ...STREAMS.map((s) => ['A17', `apps/docs/content/${s}/**`, S(s)]),
-  ['A18', 'docs/auraglass-5/prd/AURAGLASS_PLATFORM_RELEASE_PRD.md', 'PLAT'],
-  ['A18', 'docs/auraglass-5/prd/AURAGLASS_MATERIAL_SYSTEM_PRD.md', 'MAT'],
-  ['A18', 'docs/auraglass-5/prd/AURAGLASS_CORE_COMPONENTS_PRD.md', 'CMP'],
-  ['A18', 'docs/auraglass-5/prd/AURAGLASS_PRODUCT_SURFACES_PRD.md', 'SURF'],
-  ['A18', 'docs/auraglass-5/prd/AURAGLASS_QUALITY_SHOWCASE_PRD.md', 'QUAL'],
+  ['A18', 'docs/auraglass-5/prd/auraglass-platform-release-prd.md', 'PLAT'],
+  ['A18', 'docs/auraglass-5/prd/auraglass-material-system-prd.md', 'MAT'],
+  ['A18', 'docs/auraglass-5/prd/auraglass-core-components-prd.md', 'CMP'],
+  ['A18', 'docs/auraglass-5/prd/auraglass-product-surfaces-prd.md', 'SURF'],
+  ['A18', 'docs/auraglass-5/prd/auraglass-quality-showcase-prd.md', 'QUAL'],
   ...['PLAT', 'MAT', 'CMP', 'SURF', 'QUAL'].map((k) => ['A18', `docs/auraglass-5/tasks/${k}.json`, k]),
   ['A19', '.gitlab-ci.yml', 'PLAT'],
   ...STREAMS.map((s) => ['A20', [`ci/${s}.gitlab-ci.yml`, `ci/${s}/**`], S(s)]),

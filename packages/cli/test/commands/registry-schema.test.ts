@@ -8,9 +8,9 @@ import { registryItemSchema, validateVendoredRegistryItem } from '../../src/regi
 const schemaPath = path.join(process.cwd(), 'schema', 'registry-item.json');
 
 describe('vendored registry-item schema', () => {
-  it('sha256 matches schema/SOURCE.md', () => {
+  it('sha256 matches schema/source.md', () => {
     const sha = createHash('sha256').update(fs.readFileSync(schemaPath)).digest('hex');
-    const src = fs.readFileSync(path.join(process.cwd(), 'schema', 'SOURCE.md'), 'utf8');
+    const src = fs.readFileSync(path.join(process.cwd(), 'schema', 'source.md'), 'utf8');
     const m = src.match(/sha256:\s*([0-9a-f]{64})/);
     expect(m).not.toBeNull();
     expect(sha).toBe(m![1]);

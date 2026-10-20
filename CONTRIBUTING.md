@@ -85,7 +85,7 @@ Use the repository pull request template and leave unchecked any gate that was n
 
 Release claims must be backed by checked-in evidence, not README text alone. The current records are:
 
-- [CHANGELOG.md](./CHANGELOG.md) and [RELEASE_NOTES_5.0.0.md](./RELEASE_NOTES_5.0.0.md) for the shipped 5.0.x line
+- [CHANGELOG.md](./CHANGELOG.md) and [release-notes-5.0.0.md](./release-notes-5.0.0.md) for the shipped 5.0.x line
 - [docs/release/](./docs/release/) for the breaking-change register, LTS policy, and release decisions
 - [docs/release-rollback-deprecation.md](./docs/release-rollback-deprecation.md) for dist-tag rollback and deprecation procedure
 - Pre-5.0 release notes and program records were deleted in the 5.0 GA cleanup (2026-10-13)

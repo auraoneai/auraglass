@@ -55,10 +55,10 @@ describe('publishing docs', () => {
     expect(t).toMatch(/## First publish of a name that does not exist on npm yet/);
   });
 
-  it('every PLAT-published workspace package has a PUBLISHING.md with the publisher fields', () => {
+  it('every PLAT-published workspace package has a publishing.md with the publisher fields', () => {
     for (const [name, p] of Object.entries(contract.packages as Record<string, any>)) {
       if (p.published !== true || p.owner !== 'PLAT' || p.dir === '.') continue;
-      const f = join(p.dir, 'PUBLISHING.md');
+      const f = join(p.dir, 'publishing.md');
       expect({ name, exists: existsSync(f) }).toEqual({ name, exists: true });
       const t = readFileSync(f, 'utf8');
       for (const field of ['chahal-foundation-group/github-auraoneai', '`auraglass`', '`.gitlab-ci.yml`', '`npm-publish`', 'docs/release/trusted-publishers.md']) {

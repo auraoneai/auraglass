@@ -17,7 +17,7 @@ and does not fill in `decidedBy`, `decidedAt` or `evidence`.
 ## Carried decision
 
 This decision is carried over from the master PRD
-(`docs/auraglass-5/AURAGLASS_5_MASTER_PRD.md` §13.1, row OD-6). The text there reads:
+(`docs/auraglass-5/auraglass-5-master-prd.md` §13.1, row OD-6). The text there reads:
 
 > **Button API break.** 4.x `primary/secondary/ghost/danger` → `prominent` /
 > `variant="regular"` / `variant="identity"` / `intent="danger"` (contract

@@ -13,7 +13,7 @@ const MASKABLE = [
 ] as const;
 
 function contractBlock(): string {
-  const doc = 'docs/auraglass-5/AURAGLASS_5_CONTRACTS.md';
+  const doc = 'docs/auraglass-5/auraglass-5-contracts.md';
   if (!existsSync(doc)) return ''; // contract ships on the next line only
   const md = readFileSync(doc, 'utf8');
   const i = md.indexOf('#### 4.13.3');

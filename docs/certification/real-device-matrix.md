@@ -125,5 +125,5 @@ At most one, mid-tier Android only, ≤33 ms, signed by the signer above.
 ## References
 
 - PRD-F (AuraGlass 5 final completion PRD) REQ-FIN-112, AC-FIN-112.
-- REQ-QUAL-48 (`docs/auraglass-5/prd/AURAGLASS_QUALITY_SHOWCASE_PRD.md`).
+- REQ-QUAL-48 (`docs/auraglass-5/prd/auraglass-quality-showcase-prd.md`).
 - Showcase ids: REQ-QUAL-58, same PRD, §5.9.

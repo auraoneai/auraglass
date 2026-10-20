@@ -38,7 +38,7 @@ for (const n of ['1', '2', '3', '4', '5']) {
 }
 
 // Re-point references elsewhere in the planning set.
-for (const f of ['AURAGLASS_5_MASTER_PRD.md', 'README.md']) {
+for (const f of ['auraglass-5-master-prd.md', 'README.md']) {
   const p = join(root, f);
   writeFileSync(p, relink(readFileSync(p, 'utf8')));
 }

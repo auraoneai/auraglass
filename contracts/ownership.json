@@ -76,7 +76,7 @@
  "rows": [
   {
    "id": "A01",
-   "glob": "docs/auraglass-5/AURAGLASS_5_CONTRACTS.md",
+   "glob": "docs/auraglass-5/auraglass-5-contracts.md",
    "owner": "CONTRACT"
   },
   {
@@ -312,27 +312,27 @@
   },
   {
    "id": "A18",
-   "glob": "docs/auraglass-5/AURAGLASS_PLATFORM_RELEASE_PRD.md",
+   "glob": "docs/auraglass-5/auraglass-platform-release-prd.md",
    "owner": "PLAT"
   },
   {
    "id": "A18",
-   "glob": "docs/auraglass-5/AURAGLASS_MATERIAL_SYSTEM_PRD.md",
+   "glob": "docs/auraglass-5/auraglass-material-system-prd.md",
    "owner": "MAT"
   },
   {
    "id": "A18",
-   "glob": "docs/auraglass-5/AURAGLASS_CORE_COMPONENTS_PRD.md",
+   "glob": "docs/auraglass-5/auraglass-core-components-prd.md",
    "owner": "CMP"
   },
   {
    "id": "A18",
-   "glob": "docs/auraglass-5/AURAGLASS_PRODUCT_SURFACES_PRD.md",
+   "glob": "docs/auraglass-5/auraglass-product-surfaces-prd.md",
    "owner": "SURF"
   },
   {
    "id": "A18",
-   "glob": "docs/auraglass-5/AURAGLASS_QUALITY_SHOWCASE_PRD.md",
+   "glob": "docs/auraglass-5/auraglass-quality-showcase-prd.md",
    "owner": "QUAL"
   },
   {

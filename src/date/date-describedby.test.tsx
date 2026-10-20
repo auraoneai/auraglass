@@ -1,5 +1,5 @@
 /* REQ-CMP-57: date fields expose aria-describedby in description-then-error
-   order (RAC-owned slots — see CONTRACT-AMENDMENT.md). */
+   order (RAC-owned slots — see contract-amendment.md). */
 import { describe, expect, it } from '@jest/globals';
 import '@testing-library/jest-dom/jest-globals';
 import * as React from 'react';

@@ -17,7 +17,7 @@ this decision and does not fill in `decidedBy`, `decidedAt` or `evidence`.
 ## Carried decision
 
 This decision is carried over from the master PRD
-(`docs/auraglass-5/AURAGLASS_5_MASTER_PRD.md` §13.1, row OD-1). The text there reads:
+(`docs/auraglass-5/auraglass-5-master-prd.md` §13.1, row OD-1). The text there reads:
 
 > **Aeonik font licence.** Is there a written licence to redistribute Aeonik in an
 > MIT tarball? — Needed by 2026-10-12 — Default: Remove the fonts from the tarball;

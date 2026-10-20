@@ -36,6 +36,6 @@ const ruleFunction = (primary) => (root, result) => {
 
 ruleFunction.ruleName = ruleName;
 ruleFunction.messages = messages;
-ruleFunction.meta = { url: 'https://github.com/auraoneai/auraglass/blob/next/docs/auraglass-5/prd/AURAGLASS_QUALITY_SHOWCASE_PRD.md' };
+ruleFunction.meta = { url: 'https://github.com/auraoneai/auraglass/blob/next/docs/auraglass-5/prd/auraglass-quality-showcase-prd.md' };
 
 export default stylelint.createPlugin(ruleName, ruleFunction);

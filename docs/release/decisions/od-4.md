@@ -17,7 +17,7 @@ and does not fill in `decidedBy`, `decidedAt` or `evidence`.
 ## Carried decision
 
 This decision is carried over from the master PRD
-(`docs/auraglass-5/AURAGLASS_5_MASTER_PRD.md` §13.1, row OD-4). The text there reads:
+(`docs/auraglass-5/auraglass-5-master-prd.md` §13.1, row OD-4). The text there reads:
 
 > **History rewrite.** Confirm that git history is **not** rewritten. `reports/`
 > (47,342 files, 2.95 GB tree) leaves the tree in 4.1.1 but stays in history;

@@ -17,7 +17,7 @@ and does not fill in `decidedBy`, `decidedAt` or `evidence`.
 ## Carried decision
 
 This decision is carried over from the master PRD
-(`docs/auraglass-5/AURAGLASS_5_MASTER_PRD.md` §13.1, row OD-3). The text there reads:
+(`docs/auraglass-5/auraglass-5-master-prd.md` §13.1, row OD-3). The text there reads:
 
 > **Base UI sign-off.** Product sign-off on reversing the 4.x "no third-party
 > primitives" stance and pinning `@base-ui/react` exactly — Needed before

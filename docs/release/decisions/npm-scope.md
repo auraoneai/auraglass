@@ -37,4 +37,4 @@ path fails closed (`scripts/ci/require-ci-publish.js`).
 ## Where consumed
 
 `packages/cli/src/meta.ts` `PACKAGE_NAME`; `packages/*/package.json` `name`;
-`PUBLISHING.md` files; `docs/release/trusted-publishers.md` rows.
+`publishing.md` files; `docs/release/trusted-publishers.md` rows.

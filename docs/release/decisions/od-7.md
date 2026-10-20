@@ -17,7 +17,7 @@ this decision and does not fill in `decidedBy`, `decidedAt` or `evidence`.
 ## Carried decision
 
 This decision is carried over from the master PRD
-(`docs/auraglass-5/AURAGLASS_5_MASTER_PRD.md` §13.1, row OD-7). The text there reads:
+(`docs/auraglass-5/auraglass-5-master-prd.md` §13.1, row OD-7). The text there reads:
 
 > **4.1.1 scope split** (3 items accepted into 4.1.1, 5 deferred to 4.2) —
 > Needed by 4.1.1 — Default: As written in PLAT §5 — Blocks: PLAT 1b-4X —
@@ -26,7 +26,7 @@ This decision is carried over from the master PRD
 ## Question
 
 Do you confirm the 4.1.1 scope split exactly as the Platform & Release PRD
-§5 defines it (`docs/auraglass-5/prd/AURAGLASS_PLATFORM_RELEASE_PRD.md`)?
+§5 defines it (`docs/auraglass-5/prd/auraglass-platform-release-prd.md`)?
 
 ## Options
 

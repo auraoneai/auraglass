@@ -1,6 +1,6 @@
 /* REQ-QUAL-48 real-device matrix (REQ-FIN-105, FIN-447).
    Targets, subjects and budgets for `qual:certify:devices`. The numbers here are
-   the PRD gate (REQ-QUAL-48, AURAGLASS_QUALITY_SHOWCASE_PRD §8 "Real devices"),
+   the PRD gate (REQ-QUAL-48, auraglass-quality-showcase-prd.md §8 "Real devices"),
    not measurements; measurements are only ever written by a real run. */
 
 /** Lane id recorded in every resource tag and in the results file. */

@@ -8,7 +8,7 @@
   "files": [
     "r",
     "index.json",
-    "PUBLISHING.md"
+    "publishing.md"
   ],
   "exports": {
     "./index.json": "./index.json",
