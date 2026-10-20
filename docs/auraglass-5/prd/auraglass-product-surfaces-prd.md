@@ -5,9 +5,9 @@
 | PRD id | **PRD-4** |
 | Key | **SURF** (path key `surf`; requirement prefix `REQ-SURF-NN`, acceptance prefix `AC-SURF-NN`, task ids `SURF-NNN` in `docs/auraglass-5/tasks/SURF.json`) |
 | Status | Shipped in AuraGlass 5.0.0 GA (2026-10-13; `aura-glass@5.0.1` is npm `latest`). Kept as spec record |
-| Contract | `docs/auraglass-5/AURAGLASS_5_CONTRACTS.md` **contract-v1.1** (frozen 2026-10-06). The contract wins over this PRD on any conflict (contract §1.4) |
+| Contract | `docs/auraglass-5/auraglass-5-contracts.md` **contract-v1.1** (frozen 2026-10-06). The contract wins over this PRD on any conflict (contract §1.4) |
 | Scope | Flagships **14** (`./date`) and **22–44**; the entries `./app-shell`, `./data`, `./date`, `./ai`, `./media`, `./backdrops`, `./three`, `./charts` (5.1); the root-exported SURF flagships (`Tabs`, `TabBar`, `Breadcrumbs`, `Pagination`, `CommandPalette`, `Command`, `SourceTransition`, `Timeline`, `ActivityFeed`); `Chip` and `KeyValueEditor` (moved from archived FND T2 into `./data` by the contract); `@auraglass/labs`; the SURF registry blocks and items (contract §3.3); the capability ledger |
-| Sources (archived, consolidated here) | `archive/v1-19-prd/prd/AURAGLASS_APP_SHELL_NAVIGATION_PRD.md` (NAV, 84 REQs), `AURAGLASS_DATA_PRD.md` (DATA, 60), `AURAGLASS_AI_PRD.md` (AI, 65), `AURAGLASS_MEDIA_BACKDROPS_PRD.md` (MED, 75), `AURAGLASS_COMPONENT_EXPANSION_PRD.md` (EXP, 40); plus archived `AURAGLASS_COMPONENT_REMEDIATION_PRD.md` §4.5 rows 3 (`Chip`) and 19 (`KeyValueEditor`) and archived DX tasks DX-079, DX-080, DX-085 (blocks `mobile-settings`, `support-inbox`, item `schema-viewer`, moved to SURF by contract §3.3). Evidence: `AURAGLASS_CURRENT_STATE_AUTOPSY.md`, `AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md`, `AURAGLASS_MISSING_CAPABILITY_MAP.md`, `autopsy/**`, `component-inventory.json` |
+| Sources (archived, consolidated here) | `archive/v1-19-prd/prd/AURAGLASS_APP_SHELL_NAVIGATION_PRD.md` (NAV, 84 REQs), `AURAGLASS_DATA_PRD.md` (DATA, 60), `AURAGLASS_AI_PRD.md` (AI, 65), `AURAGLASS_MEDIA_BACKDROPS_PRD.md` (MED, 75), `AURAGLASS_COMPONENT_EXPANSION_PRD.md` (EXP, 40); plus archived `AURAGLASS_COMPONENT_REMEDIATION_PRD.md` §4.5 rows 3 (`Chip`) and 19 (`KeyValueEditor`) and archived DX tasks DX-079, DX-080, DX-085 (blocks `mobile-settings`, `support-inbox`, item `schema-viewer`, moved to SURF by contract §3.3). Evidence: `auraglass-current-state-autopsy.md`, `auraglass-competitive-gap-analysis.md`, `auraglass-missing-capability-map.md`, `autopsy/**`, `component-inventory.json` |
 | REQ mapping | 324 archived REQs → 196 `REQ-SURF` requirements. Full old → new table and the deliberately dropped list: **Appendix A** |
 | Decisions consumed | Architecture D-02, D-04, D-05, D-06, D-07, D-08, D-09, D-11, D-12, D-13, D-14, D-15, D-16, D-17, D-18, D-19, D-20, D-21, D-22, D-24, D-25, D-26, D-27, D-29, D-30, D-32, errata E-01..E-11. Contract seams consumed: S-01..S-06, S-10..S-13, S-20..S-26, S-30..S-34, S-35..S-39, S-40..S-48, S-49, S-50..S-55 (§19) |
 | CI/CD | GitLab CI only, in `gitlab.com/chahal-foundation-group/github-auraoneai/auraglass` (project 87152036). SURF owns `ci/surf.gitlab-ci.yml` and `ci/surf/**` (contract row A20). No GitHub Actions workflow is used or added by this PRD |
@@ -461,7 +461,7 @@ These are exactly SURF's rows of contract §3.2 and §3.3; SURF creates, edits o
 | A15 | `lint/rules/surf/**` | `no-network-in-ai.cjs`, `no-simulation.cjs`, `_strict.cjs` |
 | A16 | `stories/surf/**` | docs-only stories and MDX (capability roadmap, migration guides prose) |
 | A17 | `apps/docs/content/surf/**` | hand-written guides (`migration/date.md`, `migration/data-table.md`, `migration/charts.md`, `migration/app-shell.md`, `migration/ai.md`, `migration/media.md`, chart adapter guide, "Routing models through Kiro Prism") |
-| A18 | `docs/auraglass-5/prd/AURAGLASS_PRODUCT_SURFACES_PRD.md`, `prompts/surf/**`, `docs/auraglass-5/tasks/SURF.json` | this PRD, prompts, task fragment |
+| A18 | `docs/auraglass-5/prd/auraglass-product-surfaces-prd.md`, `prompts/surf/**`, `docs/auraglass-5/tasks/SURF.json` | this PRD, prompts, task fragment |
 | A20 | `ci/surf.gitlab-ci.yml`, `ci/surf/**` | SURF CI fragment and helpers (both branches) |
 | B20a | `docs/auraglass-5/capability-ledger.json`, `docs/auraglass-5/capability-ledger.schema.json` | ledger |
 | B22a | `etc/api/{app-shell,data,date,ai,media,backdrops,three,charts}.{api.md,exports.json,css-api.json}`, `etc/api/root.surf.api.md`, `etc/api/compat.surf.api.md` | API reports via `npm run api:update -- --entry <entry>` |
@@ -803,7 +803,7 @@ Each is measured on the release SHA from GitLab job artifacts (`.artifacts/**`, 
 
 ## 19. Dependencies (contract seams only)
 
-SURF depends on no other PRD and no other stream's task. Everything it consumes is a frozen seam of `AURAGLASS_5_CONTRACTS.md`, present from C0 as a type, seed, double, pre-declared file or fragment kind.
+SURF depends on no other PRD and no other stream's task. Everything it consumes is a frozen seam of `auraglass-5-contracts.md`, present from C0 as a type, seed, double, pre-declared file or fragment kind.
 
 | Seam | What SURF consumes | Day-0 form SURF codes against |
 |---|---|---|

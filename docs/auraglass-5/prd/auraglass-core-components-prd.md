@@ -5,12 +5,12 @@
 | PRD id | **PRD-3** |
 | Key | **CMP** (path key `cmp`; tasks `CMP-NNN`; requirements `REQ-CMP-NN`; acceptance `AC-CMP-NN`; deprecation ids `DEP-C####`) |
 | Status | Shipped in AuraGlass 5.0.0 GA (2026-10-13; `aura-glass@5.0.1` is npm `latest`). Kept as spec record |
-| Contract | `docs/auraglass-5/AURAGLASS_5_CONTRACTS.md` **contract-v1.1** is binding. Where this PRD and the contract disagree, the contract wins (§1.4) and this PRD is corrected |
+| Contract | `docs/auraglass-5/auraglass-5-contracts.md` **contract-v1.1** is binding. Where this PRD and the contract disagree, the contract wins (§1.4) and this PRD is corrected |
 | Baseline | `aura-glass` 4.1.0 (`15b6de6f7`; current `main` HEAD `e8d20a51a` adds only the GitLab mirror workflow, so all source evidence still holds) |
 | Branch / worktree | `next-cmp/<topic>` cut from `next`, worktree `../AuraGlass.wt/cmp/`. On `release/4.x` CMP uses `4x-cmp/<topic>` **only** for `fragments/deprecations/cmp.ts` and `tests/fixtures/consumer-4x/cases/cmp/**` (§2.4) |
 | CI/CD | GitLab CI only, in `gitlab.com/chahal-foundation-group/github-auraoneai/auraglass` (project 87152036). CMP owns `ci/cmp.gitlab-ci.yml` and `ci/cmp/**` (row A20). No GitHub Actions workflow is created, edited or depended on |
 | Sources (archived, consolidated here) | `archive/v1-19-prd/prd/AURAGLASS_COMPONENT_REMEDIATION_PRD.md` (**FND**: REQ-FND-01..57, except removal and extraction execution, which moves to PLAT under contract §7.1 R-01); `AURAGLASS_FLAGSHIP_CONTROLS_PRD.md` (**CTL**: REQ-CTL-01..177, except flagship 14, which moves to SURF); `AURAGLASS_FLAGSHIP_OVERLAYS_PRD.md` (**OVL**: REQ-OVL-01..79, except the 4.x line edits, which move to PLAT under §2.4.1). The full old → new mapping is Appendix A |
-| Evidence | `AURAGLASS_CURRENT_STATE_AUTOPSY.md`, `AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md`, `AURAGLASS_MISSING_CAPABILITY_MAP.md`, `autopsy/{accessibility,api-consistency,material-engine,motion,performance,runtime-remote,visual-quality}.md`, `component-inventory.json` |
+| Evidence | `auraglass-current-state-autopsy.md`, `auraglass-competitive-gap-analysis.md`, `auraglass-missing-capability-map.md`, `autopsy/{accessibility,api-consistency,material-engine,motion,performance,runtime-remote,visual-quality}.md`, `component-inventory.json` |
 | Decisions consumed | D-02 (React `^19`, ref as prop), D-04/D-05 (tiers; `refraction` opt-in), D-06 (variant union), D-07 (thickness), D-08 (content materials), D-09 (no production downgrade), D-11 (OS floors), D-12 (`clear` fallback), D-13 (Base UI foundation, exact pin), D-14 (drop `Glass` prefix; `compat`), D-15 (root ≤160 values, 44 flagships), D-17 (registry, no legacy package), D-18 (one `compat` entry), D-20 (banned attributes), D-24 (CSS layers, zero `!important`), D-25 (motion in CSS; `motion` optional peer), D-26 (budgets set first, calibrate once, ratchet down), D-27 (change classes), D-29 (dependency allowlist), D-32 (evidence as CI artifacts, human visual review) |
 | Seams provided | S-30 (prop grammar and CMP component contracts), S-31 (`ComponentMeta`, `defineMeta`), S-32 (`toChangeDetails`, `renderElement`), S-33 (part grammar), S-34 (KEEP primitives) |
 | Seams consumed | S-01..S-06, S-10..S-13, S-20..S-26, S-35, S-37..S-53 (§19) |
@@ -423,7 +423,7 @@ CMP writes only these paths. Every other path is reached through §4 seams and i
 | A15 | `lint/rules/cmp/**` | `no-forward-ref.cjs`, `no-overlay-global-listeners.cjs`, `prop-grammar.cjs`, `_strict.cjs` |
 | A16 | `stories/cmp/**` | docs-only stories (Foundations overview, migration before/after for CMP families) |
 | A17 | `apps/docs/content/cmp/**` | hand-written guides (choosing an overlay, field patterns, Base UI composition) |
-| A18 | `prompts/cmp/**`, `tasks/CMP.json`; this PRD (contract A18 names `docs/auraglass-5/AURAGLASS_CORE_COMPONENTS_PRD.md`, while the file lives at `docs/auraglass-5/prd/`; until CC-CMP-05 aligns the glob, Z01 makes this file PLAT-owned and CMP edits it only in a contract PR) | this PRD, prompts, task fragment |
+| A18 | `prompts/cmp/**`, `tasks/CMP.json`; this PRD (contract A18 names `docs/auraglass-5/auraglass-core-components-prd.md`, while the file lives at `docs/auraglass-5/prd/`; until CC-CMP-05 aligns the glob, Z01 makes this file PLAT-owned and CMP edits it only in a contract PR) | this PRD, prompts, task fragment |
 | A20 | `ci/cmp.gitlab-ci.yml`, `ci/cmp/**` (both branches) | CI fragment (REQ-CMP-141) |
 | B22a | `etc/api/{primitives,icons,forms}.{api.md,exports.json,css-api.json}`, `etc/api/root.cmp.api.md`, `etc/api/compat.cmp.api.md` | API reports |
 | B23a | `canaries/next16/app/cmp/**`, `canaries/vite/src/cmp/**`, `canaries/<app>/fixtures/cmp/**` | server page, client page, compiler page |

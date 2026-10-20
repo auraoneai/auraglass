@@ -5,16 +5,16 @@
 | Contract version | `contract-v1.2` (additive bundle FIN-463, items C-1..C-17, effective only after owner decision OD-16 is recorded; v1.1 frozen 2026-10-06 was the pre-C0 amendment for GitLab CI/CD and the adversarial-review fixes, §8) |
 | CI/CD | **GitLab CI only** (Gurbaksh's instruction, 2026-10-06). No GitHub Actions workflow is used for build, test, certification, deploy or publish. Pipelines run in the mirror project `gitlab.com/chahal-foundation-group/github-auraoneai/auraglass` (project id 87152036); `github.com/auraoneai/auraglass` stays the git source of truth and the place where PRs are opened and merged (§4.13) |
 | Replaces | Architecture §16 decomposition and execution waves; `archive/v1-19-prd/prd/_shared-contracts.md` (SC-01..SC-40) as the ownership authority. SC rows are reused below where they still hold and are cited as `(was SC-nn)` |
-| Still binding | Architecture decisions D-01..D-32 and §3–§15 of `AURAGLASS_5_TARGET_ARCHITECTURE.md`, plus errata E-01..E-11 (archived `_shared-contracts.md` §J) |
+| Still binding | Architecture decisions D-01..D-32 and §3–§15 of `auraglass-5-target-architecture.md`, plus errata E-01..E-11 (archived `_shared-contracts.md` §J) |
 | Streams | 5 PRDs, all starting on day 0, none waiting on another (table below) |
 
 | Key | Path key | PRD file | Absorbs (archived keys) | Scope in one line |
 |---|---|---|---|---|
-| PLAT | `plat` | `AURAGLASS_PLATFORM_RELEASE_PRD.md` | TRUST, REL, PKG, DX, plus FND removal and extraction execution | the whole `release/4.x` line, build, exports, packaging, gates, change class, compat entry, codemod engine, CLI, registry, docs site, removals |
-| MAT | `mat` | `AURAGLASS_MATERIAL_SYSTEM_PRD.md` | DS, MAT, MOT, A11Y | tokens and compiler, `src/material/**`, tiers and lens, motion, preference store, provider, script, portal root, LayerStack, a11y rungs |
-| CMP | `cmp` | `AURAGLASS_CORE_COMPONENTS_PRD.md` | FND (foundation pattern, primitives, T0/T2 core), CTL, OVL | Base UI wrapping pattern, KEEP primitives, flagships 1–13 and 15–21, T2 core, icons |
-| SURF | `surf` | `AURAGLASS_PRODUCT_SURFACES_PRD.md` | NAV, DATA, AI, MED, EXP | flagships 14 and 22–44, the `./app-shell`, `./data`, `./date`, `./ai`, `./media`, `./backdrops`, `./charts` entries, labs, area registry blocks |
-| QUAL | `qual` | `AURAGLASS_QUALITY_SHOWCASE_PRD.md` | QA, SB, PERF | certification lanes L1–L14, scenes, perf harness, Storybook and Material Lab harness, showcases, test helpers, contract-conformance tests |
+| PLAT | `plat` | `auraglass-platform-release-prd.md` | TRUST, REL, PKG, DX, plus FND removal and extraction execution | the whole `release/4.x` line, build, exports, packaging, gates, change class, compat entry, codemod engine, CLI, registry, docs site, removals |
+| MAT | `mat` | `auraglass-material-system-prd.md` | DS, MAT, MOT, A11Y | tokens and compiler, `src/material/**`, tiers and lens, motion, preference store, provider, script, portal root, LayerStack, a11y rungs |
+| CMP | `cmp` | `auraglass-core-components-prd.md` | FND (foundation pattern, primitives, T0/T2 core), CTL, OVL | Base UI wrapping pattern, KEEP primitives, flagships 1–13 and 15–21, T2 core, icons |
+| SURF | `surf` | `auraglass-product-surfaces-prd.md` | NAV, DATA, AI, MED, EXP | flagships 14 and 22–44, the `./app-shell`, `./data`, `./date`, `./ai`, `./media`, `./backdrops`, `./charts` entries, labs, area registry blocks |
+| QUAL | `qual` | `auraglass-quality-showcase-prd.md` | QA, SB, PERF | certification lanes L1–L14, scenes, perf harness, Storybook and Material Lab harness, showcases, test helpers, contract-conformance tests |
 
 Flagship 14 (`./date`) moves from CTL to SURF because it ships from a SURF-owned entry. That is the only change to the archived flagship split.
 
@@ -155,7 +155,7 @@ Everything else under `src/` and `tests/` at C0 is legacy. That includes all 498
 
 | # | Glob | Owner | Notes |
 |---|---|---|---|
-| A01 | `docs/auraglass-5/AURAGLASS_5_CONTRACTS.md` | CONTRACT | this file |
+| A01 | `docs/auraglass-5/auraglass-5-contracts.md` | CONTRACT | this file |
 | A02 | `src/contracts/**` | CONTRACT | seam types and loader (§4.2–§4.9) |
 | A03 | `contracts/**` | CONTRACT | `ownership.json`, `legacy-ownership.json`, `schemas/**`, `stubs/**` |
 | A04 | `tests/contract-doubles/**` | CONTRACT | test doubles (§5) |
@@ -172,7 +172,7 @@ Everything else under `src/` and `tests/` at C0 is legacy. That includes all 498
 | A15 | `lint/rules/<stream>/**` | that stream | auto-discovered lint rules (§4.11) |
 | A16 | `stories/<stream>/**` | that stream | docs-only stories and MDX |
 | A17 | `apps/docs/content/<stream>/**` | that stream | hand-written guides (for example MAT's "Choosing a material") |
-| A18 | `docs/auraglass-5/AURAGLASS_PLATFORM_RELEASE_PRD.md` · `…MATERIAL_SYSTEM_PRD.md` · `…CORE_COMPONENTS_PRD.md` · `…PRODUCT_SURFACES_PRD.md` · `…QUALITY_SHOWCASE_PRD.md` (and `prompts/<stream>/**`, `tasks/<KEY>.json`) | PLAT · MAT · CMP · SURF · QUAL | each stream owns its own PRD, prompt and task fragment |
+| A18 | `docs/auraglass-5/auraglass-platform-release-prd.md` · `…MATERIAL_SYSTEM_PRD.md` · `…CORE_COMPONENTS_PRD.md` · `…PRODUCT_SURFACES_PRD.md` · `…QUALITY_SHOWCASE_PRD.md` (and `prompts/<stream>/**`, `tasks/<KEY>.json`) | PLAT · MAT · CMP · SURF · QUAL | each stream owns its own PRD, prompt and task fragment |
 | A19 | `.gitlab-ci.yml` | PLAT | root pipeline, verbatim (§4.13.3). PLAT may change only the image and `AG_NPM_VERSION` values in `variables`, and `AG_PAGES_BRANCH`/`AG_V4_DIST_TAG` at GA; anything else is a contract PR |
 | A20 | `ci/<stream>.gitlab-ci.yml`, `ci/<stream>/**` | that stream (on both branches) | the stream's CI fragment and its helper files, included by the root through `include: local: 'ci/*.gitlab-ci.yml'` (§4.13.4). This is the CI ownership seam |
 
@@ -262,7 +262,7 @@ Everything else under `src/` and `tests/` at C0 is legacy. That includes all 498
 | F05 | `registry/{blocks,items}/<id>/**` | per §3.3 table | each item directory carries its own `registry-item.json` |
 | F06 | `registry/**` | PLAT | `registry/base/**`, `registry/registry.json` *gen*, schema, build, lint |
 | F07 | `showcase/**` | QUAL | compositions import SURF/CMP registry blocks (§5.3) |
-| F08 | `certification/**` | QUAL | lanes, scenes, runner, review, thresholds, `RELEASE_CHECKLIST.md` |
+| F08 | `certification/**` | QUAL | lanes, scenes, runner, review, thresholds, `release-checklist.md` |
 | F09 | `tokens/**` | MAT | DTCG sources (was SC-18) |
 
 **H. Bridge content on `release/4.x` (MAT on both branches)**
@@ -2042,7 +2042,7 @@ QUAL's `showcase/<id>/` files import the SURF-owned block sources in `registry/b
 - **Pre-releases.** `5.0.0-alpha.N`, `-beta.N` and `-rc.N` are cut by PLAT on a fixed train from `next`, as is. A pre-release never waits for a stream.
 - **Calibration** (D-26) happens at the first pre-release where Button and Dialog have no seed: QUAL's L10 and L2 artifacts drive the single `perf-budget-raise` PR, and **each stream applies its own fragment rows** in that PR window. This is an event triggered by state, not a dependency. If Button lands before Dialog, calibration runs for Button first.
 
-### 6.2 GA checklist (`certification/RELEASE_CHECKLIST.md`, QUAL-owned, run by the GitLab job `qual:certify:release` on the GA candidate tag, which writes `ReleaseVerdict`)
+### 6.2 GA checklist (`certification/release-checklist.md`, QUAL-owned, run by the GitLab job `qual:certify:release` on the GA candidate tag, which writes `ReleaseVerdict`)
 
 GA is promoted only when every item is true on one SHA of `next`. No item is a dependency between PRDs; each one is a property of the release.
 

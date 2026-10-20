@@ -2,7 +2,7 @@
 
 Status: **canonical synthesis**. Date: 2026-10-06. Baseline: `aura-glass` 4.1.0 (`15b6de6f7`).
 
-Inputs: `architecture/proposal-material-first.md` (base, judged winner 2 of 3), `architecture/proposal-product-first.md`, `architecture/proposal-migration-first.md` (judged winner 1 of 3 on executability), the three judge reports (grafts and conflicts), and the verified summaries `AURAGLASS_CURRENT_STATE_AUTOPSY.md`, `AURAGLASS_COMPETITIVE_GAP_ANALYSIS.md`, `AURAGLASS_MISSING_CAPABILITY_MAP.md`. Finding IDs (`MATERIAL-ENGINE-01` …) refer to the verified autopsy versions. `MOTION-*`, `HISTORY-HYGIENE-*` and `SERVER-SERVICES-AI-*` IDs follow the crosswalk at the top of the autopsy summary. `P1`–`P14` are the Liquid Glass web principles in gap analysis §3, and gate names come from gap analysis §4.2.
+Inputs: `architecture/proposal-material-first.md` (base, judged winner 2 of 3), `architecture/proposal-product-first.md`, `architecture/proposal-migration-first.md` (judged winner 1 of 3 on executability), the three judge reports (grafts and conflicts), and the verified summaries `auraglass-current-state-autopsy.md`, `auraglass-competitive-gap-analysis.md`, `auraglass-missing-capability-map.md`. Finding IDs (`MATERIAL-ENGINE-01` …) refer to the verified autopsy versions. `MOTION-*`, `HISTORY-HYGIENE-*` and `SERVER-SERVICES-AI-*` IDs follow the crosswalk at the top of the autopsy summary. `P1`–`P14` are the Liquid Glass web principles in gap analysis §3, and gate names come from gap analysis §4.2.
 
 Where the proposals disagree with the verified summaries, the summaries win. The corrected figures are: KEEP **8**, POLISH 46, CONSOLIDATE 158, REDESIGN 70, REPLACE 24, DEPRECATE 26, REMOVE **145** (477 component records plus 3 note records). There are **705 `forwardRef` occurrences in 282 non-test files**, not 450. React 19 **deprecates** `element.ref` with a warning; it has not removed it. A one-`GlassButton` root import costs **about 2.0–2.2 MB minified** (PERFORMANCE-01), not "449 KB gzip". The near-white certification shots number **327–330/356**, not 345. 24 records carry `flagship_candidate`. `framer-motion ^11.18.2` is a **hard dependency** today and is also a `>=10` peer.
 
@@ -918,14 +918,14 @@ Evidence is a CI artifact keyed to the release SHA, with retention, linked from 
 
 | Key | PRD (`docs/auraglass-5/prd/`) | Owns (former §16 boundaries) |
 |---|---|---|
-| PLAT | [`AURAGLASS_PLATFORM_RELEASE_PRD.md`](prd/AURAGLASS_PLATFORM_RELEASE_PRD.md) | PRD-00 trust patch, PRD-01 release governance, PRD-02 build and packaging, PRD-16 removal and extraction, PRD-17 bridge (4.x code; MAT supplies the bridge content), PRD-18 CLI, codemod engine and registry, PRD-20 docs and agent DX; GitLab CI/CD and publishing |
-| MAT | [`AURAGLASS_MATERIAL_SYSTEM_PRD.md`](prd/AURAGLASS_MATERIAL_SYSTEM_PRD.md) | PRD-03 token compiler, PRD-04 material engine, PRD-05 a11y and preferences, PRD-06 motion, PRD-15 enhanced tier |
-| CMP | [`AURAGLASS_CORE_COMPONENTS_PRD.md`](prd/AURAGLASS_CORE_COMPONENTS_PRD.md) | PRD-07 foundation integration, PRD-08 flagship controls (1–13), PRD-09 flagship overlays (15–21), PRD-14 core components |
-| SURF | [`AURAGLASS_PRODUCT_SURFACES_PRD.md`](prd/AURAGLASS_PRODUCT_SURFACES_PRD.md) | PRD-10 app shell and navigation, PRD-11 data and date (incl. flagship 14), PRD-12 AI primitives, PRD-13 media and backdrops, PRD-21 labs |
-| QUAL | [`AURAGLASS_QUALITY_SHOWCASE_PRD.md`](prd/AURAGLASS_QUALITY_SHOWCASE_PRD.md) | PRD-19 certification infrastructure, plus Storybook, Material Lab, showcases and the perf harness |
-| — | [`AURAGLASS_5_CONTRACTS.md`](AURAGLASS_5_CONTRACTS.md) (`contract-v1.1`, frozen) | file ownership, seam interfaces, seeds, fragments, branch model (`release/4.x` and `next` in parallel), GitLab CI/CD, GA checklist |
+| PLAT | [`auraglass-platform-release-prd.md`](prd/auraglass-platform-release-prd.md) | PRD-00 trust patch, PRD-01 release governance, PRD-02 build and packaging, PRD-16 removal and extraction, PRD-17 bridge (4.x code; MAT supplies the bridge content), PRD-18 CLI, codemod engine and registry, PRD-20 docs and agent DX; GitLab CI/CD and publishing |
+| MAT | [`auraglass-material-system-prd.md`](prd/auraglass-material-system-prd.md) | PRD-03 token compiler, PRD-04 material engine, PRD-05 a11y and preferences, PRD-06 motion, PRD-15 enhanced tier |
+| CMP | [`auraglass-core-components-prd.md`](prd/auraglass-core-components-prd.md) | PRD-07 foundation integration, PRD-08 flagship controls (1–13), PRD-09 flagship overlays (15–21), PRD-14 core components |
+| SURF | [`auraglass-product-surfaces-prd.md`](prd/auraglass-product-surfaces-prd.md) | PRD-10 app shell and navigation, PRD-11 data and date (incl. flagship 14), PRD-12 AI primitives, PRD-13 media and backdrops, PRD-21 labs |
+| QUAL | [`auraglass-quality-showcase-prd.md`](prd/auraglass-quality-showcase-prd.md) | PRD-19 certification infrastructure, plus Storybook, Material Lab, showcases and the perf harness |
+| — | [`auraglass-5-contracts.md`](auraglass-5-contracts.md) (`contract-v1.1`, frozen) | file ownership, seam interfaces, seeds, fragments, branch model (`release/4.x` and `next` in parallel), GitLab CI/CD, GA checklist |
 
-Execution order: none between PRDs. All five streams, and all their internal lanes, start on day 0; integration is continuous and GA is the contract §6.2 checklist. Program view: [`AURAGLASS_5_MASTER_PRD.md`](AURAGLASS_5_MASTER_PRD.md) §5.
+Execution order: none between PRDs. All five streams, and all their internal lanes, start on day 0; integration is continuous and GA is the contract §6.2 checklist. Program view: [`auraglass-5-master-prd.md`](auraglass-5-master-prd.md) §5.
 
 ---
 

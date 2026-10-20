@@ -1,5 +1,15 @@
 # AuraGlass 5 GA checklist (contract §6.2, REQ-QUAL-63)
 
+**2026-10-20 truth-audit status** (portfolio-wide truth audit; master record: `platforms/platforms-portfolio-status.md`)
+
+- **Overall feature score: 8.5/10** (judged as a design-system library, not a SaaS app) — Core 9 · Data 7 · Integrations 7 · UI/SEO 9 · Deploy-readiness 10.
+- **Built state (verified from disk/git):** branch `main`, HEAD `ec538e8` (2026-10-20, docs-site SEO pass), pushed; 1 unrelated dirty generated file (`src/tokens/generated/manifest.ts`, token-count drift — regenerate-and-commit or checkout; not part of this pass). **`aura-glass` 5.0.2 LIVE on npm** (`latest`; 4.1.0 on `v4-lts`; all <5.0 deprecated) + `aura-glass-cli` + `aura-glass-mcp` + registry; 114 components / 15 registry blocks; Next.js docs site serving at `auraglass.auraone.ai` with robots AI-crawler policy, git-derived sitemap, per-page canonicals; README/llms.txt claims are release-verified (component counts, tarball size, dist-tags). 690 test files under src/tests; full suite green at the 5.0.2 release.
+- **Top-3 blockers to 10/10 (maintenance-level, nothing blocks "live"):**
+  1. Resolve the dirty generated token manifest (regenerate + commit, or checkout).
+  2. Continue component/coverage growth toward Radix/shadcn parity (missing primitives tracked in `docs/auraglass-5/auraglass-missing-capability-map.md`).
+  3. Keep the visual-matrix + certification gates green on each release; keep `verify-release-comms --dist-tags` banner current.
+- **2026-10-20 doc rename pass:** 22 live renames to lowercase-kebab (release-notes-5.0.0; certification/release-checklist; docs/auraglass-5 master PRD, target architecture, contracts, autopsy/gap/missing-capability analyses, 6 PRDs incl. final-completion; packages/{cli,labs,mcp,registry} publishing; packages/cli/schema/source; src/date/contract-amendment; store-assets/brand/evidence-2026-10-18; tests/a11y mat template). Flagged refs updated across contracts/ownership.json globs, .github/CODEOWNERS, tests (req-refs, no-github-ci, root-pipeline, publishing-docs, release-verdict, registry-schema, labs, date-describedby), scripts (verify-capability-ledger, qual/*), docs index/decisions, auraglass-5 tools. **Owner-call (skipped):** ~150 ALL-CAPS files under `docs/auraglass-5/archive/v1-19-prd/` left untouched (delete-vs-rename decision); archive link `archive/v1-19-prd/AURAGLASS_5_MASTER_PRD.md` intentionally kept old-cased to match the archived file.
+
 QUAL-owned. GA is promoted only when every item below is `pass` on one SHA of `next`. The release job
 `qual:certify:release` (tag pipeline, `AG_LINE == 5x`) runs every lane at release scope and then writes the
 ReleaseVerdict (S-55, `.artifacts/qual/release-verdict.json`) with
