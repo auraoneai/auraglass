@@ -26,5 +26,7 @@ jobs:
           git remote add gitlab "${{ secrets.GITLAB_MIRROR_URL }}"
           # Prune pass first; if a protected/default ref blocks pruning, fall
           # back to a plain push so content still syncs (prune retried next run).
-          git push gitlab --force --all --prune || git push gitlab --force --all
+          # Always pass -o ci.skip on branch mirror pushes so mirror syncs do not
+          # trigger unsolicited GitLab pipelines; explicit tag releases push below.
+          git push -o ci.skip gitlab --force --all --prune || git push -o ci.skip gitlab --force --all
           git push gitlab --force --tags
