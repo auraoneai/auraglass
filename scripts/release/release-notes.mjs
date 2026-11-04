@@ -37,9 +37,32 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '../..');
 export const HEADINGS = ['Breaking', 'Deprecated', 'Added', 'Fixed', 'Visual bug fixes', 'Security'];
 /** Output of `verify-capability-ledger.mjs --report release-notes --out`. */
 export const NEW_CAPABILITY_REL = '.artifacts/surf/ledger/new-capability.md';
-export const DEP_FLOORS = [
-  'date-fns', 'chart.js', 'react-chartjs-2', 'zod', 'framer-motion', 'tailwind-merge',
-];
+
+/** Dependency floors named in Breaking. Source: the `deps` table of the codemod
+ *  fragments (`fragments/codemods/*.ts`, the same rows the `deps` transform in
+ *  packages/cli/src/migrate/4to5/transforms/deps.ts applies): every package a
+ *  row marks for removal (`when` matches /remove/i, as the transform does),
+ *  once, in stream/row order, minus packages the 5.x root package.json still
+ *  lists as a peer (those stay supported, e.g. `motion`). Pure. */
+export function depFloorsFrom(codemodFragments = [], rootPkg = null) {
+  const peers = new Set(Object.keys(rootPkg?.peerDependencies ?? {}));
+  const out = [];
+  for (const { value } of codemodFragments) {
+    for (const row of value?.deps ?? []) {
+      if (typeof row?.pkg !== 'string' || !/remove/i.test(row.when ?? '')) continue;
+      if (peers.has(row.pkg) || out.includes(row.pkg)) continue;
+      out.push(row.pkg);
+    }
+  }
+  return out;
+}
+
+export async function loadDepFloors(root = ROOT) {
+  const { loadFragments } = await import('../../src/contracts/load-fragments.mjs');
+  const pkgPath = join(root, 'package.json');
+  const rootPkg = existsSync(pkgPath) ? JSON.parse(readFileSync(pkgPath, 'utf8')) : null;
+  return depFloorsFrom(await loadFragments('codemods', root), rootPkg);
+}
 
 export function claimsNumbers(text) {
   // A claims file declares numbers as `name: value` under a `## Numbers`
@@ -128,12 +151,16 @@ const depSubject = (d) => [d.kind, d.entry, d.symbol ?? d.component ?? d.prop ??
 
 export function renderNotes({ version = '5.0.0', claims = {}, breakingRegister = null,
   changesets = [], commitSubjects = [], changeClass = null, deprecations = [],
-  visualFixes = [], newCapability = null } = {}) {
+  visualFixes = [], newCapability = null, depFloors = [] } = {}) {
   const lines = [`# aura-glass ${version} release notes`, ''];
   lines.push('## Breaking', '');
-  lines.push('### Dependency floors — handled by the `deps` codemod', '');
-  for (const d of DEP_FLOORS) lines.push(`- \`${d}\` floor updated (run \`npx aura-glass-cli migrate 4to5 --transform deps\`).`);
-  lines.push('');
+  // Dependency floors claims land FIRST inside Breaking; the list comes from
+  // loadDepFloors() (codemod `deps` table), never from a literal here.
+  if (depFloors.length) {
+    lines.push('### Dependency floors — handled by the `deps` codemod', '');
+    for (const d of depFloors) lines.push(`- \`${d}\` floor updated (run \`npx aura-glass-cli migrate 4to5 --transform deps\`).`);
+    lines.push('');
+  }
   const items = breakingRegister?.items ?? breakingRegister?.changes ?? [];
   for (const b of items) lines.push(`- **B${String(b.id).replace(/^B/, '')}: ${b.title}** — ${b.affected ?? ''}`);
   for (const s of commitsToSections(commitSubjects).Breaking) lines.push(s);
@@ -161,7 +188,7 @@ export function renderNotes({ version = '5.0.0', claims = {}, breakingRegister =
   if (secs.Deprecated.length) lines.push('');
   lines.push('## Added', '');
   lines.push('- `aura-glass/compat` adapters for every deprecated component export.');
-  lines.push('- `@auraglass/cli` with `migrate 4to5` (codemod transforms; see the removal train).');
+  lines.push('- `aura-glass-cli` with `migrate 4to5` (codemod transforms; see the removal train).');
   for (const s of secs.Added) lines.push(s);
   for (const cs of changesets.filter((c) => c.bumps.length))
     lines.push(`- ${cs.body.split('\n')[0]} (.changeset/${cs.file})`);
@@ -519,7 +546,17 @@ export async function main(argv = process.argv.slice(2), { root = ROOT, env = pr
       console.error(`release-notes: ${NEW_CAPABILITY_REL} not found; the New capability section is omitted`);
     }
     const { loadEntries } = await import('./gen-deprecations.mjs');
-    text = renderNotes({ version, claims: loadClaims(claimsDir), breakingRegister,
+    const depFloors = await loadDepFloors(root);
+    if (!depFloors.length) {
+      // Same rule as the New capability seam: the tag pipeline of this tag
+      // requires the source; anywhere else the notes say it is not available.
+      if (tag && env.CI_COMMIT_TAG === tag) {
+        console.error('FAIL release-notes: no dependency floors derived from the fragments/codemods deps table');
+        return 1;
+      }
+      console.error('release-notes: no dependency floors derived from fragments/codemods; the Dependency floors block is omitted');
+    }
+    text = renderNotes({ version, depFloors, claims: loadClaims(claimsDir), breakingRegister,
       changesets: loadChangesets(join(root, '.changeset')), commitSubjects, changeClass,
       deprecations: await loadEntries(root),
       visualFixes: loadVisualFixes(join(root, 'docs/release/visual-fixes')), newCapability });

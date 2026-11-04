@@ -3,7 +3,7 @@
    fails closed on every missing or contrary input. */
 import { describe, expect, it } from '@jest/globals';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 
@@ -130,6 +130,19 @@ describe('train-record.mjs', () => {
     const { code, record } = runIn(fixture(), CI, 'plat:tag:release-ledger');
     expect(code).toBe(1);
     expect(record.failures.join('\n')).toContain('plat:gate:change-class is not in this job\'s needs');
+  });
+
+  it('a missing docs/release/train-checklist.json exits 1 with a clear message and writes nothing', () => {
+    const dir = fixture();
+    rmSync(join(dir, 'docs/release/train-checklist.json'));
+    const r = spawnSync('node', ['--input-type=module', '-e',
+      `const m = await import(${JSON.stringify(SCRIPT)});
+       process.exit(m.main(['--needs', ${JSON.stringify(NEEDS)}], { root: ${JSON.stringify(dir)}, env: ${JSON.stringify(CI)} }));`],
+    { cwd: ROOT, encoding: 'utf8' });
+    expect(r.status).toBe(1);
+    expect(r.stderr).toContain('FAIL train-record: checklist');
+    expect(r.stderr).toContain('not found');
+    expect(existsSync(join(dir, '.artifacts/plat/train-checklist.json'))).toBe(false);
   });
 
   it('a tag with no train stop exits 1 without writing', () => {
