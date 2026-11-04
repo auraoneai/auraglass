@@ -130,6 +130,13 @@ export function main(argv = process.argv.slice(2), { root = ROOT, env = process.
   const checklistPath = abs(arg('--checklist', CHECKLIST));
   const out = abs(arg('--out', '.artifacts/plat/train-checklist.json'));
   const needs = String(arg('--needs', '')).split(',').map((s) => s.trim()).filter(Boolean);
+  if (!existsSync(checklistPath)) {
+    // main removed docs/release/train-checklist.json in the 5.0.2 release commit
+    // (47deecf3); the stop/recordInputs data is not recreated here.
+    console.error(`FAIL train-record: checklist ${checklistPath} not found; restore it (the 4.1.1 stop shape is`
+      + ' tests/release/fixtures/train-record-checklist.json) or pass --checklist <file>');
+    return 1;
+  }
   const checklist = JSON.parse(readFileSync(checklistPath, 'utf8'));
   const stop = stopForTag(checklist, tag);
   if (!stop) { console.error(`FAIL train-record: no train stop matches tag '${tag}'`); return 1; }

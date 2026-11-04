@@ -12,12 +12,55 @@ const EVAL = (body: string) =>
     `const m = await import('${ROOT}/scripts/release/release-notes.mjs'); ${body}`],
   { cwd: ROOT, encoding: 'utf8' });
 
+const m_source = () => readFileSync(join(ROOT, 'scripts/release/release-notes.mjs'), 'utf8');
+
 describe('release notes (REQ-PLAT-32)', () => {
   it('fixed heading order Breaking→Deprecated→Added→Fixed→Visual→Security', () => {
     const out = EVAL(`console.log(m.renderNotes({ version: '9.9.9' }))`);
     const idx = ['## Breaking', '## Deprecated', '## Added', '## Fixed', '## Visual bug fixes', '## Security']
       .map((h) => out.indexOf(h));
     expect(idx.every((v, i) => v >= 0 && (i === 0 || v > (idx[i - 1] ?? -1)))).toBe(true);
+  });
+  it('dependency floors come from the codemod deps table, not a literal (depFloorsFrom)', () => {
+    const frags = [
+      { stream: 'plat', value: { deps: [
+        { pkg: 'aura-glass', range: '^5.0.0', when: 'upgrade' },
+        { pkg: 'left-pad', range: '', when: 'remove' },
+        { pkg: 'motion', range: '', when: 'remove' },
+        { pkg: 'kept', range: '^1.0.0', when: 'aura-glass/date imported' },
+      ] } },
+      { stream: 'surf', value: { deps: [
+        { pkg: 'left-pad', range: '-', when: 'consumer direct import — remove; wrap it' },
+        { pkg: 'chart.js', range: '-', when: 'consumer direct import — remove' },
+      ] } },
+      { stream: 'cmp', value: {} },
+    ];
+    const out = JSON.parse(EVAL(`console.log(JSON.stringify(m.depFloorsFrom(${JSON.stringify(frags)},
+      { peerDependencies: { motion: '^12.0.0' } })))`));
+    // upgrade/conditional rows and peers (motion) are excluded; duplicates collapse; order is row order.
+    expect(out).toEqual(['left-pad', 'chart.js']);
+  });
+  it('renderNotes lists the supplied depFloors first inside Breaking and omits the block when none', () => {
+    const out = EVAL(`console.log(m.renderNotes({ version: '9.9.9', depFloors: ['alpha-dep', 'beta-dep'] }))`);
+    expect(out).toContain('- `alpha-dep` floor updated (run `npx aura-glass-cli migrate 4to5 --transform deps`).');
+    expect(out.indexOf('alpha-dep')).toBeGreaterThan(out.indexOf('## Breaking'));
+    expect(out.indexOf('beta-dep')).toBeLessThan(out.indexOf('## Deprecated'));
+    expect(EVAL(`console.log(m.renderNotes({ version: '9.9.9' }))`)).not.toContain('Dependency floors');
+    expect(m_source()).not.toMatch(/DEP_FLOORS/);
+  });
+  it('loadDepFloors reads this repo: the six removed transitive deps, none of the root peers', () => {
+    const floors = JSON.parse(EVAL(`console.log(JSON.stringify(await m.loadDepFloors('${ROOT}')))`));
+    expect(floors).toEqual(['date-fns', 'chart.js', 'react-chartjs-2', 'zod', 'framer-motion', 'tailwind-merge']);
+    const peers = Object.keys(JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8')).peerDependencies ?? {});
+    for (const f of floors) expect(peers).not.toContain(f);
+  });
+  it('the Added section names the published CLI package, aura-glass-cli, everywhere', () => {
+    const out = EVAL(`console.log(m.renderNotes({ version: '9.9.9', depFloors: ['x'] }))`);
+    expect(out).not.toContain('@auraglass/cli');
+    expect(out).toContain('- `aura-glass-cli` with `migrate 4to5`');
+    expect(out).toContain('npx aura-glass-cli migrate 4to5 --transform deps');
+    const cli = JSON.parse(readFileSync(join(ROOT, 'packages/cli/package.json'), 'utf8'));
+    expect(cli.name).toBe('aura-glass-cli');
   });
   it('change-class visual fixes land under Visual bug fixes', () => {
     const out = EVAL(`console.log(m.renderNotes({ version: '9.9.9',
@@ -73,7 +116,7 @@ describe('release notes 5x sources (REQ-PLAT-32, REQ-SURF-182)', () => {
     expect(section(out, 'Fixed')).toContain('No fix commit in the range.');
     expect(section(out, 'Visual bug fixes')).toContain('No visual-fix record');
     expect(section(out, 'Security')).toContain('No security advisory and no security-exception deprecation');
-    expect(section(out, 'Added')).toContain('`@auraglass/cli` with `migrate 4to5`');
+    expect(section(out, 'Added')).toContain('`aura-glass-cli` with `migrate 4to5`');
   });
   it('Deprecated lists exactly the fragment entries whose since is the version', () => {
     const out = EVAL(`console.log(m.renderNotes({ version: '5.0.0', deprecations: ${JSON.stringify(DEPS)} }))`);
@@ -142,6 +185,7 @@ describe('release notes --tag/--line (REQ-PLAT-16)', () => {
   function fixtureRepo() {
     const dir = mkdtempSync(join(tmpdir(), 'rn-'));
     mkdirSync(join(dir, 'fragments/deprecations'), { recursive: true });
+    mkdirSync(join(dir, 'fragments/codemods'), { recursive: true });
     mkdirSync(join(dir, 'src/contracts'), { recursive: true });
     copyFileSync(join(ROOT, 'src/contracts/load-fragments.mjs'), join(dir, 'src/contracts/load-fragments.mjs'));
     symlinkSync(join(ROOT, 'node_modules'), join(dir, 'node_modules'));
@@ -149,6 +193,7 @@ describe('release notes --tag/--line (REQ-PLAT-16)', () => {
     writeFileSync(join(dir, 'package.json'), JSON.stringify({ name: 'aura-glass', version: '4.2.0' }));
     writeFileSync(join(dir, 'CHANGELOG.md'), CHANGELOG);
     writeFileSync(join(dir, 'fragments/deprecations/plat.json'), JSON.stringify(DEPS));
+    writeFileSync(join(dir, 'fragments/codemods/plat.json'), JSON.stringify({ deps: [{ pkg: 'fixture-dep', range: '', when: 'remove' }] }));
     git(dir, 'init', '-q', '-b', 'main');
     git(dir, 'add', '-A');
     git(dir, 'commit', '-q', '-m', 'feat: before 4.1.0');
@@ -216,6 +261,7 @@ describe('release notes --tag/--line (REQ-PLAT-16)', () => {
     expect(RUN(dir, ['--tag', 'v5.0.0-beta.1', '--line', '5x', '--out', outFile])).toContain('EXIT=0');
     const notes = readFileSync(outFile, 'utf8');
     expect(notes.split('\n')[0]).toBe('# aura-glass 5.0.0-beta.1 release notes');
+    expect(notes).toContain('- `fixture-dep` floor updated');
     expect(notes).toContain('## Breaking');
     // Range base is v5.0.0-alpha.1, so the pre-alpha commit is out of range.
     expect(notes).toContain('GlassCanvas action guard');
