@@ -64,3 +64,8 @@ them: SrRecords are the testers' (`tests/a11y/manual/records/**`, FIN-H), review
 (`certification/review/records/**`, FIN-H). The evidence verifier also requires, from RC-1, an L14 record for every
 flagship subject-state, bound to the SHA or to an earlier SHA with zero diffs in that subject's baselines and DOM
 snapshot.
+
+## Status reconciliation (2026-11-09)
+
+- `platforms-launch-code-fixes.md` is 48/48 complete across the 26-platform spec (eight custody packages implemented + pushed 2026-11-09; see spec completion report). This repo is outside that spec's scope — no code changed.
+- Repo state at reconciliation: `main@3ef555dc6`, 14 dirty path(s).

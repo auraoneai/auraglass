@@ -92,7 +92,7 @@ with its own types and CSS.
 | `aura-glass` | Core components: `Button`, `TextField`, `Select`, `Combobox`, `Menu`, `Dialog`, `Sheet`, `Popover`, `Tooltip`, `Toast`, layout (`Stack`, `Grid`, `Container`) and more |
 | `aura-glass/material` | The glass material engine: surfaces, thickness and variant tiers |
 | `aura-glass/theme` | `AuraGlassProvider`, presets, scheme, contrast and motion preferences |
-| `aura-glass/tokens`, `aura-glass/motion` | Design tokens and motion springs as typed values |
+| `aura-glass/tokens`, `aura-glass/motion` | Design tokens (licensed `'Roobert'` and `'Berkeley Mono'` typography — never `'Inter'`, Roboto, Google Fonts, Geist, or system stacks) and motion springs as typed values |
 | `aura-glass/primitives`, `aura-glass/icons`, `aura-glass/forms` | Unstyled building blocks, the icon set and form bindings |
 | `aura-glass/app-shell` | Application frame: `AppShell`, `Sidebar`, `TopBar`, `Inspector`, `ResizablePanels`, `MobileShell` |
 | `aura-glass/data`, `aura-glass/date` | `Table`, `TreeView`, `FilterBar`, `StatCard`, `ChartFrame`; `Calendar`, `DatePicker`, `DateRangePicker`, `TimePicker` |

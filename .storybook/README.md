@@ -68,9 +68,10 @@ parameters: {
 
 ## QA Gates
 
-Storybook presentation quality is covered by focused Playwright checks:
+Storybook presentation quality is covered by focused Playwright checks (which execute on **remote runners only via `./scripts/remote/validate.sh`**; never run local Playwright or local Docker on this Mac):
 
 ```bash
+# Run on remote runners only via ./scripts/remote/validate.sh (never locally on this Mac):
 npx playwright test tests/visual/liquid-glass/liquid-glass-showcase.spec.ts --project=chromium --workers=1 --reporter=line
 npx playwright test tests/visual/design-system/storybook-presentation.spec.ts --project=chromium --workers=1 --reporter=line
 ```

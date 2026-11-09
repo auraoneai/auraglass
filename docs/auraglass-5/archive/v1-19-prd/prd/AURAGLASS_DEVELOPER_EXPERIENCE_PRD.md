@@ -200,7 +200,7 @@ apps/docs (Next 16, output: "export") ◄─────────────
 - Live examples import from the **packed** `aura-glass` tarball installed into `apps/docs` (never `src/`), so the docs prove the artifact.
 - Examples are files (`apps/docs/examples/<slug>/<example>.tsx`), not inline strings; MDX embeds them with `<Example file="…" />`. `scripts/docs/compile-snippets.mjs` type-checks every example file and every fenced `tsx`/`ts` block in `content/**` and `docs/quickstart/**` against the tarball's `.d.ts`.
 - Numbers in prose use `<Claim id="flagship-count" />`, resolved from `claims.json` produced by the GA certification run (PRD-19 REQ-QA-31). `README.md` and the generated release body use PRD-19's region markers `<!-- ag:claim id="…" -->…<!-- /ag:claim -->`, filled by `packages/qa/src/claims/render.ts` (PRD-19); `llms.txt.tmpl` uses the same markers, filled by `gen-llms.mjs` from the same `claims.json`. `scripts/docs/lint-claims.mjs` fails on any digit-bearing claim pattern (`\b\d+(\.\d+)?\s?(%|KB|MB|ms|s|components|flagships|targets|recipes|blocks|transforms)\b`) outside a `<Claim>` or a claim region in `content/**`, `README.md`, `llms.txt.tmpl` and the generated release body.
-- Hosted as a static site on the project's existing deployment path (Vercel preview per PR, production on GA tag), chosen by the project's existing runtime environment; no server.
+- Hosted as a static site on **Cloudflare Pages/Workers (`wrangler`)** (never Vercel or `.github/workflows/*` per AuraOne Policy `v2026-11-05.2`; validated on serverless remote runners via `scripts/remote/validate.sh`, with temporary `*-preview` resources torn down immediately after testing); no server.
 
 ### 4.6 MCP server
 
