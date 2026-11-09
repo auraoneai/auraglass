@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Link from 'next/link';
 import { AuraGlassProvider, AuraGlassScript } from 'aura-glass';
 import { PUBLIC_DOCS_URL } from '../../../scripts/docs/paths.mjs';
@@ -34,6 +34,16 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     images: [`${brandBase}/brand/twitter-1200x600.png`],
   },
+};
+
+/* SEO launch-readiness: theme-color mirrors the aura preset canvas tokens
+   (light-dark reader scheme — the docs never force one), so browser chrome
+   matches whichever scheme the reader's system picks. */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: 'oklch(0.99 0.004 250)' },
+    { media: '(prefers-color-scheme: dark)', color: 'oklch(0.18 0.012 250)' },
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

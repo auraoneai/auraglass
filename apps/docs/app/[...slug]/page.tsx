@@ -19,6 +19,8 @@ import { renderMarkdown, type LinkLike } from "../../lib/markdown";
 import { Example } from "../../components/Example";
 import { PartsTable } from "../../components/PartsTable";
 import { EXAMPLES } from "../../generated/examples";
+import { PUBLIC_DOCS_URL } from "../../../../scripts/docs/paths.mjs";
+import lastmodByRoute from "../../lib/seo/route-lastmod.json";
 
 export const dynamicParams = false;
 
@@ -198,6 +200,44 @@ function descriptionOf(page: PageSpec): string {
   }
 }
 
+/* SEO launch-readiness: per-page TechArticle JSON-LD for answer engines,
+   derived only from the route's own committed data (same titleOf/descriptionOf
+   the metadata uses — no invented copy). dateModified reuses the git-derived
+   route-lastmod table that sitemap.ts already guards against drift; canonical
+   URLs use the PUBLIC_DOCS_URL base with the same trailing-slash form. */
+function JsonLd({ page }: { page: PageSpec }) {
+  const title = titleOf(page);
+  const description = descriptionOf(page);
+  const base = PUBLIC_DOCS_URL.endsWith("/")
+    ? PUBLIC_DOCS_URL
+    : `${PUBLIC_DOCS_URL}/`;
+  const url =
+    page.route === "/" ? base : `${base}${page.route.replace(/^\//, "")}/`;
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    headline: title,
+    description,
+    url,
+    inLanguage: "en",
+    dateModified: lastmodByRoute[page.route as keyof typeof lastmodByRoute],
+    isPartOf: { "@type": "WebSite", name: "AuraGlass 5.0", url: base },
+    about: {
+      "@type": "SoftwareApplication",
+      name: "AuraGlass",
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: "Web",
+      softwareVersion: site().data.version,
+    },
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -249,6 +289,7 @@ export default async function DocsPage({
   if (page.kind === "markdown") {
     return (
       <article data-ag-doc={page.source.repoPath}>
+        <JsonLd page={page} />
         {renderSource(page.source.file, page.source.repoPath).body}
       </article>
     );
@@ -266,6 +307,7 @@ export default async function DocsPage({
     const examples = EXAMPLES[c.slug] ?? [];
     return (
       <article data-ag-doc={c.file}>
+        <JsonLd page={page} />
         {prose ? prose.body : <h1>{c.name}</h1>}
         <Code
           label={`Import ${c.name}`}
@@ -328,6 +370,7 @@ export default async function DocsPage({
     const s = page.surface;
     return (
       <article data-ag-doc={`registry/blocks/${s.name}`}>
+        <JsonLd page={page} />
         <h1>{s.title}</h1>
         {s.description ? <p>{s.description}</p> : null}
         <Code
@@ -349,6 +392,7 @@ export default async function DocsPage({
     const a = page.api;
     return (
       <article data-ag-doc={a.report}>
+        <JsonLd page={page} />
         <h1>{a.label}</h1>
         {page.report ? (
           renderSource(page.report, a.report).body
@@ -364,6 +408,7 @@ export default async function DocsPage({
 
   return (
     <article data-ag-state="pending">
+      <JsonLd page={page} />
       <h1>{page.title}</h1>
       <Pending
         what={`this ${page.owner} page`}
